@@ -1,5 +1,11 @@
+import { Description } from "./pages/Description";
+
 function App() {
-  return <h1>Gamification</h1>;
+  return (
+    <>
+      <Description />
+    </>
+  );
 }
 
 export default App;
