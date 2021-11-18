@@ -1,5 +1,11 @@
+import HomeUser from "./pages/HomeUser";
+
 function App() {
-  return <h1>Gamification</h1>;
+  return (
+    <>
+      <HomeUser />
+    </>
+  );
 }
 
 export default App;
