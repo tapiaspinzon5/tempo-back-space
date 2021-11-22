@@ -22,15 +22,7 @@ const MainGames = styled(Grid)(({ theme }) => ({
 // instacia de los  Swiper modules
 SwiperCore.use([Keyboard, Pagination, Navigation]);
 
-const Games = ({ setOnHover }) => {
-  //mostrar/ocultar DescriptionGame
-  const handleMouseEnter = (e) => {
-    setOnHover(true);
-  };
-  const handleMouseLeave = (e) => {
-    setOnHover(false);
-  };
-
+const Games = ({ handleMouseEnter, handleMouseLeave }) => {
   return (
     <MainGames>
       <Typography variant="subtitle1" color="initial">

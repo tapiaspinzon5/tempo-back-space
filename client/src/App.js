@@ -1,11 +1,9 @@
-import { Description } from "./pages/Description";
-import HomeUser from "./pages/HomeUser";
+import AppRouter from "./components/AppRouter";
 
 function App() {
   return (
     <>
-      <Description />
-      <HomeUser />
+      <AppRouter />
     </>
   );
 }

@@ -9,6 +9,9 @@ import DescriptionGame from "../components/homeUser/DescriptionGame";
 const MainHomeUser = styled(Grid)(() => ({
   position: "relative",
   overflow: "hidden",
+  minHeight: "95vh",
+
+  margin: "15px",
 }));
 
 const BoxDecription = styled(Grid)(() => ({
@@ -22,12 +25,23 @@ const BoxDecription = styled(Grid)(() => ({
 const HomeUser = () => {
   //estado para mostrar el componente DescriptionGame
   const [onHover, setOnHover] = useState(false);
+  //mostrar/ocultar DescriptionGame
+  const handleMouseEnter = (e) => {
+    setOnHover(true);
+  };
+  const handleMouseLeave = (e) => {
+    setOnHover(false);
+  };
 
   return (
     <MainHomeUser>
       <Grid>
         <Header />
-        <Games setOnHover={setOnHover} />
+        <Games
+          setOnHover={setOnHover}
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+        />
         <LastPlayed />
         <CategoryGames />
       </Grid>
