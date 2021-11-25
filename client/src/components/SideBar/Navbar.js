@@ -1,39 +1,74 @@
 import React from "react";
 import { NavList } from "./NavList";
 import { Box, AppBar, Divider, IconButton } from "@mui/material";
-import { styled } from "@mui/material/styles";
-//import { AdbIcon } from "@mui/icons-material";
+import { styled, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-const SideBar = styled(AppBar)`
-  position: sticky;
-  /* background-color: #f9f9f9; */
-  width: 70px;
-  height: 95vh;
-  margin: 15px 15px 15px 15px;
-  border-radius: 42px;
-  box-shadow: 3;
-`;
-export const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
+const SideBar = styled(AppBar)(({ theme }) => ({
+  position: "sticky",
+  backgroundColor: "#f9f9f9",
+  height: "95%",
+  margin: "15px 15px 15px 15px",
+  borderRadius: "15px",
+  boxShadow: 3,
+  alignItems: "center",
+  [theme.breakpoints.down("md")]: {
+    //transition: " width 1.5s, height 1.5s",
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
+    left: "0",
+    maxWidth: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+}));
+
+export const Navbar = ({ open, setOpen }) => {
+  const theme = useTheme();
+  const match = useMediaQuery(theme.breakpoints.up("md"));
   return (
     <>
-      <Box
-        component="nav"
-        sx={{
-          flexGrow: 0,
-        }}
-      >
-        <SideBar>
-          <IconButton
-            sx={{ flexGrow: 1 }}
-            onClick={() => (open ? setOpen(false) : setOpen(true))}
+      {match && (
+        <Box
+          component="nav"
+          sx={{
+            flexGrow: 0,
+          }}
+        >
+          <SideBar
+            sx={{
+              width: open ? 200 : 70,
+              transition: " width 1.5s",
+            }}
           >
-            {/* <AdbIcon /> */}
+            <div className="container">
+              <IconButton sx={{ flexGrow: 1 }} onClick={() => setOpen(!open)}>
+                TP
+              </IconButton>
+            </div>
+            <Divider />
+            <NavList open={open} match={match} />
+          </SideBar>
+        </Box>
+      )}
+      {!match && (
+        <SideBar sx={{ width: "100%", height: "5%" }}>
+          <IconButton
+            sx={{
+              flexGrow: 0,
+              justifyContent: "center",
+              alignItems: "center",
+              minWidth: "40px",
+              padding: "10px",
+            }}
+            onClick={() => setOpen(!open)}
+          >
+            TP
           </IconButton>
-          <Divider />
-          <NavList />
+          {open && <NavList open={open} />}
         </SideBar>
-      </Box>
+      )}
     </>
   );
 };

@@ -9,10 +9,15 @@ import CategoryGames from "../components/homeUser/CategoryGames";
 import Ranking from "../components/homeUser/Ranking";
 //import DescriptionGame from "../components/homeUser/DescriptionGame";
 
-const MainHomeUser = styled(Grid)(() => ({
+const MainHomeUser = styled(Grid)(({ theme }) => ({
+  position: "relative",
+  overflow: "hidden",
   minHeight: "95vh",
   width: "100%",
   padding: "0 2rem",
+  [theme.breakpoints.down("md")]: {
+    top: "130px",
+  },
 }));
 
 // const BoxDecription = styled(Grid)(() => ({

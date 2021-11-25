@@ -48,8 +48,8 @@ const CategoryGames = () => {
             spaceBetween: 40,
           },
           1290: {
-            slidesPerView: 6,
-            spaceBetween: 40,
+            slidesPerView: 5,
+            spaceBetween: 20,
           },
         }}
       >
