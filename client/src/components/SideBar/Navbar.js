@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 
 const SideBar = styled(AppBar)`
   position: sticky;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   width: 70px;
   height: 95vh;
   margin: 15px 15px 15px 15px;

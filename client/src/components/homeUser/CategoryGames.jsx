@@ -12,23 +12,47 @@ import "swiper/modules/pagination/pagination.scss"; // Pagination module
 
 //Style components
 const MainCategoryGames = styled(Grid)(({ theme }) => ({
-  marginTop: "1rem",
-  h6: {
-    fontWeight: "bold",
-    fontSize: "20px",
-  },
+  // marginTop: "1rem",
+  // width: "92vw",
+  // h6: {
+  //   fontWeight: "bold",
+  //   fontSize: "20px",
+  // },
 }));
 
 const CategoryGames = () => {
   return (
     <MainCategoryGames>
-      <Typography variant="subtitle1" color="initial">
-        Adventure Games
-      </Typography>
-      <Swiper slidesPerView={5} spaceBetween={5}>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
+      <Typography variant="subtitle1">My couses</Typography>
+      <Swiper
+        keyboard={{
+          enabled: true,
+        }}
+        breakpoints={{
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 1,
+          },
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1092: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1290: {
+            slidesPerView: 6,
+            spaceBetween: 40,
+          },
+        }}
+      >
         <SwiperSlide>
           <CardGameCategory />
         </SwiperSlide>
