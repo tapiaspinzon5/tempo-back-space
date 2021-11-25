@@ -53,7 +53,7 @@ export const Navbar = ({ open, setOpen }) => {
         </Box>
       )}
       {!match && (
-        <SideBar sx={{ width: "100%", height: "8%" }}>
+        <SideBar sx={{ width: "100%", height: "5%" }}>
           <IconButton
             sx={{
               flexGrow: 0,

@@ -1,55 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid, styled } from "@mui/material";
 import Header from "../components/homeUser/Header";
-import Games from "../components/homeUser/Games";
-import LastPlayed from "../components/homeUser/LastPlayed";
+import ChallengeSummary from "../components/homeUser/ChallengeSummary";
+
+//import Games from "../components/homeUser/Games";
+//import LastPlayed from "../components/homeUser/LastPlayed";
 import CategoryGames from "../components/homeUser/CategoryGames";
-import DescriptionGame from "../components/homeUser/DescriptionGame";
+import Ranking from "../components/homeUser/Ranking";
+//import DescriptionGame from "../components/homeUser/DescriptionGame";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
   minHeight: "95vh",
-  margin: "15px",
+  width: "100%",
+  padding: "0 2rem",
   [theme.breakpoints.down("md")]: {
-    top: "80px",
+    top: "130px",
   },
 }));
 
-const BoxDecription = styled(Grid)(() => ({
-  position: "absolute",
-  zIndex: 1000,
-  top: 0,
-  right: "-27rem",
-  transition: "right .4s",
-}));
+// const BoxDecription = styled(Grid)(() => ({
+//   position: "absolute",
+//   zIndex: 1000,
+//   top: 0,
+//   right: "-27rem",
+//   transition: "right .4s",
+// }));
 
 const HomeUser = () => {
   //estado para mostrar el componente DescriptionGame
-  const [onHover, setOnHover] = useState(false);
+  // const [onHover, setOnHover] = useState(false);
   //mostrar/ocultar DescriptionGame
-  const handleMouseEnter = (e) => {
-    setOnHover(true);
-  };
-  const handleMouseLeave = (e) => {
-    setOnHover(false);
-  };
+  //const handleMouseEnter = (e) => {
+  ///  setOnHover(true);
+  //};
+  //const handleMouseLeave = (e) => {
+  //  setOnHover(false);
+  //};
 
   return (
-    <MainHomeUser>
-      <Grid>
-        <Header />
-        <Games
-          setOnHover={setOnHover}
-          handleMouseEnter={handleMouseEnter}
-          handleMouseLeave={handleMouseLeave}
-        />
-        <LastPlayed />
-        <CategoryGames />
+    <MainHomeUser sx={{ bgcolor: "background.default", color: "text.primary" }}>
+      <Header />
+      <Grid container>
+        <Grid xs={12} md={6}>
+          <ChallengeSummary />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <Ranking />
+        </Grid>
       </Grid>
-      <BoxDecription sx={onHover && { right: "1rem" }}>
-        <DescriptionGame />
-      </BoxDecription>
+      <CategoryGames />
     </MainHomeUser>
   );
 };

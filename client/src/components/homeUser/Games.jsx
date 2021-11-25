@@ -40,6 +40,31 @@ const Games = ({ handleMouseEnter, handleMouseLeave }) => {
         // }}
         navigation={true}
         className="mySwiper"
+        breakpoints={{
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 2,
+            spaceBetween: 1,
+          },
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 40,
+          },
+          1092: {
+            slidesPerView: 6,
+            spaceBetween: 40,
+          },
+          1290: {
+            slidesPerView: 7,
+            spaceBetween: 40,
+          },
+        }}
       >
         <SwiperSlide
           onMouseEnter={handleMouseEnter}
