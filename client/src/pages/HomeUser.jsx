@@ -6,12 +6,14 @@ import LastPlayed from "../components/homeUser/LastPlayed";
 import CategoryGames from "../components/homeUser/CategoryGames";
 import DescriptionGame from "../components/homeUser/DescriptionGame";
 
-const MainHomeUser = styled(Grid)(() => ({
+const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
   minHeight: "95vh",
-
   margin: "15px",
+  [theme.breakpoints.down("md")]: {
+    top: "80px",
+  },
 }));
 
 const BoxDecription = styled(Grid)(() => ({
