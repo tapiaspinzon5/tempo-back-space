@@ -16,7 +16,7 @@ const MainHomeUser = styled(Grid)(({ theme }) => ({
   width: "100%",
   padding: "0 2rem",
   [theme.breakpoints.down("md")]: {
-    top: "130px",
+    top: "15px",
   },
 }));
 
@@ -43,10 +43,10 @@ const HomeUser = () => {
     <MainHomeUser sx={{ bgcolor: "background.default", color: "text.primary" }}>
       <Header />
       <Grid container>
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <ChallengeSummary />
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Ranking />
         </Grid>
       </Grid>

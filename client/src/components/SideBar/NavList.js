@@ -6,6 +6,7 @@ import AgricultureIcon from "@mui/icons-material/Agriculture";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import BlenderIcon from "@mui/icons-material/Blender";
 import AdbIcon from "@mui/icons-material/Adb";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -37,16 +38,13 @@ const ContentList = styled(List)(({ theme }) => ({
   alignContent: "center",
   [theme.breakpoints.down("md")]: {
     flexDirection: "row",
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gridTemplateRows: "1fr 1fr",
+    gap: "10px",
+    margin: "auto",
   },
 }));
-
-/* `
-  flex-grow: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-`; */
 
 export const NavList = ({ open, match }) => {
   return (
@@ -108,7 +106,7 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <AdbIcon />
+            <ArrowDropUpIcon />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Settings</Typography>
