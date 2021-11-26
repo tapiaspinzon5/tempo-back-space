@@ -14,7 +14,7 @@ const AppRouter = () => {
   const [open, setOpen] = useState(false);
   return (
     <Router>
-      <MainApp>
+      <MainApp sx={{ bgcolor: "background.default" }}>
         <Navbar open={open} setOpen={setOpen} />
         <Routes>
           <Route path="/" element={<HomeUser />} />

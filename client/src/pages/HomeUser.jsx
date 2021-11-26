@@ -43,10 +43,10 @@ const HomeUser = () => {
     <MainHomeUser sx={{ bgcolor: "background.default", color: "text.primary" }}>
       <Header />
       <Grid container>
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <ChallengeSummary />
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid item xs={12} md={6}>
           <Ranking />
         </Grid>
       </Grid>

@@ -48,7 +48,7 @@ const CategoryGames = () => {
             spaceBetween: 40,
           },
           1290: {
-            slidesPerView: 5,
+            slidesPerView: 4,
             spaceBetween: 20,
           },
         }}

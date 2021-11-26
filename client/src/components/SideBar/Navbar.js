@@ -6,12 +6,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const SideBar = styled(AppBar)(({ theme }) => ({
   position: "sticky",
-  backgroundColor: "#f9f9f9",
   height: "95%",
   margin: "15px 15px 15px 15px",
   borderRadius: "15px",
   boxShadow: 3,
   alignItems: "center",
+  color: "white",
   [theme.breakpoints.down("md")]: {
     //transition: " width 1.5s, height 1.5s",
     display: "flex",
@@ -39,7 +39,8 @@ export const Navbar = ({ open, setOpen }) => {
           <SideBar
             sx={{
               width: open ? 200 : 70,
-              transition: " width 1.5s",
+              transition: " width .5s",
+              background: theme.palette.background.primary,
             }}
           >
             <div className="container">

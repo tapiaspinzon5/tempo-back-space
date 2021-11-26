@@ -35,6 +35,7 @@ const ContentList = styled(List)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "space-between",
   alignContent: "center",
+  color: "#FFF",
   [theme.breakpoints.down("md")]: {
     flexDirection: "row",
   },

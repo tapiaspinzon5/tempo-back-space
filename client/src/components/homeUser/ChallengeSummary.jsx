@@ -3,7 +3,7 @@ import { Typography, Grid, styled } from "@mui/material";
 
 const SummaryBox = styled(Grid)`
   border: 1px solid #f2f2f2;
-  height: 17rem;
+  height: 452px;
   margin-right: 2rem;
   border-radius: 10px;
 `;
