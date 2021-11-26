@@ -4,6 +4,7 @@ import { Description } from "../pages/Description";
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "./SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
+import TeamsProgress from "../pages/TeamsProgress";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -19,6 +20,7 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<HomeUser />} />
           <Route path="/description/:gameID" element={<Description />} />
+          <Route path="/teamprogress" element={<TeamsProgress/>} />
           <Route
             path="*"
             element={
