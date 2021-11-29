@@ -61,6 +61,7 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <>
       {match && (
@@ -75,6 +76,7 @@ export const Navbar = () => {
             sx={{
               width: open ? 180 : 70,
               transition: " width 0.5s",
+              background: theme.palette.background.navigator,
             }}
           >
             <div className="container">
