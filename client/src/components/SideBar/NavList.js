@@ -1,17 +1,17 @@
 import React from "react";
 import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-import BiotechIcon from "@mui/icons-material/Biotech";
-import BlenderIcon from "@mui/icons-material/Blender";
-import AdbIcon from "@mui/icons-material/Adb";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import homeIcon from "../../assets/Icons/home.svg";
+import awardIcon from "../../assets/Icons/award.svg";
+import bookIcon from "../../assets/Icons/book-open.svg";
+import gridIcon from "../../assets/Icons/grid.svg";
+import pieIcon from "../../assets/Icons/pie-chart.svg";
+import settingsIcon from "../../assets/Icons/settings.svg";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
-  minWidth: "40px",
-  marginBottom: "40px",
+  //minWidth: "40px",
+  marginBottom: "20px",
   padding: "10px",
   [theme.breakpoints.down("md")]: {
     marginBottom: "0px",
@@ -34,7 +34,7 @@ const ContentList = styled(List)(({ theme }) => ({
   flexGrow: 2,
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
+  justifyContent: "flex-start",
   alignContent: "center",
   color: "#FFF",
   [theme.breakpoints.down("md")]: {
@@ -53,7 +53,7 @@ export const NavList = ({ open, match }) => {
       <ContentList>
         <LItem button>
           <LIcon>
-            <AddAPhotoIcon />
+            <img src={homeIcon} alt="Home" />
           </LIcon>
           {open && match && (
             <Typography
@@ -67,7 +67,7 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <AgricultureIcon />
+            <img src={awardIcon} alt="Award" />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Students</Typography>
@@ -75,7 +75,7 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <BiotechIcon />
+            <img src={bookIcon} alt="Book" />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Training</Typography>
@@ -83,7 +83,7 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <BlenderIcon />
+            <img src={gridIcon} alt="Grid" />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Library</Typography>
@@ -91,7 +91,7 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <AdbIcon />
+            <img src={pieIcon} alt="PieChart" />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Attendance</Typography>
@@ -99,18 +99,10 @@ export const NavList = ({ open, match }) => {
         </LItem>
         <LItem button>
           <LIcon>
-            <AdbIcon />
+            <img src={settingsIcon} alt="Settings" />
           </LIcon>
           {open && match && (
             <Typography sx={{ color: "#000" }}>Account</Typography>
-          )}
-        </LItem>
-        <LItem button>
-          <LIcon>
-            <ArrowDropUpIcon />
-          </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Settings</Typography>
           )}
         </LItem>
       </ContentList>
