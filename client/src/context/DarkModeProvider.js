@@ -22,6 +22,7 @@ const DarkModeProvider = ({ children }) => {
         palette: {
           h6: {
             fontSize: "20px",
+            color: "#3047B0",
           },
           mode,
           ...(mode === "light"

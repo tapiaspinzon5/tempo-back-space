@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavList } from "./NavList";
-import { Box, AppBar, Divider, IconButton, Fab } from "@mui/material";
+import { Box, AppBar, Divider, IconButton, Fab, Avatar } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -69,19 +69,23 @@ export const Navbar = () => {
           component="nav"
           sx={{
             flexGrow: 1,
-            //position: "fixed",
           }}
         >
           <SideBar
             sx={{
               width: open ? 180 : 70,
               transition: " width 0.5s",
-              background: theme.palette.background.navigator,
+              background: theme.palette.background.primary,
+              height: "95vh",
             }}
           >
             <div className="container">
               <IconButton sx={{ flexGrow: 1 }} onClick={() => setOpen(!open)}>
-                TP
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f619fbd7-5339-4d15-b3ad-d2010482e6ba/dd9cupb-654551d6-cf04-44b9-b1fb-2fefab7a6cdd.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Y2MTlmYmQ3LTUzMzktNGQxNS1iM2FkLWQyMDEwNDgyZTZiYVwvZGQ5Y3VwYi02NTQ1NTFkNi1jZjA0LTQ0YjktYjFmYi0yZmVmYWI3YTZjZGQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.cIJRZDaROcqAdc2oFWbpaAjMzVlH615q1FtdUeDsY1M"
+                  sx={{ width: 56, height: 56 }}
+                />
               </IconButton>
             </div>
             <Divider />
@@ -124,6 +128,7 @@ export const Navbar = () => {
           sx={{
             height: open ? 120 : 60,
             transition: " height .5s",
+            background: theme.palette.background.primary,
           }}
         >
           <IconButton

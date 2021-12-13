@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Typography, Box, IconButton, styled, Grid } from "@mui/material";
-import CardGameCategory from "../homeUser/CardGameCategory";
 import Header from "../homeUser/Header";
 import DB from "./data.json";
+import CardActivity from "../homeUser/CardActivity";
 
 const Grilla = styled(Box)(({ theme }) => ({
   display: "grid",
@@ -29,7 +29,7 @@ export const Catalogue = () => {
         <Typography variant="h1">Courses</Typography>
         <Grilla sx={{}}>
           {data.map((el) => (
-            <CardGameCategory key={el.id} el={el} />
+            <CardActivity key={el.id} el={el} />
           ))}
         </Grilla>
       </Box>

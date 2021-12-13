@@ -3,9 +3,12 @@ import { Liquid } from "@antv/g2plot";
 
 export const Star5 = () => {
   const ref = useRef();
+
+  console.log(ref);
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.5,
+      percent: 0.53,
+      autoFit: true,
       shape: (x, y, width, height) => {
         const path = [];
         const w = Math.min(width, height);
@@ -52,9 +55,10 @@ export const Star5 = () => {
           isStagger: true,
         },
       }, */
+
       statistic: {
         content: {
-          content: "dsgfdgfdg",
+          content: "53%",
           style: {
             color: "#FF0",
           },
@@ -62,11 +66,11 @@ export const Star5 = () => {
       },
     });
     liquidPlot.render();
+    return () => liquidPlot.destroy();
   }, []);
   return (
     <div>
-      <h2>Estrella 5 puntas</h2>
-      <div ref={ref}></div>
+      <div ref={ref} style={{ height: "45vh" }}></div>
     </div>
   );
 };

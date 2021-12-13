@@ -1,5 +1,4 @@
 import React from "react";
-import CardGameCategory from "./CardGameCategory";
 import { Typography, Grid, styled } from "@mui/material";
 //importaciones de Swiper
 import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
@@ -53,39 +52,7 @@ const CategoryGames = () => {
           },
         }}
       >
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CardGameCategory />
-        </SwiperSlide>
+        <SwiperSlide>algo</SwiperSlide>
       </Swiper>
     </MainCategoryGames>
   );

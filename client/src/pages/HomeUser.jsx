@@ -1,12 +1,13 @@
 import React from "react";
 import { Grid, styled } from "@mui/material";
 import Header from "../components/homeUser/Header";
-import ChallengeSummary from "../components/homeUser/ChallengeSummary";
 
 //import Games from "../components/homeUser/Games";
 //import LastPlayed from "../components/homeUser/LastPlayed";
 import CategoryGames from "../components/homeUser/CategoryGames";
 import Ranking from "../components/homeUser/Ranking";
+import News from "../components/homeUser/News";
+import ProgressSection from "../components/homeUser/ProgressSection";
 //import DescriptionGame from "../components/homeUser/DescriptionGame";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
@@ -42,15 +43,15 @@ const HomeUser = () => {
   return (
     <MainHomeUser sx={{ bgcolor: "background.default", color: "text.primary" }}>
       <Header />
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <ChallengeSummary />
+          <News />
         </Grid>
         <Grid item xs={12} md={6}>
           <Ranking />
         </Grid>
       </Grid>
-      <CategoryGames />
+      <ProgressSection />
     </MainHomeUser>
   );
 };
