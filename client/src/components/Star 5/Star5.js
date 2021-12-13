@@ -3,6 +3,7 @@ import { Liquid } from "@antv/g2plot";
 
 export const Star5 = () => {
   const ref = useRef();
+
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
       percent: 0.5,
@@ -35,7 +36,7 @@ export const Star5 = () => {
       },
       wave: {
         count: 3,
-        length: 400,
+        length: 200,
       },
       theme: {
         styleSheet: {
@@ -63,6 +64,7 @@ export const Star5 = () => {
     });
     liquidPlot.render();
   }, []);
+
   return (
     <div>
       <h2>Estrella 5 puntas</h2>
