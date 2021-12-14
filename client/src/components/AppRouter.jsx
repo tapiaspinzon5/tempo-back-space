@@ -6,6 +6,7 @@ import { Navbar } from "./SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
 import { Catalogue } from "./Catalogue/Catalogue";
 import TeamsProgress from "../pages/TeamsProgress";
+import UpQuiz from "../pages/UpQuiz";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -17,11 +18,13 @@ const AppRouter = () => {
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
         <Navbar />
+
         <Routes>
           <Route path="/" element={<HomeUser />} />
           <Route path="/catalogo" element={<Catalogue />} />
           <Route path="/description/:gameID" element={<Description />} />
           <Route path="/teamprogress" element={<TeamsProgress />} />
+          <Route path="/upquiz" element={<UpQuiz />} />
           <Route
             path="*"
             element={

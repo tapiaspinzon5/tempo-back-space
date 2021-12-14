@@ -8,6 +8,7 @@ import CategoryGames from "../components/homeUser/CategoryGames";
 import Ranking from "../components/homeUser/Ranking";
 import News from "../components/homeUser/News";
 import ProgressSection from "../components/homeUser/ProgressSection";
+import Footer from "../components/Footer";
 //import DescriptionGame from "../components/homeUser/DescriptionGame";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
@@ -41,18 +42,23 @@ const HomeUser = () => {
   //};
 
   return (
-    <MainHomeUser sx={{ bgcolor: "background.default", color: "text.primary" }}>
-      <Header />
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <News />
+    <>
+      <MainHomeUser
+        sx={{ bgcolor: "background.default", color: "text.primary" }}
+      >
+        <Header />
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <News />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Ranking />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Ranking />
-        </Grid>
-      </Grid>
-      <ProgressSection />
-    </MainHomeUser>
+        <ProgressSection />
+        <Footer />
+      </MainHomeUser>
+    </>
   );
 };
 
