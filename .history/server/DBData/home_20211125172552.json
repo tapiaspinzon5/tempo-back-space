@@ -1,0 +1,138 @@
+{
+  "userData": {
+    "level":"5",
+    "points":"1120",
+    "remainingPointsUpLvl":"1426",
+    "coins":"50"
+  },
+  "news": [
+    {
+      "id":"32982",
+      "name": "Grand Theft Auto V",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/32982-1280x720.jpg",
+      "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+    },
+
+    {
+      "id": "32399",
+      "name": "Counter-Strike: Global Offensive",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/27471-1280x720.jpg",
+      "desc":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+    },
+    {
+      "id": "506416",
+      "name": "Halo Infinite",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/506416-1280x720.jpg",
+      "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+  ],
+  "gameStatus": [
+    {
+        "id": "32982",
+        "name": "Grand Theft Auto V",
+        "status": "15"
+    },
+    {
+        "id": "27471",
+        "name": "Minecraft",
+        "status": "10"
+    },
+    {
+        "id": "32399",
+        "name": "Counter-Strike: Global Offensive",
+        "status": "08"
+    },
+    {
+        "id": "1584745140",
+        "name": "Pokémon Brilliant Diamond/Shining Pearl",
+        "status": "13"
+    },
+    {
+        "id": "21779",
+        "name": "League of Legends",
+        "status": "01"
+    },
+    {
+        "id": "516575",
+        "name": "VALORANT",
+        "status": "12"
+    },
+    {
+        "id": "29595",
+        "name": "Dota 2",
+        "status": "16"
+    },
+    {
+        "id": "33214",
+        "name": "Fortnite",
+        "status": "21"
+    }
+  ],
+  "winners": [
+    {
+      "name": "Miguel Tijeras",
+      "totalPoints":"124",
+      "rank": "1"
+    },
+    {
+      "name": "Daniel Balvin",
+      "totalPoints":"101",
+      "rank": "2"
+    },
+    {
+      "name": "Deiby Uribe",
+      "totalPoints":"84",
+      "rank": "3"
+    }
+  ],
+  "myCourses":[
+    {
+      "id": "27471",
+      "name": "Minecraft",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/27471-1280x720.jpg",
+      "status":"12",
+      "price":"25"
+    },
+    {
+      "id": "18122",
+      "name": "World of Warcraft",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/18122-1280x720.jpg",
+      "status":"20",
+      "price":"25"
+    },
+    {
+      "id": "512710",
+      "name": "Call of Duty: Warzone",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/512710-1280x720.jpg",
+      "status":"19",
+      "price":"25"
+    },
+    {
+      "id": "511224",
+      "name": "Apex Legends",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/511224-1280x720.jpg",
+      "status":"12",
+      "price":"25"
+    },
+    {
+      "id": "516575",
+      "name": "VALORANT",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/516575-1280x720.jpg",
+      "status":"12",
+      "price":"25"
+    },
+    {
+      "id": "1869092879",
+      "name": "FIFA 22",
+      "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/1869092879-1280x720.jpg",
+      "status":"12",
+      "price":"25"
+    }
+  ]
+
+
+
+
+
+
+}

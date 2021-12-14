@@ -36,6 +36,7 @@ const ContentList = styled(List)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "flex-start",
   alignContent: "center",
+  color: "#FFF",
   [theme.breakpoints.down("md")]: {
     flexDirection: "row",
     display: "grid",
@@ -54,55 +55,37 @@ export const NavList = ({ open, match }) => {
           <LIcon>
             <img src={homeIcon} alt="Home" />
           </LIcon>
-          {open && match && (
-            <Typography
-              sx={{
-                color: "#000",
-              }}
-            >
-              Dasboard
-            </Typography>
-          )}
+          {open && match && <Typography>Dasboard</Typography>}
         </LItem>
         <LItem button>
           <LIcon>
             <img src={awardIcon} alt="Award" />
           </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Students</Typography>
-          )}
+          {open && match && <Typography>Students</Typography>}
         </LItem>
         <LItem button>
           <LIcon>
             <img src={bookIcon} alt="Book" />
           </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Training</Typography>
-          )}
+          {open && match && <Typography>Training</Typography>}
         </LItem>
         <LItem button>
           <LIcon>
             <img src={gridIcon} alt="Grid" />
           </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Library</Typography>
-          )}
+          {open && match && <Typography>Library</Typography>}
         </LItem>
         <LItem button>
           <LIcon>
             <img src={pieIcon} alt="PieChart" />
           </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Attendance</Typography>
-          )}
+          {open && match && <Typography>Attendance</Typography>}
         </LItem>
         <LItem button>
           <LIcon>
             <img src={settingsIcon} alt="Settings" />
           </LIcon>
-          {open && match && (
-            <Typography sx={{ color: "#000" }}>Account</Typography>
-          )}
+          {open && match && <Typography>Account</Typography>}
         </LItem>
       </ContentList>
     </>

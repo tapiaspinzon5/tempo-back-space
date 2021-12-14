@@ -6,9 +6,10 @@ import { Navbar } from "./SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
 import { Catalogue } from "./Catalogue/Catalogue";
 import { VelBar } from "./Speed Bar/VelBar";
-import { Star5 } from "./Star 5/Star5";
+//import { Star5 } from "./Star 5/Star5";
 import { QuizView } from "../pages/QuizView";
 import { QuizViewV2 } from "../pages/QuizViewV2";
+import TeamsProgress from "../pages/TeamsProgress";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -18,7 +19,7 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   return (
     <Router>
-      <MainApp>
+      <MainApp sx={{ bgcolor: "background.default" }}>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomeUser />} />
@@ -27,6 +28,7 @@ const AppRouter = () => {
           <Route path="/test" element={<VelBar />} />
           <Route path="/quiz" element={<QuizView />} />
           <Route path="/quizv2" element={<QuizViewV2 />} />
+          <Route path="/teamprogress" element={<TeamsProgress />} />
           <Route
             path="*"
             element={
