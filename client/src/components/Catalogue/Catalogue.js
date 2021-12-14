@@ -26,7 +26,7 @@ export const Catalogue = () => {
         }}
       >
         <Header />
-        <Typography variant="h1">Courses</Typography>
+        <Typography variant="h1">Quiz</Typography>
         <Grilla sx={{}}>
           {data.map((el) => (
             <CardActivity key={el.id} el={el} />

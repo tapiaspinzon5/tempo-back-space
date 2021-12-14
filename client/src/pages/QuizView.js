@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Box } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled} from "@mui/material/styles";
 import { MultiAnswer } from "../components/Questions/MultiAnswer";
 import { OneAnswer } from "../components/Questions/OneAnswer";
 import { TrueFalse } from "../components/Questions/TrueFalse";
