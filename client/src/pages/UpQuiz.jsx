@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 const MainUpQuiz = styled(Grid)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
-  minHeight: "95vh",
+  minHeight: "90vh",
   width: "100%",
   padding: "0 2rem 2rem",
   [theme.breakpoints.down("md")]: {
@@ -27,13 +27,9 @@ const UpQuiz = () => {
         <Typography variant="body1" mt={2}>
           Acquire new skills to strengthen your progress
         </Typography>
-
         <Grid container spacing={3} mt={4}>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <UploadQuiz />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <CardQuizDesc />
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <CardQuizDesc />

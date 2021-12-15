@@ -57,6 +57,7 @@ export const NavList = ({ open, match }) => {
           </LIcon>
           {open && match && <Typography>Dasboard</Typography>}
         </LItem>
+
         <LItem button>
           <LIcon>
             <img src={awardIcon} alt="Award" />

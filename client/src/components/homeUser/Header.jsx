@@ -20,7 +20,7 @@ const MainHeader = styled(Grid)(() => ({
 
 const TitleHeader = styled(Grid)((theme) => ({
   // background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
-  height: "100%",
+  minHeight: "11vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
