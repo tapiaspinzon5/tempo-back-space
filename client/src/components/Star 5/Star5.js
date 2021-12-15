@@ -38,7 +38,7 @@ export const Star5 = () => {
       },
       wave: {
         count: 3,
-        length: 400,
+        length: 200,
       },
       theme: {
         styleSheet: {
@@ -68,6 +68,7 @@ export const Star5 = () => {
     liquidPlot.render();
     return () => liquidPlot.destroy();
   }, []);
+
   return (
     <div>
       <div ref={ref} style={{ height: "45vh" }}></div>

@@ -1,18 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import ProgressBar from "progressbar.js";
 
-export const VelBar = () => {
+export const VelBar = ({ status }) => {
   const ref = useRef();
-  const styles = { width: "500px", height: "200px", margin: "50px auto" };
+
+  const styles = { width: "200px", height: "100px", margin: "50px auto" };
   useEffect(() => {
     const semiBar = new ProgressBar.SemiCircle(ref.current, {
-      color: "violet",
-      strokeWidth: 2,
-      trailWidth: 8,
-      trailColor: "blue",
+      //color: "violet",
+      strokeWidth: 6,
+      trailWidth: 6,
+      trailColor: "#DADADA",
       easing: "bounce",
-      from: { color: "#FF0099", width: 1 },
-      to: { color: "#FF9900", width: 2 },
+      from: { color: "#3946EC", width: 6 },
+      to: { color: "#3946EC", width: 6 },
       text: {
         value: "0",
         className: "progress-text",
@@ -33,10 +34,14 @@ export const VelBar = () => {
       },
     });
 
-    semiBar.animate(0.494, {
+    semiBar.animate(status, {
       duration: 2000,
     });
-  }, []);
+
+    return () => {
+      semiBar.destroy();
+    };
+  }, [status]);
 
   return (
     <div>
