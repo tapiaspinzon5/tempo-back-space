@@ -5,16 +5,17 @@ const url = 'https://oauth.teleperformance.co/api/';
 
 function login(req, res) {
 
-    const newBody = {
-        user : req.body.body.id,
-        pass : req.body.body.password,
-    }
+    // return
+    // const newBody = {
+    //     user : req.body.body.id,
+    //     pass : req.body.body.password,
+    // }
 
-    const btoaData = btoa(JSON.stringify(newBody));
-    const bdata = {body: 's'+ btoaData};
+    // const btoaData = btoa(JSON.stringify(newBody));
+    // const bdata = {body: 's'+ btoaData};
 
     let data = {
-        body: bdata.body,
+        body: req.body.body,
         timeTkn: 100,
         project: process.env.PROJECT,
         ip: req.clientIp,
@@ -58,8 +59,8 @@ let responsep = (tipo, req, res, resultado) => {
             res.status(200).json(resultado);
             resolve(200);
         } else if (tipo == 2) {
-            console.log("Error at:", date, "res: ", resultado.message);
-            res.status(404).json(resultado.message);
+            console.log("Error at:", date, "res: ", resultado.msg);
+            res.status(404).json(resultado.msg);
             resolve(404);
         } else if (tipo == 3) {
             res.status(401).json(resultado);
