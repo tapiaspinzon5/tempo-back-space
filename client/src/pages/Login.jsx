@@ -21,6 +21,8 @@ import imgLogin from "../assets/images/login.svg";
 import tpLogo from "../assets/images/logo-tp-blue.svg";
 import tpmar from "../assets/images/tp-mar-blue.svg";
 
+import { loginSubmit } from "../utils/api";
+
 const ImageLogin = styled(Box)(() => ({
   img: {
     height: "99vh",
@@ -63,6 +65,29 @@ const Login = ({ setLogin }) => {
     password: "",
     showPassword: false,
   });
+
+  /* const newBody = {
+        user : req.body.body.id,
+        pass : req.body.body.password,
+    }
+    const btoaData = btoa(JSON.stringify(newBody));
+    const bdata = {body: 's'+ btoaData}; */
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const body = {
+      user: values.account,
+      pass: values.password,
+    };
+    const btoaData = btoa(JSON.stringify(body));
+    const bdata = { body: "s" + btoaData };
+    /* const response = async () => {
+      await loginSubmit(bdata);
+    }; */
+    const response = await loginSubmit(bdata);
+    //setLogin(true);
+    console.log(response);
+  };
 
   return (
     <Grid container>
@@ -146,7 +171,7 @@ const Login = ({ setLogin }) => {
               />
             </FormControl>
 
-            <ButtonLogin onClick={() => setLogin(true)}>LOGIN </ButtonLogin>
+            <ButtonLogin onClick={handleSubmit}>LOGIN </ButtonLogin>
             <BoxChecket>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
