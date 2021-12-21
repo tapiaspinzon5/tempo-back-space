@@ -4,7 +4,7 @@ import DarkModeProvider from "./context/DarkModeProvider";
 import Login from "./pages/Login";
 
 function App() {
-  const [loginstate, setLoginstate] = useState(false);
+  const [loginstate, setLoginstate] = useState(true);
   console.log(loginstate);
   return (
     <DarkModeProvider>

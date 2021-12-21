@@ -1,140 +1,70 @@
-import React, { useState } from "react";
-import { Grid, Typography, styled, Button, Box } from "@mui/material";
-import podium from "../../assets/podium.svg";
-import { useTheme } from "@mui/material/styles";
-import { Star5 } from "../Star 5/Star5";
-import MulticircularProgress from "../progressCharts/MulticircularProgress";
+import React from "react";
+import { Grid, Typography, styled, Button, Box, Avatar } from "@mui/material";
 
-const RankingBox = styled(Grid)`
-  border: 1px solid #f2f2f2;
-  height: 52vh;
-  padding: 3px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
+const BoxRanking = styled(Box)(({ theme }) => ({
+  height: "40vh",
+  padding: "1rem",
+  backgroundColor: "#f9f9f9",
+  margin: "1rem 0",
+  borderRadius: "5px",
+}));
 
-const BoxButtons = styled(Box)((theme) => ({
+const CardRanking = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "flex-end",
-  button: {
-    textTransform: "none",
-    color: "#000",
-    //background: "#f4f4f4",
-  },
-}));
-
-const ButtonLeft = styled(Button)((theme) => ({
-  borderRadius: "10px 0 0 10px",
-}));
-
-const ButtonRight = styled(Button)((theme) => ({
-  borderRadius: "0 10px 10px 0",
-}));
-
-const PodioBox = styled(Grid)(() => ({
-  border: "1px solid #f2f2f2",
-  height: "52vh",
-  borderRadius: "10px",
-  display: "flex",
-  flexDirection: "column",
+  alignItems: "center",
   justifyContent: "space-between",
-  img: {
-    height: "45vh",
+  backgroundColor: "#fff",
+  padding: "5px",
+  borderRadius: "3px",
+  marginBottom: "0.3rem",
+  p: {
+    color: "#3047B0",
+    margin: "0 1rem",
+  },
+  div: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
 const Ranking = () => {
-  const theme = useTheme();
-  const [showTeam, setShowTeam] = useState(false);
-  const [showPodio, setShowPodio] = useState(false);
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6" color="#0087FF" mt={4}>
-          Progress
+    <BoxRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold">
+            1
+          </Typography>
+          <Avatar
+            alt="Pepito"
+            src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
+          />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            Diego Tapias
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          500 XP
         </Typography>
-        <RankingBox>
-          {showTeam ? <MulticircularProgress /> : <Star5 />}
-
-          <BoxButtons>
-            <ButtonLeft
-              onClick={() => setShowTeam(false)}
-              sx={
-                showTeam
-                  ? {
-                      backgroundColor: "#f4f4f4",
-                    }
-                  : {
-                      backgroundColor: "#BDBDBD",
-                    }
-              }
-            >
-              Me
-            </ButtonLeft>
-            <ButtonRight
-              onClick={() => setShowTeam(true)}
-              sx={
-                showTeam
-                  ? {
-                      backgroundColor: "#BdBDBD",
-                    }
-                  : {
-                      backgroundColor: "#f4f4f4",
-                    }
-              }
-            >
-              Team
-            </ButtonRight>
-          </BoxButtons>
-        </RankingBox>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6" color="#0087FF" mt={4}>
-          Winners{" "}
+      </CardRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold" marginRight={2}>
+            2
+          </Typography>
+          <Avatar
+            alt="Pepito"
+            src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
+          />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            Daniel Moreno Salas
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          500 XP
         </Typography>
-        <PodioBox
-          sx={{
-            background: theme.palette.background.navigator,
-            color: "text.primary",
-          }}
-        >
-          <img src={podium} alt="podium" />
-
-          <BoxButtons>
-            <ButtonLeft
-              onClick={() => setShowPodio(false)}
-              sx={
-                showPodio
-                  ? {
-                      backgroundColor: "#f4f4f4",
-                    }
-                  : {
-                      backgroundColor: "#BDBDBD",
-                    }
-              }
-            >
-              Actual
-            </ButtonLeft>
-            <ButtonRight
-              onClick={() => setShowPodio(true)}
-              sx={
-                showPodio
-                  ? {
-                      backgroundColor: "#BdBDBD",
-                    }
-                  : {
-                      backgroundColor: "#f4f4f4",
-                    }
-              }
-            >
-              Mes
-            </ButtonRight>
-          </BoxButtons>
-        </PodioBox>
-      </Grid>
-    </Grid>
+      </CardRanking>
+    </BoxRanking>
   );
 };
 
