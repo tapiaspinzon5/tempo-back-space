@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import AppRouter from "./components/AppRouter";
 import DarkModeProvider from "./context/DarkModeProvider";
 import Login from "./pages/Login";
+import { Provider } from "react-redux";
+import generateStore from "./redux/store";
 
-function App() {
-  const [loginstate, setLoginstate] = useState(false);
-  console.log(loginstate);
+//const store = generateStore();
+
+const App = () => {
+  const store = generateStore();
+
+  // const [loginstate, setLoginstate] = useState(false);
   return (
-    <DarkModeProvider>
-      {loginstate ? <AppRouter /> : <Login setLogin={setLoginstate} />}
-    </DarkModeProvider>
+    <Provider store={store}>
+      <DarkModeProvider>
+        <AppRouter />
+        <Login />
+      </DarkModeProvider>
+    </Provider>
   );
-}
+};
 
 export default App;

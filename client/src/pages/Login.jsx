@@ -20,8 +20,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import imgLogin from "../assets/images/login.svg";
 import tpLogo from "../assets/images/logo-tp-blue.svg";
 import tpmar from "../assets/images/tp-mar-blue.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSubmit } from "../redux/loginDuck";
 
-import { loginSubmit } from "../utils/api";
+//import { loginSubmit } from "../utils/api";
 
 const ImageLogin = styled(Box)(() => ({
   img: {
@@ -60,18 +62,16 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
 }));
 
 const Login = ({ setLogin }) => {
+  const dispatch = useDispatch();
+  const userData = useSelector((store) => store.loginUser.userData);
+
   const [values, setValues] = useState({
     account: "",
     password: "",
     showPassword: false,
   });
 
-  /* const newBody = {
-        user : req.body.body.id,
-        pass : req.body.body.password,
-    }
-    const btoaData = btoa(JSON.stringify(newBody));
-    const bdata = {body: 's'+ btoaData}; */
+  console.log(userData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,12 +81,14 @@ const Login = ({ setLogin }) => {
     };
     const btoaData = btoa(JSON.stringify(body));
     const bdata = { body: "s" + btoaData };
-    /* const response = async () => {
-      await loginSubmit(bdata);
-    }; */
-    const response = await loginSubmit(bdata);
-    //setLogin(true);
-    console.log(response);
+    //  /* const response = async () => {
+    //    await loginSubmit(bdata);
+    //  }; */
+    //  const response = await loginSubmit(bdata);
+    //  //setLogin(true);
+    //  console.log(response);
+
+    dispatch(loginSubmit(bdata));
   };
 
   return (
