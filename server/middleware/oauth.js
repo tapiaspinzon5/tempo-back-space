@@ -1,5 +1,9 @@
 require("dotenv").config();
 const redirect = require("../controllers/redirect.controller");
+const sql = require("../controllers/sql.controller");
+const parametros = require("../controllers/params.controller").parametros;
+
+
 
 const url = 'https://oauth.teleperformance.co/api/';
 
@@ -25,8 +29,20 @@ function login(req, res) {
     redirect
         .post(url, "oauthlogin", data, null)
         .then((result) => {
+
             res.cookie(req.csrfToken());
-            responsep(1, req, res, result.data.data);
+            sql
+            .query('spQueryRoleEmployee', parametros({idccms:result.data.data.idccms},'spQueryRoleEmployee'))
+            .then((result2) => {
+                responsep(1, req, res, {...result.data.data, "role":result2[0].role});
+            })
+            .catch((err) => {
+                console.log(err, 'sp')
+                responsep(2, req, res, err);
+            });
+            
+            // responsep(1, req, res, result.data.data);
+
         })
         .catch((error) => {
             console.log(error);
