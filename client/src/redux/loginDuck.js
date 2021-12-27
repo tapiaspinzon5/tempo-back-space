@@ -9,6 +9,7 @@ const initialData = {
 //types
 const LOADING = "LOADING";
 const INICIO_SESION_EXITO = "INICIO_SESION_EXITO";
+const CERRANDO_SESION_EXITO = "CERRANDO_SESION_EXITO";
 
 // reduceres
 
@@ -24,6 +25,10 @@ export default function loginReducer(state = initialData, action) {
         ...state,
         userData: action.payload.data,
         loading: false,
+      };
+    case CERRANDO_SESION_EXITO:
+      return {
+        ...initialData,
       };
     default:
       return state;
@@ -60,6 +65,7 @@ export const loginSubmit = (data) => async (dispatch) => {
       "userTP",
       JSON.stringify({
         token: requestData.data.token,
+        refreshToken: requestData.data.refreshToken,
         role: requestData.data.role,
         username: requestData.data.username,
       })
@@ -69,6 +75,7 @@ export const loginSubmit = (data) => async (dispatch) => {
   }
 };
 
+//action de verificacion de  usuario activo
 export const readUserActiveAction = () => (dispatch) => {
   if (localStorage.getItem("userTP")) {
     dispatch({
@@ -76,4 +83,14 @@ export const readUserActiveAction = () => (dispatch) => {
       payload: { data: JSON.parse(localStorage.getItem("userTP")) },
     });
   }
+};
+
+//action logout
+
+export const logoutAction = () => (dispatch) => {
+  console.log("cerrando sesion");
+  localStorage.removeItem("userTP");
+  dispatch({
+    type: CERRANDO_SESION_EXITO,
+  });
 };

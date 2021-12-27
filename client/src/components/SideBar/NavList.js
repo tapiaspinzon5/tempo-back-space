@@ -1,4 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/loginDuck";
 import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
@@ -7,6 +10,7 @@ import bookIcon from "../../assets/Icons/book-open.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
 import pieIcon from "../../assets/Icons/pie-chart.svg";
 import settingsIcon from "../../assets/Icons/settings.svg";
+import { FiLogOut } from "react-icons/fi";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -48,6 +52,12 @@ const ContentList = styled(List)(({ theme }) => ({
 }));
 
 export const NavList = ({ open, match }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logOut = () => {
+    dispatch(logoutAction());
+    navigate("/");
+  };
   return (
     <>
       <ContentList>
@@ -87,6 +97,12 @@ export const NavList = ({ open, match }) => {
             <img src={settingsIcon} alt="Settings" />
           </LIcon>
           {open && match && <Typography>Account</Typography>}
+        </LItem>
+        <LItem button onClick={logOut}>
+          <LIcon>
+            <FiLogOut size={30} color="#fff" />
+          </LIcon>
+          {open && match && <Typography>Logout</Typography>}
         </LItem>
       </ContentList>
     </>
