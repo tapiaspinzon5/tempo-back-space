@@ -13,6 +13,7 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -20,8 +21,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import imgLogin from "../assets/images/login.svg";
 import tpLogo from "../assets/images/logo-tp-blue.svg";
 import tpmar from "../assets/images/tp-mar-blue.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSubmit } from "../redux/loginDuck";
 
-import { loginSubmit } from "../utils/api";
+//import { loginSubmit } from "../utils/api";
 
 const ImageLogin = styled(Box)(() => ({
   img: {
@@ -60,18 +63,18 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
 }));
 
 const Login = ({ setLogin }) => {
+  const dispatch = useDispatch();
+  const userData = useSelector((store) => store.loginUser.userData);
+  const loading = useSelector((store) => store.loginUser.loading);
+
   const [values, setValues] = useState({
     account: "",
     password: "",
     showPassword: false,
   });
 
-  /* const newBody = {
-        user : req.body.body.id,
-        pass : req.body.body.password,
-    }
-    const btoaData = btoa(JSON.stringify(newBody));
-    const bdata = {body: 's'+ btoaData}; */
+  console.log(loading);
+  console.log(userData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,12 +84,8 @@ const Login = ({ setLogin }) => {
     };
     const btoaData = btoa(JSON.stringify(body));
     const bdata = { body: "s" + btoaData };
-    /* const response = async () => {
-      await loginSubmit(bdata);
-    }; */
-    const response = await loginSubmit(bdata);
-    //setLogin(true);
-    console.log(response);
+    //lanzamiento funcion login en el Duck
+    dispatch(loginSubmit(bdata));
   };
 
   return (
@@ -115,75 +114,85 @@ const Login = ({ setLogin }) => {
             By signing in, you agree to our <b>Privacy Policy</b>
           </Typography>
 
-          <FormGroup
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-account">
-                Account
-              </InputLabel>
-              <OutlinedInput
-                sx={{ borderRadius: "23px" }}
-                id="outlined-adornment-account"
-                type="text"
-                value={values.account}
-                onChange={(e) =>
-                  setValues({ ...values, account: e.target.value })
-                }
-                label="Account"
-              />
-            </FormControl>
+          {loading ? (
+            <Box display="flex" justifyContent="center">
+              <CircularProgress size={70} />
+            </Box>
+          ) : (
+            <FormGroup
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-account">
+                  Account
+                </InputLabel>
+                <OutlinedInput
+                  sx={{ borderRadius: "23px" }}
+                  id="outlined-adornment-account"
+                  type="text"
+                  value={values.account}
+                  onChange={(e) =>
+                    setValues({ ...values, account: e.target.value })
+                  }
+                  label="Account"
+                />
+              </FormControl>
 
-            <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                sx={{ borderRadius: "23px" }}
-                id="outlined-adornment-password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={(e) =>
-                  setValues({ ...values, password: e.target.value })
-                }
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() =>
-                        setValues({
-                          ...values,
-                          showPassword: !values.showPassword,
-                        })
-                      }
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-            </FormControl>
+              <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  sx={{ borderRadius: "23px" }}
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={(e) =>
+                    setValues({ ...values, password: e.target.value })
+                  }
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() =>
+                          setValues({
+                            ...values,
+                            showPassword: !values.showPassword,
+                          })
+                        }
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
 
-            <ButtonLogin onClick={() => setLogin(true) /* handleSubmit */}>
-              LOGIN{" "}
-            </ButtonLogin>
-            <BoxChecket>
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="Remember me"
-              />
-              <a href="/algo" target="blank">
-                Forgot password?
-              </a>
-            </BoxChecket>
-          </FormGroup>
+              <ButtonLogin onClick={handleSubmit} disabled={loading}>
+                LOGIN{" "}
+              </ButtonLogin>
+              <BoxChecket>
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label="Remember me"
+                />
+                <a href="/algo" target="blank">
+                  Forgot password?
+                </a>
+              </BoxChecket>
+            </FormGroup>
+          )}
           <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <img src={tpLogo} alt="Logo Teleperformance" height="29" />
             <img src={tpmar} alt="Logo TP-MAR" height="29" />

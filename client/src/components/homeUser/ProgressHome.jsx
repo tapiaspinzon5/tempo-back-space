@@ -43,7 +43,7 @@ const ProgressHome = () => {
             50 Epicoins
           </Typography>
           <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
+          <ProgresBar value={52} />
         </Box>
         <Box>
           <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
@@ -53,126 +53,6 @@ const ProgressHome = () => {
       </Box>
       <Divider variant="fullWidth" light />
       {/* END Card Progress*/}
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value="82" />
-        </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
     </CardProgressSection>
   );
 };
