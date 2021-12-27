@@ -34,7 +34,7 @@ const AppRouter = () => {
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.role && <Navbar />}
-
+        <Navbar />
         <Routes>
           {userData?.role ? (
             <>

@@ -17,7 +17,7 @@ const CardContainer = styled(Grid)(({ theme }) => ({
 
 const CardContent = styled(Box)(({ theme }) => ({
   display: "flex",
-  width: "45vh",
+  width: "55vh",
   height: "70vh",
   backgroundColor: "#f9f9f9",
   borderRadius: "10px",
