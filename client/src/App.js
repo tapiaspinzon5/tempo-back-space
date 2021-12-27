@@ -1,11 +1,8 @@
 import React from "react";
-import AppRouter from "./components/AppRouter";
+import AppRouter from "./routes/AppRouter";
 import DarkModeProvider from "./context/DarkModeProvider";
-import Login from "./pages/Login";
 import { Provider } from "react-redux";
 import generateStore from "./redux/store";
-
-//const store = generateStore();
 
 const App = () => {
   const store = generateStore();
@@ -15,7 +12,6 @@ const App = () => {
     <Provider store={store}>
       <DarkModeProvider>
         <AppRouter />
-        <Login />
       </DarkModeProvider>
     </Provider>
   );

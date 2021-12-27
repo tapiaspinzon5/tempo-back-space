@@ -55,7 +55,25 @@ export const loginSubmit = (data) => async (dispatch) => {
         data: requestData.data,
       },
     });
+
+    localStorage.setItem(
+      "userTP",
+      JSON.stringify({
+        token: requestData.data.token,
+        role: requestData.data.role,
+        username: requestData.data.username,
+      })
+    );
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
+  }
+};
+
+export const readUserActiveAction = () => (dispatch) => {
+  if (localStorage.getItem("userTP")) {
+    dispatch({
+      type: INICIO_SESION_EXITO,
+      payload: { data: JSON.parse(localStorage.getItem("userTP")) },
+    });
   }
 };

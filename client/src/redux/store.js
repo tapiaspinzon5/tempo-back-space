@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 //import reducers
-import loginReducer from "./loginDuck";
+import loginReducer, { readUserActiveAction } from "./loginDuck";
 
 //combine reducers
 const rootReducers = combineReducers({
@@ -19,5 +19,6 @@ export default function generateStore() {
     rootReducers,
     composeEnhancers(applyMiddleware(thunk))
   );
+  readUserActiveAction()(store.dispatch);
   return store;
 }
