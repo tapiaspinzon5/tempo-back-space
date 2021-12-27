@@ -171,7 +171,9 @@ const Login = ({ setLogin }) => {
               />
             </FormControl>
 
-            <ButtonLogin onClick={handleSubmit}>LOGIN </ButtonLogin>
+            <ButtonLogin onClick={() => setLogin(true) /* handleSubmit */}>
+              LOGIN{" "}
+            </ButtonLogin>
             <BoxChecket>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}

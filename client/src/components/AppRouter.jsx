@@ -12,6 +12,7 @@ import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
 import ActivitiesView from "../pages/ActivitiesView";
+import { HomeSA } from "../pages/HomeSA";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -26,6 +27,7 @@ const AppRouter = () => {
 
         <Routes>
           <Route path="/" element={<HomeUser />} />
+          <Route path="/homesa" element={<HomeSA />} />
           {/* <Route path="/catalogo" element={<Catalogue />} /> */}
           {/* <Route path="/description/:gameID" element={<Description />} /> */}
           {/* <Route path="/test" element={<VelBar />} /> */}
