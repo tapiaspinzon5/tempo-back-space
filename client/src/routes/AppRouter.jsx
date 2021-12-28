@@ -15,7 +15,6 @@ import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
 import ActivitiesView from "../pages/ActivitiesView";
 import Login from "../pages/Login";
-import PrivateRoute from "./PrivateRoute";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -31,7 +30,6 @@ const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
   console.log(userData);
-  //  const { role } = userData?;
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
@@ -41,16 +39,8 @@ const AppRouter = () => {
           {userData?.role ? (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
-              {/* <Route
-                path="/"
-                element={
-                  <PrivateRoute>
-                    <Navigate to="/homeusers" />
-                  </PrivateRoute>
-                }
-              /> */}
               <Route path="/homeusers" element={<HomeUser />} />
-              <Route path="/quizv2" element={<QuizViewV2 />} />
+              <Route path="/quiz" element={<QuizViewV2 />} />
               <Route path="/teamprogress" element={<TeamsProgress />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/upquiz" element={<UpQuiz />} />

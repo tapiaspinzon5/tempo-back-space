@@ -62,7 +62,7 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
   fontSize: "35px",
 }));
 
-const Login = ({ setLogin }) => {
+const Login = () => {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const loading = useSelector((store) => store.loginUser.loading);
@@ -72,9 +72,6 @@ const Login = ({ setLogin }) => {
     password: "",
     showPassword: false,
   });
-
-  console.log(loading);
-  console.log(userData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

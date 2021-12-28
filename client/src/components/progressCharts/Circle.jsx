@@ -7,7 +7,7 @@ const Circle = () => {
   console.log(ref);
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.53,
+      percent: 0.76,
       autoFit: true,
 
       outline: {
@@ -40,7 +40,7 @@ const Circle = () => {
 
       statistic: {
         content: {
-          content: "53%",
+          content: "76%",
           style: {
             color: "#FF0",
           },

@@ -33,9 +33,11 @@ function login(req, res) {
           parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee")
         )
         .then((result2) => {
+          console.log(result2);
           responsep(1, req, res, {
             ...result.data.data,
-            role: result2[0].role,
+
+            role: result2[0].Role,
           });
         })
         .catch((err) => {
