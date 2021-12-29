@@ -9,17 +9,17 @@ const url = 'https://oauth.teleperformance.co/api/';
 
 function login(req, res) {
 
-    // return
-    // const newBody = {
-    //     user : req.body.body.id,
-    //     pass : req.body.body.password,
-    // }
+    const newBody = {
+        user : req.body.body.id,
+        pass : req.body.body.password,
+    }
 
-    // const btoaData = btoa(JSON.stringify(newBody));
-    // const bdata = {body: 's'+ btoaData};
+    const btoaData = btoa(JSON.stringify(newBody));
+    const bdata = {body: 's'+ btoaData};
 
     let data = {
-        body: req.body.body,
+        body: bdata.body,
+        // body: req.body.body,
         timeTkn: 100,
         project: process.env.PROJECT,
         ip: req.clientIp,
