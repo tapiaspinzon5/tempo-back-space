@@ -27,7 +27,7 @@ const CardContent = styled(Box)(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export const AdminCard = ({ data }) => {
+export const AdminCard = ({ data, disabledCard }) => {
   const uploadFile = (e) => {
     console.log(e.target.files[0]);
     const fileQuiz = e.target.files[0];
