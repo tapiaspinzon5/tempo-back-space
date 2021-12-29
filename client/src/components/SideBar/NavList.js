@@ -61,31 +61,32 @@ export const NavList = ({ open, match }) => {
   return (
     <>
       <ContentList>
-        <LItem button>
+        <LItem button onClick={() => navigate("/")}>
           <LIcon>
             <img src={homeIcon} alt="Home" />
           </LIcon>
           {open && match && <Typography>Dasboard</Typography>}
         </LItem>
 
-        <LItem button>
+        {/* <LItem button>
           <LIcon>
             <img src={awardIcon} alt="Award" />
           </LIcon>
           {open && match && <Typography>Students</Typography>}
-        </LItem>
-        <LItem button>
+        </LItem> */}
+        {/* <LItem button>
           <LIcon>
             <img src={bookIcon} alt="Book" />
           </LIcon>
           {open && match && <Typography>Training</Typography>}
-        </LItem>
-        <LItem button>
+        </LItem> */}
+        <LItem button onClick={() => navigate("/activitiesview")}>
           <LIcon>
             <img src={gridIcon} alt="Grid" />
           </LIcon>
           {open && match && <Typography>Library</Typography>}
         </LItem>
+        {/* 
         <LItem button>
           <LIcon>
             <img src={pieIcon} alt="PieChart" />
@@ -97,7 +98,7 @@ export const NavList = ({ open, match }) => {
             <img src={settingsIcon} alt="Settings" />
           </LIcon>
           {open && match && <Typography>Account</Typography>}
-        </LItem>
+        </LItem> */}
         <LItem button onClick={logOut}>
           <LIcon>
             <FiLogOut size={30} color="#fff" />

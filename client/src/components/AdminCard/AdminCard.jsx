@@ -17,6 +17,7 @@ const CardContainer = styled(Grid)(({ theme }) => ({
 
 const CardContent = styled(Box)(({ theme }) => ({
   display: "flex",
+
   width: "55vh",
   height: "70vh",
   backgroundColor: "#f9f9f9",
@@ -51,7 +52,7 @@ export const AdminCard = ({ data }) => {
     <>
       <CardContainer>
         <CardContent>
-          <label htmlFor="quiz">
+          <label htmlFor="quiz" style={{ cursor: "pointer" }}>
             <img src={data.url} alt="top-Ten" />
 
             <Typography

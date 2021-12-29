@@ -35,10 +35,7 @@ const Ranking = () => {
           <Typography variant="body2" fontWeight="bold">
             1
           </Typography>
-          <Avatar
-            alt="Pepito"
-            src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
-          />
+          <Avatar alt="Pepito" src="" />
           <Typography variant="body2" fontWeight="bold" color="initial">
             Diego Tapias
           </Typography>
@@ -52,16 +49,55 @@ const Ranking = () => {
           <Typography variant="body2" fontWeight="bold" marginRight={2}>
             2
           </Typography>
-          <Avatar
-            alt="Pepito"
-            src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
-          />
+          <Avatar alt="Pepito" src="" />
           <Typography variant="body2" fontWeight="bold" color="initial">
             Daniel Moreno Salas
           </Typography>
         </Box>
         <Typography variant="body2" fontWeight="bold" color="initial">
-          500 XP
+          489 XP
+        </Typography>
+      </CardRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold" marginRight={2}>
+            3
+          </Typography>
+          <Avatar alt="Pepito" src="" />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            Matilde Puentes
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          456 XP
+        </Typography>
+      </CardRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold" marginRight={2}>
+            4
+          </Typography>
+          <Avatar alt="Pepito" src="" />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            Juliana Cardona
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          431 XP
+        </Typography>
+      </CardRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold" marginRight={2}>
+            5
+          </Typography>
+          <Avatar alt="Pepito" src="" />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            Deiby Niño
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          416 XP
         </Typography>
       </CardRanking>
     </BoxRanking>

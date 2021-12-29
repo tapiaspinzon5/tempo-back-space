@@ -18,40 +18,100 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
   },
 }));
 
+const dataKPI = [
+  {
+    nombre: "PPH",
+    unit: "Seconds",
+    valor: "3.31",
+  },
+  {
+    nombre: "SAR",
+    unit: "%",
+    valor: "100",
+  },
+  {
+    nombre: "Solved",
+    unit: "Hours",
+    valor: "22.5",
+  },
+  {
+    nombre: "SHK",
+    unit: "%",
+    valor: "0.7",
+  },
+  {
+    nombre: "%Csat",
+    unit: "%",
+    valor: "68.18",
+  },
+  {
+    nombre: "Escalation",
+    unit: "%",
+    valor: "25.65",
+  },
+  {
+    nombre: "TPH",
+    unit: "Seconds",
+    valor: "4.36",
+  },
+  {
+    nombre: "FTR",
+    unit: "%",
+    valor: "0.9",
+  },
+  {
+    nombre: "SLA",
+    unit: "%",
+    valor: "96.02",
+  },
+  {
+    nombre: "Surveys",
+    unit: "%",
+    valor: "5.3",
+  },
+];
+
 const ProgressHome = () => {
   return (
     <CardProgressSection>
       <Box display="flex" alignItems="center" py={2}>
         <Typography variant="h6" fontWeight="bold">
-          50 Epicoins
+          KPI - Microsoft
         </Typography>
         <Typography variant="caption" color="initial" ml={5}>
-          50 Epicoins
+          LOB - Account
         </Typography>
       </Box>
       <Divider variant="fullWidth" light />
 
       {/* Card Progress section */}
-      <Box
-        display="flex"
-        py={2}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Box width="60%">
-          <Typography variant="body1" fontWeight="bold">
-            50 Epicoins
-          </Typography>
-          <Typography variant="caption">50 Epicoins</Typography>
-          <ProgresBar value={52} />
+
+      {dataKPI.map((kpi, index) => (
+        <Box key={index}>
+          <Box
+            display="flex"
+            py={2}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box width="60%">
+              <Typography variant="body1" fontWeight="bold">
+                {kpi.nombre}
+              </Typography>
+              <Typography variant="caption">
+                {kpi.valor} {kpi.unit}
+              </Typography>
+              <ProgresBar value={kpi.valor} />
+            </Box>
+            <Box>
+              {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
+                See more
+              </Button> */}
+            </Box>
+          </Box>
+          <Divider variant="fullWidth" light />
         </Box>
-        <Box>
-          <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-            See more
-          </Button>
-        </Box>
-      </Box>
-      <Divider variant="fullWidth" light />
+      ))}
       {/* END Card Progress*/}
     </CardProgressSection>
   );

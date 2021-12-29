@@ -15,6 +15,12 @@ import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
 import ActivitiesView from "../pages/ActivitiesView";
 import Login from "../pages/Login";
+import { HomeOM } from "../pages/HomeOM";
+import { HomeQAL } from "../pages/HomeQAL";
+import { HomeRL } from "../pages/HomeRL";
+import { HomeSA } from "../pages/HomeSA";
+import { HomeTL } from "../pages/HomeTL";
+import QuizDetails from "../components/Quizes/QuizDetails";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -30,24 +36,58 @@ const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
   console.log(userData);
+
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.role && <Navbar />}
-        <Navbar />
+
         <Routes>
-          {userData?.role ? (
+          {userData?.role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
-              <Route path="/quiz" element={<QuizViewV2 />} />
-              <Route path="/teamprogress" element={<TeamsProgress />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/upquiz" element={<UpQuiz />} />
+              <Route path="/quiz" element={<QuizViewV2 />} />
+              <Route path="/quizdetails" element={<QuizDetails />} />
             </>
-          ) : (
-            <Route path="/" element={<Login />} />
           )}
+
+          {userData?.role === "Operation Manager" && (
+            <>
+              <Route path="/" element={<Navigate to="/homeom" />} />
+              <Route path="/homeom" element={<HomeOM />} />
+            </>
+          )}
+          {userData?.role === "QA Lead" && (
+            <>
+              <Route path="/upquiz" element={<UpQuiz />} />
+              <Route path="/" element={<Navigate to="/homeqal" />} />
+              <Route path="/homeqal" element={<HomeQAL />} />
+            </>
+          )}
+          {userData?.role === "Reporting Lead" && (
+            <>
+              <Route path="/" element={<Navigate to="/homerl" />} />
+              <Route path="/homerl" element={<HomeRL />} />
+            </>
+          )}
+          {userData?.role === "Super Admin" && (
+            <>
+              <Route path="/" element={<Navigate to="/homesa" />} />
+              <Route path="/homesa" element={<HomeSA />} />
+            </>
+          )}
+          {userData?.role === "Team Leader" && (
+            <>
+              <Route path="/" element={<Navigate to="/hometl" />} />
+              <Route path="/hometl" element={<HomeTL />} />
+              <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/teamprogress" element={<TeamsProgress />} />
+            </>
+          )}
+
+          {!userData?.role && <Route path="/" element={<Login />} />}
           <Route
             path="*"
             element={

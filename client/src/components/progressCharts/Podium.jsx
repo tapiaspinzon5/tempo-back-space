@@ -30,30 +30,21 @@ const Podium = () => {
   return (
     <PodiumBox>
       <BoxAvatarPodium>
-        <Avatar
-          alt="Remy Sharp"
-          src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
-        />
+        <Avatar alt="Diego Tapias" src="" />
         <Typography variant="caption" color="initial">
-          Deiby Niño
+          Diego Tapias
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-1rem", left: "-35%" }}>
-        <Avatar
-          alt="Travis Howard"
-          src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
-        />
+        <Avatar alt="Daniel Moreno" src="" />
         <Typography variant="caption" color="initial">
-          Deiby Niño
+          Daniel Moreno
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>
-        <Avatar
-          alt="Cindy Baker"
-          src="https://www.shareicon.net/data/128x128/2016/08/05/806962_user_512x512.png"
-        />
+        <Avatar alt="Matilde Puentes" src="" />
         <Typography variant="caption" color="initial">
-          Deiby Niño
+          Matilde Puentes
         </Typography>
       </BoxAvatarPodium>
     </PodiumBox>
