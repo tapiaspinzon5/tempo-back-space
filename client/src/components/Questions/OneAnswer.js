@@ -14,8 +14,8 @@ import { styled } from "@mui/material/styles";
 /* is defined radio icon styled*/
 const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: "50%",
-  width: 16,
-  height: 16,
+  width: 20,
+  height: 20,
   boxShadow:
     theme.palette.mode === "dark"
       ? "0 0 0 1px rgb(16 22 26 / 40%)"
@@ -48,8 +48,8 @@ const BpCheckedIcon = styled(BpIcon)({
     "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
   "&:before": {
     display: "block",
-    width: 16,
-    height: 16,
+    width: 20,
+    height: 20,
     backgroundImage: "radial-gradient(#fff,#fff 28%,transparent 32%)",
     content: '""',
   },
@@ -82,7 +82,16 @@ export const OneAnswer = ({ el, answer, setAnswer }) => {
   };
   return (
     <div>
-      <Card sx={{ margin: "15px", backgroundColor: "#CCCCCC" }}>
+      <Card
+        sx={{
+          margin: "15px 15px 0 15px",
+          borderTopLeftRadius: "10px",
+          borderTopRightRadius: "10px",
+          padding: "1rem 2rem 0 2rem",
+          height: "50vh",
+          backgroundColor: "#E8E8E8",
+        }}
+      >
         <CardContent>
           <Typography variant="h2">
             Question multiple option with unique answer

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import ProgresBar from "../progressCharts/ProgresBar";
+//import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -17,6 +18,16 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
     color: "#000",
   },
 }));
+
+/* const dataP = {
+  name: "PPH",
+  unit: "Seconds",
+  value: 2.31,
+  good: 5,
+  warning: 2,
+  bad: 1,
+  target: 3.5,
+}; */
 
 const dataKPI = [
   {
