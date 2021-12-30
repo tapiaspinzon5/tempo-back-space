@@ -93,12 +93,16 @@ export const OneAnswer = ({ el, answer, setAnswer }) => {
         }}
       >
         <CardContent>
-          <Typography variant="h2">
+          <Typography variant="h3">
             Question multiple option with unique answer
           </Typography>
-          <Typography variant="h4">{el.title}</Typography>
+          <Typography variant="body1" fontSize={20} mt={3}>
+            {el.title}
+          </Typography>
           <br />
-          <Typography variant="p">{el.question}</Typography>
+          <Typography variant="body1" fontSize={20}>
+            {el.question}
+          </Typography>
         </CardContent>
         <CardActions>
           <FormControl component="fieldset">

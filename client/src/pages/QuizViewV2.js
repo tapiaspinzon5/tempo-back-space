@@ -48,15 +48,15 @@ export const QuizViewV2 = () => {
     <div>
       <ContentBox>
         <Grid sx={{ padding: "1rem" }}>
-          <Typography
-            variant="h2"
-            sx={{ width: "70vh" }}
-            fontWeight={500}
-            fontSize={40}
-          >
+          <Typography variant="h3" sx={{ width: "70vh" }} fontWeight={500}>
             Acquire new skills to strengthen your progress
           </Typography>
-          <Typography sx={{ width: "70vh", mt: "5px" }} fontWeight={500}>
+          <Typography
+            sx={{ width: "70vh" }}
+            mt={4}
+            fontWeight={500}
+            fontSize="20px"
+          >
             Learn to create, know and spread the knowledge acquired with the
             games, to make your progress grow.
           </Typography>

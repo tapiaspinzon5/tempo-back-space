@@ -93,25 +93,29 @@ export const TrueFalse = ({ el, answer, setAnswer }) => {
         }}
       >
         <CardContent>
-          <Typography variant="h2">Question True or False</Typography>
-          <Typography variant="h4">{el.title}</Typography>
+          <Typography variant="h3">Question True or False</Typography>
+          <Typography variant="body1" fontSize="20px" mt={3}>
+            {el.title}
+          </Typography>
           <br />
-          <Typography variant="p">{el.question}</Typography>
+          <Typography variant="p" fontSize="20px">
+            {el.question}
+          </Typography>
         </CardContent>
         <CardActions>
-          <FormControl component="fieldset">
+          <FormControl component="fieldset" sx={{ marginLeft: "10px" }}>
             <RadioGroup
-              row
+              column
               name="row-radio-buttons-group"
               onChange={handleChange}
             >
               <FormControlLabel
-                sx={{ ml: "10px" }}
                 checked={answer[el.id] === "true"}
                 value={true}
                 control={<BpRadio />}
                 label="True"
               />
+
               <FormControlLabel
                 checked={answer[el.id] === "false"}
                 value={false}
