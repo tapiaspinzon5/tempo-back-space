@@ -23,6 +23,8 @@ module.exports = (router) => {
   // Ver examenes por IDCSSM
   router.post("/getquizbyagent", routes.getQuizByAgent);
 
+  router.post("/getquizqa", routes.getQuizQA);
+
   router.post("/gethomedata", routes.getHomeData);
 
 

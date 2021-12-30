@@ -218,3 +218,16 @@ exports.getHomeData = async (req, res) =>  {
     responsep(2, req, res, err);
   });
 }
+
+exports.getQuizQA = async (req, res) =>  {
+
+  sql
+  .query('spLoadExamQA', parametros({idccms:req.query.idccms},'spLoadExamQA'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
