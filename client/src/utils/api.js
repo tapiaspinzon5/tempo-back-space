@@ -50,4 +50,22 @@ const uploadQuizes = (data, idccms) => {
   }
 };
 
-export { uploadQuizes };
+const loadQuizes = (idccms) => {
+  console.log(idccms);
+  try {
+    return (
+      axios
+        //.post(`http://localhost:4343/api/ccmslogin`, data)
+        .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+export { uploadQuizes, loadQuizes };
