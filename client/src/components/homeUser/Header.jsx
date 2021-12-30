@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Box, IconButton, styled, Grid } from "@mui/material";
 import coin from "../../assets/images/coin.svg";
+import bannerH from "../../assets/images/bannerHeader.svg";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
@@ -25,9 +26,7 @@ const TitleHeader = styled(Grid)((theme) => ({
   justifyContent: "center",
   alignItems: "center",
   borderRadius: "10px 0 0 10px",
-  h4: {
-    color: "white",
-  },
+  img: {},
 }));
 
 const RightHeader = styled(Grid)((theme) => ({
@@ -61,7 +60,7 @@ const Header = () => {
           color: "text.primary",
         }}
       >
-        <Typography variant="h4">LET´S WIN TOGETHER!</Typography>
+        <img src={bannerH} alt="TP" />
       </TitleHeader>
       <RightHeader item xs={12} md={6}>
         <Box display="flex" alignItems="center">

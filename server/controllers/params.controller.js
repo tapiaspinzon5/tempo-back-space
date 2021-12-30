@@ -79,7 +79,25 @@ let SpParamTable = (nameParam, colums, rows) => {
   }
 }
 
-let JumpEmployee = [
+let SpParamTable2 = (nameParam, colums, rows) => {
+  try {
+    let table;
+    // let obj = {
+    //   table: []
+    // }
+    table = {
+      columns: colums,
+      rows: rows
+    };
+    return { name: nameParam, value: table, type: TYPES.TVP, schema:null };
+    //  obj.table;
+  } catch (error) {
+    console.log(error, 'Tipo Tabla');
+    return error
+  }
+}
+
+let quizTable = [
   { name: 'Pregunta', type: TYPES.VarChar },
   { name: 'Respuesta1', type: TYPES.VarChar },
   { name: 'Respuesta2', type: TYPES.VarChar },
@@ -89,6 +107,19 @@ let JumpEmployee = [
   { name: 'RespuestaCorrecta', type: TYPES.VarChar },
   { name: 'Quartil', type: TYPES.VarChar },
   { name: 'idPregunta', type: TYPES.Int },
+]
+
+let suTable = [
+  { name: 'IdentPM', type: TYPES.Int },
+  { name: 'Campaign', type: TYPES.VarChar },
+  { name: 'KPI', type: TYPES.VarChar }, 
+]
+
+let opsmTable = [
+  { name: 'Ident', type: TYPES.Int },
+  { name: 'Role', type: TYPES.VarChar },
+  { name: 'Team', type: TYPES.VarChar }, 
+  { name: 'Lob', type: TYPES.VarChar }, 
 ]
 
 exports.parametros = (req, tipo) => {
@@ -123,8 +154,21 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
       ]);
-    case "spInsertaExamen":
-      return SpParamTable('table', JumpEmployee, req.rows);
+    case "spInsertExam":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', quizTable, req.rows)
+      ]);
+    case "spInsertTeam":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', suTable, req.rows)
+      ]);
+    case "spInsertOrganizationalUnit":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', opsmTable, req.rows)
+      ]);
     case "spAddJumpRegister":
       return SpParamTable('jumpTable', JumpEmployee, req.rows);
     default:

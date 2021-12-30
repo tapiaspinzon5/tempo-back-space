@@ -45,22 +45,13 @@ const BoxUpQuiz = styled(Box)(({ theme }) => ({
 
 const UploadQuiz = () => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const [data, setData] = React.useState([]);
+  // const [data, setData] = React.useState([]);
   const idccms = userData.idccms;
 
-  const uploadFile = async (e) => {
-    console.log(e.target.files);
-
+  const loadFile = (e) => {
     const fileQuiz = e.target.files[0];
-    if (
-      fileQuiz === undefined ||
-      fileQuiz.type !== "application/vnd.ms-excel"
-    ) {
-      MySwal.fire({
-        title: <p>Only files in .csv format</p>,
-        icon: "error",
-      });
-    } else {
+
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         /* Parse data */
@@ -75,61 +66,85 @@ const UploadQuiz = () => {
           .sheet_to_json(ws, { header: 1 })
           .map((colum) => {
             return [
-              colum[0].toString(),
-              colum[1].toString(),
-              colum[2].toString(),
+              colum[0]?.toString(),
+              colum[1]?.toString(),
+              colum[2]?.toString(),
               colum[3]?.toString(),
               colum[4]?.toString(),
               colum[5],
-              colum[6].toString(),
-              colum[7].toString(),
+              colum[6]?.toString(),
+              colum[7]?.toString(),
             ];
           });
+
+        if (data.length > 1) {
+          let differentsHeaders = validateHeaders(data[0]);
+
+          if (differentsHeaders) {
+            console.log("algo psa amiguito");
+            reject(" Wrong Headers!");
+            return;
+          }
+
+          data.shift();
+          let incorrectValues = validateFields(data);
+
+          if (incorrectValues) {
+            reject(" Wrong values!");
+            return;
+          }
+          resolve(data);
+        } else {
+          reject("No data!");
+        }
         /* Update state */
-        let differentsHeaders = validateHeaders(data[0]);
-        console.log(differentsHeaders);
-
-        if (differentsHeaders) {
-          console.log("algo psa amiguito");
-          MySwal.fire({
-            title: <p>Columns do not match, try again!</p>,
-            icon: "error",
-          });
-          e.target.value = null;
-          return;
-        }
-
-        data.shift();
-
-        let incorrectValues = validateFields(data, idccms);
-
-        if (incorrectValues) {
-          MySwal.fire({
-            title: <p>Wrong data </p>,
-            icon: "error",
-          });
-          e.target.value = null;
-          return;
-        }
-        setData(data);
       };
-
       reader.readAsArrayBuffer(fileQuiz);
-      console.log("archivo correcto");
+    });
+  };
 
-      const resp = await uploadQuizes({ data });
+  const uploadFile = async (e) => {
+    const fileQuiz = e.target.files[0];
+    let data = [];
+
+    if (
+      fileQuiz === undefined ||
+      fileQuiz.type !== "application/vnd.ms-excel"
+    ) {
+      MySwal.fire({
+        title: <p>Only files in .csv format</p>,
+        icon: "error",
+      });
+    } else {
+      try {
+        data = await loadFile(e);
+        e.target.value = null;
+      } catch (error) {
+        console.log(error);
+        MySwal.fire({
+          title: <p> {error} </p>,
+          icon: "error",
+        });
+        e.target.value = null;
+        return;
+      }
+
+      //setData(data);
+      const resp = await uploadQuizes({ data }, idccms);
 
       console.log(resp);
 
-      MySwal.fire({
-        title: <p>File upload</p>,
-        icon: "success",
-      });
-      e.target.value = null;
+      if (resp.status === 200) {
+        MySwal.fire({
+          title: <p>File upload</p>,
+          icon: "success",
+        });
+      }
     }
+
+    console.log("archivo correcto");
   };
 
-  console.log(data);
   console.log(userData);
   return (
     <BoxUpQuiz>
