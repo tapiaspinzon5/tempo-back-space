@@ -154,6 +154,14 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
       ]);
+    case "spQueryExamEmployee":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
+    case "spQueryDashBoarhAgent":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
     case "spInsertExam":
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
