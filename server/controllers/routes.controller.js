@@ -191,3 +191,30 @@ exports.uploadOpsM = async (req, res) =>  {
       });
   })
 }
+
+
+exports.getQuizByAgent = async (req, res) =>  {
+
+  sql
+  .query('spQueryExamEmployee', parametros({idccms:req.query.idccms},'spQueryExamEmployee'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
+
+exports.getHomeData = async (req, res) =>  {
+
+  sql
+  .query('spQueryDashBoarhAgent', parametros({idccms:req.query.idccms},'spQueryDashBoarhAgent'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
