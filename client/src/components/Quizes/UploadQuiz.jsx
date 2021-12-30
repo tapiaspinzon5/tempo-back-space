@@ -1,8 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { Box, styled } from "@mui/system";
+import XLSX from "xlsx";
+import { validateFields, validateHeaders } from "../../helpers/helpers";
+import { uploadQuizes } from "../../utils/api";
 
 const MySwal = withReactContent(Swal);
 
@@ -40,27 +44,108 @@ const BoxUpQuiz = styled(Box)(({ theme }) => ({
 }));
 
 const UploadQuiz = () => {
-  const uploadFile = (e) => {
-    console.log(e.target.files[0]);
+  const userData = useSelector((store) => store.loginUser.userData);
+  // const [data, setData] = React.useState([]);
+  const idccms = userData.idccms;
+
+  const loadFile = (e) => {
     const fileQuiz = e.target.files[0];
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        /* Parse data */
+        const ab = e.target.result;
+        const wb = XLSX.read(ab, { type: "array" });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        //const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        const data = XLSX.utils
+          .sheet_to_json(ws, { header: 1 })
+          .map((colum) => {
+            return [
+              colum[0]?.toString(),
+              colum[1]?.toString(),
+              colum[2]?.toString(),
+              colum[3]?.toString(),
+              colum[4]?.toString(),
+              colum[5],
+              colum[6]?.toString(),
+              colum[7]?.toString(),
+            ];
+          });
+
+        if (data.length > 1) {
+          let differentsHeaders = validateHeaders(data[0]);
+
+          if (differentsHeaders) {
+            console.log("algo psa amiguito");
+            reject(" Wrong Headers!");
+            return;
+          }
+
+          data.shift();
+          let incorrectValues = validateFields(data);
+
+          if (incorrectValues) {
+            reject(" Wrong values!");
+            return;
+          }
+          resolve(data);
+        } else {
+          reject("No data!");
+        }
+        /* Update state */
+      };
+      reader.readAsArrayBuffer(fileQuiz);
+    });
+  };
+
+  const uploadFile = async (e) => {
+    const fileQuiz = e.target.files[0];
+    let data = [];
+
     if (
       fileQuiz === undefined ||
       fileQuiz.type !== "application/vnd.ms-excel"
     ) {
-      console.log("solo archivos en formato .csv");
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-      console.log("archivo correcto");
-      MySwal.fire({
-        title: <p>File upload</p>,
-        icon: "success",
-      });
+      try {
+        data = await loadFile(e);
+        e.target.value = null;
+      } catch (error) {
+        console.log(error);
+        MySwal.fire({
+          title: <p> {error} </p>,
+          icon: "error",
+        });
+        e.target.value = null;
+        return;
+      }
+
+      //setData(data);
+      const resp = await uploadQuizes({ data }, idccms);
+
+      console.log(resp);
+
+      if (resp.status === 200) {
+        MySwal.fire({
+          title: <p>File upload</p>,
+          icon: "success",
+        });
+      }
     }
+
+    console.log("archivo correcto");
   };
 
+  console.log(userData);
   return (
     <BoxUpQuiz>
       <label htmlFor="quiz">

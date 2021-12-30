@@ -68,6 +68,7 @@ export const loginSubmit = (data) => async (dispatch) => {
         refreshToken: requestData.data.refreshToken,
         role: requestData.data.role,
         username: requestData.data.username,
+        idccms: requestData.data.idccms,
       })
     );
   } catch (error) {

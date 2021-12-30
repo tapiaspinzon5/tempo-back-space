@@ -12,10 +12,16 @@ function login(req, res) {
   //     pass : req.body.body.password,
   // }
 
-  // const btoaData = btoa(JSON.stringify(newBody));
-  // const bdata = {body: 's'+ btoaData};
+  //  const newBody = {
+  //      user : req.body.body.id,
+  //      pass : req.body.body.password,
+  //  }
+
+  //  const btoaData = btoa(JSON.stringify(newBody));
+  //  const bdata = {body: 's'+ btoaData};
 
   let data = {
+    //   body: bdata.body,
     body: req.body.body,
     timeTkn: 100,
     project: process.env.PROJECT,
@@ -33,10 +39,8 @@ function login(req, res) {
           parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee")
         )
         .then((result2) => {
-          console.log(result2);
           responsep(1, req, res, {
             ...result.data.data,
-
             role: result2[0].Role,
           });
         })
@@ -46,10 +50,12 @@ function login(req, res) {
         });
 
       // responsep(1, req, res, result.data.data);
+
+      // role: result2[0].Role,
     })
-    .catch((error) => {
-      console.log(error);
-      responsep(2, req, res, error);
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
     });
 }
 
