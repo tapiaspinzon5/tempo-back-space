@@ -28,7 +28,7 @@ const UpQuiz = () => {
   useEffect(() => {
     const getData = async () => {
       const quizes = await loadQuizes(idccms);
-      setMisQuizes(quizes);
+      setMisQuizes(quizes.data);
     };
 
     getData();
@@ -48,9 +48,11 @@ const UpQuiz = () => {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <UploadQuiz idccms={idccms} />
           </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <CardQuizDesc />
-          </Grid>
+          {misQuizes?.map((quiz) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={quiz.IdExamen}>
+              <CardQuizDesc quiz={quiz} />
+            </Grid>
+          ))}
         </Grid>
       </MainUpQuiz>
       <Footer />

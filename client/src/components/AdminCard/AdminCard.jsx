@@ -25,6 +25,9 @@ const CardContent = styled(Box)(({ theme }) => ({
   padding: "15px",
   alignItems: "center",
   justifyContent: "center",
+  "&:hover": {
+    background: "red",
+  },
 }));
 
 export const AdminCard = ({ data, disabledCard }) => {
