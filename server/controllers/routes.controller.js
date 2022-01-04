@@ -206,6 +206,21 @@ exports.getQuizByAgent = async (req, res) =>  {
   });
 }
 
+exports.getQuizDetail = async (req, res) =>  {
+
+  let {idQuiz} = req.body;
+
+  sql
+  .query('spQueryExamDetail', parametros({idccms:req.query.idccms,idQuiz},'spQueryExamDetail'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
+
 exports.getHomeData = async (req, res) =>  {
 
   sql
