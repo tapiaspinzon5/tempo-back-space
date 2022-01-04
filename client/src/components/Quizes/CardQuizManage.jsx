@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import ProgresBar from "../progressCharts/ProgresBar";
 import { useNavigate } from "react-router-dom";
@@ -51,44 +51,52 @@ const DownSection = styled(Box)(({ theme }) => ({
 
 const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
   const navigate = useNavigate();
+  const [active, setActive] = useState(false);
+  const [background, setbackground] = useState(false);
 
-  let background;
-  let state;
-  switch (stateActivity) {
-    case 1:
-      background = "FF0000 0% 0% no-repeat padding-box";
-      state = "Failed";
-      break;
-    case 2:
-      background = "#F5D200 0% 0% no-repeat padding-box";
-      state = "Pending";
-      break;
-    case 3:
-      background =
-        "transparent linear-gradient(180deg, #3047B0 0%, #0087FF 100%) 0% 0% no-repeat padding-box";
-      state = "Start";
-      break;
-    case 4:
-      background = "#00D769 0% 0% no-repeat padding-box";
-      state = "Complete";
-      break;
-    default:
-      break;
-  }
+  useEffect(() => {
+    switch (stateActivity) {
+      case "Failed":
+        setbackground("FF0000 0% 0% no-repeat padding-box");
+        setActive(true);
+        break;
+      case "Pending":
+        setbackground("#F5D200 0% 0% no-repeat padding-box");
+
+        break;
+      case "Start":
+        setbackground(
+          "transparent linear-gradient(180deg, #3047B0 0%, #0087FF 100%) 0% 0% no-repeat padding-box"
+        );
+        break;
+      case "Complete":
+        setbackground("#00D769 0% 0% no-repeat padding-box");
+        setActive(true);
+        break;
+      default:
+        break;
+    }
+  }, [stateActivity]);
+  console.log(stateActivity);
 
   return (
     <>
       <CardViewer>
         <img src={image} alt="img" />
         <Typography variant="h6" fontWeight="bold">
-          {nameQuiz}
+          Quiz id: {nameQuiz}
         </Typography>
         <Box width={185}>
           <ProgresBar value={progress} />
         </Box>
       </CardViewer>
       <DownSection sx={{ background }}>
-        <Button onClick={() => navigate("/quizdetails")}>{state}</Button>
+        <Button
+          onClick={() => navigate(`/quizdetails/${nameQuiz}`)}
+          disabled={active}
+        >
+          {stateActivity}
+        </Button>
       </DownSection>
     </>
   );

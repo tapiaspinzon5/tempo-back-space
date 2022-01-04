@@ -21,6 +21,7 @@ const CardContent = styled(Box)(({ theme }) => ({
   width: "55vh",
   height: "70vh",
   backgroundColor: "#f9f9f9",
+
   borderRadius: "10px",
   padding: "15px",
   alignItems: "center",

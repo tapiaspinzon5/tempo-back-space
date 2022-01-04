@@ -25,7 +25,7 @@ const data = [
     title: "Account Name Assignment",
   },
   { id: 2, url: img2, title: "Creation of LOB´s" },
-  { id: 3, url: img3, title: "Assigning Team Leads" },
+  { id: 3, url: img3, title: "Assigning Team Members" },
 ];
 
 export const HomeOM = () => {
@@ -34,9 +34,9 @@ export const HomeOM = () => {
       <MainHomeOM sx={{ bgcolor: "background.default", color: "text.primary" }}>
         <Header />
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <AdminCard data={data[0]} />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={4}>
             <AdminCard data={data[1]} />
           </Grid>

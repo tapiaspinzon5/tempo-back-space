@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Grid, Button, Box } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import quizdesc from "../../assets/images/quizdesc.png";
@@ -19,6 +19,9 @@ const MainDatailsQuiz = styled(Grid)(({ theme }) => ({
 const QuizDetails = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const paramsQuiz = useParams();
+  const { idquiz } = paramsQuiz;
+  console.log(idquiz);
   return (
     <MainDatailsQuiz container>
       <Grid
@@ -43,7 +46,7 @@ const QuizDetails = () => {
           games, to make your progress grow.
         </Typography>
         <Button
-          onClick={() => navigate("/quiz")}
+          onClick={() => navigate(`/quiz/${idquiz}`)}
           sx={{
             background: theme.palette.background.primary,
             color: "#FFFFFF",

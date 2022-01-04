@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { MultiAnswer } from "../components/Questions/MultiAnswer";
@@ -6,6 +8,7 @@ import { OneAnswer } from "../components/Questions/OneAnswer";
 import { TrueFalse } from "../components/Questions/TrueFalse";
 import DB from "../components/Questions/data.json";
 import Footer from "../components/Footer";
+import { getExam } from "../utils/api";
 
 const ContentBox = styled(Box)({
   display: "flex",
@@ -15,10 +18,26 @@ const ContentBox = styled(Box)({
 });
 
 export const QuizViewV2 = () => {
+  const paramsQuiz = useParams();
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.idccms;
+  const { idquiz } = paramsQuiz;
+  const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState({});
   const [data, setData] = useState(null);
   const [next, setNext] = useState(0);
   const theme = useTheme();
+
+  console.log(idquiz);
+
+  useEffect(() => {
+    const getData = async () => {
+      const quiz = await getExam(idccms, idquiz);
+      setQuiz(quiz.data);
+    };
+
+    getData();
+  }, []);
 
   useEffect(() => {
     setData(DB.data);
@@ -61,7 +80,7 @@ export const QuizViewV2 = () => {
             games, to make your progress grow.
           </Typography>
         </Grid>
-        {data &&
+        {/* {data &&
           [data[next]].map((el) =>
             el.type === "TF" ? (
               <TrueFalse
@@ -136,7 +155,7 @@ export const QuizViewV2 = () => {
               Finalizar
             </Button>
           )}
-        </Box>
+        </Box> */}
         <Footer />
       </ContentBox>
     </div>

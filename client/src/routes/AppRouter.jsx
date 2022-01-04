@@ -48,8 +48,8 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/quiz" element={<QuizViewV2 />} />
-              <Route path="/quizdetails" element={<QuizDetails />} />
+              <Route path="/quiz/:idquiz" element={<QuizViewV2 />} />
+              <Route path="/quizdetails/:idquiz" element={<QuizDetails />} />
             </>
           )}
 

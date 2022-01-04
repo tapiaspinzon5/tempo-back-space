@@ -68,4 +68,43 @@ const loadQuizes = (idccms) => {
   }
 };
 
-export { uploadQuizes, loadQuizes };
+const loadQuizesUser = (idccms) => {
+  console.log(idccms);
+  try {
+    return (
+      axios
+        //.post(`http://localhost:4343/api/ccmslogin`, data)
+        .post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const getExam = (idccms, idquiz) => {
+  console.log(idccms);
+  try {
+    return (
+      axios
+        //.post(`http://localhost:4343/api/ccmslogin`, data)
+        .post(
+          `http://localhost:4343/api/getQuizDetail?idccms=${idccms}`,
+          idquiz
+        )
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+export { uploadQuizes, loadQuizes, loadQuizesUser, getExam };
