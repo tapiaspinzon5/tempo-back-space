@@ -159,6 +159,17 @@ exports.uploadSU = async (req, res) =>  {
         responsep(2, req, res, err);
       });
   })
+
+
+  // sql
+  // .query('spInsertTeam', parametros({idccms:req.query.idccms, rows:req.body.data},'spInsertTeam'))
+  // .then((result) => {
+  //   responsep(1, req, res, result);
+  // })
+  // .catch((err) => {
+  //   console.log(err, 'sp')
+  //   responsep(2, req, res, err);
+  // });
 }
 
 exports.uploadOpsM = async (req, res) =>  {
@@ -221,6 +232,21 @@ exports.getQuizDetail = async (req, res) =>  {
   });
 }
 
+exports.getResultQuiz = async (req, res) =>  {
+
+  let {quizResolved} = req.body;
+
+  sql
+  .query('spInsertExamResult', parametros({idccms:req.query.idccms,quizResolved},'spInsertExamResult'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
+
 exports.getHomeData = async (req, res) =>  {
 
   sql
@@ -235,7 +261,6 @@ exports.getHomeData = async (req, res) =>  {
 }
 
 exports.getQuizQA = async (req, res) =>  {
-
   sql
   .query('spLoadExamQA', parametros({idccms:req.query.idccms},'spLoadExamQA'))
   .then((result) => {
