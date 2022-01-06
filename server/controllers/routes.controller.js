@@ -132,33 +132,43 @@ exports.saveQuiz = async (req, res) =>  {
 
 exports.uploadSU = async (req, res) =>  {
   
-  let form = new multiparty.Form();
+  // let form = new multiparty.Form();
   
-  form.parse(req, async function(err, fields, files) {
-    // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
-    //   //req.body.error = "Datos de User y/o lob inválidos";
-    //   //next();
-    //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
-    // }else{
+  // form.parse(req, async function(err, fields, files) {
+  //   // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
+  //   //   //req.body.error = "Datos de User y/o lob inválidos";
+  //   //   //next();
+  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
+  //   // }else{
 
-    const workbook = xlsx.readFile(files.file[0].path);
-    const sheetNames = workbook.SheetNames;
+  //   const workbook = xlsx.readFile(files.file[0].path);
+  //   const sheetNames = workbook.SheetNames;
     
-    const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
+  //   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
 
-    // Removemos los headers para enviar a DB
-    data.shift()
+  //   // Removemos los headers para enviar a DB
+  //   data.shift()
 
-    sql
-      .query('spInsertTeam', parametros({idccms:req.query.idccms, rows:data},'spInsertTeam'))
-      .then((result) => {
-        responsep(1, req, res, result);
-      })
-      .catch((err) => {
-        console.log(err, 'sp')
-        responsep(2, req, res, err);
-      });
+  //   sql
+  //     .query('spInsertTeam', parametros({idccms:req.query.idccms, rows:data},'spInsertTeam'))
+  //     .then((result) => {
+  //       responsep(1, req, res, result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err, 'sp')
+  //       responsep(2, req, res, err);
+  //     });
+  // })
+
+  sql
+  .query('spInsertTeam', parametros({idccms:req.query.idccms, rows:req.body.data},'spInsertTeam'))
+  .then((result) => {
+    responsep(1, req, res, result);
   })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
 }
 
 exports.uploadOpsM = async (req, res) =>  {
@@ -221,6 +231,21 @@ exports.getQuizDetail = async (req, res) =>  {
   });
 }
 
+exports.getResultQuiz = async (req, res) =>  {
+
+  let {quizResolved} = req.body;
+
+  sql
+  .query('spInsertExamResult', parametros({idccms:req.query.idccms,quizResolved},'spInsertExamResult'))
+  .then((result) => {
+    responsep(1, req, res, result);
+  })
+  .catch((err) => {
+    console.log(err, 'sp')
+    responsep(2, req, res, err);
+  });
+}
+
 exports.getHomeData = async (req, res) =>  {
 
   sql
@@ -235,7 +260,6 @@ exports.getHomeData = async (req, res) =>  {
 }
 
 exports.getQuizQA = async (req, res) =>  {
-
   sql
   .query('spLoadExamQA', parametros({idccms:req.query.idccms},'spLoadExamQA'))
   .then((result) => {

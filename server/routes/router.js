@@ -25,11 +25,12 @@ module.exports = (router) => {
  
   // Ver examenes por IDCSSM
   router.post("/getQuizDetail", routes.getQuizDetail);
+  
+  router.post("/getresultquiz", routes.getResultQuiz);
 
   router.post("/getquizqa", routes.getQuizQA);
 
   router.post("/gethomedata", routes.getHomeData);
-
 
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
