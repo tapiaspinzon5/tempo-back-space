@@ -44,7 +44,7 @@ const CardQuizDesc = ({ quiz }) => {
         </IconButton>
       </Box>
 
-      <img src="../imagen.jpg" alt="quiz" />
+      <img src="" alt="" />
 
       <Typography variant="h6" fontWeight="bold" align="center">
         Quiz {IdExamen}
@@ -56,7 +56,7 @@ const CardQuizDesc = ({ quiz }) => {
         {fechaRegistro}
       </Typography>
       <Typography variant="body2" align="center">
-        Prguntas: {CantidadPreguntas}
+        Preguntas: {CantidadPreguntas}
       </Typography>
     </CardQuiz>
   );

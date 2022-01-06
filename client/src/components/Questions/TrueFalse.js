@@ -76,9 +76,9 @@ function BpRadio(props) {
   );
 }
 
-export const TrueFalse = ({ el, answer, setAnswer }) => {
+export const TrueFalse = ({ question, answer, setAnswer }) => {
   const handleChange = (e) => {
-    setAnswer({ ...answer, [el.id]: e.target.value });
+    setAnswer({ ...answer, [question.Idpregunta]: e.target.value });
   };
   return (
     <div>
@@ -95,11 +95,11 @@ export const TrueFalse = ({ el, answer, setAnswer }) => {
         <CardContent>
           <Typography variant="h3">Question True or False</Typography>
           <Typography variant="body1" fontSize="20px" mt={3}>
-            {el.title}
+            {question.NombreExamen}
           </Typography>
           <br />
           <Typography variant="p" fontSize="20px">
-            {el.question}
+            {question.Pregunta}
           </Typography>
         </CardContent>
         <CardActions>
@@ -110,14 +110,14 @@ export const TrueFalse = ({ el, answer, setAnswer }) => {
               onChange={handleChange}
             >
               <FormControlLabel
-                checked={answer[el.id] === "true"}
+                checked={answer[question.Idpregunta] === "true"}
                 value={true}
                 control={<BpRadio />}
                 label="True"
               />
 
               <FormControlLabel
-                checked={answer[el.id] === "false"}
+                checked={answer[question.Idpregunta] === "false"}
                 value={false}
                 control={<BpRadio />}
                 label="False"

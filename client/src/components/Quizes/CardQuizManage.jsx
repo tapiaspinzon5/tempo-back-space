@@ -4,7 +4,8 @@ import ProgresBar from "../progressCharts/ProgresBar";
 import { useNavigate } from "react-router-dom";
 
 const CardViewer = styled(Box)(({ theme }) => ({
-  height: "14rem",
+  //height: "14rem",
+  height: "7rem",
   maxWidth: "20rem",
   boxShadow: "1px 1px 5px #A2A2A2",
   borderRadius: "10px 10px 0 0 ",
@@ -82,7 +83,7 @@ const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
   return (
     <>
       <CardViewer>
-        <img src={image} alt="img" />
+        {/* <img src={image} alt="img" /> */}
         <Typography variant="h6" fontWeight="bold">
           Quiz id: {nameQuiz}
         </Typography>

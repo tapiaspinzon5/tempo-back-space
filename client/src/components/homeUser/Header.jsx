@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import coin from "../../assets/images/coin.svg";
-import bannerH from "../../assets/images/bannerHeader.svg";
+import bannerH from "../../assets/images/bannerHeader.png";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";

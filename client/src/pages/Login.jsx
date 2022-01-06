@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Grid,
@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import Swal from "sweetalert2";
 import imgLogin from "../assets/images/login.svg";
 import tpLogo from "../assets/images/logo-tp-blue.svg";
 import tpmar from "../assets/images/tp-mar-blue.svg";
@@ -74,6 +74,26 @@ const Login = () => {
   });
 
   const handleSubmit = async (e) => {
+    if (!values.password.trim() || !values.account.trim()) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "warning",
+        title: "All fields are required!!",
+      });
+      return;
+    }
+
     e.preventDefault();
     const body = {
       user: values.account,
@@ -83,8 +103,10 @@ const Login = () => {
     const bdata = { body: "s" + btoaData };
     //lanzamiento funcion login en el Duck
     dispatch(loginSubmit(bdata));
+    console.log(userData);
   };
 
+  //console.log("rta:", userData);
   return (
     <Grid container>
       <Grid item xs={12} md={6}>

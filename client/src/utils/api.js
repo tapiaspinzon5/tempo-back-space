@@ -92,10 +92,9 @@ const getExam = (idccms, idquiz) => {
     return (
       axios
         //.post(`http://localhost:4343/api/ccmslogin`, data)
-        .post(
-          `http://localhost:4343/api/getQuizDetail?idccms=${idccms}`,
-          idquiz
-        )
+        .post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
+          idQuiz: idquiz,
+        })
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -107,4 +106,29 @@ const getExam = (idccms, idquiz) => {
   }
 };
 
-export { uploadQuizes, loadQuizes, loadQuizesUser, getExam };
+//Peticion carga de achivos creacion de equipos SuperUser
+
+const createTeamSuperUser = (idccms, dataCSV) => {
+  console.log(idccms);
+  try {
+    return axios
+      .post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+export {
+  uploadQuizes,
+  loadQuizes,
+  loadQuizesUser,
+  getExam,
+  createTeamSuperUser,
+};

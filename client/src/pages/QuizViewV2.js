@@ -23,7 +23,7 @@ export const QuizViewV2 = () => {
   const idccms = userData.idccms;
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
-  const [answer, setAnswer] = useState({});
+  const [answer, setAnswer] = useState([]);
   const [data, setData] = useState(null);
   const [next, setNext] = useState(0);
   const theme = useTheme();
@@ -39,19 +39,6 @@ export const QuizViewV2 = () => {
     getData();
   }, []);
 
-  useEffect(() => {
-    setData(DB.data);
-    setAnswer(() => {
-      const d = {};
-      DB.data.forEach((el) => {
-        el.type !== "MA"
-          ? (d[el.id] = "")
-          : (d[el.id] = { OA: "", OB: "", OC: "", OD: "" });
-      });
-      return d;
-    });
-  }, []);
-  //console.log(data[next]);
   const handleNext = () => {
     setNext(next + 1);
   };
@@ -61,103 +48,102 @@ export const QuizViewV2 = () => {
 
   const handleFin = () => {
     //submit the answers
+    console.log(answer);
   };
+  console.log(quiz);
 
   return (
-    <div>
-      <ContentBox>
-        <Grid sx={{ padding: "1rem" }}>
-          <Typography variant="h3" sx={{ width: "70vh" }} fontWeight={500}>
-            Acquire new skills to strengthen your progress
-          </Typography>
-          <Typography
-            sx={{ width: "70vh" }}
-            mt={4}
-            fontWeight={500}
-            fontSize="20px"
-          >
-            Learn to create, know and spread the knowledge acquired with the
-            games, to make your progress grow.
-          </Typography>
-        </Grid>
-        {/* {data &&
-          [data[next]].map((el) =>
-            el.type === "TF" ? (
-              <TrueFalse
-                key={el.id}
-                el={el}
-                answer={answer}
-                setAnswer={setAnswer}
-              />
-            ) : el.type === "OA" ? (
-              <OneAnswer
-                key={el.id}
-                el={el}
-                answer={answer}
-                setAnswer={setAnswer}
-              />
-            ) : (
-              <MultiAnswer
-                key={el.id}
-                el={el}
-                answer={answer}
-                setAnswer={setAnswer}
-              />
-            )
-          )}
-        <Box
-          sx={{
-            margin: "0 15px 0 15px",
-            borderBottomRightRadius: "10px",
-            borderBottomLeftRadius: "10px",
-            display: "flex",
-            justifyContent: "flex-end",
-            backgroundColor: "#E8E8E8",
-            padding: "0 2rem 2rem 0",
-          }}
+    <ContentBox>
+      <Grid sx={{ padding: "1rem" }}>
+        <Typography variant="h3" sx={{ width: "70vh" }} fontWeight={500}>
+          Acquire new skills to strengthen your progress
+        </Typography>
+        <Typography
+          sx={{ width: "70vh" }}
+          mt={4}
+          fontWeight={500}
+          fontSize="20px"
         >
-          {data && next + 1 < data.length && (
-            <Button
-              onClick={handleNext}
-              sx={{
-                background: theme.palette.background.primary,
-                color: "#FFFFFF",
-                margin: "10px",
-                width: "160px",
-              }}
-            >
-              Next
-            </Button>
-          )}
-          {next !== 0 && (
-            <Button
-              onClick={handleBack}
-              sx={{
-                background: theme.palette.background.primary,
-                color: "#FFFFFF",
-                margin: "10px",
-                width: "160px",
-              }}
-            >
-              Back
-            </Button>
-          )}
-          {data && next + 1 === data.length && (
-            <Button
-              onClick={handleFin}
-              sx={{
-                background: theme.palette.background.primary,
-                color: "#FFFFFF",
-                margin: "10px",
-                width: "160px",
-              }}
-            >
-              Finalizar
-            </Button>
-          )}
-        </Box> */}
-        <Footer />
-      </ContentBox>
-    </div>
+          Learn to create, know and spread the knowledge acquired with the
+          games, to make your progress grow.
+        </Typography>
+      </Grid>
+
+      {/* {quiz.map((question) => (
+          <OneAnswer
+            key={question.Idpregunta}
+            question={question}
+            answer={answer}
+            setAnswer={setAnswer}
+          />
+        ))} */}
+      {quiz.length > 0 &&
+        (quiz[next].Respuesta3 === null ? (
+          <TrueFalse
+            question={quiz[next]}
+            answer={answer}
+            setAnswer={setAnswer}
+          />
+        ) : (
+          <OneAnswer
+            question={quiz[next]}
+            answer={answer}
+            setAnswer={setAnswer}
+          />
+        ))}
+
+      <Box
+        sx={{
+          margin: "0 15px 0 15px",
+          borderBottomRightRadius: "10px",
+          borderBottomLeftRadius: "10px",
+          display: "flex",
+          justifyContent: "flex-end",
+          backgroundColor: "#E8E8E8",
+          padding: "0 2rem 2rem 0",
+        }}
+      >
+        {next !== 0 && (
+          <Button
+            onClick={handleBack}
+            sx={{
+              background: theme.palette.background.primary,
+              color: "#FFFFFF",
+              margin: "10px",
+              width: "160px",
+            }}
+          >
+            Back
+          </Button>
+        )}
+        {quiz && next + 1 < quiz.length && (
+          <Button
+            onClick={handleNext}
+            sx={{
+              background: theme.palette.background.primary,
+              color: "#FFFFFF",
+              margin: "10px",
+              width: "160px",
+            }}
+          >
+            Next
+          </Button>
+        )}
+        {quiz && next + 1 === quiz.length && (
+          <Button
+            onClick={handleFin}
+            sx={{
+              background: theme.palette.background.primary,
+              color: "#FFFFFF",
+              margin: "10px",
+              width: "160px",
+            }}
+          >
+            Send Quiz
+          </Button>
+        )}
+      </Box>
+      <Footer />
+    </ContentBox>
   );
 };

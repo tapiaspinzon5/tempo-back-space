@@ -76,10 +76,33 @@ function BpRadio(props) {
   );
 }
 
-export const OneAnswer = ({ el, answer, setAnswer }) => {
+export const OneAnswer = ({ question, answer, setAnswer }) => {
   const handleChange = (e) => {
-    setAnswer({ ...answer, [el.id]: e.target.value });
+    setAnswer({ ...answer, [question.Idpregunta]: e.target.value });
   };
+  console.log(question);
+
+  //   const {
+  //     IdExamen,
+  //     Idpregunta,
+  //     NombreExamen,
+  //     Pregunta,
+  //     Respuesta1,
+  //     Respuesta2,
+  //     Respuesta3,
+  //     Respuesta4,
+  //   } = question;
+
+  //   console.log(
+  //     IdExamen,
+  //     Idpregunta,
+  //     NombreExamen,
+  //     Pregunta,
+  //     Respuesta1,
+  //     Respuesta2,
+  //     Respuesta3,
+  //     Respuesta4
+  //   );
   return (
     <div>
       <Card
@@ -88,48 +111,48 @@ export const OneAnswer = ({ el, answer, setAnswer }) => {
           borderTopLeftRadius: "10px",
           borderTopRightRadius: "10px",
           padding: "1rem 2rem 0 2rem",
-          height: "50vh",
+          minHeight: "50vh",
           backgroundColor: "#E8E8E8",
         }}
       >
         <CardContent>
-          <Typography variant="h3">
-            Question multiple option with unique answer
+          <Typography variant="h4">
+            Quiz {question.IdExamen} - {question.NombreExamen}
           </Typography>
           <Typography variant="body1" fontSize={20} mt={3}>
-            {el.title}
+            {question.title}
           </Typography>
           <br />
           <Typography variant="body1" fontSize={20}>
-            {el.question}
+            {question.Pregunta}
           </Typography>
         </CardContent>
         <CardActions>
           <FormControl component="fieldset">
             <RadioGroup onChange={handleChange} name="row-radio-buttons-group">
               <FormControlLabel
-                checked={answer[el.id] === el.options.optionA}
-                value={el.options.optionA}
-                label={el.options.optionA}
+                checked={answer[question.Idpregunta] === question.Respuesta1}
+                value={question.Respuesta1}
+                label={question.Respuesta1}
                 control={<BpRadio />}
               />
               <FormControlLabel
-                checked={answer[el.id] === el.options.optionB}
-                value={el.options.optionB}
+                checked={answer[question.Idpregunta] === question.Respuesta2}
+                value={question.Respuesta2}
                 control={<BpRadio />}
-                label={el.options.optionB}
+                label={question.Respuesta2}
               />
               <FormControlLabel
-                checked={answer[el.id] === el.options.optionC}
-                value={el.options.optionC}
+                checked={answer[question.Idpregunta] === question.Respuesta3}
+                value={question.Respuesta3}
                 control={<BpRadio />}
-                label={el.options.optionC}
+                label={question.Respuesta3}
               />
               <FormControlLabel
-                checked={answer[el.id] === el.options.optionD}
-                value={el.options.optionD}
+                checked={answer[question.Idpregunta] === question.Respuesta4}
+                value={question.Respuesta4}
                 control={<BpRadio />}
-                label={el.options.optionD}
+                label={question.Respuesta4}
               />
             </RadioGroup>
           </FormControl>

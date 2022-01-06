@@ -35,7 +35,7 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
-  console.log(userData);
+  //console.log(userData);
 
   return (
     <Router>
