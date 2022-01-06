@@ -32,9 +32,6 @@ module.exports = (router) => {
 
   router.post("/gethomedata", routes.getHomeData);
 
-
-
-
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
   MapSpRouter("/sqlupdate", "spUpdateCentral");
