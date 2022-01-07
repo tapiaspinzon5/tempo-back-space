@@ -108,11 +108,28 @@ const getExam = (idccms, idquiz) => {
 
 //Peticion carga de achivos creacion de equipos SuperUser
 
-const createTeamSuperUser = (idccms, dataCSV) => {
+const createTeamSuperUser = (dataCSV, idccms) => {
   console.log(idccms);
   try {
     return axios
       .post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const createTeamOperationManager = (dataCSV, idccms) => {
+  console.log(idccms);
+  try {
+    return axios
+      .post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
         data: dataCSV,
       })
       .catch(function (error) {
@@ -131,4 +148,5 @@ export {
   loadQuizesUser,
   getExam,
   createTeamSuperUser,
+  createTeamOperationManager,
 };

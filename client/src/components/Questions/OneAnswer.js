@@ -82,27 +82,6 @@ export const OneAnswer = ({ question, answer, setAnswer }) => {
   };
   console.log(question);
 
-  //   const {
-  //     IdExamen,
-  //     Idpregunta,
-  //     NombreExamen,
-  //     Pregunta,
-  //     Respuesta1,
-  //     Respuesta2,
-  //     Respuesta3,
-  //     Respuesta4,
-  //   } = question;
-
-  //   console.log(
-  //     IdExamen,
-  //     Idpregunta,
-  //     NombreExamen,
-  //     Pregunta,
-  //     Respuesta1,
-  //     Respuesta2,
-  //     Respuesta3,
-  //     Respuesta4
-  //   );
   return (
     <div>
       <Card
@@ -135,18 +114,21 @@ export const OneAnswer = ({ question, answer, setAnswer }) => {
                 value={question.Respuesta1}
                 label={question.Respuesta1}
                 control={<BpRadio />}
+                sx={{ marginBottom: "1rem" }}
               />
               <FormControlLabel
                 checked={answer[question.Idpregunta] === question.Respuesta2}
                 value={question.Respuesta2}
                 control={<BpRadio />}
                 label={question.Respuesta2}
+                sx={{ marginBottom: "1rem" }}
               />
               <FormControlLabel
                 checked={answer[question.Idpregunta] === question.Respuesta3}
                 value={question.Respuesta3}
                 control={<BpRadio />}
                 label={question.Respuesta3}
+                sx={{ marginBottom: "1rem" }}
               />
               <FormControlLabel
                 checked={answer[question.Idpregunta] === question.Respuesta4}

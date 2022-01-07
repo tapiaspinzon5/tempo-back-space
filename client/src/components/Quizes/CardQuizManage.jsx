@@ -50,12 +50,29 @@ const DownSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
+const CardQuizManage = ({
+  stateActivity,
+  image,
+  nameQuiz,
+  progress,
+  idQuiz,
+  CantidadPreguntas,
+  PreguntasRespondidas,
+}) => {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const [valueProgress, setValueProgress] = useState(0);
   const [background, setbackground] = useState(false);
 
   useEffect(() => {
+    if (PreguntasRespondidas !== 0) {
+      const result = parseInt((PreguntasRespondidas * 100) / CantidadPreguntas);
+      console.log(result);
+      setValueProgress(result);
+    } else {
+      setValueProgress(0);
+    }
+
     switch (stateActivity) {
       case "Failed":
         setbackground("FF0000 0% 0% no-repeat padding-box");
@@ -70,7 +87,7 @@ const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
           "transparent linear-gradient(180deg, #3047B0 0%, #0087FF 100%) 0% 0% no-repeat padding-box"
         );
         break;
-      case "Complete":
+      case "Approved":
         setbackground("#00D769 0% 0% no-repeat padding-box");
         setActive(true);
         break;
@@ -79,21 +96,22 @@ const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
     }
   }, [stateActivity]);
   console.log(stateActivity);
-
+  console.log(valueProgress);
   return (
     <>
       <CardViewer>
         {/* <img src={image} alt="img" /> */}
         <Typography variant="h6" fontWeight="bold">
-          Quiz id: {nameQuiz}
+          {nameQuiz}
         </Typography>
+        <Typography variant="body1">Quiz id: {idQuiz}</Typography>
         <Box width={185}>
-          <ProgresBar value={progress} />
+          <ProgresBar value={valueProgress} />
         </Box>
       </CardViewer>
       <DownSection sx={{ background }}>
         <Button
-          onClick={() => navigate(`/quizdetails/${nameQuiz}`)}
+          onClick={() => navigate(`/quizdetails/${idQuiz}`)}
           disabled={active}
         >
           {stateActivity}

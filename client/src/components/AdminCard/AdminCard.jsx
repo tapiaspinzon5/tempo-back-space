@@ -127,7 +127,7 @@ export const AdminCard = ({ data, disabledCard }) => {
       }
 
       //setData(data);
-      const resp = await createTeamSuperUser({ data }, idccms);
+      const resp = await createTeamSuperUser(data, idccms);
 
       console.log(resp);
 
@@ -139,6 +139,8 @@ export const AdminCard = ({ data, disabledCard }) => {
       }
     }
   };
+
+  console.log(disabledCard);
 
   return (
     <>

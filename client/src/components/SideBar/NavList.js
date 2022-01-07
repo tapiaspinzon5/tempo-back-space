@@ -60,40 +60,34 @@ export const NavList = ({ open, match, userData }) => {
   };
   return (
     <>
-      {userData !== "Agent" ? (
-        <ContentList>
-          <LItem button onClick={() => navigate("/")}>
-            <LIcon>
-              <img src={homeIcon} alt="Home" />
-            </LIcon>
-            {open && match && <Typography>Dasboard</Typography>}
-          </LItem>
+      <ContentList>
+        <LItem button onClick={() => navigate("/")}>
+          <LIcon>
+            <img src={homeIcon} alt="Home" />
+          </LIcon>
+          {open && match && <Typography>Dasboard</Typography>}
+        </LItem>
 
-          <LItem button onClick={() => navigate("/activitiesview")}>
-            <LIcon>
-              <img src={gridIcon} alt="Grid" />
-            </LIcon>
-            {open && match && <Typography>Library</Typography>}
-          </LItem>
-
-          <LItem button onClick={logOut}>
-            <LIcon>
-              <FiLogOut size={30} color="#fff" />
-            </LIcon>
-            {open && match && <Typography>Logout</Typography>}
-          </LItem>
-        </ContentList>
-      ) : (
-        //NAVBAR PARA ADMINISTRADORES
-        <ContentList>
-          <LItem button onClick={() => navigate("/")}>
-            <LIcon>
-              <img src={homeIcon} alt="Home" />
-            </LIcon>
-            {open && match && <Typography>Dasboard</Typography>}
-          </LItem>
-        </ContentList>
-      )}
+        {userData === "Agent" ? (
+          <>
+            <LItem button onClick={() => navigate("/activitiesview")}>
+              <LIcon>
+                <img src={gridIcon} alt="Grid" />
+              </LIcon>
+              {open && match && <Typography>Library</Typography>}
+            </LItem>
+          </>
+        ) : (
+          //NAVBAR PARA ADMINISTRADORES
+          <></>
+        )}
+        <LItem button onClick={logOut}>
+          <LIcon>
+            <FiLogOut size={30} color="#fff" />
+          </LIcon>
+          {open && match && <Typography>Logout</Typography>}
+        </LItem>
+      </ContentList>
     </>
   );
 };

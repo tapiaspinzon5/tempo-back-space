@@ -42,13 +42,17 @@ const ActivitiesView = () => {
           Quiz management
         </Typography>
         <Grid container spacing={3}>
-          {quizUser.map((quiz) => (
+          {quizUser?.map((quiz) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={quiz.IdExamen}>
               <CardQuizManage
                 stateActivity={quiz.EstadoExamen}
                 image={quiz.image}
-                nameQuiz={quiz.IdExamen}
+                nameQuiz={quiz.ExamName}
+                idQuiz={quiz.IdExamen}
                 progress={20}
+                quizUser={quizUser}
+                CantidadPreguntas={quiz.CantidadPreguntas}
+                PreguntasRespondidas={quiz.PreguntasRespondidas}
               />
             </Grid>
           ))}

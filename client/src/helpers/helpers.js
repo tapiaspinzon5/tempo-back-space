@@ -119,3 +119,45 @@ export const validateFieldsCreateTeams = (data) => {
 
   return errorField;
 };
+
+//Helper Validacion carga archivos Operation Manager
+export const validateHeadersTeamOM = (headers) => {
+  let differentsArrays = false;
+
+  let defaultHeaders = ["Empleado", "Rol", "Equipo", "Lob"];
+
+  if (headers.length !== defaultHeaders.length) {
+    console.log("Las columnas no coinciden");
+    return;
+  }
+
+  for (let i = 0; i < defaultHeaders.length; i++) {
+    if (defaultHeaders[i] != headers[i]) {
+      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+      differentsArrays = true;
+      break;
+    }
+  }
+
+  return differentsArrays;
+};
+
+export const validateFieldsTeamOM = (data) => {
+  let roles = ["Operation Manager", "Team Lead", "Reporting Lead", "QA Lead"];
+
+  let errorField = false;
+
+  data.forEach((col) => {
+    if (col[0] === undefined || isNaN(col[0])) {
+      errorField = true;
+    } else if (col[1] === undefined || !roles.includes(col[1])) {
+      errorField = true;
+    } else if (col[2] === undefined) {
+      errorField = true;
+    } else if (col[3] === undefined) {
+      errorField = true;
+    }
+  });
+
+  return errorField;
+};

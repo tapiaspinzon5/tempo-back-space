@@ -96,13 +96,13 @@ const QuizDetails = () => {
               <Typography variant="h6" color="initial" fontWeight="bold">
                 Quiz details
               </Typography>
-              <Box display="flex" alignItems="center" mt={3}>
+              {/* <Box display="flex" alignItems="center" mt={3}>
                 <AccessTimeRoundedIcon sx={{ color: indigo[500], mr: "5px" }} />
 
                 <Typography variant="body1" color="initial" fontSize="20px">
                   Multiple answer
                 </Typography>
-              </Box>
+              </Box> */}
               <Box display="flex" alignItems="center" mt={3}>
                 <WarningAmberRoundedIcon
                   sx={{ color: indigo[500], mr: "5px" }}
@@ -133,12 +133,12 @@ const QuizDetails = () => {
                 {" "}
                 Quiz details
               </Typography>
-              <Box display="flex" alignItems="center" mt={3}>
+              {/* <Box display="flex" alignItems="center" mt={3}>
                 <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
                 <Typography variant="body1" color="initial" fontSize="20px">
                   Multiple answer
                 </Typography>
-              </Box>
+              </Box> */}
               <Box display="flex" alignItems="center" mt={3}>
                 <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
                 <Typography variant="body1" color="initial" fontSize="20px">
