@@ -173,25 +173,37 @@ exports.uploadSU = async (req, res) =>  {
 
 exports.uploadOpsM = async (req, res) =>  {
   
-  let form = new multiparty.Form();
+  // let form = new multiparty.Form();
   
-  form.parse(req, async function(err, fields, files) {
-    // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
-    //   //req.body.error = "Datos de User y/o lob inválidos";
-    //   //next();
-    //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
-    // }else{
+  // form.parse(req, async function(err, fields, files) {
+  //   // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
+  //   //   //req.body.error = "Datos de User y/o lob inválidos";
+  //   //   //next();
+  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
+  //   // }else{
 
-    const workbook = xlsx.readFile(files.file[0].path);
-    const sheetNames = workbook.SheetNames;
+  //   const workbook = xlsx.readFile(files.file[0].path);
+  //   const sheetNames = workbook.SheetNames;
     
-    const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
+  //   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
 
-    // Removemos los headers para enviar a DB
-    data.shift()
+  //   // Removemos los headers para enviar a DB
+  //   data.shift()
 
-    sql
-      .query('spInsertOrganizationalUnit', parametros({idccms:req.query.idccms, rows:data},'spInsertOrganizationalUnit'))
+  //   sql
+  //     .query('spInsertOrganizationalUnit', parametros({idccms:req.query.idccms, rows:data},'spInsertOrganizationalUnit'))
+  //     .then((result) => {
+  //       responsep(1, req, res, result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err, 'sp')
+  //       responsep(2, req, res, err);
+  //     });
+  // })
+
+
+  sql
+      .query('spInsertOrganizationalUnit', parametros({idccms:req.query.idccms, rows:req.body.data},'spInsertOrganizationalUnit'))
       .then((result) => {
         responsep(1, req, res, result);
       })
@@ -199,7 +211,6 @@ exports.uploadOpsM = async (req, res) =>  {
         console.log(err, 'sp')
         responsep(2, req, res, err);
       });
-  })
 }
 
 
