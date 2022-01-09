@@ -123,7 +123,7 @@ export const validateFieldsCreateTeams = (data) => {
 //Helper Validacion carga archivos Operation Manager
 export const validateHeadersTeamOM = (headers) => {
   let differentsArrays = false;
-
+  console.log(headers);
   let defaultHeaders = ["Empleado", "Rol", "Equipo", "Lob"];
 
   if (headers.length !== defaultHeaders.length) {

@@ -55,7 +55,7 @@ const CardContent = styled(Box)(({ theme }) => ({
   },
 }));
 
-const data = [
+const dataCard = [
   {
     id: 1,
     url: img1,
@@ -65,6 +65,7 @@ const data = [
   { id: 3, url: img3, title: "Assigning Team Members" },
 ];
 
+////////////////////////////////////////
 export const HomeOM = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
@@ -103,18 +104,18 @@ export const HomeOM = () => {
 
           if (differentsHeaders) {
             console.log("Headers no coinciden");
-            reject(new Error("Headers no coinciden"));
+            reject("Headers no coinciden");
             return;
           }
 
           if (incorrectValues) {
             console.log("Existen campos incorrectos");
-            reject(new Error("Existen campos incorrectos"));
+            reject("Existen campos incorrectos");
             return;
           }
           resolve(data);
         } else {
-          reject(new Error("El archivo no contiene información."));
+          reject("El archivo no contiene información.");
         }
       };
       reader.readAsArrayBuffer(file);
@@ -122,31 +123,45 @@ export const HomeOM = () => {
   };
 
   const uploadFile = async (e) => {
-    e.preventDefault();
-
-    try {
-      let result = await loadFile(e);
-      e.target.value = null;
-      console.log(result);
-    } catch (error) {
+    console.log(e.target.files[0]);
+    const fileCSV = e.target.files[0];
+    let data = [];
+    if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+      console.log("solo archivos en formato .csv");
       MySwal.fire({
-        title: <p> {error} </p>,
+        title: <p>Only files in .csv format</p>,
         icon: "error",
       });
-      e.target.value = null;
-      console.log(error);
-    }
+    } else {
+      // console.log("archivo correcto");
+      // MySwal.fire({
+      //   title: <p>File upload</p>,
+      //   icon: "success",
+      // });
+      try {
+        data = await loadFile(e);
+        e.target.value = null;
+      } catch (error) {
+        console.log(error);
+        MySwal.fire({
+          title: <p> {error} </p>,
+          icon: "error",
+        });
+        e.target.value = null;
+        return;
+      }
 
-    //enviar data a endpoint oara subir a BBDD
-    const resp = await createTeamOperationManager(data, idccms);
+      //setData(data);
+      const resp = await createTeamOperationManager(data, idccms);
 
-    console.log(resp);
+      console.log(resp);
 
-    if (resp.status === 200) {
-      MySwal.fire({
-        title: <p>File upload</p>,
-        icon: "success",
-      });
+      if (resp.status === 200) {
+        MySwal.fire({
+          title: <p>File upload</p>,
+          icon: "success",
+        });
+      }
     }
   };
 
@@ -156,13 +171,12 @@ export const HomeOM = () => {
         <Header />
         <Grid container spacing={3}>
           {/* <Grid item xs={12} md={4}>
-            <AdminCard data={data[0]} />
+            <AdminCard data={dataCard[0]} />
           </Grid> */}
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[1]} /> */}
+            {/* <AdminCard data={dataCard[1]} /> */}
           </Grid>
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[2]} disabledCard={true} onClick={loadFile} /> */}
             <CardContainer>
               <CardContent>
                 <label htmlFor="quiz" style={{ cursor: "pointer" }}>
