@@ -1,13 +1,16 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 //datainicial
 const initialData = {
   loading: false,
-  userData: null,
+  //userData: null,
+  userData: { role: "Agent" },
 };
 
 //types
 const LOADING = "LOADING";
+const ERROR_LOGIN = "ERROR_LOGIN";
 const INICIO_SESION_EXITO = "INICIO_SESION_EXITO";
 const CERRANDO_SESION_EXITO = "CERRANDO_SESION_EXITO";
 
@@ -30,6 +33,13 @@ export default function loginReducer(state = initialData, action) {
       return {
         ...initialData,
       };
+
+    case ERROR_LOGIN:
+      return {
+        ...state,
+        userData: action.payload.data,
+        loading: false,
+      };
     default:
       return state;
   }
@@ -48,9 +58,33 @@ export const loginSubmit = (data) => async (dispatch) => {
     const requestData = await axios
       // .post(`http://10.142.24.175:4343/api/ccmslogin`, data)
       .post(`http://localhost:4343/api/ccmslogin`, data)
+
       .catch(function (error) {
         if (error.response) {
-          return error.response;
+          console.log(error.response);
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "warning",
+            title: "wrong username or password!!",
+          });
+          dispatch({
+            type: ERROR_LOGIN,
+            payload: {
+              data: error.response.data,
+            },
+          });
+          return;
         }
       });
 

@@ -1,12 +1,23 @@
 import React, { useState } from "react";
-import { Typography, Box, IconButton, styled, Grid } from "@mui/material";
+import {
+  Typography,
+  Box,
+  IconButton,
+  styled,
+  Grid,
+  alpha,
+  InputBase,
+  Badge,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import coin from "../../assets/images/coin.svg";
-import bannerH from "../../assets/images/bannerHeader.svg";
+import bannerH from "../../assets/images/bannerHeader.png";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
 import { DarkModeContext } from "../../context/DarkModeProvider";
 import ProgresBar from "../progressCharts/ProgresBar";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -26,7 +37,9 @@ const TitleHeader = styled(Grid)((theme) => ({
   justifyContent: "center",
   alignItems: "center",
   borderRadius: "10px 0 0 10px",
-  img: {},
+  img: {
+    width: "100%",
+  },
 }));
 
 const RightHeader = styled(Grid)((theme) => ({
@@ -36,6 +49,48 @@ const RightHeader = styled(Grid)((theme) => ({
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "space-around",
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  //background: "#fff",
+  borderRadius: "10px",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "25ch",
+    },
+  },
 }));
 
 const Header = () => {
@@ -56,14 +111,16 @@ const Header = () => {
         xs={12}
         md={6}
         sx={{
-          background: theme.palette.background.primary,
+          //background: theme.palette.background.primary,
           color: "text.primary",
+          display: "flex",
+          justifyContent: "left",
         }}
       >
         <img src={bannerH} alt="TP" />
       </TitleHeader>
       <RightHeader item xs={12} md={6}>
-        <Box display="flex" alignItems="center">
+        {/* <Box display="flex" alignItems="center">
           <img src={coin} alt="coin-logo" />
           <Typography variant="body2" marginLeft="1rem">
             <b>50</b> Coins
@@ -90,7 +147,26 @@ const Header = () => {
               <Brightness4Icon />
             )}
           </IconButton>
-        </Box>
+        </Box> */}
+
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon sx={{ color: "#000" }} />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ "aria-label": "search" }}
+          />
+        </Search>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={7} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
       </RightHeader>
     </MainHeader>
   );

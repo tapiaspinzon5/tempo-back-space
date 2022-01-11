@@ -12,8 +12,8 @@ const Diamond = () => {
       shape: "diamond",
 
       outline: {
-        border: 8,
-        distance: 5,
+        border: 4,
+        distance: 2,
         style: {
           stroke: " #28c48d ",
           strokeOpacity: 0.65,
@@ -44,6 +44,7 @@ const Diamond = () => {
           content: "33%",
           style: {
             color: " #bcdce4 ",
+            fontSize: "25px",
           },
         },
       },
@@ -54,7 +55,7 @@ const Diamond = () => {
 
   return (
     <div>
-      <div ref={ref} style={{ height: "32vh" }} />
+      <div ref={ref} style={{ height: "25vh" }} />
     </div>
   );
 };

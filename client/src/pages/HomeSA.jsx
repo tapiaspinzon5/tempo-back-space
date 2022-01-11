@@ -22,10 +22,10 @@ const data = [
   {
     id: 1,
     url: img1,
-    title: "Set New User Permissions",
+    title: "User management",
   },
-  { id: 2, url: img2, title: "Set New Users" },
-  { id: 3, url: img3, title: "KPI´s Set Up" },
+  { id: 2, url: img2, title: "Account creation" },
+  { id: 3, url: img3, title: "Analytics" },
 ];
 export const HomeSA = () => {
   return (

@@ -11,7 +11,6 @@ import gridIcon from "../../assets/Icons/grid.svg";
 import pieIcon from "../../assets/Icons/pie-chart.svg";
 import settingsIcon from "../../assets/Icons/settings.svg";
 import { FiLogOut } from "react-icons/fi";
-import { SiHtmlacademy } from "react-icons/si";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -51,16 +50,16 @@ const ContentList = styled(List)(({ theme }) => ({
     margin: "auto",
   },
 }));
-
-export const NavList = ({ open, match, userData }) => {
+const NavListAdmin = ({ open, match }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logOut = () => {
     dispatch(logoutAction());
     navigate("/");
   };
+
   return (
-    <>
+    <div>
       <ContentList>
         <LItem button onClick={() => navigate("/")}>
           <LIcon>
@@ -69,26 +68,37 @@ export const NavList = ({ open, match, userData }) => {
           {open && match && <Typography>Dasboard</Typography>}
         </LItem>
 
-        {userData === "Agent" ? (
-          <>
-            <LItem button onClick={() => navigate("/activitiesview")}>
-              <LIcon>
-                <img src={gridIcon} alt="Grid" />
-              </LIcon>
-              {open && match && <Typography>Library</Typography>}
-            </LItem>
-          </>
-        ) : (
-          //NAVBAR PARA ADMINISTRADORES
-          <>
-            <LItem button onClick={() => navigate("/upquiz")}>
-              <LIcon>
-                <SiHtmlacademy size={30} color="#fff" />
-              </LIcon>
-              {open && match && <Typography>Library</Typography>}
-            </LItem>
-          </>
-        )}
+        {/* <LItem button>
+          <LIcon>
+            <img src={awardIcon} alt="Award" />
+          </LIcon>
+          {open && match && <Typography>Students</Typography>}
+        </LItem> */}
+        {/* <LItem button>
+          <LIcon>
+            <img src={bookIcon} alt="Book" />
+          </LIcon>
+          {open && match && <Typography>Training</Typography>}
+        </LItem> */}
+        <LItem button onClick={() => navigate("/activitiesview")}>
+          <LIcon>
+            <img src={gridIcon} alt="Grid" />
+          </LIcon>
+          {open && match && <Typography>Library</Typography>}
+        </LItem>
+        {/* 
+        <LItem button>
+          <LIcon>
+            <img src={pieIcon} alt="PieChart" />
+          </LIcon>
+          {open && match && <Typography>Attendance</Typography>}
+        </LItem>
+        <LItem button>
+          <LIcon>
+            <img src={settingsIcon} alt="Settings" />
+          </LIcon>
+          {open && match && <Typography>Account</Typography>}
+        </LItem> */}
         <LItem button onClick={logOut}>
           <LIcon>
             <FiLogOut size={30} color="#fff" />
@@ -96,38 +106,8 @@ export const NavList = ({ open, match, userData }) => {
           {open && match && <Typography>Logout</Typography>}
         </LItem>
       </ContentList>
-    </>
+    </div>
   );
 };
 
-{
-  /* <LItem button>
-          <LIcon>
-            <img src={awardIcon} alt="Award" />
-            </LIcon>
-          {open && match && <Typography>Students</Typography>}
-        </LItem> */
-}
-{
-  /* <LItem button>
-          <LIcon>
-          <img src={bookIcon} alt="Book" />
-          </LIcon>
-          {open && match && <Typography>Training</Typography>}
-        </LItem> */
-}
-{
-  /* 
-        <LItem button>
-        <LIcon>
-        <img src={pieIcon} alt="PieChart" />
-        </LIcon>
-        {open && match && <Typography>Attendance</Typography>}
-        </LItem>
-        <LItem button>
-        <LIcon>
-        <img src={settingsIcon} alt="Settings" />
-        </LIcon>
-        {open && match && <Typography>Account</Typography>}
-      </LItem> */
-}
+export default NavListAdmin;

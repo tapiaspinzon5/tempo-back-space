@@ -95,12 +95,16 @@ export const MultiAnswer = ({ el, answer, setAnswer }) => {
         }}
       >
         <CardContent>
-          <Typography variant="h2">
+          <Typography variant="h3">
             Question multiple option with multiple answer
           </Typography>
-          <Typography variant="h4">{el.title}</Typography>
+          <Typography variant="body1" fontSize={20} my={3}>
+            {el.title}
+          </Typography>
           <br />
-          <Typography variant="p">{el.question}</Typography>
+          <Typography variant="body1" fontSize={20}>
+            {el.question}
+          </Typography>
         </CardContent>
         <CardActions>
           <FormGroup>

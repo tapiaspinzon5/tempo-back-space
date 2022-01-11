@@ -31,8 +31,8 @@ const StarProgress = () => {
       },
 
       outline: {
-        border: 8,
-        distance: 5,
+        border: 4,
+        distance: 2,
         style: {
           stroke: "#f5be55 ",
           strokeOpacity: 0.65,
@@ -62,7 +62,8 @@ const StarProgress = () => {
         content: {
           content: "53%",
           style: {
-            color: "#FF0",
+            color: "#FFFB00",
+            fontSize: "25px",
           },
         },
       },
@@ -73,7 +74,7 @@ const StarProgress = () => {
 
   return (
     <div>
-      <div ref={ref} style={{ height: "32vh" }} />
+      <div ref={ref} style={{ height: "25vh" }} />
     </div>
   );
 };

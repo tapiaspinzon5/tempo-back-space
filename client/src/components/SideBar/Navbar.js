@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavList } from "./NavList";
+import { useSelector } from "react-redux";
 import { Box, AppBar, Divider, IconButton, Fab, Avatar } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -58,10 +59,12 @@ const StyledFab = styled(Fab)({
 });
 
 export const Navbar = () => {
+  const userData = useSelector((store) => store.loginUser.userData.role);
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));
 
+  console.log(userData);
   return (
     <>
       {match && (
@@ -89,7 +92,7 @@ export const Navbar = () => {
               </IconButton>
             </div>
             <Divider />
-            <NavList open={open} match={match} />
+            <NavList open={open} match={match} userData={userData} />
           </SideBar>
         </Box>
       )}

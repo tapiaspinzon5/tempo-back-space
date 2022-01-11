@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Grid, Button, Box } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import quizdesc from "../../assets/images/quizdesc.png";
@@ -19,6 +19,9 @@ const MainDatailsQuiz = styled(Grid)(({ theme }) => ({
 const QuizDetails = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const paramsQuiz = useParams();
+  const { idquiz } = paramsQuiz;
+  console.log(idquiz);
   return (
     <MainDatailsQuiz container>
       <Grid
@@ -38,17 +41,18 @@ const QuizDetails = () => {
         <Typography variant="h3" color="initial" fontWeight={500}>
           Acquire new skills to strengthen your progress
         </Typography>
-        <Typography variant="body1" color="initial">
+        <Typography variant="body1" color="initial" my={4} fontSize={20}>
           Learn to create, know and spread the knowledge acquired with the
           games, to make your progress grow.
         </Typography>
         <Button
-          onClick={() => navigate("/quiz")}
+          onClick={() => navigate(`/quiz/${idquiz}`)}
           sx={{
             background: theme.palette.background.primary,
             color: "#FFFFFF",
             width: "240px",
-            marginTop: "20px",
+            textTransform: "none",
+            fontSize: "20px",
           }}
         >
           Start the test
@@ -92,26 +96,35 @@ const QuizDetails = () => {
               <Typography variant="h6" color="initial" fontWeight="bold">
                 Quiz details
               </Typography>
-              <Typography variant="body1" color="initial">
+              {/* <Box display="flex" alignItems="center" mt={3}>
                 <AccessTimeRoundedIcon sx={{ color: indigo[500], mr: "5px" }} />
-                Multiple answer
-              </Typography>
-              <Typography variant="body1" color="initial">
+
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Multiple answer
+                </Typography>
+              </Box> */}
+              <Box display="flex" alignItems="center" mt={3}>
                 <WarningAmberRoundedIcon
                   sx={{ color: indigo[500], mr: "5px" }}
                 />
-                Easy to apply tips
-              </Typography>
-              <Typography variant="body1" color="initial">
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Easy to apply tips
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mt={3}>
                 <StorageRoundedIcon sx={{ color: indigo[500], mr: "5px" }} />
-                Evaluation at the end
-              </Typography>
-              <Typography variant="body1" color="initial">
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Evaluation at the end
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mt={3}>
                 <SignalCellularAltRoundedIcon
                   sx={{ color: indigo[500], mr: "5px" }}
                 />
-                Unlimited access
-              </Typography>
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Unlimited access
+                </Typography>
+              </Box>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -120,22 +133,30 @@ const QuizDetails = () => {
                 {" "}
                 Quiz details
               </Typography>
-              <Typography variant="body1" color="initial">
-                <CheckCircleRoundedIcon color="success" sx={{ mr: "5px" }} />
-                Multiple answer
-              </Typography>
-              <Typography variant="body1" color="initial">
-                <CheckCircleRoundedIcon color="success" sx={{ mr: "5px" }} />
-                Easy to apply tips
-              </Typography>
-              <Typography variant="body1" color="initial">
-                <CheckCircleRoundedIcon color="success" sx={{ mr: "5px" }} />
-                Evaluation at the end
-              </Typography>
-              <Typography variant="body1" color="initial">
-                <CheckCircleRoundedIcon color="success" sx={{ mr: "5px" }} />
-                Unlimited access
-              </Typography>
+              {/* <Box display="flex" alignItems="center" mt={3}>
+                <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Multiple answer
+                </Typography>
+              </Box> */}
+              <Box display="flex" alignItems="center" mt={3}>
+                <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Easy to apply tips
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mt={3}>
+                <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Evaluation at the end
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mt={3}>
+                <CheckCircleRoundedIcon sx={{ mr: "5px", color: "#00AF9B" }} />
+                <Typography variant="body1" color="initial" fontSize="20px">
+                  Unlimited access
+                </Typography>
+              </Box>
             </Box>
           </Grid>
         </Grid>
@@ -156,7 +177,7 @@ const QuizDetails = () => {
         <Typography variant="h3" color="initial" fontWeight={500}>
           About this course
         </Typography>
-        <Typography variant="body1" color="initial">
+        <Typography variant="body1" color="initial" fontSize={20} mt={4}>
           With the right knowledge and tools, everyone can land their dream job.
           In this quiz you will learn to strengethen your knowledge and expand
           your skill.

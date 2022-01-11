@@ -34,8 +34,9 @@ const MainApp = styled(Grid)(() => ({
 
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
+  //const userData = { role: "Operation Manager" };
 
-  console.log(userData);
+  //console.log(userData);
 
   return (
     <Router>
@@ -48,8 +49,8 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/quiz" element={<QuizViewV2 />} />
-              <Route path="/quizdetails" element={<QuizDetails />} />
+              <Route path="/quiz/:idquiz" element={<QuizViewV2 />} />
+              <Route path="/quizdetails/:idquiz" element={<QuizDetails />} />
             </>
           )}
 
@@ -64,6 +65,8 @@ const AppRouter = () => {
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/homeqal" element={<HomeQAL />} />
+              <Route path="/" element={<Navigate to="/homeom" />} />
+              <Route path="/homeom" element={<HomeOM />} />
             </>
           )}
           {userData?.role === "Reporting Lead" && (
@@ -78,7 +81,7 @@ const AppRouter = () => {
               <Route path="/homesa" element={<HomeSA />} />
             </>
           )}
-          {userData?.role === "Team Leader" && (
+          {userData?.role === "Team Lead" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
