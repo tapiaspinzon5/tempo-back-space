@@ -244,10 +244,8 @@ exports.getQuizDetail = async (req, res) =>  {
 
 exports.getResultQuiz = async (req, res) =>  {
 
-  let {quizResolved} = req.body;
-
   sql
-  .query('spInsertExamResult', parametros({idccms:req.query.idccms,quizResolved},'spInsertExamResult'))
+  .query('spInsertExamResult', parametros({idccms:req.query.idccms,idQuiz:req.query.idExam, rows: req.body.data},'spInsertExamResult'))
   .then((result) => {
     responsep(1, req, res, result);
   })
