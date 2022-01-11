@@ -161,3 +161,5 @@ export const validateFieldsTeamOM = (data) => {
 
   return errorField;
 };
+
+export const validateNextQuestion = () => {};

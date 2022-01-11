@@ -9,6 +9,9 @@ import { TrueFalse } from "../components/Questions/TrueFalse";
 import DB from "../components/Questions/data.json";
 import Footer from "../components/Footer";
 import { getExam } from "../utils/api";
+import { uploadAnswers } from "../utils/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const ContentBox = styled(Box)({
   display: "flex",
@@ -17,6 +20,8 @@ const ContentBox = styled(Box)({
   width: "100%",
 });
 
+const MySwal = withReactContent(Swal);
+
 export const QuizViewV2 = () => {
   const paramsQuiz = useParams();
   const userData = useSelector((store) => store.loginUser.userData);
@@ -24,11 +29,9 @@ export const QuizViewV2 = () => {
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);
-  const [data, setData] = useState(null);
+  //const [data, setData] = useState(null);
   const [next, setNext] = useState(0);
   const theme = useTheme();
-
-  console.log(idquiz);
 
   useEffect(() => {
     const getData = async () => {
@@ -40,17 +43,46 @@ export const QuizViewV2 = () => {
   }, []);
 
   const handleNext = () => {
-    setNext(next + 1);
+    if (answer[quiz[next].Idpregunta]) {
+      //console.log(answer[quiz[next].Idpregunta]);
+      setNext(next + 1);
+    } else {
+      MySwal.fire({
+        title: <p>Check your Answer</p>,
+        icon: "error",
+      });
+    }
   };
   const handleBack = () => {
     setNext(next - 1);
   };
 
-  const handleFin = () => {
-    //submit the answers
-    console.log(answer);
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (answer[quiz[next].Idpregunta]) {
+      //submit the answers
+      const data = () => {
+        const table = [];
+        for (let key in answer) {
+          table.push([answer[key], parseInt(key)]);
+        }
+        return table;
+      };
+      const resp = await uploadAnswers(data(), idccms, idquiz);
+
+      if (resp.status === 200) {
+        MySwal.fire({
+          title: <p>Quiz upload</p>,
+          icon: "success",
+        });
+      }
+    } else {
+      MySwal.fire({
+        title: <p>Check your Answer</p>,
+        icon: "error",
+      });
+    }
   };
-  console.log(quiz);
 
   return (
     <ContentBox>
@@ -131,7 +163,7 @@ export const QuizViewV2 = () => {
         )}
         {quiz && next + 1 === quiz.length && (
           <Button
-            onClick={handleFin}
+            onClick={handleSend}
             sx={{
               background: theme.palette.background.primary,
               color: "#FFFFFF",

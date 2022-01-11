@@ -142,6 +142,26 @@ const createTeamOperationManager = (dataCSV, idccms) => {
   }
 };
 
+const uploadAnswers = (data, idccms, idExam) => {
+  console.log(data);
+  try {
+    return axios
+      .post(
+        `http://10.142.73.193:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+        {
+          data: data,
+        }
+      )
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -149,4 +169,5 @@ export {
   getExam,
   createTeamSuperUser,
   createTeamOperationManager,
+  uploadAnswers,
 };
