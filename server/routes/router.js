@@ -12,13 +12,21 @@ module.exports = (router) => {
     oauth.refresh(req, res);
   });
 
+  // CARGA QUIZ CSV
+  router.post("/uploadquiz", routes.saveQuiz);// Valida el csv cargado para crear la intradia de un escenario
+  
+  // Carga SuperUser
+  router.post("/uploadsu", routes.uploadSU);// Valida el csv cargado para crear la intradia de un escenario
+  // Carga Ops.Manager
+  router.post("/uploadopsm", routes.uploadOpsM);// Valida el csv cargado para crear la intradia de un escenario
+
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
   MapSpRouter("/sqlupdate", "spUpdateCentral");
   MapSpRouter("/sqlinsert", "spInsertCentral");
   MapSpRouter("/sqldelete", "spDeleteCentral");
   MapSpRouter("/sqldelete", "spDeleteCentral");
-  MapSpRouter("/sqlGetQuiz", "ConsultaDetalleExamen");
+  MapSpRouter("/sqlgetquiz", "spConsultaDetalleExamen");
 
   function MapSpRouter(route, spName) {
     // router.post(route,  oauth.oauthOther, (req, res) =>

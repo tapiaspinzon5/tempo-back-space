@@ -37,7 +37,7 @@ const moment = require("moment");
 
 
 
-let = parametrizacion = (data) => {
+let parametrizacion = (data) => {
   try {
     return data.map(({ name, value, type, schema }) => ({ nombre: name, valor: value, tipo: type }));
   } catch (error) {
@@ -60,7 +60,7 @@ class SpParam {
   }
 }
 
-let = SpParamTable = (nameParam, colums, rows) => {
+let SpParamTable = (nameParam, colums, rows) => {
   try {
     let table;
     let obj = {
@@ -77,34 +77,50 @@ let = SpParamTable = (nameParam, colums, rows) => {
     console.log(error, 'Tipo Tabla');
     return error
   }
-
-
-
-
 }
 
-let JumpEmployee = [
-  { name: 'idccms', type: TYPES.Int },
-  { name: 'jumpRole', type: TYPES.VarChar },
-  { name: 'site', type: TYPES.Int },
-  { name: 'market', type: TYPES.Int },
-  { name: 'workingDay', type: TYPES.VarChar },
-  { name: 'phone', type: TYPES.BigInt },
-  { name: 'email', type: TYPES.VarChar },
-  { name: 'jumpCertificate', type: TYPES.VarChar },
-  { name: 'certificateType', type: TYPES.VarChar },
-  { name: 'currentStudy', type: TYPES.VarChar },
-  { name: 'studyDay', type: TYPES.VarChar },
-  { name: 'notEndedStudies', type: TYPES.VarChar },
-  { name: 'semesterEnded', type: TYPES.VarChar },
-  { name: 'Endedstudies', type: TYPES.VarChar },
-  { name: 'title', type: TYPES.VarChar },
-  { name: 'levelEnglish', type: TYPES.Int },
-  { name: 'levelSQL', type: TYPES.Int },
-  { name: 'levelExcel', type: TYPES.Int },
+let SpParamTable2 = (nameParam, colums, rows) => {
+  try {
+    let table;
+    // let obj = {
+    //   table: []
+    // }
+    table = {
+      columns: colums,
+      rows: rows
+    };
+    return { name: nameParam, value: table, type: TYPES.TVP, schema:null };
+    //  obj.table;
+  } catch (error) {
+    console.log(error, 'Tipo Tabla');
+    return error
+  }
+}
+
+let quizTable = [
+  { name: 'Pregunta', type: TYPES.VarChar },
+  { name: 'Respuesta1', type: TYPES.VarChar },
+  { name: 'Respuesta2', type: TYPES.VarChar },
+  { name: 'Respuesta3', type: TYPES.VarChar },
+  { name: 'Respuesta4', type: TYPES.VarChar },
+  { name: 'Puntuacion', type: TYPES.Int },
+  { name: 'RespuestaCorrecta', type: TYPES.VarChar },
+  { name: 'Quartil', type: TYPES.VarChar },
+  { name: 'idPregunta', type: TYPES.Int },
 ]
 
+let suTable = [
+  { name: 'IdentPM', type: TYPES.Int },
+  { name: 'Campaign', type: TYPES.VarChar },
+  { name: 'KPI', type: TYPES.VarChar }, 
+]
 
+let opsmTable = [
+  { name: 'Ident', type: TYPES.Int },
+  { name: 'Role', type: TYPES.VarChar },
+  { name: 'Team', type: TYPES.VarChar }, 
+  { name: 'Lob', type: TYPES.VarChar }, 
+]
 
 exports.parametros = (req, tipo) => {
   switch (tipo) {
@@ -130,9 +146,28 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam('id', req.id, TYPES.VarChar),
       ]);
-    case "ConsultaDetalleExamen":
+    case "spConsultaDetalleExamen":
       return parametrizacion([
         new SpParam('Examen', req.Examen, TYPES.Int),
+      ]);
+    case "spQueryRoleEmployee":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
+    case "spInsertExam":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', quizTable, req.rows)
+      ]);
+    case "spInsertTeam":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', suTable, req.rows)
+      ]);
+    case "spInsertOrganizationalUnit":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', opsmTable, req.rows)
       ]);
     case "spAddJumpRegister":
       return SpParamTable('jumpTable', JumpEmployee, req.rows);

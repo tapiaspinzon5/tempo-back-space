@@ -1,6 +1,7 @@
 import React from "react";
-import { Typography, Grid, Box, Button, styled, css } from "@mui/material";
+import { Typography, Box, Button, styled } from "@mui/material";
 import ProgresBar from "../progressCharts/ProgresBar";
+import { useNavigate } from "react-router-dom";
 
 const CardViewer = styled(Box)(({ theme }) => ({
   height: "14rem",
@@ -49,6 +50,8 @@ const DownSection = styled(Box)(({ theme }) => ({
 }));
 
 const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
+  const navigate = useNavigate();
+
   let background;
   let state;
   switch (stateActivity) {
@@ -85,7 +88,7 @@ const CardQuizManage = ({ stateActivity, image, nameQuiz, progress }) => {
         </Box>
       </CardViewer>
       <DownSection sx={{ background }}>
-        <Button>{state}</Button>
+        <Button onClick={() => navigate("/quizdetails")}>{state}</Button>
       </DownSection>
     </>
   );

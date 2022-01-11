@@ -13,8 +13,8 @@ import { styled } from "@mui/material/styles";
 /* is defined radio icon styled*/
 const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 3,
-  width: 16,
-  height: 16,
+  width: 20,
+  height: 20,
   boxShadow:
     theme.palette.mode === "dark"
       ? "0 0 0 1px rgb(16 22 26 / 40%)"
@@ -47,8 +47,8 @@ const BpCheckedIcon = styled(BpIcon)({
     "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
   "&:before": {
     display: "block",
-    width: 16,
-    height: 16,
+    width: 20,
+    height: 20,
     backgroundImage:
       "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
       " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
@@ -84,7 +84,16 @@ export const MultiAnswer = ({ el, answer, setAnswer }) => {
 
   return (
     <div>
-      <Card sx={{ margin: "15px", backgroundColor: "#CCCCCC" }}>
+      <Card
+        sx={{
+          margin: "15px 15px 0 15px",
+          borderTopLeftRadius: "10px",
+          borderTopRightRadius: "10px",
+          padding: "1rem 2rem 0 2rem",
+          height: "50vh",
+          backgroundColor: "#E8E8E8",
+        }}
+      >
         <CardContent>
           <Typography variant="h2">
             Question multiple option with multiple answer

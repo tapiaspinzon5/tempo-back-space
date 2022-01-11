@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Typography, Button, Grid } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import { MultiAnswer } from "../components/Questions/MultiAnswer";
 import { OneAnswer } from "../components/Questions/OneAnswer";
 import { TrueFalse } from "../components/Questions/TrueFalse";
 import DB from "../components/Questions/data.json";
+import Footer from "../components/Footer";
 
 const ContentBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
-  //gridTemplateColumns: "3fr 1fr",
   height: "100%",
   width: "100%",
-  marginTop: "15px",
 });
 
 export const QuizViewV2 = () => {
   const [answer, setAnswer] = useState({});
   const [data, setData] = useState(null);
   const [next, setNext] = useState(0);
+  const theme = useTheme();
 
   useEffect(() => {
     setData(DB.data);
@@ -47,8 +47,20 @@ export const QuizViewV2 = () => {
   return (
     <div>
       <ContentBox>
-        <Typography variant="h2">Titulo del Quiz</Typography>
-        <Typography variant="p">Descripcion del quiz</Typography>
+        <Grid sx={{ padding: "1rem" }}>
+          <Typography
+            variant="h2"
+            sx={{ width: "70vh" }}
+            fontWeight={500}
+            fontSize={40}
+          >
+            Acquire new skills to strengthen your progress
+          </Typography>
+          <Typography sx={{ width: "70vh", mt: "5px" }} fontWeight={500}>
+            Learn to create, know and spread the knowledge acquired with the
+            games, to make your progress grow.
+          </Typography>
+        </Grid>
         {data &&
           [data[next]].map((el) =>
             el.type === "TF" ? (
@@ -74,15 +86,58 @@ export const QuizViewV2 = () => {
               />
             )
           )}
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Box
+          sx={{
+            margin: "0 15px 0 15px",
+            borderBottomRightRadius: "10px",
+            borderBottomLeftRadius: "10px",
+            display: "flex",
+            justifyContent: "flex-end",
+            backgroundColor: "#E8E8E8",
+            padding: "0 2rem 2rem 0",
+          }}
+        >
           {data && next + 1 < data.length && (
-            <Button onClick={handleNext}>Next</Button>
+            <Button
+              onClick={handleNext}
+              sx={{
+                background: theme.palette.background.primary,
+                color: "#FFFFFF",
+                margin: "10px",
+                width: "160px",
+              }}
+            >
+              Next
+            </Button>
           )}
-          {next !== 0 && <Button onClick={handleBack}>Back</Button>}
+          {next !== 0 && (
+            <Button
+              onClick={handleBack}
+              sx={{
+                background: theme.palette.background.primary,
+                color: "#FFFFFF",
+                margin: "10px",
+                width: "160px",
+              }}
+            >
+              Back
+            </Button>
+          )}
           {data && next + 1 === data.length && (
-            <Button onClick={handleFin}>Finalizar</Button>
+            <Button
+              onClick={handleFin}
+              sx={{
+                background: theme.palette.background.primary,
+                color: "#FFFFFF",
+                margin: "10px",
+                width: "160px",
+              }}
+            >
+              Finalizar
+            </Button>
           )}
         </Box>
+        <Footer />
       </ContentBox>
     </div>
   );

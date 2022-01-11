@@ -7,7 +7,7 @@ const Diamond = () => {
   console.log(ref);
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.53,
+      percent: 0.33,
       autoFit: true,
       shape: "diamond",
 
@@ -41,7 +41,7 @@ const Diamond = () => {
 
       statistic: {
         content: {
-          content: "53%",
+          content: "33%",
           style: {
             color: " #bcdce4 ",
           },
