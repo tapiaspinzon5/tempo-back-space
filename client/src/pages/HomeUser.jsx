@@ -96,17 +96,19 @@ const HomeUser = () => {
             <Box
               sx={{
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
+                alignItems: "center",
                 height: "28vh",
                 padding: "1rem 0",
               }}
             >
-              <img src={medal} alt="top-Ten" />
-            </Box>
-            <Box display="flex" justifyContent="center">
-              <SeeButton sx={{ backgroundColor: " #45a2c1 " }}>
-                See more
-              </SeeButton>
+              <img src={medal} alt="top-Ten" height="75%" width="75%" />
+              <Box display="flex" justifyContent="center" paddingTop="5px">
+                <SeeButton sx={{ backgroundColor: " #45a2c1 " }}>
+                  See more
+                </SeeButton>
+              </Box>
             </Box>
           </Grid>
         </Grid>

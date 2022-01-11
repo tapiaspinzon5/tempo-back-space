@@ -11,8 +11,8 @@ const Circle = () => {
       autoFit: true,
 
       outline: {
-        border: 8,
-        distance: 5,
+        border: 4,
+        distance: 2,
         style: {
           stroke: "#00f",
           strokeOpacity: 0.65,
@@ -43,6 +43,7 @@ const Circle = () => {
           content: "76%",
           style: {
             color: "#FF0",
+            fontSize: "25px",
           },
         },
       },
@@ -53,7 +54,7 @@ const Circle = () => {
 
   return (
     <div>
-      <div ref={ref} style={{ height: "32vh" }} />
+      <div ref={ref} style={{ height: "25vh" }} />
     </div>
   );
 };

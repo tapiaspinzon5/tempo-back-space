@@ -33,8 +33,8 @@ const MainApp = styled(Grid)(() => ({
 }));
 
 const AppRouter = () => {
-  // const userData = useSelector((store) => store.loginUser.userData);
-  const userData = { role: "Operation Manager" };
+  const userData = useSelector((store) => store.loginUser.userData);
+  // const userData = { role: "Operation Manager" };
 
   //console.log(userData);
 
@@ -64,7 +64,7 @@ const AppRouter = () => {
             <>
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/" element={<Navigate to="/homeqal" />} />
-              {/* <Route path="/homeqal" element={<HomeQAL />} /> */}
+              <Route path="/homeqal" element={<HomeQAL />} />
               <Route path="/" element={<Navigate to="/homeom" />} />
               <Route path="/homeom" element={<HomeOM />} />
             </>
@@ -81,7 +81,7 @@ const AppRouter = () => {
               <Route path="/homesa" element={<HomeSA />} />
             </>
           )}
-          {userData?.role === "Team Leader" && (
+          {userData?.role === "Team Lead" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
