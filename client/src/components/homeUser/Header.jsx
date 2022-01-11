@@ -37,7 +37,9 @@ const TitleHeader = styled(Grid)((theme) => ({
   justifyContent: "center",
   alignItems: "center",
   borderRadius: "10px 0 0 10px",
-  img: {},
+  img: {
+    width: "100%",
+  },
 }));
 
 const RightHeader = styled(Grid)((theme) => ({

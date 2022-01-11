@@ -11,6 +11,7 @@ import gridIcon from "../../assets/Icons/grid.svg";
 import pieIcon from "../../assets/Icons/pie-chart.svg";
 import settingsIcon from "../../assets/Icons/settings.svg";
 import { FiLogOut } from "react-icons/fi";
+import { SiHtmlacademy } from "react-icons/si";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -79,7 +80,14 @@ export const NavList = ({ open, match, userData }) => {
           </>
         ) : (
           //NAVBAR PARA ADMINISTRADORES
-          <></>
+          <>
+            <LItem button onClick={() => navigate("/upquiz")}>
+              <LIcon>
+                <SiHtmlacademy size={30} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Library</Typography>}
+            </LItem>
+          </>
         )}
         <LItem button onClick={logOut}>
           <LIcon>

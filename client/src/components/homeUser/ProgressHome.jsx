@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Divider, Button, styled } from "@mui/material";
+import { ImFire } from "react-icons/im";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import ProgresBar from "../progressCharts/ProgresBar";
 //import { LinearGauge } from "../LinearGauge/LinearGauge";
@@ -13,10 +14,23 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
   overflowY: "scroll",
   scrollbarWidth: "thin",
   scrollbarColor: "blue green",
+  color: "#3047B0",
   button: {
     textTransform: "none",
     color: "#000",
+    background: "#3047B0",
+    borderRadius: 0,
+    "&:hover": {
+      background: "#3047B0",
+    },
   },
+}));
+
+const Arrow = styled(Box)(() => ({
+  width: "25px",
+  borderLeft: "15px solid #3047B0",
+  borderTop: "19px solid transparent",
+  borderBottom: "18px solid transparent",
 }));
 
 /* const dataP = {
@@ -85,13 +99,25 @@ const dataKPI = [
 const ProgressHome = () => {
   return (
     <CardProgressSection>
-      <Box display="flex" alignItems="center" py={2}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        py={2}
+      >
         <Typography variant="h6" fontWeight="bold">
-          KPI - Microsoft
+          Gain more points today
         </Typography>
-        <Typography variant="caption" color="initial" ml={5}>
-          LOB - Account
-        </Typography>
+        <Box display="flex" alignItems="center">
+          <Typography variant="h6" mr={1}>
+            Start
+          </Typography>
+
+          <Button>
+            <ImFire size={25} color="#fff" />
+          </Button>
+          <Arrow />
+        </Box>
       </Box>
       <Divider variant="fullWidth" light />
 
