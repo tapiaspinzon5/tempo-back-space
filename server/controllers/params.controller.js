@@ -130,6 +130,11 @@ let opsmTable = [
   { name: 'Lob', type: TYPES.VarChar }, 
 ]
 
+let quizResults = [
+  { name: 'Respuesta ', type: TYPES.VarChar },
+  { name: 'IdPregunta ', type: TYPES.Int },
+]
+
 exports.parametros = (req, tipo) => {
   switch (tipo) {
     case "spInsertCentral":
@@ -171,11 +176,14 @@ exports.parametros = (req, tipo) => {
         new SpParam('ident', req.idccms, TYPES.Int),
         new SpParam('Examen', req.idQuiz, TYPES.Int),
       ]);
+
     case "spInsertExamResult":
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
         new SpParam('Examen', req.idQuiz, TYPES.Int),
+        SpParamTable2('table', quizResults, req.rows)
       ]);
+
     case "spLoadExamQA":
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),

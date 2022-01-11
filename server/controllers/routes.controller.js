@@ -271,6 +271,43 @@ exports.getResultQuiz = async (req, res) => {
 exports.getHomeData = async (req, res) => {
   sql
     .query(
+      "spQueryExamDetail",
+      parametros({ idccms: req.query.idccms, idQuiz }, "spQueryExamDetail")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getResultQuiz = async (req, res) => {
+  sql
+    .query(
+      "spInsertExamResult",
+      parametros(
+        {
+          idccms: req.query.idccms,
+          idQuiz: req.query.idExam,
+          rows: req.body.data,
+        },
+        "spInsertExamResult"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getHomeData = async (req, res) => {
+  sql
+    .query(
       "spQueryDashBoarhAgent",
       parametros({ idccms: req.query.idccms }, "spQueryDashBoarhAgent")
     )
