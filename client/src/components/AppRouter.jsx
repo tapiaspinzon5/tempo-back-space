@@ -6,7 +6,6 @@ import { Navbar } from "./SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
 import { Catalogue } from "./Catalogue/Catalogue";
 import { VelBar } from "./Speed Bar/VelBar";
-//import { Star5 } from "./Star 5/Star5";
 import { QuizView } from "../pages/QuizView";
 import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";

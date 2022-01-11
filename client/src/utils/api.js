@@ -4,7 +4,7 @@ import axios from "axios";
 const loginSubmit = (data) => {
   try {
     return axios
-      .post(`http://localhost:4343/api/ccmslogin`, data)
+      .post(`http://10.142.24.175:4343/api/ccmslogin`, data)
       .catch(function (error) {
         if (error.response) {
           return error.response;
