@@ -109,10 +109,18 @@ let quizTable = [
   { name: 'idPregunta', type: TYPES.Int },
 ]
 
+
+
+
 let suTable = [
   { name: 'IdentPM', type: TYPES.Int },
-  { name: 'Campaign', type: TYPES.VarChar },
+  { name: 'TeamName', type: TYPES.VarChar },
   { name: 'KPI', type: TYPES.VarChar }, 
+  { name: 'Campaign', type: TYPES.VarChar },
+  { name: 'Q1', type: TYPES.Int },
+  { name: 'Q2', type: TYPES.Int }, 
+  { name: 'Q3', type: TYPES.Int }, 
+  { name: 'Q4', type: TYPES.Int }, 
 ]
 
 let opsmTable = [
@@ -151,6 +159,28 @@ exports.parametros = (req, tipo) => {
         new SpParam('Examen', req.Examen, TYPES.Int),
       ]);
     case "spQueryRoleEmployee":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
+    case "spQueryExamEmployee":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
+    case "spQueryExamDetail":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        new SpParam('Examen', req.idQuiz, TYPES.Int),
+      ]);
+    case "spInsertExamResult":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        new SpParam('Examen', req.idQuiz, TYPES.Int),
+      ]);
+    case "spLoadExamQA":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+      ]);
+    case "spQueryDashBoarhAgent":
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
       ]);

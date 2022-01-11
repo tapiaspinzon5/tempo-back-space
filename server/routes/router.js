@@ -19,6 +19,18 @@ module.exports = (router) => {
   router.post("/uploadsu", routes.uploadSU);// Valida el csv cargado para crear la intradia de un escenario
   // Carga Ops.Manager
   router.post("/uploadopsm", routes.uploadOpsM);// Valida el csv cargado para crear la intradia de un escenario
+  
+  // Ver examenes por IDCSSM
+  router.post("/getquizbyagent", routes.getQuizByAgent);
+ 
+  // Ver examenes por IDCSSM
+  router.post("/getQuizDetail", routes.getQuizDetail);
+  
+  router.post("/getresultquiz", routes.getResultQuiz);
+
+  router.post("/getquizqa", routes.getQuizQA);
+
+  router.post("/gethomedata", routes.getHomeData);
 
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
