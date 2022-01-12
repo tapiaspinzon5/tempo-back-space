@@ -5,8 +5,16 @@ import Swal from "sweetalert2";
 const initialData = {
   loading: false,
   //userData: null,
-  userData: { role: "Agent" },
+  userData: { role: "Reporting Lead" },
 };
+
+//roles
+// Super Admin
+// Operation Manager
+// Team Leader
+// Reporting Lead
+// QA Lead
+// Agent
 
 //types
 const LOADING = "LOADING";

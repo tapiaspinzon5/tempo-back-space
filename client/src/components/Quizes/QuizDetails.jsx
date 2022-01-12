@@ -14,6 +14,29 @@ import Footer from "../../components/Footer";
 const MainDatailsQuiz = styled(Grid)(({ theme }) => ({
   width: "95%",
   margin: "20px",
+  // div: {
+  //   bgcolor: "#E8E8E8",
+  //   borderBottomLeftRadius: "20px",
+  //   borderTopLeftRadius: "20px",
+  //   marginTop: "20px",
+  //   padding: "5rem",
+  //   minHeight: "450px",
+  //   height: "50vh",
+  // },
+}));
+const GridContent = styled(Grid)(({ theme }) => ({
+  background: "#E8E8E8",
+  borderBottomLeftRadius: "20px",
+  borderRadius: "20px",
+  marginTop: "20px",
+  padding: "5rem",
+  //minHeight: "450px",
+  height: "50vh",
+  display: "flex",
+  justifyContent: "space-around",
+  img: {
+    height: "100%",
+  },
 }));
 
 const QuizDetails = () => {
@@ -24,61 +47,31 @@ const QuizDetails = () => {
   console.log(idquiz);
   return (
     <MainDatailsQuiz container>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          bgcolor: "#E8E8E8",
-          borderBottomLeftRadius: "20px",
-          borderTopLeftRadius: "20px",
-          marginTop: "20px",
-          padding: "5rem",
-          minHeight: "450px",
-          height: "50vh",
-        }}
-      >
-        <Typography variant="h3" color="initial" fontWeight={500}>
-          Acquire new skills to strengthen your progress
-        </Typography>
-        <Typography variant="body1" color="initial" my={4} fontSize={20}>
-          Learn to create, know and spread the knowledge acquired with the
-          games, to make your progress grow.
-        </Typography>
-        <Button
-          onClick={() => navigate(`/quiz/${idquiz}`)}
-          sx={{
-            background: theme.palette.background.primary,
-            color: "#FFFFFF",
-            width: "240px",
-            textTransform: "none",
-            fontSize: "20px",
-          }}
-        >
-          Start the test
-        </Button>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          bgcolor: "#E8E8E8",
-          borderBottomRightRadius: "20px",
-          borderTopRightRadius: "20px",
-          marginTop: "20px",
-          padding: "2rem",
-          minHeight: "450px",
-          height: "50vh",
-        }}
-      >
-        <img
-          src={quizdesc}
-          alt="quiz description"
-          width={"550"}
-          height={"380"}
-        />
-      </Grid>
+      <GridContent item xs={12}>
+        <Box>
+          <Typography variant="h3" color="initial" fontWeight={500}>
+            Acquire new skills to strengthen your progress
+          </Typography>
+          <Typography variant="body1" color="initial" my={4} fontSize={20}>
+            Learn to create, know and spread the knowledge acquired with the
+            games, to make your progress grow.
+          </Typography>
+          <Button
+            onClick={() => navigate(`/quiz/${idquiz}`)}
+            sx={{
+              background: theme.palette.background.primary,
+              color: "#FFFFFF",
+              width: "240px",
+              textTransform: "none",
+              fontSize: "20px",
+            }}
+          >
+            Start the test
+          </Button>
+        </Box>
+
+        <img src={quizdesc} alt="quiz description" />
+      </GridContent>
       <Grid
         item
         xs={12}
@@ -96,13 +89,6 @@ const QuizDetails = () => {
               <Typography variant="h6" color="initial" fontWeight="bold">
                 Quiz details
               </Typography>
-              {/* <Box display="flex" alignItems="center" mt={3}>
-                <AccessTimeRoundedIcon sx={{ color: indigo[500], mr: "5px" }} />
-
-                <Typography variant="body1" color="initial" fontSize="20px">
-                  Multiple answer
-                </Typography>
-              </Box> */}
               <Box display="flex" alignItems="center" mt={3}>
                 <WarningAmberRoundedIcon
                   sx={{ color: indigo[500], mr: "5px" }}
