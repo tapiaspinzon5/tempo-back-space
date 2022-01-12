@@ -20,6 +20,8 @@ module.exports = (router) => {
   // Carga Ops.Manager
   router.post("/uploadopsm", routes.uploadOpsM);// Valida el csv cargado para crear la intradia de un escenario
   
+  router.post("/uploadrepl", routes.uploadRepLead);// Valida el csv cargado para crear la intradia de un escenario
+  
   // Ver examenes por IDCSSM
   router.post("/getquizbyagent", routes.getQuizByAgent);
  

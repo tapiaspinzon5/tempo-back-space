@@ -97,23 +97,8 @@ let SpParamTable2 = (nameParam, colums, rows) => {
   }
 }
 
-let quizTable = [
-  { name: 'Pregunta', type: TYPES.VarChar },
-  { name: 'Respuesta1', type: TYPES.VarChar },
-  { name: 'Respuesta2', type: TYPES.VarChar },
-  { name: 'Respuesta3', type: TYPES.VarChar },
-  { name: 'Respuesta4', type: TYPES.VarChar },
-  { name: 'Puntuacion', type: TYPES.Int },
-  { name: 'RespuestaCorrecta', type: TYPES.VarChar },
-  { name: 'Quartil', type: TYPES.VarChar },
-  { name: 'idPregunta', type: TYPES.Int },
-]
-
-
-
-
 let suTable = [
-  { name: 'IdentPM', type: TYPES.Int },
+  { name: 'Ident', type: TYPES.Int },
   { name: 'TeamName', type: TYPES.VarChar },
   { name: 'KPI', type: TYPES.VarChar }, 
   { name: 'Campaign', type: TYPES.VarChar },
@@ -125,9 +110,29 @@ let suTable = [
 
 let opsmTable = [
   { name: 'Ident', type: TYPES.Int },
-  { name: 'Role', type: TYPES.VarChar },
+  { name: 'RoleAgent', type: TYPES.VarChar },
   { name: 'Team', type: TYPES.VarChar }, 
   { name: 'Lob', type: TYPES.VarChar }, 
+]
+
+let reportLeadTable = [
+  { name: 'Quartile', type: TYPES.Int },
+  { name: 'Ident', type: TYPES.VarChar },
+  { name: 'Team', type: TYPES.VarChar }, 
+  { name: 'RoleAgent', type: TYPES.VarChar }, 
+]
+
+let quizTable = [
+  { name: 'Question', type: TYPES.VarChar },
+  { name: 'Option1', type: TYPES.VarChar },
+  { name: 'Option2', type: TYPES.VarChar },
+  { name: 'Option3', type: TYPES.VarChar },
+  { name: 'Option4', type: TYPES.VarChar },
+  { name: 'Answer', type: TYPES.Int },
+  { name: 'Quartile', type: TYPES.VarChar },
+  { name: 'ExamName', type: TYPES.VarChar },
+  { name: 'DescriptionExam', type: TYPES.Int },
+  { name: 'ApprovalExam', type: TYPES.Int },
 ]
 
 let quizResults = [
@@ -206,6 +211,11 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam('ident', req.idccms, TYPES.Int),
         SpParamTable2('table', opsmTable, req.rows)
+      ]);
+    case "spInsertEmployee":
+      return parametrizacion([
+        new SpParam('ident', req.idccms, TYPES.Int),
+        SpParamTable2('table', reportLeadTable, req.rows)
       ]);
     case "spAddJumpRegister":
       return SpParamTable('jumpTable', JumpEmployee, req.rows);
