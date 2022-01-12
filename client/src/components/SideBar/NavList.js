@@ -71,12 +71,14 @@ export const NavList = ({ open, match, userData }) => {
 
         {userData === "Agent" ? (
           <>
-            <LItem button onClick={() => navigate("/activitiesview")}>
-              <LIcon>
-                <img src={gridIcon} alt="Grid" />
-              </LIcon>
-              {open && match && <Typography>Library</Typography>}
-            </LItem>
+            {userData === "Agent" && (
+              <LItem button onClick={() => navigate("/activitiesview")}>
+                <LIcon>
+                  <img src={gridIcon} alt="Grid" />
+                </LIcon>
+                {open && match && <Typography>Library</Typography>}
+              </LItem>
+            )}
           </>
         ) : (
           //NAVBAR PARA ADMINISTRADORES
