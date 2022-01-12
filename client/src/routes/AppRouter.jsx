@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,6 +34,7 @@ const MainApp = styled(Grid)(() => ({
 
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
+  const [navView, setNavView] = useState(true);
   //const userData = { role: "Operation Manager" };
 
   //console.log(userData);
@@ -41,7 +42,7 @@ const AppRouter = () => {
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.role && <Navbar />}
+        {userData?.role && navView && <Navbar />}
 
         <Routes>
           {userData?.role === "Agent" && (
@@ -49,7 +50,10 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/quiz/:idquiz" element={<QuizViewV2 />} />
+              <Route
+                path="/quiz/:idquiz"
+                element={<QuizViewV2 setNavView={setNavView} />}
+              />
               <Route path="/quizdetails/:idquiz" element={<QuizDetails />} />
             </>
           )}

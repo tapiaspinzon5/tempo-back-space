@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import { MultiAnswer } from "../components/Questions/MultiAnswer";
 import { OneAnswer } from "../components/Questions/OneAnswer";
 import { TrueFalse } from "../components/Questions/TrueFalse";
-import DB from "../components/Questions/data.json";
 import Footer from "../components/Footer";
 import { getExam } from "../utils/api";
 import { uploadAnswers } from "../utils/api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import bgmodal from "../assets/images/background_modal_quiz.png";
 
 const ContentBox = styled(Box)({
   display: "flex",
@@ -22,8 +21,9 @@ const ContentBox = styled(Box)({
 
 const MySwal = withReactContent(Swal);
 
-export const QuizViewV2 = () => {
+export const QuizViewV2 = ({ setNavView }) => {
   const paramsQuiz = useParams();
+  const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
   const { idquiz } = paramsQuiz;
@@ -44,7 +44,6 @@ export const QuizViewV2 = () => {
 
   const handleNext = () => {
     if (answer[quiz[next].Idpregunta]) {
-      //console.log(answer[quiz[next].Idpregunta]);
       setNext(next + 1);
     } else {
       MySwal.fire({
@@ -69,12 +68,39 @@ export const QuizViewV2 = () => {
         return table;
       };
       const resp = await uploadAnswers(data(), idccms, idquiz);
-
       if (resp.status === 200) {
-        MySwal.fire({
-          title: <p>Quiz upload</p>,
-          icon: "success",
-        });
+        if (resp.data[0].EstadoExamen === "APROBADO") {
+          setNavView(false);
+          MySwal.fire({
+            title: <p>PASSED</p>,
+            icon: "success",
+            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].EstadoExamen}</p>`,
+            confirmButtonText: "Accept and go Home",
+            backdrop: `url(${bgmodal}) center center`,
+            allowOutsideClick: false,
+          }).then((resultado) => {
+            if (resultado.value) {
+              setNavView(true);
+              navigate("/", { replace: true });
+            }
+          });
+        } else {
+          setNavView(false);
+          MySwal.fire({
+            title: <p>FAILED</p>,
+            icon: "error",
+            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].EstadoExamen}</p>`,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Accept and go Home",
+            backdrop: `url(${bgmodal}) center center`,
+            allowOutsideClick: false,
+          }).then((resultado) => {
+            if (resultado.value) {
+              setNavView(true);
+              navigate("/", { replace: true });
+            }
+          });
+        }
       }
     } else {
       MySwal.fire({
