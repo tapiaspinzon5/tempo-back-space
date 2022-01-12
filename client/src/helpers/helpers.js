@@ -161,3 +161,45 @@ export const validateFieldsTeamOM = (data) => {
 
   return errorField;
 };
+
+//Helper Validacion carga archivos Reporting Lead
+export const validateHeadersProvideUsersRL = (headers) => {
+  let differentsArrays = false;
+  console.log(headers);
+  let defaultHeaders = ["Quartile", "Ident", "Team", "RoleAgent"];
+
+  if (headers.length !== defaultHeaders.length) {
+    console.log("Las columnas no coinciden");
+    return;
+  }
+
+  for (let i = 0; i < defaultHeaders.length; i++) {
+    if (defaultHeaders[i] != headers[i]) {
+      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+      differentsArrays = true;
+      break;
+    }
+  }
+
+  return differentsArrays;
+};
+
+export const validateFieldsProvideUsersRL = (data) => {
+  let roles = ["Agent"];
+  let quartiles = ["Q1", "Q2", "Q3", "Q4"];
+  let errorField = false;
+
+  data.forEach((col) => {
+    if (!quartiles.includes(col[0])) {
+      errorField = true;
+    } else if (col[1] === undefined || isNaN(col[1])) {
+      errorField = true;
+    } else if (col[2] === undefined) {
+      errorField = true;
+    } else if (!roles.includes(col[3])) {
+      errorField = true;
+    }
+  });
+
+  return errorField;
+};
