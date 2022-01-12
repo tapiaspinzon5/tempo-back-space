@@ -1,16 +1,19 @@
 //Validar Header carga de quiz
+
 export const validateHeaders = (headers) => {
   let differentsArrays = false;
 
   let defaultHeaders = [
-    "Pregunta",
-    "Respuesta1",
-    "Respuesta2",
-    "Respuesta3",
-    "Respuesta4",
-    "Puntuacion",
-    "Respuesta Correcta",
-    "Quartil",
+    "Question",
+    "Option1",
+    "Option2",
+    "Option3",
+    "Option4",
+    "Answer",
+    "Quartile",
+    "ExamName",
+    "DescriptionExam",
+    "ApprovalExam",
   ];
 
   if (headers.length !== defaultHeaders.length) {
@@ -49,11 +52,15 @@ export const validateFields = (data) => {
       // errorField = true;
       // } else if (col[4] === undefined){
       // errorField = true;
-    } else if (isNaN(col[5])) {
+    } else if (!answers.includes(col[5])) {
       errorField = true;
-    } else if (!answers.includes(col[6])) {
+    } else if (!quartiles.includes(col[6])) {
       errorField = true;
-    } else if (!quartiles.includes(col[7])) {
+    } else if (col[7] === undefined) {
+      errorField = true;
+    } else if (col[8] === undefined) {
+      errorField = true;
+    } else if (isNaN(col[9])) {
       errorField = true;
     }
   });
@@ -67,7 +74,7 @@ export const validateHeadersCreateTeam = (headers) => {
   let differentsArrays = false;
 
   let defaultHeaders = [
-    "IdentPM",
+    "Ident",
     "TeamName",
     "KPI",
     "Campaign",
@@ -124,7 +131,7 @@ export const validateFieldsCreateTeams = (data) => {
 export const validateHeadersTeamOM = (headers) => {
   let differentsArrays = false;
   console.log(headers);
-  let defaultHeaders = ["Empleado", "Rol", "Equipo", "Lob"];
+  let defaultHeaders = ["Ident", "RoleAgent", "Team", "Lob"];
 
   if (headers.length !== defaultHeaders.length) {
     console.log("Las columnas no coinciden");
