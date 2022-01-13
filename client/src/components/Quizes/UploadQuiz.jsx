@@ -140,6 +140,12 @@ const UploadQuiz = ({ idccms }) => {
         MySwal.fire({
           title: <p>File upload</p>,
           icon: "success",
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((resultado) => {
+          if (resultado.value) {
+            window.location.reload();
+          }
         });
       }
     }

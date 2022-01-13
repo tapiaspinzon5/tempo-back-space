@@ -1,4 +1,5 @@
 import axios from "axios";
+//import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
 // const loginSubmit = (data) => {
@@ -180,7 +181,7 @@ const uploadAnswers = (data, idccms, idExam) => {
   }
 };
 
-const downloadKPI = (idccms) => {
+const downloadHomeData = (idccms) => {
   //console.log(data);
   //10.142.73.193 - 10.142.24.65
   try {
@@ -204,6 +205,6 @@ export {
   createTeamSuperUser,
   createTeamOperationManager,
   uploadAnswers,
-  downloadKPI,
+  downloadHomeData,
   createTeamReportingLead,
 };

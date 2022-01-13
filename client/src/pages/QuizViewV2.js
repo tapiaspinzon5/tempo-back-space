@@ -20,6 +20,17 @@ const ContentBox = styled(Box)({
 });
 
 const MySwal = withReactContent(Swal);
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 export const QuizViewV2 = ({ setNavView }) => {
   const paramsQuiz = useParams();
@@ -37,6 +48,7 @@ export const QuizViewV2 = ({ setNavView }) => {
     const getData = async () => {
       const quiz = await getExam(idccms, idquiz);
       setQuiz(quiz.data);
+      setValidation(quiz.data);
     };
 
     getData();
@@ -46,9 +58,9 @@ export const QuizViewV2 = ({ setNavView }) => {
     if (answer[quiz[next].Idpregunta]) {
       setNext(next + 1);
     } else {
-      MySwal.fire({
-        title: <p>Check your Answer</p>,
-        icon: "error",
+      Toast.fire({
+        icon: "warning",
+        title: "Check your Answer",
       });
     }
   };
@@ -103,9 +115,9 @@ export const QuizViewV2 = ({ setNavView }) => {
         }
       }
     } else {
-      MySwal.fire({
-        title: <p>Check your Answer</p>,
-        icon: "error",
+      Toast.fire({
+        icon: "warning",
+        title: "Check your Answer",
       });
     }
   };

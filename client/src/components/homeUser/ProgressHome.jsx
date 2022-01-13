@@ -96,7 +96,8 @@ const dataKPI = [
   },
 ];
 
-const ProgressHome = () => {
+const ProgressHome = ({ data }) => {
+  console.log(data);
   return (
     <CardProgressSection>
       <Box

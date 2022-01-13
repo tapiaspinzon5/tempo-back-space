@@ -217,9 +217,14 @@ exports.uploadOpsM = async (req, res) => {
 };
 
 exports.uploadRepLead = async (req, res) => {
-  
   sql
-    .query("spInsertEmployee",parametros({ idccms: req.query.idccms, rows: req.body.data },"spInsertEmployee"))
+    .query(
+      "spInsertEmployee",
+      parametros(
+        { idccms: req.query.idccms, rows: req.body.data },
+        "spInsertEmployee"
+      )
+    )
     .then((result) => {
       responsep(1, req, res, result);
     })
@@ -280,7 +285,6 @@ exports.getResultQuiz = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
-
 
 exports.getResultQuiz = async (req, res) => {
   sql

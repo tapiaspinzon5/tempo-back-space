@@ -54,7 +54,10 @@ const AppRouter = () => {
                 path="/quiz/:idquiz"
                 element={<QuizViewV2 setNavView={setNavView} />}
               />
-              <Route path="/quizdetails/:idquiz" element={<QuizDetails />} />
+              <Route
+                path="/quizdetails/:idquiz/:stateActivity"
+                element={<QuizDetails />}
+              />
             </>
           )}
 

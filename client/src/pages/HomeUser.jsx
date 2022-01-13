@@ -10,7 +10,7 @@ import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useSelector } from "react-redux";
-import { downloadKPI } from "../utils/api";
+import { downloadHomeData } from "../utils/api";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -47,12 +47,12 @@ const HomeUser = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const kpis = await downloadKPI(idccms);
-      setData(kpis.data[0]);
+      const kpis = await downloadHomeData(idccms);
+      setData(kpis.data);
     };
     getData();
-    console.log(data);
   }, []);
+  console.log(data);
   return (
     <>
       <MainHomeUser
@@ -61,7 +61,7 @@ const HomeUser = () => {
         <Header />
         <Grid container spacing={3}>
           <Grid item xs={12} lg={5} xl={6}>
-            <ProgressHome />
+            <ProgressHome data={data} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <Podium />

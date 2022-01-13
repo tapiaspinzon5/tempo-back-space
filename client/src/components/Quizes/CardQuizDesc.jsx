@@ -33,7 +33,7 @@ const CardQuiz = styled(Box)(({ theme }) => ({
 }));
 
 const CardQuizDesc = ({ quiz }) => {
-  const { CantidadPreguntas, Descripcion, Estado, IdExamen, fechaRegistro } =
+  const { CantidadPreguntas, Descripcion, Estado, NameExam, fechaRegistro } =
     quiz;
   return (
     <CardQuiz>
@@ -47,13 +47,13 @@ const CardQuizDesc = ({ quiz }) => {
       <img src="" alt="" />
 
       <Typography variant="h6" fontWeight="bold" align="center">
-        Quiz {IdExamen}
+        {NameExam}
       </Typography>
       <Typography variant="body2" align="center">
         {Descripcion}
       </Typography>
       <Typography variant="body2" align="center">
-        {fechaRegistro}
+        {new Date(fechaRegistro).toDateString()}
       </Typography>
       <Typography variant="body2" align="center">
         Preguntas: {CantidadPreguntas}
