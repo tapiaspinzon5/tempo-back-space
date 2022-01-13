@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Typography, Grid, Button, Box } from "@mui/material";
+import { Typography, Grid, Button, Box, Hidden } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import quizdesc from "../../assets/images/quizdesc.png";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
@@ -14,24 +14,13 @@ import Footer from "../../components/Footer";
 const MainDatailsQuiz = styled(Grid)(({ theme }) => ({
   width: "95%",
   margin: "20px",
-  // div: {
-  //   bgcolor: "#E8E8E8",
-  //   borderBottomLeftRadius: "20px",
-  //   borderTopLeftRadius: "20px",
-  //   marginTop: "20px",
-  //   padding: "5rem",
-  //   minHeight: "450px",
-  //   height: "50vh",
-  // },
 }));
 const GridContent = styled(Grid)(({ theme }) => ({
   background: "#E8E8E8",
   borderBottomLeftRadius: "20px",
   borderRadius: "20px",
-  marginTop: "20px",
-  padding: "5rem",
-  //minHeight: "450px",
-  height: "50vh",
+  marginBottom: "20px",
+  minHeight: "45vh",
   display: "flex",
   justifyContent: "space-around",
   img: {
@@ -48,11 +37,16 @@ const QuizDetails = () => {
   return (
     <MainDatailsQuiz container>
       <GridContent item xs={12}>
-        <Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-around"
+          sx={{ padding: { xs: "0.1rem 3rem", xl: "5rem 0rem" } }}
+        >
           <Typography variant="h3" color="initial" fontWeight={500}>
             Acquire new skills to strengthen your progress
           </Typography>
-          <Typography variant="body1" color="initial" my={4} fontSize={20}>
+          <Typography variant="body1" color="initial" fontSize={20}>
             Learn to create, know and spread the knowledge acquired with the
             games, to make your progress grow.
           </Typography>
@@ -69,8 +63,12 @@ const QuizDetails = () => {
             Start the test
           </Button>
         </Box>
-
-        <img src={quizdesc} alt="quiz description" />
+        <Box
+          component="div"
+          sx={{ padding: "0.5rem", display: { xs: "none", lg: "block" } }}
+        >
+          <img src={quizdesc} alt="quiz description" />
+        </Box>
       </GridContent>
       <Grid
         item
@@ -80,11 +78,12 @@ const QuizDetails = () => {
           bgcolor: "#F9F9F9",
           borderBottomLeftRadius: "20px",
           borderTopLeftRadius: "20px",
-          padding: "3rem",
+          padding: "2rem 3rem",
+          minHeight: "45vh",
         }}
       >
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Box>
               <Typography variant="h6" color="initial" fontWeight="bold">
                 Quiz details
@@ -113,7 +112,7 @@ const QuizDetails = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Box>
               <Typography variant="h6" color="initial" fontWeight={600}>
                 {" "}
