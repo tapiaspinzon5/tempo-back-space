@@ -29,7 +29,7 @@ export const QuizViewV2 = ({ setNavView }) => {
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);
-  //const [data, setData] = useState(null);
+  const [validation, setValidation] = useState(null);
   const [next, setNext] = useState(0);
   const theme = useTheme();
 

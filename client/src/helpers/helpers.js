@@ -150,7 +150,7 @@ export const validateHeadersTeamOM = (headers) => {
 };
 
 export const validateFieldsTeamOM = (data) => {
-  let roles = ["Operation Manager", "Team Lead", "Reporting Lead", "QA Lead"];
+  let roles = ["Team Lead", "Reporting Lead", "QA Lead"];
 
   let errorField = false;
 

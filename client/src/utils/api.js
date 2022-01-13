@@ -142,6 +142,23 @@ const createTeamOperationManager = (dataCSV, idccms) => {
   }
 };
 
+const createTeamReportingLead = (dataCSV, idccms) => {
+  console.log(idccms);
+  try {
+    return axios
+      .post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 const uploadAnswers = (data, idccms, idExam) => {
   //console.log(data);
   //10.142.73.193
@@ -163,6 +180,22 @@ const uploadAnswers = (data, idccms, idExam) => {
   }
 };
 
+const downloadKPI = (idccms) => {
+  //console.log(data);
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -171,4 +204,6 @@ export {
   createTeamSuperUser,
   createTeamOperationManager,
   uploadAnswers,
+  downloadKPI,
+  createTeamReportingLead,
 };

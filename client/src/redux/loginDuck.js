@@ -4,8 +4,8 @@ import Swal from "sweetalert2";
 //datainicial
 const initialData = {
   loading: false,
-  //userData: null,
-  userData: { role: "QA Lead" },
+  userData: null,
+  //userData: { role: "QA Lead" },
 };
 
 //roles

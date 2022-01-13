@@ -13,7 +13,7 @@ import {
   validateFieldsProvideUsersRL,
   validateHeadersProvideUsersRL,
 } from "../helpers/helpers";
-import { createTeamOperationManager } from "../utils/api";
+import { createTeamReportingLead } from "../utils/api";
 const MySwal = withReactContent(Swal);
 
 const MainHomeRL = styled(Grid)(({ theme }) => ({
@@ -139,7 +139,7 @@ export const HomeRL = () => {
       }
 
       //setData(data);
-      const resp = await createTeamOperationManager(data, idccms);
+      const resp = await createTeamReportingLead(data, idccms);
 
       console.log(resp);
 
