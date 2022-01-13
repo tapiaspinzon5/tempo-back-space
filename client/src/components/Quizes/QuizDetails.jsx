@@ -20,11 +20,11 @@ const GridContent = styled(Grid)(({ theme }) => ({
   borderBottomLeftRadius: "20px",
   borderRadius: "20px",
   marginBottom: "20px",
-  minHeight: "45vh",
+  height: "50vh",
   display: "flex",
   justifyContent: "space-around",
   img: {
-    height: "100%",
+    height: "90%",
   },
 }));
 
@@ -43,7 +43,7 @@ const QuizDetails = () => {
           justifyContent="space-around"
           sx={{ padding: { xs: "0.1rem 3rem", xl: "5rem 0rem" } }}
         >
-          <Typography variant="h3" color="initial" fontWeight={500}>
+          <Typography variant="h4" color="initial" fontWeight={500}>
             Acquire new skills to strengthen your progress
           </Typography>
           <Typography variant="body1" color="initial" fontSize={20}>
@@ -79,7 +79,7 @@ const QuizDetails = () => {
           borderBottomLeftRadius: "20px",
           borderTopLeftRadius: "20px",
           padding: "2rem 3rem",
-          minHeight: "45vh",
+          minHeight: "35vh",
         }}
       >
         <Grid container>
@@ -159,7 +159,7 @@ const QuizDetails = () => {
           padding: "3rem",
         }}
       >
-        <Typography variant="h3" color="initial" fontWeight={500}>
+        <Typography variant="h4" color="initial" fontWeight={500}>
           About this course
         </Typography>
         <Typography variant="body1" color="initial" fontSize={20} mt={4}>
