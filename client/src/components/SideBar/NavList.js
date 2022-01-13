@@ -83,12 +83,14 @@ export const NavList = ({ open, match, userData }) => {
         ) : (
           //NAVBAR PARA ADMINISTRADORES
           <>
-            <LItem button onClick={() => navigate("/upquiz")}>
-              <LIcon>
-                <SiHtmlacademy size={30} color="#fff" />
-              </LIcon>
-              {open && match && <Typography>Library</Typography>}
-            </LItem>
+            {userData === "QA Lead" && (
+              <LItem button onClick={() => navigate("/upquiz")}>
+                <LIcon>
+                  <SiHtmlacademy size={30} color="#fff" />
+                </LIcon>
+                {open && match && <Typography>Library</Typography>}
+              </LItem>
+            )}
           </>
         )}
         <LItem button onClick={logOut}>
