@@ -33,7 +33,7 @@ const ActivitiesView = () => {
     getData();
   }, []);
 
-  console.log(quizUser);
+
   return (
     <Grid width="100%">
       <MainViewver>

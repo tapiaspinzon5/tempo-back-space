@@ -8,8 +8,7 @@ const PrivateRoute = ({ children }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   if (localStorage.getItem("userTP")) {
     const userTP = JSON.parse(localStorage.getItem("userTP"));
-    console.log(userTP.token);
-    console.log(userData.token);
+  
     if (userTP.token === userData.token) {
       return children;
     }

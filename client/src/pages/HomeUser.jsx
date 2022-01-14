@@ -52,91 +52,97 @@ const HomeUser = () => {
     };
     getData();
   }, []);
-  console.log(data);
+
+  const ranking =
+    data[0] &&
+    data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido);
+
   return (
     <>
-      <MainHomeUser
-        sx={{ bgcolor: "background.default", color: "text.primary" }}
-      >
-        <Header />
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={5} xl={6}>
-            <ProgressHome data={data} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3} xl={3}>
-            <Podium />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4} xl={3}>
-            <Ranking />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <BoxVinetas>
-              <Typography variant="h6" align="center" fontWeight="bold">
-                Total Exp
-              </Typography>
-              <Circle />
-              <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
-                  See more
-                </SeeButton>
-              </Box>
-            </BoxVinetas>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <BoxVinetas>
-              <Typography variant="h6" align="center" fontWeight="bold">
-                Challenges Won
-              </Typography>
-              <Diamond />
-              <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
-                  See more
-                </SeeButton>
-              </Box>
-            </BoxVinetas>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <BoxVinetas>
-              <Typography variant="h6" align="center" fontWeight="bold">
-                Games Played
-              </Typography>
-              <StarProgress />
-              <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
-                  See more
-                </SeeButton>
-              </Box>
-            </BoxVinetas>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <BoxVinetas>
-              <Typography variant="h6" align="center" fontWeight="bold">
-                Latest Achievement
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "28vh",
-                }}
-              >
-                <img src={medal} alt="top-Ten" height="75%" width="75%" />
+      {ranking && (
+        <MainHomeUser
+          sx={{ bgcolor: "background.default", color: "text.primary" }}
+        >
+          <Header />
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={5} xl={6}>
+              <ProgressHome dataKPI={data} />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3} xl={3}>
+              <Podium podio={ranking} />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4} xl={3}>
+              <Ranking ranking={ranking} />
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <BoxVinetas>
+                <Typography variant="h6" align="center" fontWeight="bold">
+                  Total Exp
+                </Typography>
+                <Circle />
                 <Box display="flex" justifyContent="center">
-                  <SeeButton
-                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
-                  >
+                  <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
                     See more
                   </SeeButton>
                 </Box>
-              </Box>
-            </BoxVinetas>
+              </BoxVinetas>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <BoxVinetas>
+                <Typography variant="h6" align="center" fontWeight="bold">
+                  Challenges Won
+                </Typography>
+                <Diamond />
+                <Box display="flex" justifyContent="center">
+                  <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
+                    See more
+                  </SeeButton>
+                </Box>
+              </BoxVinetas>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <BoxVinetas>
+                <Typography variant="h6" align="center" fontWeight="bold">
+                  Games Played
+                </Typography>
+                <StarProgress />
+                <Box display="flex" justifyContent="center">
+                  <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
+                    See more
+                  </SeeButton>
+                </Box>
+              </BoxVinetas>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <BoxVinetas>
+                <Typography variant="h6" align="center" fontWeight="bold">
+                  Latest Achievement
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "28vh",
+                  }}
+                >
+                  <img src={medal} alt="top-Ten" height="75%" width="75%" />
+                  <Box display="flex" justifyContent="center">
+                    <SeeButton
+                      sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
+                    >
+                      See more
+                    </SeeButton>
+                  </Box>
+                </Box>
+              </BoxVinetas>
+            </Grid>
           </Grid>
-        </Grid>
-        {/* <ProgressSection /> */}
-        <Footer />
-      </MainHomeUser>
+          {/* <ProgressSection /> */}
+          <Footer />
+        </MainHomeUser>
+      )}
     </>
   );
 };

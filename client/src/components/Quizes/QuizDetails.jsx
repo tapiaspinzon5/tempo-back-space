@@ -33,7 +33,7 @@ const QuizDetails = () => {
   const navigate = useNavigate();
   const paramsQuiz = useParams();
   const { idquiz, stateActivity } = paramsQuiz;
-  console.log(idquiz);
+ 
   return (
     <MainDatailsQuiz container>
       <GridContent item xs={12}>

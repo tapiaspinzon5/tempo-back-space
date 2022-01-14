@@ -4,7 +4,7 @@ import { Liquid } from "@antv/g2plot";
 const StarProgress = () => {
   const ref = useRef();
 
-  console.log(ref);
+ 
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
       percent: 0.53,

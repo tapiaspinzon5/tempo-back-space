@@ -81,6 +81,7 @@ let SpParamTable = (nameParam, colums, rows) => {
   }
 };
 
+// Esta funcion se armó con la finalidad de poder enviar parametros individuales y tablas en conjunto a un SP 
 let SpParamTable2 = (nameParam, colums, rows) => {
   try {
     let table;
@@ -99,6 +100,7 @@ let SpParamTable2 = (nameParam, colums, rows) => {
   }
 };
 
+// Columnas para armar la tabla del superusuario
 let suTable = [
   { name: "Ident", type: TYPES.Int },
   { name: "TeamName", type: TYPES.VarChar },
@@ -110,6 +112,7 @@ let suTable = [
   { name: "Q4", type: TYPES.Int },
 ];
 
+// Columnas para armar la tabla del operationManager
 let opsmTable = [
   { name: "Ident", type: TYPES.Int },
   { name: "RoleAgent", type: TYPES.VarChar },
@@ -117,6 +120,7 @@ let opsmTable = [
   { name: "Lob", type: TYPES.VarChar },
 ];
 
+// Columnas para armar la tabla del reportingLead
 let reportLeadTable = [
   { name: "Quartile", type: TYPES.VarChar },
   { name: "Ident", type: TYPES.Int },
@@ -124,6 +128,7 @@ let reportLeadTable = [
   { name: "RoleAgent", type: TYPES.VarChar },
 ];
 
+// Columnas para armar la tabla del QAleader (quizes)
 let quizTable = [
   { name: "Question", type: TYPES.VarChar },
   { name: "Option1", type: TYPES.VarChar },
@@ -138,6 +143,7 @@ let quizTable = [
   { name: "IdPregunta", type: TYPES.Int },
 ];
 
+// Columnas para armar la tabla de respuestas del usuario.
 let quizResults = [
   { name: "Respuesta ", type: TYPES.VarChar },
   { name: "IdPregunta ", type: TYPES.Int },

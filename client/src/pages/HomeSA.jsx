@@ -92,7 +92,7 @@ export const HomeSA = () => {
           let differentsHeaders = validateHeadersCreateTeam(data[0]);
 
           if (differentsHeaders) {
-            console.log("algo psa amiguito");
+          
             reject(" Wrong Headers!");
             return;
           }
@@ -115,26 +115,22 @@ export const HomeSA = () => {
   };
 
   const uploadFile = async (e) => {
-    console.log(e.target.files[0]);
+    
     const fileCSV = e.target.files[0];
     let data;
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      console.log("solo archivos en formato .csv");
+      
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-      // console.log("archivo correcto");
-      // MySwal.fire({
-      //   title: <p>File upload</p>,
-      //   icon: "success",
-      // });
+      
       try {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        console.log(error);
+        
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -146,7 +142,7 @@ export const HomeSA = () => {
       //setData(data);
       const resp = await createTeamSuperUser(data, idccms);
 
-      console.log(resp);
+      
 
       if (resp.status === 200) {
         MySwal.fire({
@@ -157,9 +153,7 @@ export const HomeSA = () => {
     }
   };
 
-  const archivo = (e) => {
-    console.log(e);
-  };
+  
   return (
     <>
       <MainHomeSA sx={{ bgcolor: "background.default", color: "text.primary" }}>

@@ -57,7 +57,6 @@ export default function loginReducer(state = initialData, action) {
 
 //Action login de usuario
 export const loginSubmit = (data) => async (dispatch) => {
-  console.log(data, "desde el pato");
   dispatch({
     type: LOADING,
   });
@@ -69,7 +68,7 @@ export const loginSubmit = (data) => async (dispatch) => {
 
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response);
+          
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -131,7 +130,7 @@ export const readUserActiveAction = () => (dispatch) => {
 //action logout
 
 export const logoutAction = () => (dispatch) => {
-  console.log("cerrando sesion");
+  
   localStorage.removeItem("userTP");
   dispatch({
     type: CERRANDO_SESION_EXITO,

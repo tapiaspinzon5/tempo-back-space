@@ -33,71 +33,7 @@ const Arrow = styled(Box)(() => ({
   borderBottom: "18px solid transparent",
 }));
 
-/* const dataP = {
-  name: "PPH",
-  unit: "Seconds",
-  value: 2.31,
-  good: 5,
-  warning: 2,
-  bad: 1,
-  target: 3.5,
-}; */
-
-const dataKPI = [
-  {
-    nombre: "PPH",
-    unit: "Seconds",
-    valor: "3.31",
-  },
-  {
-    nombre: "SAR",
-    unit: "%",
-    valor: "100",
-  },
-  {
-    nombre: "Solved",
-    unit: "Hours",
-    valor: "22.5",
-  },
-  {
-    nombre: "SHK",
-    unit: "%",
-    valor: "0.7",
-  },
-  {
-    nombre: "%Csat",
-    unit: "%",
-    valor: "68.18",
-  },
-  {
-    nombre: "Escalation",
-    unit: "%",
-    valor: "25.65",
-  },
-  {
-    nombre: "TPH",
-    unit: "Seconds",
-    valor: "4.36",
-  },
-  {
-    nombre: "FTR",
-    unit: "%",
-    valor: "0.9",
-  },
-  {
-    nombre: "SLA",
-    unit: "%",
-    valor: "96.02",
-  },
-  {
-    nombre: "Surveys",
-    unit: "%",
-    valor: "5.3",
-  },
-];
-
-const ProgressHome = ({ data }) => {
-  console.log(data);
+const ProgressHome = ({ dataKPI }) => {
   return (
     <CardProgressSection>
       <Box
@@ -124,32 +60,52 @@ const ProgressHome = ({ data }) => {
 
       {/* Card Progress section */}
 
-      {dataKPI.map((kpi, index) => (
-        <Box key={index}>
-          <Box
-            display="flex"
-            py={2}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box width="60%">
-              <Typography variant="body1" fontWeight="bold">
-                {kpi.nombre}
-              </Typography>
-              <Typography variant="caption">
-                {kpi.valor} {kpi.unit}
-              </Typography>
-              <ProgresBar value={kpi.valor} />
-            </Box>
-            <Box>
-              {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
+      {dataKPI[1] &&
+        dataKPI[1].KPI.map((kpi, index) => (
+          <Box key={index}>
+            <Box
+              display="flex"
+              py={2}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box width="60%">
+                <Box
+                  width="150%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Typography variant="body1" fontWeight="bold">
+                    {kpi.Kpi}
+                  </Typography>
+                  <Typography variant="body1" fontWeight="bold" fontSize="12px">
+                    {`Up: ${new Date(kpi.Date).toDateString()}`}
+                  </Typography>
+                </Box>
+                <Typography variant="caption">
+                  {"Your Score: " + kpi.ACTUAL} {kpi.unitKpi}
+                </Typography>
+                {kpi.unitKpi === "Percentage" ? (
+                  <ProgresBar value={kpi.ACTUAL} />
+                ) : kpi.TargetQ1 - kpi.TargetQ4 > 0 ? (
+                  <ProgresBar value={(kpi.ACTUAL * 100) / kpi.TargetQ1} />
+                ) : (
+                  <ProgresBar value={(kpi.ACTUAL * 100) / kpi.TargetQ4} />
+                )}
+                <Typography variant="body1" fontWeight="bold" fontSize="12px">
+                  {`Target: ${kpi.Target}`}
+                </Typography>
+              </Box>
+              <Box>
+                {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
                 See more
-              </Button> */}
+      </Button> */}
+              </Box>
             </Box>
+            <Divider variant="fullWidth" light />
           </Box>
-          <Divider variant="fullWidth" light />
-        </Box>
-      ))}
+        ))}
       {/* END Card Progress*/}
     </CardProgressSection>
   );
