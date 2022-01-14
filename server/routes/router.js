@@ -13,19 +13,21 @@ module.exports = (router) => {
   });
 
   // CARGA QUIZ CSV
-  router.post("/uploadquiz", routes.saveQuiz);// Valida el csv cargado para crear la intradia de un escenario
-  
+  router.post("/uploadquiz", routes.saveQuiz); // Valida el csv cargado para crear la intradia de un escenario
+
   // Carga SuperUser
-  router.post("/uploadsu", routes.uploadSU);// Valida el csv cargado para crear la intradia de un escenario
+  router.post("/uploadsu", routes.uploadSU); // Valida el csv cargado para crear la intradia de un escenario
   // Carga Ops.Manager
-  router.post("/uploadopsm", routes.uploadOpsM);// Valida el csv cargado para crear la intradia de un escenario
-  
+  router.post("/uploadopsm", routes.uploadOpsM); // Valida el csv cargado para crear la intradia de un escenario
+
+  router.post("/uploadrepl", routes.uploadRepLead); // Valida el csv cargado para crear la intradia de un escenario
+
   // Ver examenes por IDCSSM
   router.post("/getquizbyagent", routes.getQuizByAgent);
- 
+
   // Ver examenes por IDCSSM
   router.post("/getQuizDetail", routes.getQuizDetail);
-  
+
   router.post("/getresultquiz", routes.getResultQuiz);
 
   router.post("/getquizqa", routes.getQuizQA);
@@ -42,8 +44,6 @@ module.exports = (router) => {
 
   function MapSpRouter(route, spName) {
     // router.post(route,  oauth.oauthOther, (req, res) =>
-    router.post(route, (req, res) =>
-      routes.CallSp(spName, req, res)
-    );
+    router.post(route, (req, res) => routes.CallSp(spName, req, res));
   }
 };

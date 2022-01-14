@@ -1,4 +1,5 @@
 import axios from "axios";
+//import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
 // const loginSubmit = (data) => {
@@ -142,6 +143,60 @@ const createTeamOperationManager = (dataCSV, idccms) => {
   }
 };
 
+const createTeamReportingLead = (dataCSV, idccms) => {
+  console.log(idccms);
+  try {
+    return axios
+      .post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const uploadAnswers = (data, idccms, idExam) => {
+  //console.log(data);
+  //10.142.73.193
+  try {
+    return axios
+      .post(
+        `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+        {
+          data: data,
+        }
+      )
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const downloadHomeData = (idccms) => {
+  //console.log(data);
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -149,4 +204,7 @@ export {
   getExam,
   createTeamSuperUser,
   createTeamOperationManager,
+  uploadAnswers,
+  downloadHomeData,
+  createTeamReportingLead,
 };

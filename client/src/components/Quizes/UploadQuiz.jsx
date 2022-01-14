@@ -71,9 +71,11 @@ const UploadQuiz = ({ idccms }) => {
               colum[2]?.toString(),
               colum[3]?.toString(),
               colum[4]?.toString(),
-              colum[5],
+              colum[5]?.toString(),
               colum[6]?.toString(),
               colum[7]?.toString(),
+              colum[8]?.toString(),
+              colum[9],
             ];
           });
 
@@ -138,6 +140,12 @@ const UploadQuiz = ({ idccms }) => {
         MySwal.fire({
           title: <p>File upload</p>,
           icon: "success",
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((resultado) => {
+          if (resultado.value) {
+            window.location.reload();
+          }
         });
       }
     }

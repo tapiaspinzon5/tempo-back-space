@@ -206,7 +206,10 @@ const Login = () => {
                   control={<Checkbox defaultChecked />}
                   label="Remember me"
                 />
-                <a href="/algo" target="blank">
+                <a
+                  href="https://tp-itforce.teleperformance.co/TPCO/ChatSoporte/ChatMenu.aspx"
+                  target="blank"
+                >
                   Forgot password?
                 </a>
               </BoxChecket>

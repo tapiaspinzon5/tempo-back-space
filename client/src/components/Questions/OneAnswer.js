@@ -80,7 +80,6 @@ export const OneAnswer = ({ question, answer, setAnswer }) => {
   const handleChange = (e) => {
     setAnswer({ ...answer, [question.Idpregunta]: e.target.value });
   };
-  console.log(question);
 
   return (
     <div>

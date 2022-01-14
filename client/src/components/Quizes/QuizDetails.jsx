@@ -32,7 +32,7 @@ const QuizDetails = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const paramsQuiz = useParams();
-  const { idquiz } = paramsQuiz;
+  const { idquiz, stateActivity } = paramsQuiz;
   console.log(idquiz);
   return (
     <MainDatailsQuiz container>

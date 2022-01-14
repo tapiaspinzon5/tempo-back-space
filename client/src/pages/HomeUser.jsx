@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
-
-// import Ranking from "../components/homeUser/Ranking";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
 import Podium from "../components/progressCharts/Podium";
@@ -11,13 +9,8 @@ import Diamond from "../components/progressCharts/Diamond";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
-//import { Star5 } from "../components/Star 5/Star5";
-//import Games from "../components/homeUser/Games";
-//import LastPlayed from "../components/homeUser/LastPlayed";
-//import CategoryGames from "../components/homeUser/CategoryGames";
-//import News from "../components/homeUser/News";
-//import ProgressSection from "../components/homeUser/ProgressSection";
-//import DescriptionGame from "../components/homeUser/DescriptionGame";
+import { useSelector } from "react-redux";
+import { downloadHomeData } from "../utils/api";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -48,6 +41,18 @@ const SeeButton = styled(Button)(() => ({
 }));
 
 const HomeUser = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.idccms;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const kpis = await downloadHomeData(idccms);
+      setData(kpis.data);
+    };
+    getData();
+  }, []);
+  console.log(data);
   return (
     <>
       <MainHomeUser
@@ -56,7 +61,7 @@ const HomeUser = () => {
         <Header />
         <Grid container spacing={3}>
           <Grid item xs={12} lg={5} xl={6}>
-            <ProgressHome />
+            <ProgressHome data={data} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <Podium />

@@ -3,13 +3,10 @@ const parametros = require("./params.controller").parametros;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
-const multiparty = require('multiparty');
-const fs = require('fs')
-let csvToJson = require('convert-csv-to-json');
+const multiparty = require("multiparty");
+const fs = require("fs");
+let csvToJson = require("convert-csv-to-json");
 const xlsx = require("xlsx");
-
-
-
 
 exports.CallSp = (spName, req, res) => {
   // const payload = jwt.verify(req.headers.authorization.split(" ")[1],  process.env.SECRET);
@@ -22,16 +19,15 @@ exports.CallSp = (spName, req, res) => {
       responsep(1, req, res, result);
     })
     .catch((err) => {
-      console.log(err, 'sp')
+      console.log(err, "sp");
       responsep(2, req, res, err);
     });
-}
+};
 // };
 
 function isEmpty(req) {
   for (var key in req) {
-    if (req.hasOwnProperty(key))
-      return false;
+    if (req.hasOwnProperty(key)) return false;
   }
   return true;
 }
@@ -59,7 +55,7 @@ let responsep = (tipo, req, res, resultado, cookie) => {
         path: "/",
       });
       res.status(200).json(resultado);
-      resolve('Enviado')
+      resolve("Enviado");
     } else if (tipo == 2) {
       console.log("Error at:", new Date(), "res: ", resultado);
       res.status(400).json(resultado);
@@ -68,21 +64,19 @@ let responsep = (tipo, req, res, resultado, cookie) => {
   });
 };
 
-
-exports.saveQuiz = async (req, res) =>  {
-  
+exports.saveQuiz = async (req, res) => {
   // let form = new multiparty.Form();
 
   // form.parse(req, async function(err, fields, files) {
   //   // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
   //   //   //req.body.error = "Datos de User y/o lob inválidos";
   //   //   //next();
-  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
+  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");
   //   // }else{
 
   //   const workbook = xlsx.readFile(files.file[0].path);
   //   const sheetNames = workbook.SheetNames;
-    
+
   //   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
 
   //   // Removemos los headers para enviar a DB
@@ -94,7 +88,7 @@ exports.saveQuiz = async (req, res) =>  {
   //     return ([
   //       ...person,
   //       i
-  //     ]) 
+  //     ])
   //   })
 
   //   sql
@@ -111,39 +105,38 @@ exports.saveQuiz = async (req, res) =>  {
   let i = 0;
   let data = req.body.data;
 
-  let rows = data.map(quest => {
-    i=i+1;
-    return ([
-      ...quest,
-      i
-    ]);
-  })
+  let rows = data.map((quest) => {
+    i = i + 1;
+    return [...quest, i];
+  });
 
   sql
-    .query('spInsertExam', parametros({idccms:req.query.idccms, rows},'spInsertExam'))
+    .query(
+      "spInsertExam",
+      parametros({ idccms: req.query.idccms, rows }, "spInsertExam")
+    )
     .then((result) => {
       responsep(1, req, res, result);
     })
     .catch((err) => {
-      console.log(err, 'sp')
+      console.log(err, "sp");
       responsep(2, req, res, err);
     });
-}
+};
 
-exports.uploadSU = async (req, res) =>  {
-  
+exports.uploadSU = async (req, res) => {
   // let form = new multiparty.Form();
-  
+
   // form.parse(req, async function(err, fields, files) {
   //   // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
   //   //   //req.body.error = "Datos de User y/o lob inválidos";
   //   //   //next();
-  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
+  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");
   //   // }else{
 
   //   const workbook = xlsx.readFile(files.file[0].path);
   //   const sheetNames = workbook.SheetNames;
-    
+
   //   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
 
   //   // Removemos los headers para enviar a DB
@@ -161,30 +154,35 @@ exports.uploadSU = async (req, res) =>  {
   // })
 
   sql
-  .query('spInsertTeam', parametros({idccms:req.query.idccms, rows:req.body.data},'spInsertTeam'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
+    .query(
+      "spInsertTeam",
+      parametros(
+        { idccms: req.query.idccms, rows: req.body.data },
+        "spInsertTeam"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-exports.uploadOpsM = async (req, res) =>  {
-  
+exports.uploadOpsM = async (req, res) => {
   // let form = new multiparty.Form();
-  
+
   // form.parse(req, async function(err, fields, files) {
   //   // if(isNaN(fields.idccmsUser[0]) || isNaN(fields.idLob[0])){
   //   //   //req.body.error = "Datos de User y/o lob inválidos";
   //   //   //next();
-  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");  
+  //   //   responsep(2, req, res, "Datos de User y/o lob inválidos");
   //   // }else{
 
   //   const workbook = xlsx.readFile(files.file[0].path);
   //   const sheetNames = workbook.SheetNames;
-    
+
   //   const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]],{header:1})
 
   //   // Removemos los headers para enviar a DB
@@ -201,83 +199,141 @@ exports.uploadOpsM = async (req, res) =>  {
   //     });
   // })
 
+  sql
+    .query(
+      "spInsertOrganizationalUnit",
+      parametros(
+        { idccms: req.query.idccms, rows: req.body.data },
+        "spInsertOrganizationalUnit"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.uploadRepLead = async (req, res) => {
+  sql
+    .query(
+      "spInsertEmployee",
+      parametros(
+        { idccms: req.query.idccms, rows: req.body.data },
+        "spInsertEmployee"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getQuizByAgent = async (req, res) => {
+  sql
+    .query(
+      "spQueryExamEmployee",
+      parametros({ idccms: req.query.idccms }, "spQueryExamEmployee")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getQuizDetail = async (req, res) => {
+  let { idQuiz } = req.body;
 
   sql
-      .query('spInsertOrganizationalUnit', parametros({idccms:req.query.idccms, rows:req.body.data},'spInsertOrganizationalUnit'))
-      .then((result) => {
-        responsep(1, req, res, result);
-      })
-      .catch((err) => {
-        console.log(err, 'sp')
-        responsep(2, req, res, err);
-      });
-}
+    .query(
+      "spQueryExamDetail",
+      parametros({ idccms: req.query.idccms, idQuiz }, "spQueryExamDetail")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-
-exports.getQuizByAgent = async (req, res) =>  {
-
-  sql
-  .query('spQueryExamEmployee', parametros({idccms:req.query.idccms},'spQueryExamEmployee'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
-
-exports.getQuizDetail = async (req, res) =>  {
-
-  let {idQuiz} = req.body;
+exports.getResultQuiz = async (req, res) => {
+  let { quizResolved } = req.body;
 
   sql
-  .query('spQueryExamDetail', parametros({idccms:req.query.idccms,idQuiz},'spQueryExamDetail'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
+    .query(
+      "spInsertExamResult",
+      parametros(
+        { idccms: req.query.idccms, quizResolved },
+        "spInsertExamResult"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-exports.getResultQuiz = async (req, res) =>  {
-
-  let {quizResolved} = req.body;
-
+exports.getResultQuiz = async (req, res) => {
   sql
-  .query('spInsertExamResult', parametros({idccms:req.query.idccms,quizResolved},'spInsertExamResult'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
+    .query(
+      "spInsertExamResult",
+      parametros(
+        {
+          idccms: req.query.idccms,
+          idQuiz: req.query.idExam,
+          rows: req.body.data,
+        },
+        "spInsertExamResult"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-exports.getHomeData = async (req, res) =>  {
-
+exports.getHomeData = async (req, res) => {
   sql
-  .query('spQueryDashBoarhAgent', parametros({idccms:req.query.idccms},'spQueryDashBoarhAgent'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
+    .query(
+      "spQueryDashBoarhAgent",
+      parametros({ idccms: req.query.idccms }, "spQueryDashBoarhAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-exports.getQuizQA = async (req, res) =>  {
+exports.getQuizQA = async (req, res) => {
   sql
-  .query('spLoadExamQA', parametros({idccms:req.query.idccms},'spLoadExamQA'))
-  .then((result) => {
-    responsep(1, req, res, result);
-  })
-  .catch((err) => {
-    console.log(err, 'sp')
-    responsep(2, req, res, err);
-  });
-}
+    .query(
+      "spLoadExamQA",
+      parametros({ idccms: req.query.idccms }, "spLoadExamQA")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};

@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
+import notoSans from "../fonts/NotoSans-Regular.ttf";
 
 //creacion del context
 export const DarkModeContext = React.createContext();
@@ -19,6 +20,13 @@ const DarkModeProvider = ({ children }) => {
   const theme = React.useMemo(
     () =>
       createTheme({
+        typography: {
+          fontFamily: `${notoSans}`,
+          fontSize: 14,
+          fontWeightLight: 300,
+          fontWeightRegular: 400,
+          fontWeightMedium: 500,
+        },
         palette: {
           h6: {
             fontSize: "20px",

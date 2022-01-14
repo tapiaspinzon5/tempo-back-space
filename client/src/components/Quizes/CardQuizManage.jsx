@@ -111,7 +111,7 @@ const CardQuizManage = ({
       </CardViewer>
       <DownSection sx={{ background }}>
         <Button
-          onClick={() => navigate(`/quizdetails/${idQuiz}`)}
+          onClick={() => navigate(`/quizdetails/${idQuiz}/${stateActivity}`)}
           disabled={active}
         >
           {stateActivity}
