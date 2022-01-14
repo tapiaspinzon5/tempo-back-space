@@ -34,7 +34,7 @@ const UpQuiz = () => {
     getData();
   }, []);
 
-  console.log(misQuizes);
+
   return (
     <Grid width="100%">
       <MainUpQuiz>

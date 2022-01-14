@@ -52,7 +52,7 @@ const HomeUser = () => {
     };
     getData();
   }, []);
-  //console.log(data);
+
   const ranking =
     data[0] &&
     data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido);

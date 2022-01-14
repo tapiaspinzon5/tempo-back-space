@@ -17,14 +17,14 @@ export const validateHeaders = (headers) => {
   ];
 
   if (headers.length !== defaultHeaders.length) {
-    console.log("Las columnas no coinciden");
+    
     differentsArrays = true;
     return differentsArrays;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] != headers[i]) {
-      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+      
       differentsArrays = true;
       break;
     }
@@ -85,13 +85,13 @@ export const validateHeadersCreateTeam = (headers) => {
   ];
 
   if (headers.length !== defaultHeaders.length) {
-    console.log("Las columnas no coinciden");
+    
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] != headers[i]) {
-      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+      
       differentsArrays = true;
       break;
     }
@@ -130,17 +130,17 @@ export const validateFieldsCreateTeams = (data) => {
 //Helper Validacion carga archivos Operation Manager
 export const validateHeadersTeamOM = (headers) => {
   let differentsArrays = false;
-  console.log(headers);
+ 
   let defaultHeaders = ["Ident", "RoleAgent", "Team", "Lob"];
 
   if (headers.length !== defaultHeaders.length) {
-    console.log("Las columnas no coinciden");
+  
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] != headers[i]) {
-      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+      
       differentsArrays = true;
       break;
     }
@@ -172,17 +172,17 @@ export const validateFieldsTeamOM = (data) => {
 //Helper Validacion carga archivos Reporting Lead
 export const validateHeadersProvideUsersRL = (headers) => {
   let differentsArrays = false;
-  console.log(headers);
+  
   let defaultHeaders = ["Quartile", "Ident", "Team", "RoleAgent"];
 
   if (headers.length !== defaultHeaders.length) {
-    console.log("Las columnas no coinciden");
+    
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] != headers[i]) {
-      console.log(`${defaultHeaders[i]} es diferente a ${headers[i]}`);
+     
       differentsArrays = true;
       break;
     }
@@ -214,6 +214,6 @@ export const validateFieldsProvideUsersRL = (data) => {
 export const shortName = (word) => {
   let p = word.indexOf(" ");
   const newName = word.substring(0, p + 2);
-  //console.log("El nombre corto ", newName);
+
   return newName;
 };

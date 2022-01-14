@@ -94,7 +94,7 @@ export const HomeOM = () => {
             ];
           });
 
-        console.log(data);
+        
 
         if (data.length > 1) {
           /* Update state */
@@ -103,13 +103,13 @@ export const HomeOM = () => {
           let incorrectValues = validateFieldsTeamOM(data);
 
           if (differentsHeaders) {
-            console.log("Headers no coinciden");
+           
             reject("Headers no coinciden");
             return;
           }
 
           if (incorrectValues) {
-            console.log("Existen campos incorrectos");
+           
             reject("Existen campos incorrectos");
             return;
           }
@@ -123,26 +123,21 @@ export const HomeOM = () => {
   };
 
   const uploadFile = async (e) => {
-    console.log(e.target.files[0]);
+    
     const fileCSV = e.target.files[0];
     let data = [];
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      console.log("solo archivos en formato .csv");
+      
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-      // console.log("archivo correcto");
-      // MySwal.fire({
-      //   title: <p>File upload</p>,
-      //   icon: "success",
-      // });
       try {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        console.log(error);
+        
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -154,7 +149,7 @@ export const HomeOM = () => {
       //setData(data);
       const resp = await createTeamOperationManager(data, idccms);
 
-      console.log(resp);
+   
 
       if (resp.status === 200) {
         MySwal.fire({

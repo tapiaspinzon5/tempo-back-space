@@ -103,10 +103,10 @@ const Login = () => {
     const bdata = { body: "s" + btoaData };
     //lanzamiento funcion login en el Duck
     dispatch(loginSubmit(bdata));
-    console.log(userData);
+   
   };
 
-  //console.log("rta:", userData);
+
   return (
     <Grid container>
       <Grid item xs={12} md={6}>

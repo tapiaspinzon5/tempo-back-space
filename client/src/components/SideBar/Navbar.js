@@ -64,7 +64,7 @@ export const Navbar = () => {
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));
 
-  console.log(userData);
+
   return (
     <>
       {match && (

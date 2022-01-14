@@ -6,7 +6,7 @@ import { DescriptionCard } from "../components/Description/DescriptionCard";
 
 export const Description = () => {
   const params = useParams();
-  console.log(params);
+
 
   return (
     <Box
