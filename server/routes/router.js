@@ -12,27 +12,19 @@ module.exports = (router) => {
     oauth.refresh(req, res);
   });
 
-  // CARGA QUIZ CSV
-  router.post("/uploadquiz", routes.saveQuiz); // Valida el csv cargado para crear la intradia de un escenario
+  // METODOS PERSONALIZADOS
+  // Rutas para la carga de plantillas
+  router.post("/uploadquiz", routes.saveQuiz);      // Endpoint para la carga de la plantilla del QALeader.
+  router.post("/getquizqa", routes.getQuizQA);      // Este enpoint trae todos los quizes que el QALeader haya cargado.
+  router.post("/uploadsu", routes.uploadSU);        // Endpoint para la carga de la plantilla del SuperUsuario.
+  router.post("/uploadopsm", routes.uploadOpsM);    // Endpoint para la carga de la plantilla del operation manager.
+  router.post("/uploadrepl", routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
 
-  // Carga SuperUser
-  router.post("/uploadsu", routes.uploadSU); // Valida el csv cargado para crear la intradia de un escenario
-  // Carga Ops.Manager
-  router.post("/uploadopsm", routes.uploadOpsM); // Valida el csv cargado para crear la intradia de un escenario
-
-  router.post("/uploadrepl", routes.uploadRepLead); // Valida el csv cargado para crear la intradia de un escenario
-
-  // Ver examenes por IDCSSM
-  router.post("/getquizbyagent", routes.getQuizByAgent);
-
-  // Ver examenes por IDCSSM
-  router.post("/getQuizDetail", routes.getQuizDetail);
-
-  router.post("/getresultquiz", routes.getResultQuiz);
-
-  router.post("/getquizqa", routes.getQuizQA);
-
-  router.post("/gethomedata", routes.getHomeData);
+  // Rutas para visualizar informacion.
+  router.post("/gethomedata", routes.getHomeData);       // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  router.post("/getquizbyagent", routes.getQuizByAgent); // Lista todos los examenes asignados por cssmid del agente.
+  router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
+  router.post("/getresultquiz", routes.getResultQuiz);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
 
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
