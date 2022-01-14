@@ -4,7 +4,7 @@ import { Liquid } from "@antv/g2plot";
 const Circle = () => {
   const ref = useRef();
 
-  console.log(ref);
+
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
       percent: 0.76,

@@ -76,7 +76,6 @@ export const AdminCard = ({ data, disabledCard }) => {
           let differentsHeaders = validateHeadersCreateTeam(data[0]);
 
           if (differentsHeaders) {
-            console.log("algo psa amiguito");
             reject(" Wrong Headers!");
             return;
           }
@@ -99,25 +98,17 @@ export const AdminCard = ({ data, disabledCard }) => {
   };
 
   const uploadFile = async (e) => {
-    console.log(e.target.files[0]);
     const fileCSV = e.target.files[0];
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      console.log("solo archivos en formato .csv");
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-      // console.log("archivo correcto");
-      // MySwal.fire({
-      //   title: <p>File upload</p>,
-      //   icon: "success",
-      // });
       try {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        console.log(error);
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -129,8 +120,6 @@ export const AdminCard = ({ data, disabledCard }) => {
       //setData(data);
       const resp = await createTeamSuperUser(data, idccms);
 
-      console.log(resp);
-
       if (resp.status === 200) {
         MySwal.fire({
           title: <p>File upload</p>,
@@ -139,8 +128,6 @@ export const AdminCard = ({ data, disabledCard }) => {
       }
     }
   };
-
-  console.log(disabledCard);
 
   return (
     <>

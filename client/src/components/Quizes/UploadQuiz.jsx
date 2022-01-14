@@ -83,7 +83,6 @@ const UploadQuiz = ({ idccms }) => {
           let differentsHeaders = validateHeaders(data[0]);
 
           if (differentsHeaders) {
-            console.log("algo psa amiguito");
             reject(" Wrong Headers!");
             return;
           }
@@ -122,7 +121,6 @@ const UploadQuiz = ({ idccms }) => {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        console.log(error);
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -133,8 +131,6 @@ const UploadQuiz = ({ idccms }) => {
 
       //setData(data);
       const resp = await uploadQuizes({ data }, idccms);
-
-      console.log(resp);
 
       if (resp.status === 200) {
         MySwal.fire({
@@ -149,11 +145,8 @@ const UploadQuiz = ({ idccms }) => {
         });
       }
     }
-
-    console.log("archivo correcto");
   };
 
-  //console.log(userData);
   return (
     <BoxUpQuiz>
       <label htmlFor="quiz">

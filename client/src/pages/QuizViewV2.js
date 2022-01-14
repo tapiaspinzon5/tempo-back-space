@@ -86,7 +86,7 @@ export const QuizViewV2 = ({ setNavView }) => {
           MySwal.fire({
             title: <p>PASSED</p>,
             icon: "success",
-            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].EstadoExamen}</p>`,
+            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].Calificación}</p>`,
             confirmButtonText: "Accept and go Home",
             backdrop: `url(${bgmodal}) center center`,
             allowOutsideClick: false,
@@ -101,7 +101,7 @@ export const QuizViewV2 = ({ setNavView }) => {
           MySwal.fire({
             title: <p>FAILED</p>,
             icon: "error",
-            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].EstadoExamen}</p>`,
+            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].Calificación}</p>`,
             confirmButtonColor: "#d33",
             confirmButtonText: "Accept and go Home",
             backdrop: `url(${bgmodal}) center center`,

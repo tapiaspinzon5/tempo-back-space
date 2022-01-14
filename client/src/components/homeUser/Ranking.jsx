@@ -27,63 +27,21 @@ const CardRanking = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Ranking = () => {
+const Ranking = ({ ranking }) => {
   return (
     <BoxRanking>
       <CardRanking>
         <Box>
           <Typography variant="body2" fontWeight="bold">
-            1
-          </Typography>
-          <Avatar alt="Pepito" src="" />
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            Diego Tapias
-          </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          500 XP
-        </Typography>
-      </CardRanking>
-      <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold" marginRight={2}>
-            2
-          </Typography>
-          <Avatar alt="Pepito" src="" />
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            Daniel Moreno Salas
-          </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          489 XP
-        </Typography>
-      </CardRanking>
-      <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold" marginRight={2}>
-            3
-          </Typography>
-          <Avatar alt="Pepito" src="" />
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            Matilde Puentes
-          </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          456 XP
-        </Typography>
-      </CardRanking>
-      <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold" marginRight={2}>
             4
           </Typography>
           <Avatar alt="Pepito" src="" />
           <Typography variant="body2" fontWeight="bold" color="initial">
-            Juliana Cardona
+            {ranking[3].Agent}
           </Typography>
         </Box>
         <Typography variant="body2" fontWeight="bold" color="initial">
-          431 XP
+          {`${ranking[3].ResObtenido} XP`}
         </Typography>
       </CardRanking>
       <CardRanking>
@@ -93,11 +51,25 @@ const Ranking = () => {
           </Typography>
           <Avatar alt="Pepito" src="" />
           <Typography variant="body2" fontWeight="bold" color="initial">
-            Deiby Niño
+            {ranking[4].Agent}
           </Typography>
         </Box>
         <Typography variant="body2" fontWeight="bold" color="initial">
-          416 XP
+          {`${ranking[4].ResObtenido} XP`}
+        </Typography>
+      </CardRanking>
+      <CardRanking>
+        <Box>
+          <Typography variant="body2" fontWeight="bold" marginRight={2}>
+            6
+          </Typography>
+          <Avatar alt="Pepito" src="" />
+          <Typography variant="body2" fontWeight="bold" color="initial">
+            {ranking[5].Agent}
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold" color="initial">
+          {`${ranking[5].ResObtenido} XP`}
         </Typography>
       </CardRanking>
     </BoxRanking>

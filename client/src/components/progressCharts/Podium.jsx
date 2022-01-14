@@ -2,6 +2,7 @@ import React from "react";
 import podium from "../../assets/images/podium.svg";
 import { Typography, Box, styled, Avatar } from "@mui/material";
 import { justify } from "@antv/g2plot/lib/plots/sankey/sankey";
+import { shortName } from "../../helpers/helpers";
 
 const PodiumBox = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -26,25 +27,25 @@ const BoxAvatarPodium = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Podium = () => {
+const Podium = ({ podio }) => {
   return (
     <PodiumBox>
       <BoxAvatarPodium>
         <Avatar alt="Diego Tapias" src="" />
         <Typography variant="caption" color="initial">
-          Diego Tapias
+          {shortName(podio[0].Agent) + "."}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-1rem", left: "-35%" }}>
         <Avatar alt="Daniel Moreno" src="" />
         <Typography variant="caption" color="initial">
-          Daniel Moreno
+          {shortName(podio[1].Agent) + "."}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>
         <Avatar alt="Matilde Puentes" src="" />
         <Typography variant="caption" color="initial">
-          Matilde Puentes
+          {podio.length > 2 ? shortName(podio[2].Agent) + "." : "Matilde P."}
         </Typography>
       </BoxAvatarPodium>
     </PodiumBox>

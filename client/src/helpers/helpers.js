@@ -210,3 +210,10 @@ export const validateFieldsProvideUsersRL = (data) => {
 
   return errorField;
 };
+
+export const shortName = (word) => {
+  let p = word.indexOf(" ");
+  const newName = word.substring(0, p + 2);
+  //console.log("El nombre corto ", newName);
+  return newName;
+};
