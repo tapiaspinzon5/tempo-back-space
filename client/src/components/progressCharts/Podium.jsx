@@ -11,7 +11,7 @@ const PodiumBox = styled(Box)(({ theme }) => ({
   backgroundImage: `url(${podium})`,
   backgroundPosition: "center bottom",
   backgroundRepeat: "no-repeat",
-  backgroundSize: "80%",
+
   margin: "1rem 0",
   borderRadius: "5px",
 }));
@@ -29,7 +29,17 @@ const BoxAvatarPodium = styled(Box)(({ theme }) => ({
 
 const Podium = ({ podio }) => {
   return (
-    <PodiumBox>
+    <PodiumBox
+      sx={{
+        backgroundSize: {
+          xs: "90%",
+          sm: "60%",
+          md: "80%",
+          lg: "70%",
+          xl: "90% ",
+        },
+      }}
+    >
       <BoxAvatarPodium>
         <Avatar alt="Diego Tapias" src="" />
         <Typography variant="caption" color="initial">
