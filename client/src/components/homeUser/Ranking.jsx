@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, styled, Button, Box, Avatar } from "@mui/material";
+import { Typography, styled, Box, Avatar } from "@mui/material";
 
 const BoxRanking = styled(Box)(({ theme }) => ({
   height: "40vh",

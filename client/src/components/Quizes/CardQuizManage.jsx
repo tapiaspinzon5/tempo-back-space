@@ -67,7 +67,7 @@ const CardQuizManage = ({
   useEffect(() => {
     if (PreguntasRespondidas !== 0) {
       const result = parseInt((PreguntasRespondidas * 100) / CantidadPreguntas);
-      
+
       setValueProgress(result);
     } else {
       setValueProgress(0);
@@ -94,8 +94,9 @@ const CardQuizManage = ({
       default:
         break;
     }
+    //eslint-disable-next-line
   }, [stateActivity]);
-  
+
   return (
     <>
       <CardViewer>

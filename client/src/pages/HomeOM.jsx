@@ -6,15 +6,15 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import { AdminCard } from "../components/AdminCard/AdminCard";
-import img1 from "../assets/images/OM-1.svg";
-import img2 from "../assets/images/OM-2.svg";
 import img3 from "../assets/images/OM-3.svg";
 import {
   validateFieldsTeamOM,
   validateHeadersTeamOM,
 } from "../helpers/helpers";
 import { createTeamOperationManager } from "../utils/api";
+//import { AdminCard } from "../components/AdminCard/AdminCard";
+//import img2 from "../assets/images/OM-2.svg";
+//import img1 from "../assets/images/OM-1.svg";
 
 const MainHomeOM = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -55,16 +55,6 @@ const CardContent = styled(Box)(({ theme }) => ({
   },
 }));
 
-const dataCard = [
-  {
-    id: 1,
-    url: img1,
-    title: "Account Name Assignment",
-  },
-  { id: 2, url: img2, title: "Creation of LOB´s" },
-  { id: 3, url: img3, title: "Assigning Team Members" },
-];
-
 ////////////////////////////////////////
 export const HomeOM = () => {
   const userData = useSelector((store) => store.loginUser.userData);
@@ -94,8 +84,6 @@ export const HomeOM = () => {
             ];
           });
 
-        
-
         if (data.length > 1) {
           /* Update state */
           let differentsHeaders = validateHeadersTeamOM(data[0]);
@@ -103,13 +91,11 @@ export const HomeOM = () => {
           let incorrectValues = validateFieldsTeamOM(data);
 
           if (differentsHeaders) {
-           
             reject("Headers no coinciden");
             return;
           }
 
           if (incorrectValues) {
-           
             reject("Existen campos incorrectos");
             return;
           }
@@ -123,11 +109,9 @@ export const HomeOM = () => {
   };
 
   const uploadFile = async (e) => {
-    
     const fileCSV = e.target.files[0];
     let data = [];
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
@@ -137,7 +121,6 @@ export const HomeOM = () => {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -148,8 +131,6 @@ export const HomeOM = () => {
 
       //setData(data);
       const resp = await createTeamOperationManager(data, idccms);
-
-   
 
       if (resp.status === 200) {
         MySwal.fire({

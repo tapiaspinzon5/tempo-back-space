@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Typography,
   Grid,
@@ -63,8 +63,8 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
 }));
 
 const Login = () => {
+  //const userData = useSelector((store) => store.loginUser.userData);
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.loginUser.userData);
   const loading = useSelector((store) => store.loginUser.loading);
 
   const [values, setValues] = useState({
@@ -103,9 +103,7 @@ const Login = () => {
     const bdata = { body: "s" + btoaData };
     //lanzamiento funcion login en el Duck
     dispatch(loginSubmit(bdata));
-   
   };
-
 
   return (
     <Grid container>

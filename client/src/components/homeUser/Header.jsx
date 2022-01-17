@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Typography,
-  Box,
   IconButton,
   styled,
   Grid,
@@ -10,14 +8,14 @@ import {
   Badge,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import coin from "../../assets/images/coin.svg";
 import bannerH from "../../assets/images/bannerHeader.png";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
-import { DarkModeContext } from "../../context/DarkModeProvider";
-import ProgresBar from "../progressCharts/ProgresBar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+//import { DarkModeContext } from "../../context/DarkModeProvider";
+//import ProgresBar from "../progressCharts/ProgresBar";
+//import Brightness4Icon from "@mui/icons-material/Brightness4";
+//import Brightness7Icon from "@mui/icons-material/Brightness7";
+//import coin from "../../assets/images/coin.svg";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -96,7 +94,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Header = () => {
   //controles Dark mode
   const theme = useTheme();
-  const colorMode = React.useContext(DarkModeContext);
+  // const colorMode = React.useContext(DarkModeContext);
 
   return (
     <MainHeader

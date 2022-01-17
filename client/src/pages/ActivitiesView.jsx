@@ -31,8 +31,8 @@ const ActivitiesView = () => {
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
-
 
   return (
     <Grid width="100%">

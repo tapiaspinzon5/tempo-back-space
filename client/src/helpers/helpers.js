@@ -17,14 +17,12 @@ export const validateHeaders = (headers) => {
   ];
 
   if (headers.length !== defaultHeaders.length) {
-    
     differentsArrays = true;
     return differentsArrays;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
-    if (defaultHeaders[i] != headers[i]) {
-      
+    if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
       break;
     }
@@ -85,13 +83,11 @@ export const validateHeadersCreateTeam = (headers) => {
   ];
 
   if (headers.length !== defaultHeaders.length) {
-    
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
-    if (defaultHeaders[i] != headers[i]) {
-      
+    if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
       break;
     }
@@ -130,17 +126,15 @@ export const validateFieldsCreateTeams = (data) => {
 //Helper Validacion carga archivos Operation Manager
 export const validateHeadersTeamOM = (headers) => {
   let differentsArrays = false;
- 
+
   let defaultHeaders = ["Ident", "RoleAgent", "Team", "Lob"];
 
   if (headers.length !== defaultHeaders.length) {
-  
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
-    if (defaultHeaders[i] != headers[i]) {
-      
+    if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
       break;
     }
@@ -172,17 +166,15 @@ export const validateFieldsTeamOM = (data) => {
 //Helper Validacion carga archivos Reporting Lead
 export const validateHeadersProvideUsersRL = (headers) => {
   let differentsArrays = false;
-  
+
   let defaultHeaders = ["Quartile", "Ident", "Team", "RoleAgent"];
 
   if (headers.length !== defaultHeaders.length) {
-    
     return;
   }
 
   for (let i = 0; i < defaultHeaders.length; i++) {
-    if (defaultHeaders[i] != headers[i]) {
-     
+    if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
       break;
     }

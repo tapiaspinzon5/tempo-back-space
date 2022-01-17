@@ -1,15 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Typography, Grid, Button, Box, Hidden } from "@mui/material";
+import { Typography, Grid, Button, Box } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import quizdesc from "../../assets/images/quizdesc.png";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
 import SignalCellularAltRoundedIcon from "@mui/icons-material/SignalCellularAltRounded";
 import { indigo } from "@mui/material/colors";
-import Footer from "../../components/Footer";
+//import Footer from "../../components/Footer";
 
 const MainDatailsQuiz = styled(Grid)(({ theme }) => ({
   width: "95%",
@@ -32,8 +31,8 @@ const QuizDetails = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const paramsQuiz = useParams();
-  const { idquiz, stateActivity } = paramsQuiz;
- 
+  const { idquiz } = paramsQuiz;
+
   return (
     <MainDatailsQuiz container>
       <GridContent item xs={12}>

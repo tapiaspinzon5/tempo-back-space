@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, Box, styled } from "@mui/material";
+import { Typography, Grid, styled } from "@mui/material";
 import { useSelector } from "react-redux";
-import Header from "../components/homeUser/Header";
+//import Header from "../components/homeUser/Header";
 import CardQuizDesc from "../components/Quizes/CardQuizDesc";
 import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
@@ -32,8 +32,8 @@ const UpQuiz = () => {
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
-
 
   return (
     <Grid width="100%">

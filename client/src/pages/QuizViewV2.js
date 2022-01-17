@@ -40,18 +40,19 @@ export const QuizViewV2 = ({ setNavView }) => {
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);
-  const [validation, setValidation] = useState(null);
   const [next, setNext] = useState(0);
   const theme = useTheme();
+  //const [validation, setValidation] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
       const quiz = await getExam(idccms, idquiz);
       setQuiz(quiz.data);
-      setValidation(quiz.data);
+      //setValidation(quiz.data);
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
 
   const handleNext = () => {

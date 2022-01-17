@@ -33,8 +33,7 @@ const CardQuiz = styled(Box)(({ theme }) => ({
 }));
 
 const CardQuizDesc = ({ quiz }) => {
-  const { CantidadPreguntas, Descripcion, Estado, NameExam, fechaRegistro } =
-    quiz;
+  const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
   return (
     <CardQuiz>
       <Box>

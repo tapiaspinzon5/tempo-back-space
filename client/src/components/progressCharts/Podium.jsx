@@ -1,7 +1,6 @@
 import React from "react";
 import podium from "../../assets/images/podium.svg";
 import { Typography, Box, styled, Avatar } from "@mui/material";
-import { justify } from "@antv/g2plot/lib/plots/sankey/sankey";
 import { shortName } from "../../helpers/helpers";
 
 const PodiumBox = styled(Box)(({ theme }) => ({

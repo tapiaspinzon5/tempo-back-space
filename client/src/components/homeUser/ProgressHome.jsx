@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { ImFire } from "react-icons/im";
-import { MdOutlineArrowForwardIos } from "react-icons/md";
 import ProgresBar from "../progressCharts/ProgresBar";
+//import { MdOutlineArrowForwardIos } from "react-icons/md";
 //import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({

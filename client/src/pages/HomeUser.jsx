@@ -51,6 +51,7 @@ const HomeUser = () => {
       setData(kpis.data);
     };
     getData();
+    // eslint-disable-next-line
   }, []);
 
   const ranking =

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavList } from "./NavList";
 import { useSelector } from "react-redux";
-import { Box, AppBar, Divider, IconButton, Fab, Avatar } from "@mui/material";
+import { Box, AppBar, Divider, IconButton, Avatar } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -16,14 +16,6 @@ const SideBar = styled(AppBar)(({ theme }) => ({
   alignItems: "center",
   color: "white",
   [theme.breakpoints.down("md")]: {
-    //transition: " width 1.5s, height 1.5s",
-    /* display: "flex",
-    flexDirection: "row",
-    position: "absolute",
-    left: "0",
-    maxWidth: "100%",
-    alignItems: "center",
-    justifyContent: "space-between", */
     position: "fixed",
     top: "auto",
     bottom: 0,
@@ -32,38 +24,37 @@ const SideBar = styled(AppBar)(({ theme }) => ({
   },
 }));
 
-const Up = styled(ArrowDropUpIcon)({
-  position: "absolute",
-  zIndex: 1,
-  top: -20,
-  left: 0,
-  right: 0,
-  margin: "0 auto",
-});
-const Down = styled(ArrowDropUpIcon)({
-  position: "absolute",
-  zIndex: 1,
-  top: -20,
-  left: 0,
-  right: 0,
-  margin: "0 auto",
-});
+// const Up = styled(ArrowDropUpIcon)({
+//   position: "absolute",
+//   zIndex: 1,
+//   top: -20,
+//   left: 0,
+//   right: 0,
+//   margin: "0 auto",
+// });
+// const Down = styled(ArrowDropUpIcon)({
+//   position: "absolute",
+//   zIndex: 1,
+//   top: -20,
+//   left: 0,
+//   right: 0,
+//   margin: "0 auto",
+// });
 
-const StyledFab = styled(Fab)({
-  position: "absolute",
-  zIndex: 1,
-  top: -30,
-  left: 0,
-  right: 0,
-  margin: "0 auto",
-});
+// const StyledFab = styled(Fab)({
+//   position: "absolute",
+//   zIndex: 1,
+//   top: -30,
+//   left: 0,
+//   right: 0,
+//   margin: "0 auto",
+// });
 
 export const Navbar = () => {
   const userData = useSelector((store) => store.loginUser.userData.role);
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));
-
 
   return (
     <>

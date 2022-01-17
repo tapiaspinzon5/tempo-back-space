@@ -1,4 +1,7 @@
 import axios from "axios";
+
+//const url = "http://10.151.232.218:4305";
+//const url ='http://localhost:4343'
 //import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
@@ -37,8 +40,11 @@ const uploadQuizes = (data, idccms) => {
   try {
     return (
       axios
-        //.post(`http://10.151.232.218:4305/api/uploadquiz?idccms=${idccms}`,data )
-        .post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
+        .post(
+          `http://10.151.232.218:4305/api/uploadquiz?idccms=${idccms}`,
+          data
+        )
+        //.post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -55,8 +61,8 @@ const loadQuizes = (idccms) => {
     return (
       axios
 
-        // .post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
-        .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
+        .post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
+        // .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -73,8 +79,8 @@ const loadQuizesUser = (idccms) => {
     return (
       axios
 
-        //.post(`http://10.151.232.218:4305/api/getquizbyagent?idccms=${idccms}`)
-        .post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
+        .post(`http://10.151.232.218:4305/api/getquizbyagent?idccms=${idccms}`)
+        //.post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -88,19 +94,17 @@ const loadQuizesUser = (idccms) => {
 
 const getExam = (idccms, idquiz) => {
   try {
-    return (
-      axios
+    return axios
 
-        //.post(`http://10.151.232.218:4305/api/getQuizDetail?idccms=${idccms}`, {
-        .post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
-          idQuiz: idquiz,
-        })
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+      .post(`http://10.151.232.218:4305/api/getQuizDetail?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
+        idQuiz: idquiz,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
@@ -110,18 +114,16 @@ const getExam = (idccms, idquiz) => {
 
 const createTeamSuperUser = (dataCSV, idccms) => {
   try {
-    return (
-      axios
-        // .post(`http://10.151.232.218:4305/api/uploadSU?idccms=${idccms}`, {
-        .post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
-          data: dataCSV,
-        })
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+    return axios
+      .post(`http://10.151.232.218:4305/api/uploadSU?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
@@ -129,18 +131,16 @@ const createTeamSuperUser = (dataCSV, idccms) => {
 
 const createTeamOperationManager = (dataCSV, idccms) => {
   try {
-    return (
-      axios
-        //.post(`http://10.151.232.218:4305/api/uploadopsm?idccms=${idccms}`, {
-        .post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
-          data: dataCSV,
-        })
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+    return axios
+      .post(`http://10.151.232.218:4305/api/uploadopsm?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
@@ -148,18 +148,16 @@ const createTeamOperationManager = (dataCSV, idccms) => {
 
 const createTeamReportingLead = (dataCSV, idccms) => {
   try {
-    return (
-      axios
-        //.post(`http://10.151.232.218:4305/api/uploadrepl?idccms=${idccms}`, {
-        .post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
-          data: dataCSV,
-        })
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+    return axios
+      .post(`http://10.151.232.218:4305/api/uploadrepl?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
@@ -168,21 +166,20 @@ const createTeamReportingLead = (dataCSV, idccms) => {
 const uploadAnswers = (data, idccms, idExam) => {
   //10.142.73.193
   try {
-    return (
-      axios
-        //.post(`http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-        .post(
-          `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-          {
-            data: data,
-          }
-        )
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+    return axios
+      .post(
+        `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+        //.post(
+        // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+        {
+          data: data,
+        }
+      )
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
@@ -193,8 +190,8 @@ const downloadHomeData = (idccms) => {
   try {
     return (
       axios
-        //.post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
-        .post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
+        .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        //.post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;

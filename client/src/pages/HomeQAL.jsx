@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Grid, styled, Box, Typography, Button } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import { AdminCard } from "../components/AdminCard/AdminCard";
-import img1 from "../assets/images/QA-1.svg";
 import img2 from "../assets/images/QA-2.svg";
+//import img1 from "../assets/images/QA-1.svg";
+//import { AdminCard } from "../components/AdminCard/AdminCard";
 
 const MainHomeQAL = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -43,15 +43,6 @@ const CardContent = styled(Box)(({ theme }) => ({
     background: "#f2f2f2",
   },
 }));
-
-const data = [
-  {
-    id: 1,
-    url: img1,
-    title: "Learning Content Management",
-  },
-  { id: 2, url: img2, title: "Quizzes Questions Upload" },
-];
 
 export const HomeQAL = () => {
   const navigate = useNavigate();

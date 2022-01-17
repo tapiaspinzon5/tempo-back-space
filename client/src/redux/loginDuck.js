@@ -4,8 +4,8 @@ import Swal from "sweetalert2";
 //datainicial
 const initialData = {
   loading: false,
-  userData: null,
-  //userData: { role: "QA Lead" },
+  //userData: null,
+  userData: { role: "Agent" },
 };
 
 //roles
@@ -68,7 +68,6 @@ export const loginSubmit = (data) => async (dispatch) => {
 
       .catch(function (error) {
         if (error.response) {
-          
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -130,7 +129,6 @@ export const readUserActiveAction = () => (dispatch) => {
 //action logout
 
 export const logoutAction = () => (dispatch) => {
-  
   localStorage.removeItem("userTP");
   dispatch({
     type: CERRANDO_SESION_EXITO,
