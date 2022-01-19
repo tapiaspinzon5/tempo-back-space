@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import XLSX from "xlsx";
-import { Grid, styled, Typography, Box } from "@mui/material";
+import { Grid, styled, Typography, Box, Button } from "@mui/material";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Header from "../components/homeUser/Header";
@@ -15,6 +15,7 @@ import { createTeamOperationManager } from "../utils/api";
 //import { AdminCard } from "../components/AdminCard/AdminCard";
 //import img2 from "../assets/images/OM-2.svg";
 //import img1 from "../assets/images/OM-1.svg";
+import { useNavigate } from "react-router-dom";
 
 const MainHomeOM = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -57,22 +58,23 @@ const CardContent = styled(Box)(({ theme }) => ({
 
 ////////////////////////////////////////
 export const HomeOM = () => {
-  const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  //const userData = useSelector((store) => store.loginUser.userData);
+  //const idccms = userData.idccms;
+  const navigate = useNavigate();
 
-  const loadFile = (e) => {
+  /*  const loadFile = (e) => {
     let file = e.target.files[0];
 
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        /* Parse data */
+        // Parse data 
         const ab = e.target.result;
         const wb = XLSX.read(ab, { type: "array" });
-        /* Get first worksheet */
+        //Get first worksheet 
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
+        // Convert array of arrays 
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1 })
           .map((colum) => {
@@ -85,7 +87,7 @@ export const HomeOM = () => {
           });
 
         if (data.length > 1) {
-          /* Update state */
+          //Update state 
           let differentsHeaders = validateHeadersTeamOM(data[0]);
           data.shift();
           let incorrectValues = validateFieldsTeamOM(data);
@@ -139,19 +141,40 @@ export const HomeOM = () => {
         });
       }
     }
-  };
+  }; */
 
   return (
     <>
       <MainHomeOM sx={{ bgcolor: "background.default", color: "text.primary" }}>
         <Header />
         <Grid container spacing={3}>
-          {/* <Grid item xs={12} md={4}>
-            <AdminCard data={dataCard[0]} />
-          </Grid> */}
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={dataCard[1]} /> */}
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/upcampaign");
+                    }}
+                  >
+                    <img src={img3} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Assigning Team Members
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
           </Grid>
+        </Grid>
+        {/* <Grid container spacing={3}>
+          <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
             <CardContainer>
               <CardContent>
@@ -176,7 +199,7 @@ export const HomeOM = () => {
               </CardContent>
             </CardContainer>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Footer />
       </MainHomeOM>
     </>

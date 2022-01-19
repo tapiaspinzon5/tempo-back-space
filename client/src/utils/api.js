@@ -202,6 +202,23 @@ const downloadHomeData = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+const downloadCounts = (idccms) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        // .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        .post(`http://localhost:4343/api/getteamsbysu?idccms=${idccms}`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 export {
   uploadQuizes,
@@ -212,5 +229,6 @@ export {
   createTeamOperationManager,
   uploadAnswers,
   downloadHomeData,
+  downloadCounts,
   createTeamReportingLead,
 };

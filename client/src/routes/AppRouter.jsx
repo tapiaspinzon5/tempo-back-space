@@ -21,6 +21,9 @@ import { HomeRL } from "../pages/HomeRL";
 import { HomeSA } from "../pages/HomeSA";
 import { HomeTL } from "../pages/HomeTL";
 import QuizDetails from "../components/Quizes/QuizDetails";
+import { UpCount } from "../pages/Super User/UpCount";
+import { UpCampaign } from "../pages/Ops Man/UpCampaign";
+import { UpAgents } from "../pages/Rep Lead/UpAgents";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -35,7 +38,6 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const [navView, setNavView] = useState(true);
- 
 
   return (
     <Router>
@@ -63,6 +65,7 @@ const AppRouter = () => {
             <>
               <Route path="/" element={<Navigate to="/homeom" />} />
               <Route path="/homeom" element={<HomeOM />} />
+              <Route path="/upcampaign" element={<UpCampaign />} />
             </>
           )}
           {userData?.role === "QA Lead" && (
@@ -78,15 +81,17 @@ const AppRouter = () => {
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL />} />
+              <Route path="/upagents" element={<UpAgents />} />
             </>
           )}
           {userData?.role === "Super Admin" && (
             <>
-              <Route path="/" element={<Navigate to="/homesa" />} />
+              <Route path="/" element={<Navigate to="/homeom" />} />
               <Route path="/homesa" element={<HomeSA />} />
+              <Route path="/upcount" element={<UpCount />} />
             </>
           )}
-          {userData?.role === "Team Lead" && (
+          {userData?.role === "Team Leader" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
