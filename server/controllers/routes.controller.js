@@ -4,6 +4,8 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
 const multiparty = require("multiparty");
+const path = require('path');
+
 
 exports.CallSp = (spName, req, res) => {
   // const payload = jwt.verify(req.headers.authorization.split(" ")[1],  process.env.SECRET);
@@ -236,6 +238,59 @@ exports.getQuizQA = async (req, res) => {
     .query(
       "spLoadExamQA",
       parametros({ idccms: req.query.idccms }, "spLoadExamQA")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getTeamsSU = async (req, res) => {
+  sql
+    .query(
+      "spQueryTeams",
+      parametros({ idccms: req.query.idccms }, "spQueryTeams")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getTemplate = async (req, res) => {
+
+  let __basedir = path.resolve();
+  const fileName = req.params.name;
+  const directoryPath = __basedir + "/resources/static/";
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+
+}
+
+exports.getActivitiesTL = async (req, res) => {
+  sql
+    .query(
+      "spQueryActivities",
+      parametros(
+        {
+          // idccms: req.query.idccms,
+          category: req.body.category,
+          stage: req.body.stage,
+        },
+        "spQueryActivities"
+      )
     )
     .then((result) => {
       responsep(1, req, res, result);
