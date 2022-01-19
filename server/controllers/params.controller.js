@@ -220,11 +220,11 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", reportLeadTable, req.rows),
       ]);
     
-    case "spQueryActivities":
-      return parametrizacion([
-        new SpParam("Categorie", req.category, TYPES.VarChar),
-        new SpParam("Stage", req.stage, TYPES.VarChar),
-      ]);
+    // case "spQueryActivities":
+    //   return parametrizacion([
+    //     new SpParam("Categorie", req.category, TYPES.VarChar),
+    //     new SpParam("Stage", req.stage, TYPES.VarChar),
+    //   ]);
       
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);

@@ -283,17 +283,51 @@ exports.getActivitiesTL = async (req, res) => {
   sql
     .query(
       "spQueryActivities",
-      parametros(
-        {
-          // idccms: req.query.idccms,
-          category: req.body.category,
-          stage: req.body.stage,
-        },
+      parametros(req.body,
         "spQueryActivities"
       )
     )
     .then((result) => {
-      responsep(1, req, res, result);
+      let tempGetStarted = []
+      let tempGetStronger = []
+      let tempBattle = []
+      let tempDevelopingSkills = []
+      let tempBeingAwarded = []
+
+      result.forEach(element => {
+
+        switch (element?.Stage) {
+          case "Getting started":
+            tempGetStarted.push(element)
+            break;
+          case "Getting stronger":
+            tempGetStronger.push(element)
+            break;
+          case "Battle":
+            tempBattle.push(element)
+            break;
+          case "Developing skills":
+            tempDevelopingSkills.push(element)
+            break;
+          case "Being Awarded":
+            tempBeingAwarded.push(element)
+            break;
+        
+          default:
+            break;
+        }
+      });
+
+      let filterData = {
+        "Getting started ":tempGetStarted,
+        "Getting stronger":tempGetStronger,
+        "Battle":tempBattle,
+        "Developing skills":tempDevelopingSkills,
+        "Being Awarded":tempBeingAwarded,
+      }
+
+      console.log(filterData);
+      responsep(1, req, res, filterData);
     })
     .catch((err) => {
       console.log(err, "sp");
