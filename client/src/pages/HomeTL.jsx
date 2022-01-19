@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Button, Grid, styled, Typography, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import { AdminCard } from "../components/AdminCard/AdminCard";
@@ -18,30 +19,102 @@ const MainHomeTL = styled(Grid)(({ theme }) => ({
   },
 }));
 
-const data = [
-  {
-    id: 1,
-    url: img1,
-    title: "Followings Team´s KPI´s",
+const CardContainer = styled(Grid)(({ theme }) => ({
+  marginTop: "25px",
+  input: {
+    display: "none",
   },
-  { id: 2, url: img2, title: "Challenge Assignment" },
-  { id: 3, url: img3, title: "Badges Management" },
-];
+  [theme.breakpoints.down("md")]: {
+    top: "15px",
+  },
+}));
+
+const CardContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  width: "55vh",
+  height: "70vh",
+  backgroundColor: "#f9f9f9",
+  borderRadius: "10px",
+  padding: "15px",
+  alignItems: "center",
+  justifyContent: "center",
+  "&:hover": {
+    background: "#f2f2f2",
+  },
+  img: {
+    width: "100%",
+  },
+}));
 
 export const HomeTL = () => {
+  const navigate = useNavigate();
   return (
     <>
       <MainHomeTL sx={{ bgcolor: "background.default", color: "text.primary" }}>
         <Header />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <AdminCard data={data[0]} />
+            {/* <AdminCard data={data[0]} /> */}
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button onClick={() => navigate("/followingteams")}>
+                    <img src={img1} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Following Teams KPI
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
           </Grid>
           <Grid item xs={12} md={4}>
-            <AdminCard data={data[1]} />
+            {/* <AdminCard data={data[1]} /> */}
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button onClick={() => navigate("/challengeasignment")}>
+                    <img src={img2} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Challenge Assignment
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
           </Grid>
           <Grid item xs={12} md={4}>
-            <AdminCard data={data[2]} />
+            {/* <AdminCard data={data[2]} /> */}
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button onClick={() => navigate("/badgesmanagement")}>
+                    <img src={img3} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Badges Management
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
           </Grid>
         </Grid>
         <Footer />

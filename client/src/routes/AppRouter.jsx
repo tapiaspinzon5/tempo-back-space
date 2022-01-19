@@ -21,6 +21,9 @@ import { HomeRL } from "../pages/HomeRL";
 import { HomeSA } from "../pages/HomeSA";
 import { HomeTL } from "../pages/HomeTL";
 import QuizDetails from "../components/Quizes/QuizDetails";
+import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
+import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
+import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -35,7 +38,6 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const [navView, setNavView] = useState(true);
- 
 
   return (
     <Router>
@@ -86,11 +88,17 @@ const AppRouter = () => {
               <Route path="/homesa" element={<HomeSA />} />
             </>
           )}
-          {userData?.role === "Team Lead" && (
+          {userData?.role === "Team Leader" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
               <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/followingteams" element={<FollowingTeamsKPI />} />
+              <Route
+                path="/challengeasignment"
+                element={<ChallengeAssignment />}
+              />
+              <Route path="/badgesmanagement" element={<BadgeManagement />} />
               <Route path="/teamprogress" element={<TeamsProgress />} />
             </>
           )}
