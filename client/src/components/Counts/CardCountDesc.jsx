@@ -32,7 +32,7 @@ const CardCount = styled(Box)(({ theme }) => ({
   },
 }));
 export const CardCountDesc = ({ count }) => {
-  const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = count;
+  const { Nombre, Campaign } = count;
   return (
     <CardCount>
       <Box>
@@ -45,16 +45,11 @@ export const CardCountDesc = ({ count }) => {
       <img src="" alt="" />
 
       <Typography variant="h6" fontWeight="bold" align="center">
-        {NameExam}
+        {Nombre}
       </Typography>
+
       <Typography variant="body2" align="center">
-        {Descripcion}
-      </Typography>
-      <Typography variant="body2" align="center">
-        {new Date(fechaRegistro).toDateString()}
-      </Typography>
-      <Typography variant="body2" align="center">
-        Preguntas: {CantidadPreguntas}
+        {Campaign}
       </Typography>
     </CardCount>
   );

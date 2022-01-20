@@ -40,11 +40,11 @@ const uploadQuizes = (data, idccms) => {
   try {
     return (
       axios
-        .post(
-          `http://10.151.232.218:4305/api/uploadquiz?idccms=${idccms}`,
-          data
-        )
-        //.post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
+        // .post(
+        //  `http://10.151.232.218:4305/api/uploadquiz?idccms=${idccms}`,
+        //    data
+        //  )
+        .post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -61,8 +61,8 @@ const loadQuizes = (idccms) => {
     return (
       axios
 
-        .post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
-        // .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
+        //.post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
+        .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -79,8 +79,8 @@ const loadQuizesUser = (idccms) => {
     return (
       axios
 
-        .post(`http://10.151.232.218:4305/api/getquizbyagent?idccms=${idccms}`)
-        //.post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
+        //.post(`http://10.151.232.218:4305/api/getquizbyagent?idccms=${idccms}`)
+        .post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -94,104 +94,13 @@ const loadQuizesUser = (idccms) => {
 
 const getExam = (idccms, idquiz) => {
   try {
-    return axios
-
-      .post(`http://10.151.232.218:4305/api/getQuizDetail?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
-        idQuiz: idquiz,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-//Peticion carga de achivos creacion de equipos SuperUser
-
-const createTeamSuperUser = (dataCSV, idccms) => {
-  try {
-    return axios
-      .post(`http://10.151.232.218:4305/api/uploadSU?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
-        data: dataCSV,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const createTeamOperationManager = (dataCSV, idccms) => {
-  try {
-    return axios
-      .post(`http://10.151.232.218:4305/api/uploadopsm?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
-        data: dataCSV,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const createTeamReportingLead = (dataCSV, idccms) => {
-  try {
-    return axios
-      .post(`http://10.151.232.218:4305/api/uploadrepl?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
-        data: dataCSV,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const uploadAnswers = (data, idccms, idExam) => {
-  //10.142.73.193
-  try {
-    return axios
-      .post(
-        `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-        //.post(
-        // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-        {
-          data: data,
-        }
-      )
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const downloadHomeData = (idccms) => {
-  //10.142.73.193 - 10.142.24.65
-  try {
     return (
       axios
-        .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
-        //.post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
+
+        //.post(`http://10.151.232.218:4305/api/getQuizDetail?idccms=${idccms}`, {
+        .post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
+          idQuiz: idquiz,
+        })
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -202,6 +111,108 @@ const downloadHomeData = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+
+//Peticion carga de achivos creacion de equipos SuperUser
+
+const createTeamSuperUser = (dataCSV, idccms) => {
+  try {
+    return (
+      axios
+        //.post(`http://10.151.232.218:4305/api/uploadSU?idccms=${idccms}`, {
+        .post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
+          data: dataCSV,
+        })
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const createTeamOperationManager = (dataCSV, idccms) => {
+  try {
+    return (
+      axios
+        //.post(`http://10.151.232.218:4305/api/uploadopsm?idccms=${idccms}`, {
+        .post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
+          data: dataCSV,
+        })
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const createTeamReportingLead = (dataCSV, idccms) => {
+  try {
+    return (
+      axios
+        //.post(`http://10.151.232.218:4305/api/uploadrepl?idccms=${idccms}`, {
+        .post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+          data: dataCSV,
+        })
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const uploadAnswers = (data, idccms, idExam) => {
+  //10.142.73.193
+  try {
+    return (
+      axios
+        // .post(
+        //  `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+        .post(
+          `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+          {
+            data: data,
+          }
+        )
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const downloadHomeData = (idccms, data) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        //.post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        .post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 const downloadCounts = (idccms) => {
   //10.142.73.193 - 10.142.24.65
   try {
@@ -220,6 +231,43 @@ const downloadCounts = (idccms) => {
   }
 };
 
+const downloadDataAdmin = (idccms, caso) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        // .post(`http://10.151.232.218:4305/api/gettemplatesloaded?idccms=${idccms}`)
+        .post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+          caso: caso,
+        })
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const downloadActivities = () => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        // .post(`http://10.151.232.218:4305/api/getactivitiesteamleader`)
+        .post(`http://localhost:4343/api/getactivitiesteamleader`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 export {
   uploadQuizes,
   loadQuizes,
@@ -230,5 +278,7 @@ export {
   uploadAnswers,
   downloadHomeData,
   downloadCounts,
+  downloadDataAdmin,
+  downloadActivities,
   createTeamReportingLead,
 };

@@ -48,7 +48,7 @@ const Podium = ({ podio }) => {
       <BoxAvatarPodium sx={{ top: "-1rem", left: "-35%" }}>
         <Avatar alt="Daniel Moreno" src="" />
         <Typography variant="caption" color="initial">
-          {shortName(podio[1].Agent) + "."}
+          {podio.length > 2 ? shortName(podio[2].Agent) + "." : "Matilde P."}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>

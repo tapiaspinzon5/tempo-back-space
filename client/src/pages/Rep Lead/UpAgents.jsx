@@ -14,7 +14,7 @@ import {
 import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
-import { loadQuizes } from "../../utils/api";
+import { downloadDataAdmin } from "../../utils/api";
 import { UploadAgents } from "../../components/Agents/UploadAgents";
 import { ModalLoading } from "../../components/ModalLoading";
 
@@ -29,28 +29,24 @@ const MainUpCampaign = styled(Grid)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [createData("Team 1", 159, 1, 1, 4.0)];
 export const UpAgents = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.idccms;
 
-  const [myagents, setMyagents] = useState([]);
+  const [myAgents, setMyAgents] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const agents = await loadQuizes(idccms);
-      setMyagents(agents.data);
+      const agents = await downloadDataAdmin(idccms, 3);
+      setMyAgents(agents.data);
     };
 
     getData();
     // eslint-disable-next-line
   }, []);
+  //console.log(myAgents);
   return (
     <>
       {loading && <ModalLoading />}
@@ -78,9 +74,9 @@ export const UpAgents = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
+                    {myAgents.map((row, index) => (
                       <TableRow
-                        key={row.name}
+                        key={index}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
@@ -90,10 +86,10 @@ export const UpAgents = () => {
                           scope="row"
                           sx={{ color: "#fff" }}
                         >
-                          {row.name}
+                          {row.Nombre}
                         </TableCell>
                         <TableCell align="right" sx={{ color: "#fff" }}>
-                          {row.calories}
+                          {row.Total}
                         </TableCell>
                       </TableRow>
                     ))}

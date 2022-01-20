@@ -14,7 +14,7 @@ import {
 import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
-import { loadQuizes } from "../../utils/api";
+import { downloadDataAdmin } from "../../utils/api";
 
 import { UploadCampaign } from "../../components/Campaigns/UploadCampaign";
 import { ModalLoading } from "../../components/ModalLoading";
@@ -30,12 +30,6 @@ const MainUpCampaign = styled(Grid)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [createData("Team 1", 159, 1, 1, 4.0)];
-
 export const UpCampaign = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
@@ -46,13 +40,14 @@ export const UpCampaign = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const campaign = await loadQuizes(idccms);
+      const campaign = await downloadDataAdmin(idccms, 2);
       setMyCampaign(campaign.data);
     };
 
     getData();
     // eslint-disable-next-line
   }, []);
+
   return (
     <>
       {loading && <ModalLoading />}
@@ -86,9 +81,9 @@ export const UpCampaign = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
+                    {myCampaign.map((row, index) => (
                       <TableRow
-                        key={row.name}
+                        key={index}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
@@ -98,16 +93,16 @@ export const UpCampaign = () => {
                           scope="row"
                           sx={{ color: "#fff" }}
                         >
-                          {row.name}
+                          {row.nombre}
                         </TableCell>
                         <TableCell align="right" sx={{ color: "#fff" }}>
-                          {row.calories}
+                          {row.teamLeads}
                         </TableCell>
                         <TableCell align="right" sx={{ color: "#fff" }}>
-                          {row.fat}
+                          {row.reportingLeads}
                         </TableCell>
                         <TableCell align="right" sx={{ color: "#fff" }}>
-                          {row.carbs}
+                          {row.QALeads}
                         </TableCell>
                       </TableRow>
                     ))}

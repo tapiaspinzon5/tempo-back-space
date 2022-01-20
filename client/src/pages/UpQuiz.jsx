@@ -8,7 +8,7 @@ import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
 import { loadQuizes } from "../utils/api";
 import UpQuizModal from "../components/Modals/UpQuizModal";
-import { ModalLoading } from "../../components/ModalLoading";
+import { ModalLoading } from "../components/ModalLoading";
 
 const MainUpQuiz = styled(Grid)(({ theme }) => ({
   position: "relative",

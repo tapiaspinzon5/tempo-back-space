@@ -7,6 +7,7 @@ const BoxRanking = styled(Box)(({ theme }) => ({
   backgroundColor: "#f9f9f9",
   margin: "1rem 0",
   borderRadius: "5px",
+  overflowY: "scroll",
 }));
 
 const CardRanking = styled(Box)(({ theme }) => ({
@@ -28,50 +29,78 @@ const CardRanking = styled(Box)(({ theme }) => ({
 }));
 
 const Ranking = ({ ranking }) => {
+  let ran;
+  if (ranking.length > 2) {
+    ran = ranking.slice(3, ranking.length + 1);
+  }
+  console.log(ranking, ran);
   return (
     <BoxRanking>
-      <CardRanking>
+      {ranking[3] &&
+        ran.map((user, index) => (
+          <CardRanking>
+            <Box>
+              <Typography variant="body2" fontWeight="bold">
+                {index + 3}
+              </Typography>
+              <Avatar alt="Pepito" src="" />
+              <Typography variant="body2" fontWeight="bold" color="initial">
+                {user.Agent}
+              </Typography>
+            </Box>
+            <Typography variant="body2" fontWeight="bold" color="initial">
+              {user?.ResObtenido}
+            </Typography>
+          </CardRanking>
+        ))}
+
+      {/* <CardRanking>
         <Box>
           <Typography variant="body2" fontWeight="bold">
             4
           </Typography>
           <Avatar alt="Pepito" src="" />
           <Typography variant="body2" fontWeight="bold" color="initial">
-            {ranking[3].Agent}
+            {ranking[3] && ranking[3]?.Agent}
           </Typography>
         </Box>
         <Typography variant="body2" fontWeight="bold" color="initial">
-          {`${ranking[3].ResObtenido} XP`}
+          {ranking[3] && `${ranking[3]?.ResObtenido} XP`}
         </Typography>
       </CardRanking>
-      <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold" marginRight={2}>
-            5
-          </Typography>
-          <Avatar alt="Pepito" src="" />
+      {ranking[4] && (
+        <CardRanking>
+          <Box>
+            <Typography variant="body2" fontWeight="bold" marginRight={2}>
+              5
+            </Typography>
+            <Avatar alt="Pepito" src="" />
+            <Typography variant="body2" fontWeight="bold" color="initial">
+              {ranking[4]?.Agent}
+            </Typography>
+          </Box>
           <Typography variant="body2" fontWeight="bold" color="initial">
-            {ranking[4].Agent}
+            {`${ranking[4]?.ResObtenido} XP`}
           </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          {`${ranking[4].ResObtenido} XP`}
-        </Typography>
-      </CardRanking>
-      <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold" marginRight={2}>
-            6
-          </Typography>
-          <Avatar alt="Pepito" src="" />
+        </CardRanking>
+      )}
+      {ranking[5] && (
+        <CardRanking>
+          <Box>
+            <Typography variant="body2" fontWeight="bold" marginRight={2}>
+              6
+            </Typography>
+            <Avatar alt="Pepito" src="" />
+            <Typography variant="body2" fontWeight="bold" color="initial">
+              {ranking[5]?.Agent}
+            </Typography>
+          </Box>
           <Typography variant="body2" fontWeight="bold" color="initial">
-            {ranking[5].Agent}
+            {`${ranking[5]?.ResObtenido} XP`}
           </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          {`${ranking[5].ResObtenido} XP`}
-        </Typography>
-      </CardRanking>
+        </CardRanking>
+      )} 
+      */}
     </BoxRanking>
   );
 };

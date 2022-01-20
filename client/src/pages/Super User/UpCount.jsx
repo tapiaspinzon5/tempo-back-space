@@ -3,7 +3,7 @@ import { Typography, Grid, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
-import { loadQuizes } from "../../utils/api";
+import { downloadCounts } from "../../utils/api";
 import { CardCountDesc } from "../../components/Counts/CardCountDesc";
 import { UploadCount } from "../../components/Counts/UploadCount";
 import { ModalLoading } from "../../components/ModalLoading";
@@ -29,13 +29,14 @@ export const UpCount = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const counts = await loadQuizes(idccms);
+      const counts = await downloadCounts(idccms);
       setMyCounts(counts.data);
     };
 
     getData();
     // eslint-disable-next-line
   }, []);
+  console.log(myCounts);
   return (
     <>
       {loading && <ModalLoading />}
@@ -52,15 +53,7 @@ export const UpCount = () => {
               <UploadCount idccms={idccms} setLoading={setLoading} />
             </Grid>
             {myCounts?.map((count) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={2}
-                key={count.IdExamen}
-              >
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={count.Id}>
                 <CardCountDesc count={count} />
               </Grid>
             ))}

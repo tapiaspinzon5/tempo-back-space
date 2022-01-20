@@ -176,7 +176,7 @@ export const HomeRL = () => {
                 <Box display="flex" flexDirection="column">
                   <Button
                     onClick={() => {
-                      navigate("/upcampaign");
+                      navigate("/upagents");
                     }}
                     disabled
                   >

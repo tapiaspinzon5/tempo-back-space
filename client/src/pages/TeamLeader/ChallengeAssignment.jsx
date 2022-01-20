@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import searchIco from "../../assets/Icons/search-ico.svg";
 import {
   Grid,
@@ -15,6 +15,7 @@ import ShowActivity from "../../components/teamLeader/ShowActivity";
 import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
 import Footer from "../../components/Footer";
 import SearchAppBar from "../../components/Search";
+import { downloadActivities } from "../../utils/api";
 
 const MainCA = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -80,7 +81,18 @@ const selectButton = {
 };
 
 const ChallengeAssignment = () => {
-  const [activity, setActivity] = useState("");
+  const [activity, setActivity] = useState([]);
+  const [stage, setStage] = useState("Getting Started");
+  useEffect(() => {
+    const getData = async () => {
+      const activities = await downloadActivities();
+      setActivity(activities.data);
+    };
+
+    getData();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <MainCA>
       <Header />
@@ -93,35 +105,35 @@ const ChallengeAssignment = () => {
 
         <BoxSelectBadge item xs={12}>
           <Button
-            sx={activity === "Getting Started" && selectButton}
-            onClick={() => setActivity("Getting Started")}
+            sx={stage === "Getting Started" && selectButton}
+            onClick={() => setStage("Getting Started")}
           >
             Getting Started{" "}
           </Button>
           <Button
-            sx={activity === "Battle" && selectButton}
-            onClick={() => setActivity("Battle")}
+            sx={stage === "Battle" && selectButton}
+            onClick={() => setStage("Battle")}
           >
             {" "}
             Battle{" "}
           </Button>
           <Button
-            sx={activity === "Being Awarded" && selectButton}
-            onClick={() => setActivity("Being Awarded")}
+            sx={stage === "Being Awarded" && selectButton}
+            onClick={() => setStage("Being Awarded")}
           >
             {" "}
             Being Awarded
           </Button>
           <Button
-            sx={activity === "Developing Skills" && selectButton}
-            onClick={() => setActivity("Developing Skills")}
+            sx={stage === "Developing Skills" && selectButton}
+            onClick={() => setStage("Developing Skills")}
           >
             {" "}
             Developing Skills
           </Button>
           <Button
-            sx={activity === "Getting Stronger" && selectButton}
-            onClick={() => setActivity("Getting Stronger")}
+            sx={stage === "Getting Stronger" && selectButton}
+            onClick={() => setStage("Getting Stronger")}
           >
             {" "}
             Getting Stronger
@@ -155,6 +167,31 @@ const ChallengeAssignment = () => {
               /> */}
             </Box>
             <Boxview>
+              {stage === "Getting Started" ? (
+                activity["Getting started "]?.map((act, index) => (
+                  <ShowActivity Key={index} data={act} />
+                ))
+              ) : stage === "Battle" ? (
+                activity["Battle"]?.map((act, index) => (
+                  <ShowActivity Key={index} data={act} />
+                ))
+              ) : stage === "Being Awarded" ? (
+                activity["Being Awarded"]?.map((act, index) => (
+                  <ShowActivity Key={index} data={act} />
+                ))
+              ) : stage === "Developing Skills" ? (
+                activity["Developing skills"]?.map((act, index) => (
+                  <ShowActivity Key={index} data={act} />
+                ))
+              ) : stage === "Getting Stronger" ? (
+                activity["Getting stronger"]?.map((act, index) => (
+                  <ShowActivity Key={index} data={act} />
+                ))
+              ) : (
+                <ShowActivity />
+              )}
+
+              {/* <ShowActivity />
               <ShowActivity />
               <ShowActivity />
               <ShowActivity />
@@ -167,8 +204,7 @@ const ChallengeAssignment = () => {
               <ShowActivity />
               <ShowActivity />
               <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
+              <ShowActivity /> */}
             </Boxview>
           </BoxActivity>
         </Grid>
