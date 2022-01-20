@@ -338,11 +338,98 @@ exports.getActivitiesTL = async (req, res) => {
 exports.getTemplatesLoaded = async (req, res) => {
 
   const { caso } = req.body;
+  const nameArray = [];
 
   sql
     .query(
       "spQueryLoadTemplate",
-      parametros({ idccms: req.query.idccms, caso }, "spQueryLoadTemplate")
+      parametros({ idccms: req.query.idccms, caso }, "spQueryLoadTemplate"))
+    .then((result) => {
+
+      // Si el caso solicitado es el 2 tenemos que filtrar.
+      if (caso === 2) {
+
+        // Array con solo los nombres
+        result.forEach(element => {
+          nameArray.push(element.Nombre);
+        });
+        
+        // Array filtrado con los nombres sin repetir
+        const resultado = nameArray.filter((item,index)=>{
+          return nameArray.indexOf(item) === index;
+        })
+  
+        // Agrupamos los elementos de la respuesta (result) por nombre; 
+        let filteredData= resultado.map(el => {
+  
+          let tempArray = []
+  
+          result.forEach(element => {
+            if (element.Nombre === el) tempArray.push(element) 
+          });
+  
+          return tempArray;
+        })
+  
+        // Recorremos el nuevo array (el que agrupa por nombre) para conocer cuantos de cada lideres tiene
+        let objResponse = filteredData.map(el => {
+  
+          let name = el[0]?.Nombre;
+          let cantTL = 0;
+          let cantRL = 0;
+          let cantQAL = 0;
+          let cantOM = 0;
+  
+          el.forEach(elemnt => {
+            
+            switch (elemnt?.RoleAgent) {
+              case 'Team Leader':
+                cantTL=elemnt?.Total
+                break;
+  
+              case 'Reporting Lead':
+                cantRL=elemnt?.Total
+                break;
+  
+              case 'QA Lead':
+                cantQAL=elemnt?.Total
+                break;
+  
+              case 'Operation Manager':
+                cantOM=elemnt?.Total
+                break;
+            
+              default:
+                break;
+            }
+          });
+  
+          return ({
+            "nombre": name,
+            "teamLeads": cantTL,
+            "reportingLeads": cantRL,
+            "QALeads":cantQAL,
+            "OpsManagers":cantOM
+          })
+        })      
+  
+        responsep(1, req, res, objResponse);
+      } else {
+        responsep(1, req, res, result);
+      }
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getLoadInstructions = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryLoadInstructions",
+      parametros({ idccms: req.query.idccms}, "spQueryLoadInstructions")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -354,12 +441,14 @@ exports.getTemplatesLoaded = async (req, res) => {
 };
 
 
-exports.getLoadInstructions = async (req, res) => {
+exports.assignActivitiesTL = async (req, res) => {
+
+  let {idActivity, idccmsAssigned} = req.body
 
   sql
     .query(
-      "spQueryLoadInstructions",
-      parametros({ idccms: req.query.idccms}, "spQueryLoadInstructions")
+      "spInsertActivitieAgent",
+      parametros({ idccms: req.query.idccms, idActivity, idccmsAssigned}, "spInsertActivitieAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
