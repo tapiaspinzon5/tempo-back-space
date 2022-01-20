@@ -45,8 +45,9 @@ const BoxUpCampaign = styled(Box)(({ theme }) => ({
     },
   },
 }));
-export const UploadCampaign = ({ idccms }) => {
+export const UploadCampaign = ({ idccms, setLoading }) => {
   const loadFile = (e) => {
+    setLoading(true);
     let file = e.target.files[0];
 
     return new Promise((resolve, reject) => {
@@ -98,6 +99,7 @@ export const UploadCampaign = ({ idccms }) => {
     const fileCSV = e.target.files[0];
     let data = [];
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+      setLoading(false);
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
@@ -107,6 +109,7 @@ export const UploadCampaign = ({ idccms }) => {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
+        setLoading(false);
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -119,6 +122,7 @@ export const UploadCampaign = ({ idccms }) => {
       const resp = await createTeamOperationManager(data, idccms);
 
       if (resp.status === 200) {
+        setLoading(false);
         MySwal.fire({
           title: <p>File upload</p>,
           icon: "success",

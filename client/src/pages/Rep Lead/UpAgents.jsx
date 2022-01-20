@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import { loadQuizes } from "../../utils/api";
 import { UploadAgents } from "../../components/Agents/UploadAgents";
+import { ModalLoading } from "../../components/ModalLoading";
 
 const MainUpCampaign = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -34,6 +35,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 const rows = [createData("Team 1", 159, 1, 1, 4.0)];
 export const UpAgents = () => {
+  const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.idccms;
@@ -50,54 +52,59 @@ export const UpAgents = () => {
     // eslint-disable-next-line
   }, []);
   return (
-    <Grid width="100%">
-      <MainUpCampaign>
-        <Typography variant="h5" fontWeight="bold" mt={4}>
-          Acquire new skills to strengthen your progress
-        </Typography>
-        <Typography variant="body1" mt={2}>
-          Acquire new skills to strengthen your progress
-        </Typography>
-        <Grid container spacing={3} mt={4}>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <UploadAgents idccms={idccms} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 300 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ color: "#fff" }}>Teams</TableCell>
-                    <TableCell align="right" sx={{ color: "#fff" }}>
-                      Agents
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        sx={{ color: "#fff" }}
-                      >
-                        {row.name}
-                      </TableCell>
+    <>
+      {loading && <ModalLoading />}
+      <Grid width="100%">
+        <MainUpCampaign>
+          <Typography variant="h5" fontWeight="bold" mt={4}>
+            Acquire new skills to strengthen your progress
+          </Typography>
+          <Typography variant="body1" mt={2}>
+            Acquire new skills to strengthen your progress
+          </Typography>
+          <Grid container spacing={3} mt={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+              <UploadAgents idccms={idccms} setLoading={setLoading} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 300 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ color: "#fff" }}>Teams</TableCell>
                       <TableCell align="right" sx={{ color: "#fff" }}>
-                        {row.calories}
+                        Agents
                       </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ color: "#fff" }}
+                        >
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right" sx={{ color: "#fff" }}>
+                          {row.calories}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
           </Grid>
-        </Grid>
-      </MainUpCampaign>
-      <Footer />
-    </Grid>
+        </MainUpCampaign>
+        <Footer />
+      </Grid>
+    </>
   );
 };

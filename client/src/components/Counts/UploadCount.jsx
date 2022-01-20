@@ -45,9 +45,10 @@ const BoxUpCount = styled(Box)(({ theme }) => ({
     },
   },
 }));
-export const UploadCount = ({ idccms }) => {
+export const UploadCount = ({ idccms, setLoading }) => {
   //Funcion para  validar campos Archivo .csv
   const loadFile = (e) => {
+    setLoading(true);
     const fileCSV = e.target.files[0];
 
     return new Promise((resolve, reject) => {
@@ -105,6 +106,7 @@ export const UploadCount = ({ idccms }) => {
     const fileCSV = e.target.files[0];
     let data;
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+      setLoading(false);
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
@@ -114,6 +116,7 @@ export const UploadCount = ({ idccms }) => {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
+        setLoading(false);
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -126,6 +129,7 @@ export const UploadCount = ({ idccms }) => {
       const resp = await createTeamSuperUser(data, idccms);
 
       if (resp.status === 200) {
+        setLoading(false);
         MySwal.fire({
           title: <p>File upload</p>,
           icon: "success",

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Grid, styled } from "@mui/material";
 import { useSelector } from "react-redux";
+import { Typography, Grid, styled, Button, Modal, Box } from "@mui/material";
+import { FiDownload } from "react-icons/fi";
 //import Header from "../components/homeUser/Header";
 import CardQuizDesc from "../components/Quizes/CardQuizDesc";
 import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
 import { loadQuizes } from "../utils/api";
+import UpQuizModal from "../components/Modals/UpQuizModal";
 
 const MainUpQuiz = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -18,12 +20,25 @@ const MainUpQuiz = styled(Grid)(({ theme }) => ({
   },
 }));
 
+const ModalBox = styled(Box)(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  //width: 400,
+  borderRadius: "20px",
+  boxShadow: "2px 2px 5px #2f2f2f",
+  padding: "1rem",
+  backgroundColor: "RGBA(255,255,255,0.9)",
+}));
+
 const UpQuiz = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.idccms;
 
   const [misQuizes, setMisQuizes] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -35,15 +50,46 @@ const UpQuiz = () => {
     // eslint-disable-next-line
   }, []);
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Grid width="100%">
       <MainUpQuiz>
-        <Typography variant="h5" fontWeight="bold" mt={4}>
-          Acquire new skills to strengthen your progress
-        </Typography>
-        <Typography variant="body1" mt={2}>
-          Acquire new skills to strengthen your progress
-        </Typography>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+            <UpQuizModal handleClose={handleClose} />
+          </ModalBox>
+        </Modal>
+        <Grid container>
+          <Grid item sx={12} md={6}>
+            <Typography variant="h5" fontWeight="bold" mt={4}>
+              Quizzes questions upload
+            </Typography>
+            <Typography variant="body1" mt={2}>
+              In this space, the quizzes carried out by the agents to give
+              continuity to their training process are uploaded.
+            </Typography>
+          </Grid>
+          <Grid item sx={12} md={6} display="flex" justifyContent="flex-end">
+            <Button
+              startIcon={<FiDownload />}
+              onClick={handleOpen}
+              sx={{ height: "3rem" }}
+            >
+              Download Template Quiz
+            </Button>
+          </Grid>
+        </Grid>
         <Grid container spacing={3} mt={4}>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <UploadQuiz idccms={idccms} />

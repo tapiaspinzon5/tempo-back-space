@@ -24,6 +24,9 @@ import QuizDetails from "../components/Quizes/QuizDetails";
 import { UpCount } from "../pages/Super User/UpCount";
 import { UpCampaign } from "../pages/Ops Man/UpCampaign";
 import { UpAgents } from "../pages/Rep Lead/UpAgents";
+import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
+import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
+import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -41,6 +44,7 @@ const AppRouter = () => {
 
   return (
     <Router>
+      
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.role && navView && <Navbar />}
 
@@ -73,8 +77,6 @@ const AppRouter = () => {
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/homeqal" element={<HomeQAL />} />
-              <Route path="/" element={<Navigate to="/homeom" />} />
-              <Route path="/homeom" element={<HomeOM />} />
             </>
           )}
           {userData?.role === "Reporting Lead" && (
@@ -86,7 +88,7 @@ const AppRouter = () => {
           )}
           {userData?.role === "Super Admin" && (
             <>
-              <Route path="/" element={<Navigate to="/homeom" />} />
+              <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA />} />
               <Route path="/upcount" element={<UpCount />} />
             </>
@@ -96,6 +98,12 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
               <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/followingteams" element={<FollowingTeamsKPI />} />
+              <Route
+                path="/challengeasignment"
+                element={<ChallengeAssignment />}
+              />
+              <Route path="/badgesmanagement" element={<BadgeManagement />} />
               <Route path="/teamprogress" element={<TeamsProgress />} />
             </>
           )}
