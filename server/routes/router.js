@@ -17,6 +17,7 @@ module.exports = (router) => {
   router.post("/uploadquiz", routes.saveQuiz);      // Endpoint para la carga de la plantilla del QALeader.
   router.post("/getquizqa", routes.getQuizQA);      // Este enpoint trae todos los quizes que el QALeader haya cargado.
   router.post("/uploadsu", routes.uploadSU);        // Endpoint para la carga de la plantilla del SuperUsuario.
+  router.post("/getteamsbysu", routes.getTeamsSU);  // Retorna los equipos creados por el superuser.
   router.post("/uploadopsm", routes.uploadOpsM);    // Endpoint para la carga de la plantilla del operation manager.
   router.post("/uploadrepl", routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
 
@@ -25,7 +26,18 @@ module.exports = (router) => {
   router.post("/getquizbyagent", routes.getQuizByAgent); // Lista todos los examenes asignados por cssmid del agente.
   router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
   router.post("/getresultquiz", routes.getResultQuiz);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
+  router.post("/getactivitiesteamleader", routes.getActivitiesTL);   // Retorna las actividades por categoria y stage.
+  router.post("/gettemplatesloaded", routes.getTemplatesLoaded);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
 
+  // Descargar archivos
+  // http://localhost:4343/api/gettemplate/SuperUser.csv
+  router.get("/gettemplate/:name", routes.getTemplate);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
+  
+// Asignar actividades
+  router.post("/postassignactivitiestl",routes.assignActivitiesTL);
+  
+  
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
   MapSpRouter("/sqlupdate", "spUpdateCentral");
