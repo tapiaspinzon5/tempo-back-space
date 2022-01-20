@@ -33,7 +33,11 @@ module.exports = (router) => {
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
   router.get("/gettemplate/:name", routes.getTemplate);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
-
+  
+// Asignar actividades
+  router.post("/postassignactivitiestl",routes.assignActivitiesTL);
+  
+  
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
   MapSpRouter("/sqlupdate", "spUpdateCentral");

@@ -353,13 +353,31 @@ exports.getTemplatesLoaded = async (req, res) => {
     });
 };
 
-
 exports.getLoadInstructions = async (req, res) => {
 
   sql
     .query(
       "spQueryLoadInstructions",
       parametros({ idccms: req.query.idccms}, "spQueryLoadInstructions")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.assignActivitiesTL = async (req, res) => {
+
+  let {idActivity, idccmsAssigned} = req.body
+
+  sql
+    .query(
+      "spInsertActivitieAgent",
+      parametros({ idccms: req.query.idccms, idActivity, idccmsAssigned}, "spInsertActivitieAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);

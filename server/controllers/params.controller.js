@@ -234,6 +234,13 @@ exports.parametros = (req, tipo) => {
         new SpParam("case", req.caso, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
+
+    case "spInsertActivitieAgent":
+      return parametrizacion([
+        new SpParam("ident", req.idccmsAssigned, TYPES.Int),
+        new SpParam("idActivitie", req.idActivity, TYPES.Int),
+        new SpParam("identAssignmen", req.idccms, TYPES.Int),
+      ]);
       
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);
