@@ -225,6 +225,15 @@ exports.parametros = (req, tipo) => {
     //     new SpParam("Categorie", req.category, TYPES.VarChar),
     //     new SpParam("Stage", req.stage, TYPES.VarChar),
     //   ]);
+
+    case "spQueryLoadInstructions":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+    case "spQueryLoadTemplate":
+      return parametrizacion([
+        new SpParam("case", req.caso, TYPES.Int),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
       
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);

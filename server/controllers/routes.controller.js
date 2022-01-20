@@ -334,3 +334,38 @@ exports.getActivitiesTL = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
+exports.getTemplatesLoaded = async (req, res) => {
+
+  const { caso } = req.body;
+
+  sql
+    .query(
+      "spQueryLoadTemplate",
+      parametros({ idccms: req.query.idccms, caso }, "spQueryLoadTemplate")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.getLoadInstructions = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryLoadInstructions",
+      parametros({ idccms: req.query.idccms}, "spQueryLoadInstructions")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};

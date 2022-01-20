@@ -27,6 +27,8 @@ module.exports = (router) => {
   router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
   router.post("/getresultquiz", routes.getResultQuiz);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
   router.post("/getactivitiesteamleader", routes.getActivitiesTL);   // Retorna las actividades por categoria y stage.
+  router.post("/gettemplatesloaded", routes.getTemplatesLoaded);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
