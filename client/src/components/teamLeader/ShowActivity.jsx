@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, styled, Typography, Box } from "@mui/material";
+import { Button, styled, Typography, Box, Tooltip } from "@mui/material";
 import start from "../../assets/Icons/start-icon.svg";
 import epiCoin from "../../assets/Icons/epicoin-ico.svg";
 
@@ -40,7 +40,13 @@ const ShowActivity = () => {
           10 points
         </Typography>
       </Box>
-      <Button>Details </Button>
+      <Tooltip
+        title="observaciones del tipo de actividad"
+        placement="top"
+        arrow
+      >
+        <Button>Details </Button>
+      </Tooltip>
     </CardActiviy>
   );
 };

@@ -3,6 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import searchIco from "../assets/Icons/search-ico.svg";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,7 +52,8 @@ export default function SearchAppBar() {
     <Toolbar>
       <Search>
         <SearchIconWrapper>
-          <SearchIcon />
+          {/* <SearchIcon /> */}
+          <img src={searchIco} alt="" />{" "}
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"

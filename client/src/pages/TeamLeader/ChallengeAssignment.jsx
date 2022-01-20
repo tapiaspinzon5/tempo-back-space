@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import searchIco from "../../assets/Icons/search-ico.svg";
-import {
-  Grid,
-  styled,
-  Typography,
-  Button,
-  Box,
-  Input,
-  InputAdornment,
-} from "@mui/material";
+import { Grid, styled, Typography, Button, Box, Input } from "@mui/material";
 
 import Header from "../../components/homeUser/Header";
 import ShowActivity from "../../components/teamLeader/ShowActivity";
@@ -142,17 +133,6 @@ const ChallengeAssignment = () => {
                 Select all
               </Button>
               <SearchAppBar />
-              {/* <Search
-                placeholder="Search…"
-                id="standard-adornment-amount"
-                //value={values.amount}
-                //onChange={handleChange("amount")}
-                startAdornment={
-                  <InputAdornment position="end">
-                    <img src={searchIco} alt="search" />
-                  </InputAdornment>
-                }
-              /> */}
             </Box>
             <Boxview>
               <ShowActivity />
