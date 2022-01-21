@@ -190,21 +190,6 @@ const ChallengeAssignment = () => {
               ) : (
                 <ShowActivity />
               )}
-
-              {/* <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity />
-              <ShowActivity /> */}
             </Boxview>
           </BoxActivity>
         </Grid>

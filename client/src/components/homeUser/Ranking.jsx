@@ -33,10 +33,9 @@ const Ranking = ({ ranking }) => {
   if (ranking.length > 2) {
     ran = ranking.slice(3, ranking.length + 1);
   }
-  console.log(ranking, ran);
   return (
     <BoxRanking>
-      {ranking[3] &&
+      {ran && ran.length > 3 ? (
         ran.map((user, index) => (
           <CardRanking>
             <Box>
@@ -52,7 +51,16 @@ const Ranking = ({ ranking }) => {
               {user?.ResObtenido}
             </Typography>
           </CardRanking>
-        ))}
+        ))
+      ) : (
+        <CardRanking>
+          <Box>
+            <Typography variant="body2" fontWeight="bold">
+              {"The Game Starts Soon"}
+            </Typography>
+          </Box>
+        </CardRanking>
+      )}
 
       {/* <CardRanking>
         <Box>
