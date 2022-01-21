@@ -319,7 +319,7 @@ exports.getActivitiesTL = async (req, res) => {
       });
 
       let filterData = {
-        "Getting started ":tempGetStarted,
+        "Getting started":tempGetStarted,
         "Getting stronger":tempGetStronger,
         "Battle":tempBattle,
         "Developing skills":tempDevelopingSkills,
