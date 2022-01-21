@@ -14,13 +14,19 @@ const CardUser = styled(Box)(() => ({
   color: "#3047b0",
 }));
 
-const ShowUserActivity = () => {
+const ShowUserActivity = ({ user, handleUser }) => {
   return (
     <>
       <CardUser>
-        <input type="checkbox" className="checkBox" />
+        <input
+          type="checkbox"
+          className="checkBox"
+          name={user.name}
+          checked={user?.isChecked || false}
+          onChange={handleUser}
+        />
         <Box>
-          <Typography variant="body1">Matilde Puentes Gutierrez</Typography>
+          <Typography variant="body1">{user.name}</Typography>
           <Typography variant="caption">
             Analista desarrollador Senior
           </Typography>

@@ -72,9 +72,22 @@ const selectButton = {
   textTransform: "none",
 };
 
+const userData = [
+  { name: "Deiby" },
+  { name: "Bibian" },
+  { name: "Sofia" },
+  { name: "Daniel" },
+  { name: "Matilde" },
+  { name: "Diego" },
+  { name: "Juan" },
+  { name: "Kira" },
+];
+
 const ChallengeAssignment = () => {
   const [activity, setActivity] = useState([]);
   const [stage, setStage] = useState("Getting Started");
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       const activities = await downloadActivities();
@@ -82,9 +95,31 @@ const ChallengeAssignment = () => {
     };
 
     getData();
+
+    //asignacion de usuarios
+    setUsers(userData);
+
     // eslint-disable-next-line
   }, []);
 
+  //funcion de asingacion de usuarios
+  const handleUser = (e) => {
+    const { name, checked } = e.target;
+    if (name === "selecct-all") {
+      let tempUser = users.map((user) => {
+        return { ...user, isChecked: checked };
+      });
+
+      setUsers(tempUser);
+    } else {
+      let tempUser = users.map((user) =>
+        user.name === name ? { ...user, isChecked: checked } : user
+      );
+      setUsers(tempUser);
+    }
+  };
+
+  console.log(users);
   return (
     <MainCA>
       <Header />
@@ -181,16 +216,25 @@ const ChallengeAssignment = () => {
           <BoxActivity>
             <Box marginBottom={2}>
               <Button sx={selectButton}>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  name="selecct-all"
+                  onChange={handleUser}
+                  checked={
+                    users.filter((user) => user?.isChecked !== true).length < 1
+                  }
+                />
                 Select all
               </Button>
             </Box>
             <Boxview>
-              <ShowUserActivity />
-              <ShowUserActivity />
-              <ShowUserActivity />
-              <ShowUserActivity />
-              <ShowUserActivity />
+              {users.map((user, index) => (
+                <ShowUserActivity
+                  key={index}
+                  user={user}
+                  handleUser={handleUser}
+                />
+              ))}
             </Boxview>
           </BoxActivity>
         </Grid>
