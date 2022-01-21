@@ -3,7 +3,7 @@ import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { ImFire } from "react-icons/im";
 import ProgresBar from "../progressCharts/ProgresBar";
 //import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { LinearGauge } from "../LinearGauge/LinearGauge";
+//import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -59,7 +59,7 @@ const ProgressHome = ({ dataKPI }) => {
 
       {/* Card Progress section */}
 
-      {dataKPI[1] &&
+      {dataKPI.length > 0 ? (
         dataKPI[1].KPI.map((kpi, index) => (
           <Box key={index}>
             <Box
@@ -105,7 +105,38 @@ const ProgressHome = ({ dataKPI }) => {
             </Box>
             <Divider variant="fullWidth" light />
           </Box>
-        ))}
+        ))
+      ) : (
+        <Box>
+          <Box
+            display="flex"
+            py={2}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box width="60%">
+              <Box
+                width="150%"
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Typography variant="body1" fontWeight="bold">
+                  {"The Game Starts Soon"}
+                </Typography>
+              </Box>
+
+              {/* <LinearGauge value={kpi} /> */}
+            </Box>
+            <Box>
+              {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
+                See more
+      </Button> */}
+            </Box>
+          </Box>
+          <Divider variant="fullWidth" light />
+        </Box>
+      )}
       {/* END Card Progress*/}
     </CardProgressSection>
   );

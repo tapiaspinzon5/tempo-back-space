@@ -48,102 +48,102 @@ const HomeUser = () => {
   useEffect(() => {
     const getData = async () => {
       const kpis = await downloadHomeData(idccms);
-      setData(kpis.data);
+      if (kpis.status === 200 && kpis.data.length > 0) {
+        setData(kpis.data);
+      }
     };
     getData();
     // eslint-disable-next-line
   }, []);
 
   const ranking =
-    data[0] &&
-    data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido);
-
+    data.length > 0 && Array.isArray(data)
+      ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
+      : data;
   return (
     <>
-      {ranking && (
-        <MainHomeUser
-          sx={{ bgcolor: "background.default", color: "text.primary" }}
-        >
-          <Header />
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5} xl={6}>
-              <ProgressHome dataKPI={data} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3} xl={3}>
-              <Podium podio={ranking} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4} xl={3}>
-              <Ranking ranking={ranking} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <BoxVinetas>
-                <Typography variant="h6" align="center" fontWeight="bold">
-                  Total Exp
-                </Typography>
-                <Circle />
-                <Box display="flex" justifyContent="center">
-                  <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
-                    See more
-                  </SeeButton>
-                </Box>
-              </BoxVinetas>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <BoxVinetas>
-                <Typography variant="h6" align="center" fontWeight="bold">
-                  Challenges Won
-                </Typography>
-                <Diamond />
-                <Box display="flex" justifyContent="center">
-                  <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
-                    See more
-                  </SeeButton>
-                </Box>
-              </BoxVinetas>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <BoxVinetas>
-                <Typography variant="h6" align="center" fontWeight="bold">
-                  Games Played
-                </Typography>
-                <StarProgress />
-                <Box display="flex" justifyContent="center">
-                  <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
-                    See more
-                  </SeeButton>
-                </Box>
-              </BoxVinetas>
-            </Grid>
-            <Grid item xs={12} md={6} lg={3}>
-              <BoxVinetas>
-                <Typography variant="h6" align="center" fontWeight="bold">
-                  Latest Achievement
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "28vh",
-                  }}
-                >
-                  <img src={medal} alt="top-Ten" height="75%" width="75%" />
-                  <Box display="flex" justifyContent="center">
-                    <SeeButton
-                      sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
-                    >
-                      See more
-                    </SeeButton>
-                  </Box>
-                </Box>
-              </BoxVinetas>
-            </Grid>
+      <MainHomeUser
+        sx={{ bgcolor: "background.default", color: "text.primary" }}
+      >
+        <Header />
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={5} xl={6}>
+            {ranking && <ProgressHome dataKPI={data} />}
           </Grid>
-          {/* <ProgressSection /> */}
-          <Footer />
-        </MainHomeUser>
-      )}
+          <Grid item xs={12} md={6} lg={3} xl={3}>
+            {ranking && <Podium podio={ranking} />}
+          </Grid>
+          <Grid item xs={12} md={6} lg={4} xl={3}>
+            <Ranking ranking={ranking} />
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Total Exp
+              </Typography>
+              <Circle />
+              <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
+                  See more
+                </SeeButton>
+              </Box>
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Challenges Won
+              </Typography>
+              <Diamond />
+              <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
+                  See more
+                </SeeButton>
+              </Box>
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Games Played
+              </Typography>
+              <StarProgress />
+              <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
+                  See more
+                </SeeButton>
+              </Box>
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Latest Achievement
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "28vh",
+                }}
+              >
+                <img src={medal} alt="top-Ten" height="75%" width="75%" />
+                <Box display="flex" justifyContent="center">
+                  <SeeButton
+                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
+                  >
+                    See more
+                  </SeeButton>
+                </Box>
+              </Box>
+            </BoxVinetas>
+          </Grid>
+        </Grid>
+        {/* <ProgressSection /> */}
+        <Footer />
+      </MainHomeUser>
     </>
   );
 };

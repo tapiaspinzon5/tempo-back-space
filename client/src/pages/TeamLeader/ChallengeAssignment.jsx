@@ -85,7 +85,7 @@ const userData = [
 
 const ChallengeAssignment = () => {
   const [activity, setActivity] = useState([]);
-  const [stage, setStage] = useState("Getting Started");
+  const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -119,7 +119,29 @@ const ChallengeAssignment = () => {
     }
   };
 
-  console.log(users);
+  ////////////////////////////// funcion de asingacion de Actividades
+  const handleBadge = (e) => {
+    const { name, checked } = e.target;
+
+    console.log(name, checked);
+    if (name === "selecct-all") {
+      let tempUser = activity[stage].map((badge) => {
+        return { ...badge, isChecked: checked };
+      });
+
+      setActivity(tempUser);
+    } else {
+      let tempUser = activity[stage].map((badge, index) => console.log(badge));
+      //badge.name === name ? { ...badge, isChecked: checked } : badge
+      //setActivity(tempUser);
+      console.log(tempUser);
+    }
+  };
+
+  console.log(activity);
+  console.log(activity[stage]);
+  console.log(stage);
+
   return (
     <MainCA>
       <Header />
@@ -132,8 +154,8 @@ const ChallengeAssignment = () => {
 
         <BoxSelectBadge item xs={12}>
           <Button
-            sx={stage === "Getting Started" && selectButton}
-            onClick={() => setStage("Getting Started")}
+            sx={stage === "Getting started" && selectButton}
+            onClick={() => setStage("Getting started")}
           >
             Getting Started{" "}
           </Button>
@@ -152,15 +174,15 @@ const ChallengeAssignment = () => {
             Being Awarded
           </Button>
           <Button
-            sx={stage === "Developing Skills" && selectButton}
-            onClick={() => setStage("Developing Skills")}
+            sx={stage === "Developing skills" && selectButton}
+            onClick={() => setStage("Developing skills")}
           >
             {" "}
             Developing Skills
           </Button>
           <Button
-            sx={stage === "Getting Stronger" && selectButton}
-            onClick={() => setStage("Getting Stronger")}
+            sx={stage === "Getting stronger" && selectButton}
+            onClick={() => setStage("Getting stronger")}
           >
             {" "}
             Getting Stronger
@@ -183,32 +205,49 @@ const ChallengeAssignment = () => {
               <SearchAppBar />
             </Box>
             <Boxview>
-              {stage === "Getting Started" ? (
+              {stage === "Getting started" ? (
                 activity["Getting started "]?.map((act, index) => (
-                  <ShowActivity Key={index} data={act} />
+                  <ShowActivity
+                    Key={index}
+                    data={act}
+                    handleBadge={handleBadge}
+                  />
                 ))
               ) : stage === "Battle" ? (
                 activity["Battle"]?.map((act, index) => (
-                  <ShowActivity Key={index} data={act} />
+                  <ShowActivity
+                    Key={index}
+                    data={act}
+                    handleBadge={handleBadge}
+                  />
                 ))
               ) : stage === "Being Awarded" ? (
                 activity["Being Awarded"]?.map((act, index) => (
-                  <ShowActivity Key={index} data={act} />
+                  <ShowActivity
+                    Key={index}
+                    data={act}
+                    handleBadge={handleBadge}
+                  />
                 ))
-              ) : stage === "Developing Skills" ? (
+              ) : stage === "Developing skills" ? (
                 activity["Developing skills"]?.map((act, index) => (
-                  <ShowActivity Key={index} data={act} />
+                  <ShowActivity
+                    Key={index}
+                    data={act}
+                    handleBadge={handleBadge}
+                  />
                 ))
-              ) : stage === "Getting Stronger" ? (
+              ) : stage === "Getting stronger" ? (
                 activity["Getting stronger"]?.map((act, index) => (
-                  <ShowActivity Key={index} data={act} />
+                  <ShowActivity
+                    Key={index}
+                    data={act}
+                    handleBadge={handleBadge}
+                  />
                 ))
               ) : (
                 <ShowActivity />
               )}
-
-              {/* <ShowActivity />
-               */}
             </Boxview>
           </BoxActivity>
         </Grid>

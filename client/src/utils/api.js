@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //const url = "http://10.151.232.218:4305";
-//const url ='http://localhost:4343'
+const url = "http://localhost:4343";
 //import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
@@ -40,10 +40,7 @@ const uploadQuizes = (data, idccms) => {
   try {
     return (
       axios
-        .post(
-          `http://10.151.232.218:4305/api/uploadquiz?idccms=${idccms}`,
-          data
-        )
+        .post(`${url}/api/uploadquiz?idccms=${idccms}`, data)
         //.post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
         .catch(function (error) {
           if (error.response) {
@@ -61,7 +58,7 @@ const loadQuizes = (idccms) => {
     return (
       axios
 
-        .post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
+        .post(`${url}/api/getquizqa?idccms=${idccms}`)
         //.post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
@@ -79,7 +76,7 @@ const loadQuizesUser = (idccms) => {
     return (
       axios
 
-        .post(`http://10.151.232.218:4305/api/getquizbyagent?idccms=${idccms}`)
+        .post(`${url}/api/getquizbyagent?idccms=${idccms}`)
         //.post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
@@ -96,7 +93,7 @@ const getExam = (idccms, idquiz) => {
   try {
     return axios
 
-      .post(`http://10.151.232.218:4305/api/getQuizDetail?idccms=${idccms}`, {
+      .post(`${url}/api/getQuizDetail?idccms=${idccms}`, {
         //.post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
         idQuiz: idquiz,
       })
@@ -115,7 +112,7 @@ const getExam = (idccms, idquiz) => {
 const createTeamSuperUser = (dataCSV, idccms) => {
   try {
     return axios
-      .post(`http://10.151.232.218:4305/api/uploadSU?idccms=${idccms}`, {
+      .post(`${url}/api/uploadSU?idccms=${idccms}`, {
         //.post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
         data: dataCSV,
       })
@@ -132,7 +129,7 @@ const createTeamSuperUser = (dataCSV, idccms) => {
 const createTeamOperationManager = (dataCSV, idccms) => {
   try {
     return axios
-      .post(`http://10.151.232.218:4305/api/uploadopsm?idccms=${idccms}`, {
+      .post(`${url}/api/uploadopsm?idccms=${idccms}`, {
         //.post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
         data: dataCSV,
       })
@@ -149,7 +146,7 @@ const createTeamOperationManager = (dataCSV, idccms) => {
 const createTeamReportingLead = (dataCSV, idccms) => {
   try {
     return axios
-      .post(`http://10.151.232.218:4305/api/uploadrepl?idccms=${idccms}`, {
+      .post(`${url}/api/uploadrepl?idccms=${idccms}`, {
         //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
         data: dataCSV,
       })
@@ -170,7 +167,7 @@ const uploadAnswers = (data, idccms, idExam) => {
       axios
         // .post(
         .post(
-          `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+          `${url}/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
           // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
           {
             data: data,
@@ -192,7 +189,7 @@ const downloadHomeData = (idccms, data) => {
   try {
     return (
       axios
-        .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        .post(`${url}/api/gethomedata?idccms=${idccms}`)
         //.post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
@@ -210,7 +207,7 @@ const downloadCounts = (idccms) => {
   try {
     return (
       axios
-        .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        .post(`${url}/api/gethomedata?idccms=${idccms}`)
         //.post(`http://localhost:4343/api/getteamsbysu?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
@@ -227,13 +224,10 @@ const downloadDataAdmin = (idccms, caso) => {
   //10.142.73.193 - 10.142.24.65
   try {
     return axios
-      .post(
-        `http://10.151.232.218:4305/api/gettemplatesloaded?idccms=${idccms}`,
-        {
-          //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
-          caso: caso,
-        }
-      )
+      .post(`${url}/api/gettemplatesloaded?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+        caso: caso,
+      })
       .catch(function (error) {
         if (error.response) {
           return error.response;
@@ -249,7 +243,7 @@ const downloadActivities = () => {
   try {
     return (
       axios
-        .post(`http://10.151.232.218:4305/api/getactivitiesteamleader`)
+        .post(`${url}/api/getactivitiesteamleader`)
         //.post(`http://localhost:4343/api/getactivitiesteamleader`)
         .catch(function (error) {
           if (error.response) {

@@ -20,11 +20,17 @@ const CardActiviy = styled(Box)(() => ({
   },
 }));
 
-const ShowActivity = ({ data }) => {
+const ShowActivity = ({ data, handleBadge }) => {
   return (
     <CardActiviy>
-      <input type="checkbox" className="checkBox" />
-      <Box>
+      <input
+        type="checkbox"
+        className="checkBox"
+        name={data.Name}
+        checked={data?.isChecked || false}
+        onChange={handleBadge}
+      />
+      <Box width="40%">
         <Typography variant="body1">{data.Name}</Typography>
         <Typography variant="body2">{data.Context}</Typography>
       </Box>
