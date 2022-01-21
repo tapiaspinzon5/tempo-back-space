@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Grid, styled, Box, Typography } from "@mui/material";
+import { Grid, styled, Box, Typography, Button } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 //import { AdminCard } from "../components/AdminCard/AdminCard";
@@ -14,6 +14,8 @@ import {
   validateHeadersProvideUsersRL,
 } from "../helpers/helpers";
 import { createTeamReportingLead } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+
 const MySwal = withReactContent(Swal);
 
 const MainHomeRL = styled(Grid)(({ theme }) => ({
@@ -54,7 +56,8 @@ const CardContent = styled(Box)(({ theme }) => ({
 }));
 
 export const HomeRL = () => {
-  const userData = useSelector((store) => store.loginUser.userData);
+  const navigate = useNavigate();
+  /* const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
 
   const loadFile = (e) => {
@@ -63,13 +66,13 @@ export const HomeRL = () => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        /* Parse data */
+        // Parse data 
         const ab = e.target.result;
         const wb = XLSX.read(ab, { type: "array" });
-        /* Get first worksheet */
+        // Get first worksheet 
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
+        // Convert array of arrays 
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1 })
           .map((colum) => {
@@ -81,22 +84,18 @@ export const HomeRL = () => {
             ];
           });
 
-      
-
         if (data.length > 1) {
-          /* Update state */
+          // Update state 
           let differentsHeaders = validateHeadersProvideUsersRL(data[0]);
           data.shift();
           let incorrectValues = validateFieldsProvideUsersRL(data);
 
           if (differentsHeaders) {
-            
             reject("Headers no coinciden");
             return;
           }
 
           if (incorrectValues) {
-            
             reject("Existen campos incorrectos");
             return;
           }
@@ -110,22 +109,18 @@ export const HomeRL = () => {
   };
 
   const uploadFile = async (e) => {
-    
     const fileCSV = e.target.files[0];
     let data = [];
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-    
       try {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -137,8 +132,6 @@ export const HomeRL = () => {
       //setData(data);
       const resp = await createTeamReportingLead(data, idccms);
 
-     
-
       if (resp.status === 200) {
         MySwal.fire({
           title: <p>File upload</p>,
@@ -146,13 +139,64 @@ export const HomeRL = () => {
         });
       }
     }
-  };
+  }; */
 
   return (
     <>
       <MainHomeRL sx={{ bgcolor: "background.default", color: "text.primary" }}>
         <Header />
         <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/upagents");
+                    }}
+                  >
+                    <img src={img1} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Provide User Info
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/upagents");
+                    }}
+                    disabled
+                  >
+                    <img src={img1} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    KPI ´ s Data Upload
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
+          </Grid>
+        </Grid>
+        {/* <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <CardContainer>
               <CardContent>
@@ -205,7 +249,7 @@ export const HomeRL = () => {
               </CardContent>
             </CardContainer>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Footer />
       </MainHomeRL>
     </>

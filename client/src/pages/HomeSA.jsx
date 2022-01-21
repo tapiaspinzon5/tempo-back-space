@@ -15,6 +15,7 @@ import {
   validateFieldsCreateTeams,
   validateHeadersCreateTeam,
 } from "../helpers/helpers";
+import { useNavigate } from "react-router-dom";
 
 const MySwal = withReactContent(Swal);
 
@@ -55,23 +56,24 @@ const CardContent = styled(Box)(({ theme }) => ({
 }));
 
 export const HomeSA = () => {
-  const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  // const userData = useSelector((store) => store.loginUser.userData);
+  const navigate = useNavigate();
+  //const idccms = userData.idccms;
 
-  //Funcion para  validar campos Archivo .csv
+  /*   //Funcion para  validar campos Archivo .csv
   const loadFile = (e) => {
     const fileCSV = e.target.files[0];
 
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        /* Parse data */
+        //Parse data 
         const ab = e.target.result;
         const wb = XLSX.read(ab, { type: "array" });
-        /* Get first worksheet */
+        //Get first worksheet 
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
+        //Convert array of arrays
         //const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1 })
@@ -92,7 +94,6 @@ export const HomeSA = () => {
           let differentsHeaders = validateHeadersCreateTeam(data[0]);
 
           if (differentsHeaders) {
-          
             reject(" Wrong Headers!");
             return;
           }
@@ -108,29 +109,25 @@ export const HomeSA = () => {
         } else {
           reject("No data!");
         }
-        /* Update state */
+        //Update state 
       };
       reader.readAsArrayBuffer(fileCSV);
     });
   };
 
   const uploadFile = async (e) => {
-    
     const fileCSV = e.target.files[0];
     let data;
     if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
-      
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
       });
     } else {
-      
       try {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -142,8 +139,6 @@ export const HomeSA = () => {
       //setData(data);
       const resp = await createTeamSuperUser(data, idccms);
 
-      
-
       if (resp.status === 200) {
         MySwal.fire({
           title: <p>File upload</p>,
@@ -151,16 +146,90 @@ export const HomeSA = () => {
         });
       }
     }
-  };
+  }; */
 
-  
   return (
     <>
       <MainHomeSA sx={{ bgcolor: "background.default", color: "text.primary" }}>
         <Header />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[0]} /> */}
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/usermanage");
+                    }}
+                    disabled
+                  >
+                    <img src={img1} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    User management
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/upcount");
+                    }}
+                  >
+                    <img src={img2} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Account creation
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardContainer>
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <Button
+                    onClick={() => {
+                      navigate("/analitycs-su");
+                    }}
+                    disabled
+                  >
+                    <img src={img3} alt="top-Ten" />
+                  </Button>
+
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    fontWeight="bold"
+                    sx={{ m: "10px", color: "#3047B0" }}
+                  >
+                    Analytics
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardContainer>
+          </Grid>
+        </Grid>
+        {/* <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
             <CardContainer>
               <CardContent>
                 <label htmlFor="user-management" style={{ cursor: "pointer" }}>
@@ -229,7 +298,7 @@ export const HomeSA = () => {
               </CardContent>
             </CardContainer>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Footer />
       </MainHomeSA>
     </>

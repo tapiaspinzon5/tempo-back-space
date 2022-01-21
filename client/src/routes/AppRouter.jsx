@@ -21,6 +21,9 @@ import { HomeRL } from "../pages/HomeRL";
 import { HomeSA } from "../pages/HomeSA";
 import { HomeTL } from "../pages/HomeTL";
 import QuizDetails from "../components/Quizes/QuizDetails";
+import { UpCount } from "../pages/Super User/UpCount";
+import { UpCampaign } from "../pages/Ops Man/UpCampaign";
+import { UpAgents } from "../pages/Rep Lead/UpAgents";
 import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
 import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
 import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
@@ -65,27 +68,28 @@ const AppRouter = () => {
             <>
               <Route path="/" element={<Navigate to="/homeom" />} />
               <Route path="/homeom" element={<HomeOM />} />
+              <Route path="/upcampaign" element={<UpCampaign />} />
             </>
           )}
           {userData?.role === "QA Lead" && (
             <>
-              <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/" element={<Navigate to="/homeqal" />} />
+              <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/homeqal" element={<HomeQAL />} />
-              <Route path="/" element={<Navigate to="/homeom" />} />
-              <Route path="/homeom" element={<HomeOM />} />
             </>
           )}
           {userData?.role === "Reporting Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL />} />
+              <Route path="/upagents" element={<UpAgents />} />
             </>
           )}
           {userData?.role === "Super Admin" && (
             <>
               <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA />} />
+              <Route path="/upcount" element={<UpCount />} />
             </>
           )}
           {userData?.role === "Team Leader" && (

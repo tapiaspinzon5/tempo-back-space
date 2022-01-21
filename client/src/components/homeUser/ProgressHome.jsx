@@ -3,7 +3,7 @@ import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { ImFire } from "react-icons/im";
 import ProgresBar from "../progressCharts/ProgresBar";
 //import { MdOutlineArrowForwardIos } from "react-icons/md";
-//import { LinearGauge } from "../LinearGauge/LinearGauge";
+import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -49,7 +49,6 @@ const ProgressHome = ({ dataKPI }) => {
           <Typography variant="h6" mr={1}>
             Start
           </Typography>
-
           <Button>
             <ImFire size={25} color="#fff" />
           </Button>
@@ -96,6 +95,7 @@ const ProgressHome = ({ dataKPI }) => {
                 <Typography variant="body1" fontWeight="bold" fontSize="12px">
                   {`Target: ${kpi.Target}`}
                 </Typography>
+                {/* <LinearGauge value={kpi} /> */}
               </Box>
               <Box>
                 {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>

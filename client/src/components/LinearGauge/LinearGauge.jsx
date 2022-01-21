@@ -6,10 +6,10 @@ export const LinearGauge = ({ value }) => {
   useEffect(() => {
     const data = [
       {
-        title: `${value.name}/${value.unit}`,
-        ranges: [value.bad, value.warning, value.good],
-        kpi: [value.value],
-        target: value.target,
+        title: "",
+        ranges: [value.TargetQ4 - 10, value.TargetQ4, value.TargetQ1],
+        kpi: [value.ACTUAL],
+        target: value.Target,
       },
     ];
 
@@ -25,7 +25,15 @@ export const LinearGauge = ({ value }) => {
         target: "#005ABC",
       },
       size: {
-        measure: 10,
+        measure: 5,
+        range: 10,
+      },
+      bulletStyle: {
+        range: {
+          fillOpacity: 1,
+          target: { lineWidth: 20 },
+          range: { r: 10 },
+        },
       },
       xAxis: {
         line: null,

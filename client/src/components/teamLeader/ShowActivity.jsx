@@ -20,24 +20,26 @@ const CardActiviy = styled(Box)(() => ({
   },
 }));
 
-const ShowActivity = () => {
+const ShowActivity = ({ data }) => {
   return (
     <CardActiviy>
       <input type="checkbox" className="checkBox" />
       <Box>
-        <Typography variant="body1">Welcome to EGP</Typography>
-        <Typography variant="body2">Gaming stuff</Typography>
+        <Typography variant="body1">{data.Name}</Typography>
+        <Typography variant="body2">{data.Context}</Typography>
       </Box>
       <Box display="flex" alignItems="center">
         <img src={epiCoin} alt="" height={20} />
         <Typography variant="caption" marginLeft={1}>
-          5 epicoins
+          {data.RewardEpicoins
+            ? data.RewardEpicoins + " Epicoins"
+            : "0 Epicoins"}
         </Typography>
       </Box>
       <Box display="flex" alignItems="center">
         <img src={start} alt="" height={20} />
         <Typography variant="caption" marginLeft={1}>
-          10 points
+          {data.RewardPoints + " Points"}
         </Typography>
       </Box>
       <Tooltip

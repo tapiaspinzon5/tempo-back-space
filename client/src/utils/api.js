@@ -62,7 +62,7 @@ const loadQuizes = (idccms) => {
       axios
 
         .post(`http://10.151.232.218:4305/api/getquizqa?idccms=${idccms}`)
-        // .post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
+        //.post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             return error.response;
@@ -166,26 +166,28 @@ const createTeamReportingLead = (dataCSV, idccms) => {
 const uploadAnswers = (data, idccms, idExam) => {
   //10.142.73.193
   try {
-    return axios
-      .post(
-        `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-        //.post(
-        // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-        {
-          data: data,
-        }
-      )
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
+    return (
+      axios
+        // .post(
+        .post(
+          `http://10.151.232.218:4305/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+          // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
+          {
+            data: data,
+          }
+        )
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
 };
 
-const downloadHomeData = (idccms) => {
+const downloadHomeData = (idccms, data) => {
   //10.142.73.193 - 10.142.24.65
   try {
     return (
@@ -203,6 +205,62 @@ const downloadHomeData = (idccms) => {
   }
 };
 
+const downloadCounts = (idccms) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        .post(`http://10.151.232.218:4305/api/gethomedata?idccms=${idccms}`)
+        //.post(`http://localhost:4343/api/getteamsbysu?idccms=${idccms}`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const downloadDataAdmin = (idccms, caso) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(
+        `http://10.151.232.218:4305/api/gettemplatesloaded?idccms=${idccms}`,
+        {
+          //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+          caso: caso,
+        }
+      )
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+const downloadActivities = () => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        .post(`http://10.151.232.218:4305/api/getactivitiesteamleader`)
+        //.post(`http://localhost:4343/api/getactivitiesteamleader`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 export {
   uploadQuizes,
   loadQuizes,
@@ -212,5 +270,8 @@ export {
   createTeamOperationManager,
   uploadAnswers,
   downloadHomeData,
+  downloadCounts,
+  downloadDataAdmin,
+  downloadActivities,
   createTeamReportingLead,
 };

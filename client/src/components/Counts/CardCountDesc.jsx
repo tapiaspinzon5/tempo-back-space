@@ -1,9 +1,8 @@
 import React from "react";
 import { CgTrash } from "react-icons/cg";
 import { Typography, Box, styled, IconButton } from "@mui/material";
-import imgTP from "../../assets/images/tp_short.png";
 
-const CardQuiz = styled(Box)(({ theme }) => ({
+const CardCount = styled(Box)(({ theme }) => ({
   height: "21.875rem",
   maxWidth: "20rem",
   boxShadow: "1px 1px 5px #A2A2A2",
@@ -32,11 +31,10 @@ const CardQuiz = styled(Box)(({ theme }) => ({
     },
   },
 }));
-
-const CardQuizDesc = ({ quiz }) => {
-  const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
+export const CardCountDesc = ({ count }) => {
+  const { Nombre, Campaign } = count;
   return (
-    <CardQuiz>
+    <CardCount>
       <Box>
         {" "}
         <IconButton>
@@ -44,22 +42,15 @@ const CardQuizDesc = ({ quiz }) => {
         </IconButton>
       </Box>
 
-      <img src={imgTP} alt="" />
+      <img src="" alt="" />
 
       <Typography variant="h6" fontWeight="bold" align="center">
-        {NameExam}
+        {Nombre}
       </Typography>
+
       <Typography variant="body2" align="center">
-        {Descripcion}
+        {Campaign}
       </Typography>
-      <Typography variant="body2" align="center">
-        {new Date(fechaRegistro).toDateString()}
-      </Typography>
-      <Typography variant="body2" align="center">
-        Preguntas: {CantidadPreguntas}
-      </Typography>
-    </CardQuiz>
+    </CardCount>
   );
 };
-
-export default CardQuizDesc;
