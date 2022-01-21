@@ -131,9 +131,11 @@ const ChallengeAssignment = () => {
 
       setActivity(tempUser);
     } else {
-      let tempUser = activity[stage].map((badge, index) => console.log(badge));
-      //badge.name === name ? { ...badge, isChecked: checked } : badge
+      let tempUser = activity[stage].map((badge, index) =>
+        badge.Name === name ? { ...badge, isChecked: checked } : badge
+      );
       //setActivity(tempUser);
+      //console.log(badge.Name)
       console.log(tempUser);
     }
   };
@@ -206,7 +208,7 @@ const ChallengeAssignment = () => {
             </Box>
             <Boxview>
               {stage === "Getting started" ? (
-                activity["Getting started "]?.map((act, index) => (
+                activity["Getting started"]?.map((act, index) => (
                   <ShowActivity
                     Key={index}
                     data={act}
