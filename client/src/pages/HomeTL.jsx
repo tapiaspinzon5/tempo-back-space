@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Grid, styled, Typography, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import { AdminCard } from "../components/AdminCard/AdminCard";
+//import { AdminCard } from "../components/AdminCard/AdminCard";
 import img1 from "../assets/images/TL-1.svg";
 import img2 from "../assets/images/TL-2.svg";
 import img3 from "../assets/images/TL-3.svg";
@@ -48,6 +48,7 @@ const CardContent = styled(Box)(({ theme }) => ({
 
 export const HomeTL = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <MainHomeTL sx={{ bgcolor: "background.default", color: "text.primary" }}>

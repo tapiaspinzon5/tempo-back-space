@@ -48,11 +48,7 @@ const ShowActivity = ({ data, handleBadge }) => {
           {data.RewardPoints + " Points"}
         </Typography>
       </Box>
-      <Tooltip
-        title="observaciones del tipo de actividad"
-        placement="top"
-        arrow
-      >
+      <Tooltip title={data.Description} placement="top" arrow>
         <Button>Details </Button>
       </Tooltip>
     </CardActiviy>

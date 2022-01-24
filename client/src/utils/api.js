@@ -273,6 +273,24 @@ const downloadUsers = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+
+const assingActivities = (data, idccms) => {
+  try {
+    return axios
+      .post(`${url}/api/postassignactivitiestl?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+        data,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -287,4 +305,5 @@ export {
   downloadActivities,
   createTeamReportingLead,
   downloadUsers,
+  assingActivities,
 };

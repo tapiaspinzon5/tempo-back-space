@@ -209,3 +209,37 @@ export const shortName = (word) => {
 
   return newName;
 };
+
+export const validateDataCheck = (agents, activities) => {
+  const newData = [];
+  const funData = () => {
+    const ag = [];
+    const ac = [];
+
+    /* agents.map((agt) => {
+      if (agt.isChecked === true) {
+        ag.push(agt.ident);
+      }
+    }); */
+    agents.forEach((agt) => {
+      if (agt.isChecked === true) {
+        ag.push(agt.ident);
+      }
+    });
+
+    /* activities.map((act) => {
+      if (act.isChecked === true) {
+        ac.push(act.Id);
+      }
+    }); */
+    activities.forEach((act) => {
+      if (act.isChecked === true) {
+        ac.push(act.Id);
+      }
+    });
+
+    newData.push({ idActivity: ac, idccmsAssigned: ag });
+  };
+  funData();
+  return newData;
+};
