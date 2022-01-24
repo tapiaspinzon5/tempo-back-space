@@ -29,6 +29,7 @@ module.exports = (router) => {
   router.post("/getactivitiesteamleader", routes.getActivitiesTL);   // Retorna las actividades por categoria y stage.
   router.post("/gettemplatesloaded", routes.getTemplatesLoaded);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getactivitiesagentstl", routes.getActivitiesAgentsTL);   // Retorna la cantidad de registros cargados en cada plantilla.
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
