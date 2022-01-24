@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import searchIco from "../../assets/Icons/search-ico.svg";
-import { Grid, styled, Typography, Button, Box, Input } from "@mui/material";
-
+import { useSelector } from "react-redux";
+import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import ShowActivity from "../../components/teamLeader/ShowActivity";
 import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
 import Footer from "../../components/Footer";
 import SearchAppBar from "../../components/Search";
-import { downloadActivities } from "../../utils/api";
+import { downloadActivities, downloadUsers } from "../../utils/api";
 
 const MainCA = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -35,19 +34,13 @@ const BoxSelectBadge = styled(Grid)(() => ({
   margin: "2rem 0",
 }));
 
-const Search = styled(Input)(() => ({
-  border: "1px solid #3047b0",
-  borderRadius: "10px",
-  background: "white",
-}));
-
 const BoxActivity = styled(Grid)(() => ({
   background: "#f2f2f2",
   padding: "1rem",
   borderRadius: "20px",
 }));
 
-const Boxview = styled(Box)(() => ({
+const Boxview = styled(Grid)(() => ({
   overflowY: "scroll",
   height: "50vh",
 }));
@@ -72,19 +65,11 @@ const selectButton = {
   textTransform: "none",
 };
 
-const userData = [
-  { name: "Deiby" },
-  { name: "Bibian" },
-  { name: "Sofia" },
-  { name: "Daniel" },
-  { name: "Matilde" },
-  { name: "Diego" },
-  { name: "Juan" },
-  { name: "Kira" },
-];
-
 const ChallengeAssignment = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.idccms;
   const [activity, setActivity] = useState([]);
+  const [assignment, setAssignment] = useState([]);
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
 
@@ -92,15 +77,26 @@ const ChallengeAssignment = () => {
     const getData = async () => {
       const activities = await downloadActivities();
       setActivity(activities.data);
+      setAssignment(activities.data);
+      const user = await downloadUsers(idccms);
+      setUsers(user.data);
     };
 
     getData();
 
     //asignacion de usuarios
-    setUsers(userData);
+    //setUsers(userData);
 
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (activity[stage] === undefined && activity.length > 0) {
+      console.log("asginando ");
+      setActivity(assignment[stage]);
+    }
+    // eslint-disable-next-line
+  }, [stage]);
 
   //funcion de asingacion de usuarios
   const handleUser = (e) => {
@@ -113,7 +109,7 @@ const ChallengeAssignment = () => {
       setUsers(tempUser);
     } else {
       let tempUser = users.map((user) =>
-        user.name === name ? { ...user, isChecked: checked } : user
+        user.Agent === name ? { ...user, isChecked: checked } : user
       );
       setUsers(tempUser);
     }
@@ -125,24 +121,36 @@ const ChallengeAssignment = () => {
 
     console.log(name, checked);
     if (name === "selecct-all") {
-      let tempUser = activity[stage].map((badge) => {
-        return { ...badge, isChecked: checked };
-      });
+      if (activity[stage] !== undefined) {
+        let tempUser = activity[stage].map((badge) => {
+          return { ...badge, isChecked: checked };
+        });
 
-      setActivity(tempUser);
+        console.log(tempUser);
+        setActivity(tempUser);
+      } else {
+        let tempUser = activity.map((badge) => {
+          return { ...badge, isChecked: checked };
+        });
+        console.log(tempUser);
+        setActivity(tempUser);
+      }
     } else {
-      let tempUser = activity[stage].map((badge, index) =>
-        badge.Name === name ? { ...badge, isChecked: checked } : badge
-      );
-      //setActivity(tempUser);
-      //console.log(badge.Name)
-      console.log(tempUser);
+      if (activity[stage] !== undefined) {
+        let tempUser = activity[stage].map((badge, index) =>
+          badge.Name === name ? { ...badge, isChecked: checked } : badge
+        );
+        setActivity(tempUser);
+      } else {
+        let tempUser = activity.map((badge, index) =>
+          badge.Name === name ? { ...badge, isChecked: checked } : badge
+        );
+        setActivity(tempUser);
+      }
     }
   };
 
-  console.log(activity);
-  console.log(activity[stage]);
-  console.log(stage);
+  console.log(users);
 
   return (
     <MainCA>
@@ -201,55 +209,40 @@ const ChallengeAssignment = () => {
               marginBottom={2}
             >
               <Button sx={selectButton}>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  name="selecct-all"
+                  onChange={handleBadge}
+                  checked={
+                    activity[stage] !== undefined
+                      ? activity[stage].filter(
+                          (actividad) => actividad?.isChecked !== true
+                        ).length < 1
+                      : activity.filter(
+                          (actividad) => actividad?.isChecked !== true
+                        ).length < 1
+                  }
+                />
                 Select all
               </Button>
               <SearchAppBar />
             </Box>
             <Boxview>
-              {stage === "Getting started" ? (
-                activity["Getting started"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Battle" ? (
-                activity["Battle"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Being Awarded" ? (
-                activity["Being Awarded"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Developing skills" ? (
-                activity["Developing skills"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Getting stronger" ? (
-                activity["Getting stronger"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : (
-                <ShowActivity />
-              )}
+              {activity[stage] !== undefined
+                ? activity[stage]?.map((act, index) => (
+                    <ShowActivity
+                      key={index}
+                      data={act}
+                      handleBadge={handleBadge}
+                    />
+                  ))
+                : activity?.map((act, index) => (
+                    <ShowActivity
+                      key={index}
+                      data={act}
+                      handleBadge={handleBadge}
+                    />
+                  ))}
             </Boxview>
           </BoxActivity>
         </Grid>
