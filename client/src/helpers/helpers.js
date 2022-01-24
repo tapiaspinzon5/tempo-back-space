@@ -209,3 +209,27 @@ export const shortName = (word) => {
 
   return newName;
 };
+
+export const validateDataCheck = (agents, activities) => {
+  const newData = [];
+  const funData = () => {
+    const ag = [];
+    const ac = [];
+
+    agents.map((agt) => {
+      if (agt.isChecked === true) {
+        ag.push(agt.idCcms);
+      }
+    });
+
+    activities.map((act) => {
+      if (act.isChecked === true) {
+        ac.push(act.Id);
+      }
+    });
+
+    newData.push({ idActivity: ac, idccmsAssigned: ag });
+  };
+  funData();
+  return newData;
+};

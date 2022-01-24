@@ -48,7 +48,7 @@ const HomeUser = () => {
   useEffect(() => {
     const getData = async () => {
       const kpis = await downloadHomeData(idccms);
-      if (kpis.status === 200 && kpis.data.length > 0) {
+      if (kpis.status === 200 && kpis.data.length > 1) {
         setData(kpis.data);
       }
     };
