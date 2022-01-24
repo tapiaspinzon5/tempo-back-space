@@ -255,6 +255,24 @@ const downloadActivities = () => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+
+const downloadUsers = (idccms) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return (
+      axios
+        .post(`${url}/api/GetAgentsActivitiesTeamLeader`)
+        //.post(`http://localhost:4343/api/getactivitiesteamleader`)
+        .catch(function (error) {
+          if (error.response) {
+            return error.response;
+          }
+        })
+    );
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 export {
   uploadQuizes,
   loadQuizes,

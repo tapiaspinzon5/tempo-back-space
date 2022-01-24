@@ -47,7 +47,7 @@ const BoxActivity = styled(Grid)(() => ({
   borderRadius: "20px",
 }));
 
-const Boxview = styled(Box)(() => ({
+const Boxview = styled(Grid)(() => ({
   overflowY: "scroll",
   height: "50vh",
 }));
@@ -85,6 +85,7 @@ const userData = [
 
 const ChallengeAssignment = () => {
   const [activity, setActivity] = useState([]);
+  const [assignment, setAssignment] = useState([]);
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
 
@@ -92,6 +93,9 @@ const ChallengeAssignment = () => {
     const getData = async () => {
       const activities = await downloadActivities();
       setActivity(activities.data);
+      setAssignment(activities.data);
+      // const user = await downloadUsers();
+      // setUsers(user);
     };
 
     getData();
@@ -101,6 +105,13 @@ const ChallengeAssignment = () => {
 
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (activity[stage] === undefined) {
+      console.log(assignment);
+      setActivity(assignment[stage]);
+    }
+  }, [stage]);
 
   //funcion de asingacion de usuarios
   const handleUser = (e) => {
@@ -122,21 +133,25 @@ const ChallengeAssignment = () => {
   ////////////////////////////// funcion de asingacion de Actividades
   const handleBadge = (e) => {
     const { name, checked } = e.target;
-
     console.log(name, checked);
     if (name === "selecct-all") {
       let tempUser = activity[stage].map((badge) => {
         return { ...badge, isChecked: checked };
       });
-
+      console.log(tempUser);
       setActivity(tempUser);
     } else {
-      let tempUser = activity[stage].map((badge, index) =>
-        badge.Name === name ? { ...badge, isChecked: checked } : badge
-      );
-      //setActivity(tempUser);
-      //console.log(badge.Name)
-      console.log(tempUser);
+      if (activity[stage] !== undefined) {
+        let tempUser = activity[stage].map((badge, index) =>
+          badge.Name === name ? { ...badge, isChecked: checked } : badge
+        );
+        setActivity(tempUser);
+      } else {
+        let tempUser = activity.map((badge, index) =>
+          badge.Name === name ? { ...badge, isChecked: checked } : badge
+        );
+        setActivity(tempUser);
+      }
     }
   };
 
@@ -207,49 +222,21 @@ const ChallengeAssignment = () => {
               <SearchAppBar />
             </Box>
             <Boxview>
-              {stage === "Getting started" ? (
-                activity["Getting started"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Battle" ? (
-                activity["Battle"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Being Awarded" ? (
-                activity["Being Awarded"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Developing skills" ? (
-                activity["Developing skills"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : stage === "Getting stronger" ? (
-                activity["Getting stronger"]?.map((act, index) => (
-                  <ShowActivity
-                    Key={index}
-                    data={act}
-                    handleBadge={handleBadge}
-                  />
-                ))
-              ) : (
-                <ShowActivity />
-              )}
+              {activity[stage] !== undefined
+                ? activity[stage]?.map((act, index) => (
+                    <ShowActivity
+                      key={index}
+                      data={act}
+                      handleBadge={handleBadge}
+                    />
+                  ))
+                : activity?.map((act, index) => (
+                    <ShowActivity
+                      key={index}
+                      data={act}
+                      handleBadge={handleBadge}
+                    />
+                  ))}
             </Boxview>
           </BoxActivity>
         </Grid>
