@@ -195,6 +195,7 @@ exports.parametros = (req, tipo) => {
 
     case "spLoadExamQA":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+    
     case "spQueryTeams":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
     case "spQueryDashBoarhAgent":
@@ -242,8 +243,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("identAssignmen", req.idccms, TYPES.Int),
       ]);
       
+    case "spQueryTeamsAgents":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+    
     case "spAddJumpRegister":
-      return SpParamTable("jumpTable", JumpEmployee, req.rows);
+    return SpParamTable("jumpTable", JumpEmployee, req.rows);
+
     default:
       return null;
   }
