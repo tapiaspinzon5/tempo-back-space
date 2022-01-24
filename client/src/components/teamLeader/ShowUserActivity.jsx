@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, styled, Typography, Box, Grid } from "@mui/material";
+import { styled, Typography, Box, Grid } from "@mui/material";
 import start from "../../assets/Icons/start-icon.svg";
 import level from "../../assets/Icons/level-icon.svg";
 
@@ -21,12 +21,12 @@ const ShowUserActivity = ({ user, handleUser }) => {
         <input
           type="checkbox"
           className="checkBox"
-          name={user.name}
+          name={user.Agent}
           checked={user?.isChecked || false}
           onChange={handleUser}
         />
-        <Box>
-          <Typography variant="body1">{user.name}</Typography>
+        <Box width="55%">
+          <Typography variant="body1">{user.Agent}</Typography>
           <Typography variant="caption">
             Analista desarrollador Senior
           </Typography>
@@ -43,7 +43,7 @@ const ShowUserActivity = ({ user, handleUser }) => {
         <Box display="flex" alignItems="center" flexDirection="column">
           <Box display="flex" alignItems="center">
             <Typography variant="caption" marginRight={1}>
-              110
+              {user.Experiences}
             </Typography>
             <img src={start} alt="" height={20} />
           </Box>
