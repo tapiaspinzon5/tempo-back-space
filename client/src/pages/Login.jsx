@@ -136,13 +136,14 @@ const Login = () => {
               <CircularProgress size={70} />
             </Box>
           ) : (
-            <FormGroup
-              sx={{
+            <form
+              style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-around",
                 alignItems: "center",
               }}
+              onSubmit={handleSubmit}
             >
               <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-account">
@@ -196,7 +197,7 @@ const Login = () => {
                 />
               </FormControl>
 
-              <ButtonLogin onClick={handleSubmit} disabled={loading}>
+              <ButtonLogin type="submit" disabled={loading}>
                 LOGIN{" "}
               </ButtonLogin>
               <BoxChecket>
@@ -211,7 +212,7 @@ const Login = () => {
                   Forgot password?
                 </a>
               </BoxChecket>
-            </FormGroup>
+            </form>
           )}
           <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <img src={tpLogo} alt="Logo Teleperformance" height="29" />
