@@ -281,55 +281,58 @@ exports.getTemplate = async (req, res) => {
 
 }
 
-exports.getActivitiesTL = async (req, res) => {
+exports.getChanllenges = async (req, res) => {
+
+  const {context}= req.body;
+
   sql
     .query(
       "spQueryActivities",
-      parametros(req.body,
-        "spQueryActivities"
+      parametros({idccms:req.query.idccms, context},"spQueryActivities"
       )
     )
     .then((result) => {
-      let tempGetStarted = []
-      let tempGetStronger = []
-      let tempBattle = []
-      let tempDevelopingSkills = []
-      let tempBeingAwarded = []
 
-      result.forEach(element => {
+      // let tempGetStarted = []
+      // let tempGetStronger = []
+      // let tempBattle = []
+      // let tempDevelopingSkills = []
+      // let tempBeingAwarded = []
 
-        switch (element?.Stage) {
-          case "Getting started":
-            tempGetStarted.push(element)
-            break;
-          case "Getting stronger":
-            tempGetStronger.push(element)
-            break;
-          case "Battle":
-            tempBattle.push(element)
-            break;
-          case "Developing skills":
-            tempDevelopingSkills.push(element)
-            break;
-          case "Being Awarded":
-            tempBeingAwarded.push(element)
-            break;
+      // result.forEach(element => {
+
+      //   switch (element?.Stage) {
+      //     case "Getting started":
+      //       tempGetStarted.push(element)
+      //       break;
+      //     case "Getting stronger":
+      //       tempGetStronger.push(element)
+      //       break;
+      //     case "Battle":
+      //       tempBattle.push(element)
+      //       break;
+      //     case "Developing skills":
+      //       tempDevelopingSkills.push(element)
+      //       break;
+      //     case "Being Awarded":
+      //       tempBeingAwarded.push(element)
+      //       break;
         
-          default:
-            break;
-        }
-      });
+      //     default:
+      //       break;
+      //   }
+      // });
 
-      let filterData = {
-        "Getting started":tempGetStarted,
-        "Getting stronger":tempGetStronger,
-        "Battle":tempBattle,
-        "Developing skills":tempDevelopingSkills,
-        "Being Awarded":tempBeingAwarded,
-      }
+      // let filterData = {
+      //   "Getting started":tempGetStarted,
+      //   "Getting stronger":tempGetStronger,
+      //   "Battle":tempBattle,
+      //   "Developing skills":tempDevelopingSkills,
+      //   "Being Awarded":tempBeingAwarded,
+      // }
 
-      console.log(filterData);
-      responsep(1, req, res, filterData);
+      // console.log(filterData);
+      responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");
@@ -467,7 +470,7 @@ exports.assignActivitiesTL = async (req, res) => {
     });
 };
 
-exports.getActivitiesAgentsTL = async (req, res) => {
+exports.getAgentsChallengeAssignmentTL = async (req, res) => {
   sql
     .query(
       "spQueryTeamsAgents",
