@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
 const multiparty = require("multiparty");
 const path = require('path');
+const {transport} = require("../nodemailerConfig");
+
 
 
 exports.CallSp = (spName, req, res) => {
@@ -443,12 +445,18 @@ exports.getLoadInstructions = async (req, res) => {
 
 exports.assignActivitiesTL = async (req, res) => {
 
-  let {idActivity, idccmsAssigned} = req.body
+  const {data} = req.body
+  let i = 0;
+
+  let rows = data.map((row) => {
+    i = i + 1;
+    return [...row, i];
+  });
 
   sql
     .query(
       "spInsertActivitieAgent",
-      parametros({ idccms: req.query.idccms, idActivity, idccmsAssigned}, "spInsertActivitieAgent")
+      parametros({ idccms: req.query.idccms, rows}, "spInsertActivitieAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -473,3 +481,46 @@ exports.getActivitiesAgentsTL = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
+exports.getActivitiesViewAgent = async (req, res) => {
+
+  const { context } = req.body;
+
+  sql
+    .query(
+      "spQueryActivitiesAgent",
+      parametros({ idccms: req.query.idccms, context }, "spQueryActivitiesAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.sendEmailNotification = async (req, res) => {
+
+  const {sendTo, msg} = req.body;
+
+  const message = {
+    from: 'MalumaBby@gmail.com', // Sender address
+    to: sendTo,         // List of recipients
+    subject: 'Notifiacion de prueba', // Subject line
+    text: msg // Plain text body
+  };
+
+  transport.sendMail(message, function(err, info) {
+      if (err) {
+        console.log(err)
+        res.status(500).json(err)
+      } else {
+        console.log(info);
+        res.status(200).json(info)
+      }
+  });
+};
+
+
+

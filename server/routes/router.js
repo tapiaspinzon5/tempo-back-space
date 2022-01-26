@@ -30,6 +30,7 @@ module.exports = (router) => {
   router.post("/gettemplatesloaded", routes.getTemplatesLoaded);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getactivitiesagentstl", routes.getActivitiesAgentsTL);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getactivitiesviewagent", routes.getActivitiesViewAgent);   // Retorna la cantidad de registros cargados en cada plantilla.
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
@@ -37,6 +38,8 @@ module.exports = (router) => {
   
 // Asignar actividades
   router.post("/postassignactivitiestl",routes.assignActivitiesTL);
+
+  router.post("/sendemailnotification", routes.sendEmailNotification);
   
   
   //CRUD
