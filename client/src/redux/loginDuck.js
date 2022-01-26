@@ -1,6 +1,10 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+//url de apuntamiento
+const url = "https://gamificationtest.teleperformance.co";
+//const url = 'http://localhost:4343'
+
 //datainicial
 const initialData = {
   loading: false,
@@ -63,9 +67,7 @@ export const loginSubmit = (data) => async (dispatch) => {
 
   try {
     const requestData = await axios
-      //.post(`http://10.142.24.175:4343/api/ccmslogin`, data)
-      .post(`http://localhost:4343/api/ccmslogin`, data)
-
+      .post(`${url}/api/ccmslogin`, data)
       .catch(function (error) {
         if (error.response) {
           const Toast = Swal.mixin({

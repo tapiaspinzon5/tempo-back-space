@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const url = "http://10.151.232.218:4305";
-const url = "http://localhost:4343";
+const url = "https://gamificationtest.teleperformance.co";
+//const url = "http://localhost:4343";
 //import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
