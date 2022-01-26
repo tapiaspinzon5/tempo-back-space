@@ -149,6 +149,13 @@ let quizResults = [
   { name: "IdPregunta ", type: TYPES.Int },
 ];
 
+// Columnas para armar la tabla del reportingLead
+let assignActivitiesTLTable = [
+  { name: "Ident", type: TYPES.Int },
+  { name: "idActivitie ", type: TYPES.Int },
+  { name: "idRegistry  ", type: TYPES.Int },
+];
+
 exports.parametros = (req, tipo) => {
   switch (tipo) {
     case "spInsertCentral":
@@ -238,13 +245,18 @@ exports.parametros = (req, tipo) => {
 
     case "spInsertActivitieAgent":
       return parametrizacion([
-        new SpParam("ident", req.idccmsAssigned, TYPES.Int),
-        new SpParam("idActivitie", req.idActivity, TYPES.Int),
         new SpParam("identAssignmen", req.idccms, TYPES.Int),
+        SpParamTable2("table", assignActivitiesTLTable, req.rows),
       ]);
       
     case "spQueryTeamsAgents":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+    
+    case "spQueryActivitiesAgent":
+      return parametrizacion([
+        new SpParam("case", req.context, TYPES.Int),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
     
     case "spAddJumpRegister":
     return SpParamTable("jumpTable", JumpEmployee, req.rows);
