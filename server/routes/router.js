@@ -31,15 +31,19 @@ module.exports = (router) => {
   router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getagentschallengeassignmenttl", routes.getAgentsChallengeAssignmentTL);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getactivitiesviewagent", routes.getActivitiesViewAgent);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getactivitiesdescriptionagent", routes.getActivitiesDescriptionAgent);   // Retorna la cantidad de registros cargados en cada plantilla.
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
   router.get("/gettemplate/:name", routes.getTemplate);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
   
-// Asignar actividades
+// Asignar challenges
   router.post("/postassignactivitiestl",routes.assignActivitiesTL);
 
   router.post("/sendemailnotification", routes.sendEmailNotification);
+
+  // Ruta de prueba para enviar notificaciones.
+  router.post("/sendfcmnotification", routes.sendFCMNotificacion);
   
   
   //CRUD

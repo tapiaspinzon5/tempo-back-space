@@ -16,7 +16,8 @@ const {logger, middleware, errorHandler} = require('./controllers/err.handler')
 const {exceptionHandler} = require('./controllers/csrf.handler')
 const {jwt} = require('./controllers/jwt.controller')
 const {configure} = require('./controllers/configure')
-const path = require('path')
+const path = require('path');
+const { init } = require('./firebaseConfig/firebaseConfig');
 const corsOptions = { origin: '*' }
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,6 +32,9 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(exceptionHandler);
 app.use('/api', router);
+
+init();
+
 routes(router);
 
 app.get('*', (req, res) => {res.sendFile(path.join(__dirname, 'dist/index.html'))})

@@ -145,15 +145,15 @@ let quizTable = [
 
 // Columnas para armar la tabla de respuestas del usuario.
 let quizResults = [
-  { name: "Respuesta ", type: TYPES.VarChar },
-  { name: "IdPregunta ", type: TYPES.Int },
+  { name: "Respuesta", type: TYPES.VarChar },
+  { name: "IdPregunta", type: TYPES.Int },
 ];
 
 // Columnas para armar la tabla del reportingLead
 let assignActivitiesTLTable = [
   { name: "Ident", type: TYPES.Int },
-  { name: "idActivitie ", type: TYPES.Int },
-  { name: "idRegistry  ", type: TYPES.Int },
+  { name: "idChallenge", type: TYPES.Int },
+  { name: "idRegistry", type: TYPES.Int },
 ];
 
 exports.parametros = (req, tipo) => {
@@ -243,7 +243,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
 
-    case "spInsertActivitieAgent":
+    case "spInsertChallengeAgent":
       return parametrizacion([
         new SpParam("identAssignmen", req.idccms, TYPES.Int),
         SpParamTable2("table", assignActivitiesTLTable, req.rows),
@@ -255,6 +255,12 @@ exports.parametros = (req, tipo) => {
     case "spQueryActivitiesAgent":
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
+
+    case "spQueryDescriptionActivitiesAgent":
+      return parametrizacion([
+        new SpParam("idActivity", req.idActivity, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
     

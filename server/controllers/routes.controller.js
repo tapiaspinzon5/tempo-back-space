@@ -6,8 +6,7 @@ const { decrypt } = require("./crypt.controller");
 const multiparty = require("multiparty");
 const path = require('path');
 const {transport} = require("../nodemailerConfig");
-
-
+const {sendFCMMessage} = require("../helpers/sendNotification")
 
 exports.CallSp = (spName, req, res) => {
   // const payload = jwt.verify(req.headers.authorization.split(" ")[1],  process.env.SECRET);
@@ -448,18 +447,28 @@ exports.getLoadInstructions = async (req, res) => {
 
 exports.assignActivitiesTL = async (req, res) => {
 
-  const {data} = req.body
+  // const {data} = req.body
+  const {idActivity, idccmsAssigned} = req.body;
+  let rows = [];
   let i = 0;
 
-  let rows = data.map((row) => {
-    i = i + 1;
-    return [...row, i];
-  });
+  idActivity.forEach(act => {
+    idccmsAssigned.forEach(id => {
+      i = i + 1;
+      rows.push([id,act,i])
+    })
+  })
+
+
+  // let rows = id.map((row) => {
+  //   i = i + 1;
+  //   return [...row, i];
+  // });
 
   sql
     .query(
-      "spInsertActivitieAgent",
-      parametros({ idccms: req.query.idccms, rows}, "spInsertActivitieAgent")
+      "spInsertChallengeAgent",
+      parametros({ idccms: req.query.idccms, rows}, "spInsertChallengeAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -525,5 +534,42 @@ exports.sendEmailNotification = async (req, res) => {
   });
 };
 
+exports.sendFCMNotificacion = async (req, res) => {
+
+  const {FCMtoken, msg} = req.body;
+ 
+  try {
+    let resp = FCMtoken.map(async (token) => {
+      return await sendFCMMessage(token, msg)
+    })
+    res.status(200).json(resp);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+  // try {
+  //   let resp = await sendFCMMessage(FCMtoken, msg)
+  //   console.log(resp);
+  //   res.status(200).json(resp);
+  // } catch (error) {
+  //   res.status(500).json(error);
+  // }
+};
 
 
+exports.getActivitiesDescriptionAgent = async (req, res) => {
+
+  const { idActivity } = req.body;
+
+  sql
+    .query(
+      "spQueryDescriptionActivitiesAgent",
+      parametros({ idccms: req.query.idccms, idActivity }, "spQueryDescriptionActivitiesAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
