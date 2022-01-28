@@ -257,6 +257,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("case", req.context, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
+      
+    case "spInsertToken":
+      return parametrizacion([
+        new SpParam("Token", req.fcmNotification, TYPES.VarChar),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
 
     case "spQueryDescriptionActivitiesAgent":
       return parametrizacion([
