@@ -22,7 +22,10 @@ module.exports = (router) => {
   router.post("/uploadrepl", routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
 
   // Rutas para visualizar informacion.
-  router.post("/gethomedata", routes.getHomeData);       // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  router.post("/gethomedata", routes.getHomeData); 
+  router.post("/getmynotifications", routes.getMyNotifications); 
+  
   router.post("/getquizbyagent", routes.getQuizByAgent); // Lista todos los examenes asignados por cssmid del agente.
   router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
   router.post("/getresultquiz", routes.getResultQuiz);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
