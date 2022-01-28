@@ -448,7 +448,8 @@ exports.getLoadInstructions = async (req, res) => {
 exports.assignActivitiesTL = async (req, res) => {
 
   // const {data} = req.body
-  const {idActivity, idccmsAssigned} = req.body;
+  const {idActivity, idccmsAssigned,fcmTokens} = req.body;
+  let msg = ''
   let rows = [];
   let i = 0;
 
@@ -459,6 +460,14 @@ exports.assignActivitiesTL = async (req, res) => {
     })
   })
 
+  try {
+    let resp = fcmTokens.map(async (token) => {
+      return await sendFCMMessage(token,msg)
+    })
+    // res.status(200).json(resp);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 
   // let rows = id.map((row) => {
   //   i = i + 1;
@@ -579,6 +588,25 @@ exports.getMyNotifications = async (req, res) => {
     .query(
       "spQueryNotifications",
       parametros({ idccms: req.query.idccms }, "spQueryNotifications")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.postFcmToken = async (req, res) => {
+
+  const {fcmNotification} = req.body;
+
+  sql
+    .query(
+      "spInsertToken",
+      parametros({ idccms: req.query.idccms,fcmNotification }, "spInsertToken")
     )
     .then((result) => {
       responsep(1, req, res, result);
