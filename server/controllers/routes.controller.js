@@ -448,7 +448,7 @@ exports.getLoadInstructions = async (req, res) => {
 exports.assignActivitiesTL = async (req, res) => {
 
   // const {data} = req.body
-  const {idActivity, idccmsAssigned} = req.body;
+  const {idActivity, idccmsAssigned,fcmTokens} = req.body;
   let rows = [];
   let i = 0;
 
@@ -458,7 +458,6 @@ exports.assignActivitiesTL = async (req, res) => {
       rows.push([id,act,i])
     })
   })
-
 
   // let rows = id.map((row) => {
   //   i = i + 1;
@@ -579,6 +578,25 @@ exports.getMyNotifications = async (req, res) => {
     .query(
       "spQueryNotifications",
       parametros({ idccms: req.query.idccms }, "spQueryNotifications")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.postFcmToken = async (req, res) => {
+
+  const {fcmNotification} = req.body;
+
+  sql
+    .query(
+      "spInsertToken",
+      parametros({ idccms: req.query.idccms,fcmNotification }, "spInsertToken")
     )
     .then((result) => {
       responsep(1, req, res, result);

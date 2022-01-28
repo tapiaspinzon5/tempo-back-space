@@ -25,6 +25,7 @@ module.exports = (router) => {
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
   router.post("/gethomedata", routes.getHomeData); 
   router.post("/getmynotifications", routes.getMyNotifications); 
+  router.post("/postfcmtoken", routes.postFcmToken); 
   
   router.post("/getquizbyagent", routes.getQuizByAgent); // Lista todos los examenes asignados por cssmid del agente.
   router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
