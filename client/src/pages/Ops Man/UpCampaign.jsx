@@ -48,6 +48,7 @@ export const UpCampaign = () => {
     // eslint-disable-next-line
   }, []);
 
+  console.log(myCampaign);
   return (
     <>
       {loading && <ModalLoading />}

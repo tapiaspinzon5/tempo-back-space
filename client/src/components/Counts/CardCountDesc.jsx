@@ -1,6 +1,7 @@
 import React from "react";
 import { CgTrash } from "react-icons/cg";
 import { Typography, Box, styled, IconButton } from "@mui/material";
+import tpIco from "../../assets/images/tp_short.png";
 
 const CardCount = styled(Box)(({ theme }) => ({
   height: "21.875rem",
@@ -14,7 +15,7 @@ const CardCount = styled(Box)(({ theme }) => ({
   alignItems: "center",
 
   img: {
-    background: "blue",
+    //background: "blue",
     height: "104px",
     width: "104px",
     borderRadius: "50%",
@@ -42,7 +43,7 @@ export const CardCountDesc = ({ count }) => {
         </IconButton>
       </Box>
 
-      <img src="" alt="" />
+      <img src={tpIco} alt="" />
 
       <Typography variant="h6" fontWeight="bold" align="center">
         {Nombre}
