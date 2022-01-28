@@ -40,7 +40,9 @@ const selectButton = {
   borderRadius: "10px",
   textTransform: "none",
 };
-
+function generateRandom(max) {
+  return Math.floor(Math.random() * max);
+}
 const images = [img1, img2, img3, img4];
 
 const ActivitiesView = () => {
@@ -50,7 +52,23 @@ const ActivitiesView = () => {
 
   const [quizUser, setQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
-  const [activities, setActivities] = useState({ type: "Quizes", context: 0 });
+  const [activities, setActivities] = useState({
+    type: "",
+    context: 0,
+  });
+
+  useEffect(() => {
+    if (!activities.menu) {
+      if (localStorage.getItem("menuActivity")) {
+        setActivities(JSON.parse(localStorage.getItem("menuActivity")));
+      }
+    } else {
+      setActivities({
+        type: "Quizes",
+        context: 0,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setUserActivities([]);
@@ -67,8 +85,12 @@ const ActivitiesView = () => {
         console.log("consultando actividad");
       }
     };
+    const handleLS = () => {
+      localStorage.setItem("menuActivity", JSON.stringify(activities));
+    };
 
     getData();
+    handleLS();
     // eslint-disable-next-line
   }, [activities]);
 
@@ -81,27 +103,35 @@ const ActivitiesView = () => {
         <BoxSelectBadge item xs={12}>
           <Button
             sx={activities.type === "Missions" && selectButton}
-            onClick={() => setActivities({ type: "Missions", context: 3 })}
+            onClick={() =>
+              setActivities({ type: "Missions", context: 3, menu: true })
+            }
           >
             Missions
           </Button>
           <Button
             sx={activities.type === "Challenges" && selectButton}
-            onClick={() => setActivities({ type: "Challenges", context: 2 })}
+            onClick={() =>
+              setActivities({ type: "Challenges", context: 2, menu: true })
+            }
           >
             {" "}
             Challenges{" "}
           </Button>
           <Button
             sx={activities.type === "Quizes" && selectButton}
-            onClick={() => setActivities({ type: "Quizes", context: 0 })}
+            onClick={() =>
+              setActivities({ type: "Quizes", context: 0, menu: true })
+            }
           >
             {" "}
             Quizes
           </Button>
           <Button
             sx={activities.type === "Activities" && selectButton}
-            onClick={() => setActivities({ type: "Activities", context: 1 })}
+            onClick={() =>
+              setActivities({ type: "Activities", context: 1, menu: true })
+            }
           >
             {" "}
             Activities
@@ -120,7 +150,11 @@ const ActivitiesView = () => {
                 xl={2}
                 key={activity.IdActivity}
               >
-                <ActivitiesViewComponent activity={activity} img1={img1} />
+                <ActivitiesViewComponent
+                  activity={activity}
+                  context={activities.context}
+                  img1={images[generateRandom(images.length)]}
+                />
               </Grid>
             ))}
           {/* {activities.type === "Challenges" && <p>Challenges</p>} */}

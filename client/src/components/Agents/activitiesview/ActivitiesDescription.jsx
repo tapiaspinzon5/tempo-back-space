@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, styled, Typography } from "@mui/material";
+import { Grid, styled, Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import img4 from "../../../assets/temp-image/desc/MicrosoftTeams-image.png";
 import Footer from "../../Footer";
 import { userActivityDesc } from "../../../utils/api";
+import img4 from "../../../assets/temp-image/desc/MicrosoftTeams-image.png";
+import epicoins from "../../../assets/Icons/epicoin-ico.svg";
+import xpIco from "../../../assets/Icons/start-icon.svg";
 
 const MainDesc = styled(Grid)(() => ({
   width: "100%",
@@ -54,34 +56,32 @@ const LeftBox = styled(Grid)(() => ({
   background: "#e8e8e8",
   borderRadius: "20px",
 }));
-
-//tempData
-// const activity = {
-//   Agent: "Deiby Nino Garces",
-//   AssignmentUser: "Matilde Puentes Gutierrez",
-//   Description:
-//     "Learn how to play by completing the welcome video and earn your first points and coins.",
-//   FchAssignment: "2022-01-25T12:27:25.400Z",
-//   IdActivity: 1,
-//   IdentAssignment: 4492826,
-//   NameActivity: "Welcome to EGP",
-//   Stage: "Getting started",
-//   Status: false,
-//   ident: 4472074,
-// };
+const RewardBox = styled(Grid)(() => ({
+  background: "white",
+  borderRadius: "20px",
+  minHeight: "5rem",
+  display: "flex",
+  padding: "1rem",
+  p: {
+    fontSize: "20px",
+    fontWeight: "700",
+    color: "#3047b0",
+    margin: "0 1rem",
+  },
+}));
 
 const ActivitiesDescription = () => {
   const params = useParams();
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.idccms;
-  const { idActivity } = params;
+  const { idActivity, context } = params;
   const [activity, setActivity] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await userActivityDesc(idccms, idActivity);
-      setActivity(data.data);
+      const data = await userActivityDesc(idccms, idActivity, context);
+      setActivity(data.data[0]);
       console.log("consultando quizes");
     };
 
@@ -94,7 +94,7 @@ const ActivitiesDescription = () => {
     <MainDesc>
       <BoxHead sx={{ backgroundImage: `url(${img4})` }}>
         <Typography variant="h4" color="initial">
-          {activity.NameActivity}
+          {activity.Category}
         </Typography>
       </BoxHead>
       <BoxBody container>
@@ -105,13 +105,14 @@ const ActivitiesDescription = () => {
           </Typography>
           <ul>
             <li>
-              <span>Agent:</span> {activity.Agent}
+              <span>Agent:</span> {activity.AgentName}
             </li>
             <li>
-              <span>Assigned by:</span> {activity.AssignmentUser}
+              <span>Assigned by:</span> {activity.UserAsig}
             </li>
             <li>
-              <span>Date of assignment:</span> {activity.FchAssignment}
+              <span>Date of assignment:</span>{" "}
+              {activity.FchAssignment?.substr(0, 10)}
             </li>
             <li>
               <span>Stage:</span> {activity.Stage}
@@ -122,9 +123,35 @@ const ActivitiesDescription = () => {
           <Typography variant="h4" color="initial" gutterBottom>
             Activity Description
           </Typography>
-          <Typography variant="body1" color="initial" fontSize={20}>
+          <Typography
+            variant="body1"
+            color="initial"
+            fontSize={20}
+            gutterBottom
+          >
             {activity.Description}
           </Typography>
+          <Typography variant="body1" color="initial" fontSize={20}>
+            {activity.HowToWin}
+          </Typography>
+
+          <Typography variant="h4" color="initial" mt={4}>
+            Reward:
+          </Typography>
+          <RewardBox>
+            <Box display="flex" alignItems="center">
+              <img src={epicoins} alt="" />
+              <Typography variant="body1" color="initial">
+                {activity.RewardEpicoins ? activity.RewardEpicoins : 0} Epicoin
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <img src={xpIco} alt="" />
+              <Typography variant="body1" color="initial">
+                {activity.RewardPoints ? activity.RewardPoints : 0} XP
+              </Typography>
+            </Box>
+          </RewardBox>
         </LeftBox>
       </BoxBody>
       <Footer />

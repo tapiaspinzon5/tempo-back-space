@@ -310,13 +310,14 @@ const loadUserActivities = (idccms, context) => {
   }
 };
 //funcion para deactividad individual
-const userActivityDesc = (idccms, idActivity) => {
+const userActivityDesc = (idccms, idActivity, context) => {
   //10.142.73.193 - 10.142.24.65
   try {
     return axios
       .post(`${url}/api/getactivitiesdescriptionagent?idccms=${idccms}`, {
         //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
         idActivity: idActivity,
+        context: context,
       })
       .catch(function (error) {
         if (error.response) {
