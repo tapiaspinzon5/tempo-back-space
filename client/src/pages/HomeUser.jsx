@@ -10,7 +10,9 @@ import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useSelector } from "react-redux";
-import { downloadHomeData } from "../utils/api";
+import { downloadHomeData, tokenNotification } from "../utils/api";
+import { requestForToken, onMessageListener } from "../utils/firebase";
+import Swal from "sweetalert2";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -41,16 +43,61 @@ const SeeButton = styled(Button)(() => ({
 }));
 
 const HomeUser = () => {
+  const [notification, setNotification] = useState({
+    title: "",
+    body: "",
+    url: "",
+  });
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
   const [data, setData] = useState([]);
 
+  // Esta funcion esta pendiente de las nuevas notifiaciones
+  onMessageListener()
+    .then((payload) => {
+      setNotification({
+        title: payload?.notification?.title,
+        body: payload?.notification?.body,
+        url: payload?.notification?.url,
+      });
+    })
+    .catch((err) => console.log("failed: ", err));
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  const noti = () => {
+    notification?.title &&
+      Toast.fire({
+        icon: "warning",
+        title: notification?.title,
+        text: notification?.body,
+      });
+  };
+
+  useEffect(() => {
+    if (notification?.title) {
+      noti();
+    }
+  }, [notification]);
+
   useEffect(() => {
     const getData = async () => {
       const kpis = await downloadHomeData(idccms);
-      if (kpis.status === 200 && kpis.data.length > 1) {
+      if (kpis && kpis.status === 200 && kpis.data.length > 1) {
         setData(kpis.data);
       }
+      const token = await requestForToken();
+      await tokenNotification(token, idccms);
     };
     getData();
     // eslint-disable-next-line

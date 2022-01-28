@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../../components/ModalLoading";
 import { assingActivities } from "../../utils/api";
+//import { onMessageListener } from "../../utils/firebase";
 
 const MySwal = withReactContent(Swal);
 
@@ -77,18 +78,75 @@ const ChallengeAssignment = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
   const [activity, setActivity] = useState([]);
-  const [assignment, setAssignment] = useState([]);
+  const [error, setError] = useState(false);
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
+  /*   const [notification, setNotification] = useState({
+    title: "",
+    body: "",
+    url: "",
+  }); */
+
+  /* // Esta funcion esta pendiente de las nuevas notifiaciones
+  onMessageListener()
+    .then((payload) => {
+      setNotification({
+        title: payload?.notification?.title,
+        body: payload?.notification?.body,
+        url: payload?.notification?.url,
+      });
+    })
+    .catch((err) => console.log("failed: ", err));
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  const noti = () => {
+    notification?.title &&
+      Toast.fire({
+        icon: "warning",
+        title: notification?.title,
+        text: notification?.body,
+      });
+  };
+
+  useEffect(() => {
+    if (notification?.title) {
+      noti();
+    }
+  }, [notification]); */
 
   useEffect(() => {
     const getData = async () => {
-      const activities = await downloadActivities();
-      setActivity(activities.data);
-      setAssignment(activities.data);
+      const activities = await downloadActivities(idccms);
+      //console.log(activities);
+      if (
+        activities &&
+        activities.status === 200 &&
+        activities.data.length > 1
+      ) {
+        setActivity(activities.data);
+      } else {
+        setError(true);
+      }
+      // setAssignment(activities.data);
       const user = await downloadUsers(idccms);
-      setUsers(user.data);
+      if (user && user.status === 200 && user.data.length > 1) {
+        console.log(user.data);
+        setUsers(user.data);
+      } else {
+        setError(true);
+      }
     };
 
     getData();
@@ -98,14 +156,6 @@ const ChallengeAssignment = () => {
 
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (activity[stage] === undefined && activity.length > 0) {
-      console.log("asginando ");
-      setActivity(assignment[stage]);
-    }
-    // eslint-disable-next-line
-  }, [stage]);
 
   //funcion de asingacion de usuarios
   const handleUser = (e) => {
@@ -166,13 +216,14 @@ const ChallengeAssignment = () => {
     setLoading(true);
     if (validator) {
       const dataSend = validateDataCheck(users, activity);
+      console.log(dataSend[0]);
       if (
         dataSend[0].idActivity.length > 0 &&
         dataSend[0].idccmsAssigned.length > 0
       ) {
         const resp = await assingActivities(dataSend[0], idccms);
         console.log(resp);
-        if (resp.status === 200) {
+        if (resp && resp.status === 200) {
           setLoading(false);
           MySwal.fire({
             title: <p>Successful Assignments</p>,
@@ -185,6 +236,7 @@ const ChallengeAssignment = () => {
             }
           });
         } else {
+          setLoading(false);
           MySwal.fire({
             title: <p>Send Error</p>,
             icon: "error",
@@ -220,7 +272,7 @@ const ChallengeAssignment = () => {
           </Grid>
 
           <BoxSelectBadge item xs={12}>
-            <Button
+            {/*  <Button
               sx={stage === "Getting started" && selectButton}
               onClick={() => setStage("Getting started")}
             >
@@ -253,7 +305,7 @@ const ChallengeAssignment = () => {
             >
               {" "}
               Getting Stronger
-            </Button>
+            </Button> */}
           </BoxSelectBadge>
         </Grid>
         <Grid container spacing={2}>
@@ -271,6 +323,10 @@ const ChallengeAssignment = () => {
                     name="selecct-all"
                     onChange={handleBadge}
                     checked={
+                      activity.filter(
+                        (actividad) => actividad?.isChecked !== true
+                      ).length < 1
+                    } /* {
                       activity[stage] !== undefined
                         ? activity[stage].filter(
                             (actividad) => actividad?.isChecked !== true
@@ -278,14 +334,14 @@ const ChallengeAssignment = () => {
                         : activity.filter(
                             (actividad) => actividad?.isChecked !== true
                           ).length < 1
-                    }
+                    } */
                   />
                   Select all
                 </Button>
                 <SearchAppBar />
               </Box>
               <Boxview>
-                {activity[stage] !== undefined
+                {/* {activity[stage] !== undefined
                   ? activity[stage]?.map((act, index) => (
                       <ShowActivity
                         key={index}
@@ -299,7 +355,20 @@ const ChallengeAssignment = () => {
                         data={act}
                         handleBadge={handleBadge}
                       />
-                    ))}
+                    ))} */}
+                {!error ? (
+                  activity?.map((act, index) => (
+                    <ShowActivity
+                      key={index}
+                      data={act}
+                      handleBadge={handleBadge}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="h5" fontWeight={500}>
+                    The Game Starts Soon
+                  </Typography>
+                )}
               </Boxview>
             </BoxActivity>
           </Grid>
@@ -320,13 +389,19 @@ const ChallengeAssignment = () => {
                 </Button>
               </Box>
               <Boxview>
-                {users.map((user, index) => (
-                  <ShowUserActivity
-                    key={index}
-                    user={user}
-                    handleUser={handleUser}
-                  />
-                ))}
+                {!error ? (
+                  users.map((user, index) => (
+                    <ShowUserActivity
+                      key={index}
+                      user={user}
+                      handleUser={handleUser}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="h5" fontWeight={500}>
+                    The Game Starts Soon
+                  </Typography>
+                )}
               </Boxview>
             </BoxActivity>
           </Grid>
