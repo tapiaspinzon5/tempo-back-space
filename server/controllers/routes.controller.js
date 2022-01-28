@@ -558,12 +558,27 @@ exports.sendFCMNotificacion = async (req, res) => {
 
 exports.getActivitiesDescriptionAgent = async (req, res) => {
 
-  const { idActivity } = req.body;
+  const { idActivity, context } = req.body;
 
   sql
     .query(
       "spQueryDescriptionActivitiesAgent",
-      parametros({ idccms: req.query.idccms, idActivity }, "spQueryDescriptionActivitiesAgent")
+      parametros({ idccms: req.query.idccms, idActivity, context}, "spQueryDescriptionActivitiesAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getMyNotifications = async (req, res) => {
+  sql
+    .query(
+      "spQueryNotifications",
+      parametros({ idccms: req.query.idccms }, "spQueryNotifications")
     )
     .then((result) => {
       responsep(1, req, res, result);
