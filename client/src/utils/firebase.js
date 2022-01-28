@@ -2,12 +2,12 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBzqoDI7GaiigRRAX1n9-uaGptCXIM8X3c",
-  authDomain: "client-cde78.firebaseapp.com",
-  projectId: "client-cde78",
-  storageBucket: "client-cde78.appspot.com",
-  messagingSenderId: "761212195026",
-  appId: "1:761212195026:web:0a31aeeed3e92bc074dd0b",
+  apiKey: "AIzaSyANsokTJLSPb_yJ9484JfoGESh_1eDueQw",
+  authDomain: "fcm-test-36ab9.firebaseapp.com",
+  projectId: "fcm-test-36ab9",
+  storageBucket: "fcm-test-36ab9.appspot.com",
+  messagingSenderId: "622382328481",
+  appId: "1:622382328481:web:a04da539dbde34a0005ee0",
 };
 
 initializeApp(firebaseConfig);
@@ -17,11 +17,11 @@ const messaging = getMessaging();
 export const requestForToken = () => {
   return getToken(messaging, {
     vapidKey:
-      "BPVcCg4Xp1BhrA26ojb3HhU4nca4zu-bjirVi_YfrcUEds6-ZkrdCsFAUtlN6xk6ThkqyRznxNMe_e73a1Y4jtA",
+      "BMWZMH-KjWzuMb_HmmhAx53RPrJpT7w-Jz-2j8MMG31OeOyO2lXrzK8pdspjxkJpeiT4v27AFIPYSJ6eDWae4YE",
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log("current token for client: ", currentToken);
+        // console.log("current token for client: ", currentToken);
         // Send the token to your server and update the UI if necessary
         return currentToken;
       } else {

@@ -14,12 +14,12 @@ if ("serviceWorker" in navigator) {
 }
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBzqoDI7GaiigRRAX1n9-uaGptCXIM8X3c",
-  authDomain: "client-cde78.firebaseapp.com",
-  projectId: "client-cde78",
-  storageBucket: "client-cde78.appspot.com",
-  messagingSenderId: "761212195026",
-  appId: "1:761212195026:web:0a31aeeed3e92bc074dd0b",
+  apiKey: "AIzaSyANsokTJLSPb_yJ9484JfoGESh_1eDueQw",
+  authDomain: "fcm-test-36ab9.firebaseapp.com",
+  projectId: "fcm-test-36ab9",
+  storageBucket: "fcm-test-36ab9.appspot.com",
+  messagingSenderId: "622382328481",
+  appId: "1:622382328481:web:a04da539dbde34a0005ee0",
 };
 
 // Inicializar firebase

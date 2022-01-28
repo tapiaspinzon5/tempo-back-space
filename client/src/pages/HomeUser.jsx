@@ -10,7 +10,7 @@ import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useSelector } from "react-redux";
-import { downloadHomeData } from "../utils/api";
+import { downloadHomeData, tokenNotification } from "../utils/api";
 import { requestForToken, onMessageListener } from "../utils/firebase";
 import Swal from "sweetalert2";
 
@@ -51,8 +51,6 @@ const HomeUser = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
   const [data, setData] = useState([]);
-
-  requestForToken();
 
   // Esta funcion esta pendiente de las nuevas notifiaciones
   onMessageListener()
@@ -98,6 +96,8 @@ const HomeUser = () => {
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
         setData(kpis.data);
       }
+      const token = await requestForToken();
+      await tokenNotification(token, idccms);
     };
     getData();
     // eslint-disable-next-line

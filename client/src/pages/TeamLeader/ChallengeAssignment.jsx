@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../../components/ModalLoading";
 import { assingActivities } from "../../utils/api";
+//import { onMessageListener } from "../../utils/firebase";
 
 const MySwal = withReactContent(Swal);
 
@@ -81,6 +82,49 @@ const ChallengeAssignment = () => {
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
+  /*   const [notification, setNotification] = useState({
+    title: "",
+    body: "",
+    url: "",
+  }); */
+
+  /* // Esta funcion esta pendiente de las nuevas notifiaciones
+  onMessageListener()
+    .then((payload) => {
+      setNotification({
+        title: payload?.notification?.title,
+        body: payload?.notification?.body,
+        url: payload?.notification?.url,
+      });
+    })
+    .catch((err) => console.log("failed: ", err));
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  const noti = () => {
+    notification?.title &&
+      Toast.fire({
+        icon: "warning",
+        title: notification?.title,
+        text: notification?.body,
+      });
+  };
+
+  useEffect(() => {
+    if (notification?.title) {
+      noti();
+    }
+  }, [notification]); */
 
   useEffect(() => {
     const getData = async () => {
@@ -98,6 +142,7 @@ const ChallengeAssignment = () => {
       // setAssignment(activities.data);
       const user = await downloadUsers(idccms);
       if (user && user.status === 200 && user.data.length > 1) {
+        console.log(user.data);
         setUsers(user.data);
       } else {
         setError(true);

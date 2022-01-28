@@ -241,6 +241,38 @@ const downloadDataAdmin = (idccms, caso) => {
   }
 };
 
+///Envia token Navegador a la base
+const tokenNotification = (data, idccms) => {
+  try {
+    return axiosInstance
+      .post(`postfcmtoken?idccms=${idccms}`, {
+        fcmNotification: data,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//getmynotifications
+const downloadNotifications = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getmynotifications?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 //Traer actividades para asignar por parte del Team Leader
 const downloadActivities = (idccms) => {
   try {
@@ -280,7 +312,9 @@ const assingActivities = (data, idccms) => {
   try {
     return axiosInstance
       .post(`postassignactivitiestl?idccms=${idccms}`, {
-        data,
+        idActivity: data.idActivity,
+        idccmsAssigned: data.idccmsAssigned,
+        fcmTokens: data.fcmTokens,
       })
       .catch(function (error) {
         if (error.response) {
@@ -343,7 +377,9 @@ export {
   downloadActivities,
   createTeamReportingLead,
   downloadUsers,
+  downloadNotifications,
   assingActivities,
   loadUserActivities,
   userActivityDesc,
+  tokenNotification,
 };
