@@ -3,9 +3,13 @@ import { useSelector } from "react-redux";
 import { Typography, Grid, styled, Button } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import { loadQuizesUser } from "../utils/api";
+import { loadQuizesUser, loadUserActivities } from "../utils/api";
 import ActivitiesViewComponent from "../components/Agents/activitiesview/ActivitiesViewComponent";
 import CardActivityManage from "../components/Quizes/CardActivityManage";
+import img1 from "../assets/temp-image/Enmascarargrupo2039.png";
+import img2 from "../assets/temp-image/Enmascarargrupo2040.png";
+import img3 from "../assets/temp-image/Enmascarargrupo2044.png";
+import img4 from "../assets/temp-image/Enmascarargrupo2046.png";
 
 const MainViewver = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -37,43 +41,38 @@ const selectButton = {
   textTransform: "none",
 };
 
-//temporal
-const missions = [
-  { name: "alguna cosa", status: "start" },
-  { name: "alguna cosa2", status: "start" },
-  { name: "alguna cosa3", status: "start" },
-  { name: "alguna cosa4", status: "start" },
-];
-const activities = [
-  { name: "alguna cosa", status: "start" },
-  { name: "alguna cosa2", status: "start" },
-  { name: "alguna cosa3", status: "start" },
-  { name: "alguna cosa4", status: "start" },
-];
-const challenges = [
-  { name: "alguna cosa", status: "start" },
-  { name: "alguna cosa2", status: "start" },
-  { name: "alguna cosa3", status: "start" },
-  { name: "alguna cosa4", status: "start" },
-];
+const images = [img1, img2, img3, img4];
+
 const ActivitiesView = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.idccms;
 
   const [quizUser, setQuizUser] = useState([]);
-  const [activities, setActivities] = useState("Quizes");
+  const [userActivities, setUserActivities] = useState([]);
+  const [activities, setActivities] = useState({ type: "Quizes", context: 0 });
 
   useEffect(() => {
+    setUserActivities([]);
+    const context = activities.context;
     const getData = async () => {
-      const quizes = await loadQuizesUser(idccms);
-      setQuizUser(quizes.data);
+      if (quizUser.length === 0) {
+        const quizes = await loadQuizesUser(idccms);
+        setQuizUser(quizes.data);
+        console.log("consultando quizes");
+      }
+      if (context !== 0) {
+        const getActivities = await loadUserActivities(idccms, context);
+        setUserActivities(getActivities.data);
+        console.log("consultando actividad");
+      }
     };
 
     getData();
     // eslint-disable-next-line
-  }, []);
+  }, [activities]);
 
+  console.log(userActivities);
   return (
     <Grid width="100%">
       <MainViewver>
@@ -81,28 +80,28 @@ const ActivitiesView = () => {
 
         <BoxSelectBadge item xs={12}>
           <Button
-            sx={activities === "Missions" && selectButton}
-            onClick={() => setActivities("Missions")}
+            sx={activities.type === "Missions" && selectButton}
+            onClick={() => setActivities({ type: "Missions", context: 3 })}
           >
             Missions
           </Button>
           <Button
-            sx={activities === "Challenges" && selectButton}
-            onClick={() => setActivities("Challenges")}
+            sx={activities.type === "Challenges" && selectButton}
+            onClick={() => setActivities({ type: "Challenges", context: 2 })}
           >
             {" "}
             Challenges{" "}
           </Button>
           <Button
-            sx={activities === "Quizes" && selectButton}
-            onClick={() => setActivities("Quizes")}
+            sx={activities.type === "Quizes" && selectButton}
+            onClick={() => setActivities({ type: "Quizes", context: 0 })}
           >
             {" "}
             Quizes
           </Button>
           <Button
-            sx={activities === "Activities" && selectButton}
-            onClick={() => setActivities("Activities")}
+            sx={activities.type === "Activities" && selectButton}
+            onClick={() => setActivities({ type: "Activities", context: 1 })}
           >
             {" "}
             Activities
@@ -110,10 +109,23 @@ const ActivitiesView = () => {
         </BoxSelectBadge>
 
         <Grid container spacing={3}>
-          {activities === "Missions" && <p>Mission</p>}
-          {activities === "Challenges" && <p>Challenges</p>}
-          {activities === "Quizes" &&
-            quizUser?.map((quiz) => (
+          {activities.type !== "Quizes" &&
+            userActivities?.map((activity) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={2}
+                key={activity.IdActivity}
+              >
+                <ActivitiesViewComponent activity={activity} img1={img1} />
+              </Grid>
+            ))}
+          {/* {activities.type === "Challenges" && <p>Challenges</p>} */}
+          {activities.type === "Quizes" &&
+            quizUser.map((quiz) => (
               <Grid
                 item
                 xs={12}
@@ -122,6 +134,7 @@ const ActivitiesView = () => {
                 lg={3}
                 xl={2}
                 key={quiz.IdExamen}
+                sx={{ backgroun: "" }}
               >
                 <CardActivityManage
                   quiz={quiz}
@@ -131,7 +144,7 @@ const ActivitiesView = () => {
               </Grid>
             ))}
 
-          {activities === "Activities" && <p>Activities</p>}
+          {/* {activities.type === "Activities" && <p>Activities</p>} */}
         </Grid>
       </MainViewver>
       <Footer />

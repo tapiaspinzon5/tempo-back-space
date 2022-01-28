@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const url = "https://gamificationtest.teleperformance.co";
-//const url = "http://localhost:4343";
+//const url = "https://gamificationtest.teleperformance.co";
+const url = "http://localhost:4343";
 //import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
@@ -291,6 +291,25 @@ const assingActivities = (data, idccms) => {
   }
 };
 
+//funcion para traer las actividades del usuario
+const loadUserActivities = (idccms, context) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`${url}/api/getactivitiesviewagent?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+        context: context,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -306,4 +325,5 @@ export {
   createTeamReportingLead,
   downloadUsers,
   assingActivities,
+  loadUserActivities,
 };

@@ -2,18 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import ProgresBar from "../progressCharts/ProgresBar";
 import { useNavigate } from "react-router-dom";
+import img1 from "../../assets/temp-image/Enmascarargrupo2044.png";
+
+const BoxCard = styled(Box)(() => ({
+  maxWidth: "19.625rem",
+  borderRadius: "10px",
+}));
 
 const CardViewer = styled(Box)(({ theme }) => ({
   //height: "14rem",
-  height: "7rem",
-  maxWidth: "20rem",
+  height: "9rem",
+  maxWidth: "19.625rem",
   boxShadow: "1px 1px 5px #A2A2A2",
   borderRadius: "10px 10px 0 0 ",
-  background: "#F9F9F9 0% 0% no-repeat padding-box",
+  //background: "#F9F9F9 0% 0% no-repeat padding-box",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-around",
-  alignItems: "center",
+  justifyContent: "flex-end",
+  alignItems: "start",
+  padding: "1rem",
+  color: "white",
   boxSizing: "border-box",
   img: {
     background: "blue",
@@ -56,7 +64,6 @@ const CardActivityManage = ({ quiz }) => {
   const [valueProgress, setValueProgress] = useState(0);
   const [background, setbackground] = useState(false);
 
-  console.log(quiz);
   const {
     EstadoExamen,
     ExamName,
@@ -76,16 +83,16 @@ const CardActivityManage = ({ quiz }) => {
 
     switch (EstadoExamen) {
       case "Failed":
-        setbackground("FF0000 0% 0% no-repeat padding-box");
+        setbackground("rgba(255, 0, 0, 0.616) 0% 0% no-repeat padding-box");
         setActive(true);
         break;
       case "Pending":
-        setbackground("#F5D200 0% 0% no-repeat padding-box");
+        setbackground("rgba(245, 210, 0, 0.616) 0% 0% no-repeat padding-box");
 
         break;
       case "Start":
         setbackground(
-          "transparent linear-gradient(180deg, #3047B0 0%, #0087FF 100%) 0% 0% no-repeat padding-box"
+          "transparent linear-gradient(180deg, rgba(48, 71, 176, 0.616) 0%, rgba(0, 135, 255, 0.616) 100%) 0% 0% no-repeat padding-box"
         );
         break;
       case "Approved":
@@ -98,14 +105,18 @@ const CardActivityManage = ({ quiz }) => {
     //eslint-disable-next-line
   }, [EstadoExamen]);
 
+  console.log(quiz);
+
   return (
-    <>
+    <BoxCard
+      sx={{
+        backgroundImage: `linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 150, 0.2)),url(${img1})`,
+      }}
+    >
       <CardViewer>
         {/* <img src={image} alt="img" /> */}
-        <Typography variant="h6" fontWeight="bold">
-          {ExamName}
-        </Typography>
-        <Typography variant="body1">Quiz id: {IdExamen}</Typography>
+        <Typography variant="body1">{ExamName}</Typography>
+        {/* <Typography variant="body1">Quiz id: {IdExamen}</Typography> */}
         {/* <Box width={185}>
           <ProgresBar value={valueProgress} />
           <Typography variant="caption" color="initial">
@@ -121,7 +132,7 @@ const CardActivityManage = ({ quiz }) => {
           {EstadoExamen}
         </Button>
       </DownSection>
-    </>
+    </BoxCard>
   );
 };
 

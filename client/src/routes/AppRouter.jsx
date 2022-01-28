@@ -27,6 +27,7 @@ import { UpAgents } from "../pages/Rep Lead/UpAgents";
 import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
 import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
 import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
+import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -53,6 +54,10 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
+              <Route
+                path="/activitiesview/:idActivity"
+                element={<ActivitiesDescription />}
+              />
               <Route
                 path="/quiz/:idquiz"
                 element={<QuizViewV2 setNavView={setNavView} />}
