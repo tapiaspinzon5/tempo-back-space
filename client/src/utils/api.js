@@ -1,7 +1,8 @@
 import axios from "axios";
+import { axiosInstance } from "../api/interceptor";
 
-const url = "https://gamificationtest.teleperformance.co";
-//const url = "http://localhost:4343";
+//const url = "https://gamificationtest.teleperformance.co";
+const url = "http://localhost:4343";
 //import { axiosInstance } from "../api/interceptor";
 
 //localhost: 10.142.24.175:
@@ -76,7 +77,9 @@ const loadQuizesUser = (idccms) => {
     return (
       axios
 
-        .post(`${url}/api/getquizbyagent?idccms=${idccms}`)
+        .post(`${url}/api/getquizbyagent?idccms=${idccms}`, {
+          context: 2,
+        })
         //.post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
@@ -239,31 +242,12 @@ const downloadDataAdmin = (idccms, caso) => {
 };
 
 //Traer actividades para asignar por parte del Team Leader
-const downloadActivities = () => {
-  //10.142.73.193 - 10.142.24.65
+const downloadActivities = (idccms) => {
   try {
-    return (
-      axios
-        .post(`${url}/api/getactivitiesteamleader`)
-        //.post(`http://localhost:4343/api/getactivitiesteamleader`)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-//Trae el equipo de un TEam Leader para asignarle actividades
-
-const downloadUsers = (idccms) => {
-  //10.142.73.193 - 10.142.24.65
-  try {
-    return axios
-      .post(`${url}/api/getactivitiesagentstl?idccms=${idccms}`)
+    return axiosInstance
+      .post(`getchanllenges?idccms=${idccms}`, {
+        context: 2,
+      })
       .catch(function (error) {
         if (error.response) {
           return error.response;
@@ -274,11 +258,28 @@ const downloadUsers = (idccms) => {
   }
 };
 
+//Trae el equipo de un TEam Leader para asignarle actividades
+
+const downloadUsers = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getagentschallengeassignmenttl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Asignación de actividades
+
 const assingActivities = (data, idccms) => {
   try {
-    return axios
-      .post(`${url}/api/postassignactivitiestl?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
+    return axiosInstance
+      .post(`postassignactivitiestl?idccms=${idccms}`, {
         data,
       })
       .catch(function (error) {
