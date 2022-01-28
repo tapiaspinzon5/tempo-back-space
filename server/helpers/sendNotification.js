@@ -20,8 +20,8 @@ exports.sendFCMMessage= async (fcmToken, msg) => {
                 //     },
                 // },
                 "notification": {
-                  "title": "Titulos !!!!!!!!!!!!!!!!!!",
-                  "body":"Body !!!!!!!!!!!!!"
+                  "title": "Te asiganron un reto !",
+                  "body":""
                },
             },
             token: fcmToken,

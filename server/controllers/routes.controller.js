@@ -449,6 +449,7 @@ exports.assignActivitiesTL = async (req, res) => {
 
   // const {data} = req.body
   const {idActivity, idccmsAssigned,fcmTokens} = req.body;
+  let msg = ''
   let rows = [];
   let i = 0;
 
@@ -458,6 +459,15 @@ exports.assignActivitiesTL = async (req, res) => {
       rows.push([id,act,i])
     })
   })
+
+  try {
+    let resp = fcmTokens.map(async (token) => {
+      return await sendFCMMessage(token,msg)
+    })
+    // res.status(200).json(resp);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 
   // let rows = id.map((row) => {
   //   i = i + 1;
