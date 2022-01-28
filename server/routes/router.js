@@ -26,20 +26,24 @@ module.exports = (router) => {
   router.post("/getquizbyagent", routes.getQuizByAgent); // Lista todos los examenes asignados por cssmid del agente.
   router.post("/getQuizDetail", routes.getQuizDetail);   // Retorna las preguntas y respuestas de un examen por ID del examen.
   router.post("/getresultquiz", routes.getResultQuiz);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
-  router.post("/getactivitiesteamleader", routes.getActivitiesTL);   // Retorna las actividades por categoria y stage.
+  router.post("/getchanllenges", routes.getChanllenges);   // Retorna las actividades por categoria y stage.
   router.post("/gettemplatesloaded", routes.getTemplatesLoaded);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getloadinstructions", routes.getLoadInstructions);   // Retorna la cantidad de registros cargados en cada plantilla.
-  router.post("/getactivitiesagentstl", routes.getActivitiesAgentsTL);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getagentschallengeassignmenttl", routes.getAgentsChallengeAssignmentTL);   // Retorna la cantidad de registros cargados en cada plantilla.
   router.post("/getactivitiesviewagent", routes.getActivitiesViewAgent);   // Retorna la cantidad de registros cargados en cada plantilla.
+  router.post("/getactivitiesdescriptionagent", routes.getActivitiesDescriptionAgent);   // Retorna la cantidad de registros cargados en cada plantilla.
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
   router.get("/gettemplate/:name", routes.getTemplate);   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
   
-// Asignar actividades
+// Asignar challenges
   router.post("/postassignactivitiestl",routes.assignActivitiesTL);
 
   router.post("/sendemailnotification", routes.sendEmailNotification);
+
+  // Ruta de prueba para enviar notificaciones.
+  router.post("/sendfcmnotification", routes.sendFCMNotificacion);
   
   
   //CRUD

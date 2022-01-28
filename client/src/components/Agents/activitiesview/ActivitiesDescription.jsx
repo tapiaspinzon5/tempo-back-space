@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Grid, styled, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import img4 from "../../../assets/temp-image/desc/MicrosoftTeams-image.png";
 import Footer from "../../Footer";
+import { userActivityDesc } from "../../../utils/api";
 
 const MainDesc = styled(Grid)(() => ({
   width: "100%",
@@ -54,23 +56,40 @@ const LeftBox = styled(Grid)(() => ({
 }));
 
 //tempData
-const activity = {
-  Agent: "Deiby Nino Garces",
-  AssignmentUser: "Matilde Puentes Gutierrez",
-  Description:
-    "Learn how to play by completing the welcome video and earn your first points and coins.",
-  FchAssignment: "2022-01-25T12:27:25.400Z",
-  IdActivity: 1,
-  IdentAssignment: 4492826,
-  NameActivity: "Welcome to EGP",
-  Stage: "Getting started",
-  Status: false,
-  ident: 4472074,
-};
+// const activity = {
+//   Agent: "Deiby Nino Garces",
+//   AssignmentUser: "Matilde Puentes Gutierrez",
+//   Description:
+//     "Learn how to play by completing the welcome video and earn your first points and coins.",
+//   FchAssignment: "2022-01-25T12:27:25.400Z",
+//   IdActivity: 1,
+//   IdentAssignment: 4492826,
+//   NameActivity: "Welcome to EGP",
+//   Stage: "Getting started",
+//   Status: false,
+//   ident: 4472074,
+// };
 
 const ActivitiesDescription = () => {
   const params = useParams();
+  const userData = useSelector((store) => store.loginUser.userData);
+
+  const idccms = userData.idccms;
+  const { idActivity } = params;
+  const [activity, setActivity] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await userActivityDesc(idccms, idActivity);
+      setActivity(data.data);
+      console.log("consultando quizes");
+    };
+
+    getData();
+  }, []);
+
   console.log(params.idActivity);
+  console.log(activity);
   return (
     <MainDesc>
       <BoxHead sx={{ backgroundImage: `url(${img4})` }}>
@@ -92,8 +111,7 @@ const ActivitiesDescription = () => {
               <span>Assigned by:</span> {activity.AssignmentUser}
             </li>
             <li>
-              <span>Date of assignment:</span>{" "}
-              {activity.FchAssignment.substr(0, 10)}
+              <span>Date of assignment:</span> {activity.FchAssignment}
             </li>
             <li>
               <span>Stage:</span> {activity.Stage}

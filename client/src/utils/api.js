@@ -309,6 +309,24 @@ const loadUserActivities = (idccms, context) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+//funcion para deactividad individual
+const userActivityDesc = (idccms, idActivity) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`${url}/api/getactivitiesdescriptionagent?idccms=${idccms}`, {
+        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+        idActivity: idActivity,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 export {
   uploadQuizes,
@@ -326,4 +344,5 @@ export {
   downloadUsers,
   assingActivities,
   loadUserActivities,
+  userActivityDesc,
 };
