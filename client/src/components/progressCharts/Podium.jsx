@@ -1,5 +1,5 @@
 import React from "react";
-import podium from "../../assets/images/podium.svg";
+import podium from "../../assets/images/podium.png";
 import { Typography, Box, styled, Avatar } from "@mui/material";
 import { shortName } from "../../helpers/helpers";
 
