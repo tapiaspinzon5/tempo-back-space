@@ -55,7 +55,7 @@ const DownSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ActivitiesViewComponent = ({ activity, img1 }) => {
+const ActivitiesViewComponent = ({ activity, img1, context }) => {
   const navigate = useNavigate();
   const [background, setbackground] = useState(false);
 
@@ -74,7 +74,9 @@ const ActivitiesViewComponent = ({ activity, img1 }) => {
         </Typography>
       </CardViewer>
       <DownSection sx={{ background }}>
-        <Button onClick={() => navigate(`/activitiesview/${IdActivity}`)}>
+        <Button
+          onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
+        >
           See more
         </Button>
       </DownSection>

@@ -6,6 +6,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import avatar from "../../assets/temp-image/avatar.png";
 
 const SideBar = styled(AppBar)(({ theme }) => ({
   position: "sticky",
@@ -77,7 +78,7 @@ export const Navbar = () => {
               <IconButton sx={{ flexGrow: 1 }} onClick={() => setOpen(!open)}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f619fbd7-5339-4d15-b3ad-d2010482e6ba/dd9cupb-654551d6-cf04-44b9-b1fb-2fefab7a6cdd.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Y2MTlmYmQ3LTUzMzktNGQxNS1iM2FkLWQyMDEwNDgyZTZiYVwvZGQ5Y3VwYi02NTQ1NTFkNi1jZjA0LTQ0YjktYjFmYi0yZmVmYWI3YTZjZGQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.cIJRZDaROcqAdc2oFWbpaAjMzVlH615q1FtdUeDsY1M"
+                  src={avatar}
                   sx={{ width: 56, height: 56 }}
                 />
               </IconButton>

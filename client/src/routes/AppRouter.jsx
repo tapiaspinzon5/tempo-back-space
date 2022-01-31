@@ -55,7 +55,7 @@ const AppRouter = () => {
               <Route path="/homeusers" element={<HomeUser />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route
-                path="/activitiesview/:idActivity"
+                path="/activitiesview/:idActivity/:context"
                 element={<ActivitiesDescription />}
               />
               <Route
