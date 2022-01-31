@@ -94,7 +94,7 @@ const ActivitiesView = () => {
     // eslint-disable-next-line
   }, [activities]);
 
-  console.log(userActivities);
+  console.log(activities);
   return (
     <Grid width="100%">
       <MainViewver>
