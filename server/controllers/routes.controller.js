@@ -616,3 +616,22 @@ exports.postFcmToken = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
+exports.postChangeRol = async (req, res) => {
+
+  const {context}= req.body;
+
+  sql
+    .query(
+      "spChangeRoleAgent",
+      parametros({idccms:req.query.idccms, context},"spChangeRoleAgent"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};

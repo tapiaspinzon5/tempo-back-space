@@ -277,6 +277,13 @@ exports.parametros = (req, tipo) => {
     case "spAddJumpRegister":
     return SpParamTable("jumpTable", JumpEmployee, req.rows);
 
+    //TODO: Borrar para despues 
+    case "spChangeRoleAgent":
+      return parametrizacion([
+        new SpParam("Role", req.context, TYPES.VarChar),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
+
     default:
       return null;
   }
