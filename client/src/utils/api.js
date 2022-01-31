@@ -210,7 +210,7 @@ const downloadCounts = (idccms) => {
   try {
     return (
       axios
-        .post(`${url}/api/gethomedata?idccms=${idccms}`)
+        .post(`${url}/api/getteamsbysu?idccms=${idccms}`)
         //.post(`http://localhost:4343/api/getteamsbysu?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
