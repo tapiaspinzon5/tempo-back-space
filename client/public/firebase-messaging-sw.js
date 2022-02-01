@@ -32,10 +32,11 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function (payload) {
   //console.log("Received background message ", payload);
   // Customize notification here
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
-    url: payload.notification.url,
+    body: payload.data.body,
+    url: payload.data.url,
+    icon: payload.data.image,
   };
 
   // Muestra la notificacion

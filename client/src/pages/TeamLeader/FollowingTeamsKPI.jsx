@@ -12,6 +12,7 @@ import {
 import Header from "../../components/homeUser/Header";
 //import ProgresBar from "../../components/progressCharts/ProgresBar";
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
+import LoadingComponent from "../../components/LoadingComponent";
 
 const MainFT = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -43,6 +44,8 @@ const KpiBox = styled(Grid)(() => ({
 const UsersBox = styled(Grid)(() => ({
   borderRadius: "20px",
   padding: " 0 0 0 1rem",
+  overflowY: "scroll",
+  height: "65vh",
   p: {
     color: "#3047B0",
     fontWeight: 700,
@@ -70,8 +73,10 @@ const FollowingTeamsKPI = () => {
   const idccms = userData.idccms;
   const [kpi, setKpi] = useState([]);
   const [usersKPI, setUsersKPI] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getData = async () => {
       const data = await getKPIteamTL(idccms);
       setKpi(data.data);
@@ -79,11 +84,14 @@ const FollowingTeamsKPI = () => {
 
     getData();
     handleKPI();
+    setLoading(false);
   }, []);
 
   const handleKPI = async (idKPI) => {
-    const data = await getUsersKPI(idccms, idKPI || 2);
-    setUsersKPI(data.data);
+    setLoading(true);
+    const data = await getUsersKPI(idccms, idKPI ? idKPI : 1);
+    await setUsersKPI(data.data);
+    setLoading(false);
   };
   console.log("users", usersKPI);
 
@@ -141,32 +149,36 @@ const FollowingTeamsKPI = () => {
               <Typography variant="body1">{usersKPI[0]?.Kpi}</Typography>
             </Box>
             <Divider sx={{ borderColor: "#e8e8e8" }} />
-            {usersKPI.map((user) => (
-              <Box
-                key={user.Idccms}
-                sx={{
-                  boxShadow: "3px 3px 3px #e8e8e8",
-                  height: "3rem",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "0 1rem 0 .5rem",
-                  "&:hover": {
-                    background: "#0000ff05",
-                    p: {
-                      color: "red",
+            {!loading ? (
+              usersKPI.map((user) => (
+                <Box
+                  key={user.Idccms}
+                  sx={{
+                    boxShadow: "3px 3px 3px #e8e8e8",
+                    height: "3rem",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0 1rem 0 .5rem",
+                    "&:hover": {
+                      background: "#0000ff05",
+                      p: {
+                        color: "red",
+                      },
                     },
-                  },
-                }}
-              >
-                <Typography variant="body2"> {user.Agent}</Typography>
-                <Typography variant="body2">
-                  {" "}
-                  {user.Actual.toFixed(2)}%
-                </Typography>
-              </Box>
-            ))}
+                  }}
+                >
+                  <Typography variant="body2"> {user.Agent}</Typography>
+                  <Typography variant="body2">
+                    {" "}
+                    {user.Actual.toFixed(2)}%
+                  </Typography>
+                </Box>
+              ))
+            ) : (
+              <LoadingComponent />
+            )}
           </Item>
         </UsersBox>
       </Grid>
