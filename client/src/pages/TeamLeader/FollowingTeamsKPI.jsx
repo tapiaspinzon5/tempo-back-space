@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Grid, styled, Typography, Box, Divider, Button } from "@mui/material";
+import {
+  Grid,
+  styled,
+  Typography,
+  Box,
+  Divider,
+  Button,
+  Paper,
+} from "@mui/material";
 import Header from "../../components/homeUser/Header";
-import ProgresBar from "../../components/progressCharts/ProgresBar";
-import { getKPIteamTL } from "../../utils/api";
+//import ProgresBar from "../../components/progressCharts/ProgresBar";
+import { getKPIteamTL, getUsersKPI } from "../../utils/api";
 
 const MainFT = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -53,7 +61,7 @@ const Item = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
   color: theme.palette.text.secondary,
   background: "#f9f9f9",
-  height: "70vh",
+  minHeight: "50vh",
   borderRadius: "20px",
 }));
 
@@ -61,20 +69,28 @@ const FollowingTeamsKPI = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.idccms;
   const [kpi, setKpi] = useState([]);
+  const [usersKPI, setUsersKPI] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       const data = await getKPIteamTL(idccms);
       setKpi(data.data);
     };
+
+    getData();
+    handleKPI();
   }, []);
 
-  console.log("KPIs", kpi);
+  const handleKPI = async (idKPI) => {
+    const data = await getUsersKPI(idccms, idKPI || 2);
+    setUsersKPI(data.data);
+  };
+  console.log("users", usersKPI);
 
   return (
     <MainFT>
       <Header />
-      <Typography variant="h5"> Following Team´s KPIs</Typography>
+      <Typography variant="h5"> Following Team KPI</Typography>
 
       <Grid container>
         <KpiBox item xs={12} md={6}>
@@ -82,39 +98,76 @@ const FollowingTeamsKPI = () => {
             <Typography variant="body1">KPIs Name Team - Campaña</Typography>
             <Divider sx={{ borderColor: "#e8e8e8" }} />
 
-            <Box
-              sx={{
-                boxShadow: "3px 3px 3px #e8e8e8",
-                height: "4rem",
-                borderRadius: "10px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                padding: "0 1rem 0 .5rem",
-              }}
-            >
+            {kpi.map((detail) => (
               <Box
+                key={detail.IdRegistryKpi}
                 sx={{
+                  boxShadow: "3px 3px 3px #e8e8e8",
+                  height: "4rem",
+                  borderRadius: "10px",
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "0.3rem",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  padding: "0 1rem 0 .5rem",
                 }}
               >
-                <Typography variant="body2" color="initial">
-                  Nombre KPI
-                </Typography>
-                <Button sx={{ textTransform: "none" }} size="small">
-                  See more{" "}
-                </Button>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body2" color="initial">
+                    {detail.Kpi}
+                  </Typography>
+                  <Button
+                    sx={{ textTransform: "none" }}
+                    size="small"
+                    onClick={() => handleKPI(detail.IdRegistryKpi)}
+                  >
+                    See more{" "}
+                  </Button>
+                </Box>
               </Box>
-              <ProgresBar value={20} />
-            </Box>
+            ))}
           </Item>
         </KpiBox>
 
         <UsersBox item xs={12} md={6}>
-          <Item></Item>
+          <Item>
+            <Box display="flex" justifyContent="space-between" padding="0 2rem">
+              <Typography variant="body1">Name</Typography>
+              <Typography variant="body1">{usersKPI[0]?.Kpi}</Typography>
+            </Box>
+            <Divider sx={{ borderColor: "#e8e8e8" }} />
+            {usersKPI.map((user) => (
+              <Box
+                key={user.Idccms}
+                sx={{
+                  boxShadow: "3px 3px 3px #e8e8e8",
+                  height: "3rem",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "0 1rem 0 .5rem",
+                  "&:hover": {
+                    background: "#0000ff05",
+                    p: {
+                      color: "red",
+                    },
+                  },
+                }}
+              >
+                <Typography variant="body2"> {user.Agent}</Typography>
+                <Typography variant="body2">
+                  {" "}
+                  {user.Actual.toFixed(2)}%
+                </Typography>
+              </Box>
+            ))}
+          </Item>
         </UsersBox>
       </Grid>
     </MainFT>

@@ -379,6 +379,23 @@ const getKPIteamTL = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+//funcion para Traer los KPI con sus usuarios  del Team Leader
+const getUsersKPI = (idccms, idKPI) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`${url}/api/getagentsbykpitl?idccms=${idccms}`, {
+        idKpi: idKPI,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 export {
   uploadQuizes,
@@ -400,4 +417,5 @@ export {
   userActivityDesc,
   tokenNotification,
   getKPIteamTL,
+  getUsersKPI,
 };
