@@ -81,7 +81,7 @@ let SpParamTable = (nameParam, colums, rows) => {
   }
 };
 
-// Esta funcion se armó con la finalidad de poder enviar parametros individuales y tablas en conjunto a un SP 
+// Esta funcion se armó con la finalidad de poder enviar parametros individuales y tablas en conjunto a un SP
 let SpParamTable2 = (nameParam, colums, rows) => {
   try {
     let table;
@@ -202,7 +202,7 @@ exports.parametros = (req, tipo) => {
 
     case "spLoadExamQA":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    
+
     case "spQueryTeams":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
     case "spQueryDashBoarhAgent":
@@ -227,7 +227,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         SpParamTable2("table", reportLeadTable, req.rows),
       ]);
-    
+
     case "spQueryActivities":
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
@@ -248,16 +248,16 @@ exports.parametros = (req, tipo) => {
         new SpParam("identAssignmen", req.idccms, TYPES.Int),
         SpParamTable2("table", assignActivitiesTLTable, req.rows),
       ]);
-      
+
     case "spQueryTeamsAgents":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    
+
     case "spQueryActivitiesAgent":
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
-      
+
     case "spInsertToken":
       return parametrizacion([
         new SpParam("Token", req.fcmNotification, TYPES.VarChar),
@@ -273,7 +273,7 @@ exports.parametros = (req, tipo) => {
 
     case "spQueryNotifications":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    
+
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);
 
@@ -292,7 +292,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
 
-    //TODO: Borrar para despues 
+    //TODO: Borrar para despues
     case "spChangeRoleAgent":
       return parametrizacion([
         new SpParam("Role", req.context, TYPES.VarChar),

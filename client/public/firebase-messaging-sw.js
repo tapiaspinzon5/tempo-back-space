@@ -6,10 +6,10 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("../firebase-messaging-sw.js")
     .then(function (registration) {
-      console.log("Registration successful, scope is:", registration.scope);
+      //console.log("Registration successful, scope is:", registration.scope);
     })
     .catch(function (err) {
-      console.log("Service worker registration failed, error:", err);
+      // console.log("Service worker registration failed, error:", err);
     });
 }
 
@@ -30,7 +30,7 @@ const messaging = firebase.messaging();
 
 // esta funcion escucha las notificaciones cuando la app esta en segundo plano.
 messaging.onBackgroundMessage(function (payload) {
-  console.log("Received background message ", payload);
+  //console.log("Received background message ", payload);
   // Customize notification here
   const notificationTitle = payload.notification.title;
   const notificationOptions = {

@@ -35,7 +35,7 @@ const CardQuiz = styled(Box)(({ theme }) => ({
 
 const CardQuizDesc = ({ quiz }) => {
   const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
-  console.log(quiz);
+  //console.log(quiz);
   return (
     <CardQuiz>
       <Box>

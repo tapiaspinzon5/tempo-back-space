@@ -140,6 +140,37 @@ const assingActivities = (data, idccms) => {
   }
 };
 
+//funcion para Traer los KPI del Team Leader
+const getKPIteamTL = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getkpiteamtl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+//funcion para Traer los KPI con sus usuarios  del Team Leader
+const getUsersKPI = (idccms, idKPI) => {
+  try {
+    return axiosInstance
+      .post(`getagentsbykpitl?idccms=${idccms}`, {
+        idKpi: idKPI,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 /* AGENT */
 //trae la data del Home
 const downloadHomeData = (idccms, data) => {
@@ -331,4 +362,6 @@ export {
   loadUserActivities,
   userActivityDesc,
   tokenNotification,
+  getKPIteamTL,
+  getUsersKPI,
 };

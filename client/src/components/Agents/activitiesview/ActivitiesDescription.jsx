@@ -82,14 +82,15 @@ const ActivitiesDescription = () => {
     const getData = async () => {
       const data = await userActivityDesc(idccms, idActivity, context);
       setActivity(data.data[0]);
-      console.log("consultando quizes");
+      //console.log("consultando quizes");
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
 
-  console.log(params.idActivity);
-  console.log(activity);
+  //console.log(params.idActivity);
+  //console.log(activity);
   return (
     <MainDesc>
       <BoxHead sx={{ backgroundImage: `url(${img4})` }}>
