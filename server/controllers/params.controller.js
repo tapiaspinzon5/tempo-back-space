@@ -275,7 +275,29 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
     
     case "spAddJumpRegister":
-    return SpParamTable("jumpTable", JumpEmployee, req.rows);
+      return SpParamTable("jumpTable", JumpEmployee, req.rows);
+
+    case "spQueryActivitiesAgent":
+      return parametrizacion([
+        new SpParam("case", req.context, TYPES.Int),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
+
+    case "spQueryKpiTeam":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+    case "spQueryKpiTeamAgent":
+      return parametrizacion([
+        new SpParam("idKpi", req.idKpi, TYPES.Int),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
+
+    //TODO: Borrar para despues 
+    case "spChangeRoleAgent":
+      return parametrizacion([
+        new SpParam("Role", req.context, TYPES.VarChar),
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
 
     default:
       return null;

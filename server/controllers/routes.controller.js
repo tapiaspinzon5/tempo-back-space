@@ -616,3 +616,56 @@ exports.postFcmToken = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
+exports.postChangeRol = async (req, res) => {
+
+  const {context}= req.body;
+
+  sql
+    .query(
+      "spChangeRoleAgent",
+      parametros({idccms:req.query.idccms, context},"spChangeRoleAgent"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getkpiteamTL = async (req, res) => {
+  sql
+    .query(
+      "spQueryKpiTeam",
+      parametros({ idccms: req.query.idccms }, "spQueryKpiTeam")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.getAgentsbykpiTL = async (req, res) => {
+
+  const { idKpi } = req.body;
+
+  sql
+    .query(
+      "spQueryKpiTeamAgent",
+      parametros({ idccms: req.query.idccms, idKpi}, "spQueryKpiTeamAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
