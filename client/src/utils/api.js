@@ -1,122 +1,15 @@
-import axios from "axios";
 import { axiosInstance } from "../api/interceptor";
 
 //const url = "https://gamificationtest.teleperformance.co";
 const url = "http://localhost:4343";
-//import { axiosInstance } from "../api/interceptor";
 
-//localhost: 10.142.24.175:
-// const loginSubmit = (data) => {
-//   try {
-//     return (
-//       axios
-//         //.post(`http://localhost:4343/api/ccmslogin`, data)
-//         .post(`http://10.142.24.175:4343/api/ccmslogin`, data)
-//         .catch(function (error) {
-//           if (error.response) {
-//             return error.response;
-//           }
-//         })
-//     );
-//   } catch (error) {
-//     return Promise.resolve({ data: null, error: error });
-//   }
-// };
-
-// export { loginSubmit };
-
-// /* const newBody = {
-
-//         user : req.body.body.id,
-
-//         pass : req.body.body.password,
-
-//     }
-
-//     const btoaData = btoa(JSON.stringify(newBody));
-
-//     const bdata = {body: 's'+ btoaData}; */
-
-const uploadQuizes = (data, idccms) => {
-  try {
-    return (
-      axios
-        .post(`${url}/api/uploadquiz?idccms=${idccms}`, data)
-        //.post(`http://localhost:4343/api/uploadquiz?idccms=${idccms}`, data)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const loadQuizes = (idccms) => {
-  try {
-    return (
-      axios
-
-        .post(`${url}/api/getquizqa?idccms=${idccms}`)
-        //.post(`http://localhost:4343/api/getquizqa?idccms=${idccms}`)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const loadQuizesUser = (idccms) => {
-  try {
-    return (
-      axios
-
-        .post(`${url}/api/getquizbyagent?idccms=${idccms}`, {
-          context: 2,
-        })
-        //.post(`http://localhost:4343/api/getquizbyagent?idccms=${idccms}`)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const getExam = (idccms, idquiz) => {
-  try {
-    return axios
-
-      .post(`${url}/api/getQuizDetail?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/getQuizDetail?idccms=${idccms}`, {
-        idQuiz: idquiz,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
+/* SUPER ADMIN */
 
 //Peticion carga de achivos creacion de equipos SuperUser
-
 const createTeamSuperUser = (dataCSV, idccms) => {
   try {
-    return axios
-      .post(`${url}/api/uploadSU?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadSU?idccms=${idccms}`, {
+    return axiosInstance
+      .post(`uploadSU?idccms=${idccms}`, {
         data: dataCSV,
       })
       .catch(function (error) {
@@ -124,112 +17,32 @@ const createTeamSuperUser = (dataCSV, idccms) => {
           return error.response;
         }
       });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const createTeamOperationManager = (dataCSV, idccms) => {
-  try {
-    return axios
-      .post(`${url}/api/uploadopsm?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadopsm?idccms=${idccms}`, {
-        data: dataCSV,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const createTeamReportingLead = (dataCSV, idccms) => {
-  try {
-    return axios
-      .post(`${url}/api/uploadrepl?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/uploadrepl?idccms=${idccms}`, {
-        data: dataCSV,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const uploadAnswers = (data, idccms, idExam) => {
-  //10.142.73.193
-  try {
-    return (
-      axios
-        // .post(
-        .post(
-          `${url}/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-          // `http://localhost:4343/api/getresultquiz?idccms=${idccms}&idExam=${idExam}`,
-          {
-            data: data,
-          }
-        )
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
-const downloadHomeData = (idccms, data) => {
-  //10.142.73.193 - 10.142.24.65
-  try {
-    return (
-      axios
-        .post(`${url}/api/gethomedata?idccms=${idccms}`)
-        //.post(`http://localhost:4343/api/gethomedata?idccms=${idccms}`)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
 };
 
 const downloadCounts = (idccms) => {
-  //10.142.73.193 - 10.142.24.65
   try {
-    return (
-      axios
-        .post(`${url}/api/getteamsbysu?idccms=${idccms}`)
-        //.post(`http://localhost:4343/api/getteamsbysu?idccms=${idccms}`)
-        .catch(function (error) {
-          if (error.response) {
-            return error.response;
-          }
-        })
-    );
+    return axiosInstance
+      .post(`getteamsbysu?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
   }
 };
 
-const downloadDataAdmin = (idccms, caso) => {
-  //10.142.73.193 - 10.142.24.65
+/* OPERATION MANAGER */
+
+const createTeamOperationManager = (dataCSV, idccms) => {
   try {
-    return axios
-      .post(`${url}/api/gettemplatesloaded?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
-        caso: caso,
+    return axiosInstance
+      .post(`uploadopsm?idccms=${idccms}`, {
+        data: dataCSV,
       })
       .catch(function (error) {
         if (error.response) {
@@ -241,12 +54,13 @@ const downloadDataAdmin = (idccms, caso) => {
   }
 };
 
-///Envia token Navegador a la base
-const tokenNotification = (data, idccms) => {
+/* REPORTING LEAD */
+
+const createTeamReportingLead = (dataCSV, idccms) => {
   try {
     return axiosInstance
-      .post(`postfcmtoken?idccms=${idccms}`, {
-        fcmNotification: data,
+      .post(`uploadrepl?idccms=${idccms}`, {
+        data: dataCSV,
       })
       .catch(function (error) {
         if (error.response) {
@@ -258,11 +72,12 @@ const tokenNotification = (data, idccms) => {
   }
 };
 
-//getmynotifications
-const downloadNotifications = (idccms) => {
+/* QA LEAD */
+
+const loadQuizes = (idccms) => {
   try {
     return axiosInstance
-      .post(`getmynotifications?idccms=${idccms}`)
+      .post(`getquizqa?idccms=${idccms}`)
       .catch(function (error) {
         if (error.response) {
           return error.response;
@@ -273,13 +88,10 @@ const downloadNotifications = (idccms) => {
   }
 };
 
-//Traer actividades para asignar por parte del Team Leader
-const downloadActivities = (idccms) => {
+const uploadQuizes = (data, idccms) => {
   try {
     return axiosInstance
-      .post(`getchanllenges?idccms=${idccms}`, {
-        context: 2,
-      })
+      .post(`uploadquiz?idccms=${idccms}`, data)
       .catch(function (error) {
         if (error.response) {
           return error.response;
@@ -289,6 +101,8 @@ const downloadActivities = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+
+/* TEAM LEADER */
 
 //Trae el equipo de un TEam Leader para asignarle actividades
 
@@ -326,13 +140,112 @@ const assingActivities = (data, idccms) => {
   }
 };
 
+/* AGENT */
+//trae la data del Home
+const downloadHomeData = (idccms, data) => {
+  try {
+    return axiosInstance
+      .post(`gethomedata?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Trae los quices del agente
+const loadQuizesUser = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getquizbyagent?idccms=${idccms}`, {
+        context: 2,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Trae el Quiz para realizarlo
+
+const getExam = (idccms, idquiz) => {
+  try {
+    return axiosInstance
+      .post(`getQuizDetail?idccms=${idccms}`, {
+        idQuiz: idquiz,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Sube las  Respuestas del Quiz
+const uploadAnswers = (data, idccms, idExam) => {
+  try {
+    return axiosInstance
+      .post(`getresultquiz?idccms=${idccms}&idExam=${idExam}`, {
+        data: data,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+///Envia token Navegador del agente a la base
+const tokenNotification = (data, idccms) => {
+  try {
+    return axiosInstance
+      .post(`postfcmtoken?idccms=${idccms}`, {
+        fcmNotification: data,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Trae las Notificaciones que tiene el Agente
+const downloadNotifications = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getmynotifications?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 //funcion para traer las actividades del usuario
 const loadUserActivities = (idccms, context) => {
   //10.142.73.193 - 10.142.24.65
   try {
-    return axios
-      .post(`${url}/api/getactivitiesviewagent?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+    return axiosInstance
+      .post(`getactivitiesviewagent?idccms=${idccms}`, {
         context: context,
       })
       .catch(function (error) {
@@ -344,15 +257,50 @@ const loadUserActivities = (idccms, context) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+
 //funcion para deactividad individual
 const userActivityDesc = (idccms, idActivity, context) => {
-  //10.142.73.193 - 10.142.24.65
   try {
-    return axios
-      .post(`${url}/api/getactivitiesdescriptionagent?idccms=${idccms}`, {
-        //.post(`http://localhost:4343/api/gettemplatesloaded?idccms=${idccms}`, {
+    return axiosInstance
+      .post(`getactivitiesdescriptionagent?idccms=${idccms}`, {
         idActivity: idActivity,
         context: context,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+/* TRANSVERSALES */
+
+//Traer los Challenges para asignar Tanto TL como AG
+const downloadActivities = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getchanllenges?idccms=${idccms}`, {
+        context: 2,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+// Trae la informacion del Equipo Creado Para OPSM Y REPL
+const downloadDataAdmin = (idccms, caso) => {
+  try {
+    return axiosInstance
+      .post(`gettemplatesloaded?idccms=${idccms}`, {
+        caso: caso,
       })
       .catch(function (error) {
         if (error.response) {
