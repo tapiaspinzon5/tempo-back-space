@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Typography, Grid, styled, Button } from "@mui/material";
-import Header from "../components/homeUser/Header";
+//import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import { loadQuizesUser, loadUserActivities } from "../utils/api";
 import ActivitiesViewComponent from "../components/Agents/activitiesview/ActivitiesViewComponent";
@@ -10,7 +10,7 @@ import img1 from "../assets/temp-image/Enmascarargrupo2039.png";
 import img2 from "../assets/temp-image/Enmascarargrupo2040.png";
 import img3 from "../assets/temp-image/Enmascarargrupo2044.png";
 import img4 from "../assets/temp-image/Enmascarargrupo2046.png";
-import { ModalLoading } from "../components/ModalLoading";
+//import { ModalLoading } from "../components/ModalLoading";
 import LoadingComponent from "../components/LoadingComponent";
 
 const MainViewver = styled(Grid)(({ theme }) => ({
@@ -72,6 +72,7 @@ const ActivitiesView = () => {
         context: 0,
       });
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -83,15 +84,15 @@ const ActivitiesView = () => {
       if (activities.context === 0) {
         const quizes = await loadQuizesUser(idccms);
         setQuizUser(quizes.data);
-        console.log("consultando quizes");
+        //console.log("consultando quizes");
         if (quizes.data.length < 1) {
-          console.log("No assigned quizzes");
+          //console.log("No assigned quizzes");
           setNoData("No assigned " + activities.type);
         }
       } else {
         const getActivities = await loadUserActivities(idccms, context);
         setUserActivities(getActivities.data);
-        console.log("consultando actividad");
+        //console.log("consultando actividad");
         if (getActivities.data.length < 1) {
           setNoData("No assigned " + activities.type);
         }
@@ -107,7 +108,7 @@ const ActivitiesView = () => {
     // eslint-disable-next-line
   }, [activities]);
 
-  console.log(activities);
+  //console.log(activities);
 
   return (
     <Grid width="100%">

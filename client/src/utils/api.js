@@ -364,6 +364,22 @@ const userActivityDesc = (idccms, idActivity, context) => {
   }
 };
 
+//funcion para Traer los KPI del Team Leader
+const getKPIteamTL = (idccms) => {
+  //10.142.73.193 - 10.142.24.65
+  try {
+    return axios
+      .post(`${url}/api/getkpiteamtl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 export {
   uploadQuizes,
   loadQuizes,
@@ -383,4 +399,5 @@ export {
   loadUserActivities,
   userActivityDesc,
   tokenNotification,
+  getKPIteamTL,
 };

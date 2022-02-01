@@ -97,7 +97,7 @@ const ChallengeAssignment = () => {
         url: payload?.notification?.url,
       });
     })
-    .catch((err) => console.log("failed: ", err));
+    .catch((err) => //console.log("failed: ", err));
 
   const Toast = Swal.mixin({
     toast: true,
@@ -129,7 +129,7 @@ const ChallengeAssignment = () => {
   useEffect(() => {
     const getData = async () => {
       const activities = await downloadActivities(idccms);
-      //console.log(activities);
+      ////console.log(activities);
       if (
         activities &&
         activities.status === 200 &&
@@ -142,7 +142,7 @@ const ChallengeAssignment = () => {
       // setAssignment(activities.data);
       const user = await downloadUsers(idccms);
       if (user && user.status === 200 && user.data.length > 1) {
-        console.log(user.data);
+        //console.log(user.data);
         setUsers(user.data);
       } else {
         setError(true);
@@ -179,20 +179,20 @@ const ChallengeAssignment = () => {
     setValidator(true);
     const { name, checked } = e.target;
 
-    console.log(name, checked);
+    //console.log(name, checked);
     if (name === "selecct-all") {
       if (activity[stage] !== undefined) {
         let tempUser = activity[stage].map((badge) => {
           return { ...badge, isChecked: checked };
         });
 
-        console.log(tempUser);
+        //console.log(tempUser);
         setActivity(tempUser);
       } else {
         let tempUser = activity.map((badge) => {
           return { ...badge, isChecked: checked };
         });
-        console.log(tempUser);
+        //console.log(tempUser);
         setActivity(tempUser);
       }
     } else {
@@ -216,13 +216,13 @@ const ChallengeAssignment = () => {
     setLoading(true);
     if (validator) {
       const dataSend = validateDataCheck(users, activity);
-      console.log(dataSend[0]);
+      //console.log(dataSend[0]);
       if (
         dataSend[0].idActivity.length > 0 &&
         dataSend[0].idccmsAssigned.length > 0
       ) {
         const resp = await assingActivities(dataSend[0], idccms);
-        console.log(resp);
+        //console.log(resp);
         if (resp && resp.status === 200) {
           setLoading(false);
           MySwal.fire({

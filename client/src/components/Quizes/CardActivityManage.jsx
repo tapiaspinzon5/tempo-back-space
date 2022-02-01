@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
-import ProgresBar from "../progressCharts/ProgresBar";
+//import ProgresBar from "../progressCharts/ProgresBar";
 import { useNavigate } from "react-router-dom";
 import img1 from "../../assets/temp-image/Enmascarargrupo2044.png";
 
@@ -61,24 +61,23 @@ const DownSection = styled(Box)(({ theme }) => ({
 const CardActivityManage = ({ quiz }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
-  const [valueProgress, setValueProgress] = useState(0);
+  //const [valueProgress, setValueProgress] = useState(0);
   const [background, setbackground] = useState(false);
 
   const {
     EstadoExamen,
     ExamName,
     IdExamen,
-    CantidadPreguntas,
+    //CantidadPreguntas,
     PreguntasRespondidas,
   } = quiz;
 
   useEffect(() => {
     if (PreguntasRespondidas !== 0) {
-      const result = parseInt((PreguntasRespondidas * 100) / CantidadPreguntas);
-
-      setValueProgress(result);
+      //const result = parseInt((PreguntasRespondidas * 100) / CantidadPreguntas);
+      //setValueProgress(result);
     } else {
-      setValueProgress(0);
+      //setValueProgress(0);
     }
 
     switch (EstadoExamen) {

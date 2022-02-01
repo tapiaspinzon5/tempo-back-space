@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+//import SearchIcon from "@mui/icons-material/Search";
 import searchIco from "../assets/Icons/search-ico.svg";
 
 const Search = styled("div")(({ theme }) => ({

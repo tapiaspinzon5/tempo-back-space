@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Box, Button, styled, Grid } from "@mui/material";
+import React from "react";
+import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import img4 from "../../../assets/temp-image/Enmascarargrupo2046.png";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.625rem",
@@ -57,9 +56,9 @@ const DownSection = styled(Box)(({ theme }) => ({
 
 const ActivitiesViewComponent = ({ activity, img1, context }) => {
   const navigate = useNavigate();
-  const [background, setbackground] = useState(false);
+  // const [background, setbackground] = useState(false);
 
-  const { NameActivity, Status, IdActivity } = activity;
+  const { NameActivity, IdActivity } = activity;
 
   return (
     <BoxCard
@@ -73,7 +72,9 @@ const ActivitiesViewComponent = ({ activity, img1, context }) => {
           {NameActivity}
         </Typography>
       </CardViewer>
-      <DownSection sx={{ background }}>
+      <DownSection
+      //sx={{ background }}
+      >
         <Button
           onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
         >

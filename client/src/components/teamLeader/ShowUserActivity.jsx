@@ -1,5 +1,5 @@
 import React from "react";
-import { styled, Typography, Box, Grid } from "@mui/material";
+import { styled, Typography, Box } from "@mui/material";
 import start from "../../assets/Icons/start-icon.svg";
 import level from "../../assets/Icons/level-icon.svg";
 

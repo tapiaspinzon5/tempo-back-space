@@ -88,6 +88,7 @@ const HomeUser = () => {
     if (notification?.title) {
       noti();
     }
+    // eslint-disable-next-line
   }, [notification]);
 
   useEffect(() => {
