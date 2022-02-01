@@ -619,12 +619,12 @@ exports.postFcmToken = async (req, res) => {
 
 exports.postChangeRol = async (req, res) => {
 
-  const {context}= req.body;
+  const {RoleAgent}= req.body;
 
   sql
     .query(
       "spChangeRoleAgent",
-      parametros({idccms:req.query.idccms, context},"spChangeRoleAgent"
+      parametros({idccms:req.query.idccms, RoleAgent},"spChangeRoleAgent"
       )
     )
     .then((result) => {
