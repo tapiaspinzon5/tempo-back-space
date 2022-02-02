@@ -20,7 +20,8 @@ const {configure} = require('./controllers/configure')
 const path = require('path');
 const { init } = require('./firebaseConfig/firebaseConfig');
 const corsOptions = { 
-    origin: 'http://localhost:4343',
+    origin: '*',
+    // origin: 'http://localhost:4343',
     // origin: 'https://gamificationtest.teleperformance.co',
      }
 app.use(cors(corsOptions));
