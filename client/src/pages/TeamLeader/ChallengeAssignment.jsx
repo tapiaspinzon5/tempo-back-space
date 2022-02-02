@@ -92,9 +92,9 @@ const ChallengeAssignment = () => {
   onMessageListener()
     .then((payload) => {
       setNotification({
-        title: payload?.notification?.title,
-        body: payload?.notification?.body,
-        url: payload?.notification?.url,
+        title: payload?.data?.title,
+        body: payload?.data?.body,
+        url: payload?.data?.url,
       });
     })
     .catch((err) => //console.log("failed: ", err));

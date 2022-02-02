@@ -10,7 +10,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Box,
+  Button,
+  Modal,
 } from "@mui/material";
+import { FiDownload } from "react-icons/fi";
 import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
@@ -18,6 +22,7 @@ import { downloadDataAdmin } from "../../utils/api";
 
 import { UploadCampaign } from "../../components/Campaigns/UploadCampaign";
 import { ModalLoading } from "../../components/ModalLoading";
+import UpQuizModal from "../../components/Modals/UpQuizModal";
 
 const MainUpCampaign = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -30,6 +35,18 @@ const MainUpCampaign = styled(Grid)(({ theme }) => ({
   },
 }));
 
+const ModalBox = styled(Box)(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  //width: 400,
+  borderRadius: "20px",
+  boxShadow: "2px 2px 5px #2f2f2f",
+  padding: "1rem",
+  backgroundColor: "RGBA(255,255,255,0.9)",
+}));
+
 export const UpCampaign = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
@@ -37,6 +54,7 @@ export const UpCampaign = () => {
   const idccms = userData.idccms;
 
   const [myCampaign, setMyCampaign] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -48,21 +66,49 @@ export const UpCampaign = () => {
     // eslint-disable-next-line
   }, []);
 
-  //console.log(myCampaign);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       {loading && <ModalLoading />}
       <Grid width="100%">
         <MainUpCampaign>
-          <Typography variant="h5" fontWeight="bold" mt={4}>
-            Acquire new skills to strengthen your progress
-          </Typography>
-          <Typography variant="body1" mt={2}>
-            Acquire new skills to strengthen your progress
-          </Typography>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+              <UpQuizModal handleClose={handleClose} template={"OM Template"} />
+            </ModalBox>
+          </Modal>
+          <Grid>
+            <Box>
+              <Typography variant="h5" fontWeight="bold" mt={4}>
+                Acquire new skills to strengthen your progress
+              </Typography>
+              <Typography variant="body1" mt={2}>
+                Acquire new skills to strengthen your progress
+              </Typography>
+            </Box>
+            <Box></Box>
+          </Grid>
           <Grid container spacing={3} mt={4}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <UploadCampaign idccms={idccms} setLoading={setLoading} />
+              <Button
+                startIcon={<FiDownload />}
+                onClick={handleOpen}
+                sx={{ height: "3rem", textTransform: "none" }}
+              >
+                Download Op. Manager Template
+              </Button>
             </Grid>
             <Grid item xs={12} sm={6} md={8} lg={9} xl={8}>
               <TableContainer component={Paper}>

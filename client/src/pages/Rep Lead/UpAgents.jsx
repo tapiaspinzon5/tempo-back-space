@@ -10,13 +10,18 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Modal,
+  Box,
+  Button,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
+import { FiDownload } from "react-icons/fi";
 import { downloadDataAdmin } from "../../utils/api";
 import { UploadAgents } from "../../components/Agents/UploadAgents";
 import { ModalLoading } from "../../components/ModalLoading";
+import UpQuizModal from "../../components/Modals/UpQuizModal";
 
 const MainUpCampaign = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -28,6 +33,17 @@ const MainUpCampaign = styled(Grid)(({ theme }) => ({
     top: "15px",
   },
 }));
+const ModalBox = styled(Box)(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  //width: 400,
+  borderRadius: "20px",
+  boxShadow: "2px 2px 5px #2f2f2f",
+  padding: "1rem",
+  backgroundColor: "RGBA(255,255,255,0.9)",
+}));
 
 export const UpAgents = () => {
   const [loading, setLoading] = useState(false);
@@ -36,6 +52,7 @@ export const UpAgents = () => {
   const idccms = userData.idccms;
 
   const [myAgents, setMyAgents] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -47,11 +64,32 @@ export const UpAgents = () => {
     // eslint-disable-next-line
   }, []);
   //console.log(myAgents);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       {loading && <ModalLoading />}
       <Grid width="100%">
         <MainUpCampaign>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+              <UpQuizModal
+                handleClose={handleClose}
+                template={"Rep Lead Template"}
+              />
+            </ModalBox>
+          </Modal>
           <Typography variant="h5" fontWeight="bold" mt={4}>
             Acquire new skills to strengthen your progress
           </Typography>
@@ -61,6 +99,13 @@ export const UpAgents = () => {
           <Grid container spacing={3} mt={4}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <UploadAgents idccms={idccms} setLoading={setLoading} />
+              <Button
+                startIcon={<FiDownload />}
+                onClick={handleOpen}
+                sx={{ height: "3rem", textTransform: "none" }}
+              >
+                Download Rep. Lead Template
+              </Button>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
               <TableContainer component={Paper}>
