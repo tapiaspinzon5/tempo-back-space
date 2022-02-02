@@ -19,9 +19,11 @@ exports.sendFCMMessage= async (fcmToken, msg) => {
                 //         link: msg.link,
                 //     },
                 // },
-                "notification": {
+                "data": {
                   "title": "Te asiganron un reto !",
-                  "body":""
+                  "body":"",
+                  "image": "https://i.ibb.co/jz3nQ4H/tp-short.png",
+                  "url":"http://localhost:3000/#/activitiesview"
                },
             },
             token: fcmToken,
