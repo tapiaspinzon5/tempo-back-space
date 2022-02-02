@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  Grid,
-  styled,
-  Typography,
-  Box,
-  Divider,
-  Button,
-  Paper,
-} from "@mui/material";
+import { Grid, styled, Typography, Box, Divider, Button } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 //import ProgresBar from "../../components/progressCharts/ProgresBar";
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
@@ -73,15 +65,18 @@ const FollowingTeamsKPI = () => {
   const idccms = userData.idccms;
   const [kpi, setKpi] = useState([]);
   const [usersKPI, setUsersKPI] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     const getData = async () => {
       const data = await getKPIteamTL(idccms);
-      setKpi(data.data);
+      if (data && data.status === 200 && data.data.length > 3) {
+        setKpi(data.data);
+      } else {
+        setError(true);
+      }
     };
-
     getData();
     handleKPI();
     setLoading(false);
@@ -90,10 +85,13 @@ const FollowingTeamsKPI = () => {
   const handleKPI = async (idKPI) => {
     setLoading(true);
     const data = await getUsersKPI(idccms, idKPI ? idKPI : 1);
-    await setUsersKPI(data.data);
+    if (data && data.status === 200 && data.data.length > 1) {
+      await setUsersKPI(data.data);
+    } else {
+      setError(true);
+    }
     setLoading(false);
   };
-  console.log("users", usersKPI);
 
   return (
     <MainFT>
@@ -106,39 +104,45 @@ const FollowingTeamsKPI = () => {
             <Typography variant="body1">KPIs Name Team - Campaña</Typography>
             <Divider sx={{ borderColor: "#e8e8e8" }} />
 
-            {kpi.map((detail) => (
-              <Box
-                key={detail.IdRegistryKpi}
-                sx={{
-                  boxShadow: "3px 3px 3px #e8e8e8",
-                  height: "4rem",
-                  borderRadius: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  padding: "0 1rem 0 .5rem",
-                }}
-              >
+            {!error ? (
+              kpi?.map((detail) => (
                 <Box
+                  key={detail.IdRegistryKpi}
                   sx={{
+                    boxShadow: "3px 3px 3px #e8e8e8",
+                    height: "4rem",
+                    borderRadius: "10px",
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    padding: "0 1rem 0 .5rem",
                   }}
                 >
-                  <Typography variant="body2" color="initial">
-                    {detail.Kpi}
-                  </Typography>
-                  <Button
-                    sx={{ textTransform: "none" }}
-                    size="small"
-                    onClick={() => handleKPI(detail.IdRegistryKpi)}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    See more{" "}
-                  </Button>
+                    <Typography variant="body2" color="initial">
+                      {detail.Kpi}
+                    </Typography>
+                    <Button
+                      sx={{ textTransform: "none" }}
+                      size="small"
+                      onClick={() => handleKPI(detail.IdRegistryKpi)}
+                    >
+                      See more{" "}
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))
+            ) : (
+              <Typography variant="h5" fontWeight={500}>
+                Information will be uploaded soon
+              </Typography>
+            )}
           </Item>
         </KpiBox>
 
@@ -149,35 +153,41 @@ const FollowingTeamsKPI = () => {
               <Typography variant="body1">{usersKPI[0]?.Kpi}</Typography>
             </Box>
             <Divider sx={{ borderColor: "#e8e8e8" }} />
-            {!loading ? (
-              usersKPI.map((user) => (
-                <Box
-                  key={user.Idccms}
-                  sx={{
-                    boxShadow: "3px 3px 3px #e8e8e8",
-                    height: "3rem",
-                    borderRadius: "10px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "0 1rem 0 .5rem",
-                    "&:hover": {
-                      background: "#0000ff05",
-                      p: {
-                        color: "red",
+            {!error ? (
+              !loading ? (
+                usersKPI.map((user) => (
+                  <Box
+                    key={user.Idccms}
+                    sx={{
+                      boxShadow: "3px 3px 3px #e8e8e8",
+                      height: "3rem",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "0 1rem 0 .5rem",
+                      "&:hover": {
+                        background: "#0000ff05",
+                        p: {
+                          color: "red",
+                        },
                       },
-                    },
-                  }}
-                >
-                  <Typography variant="body2"> {user.Agent}</Typography>
-                  <Typography variant="body2">
-                    {" "}
-                    {user.Actual.toFixed(2)}%
-                  </Typography>
-                </Box>
-              ))
+                    }}
+                  >
+                    <Typography variant="body2"> {user.Agent}</Typography>
+                    <Typography variant="body2">
+                      {" "}
+                      {user.Actual.toFixed(2)}%
+                    </Typography>
+                  </Box>
+                ))
+              ) : (
+                <LoadingComponent />
+              )
             ) : (
-              <LoadingComponent />
+              <Typography variant="h5" fontWeight={500}>
+                Information will be uploaded soon
+              </Typography>
             )}
           </Item>
         </UsersBox>

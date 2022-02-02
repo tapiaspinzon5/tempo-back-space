@@ -10,7 +10,6 @@ import img1 from "../assets/temp-image/Enmascarargrupo2039.png";
 import img2 from "../assets/temp-image/Enmascarargrupo2040.png";
 import img3 from "../assets/temp-image/Enmascarargrupo2044.png";
 import img4 from "../assets/temp-image/Enmascarargrupo2046.png";
-//import { ModalLoading } from "../components/ModalLoading";
 import LoadingComponent from "../components/LoadingComponent";
 
 const MainViewver = styled(Grid)(({ theme }) => ({
@@ -55,6 +54,7 @@ const ActivitiesView = () => {
   const [quizUser, setQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [noData, setNoData] = useState("");
   const [activities, setActivities] = useState({
     type: "",
