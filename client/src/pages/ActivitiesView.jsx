@@ -54,7 +54,6 @@ const ActivitiesView = () => {
   const [quizUser, setQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [noData, setNoData] = useState("");
   const [activities, setActivities] = useState({
     type: "",
@@ -83,19 +82,26 @@ const ActivitiesView = () => {
       setNoData("");
       if (activities.context === 0) {
         const quizes = await loadQuizesUser(idccms);
-        setQuizUser(quizes.data);
-        //console.log("consultando quizes");
-        if (quizes.data.length < 1) {
-          //console.log("No assigned quizzes");
-          setNoData("No assigned " + activities.type);
+        if (quizes && quizes.status === 200) {
+          setQuizUser(quizes.data);
+          if (quizes.data.length < 1) {
+            setNoData("No assigned " + activities.type);
+          }
+        } else {
+          setNoData("The Game Starts Soon");
         }
+        //console.log("QZ:", quizes);
       } else {
         const getActivities = await loadUserActivities(idccms, context);
-        setUserActivities(getActivities.data);
-        //console.log("consultando actividad");
-        if (getActivities.data.length < 1) {
-          setNoData("No assigned " + activities.type);
+        if (getActivities && getActivities.status === 200) {
+          setUserActivities(getActivities.data);
+          if (getActivities.data.length < 1) {
+            setNoData("No assigned " + activities.type);
+          }
+        } else {
+          setNoData("The Game Starts Soon");
         }
+        //console.log("AC:", getActivities);
       }
       setLoading(false);
     };
