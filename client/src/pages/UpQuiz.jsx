@@ -71,7 +71,10 @@ const UpQuiz = () => {
             aria-describedby="modal-modal-description"
           >
             <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-              <UpQuizModal handleClose={handleClose} />
+              <UpQuizModal
+                handleClose={handleClose}
+                template={"Quiz Template"}
+              />
             </ModalBox>
           </Modal>
           <Grid container>
@@ -84,19 +87,17 @@ const UpQuiz = () => {
                 continuity to their training process are uploaded.
               </Typography>
             </Grid>
-            <Grid item sx={12} md={6} display="flex" justifyContent="flex-end">
-              <Button
-                startIcon={<FiDownload />}
-                onClick={handleOpen}
-                sx={{ height: "3rem" }}
-              >
-                Download Template Quiz
-              </Button>
-            </Grid>
           </Grid>
           <Grid container spacing={3} mt={4}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <UploadQuiz idccms={idccms} setLoading={setLoading} />
+              <Button
+                startIcon={<FiDownload />}
+                onClick={handleOpen}
+                sx={{ height: "3rem", textTransform: "none" }}
+              >
+                Download Quiz Template
+              </Button>
             </Grid>
             {misQuizes?.map((quiz) => (
               <Grid

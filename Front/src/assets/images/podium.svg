@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="330.223" height="292" viewBox="0 0 330.223 292">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Trazado_4107" data-name="Trazado 4107" d="M190.777,135.792l13.642,173.5H296.3l33.923-173.5Z" transform="translate(-190.777 -135.792)" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3047b0"/>
+      <stop offset="1" stop-color="#0087ff"/>
+    </linearGradient>
+    <clipPath id="clip-path-2">
+      <path id="Trazado_4108" data-name="Trazado 4108" d="M0,58.9,29.2,292h91.882L136.333,58.9Z" transform="translate(0 -58.903)" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <path id="Trazado_4109" data-name="Trazado 4109" d="M87.926,0l17.518,292h118L243.037,0Z" transform="translate(-87.926)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_2853" data-name="Grupo 2853" transform="translate(-991.889 -286.593)">
+    <g id="Grupo_2048" data-name="Grupo 2048" transform="translate(991.889 286.593)">
+      <g id="Grupo_2043" data-name="Grupo 2043" transform="translate(190.777 118.5)">
+        <g id="Grupo_2042" data-name="Grupo 2042" clip-path="url(#clip-path)">
+          <rect id="Rectángulo_1420" data-name="Rectángulo 1420" width="139.446" height="173.5" transform="translate(0 0)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+      <g id="Grupo_2045" data-name="Grupo 2045" transform="translate(0 58.903)">
+        <g id="Grupo_2044" data-name="Grupo 2044" clip-path="url(#clip-path-2)">
+          <path id="Trazado_4111" data-name="Trazado 4111" d="M0,0H136.333V233.1H0Z" transform="translate(0)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+      <g id="Grupo_2047" data-name="Grupo 2047" transform="translate(87.926)">
+        <g id="Grupo_2046" data-name="Grupo 2046" clip-path="url(#clip-path-3)">
+          <path id="Trazado_4110" data-name="Trazado 4110" d="M0,0H155.111V292H0Z" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+    <text id="_1" data-name="1" transform="translate(1146 387.24)" fill="#fff" font-size="80" font-family="SancoaleSoftenedBold, SancoaleSoftened"><tspan x="0" y="0">1</tspan></text>
+    <text id="_2" data-name="2" transform="translate(1031 428.375)" fill="#fff" font-size="60" font-family="SancoaleSoftenedBold, SancoaleSoftened"><tspan x="0" y="0">2</tspan></text>
+    <text id="_3" data-name="3" transform="translate(1252 468.375)" fill="#fff" font-size="50" font-family="SancoaleSoftenedBold, SancoaleSoftened"><tspan x="0" y="0">3</tspan></text>
+  </g>
+</svg>
