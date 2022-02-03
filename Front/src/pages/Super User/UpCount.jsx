@@ -36,7 +36,7 @@ export const UpCount = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
 
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
 
   const [myCounts, setMyCounts] = useState([]);
   const [open, setOpen] = React.useState(false);

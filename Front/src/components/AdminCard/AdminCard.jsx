@@ -40,7 +40,7 @@ const CardContent = styled(Box)(({ theme }) => ({
 
 export const AdminCard = ({ data, disabledCard }) => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
 
   //Funcion para  validar campos Archivo .csv
   const loadFile = (e) => {

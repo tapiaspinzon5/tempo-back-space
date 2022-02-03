@@ -52,7 +52,7 @@ const SideBar = styled(AppBar)(({ theme }) => ({
 // });
 
 export const Navbar = () => {
-  const userData = useSelector((store) => store.loginUser.userData.role);
+  const userData = useSelector((store) => store.loginUser.userData.Role);
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));

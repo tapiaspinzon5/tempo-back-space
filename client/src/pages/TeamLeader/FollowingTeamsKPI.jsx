@@ -62,7 +62,7 @@ const Item = styled(Box)(({ theme }) => ({
 
 const FollowingTeamsKPI = () => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
   const [kpi, setKpi] = useState([]);
   const [usersKPI, setUsersKPI] = useState([]);
   const [loading, setLoading] = useState(true);

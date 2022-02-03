@@ -76,7 +76,7 @@ const selectButton = {
 const ChallengeAssignment = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
   const [stage, setStage] = useState("Getting started");

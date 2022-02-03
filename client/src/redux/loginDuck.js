@@ -106,11 +106,13 @@ export const loginSubmit = (data) => async (dispatch) => {
     localStorage.setItem(
       "userTP",
       JSON.stringify({
-        token: requestData.data.token,
-        refreshToken: requestData.data.refreshToken,
-        role: requestData.data.role,
-        username: requestData.data.username,
-        idccms: requestData.data.idccms,
+        Token: requestData.data.Token,
+        RefreshToken: requestData.data.RefreshToken,
+        Role: requestData.data.Role,
+        UserName: requestData.data.UserName,
+        Idccms: requestData.data.Idccms,
+        Quartile: requestData.data.Quartile,
+        NumberLogins: 1 /* requestData.data.NumberLogins */,
       })
     );
   } catch (error) {

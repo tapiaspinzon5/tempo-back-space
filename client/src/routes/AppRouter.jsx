@@ -46,10 +46,10 @@ const AppRouter = () => {
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.role && navView && <Navbar />}
+        {userData?.Role && navView && <Navbar />}
 
         <Routes>
-          {userData?.role === "Agent" && (
+          {userData?.Role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
@@ -69,35 +69,35 @@ const AppRouter = () => {
             </>
           )}
 
-          {userData?.role === "Operation Manager" && (
+          {userData?.Role === "Operation Manager" && (
             <>
               <Route path="/" element={<Navigate to="/homeom" />} />
               <Route path="/homeom" element={<HomeOM />} />
               <Route path="/upcampaign" element={<UpCampaign />} />
             </>
           )}
-          {userData?.role === "QA Lead" && (
+          {userData?.Role === "QA Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/homeqal" element={<HomeQAL />} />
             </>
           )}
-          {userData?.role === "Reporting Lead" && (
+          {userData?.Role === "Reporting Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL />} />
               <Route path="/upagents" element={<UpAgents />} />
             </>
           )}
-          {userData?.role === "Super Admin" && (
+          {userData?.Role === "Super Admin" && (
             <>
               <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA />} />
               <Route path="/upcount" element={<UpCount />} />
             </>
           )}
-          {userData?.role === "Team Leader" && (
+          {userData?.Role === "Team Leader" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
@@ -112,7 +112,7 @@ const AppRouter = () => {
             </>
           )}
 
-          {!userData?.role && <Route path="/" element={<Login />} />}
+          {!userData?.Role && <Route path="/" element={<Login />} />}
           <Route
             path="*"
             element={

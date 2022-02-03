@@ -36,7 +36,7 @@ export const QuizViewV2 = ({ setNavView }) => {
   const paramsQuiz = useParams();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);

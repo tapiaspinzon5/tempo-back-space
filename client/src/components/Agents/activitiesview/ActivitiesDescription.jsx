@@ -74,7 +74,7 @@ const ActivitiesDescription = () => {
   const params = useParams();
   const userData = useSelector((store) => store.loginUser.userData);
 
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
   const { idActivity, context } = params;
   const [activity, setActivity] = useState([]);
 

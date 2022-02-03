@@ -50,7 +50,7 @@ const images = [img1, img2, img3, img4];
 const ActivitiesView = () => {
   const userData = useSelector((store) => store.loginUser.userData);
 
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
 
   const [quizUser, setQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);

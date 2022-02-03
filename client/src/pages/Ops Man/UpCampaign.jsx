@@ -51,7 +51,7 @@ export const UpCampaign = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
 
-  const idccms = userData.idccms;
+  const idccms = userData.Idccms;
 
   const [myCampaign, setMyCampaign] = useState([]);
   const [open, setOpen] = React.useState(false);
