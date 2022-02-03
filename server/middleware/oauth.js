@@ -40,8 +40,14 @@ function login(req, res) {
         )
         .then((result2) => {
           responsep(1, req, res, {
-            ...result.data.data,
-            role: result2[0].Role,
+            Nombre:result?.data.data?.nombre,
+            Idccms:result?.data.data?.idccms,
+            UserName:result?.data.data?.username,
+            Token:result?.data.data?.token,
+            RefreshToken:result?.data.data?.refreshToken,
+            Role: result2[0]?.Role,
+            Quartile: result2[0]?.Quartile,
+            NumberLogins: result2[0]?.NumberLogins,
           });
         })
         .catch((err) => {

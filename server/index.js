@@ -21,10 +21,11 @@ const path = require('path');
 const { init } = require('./firebaseConfig/firebaseConfig');
 const corsOptions = { 
     origin: '*',
-    // origin: 'http://localhost:4343',
+    // origin: 'http://localhost:3000',
     // origin: 'https://gamificationtest.teleperformance.co',
      }
 app.use(cors(corsOptions));
+app.use(helmet.noSniff());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.disable('x-powered-by');
 app.use(bodyParser.json({limit: '10mb',  type: 'application/json' }));
@@ -32,14 +33,13 @@ app.use(requestIp.mw());
 configure((call)=>{app.use(jwt())});
 app.use(logger);
 app.use(express.static(path.join(__dirname, '/dist')));
-app.use(helmet.frameguard({action: "deny",}));
+app.use(helmet.frameguard({action: "DENY",}));
 app.use((req, res, next) => {
     res.set({
       "Cache-Control": `no-cache, no-store, must-revalidate`,
     });
     next();
   });
-app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.permittedCrossDomainPolicies());
 
