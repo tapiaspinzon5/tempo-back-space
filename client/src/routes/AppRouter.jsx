@@ -96,7 +96,7 @@ const AppRouter = () => {
         )}
 
         <Routes>
-          {userData?.role === "Agent" && (
+          {userData?.Role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
