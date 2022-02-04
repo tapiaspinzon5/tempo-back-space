@@ -26,6 +26,7 @@ const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: "*",
   // origin: 'http://localhost:3000',
+  // origin: 'http://localhost:4343',
   // origin: 'https://gamificationtest.teleperformance.co',
 };
 app.use(cors(corsOptions));

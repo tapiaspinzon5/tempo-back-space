@@ -30,6 +30,7 @@ import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
 import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
 import { VideoIntro } from "../components/VideoIntro";
+import NotificationsPage from "../pages/NotificationsPage";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -94,82 +95,81 @@ const AppRouter = () => {
           userData?.Role && navView && <Navbar />
         )}
 
-        {userData?.NumberLogins !== 1 && (
-          <Routes>
-            {userData?.Role === "Agent" && (
-              <>
-                <Route path="/" element={<Navigate to="/homeusers" />} />
-                <Route path="/homeusers" element={<HomeUser />} />
-                <Route path="/activitiesview" element={<ActivitiesView />} />
-                <Route
-                  path="/activitiesview/:idActivity/:context"
-                  element={<ActivitiesDescription />}
-                />
-                <Route
-                  path="/quiz/:idquiz"
-                  element={<QuizViewV2 setNavView={setNavView} />}
-                />
-                <Route
-                  path="/quizdetails/:idquiz/:stateActivity"
-                  element={<QuizDetails />}
-                />
-              </>
-            )}
+        <Routes>
+          {userData?.role === "Agent" && (
+            <>
+              <Route path="/" element={<Navigate to="/homeusers" />} />
+              <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/activitiesview" element={<ActivitiesView />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route
+                path="/activitiesview/:idActivity/:context"
+                element={<ActivitiesDescription />}
+              />
+              <Route
+                path="/quiz/:idquiz"
+                element={<QuizViewV2 setNavView={setNavView} />}
+              />
+              <Route
+                path="/quizdetails/:idquiz/:stateActivity"
+                element={<QuizDetails />}
+              />
+            </>
+          )}
 
-            {userData?.Role === "Operation Manager" && (
-              <>
-                <Route path="/" element={<Navigate to="/homeom" />} />
-                <Route path="/homeom" element={<HomeOM />} />
-                <Route path="/upcampaign" element={<UpCampaign />} />
-              </>
-            )}
-            {userData?.Role === "QA Lead" && (
-              <>
-                <Route path="/" element={<Navigate to="/homeqal" />} />
-                <Route path="/upquiz" element={<UpQuiz />} />
-                <Route path="/homeqal" element={<HomeQAL />} />
-              </>
-            )}
-            {userData?.Role === "Reporting Lead" && (
-              <>
-                <Route path="/" element={<Navigate to="/homerl" />} />
-                <Route path="/homerl" element={<HomeRL />} />
-                <Route path="/upagents" element={<UpAgents />} />
-              </>
-            )}
-            {userData?.Role === "Super Admin" && (
-              <>
-                <Route path="/" element={<Navigate to="/homesa" />} />
-                <Route path="/homesa" element={<HomeSA />} />
-                <Route path="/upcount" element={<UpCount />} />
-              </>
-            )}
-            {userData?.Role === "Team Leader" && (
-              <>
-                <Route path="/" element={<Navigate to="/hometl" />} />
-                <Route path="/hometl" element={<HomeTL />} />
-                <Route path="/homeusers" element={<HomeUser />} />
-                <Route path="/followingteams" element={<FollowingTeamsKPI />} />
-                <Route
-                  path="/challengeasignment"
-                  element={<ChallengeAssignment />}
-                />
-                <Route path="/badgesmanagement" element={<BadgeManagement />} />
-                <Route path="/teamprogress" element={<TeamsProgress />} />
-              </>
-            )}
+          {userData?.Role === "Operation Manager" && (
+            <>
+              <Route path="/" element={<Navigate to="/homeom" />} />
+              <Route path="/homeom" element={<HomeOM />} />
+              <Route path="/upcampaign" element={<UpCampaign />} />
+            </>
+          )}
+          {userData?.Role === "QA Lead" && (
+            <>
+              <Route path="/" element={<Navigate to="/homeqal" />} />
+              <Route path="/upquiz" element={<UpQuiz />} />
+              <Route path="/homeqal" element={<HomeQAL />} />
+            </>
+          )}
+          {userData?.Role === "Reporting Lead" && (
+            <>
+              <Route path="/" element={<Navigate to="/homerl" />} />
+              <Route path="/homerl" element={<HomeRL />} />
+              <Route path="/upagents" element={<UpAgents />} />
+            </>
+          )}
+          {userData?.Role === "Super Admin" && (
+            <>
+              <Route path="/" element={<Navigate to="/homesa" />} />
+              <Route path="/homesa" element={<HomeSA />} />
+              <Route path="/upcount" element={<UpCount />} />
+            </>
+          )}
+          {userData?.Role === "Team Leader" && (
+            <>
+              <Route path="/" element={<Navigate to="/hometl" />} />
+              <Route path="/hometl" element={<HomeTL />} />
+              <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/followingteams" element={<FollowingTeamsKPI />} />
+              <Route
+                path="/challengeasignment"
+                element={<ChallengeAssignment />}
+              />
+              <Route path="/badgesmanagement" element={<BadgeManagement />} />
+              <Route path="/teamprogress" element={<TeamsProgress />} />
+            </>
+          )}
 
-            {!userData?.Role && <Route path="/" element={<Login />} />}
-            <Route
-              path="*"
-              element={
-                <main style={{ padding: "1rem" }}>
-                  <p>There's nothing here!</p>
-                </main>
-              }
-            />
-          </Routes>
-        )}
+          {!userData?.Role && <Route path="/" element={<Login />} />}
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
       </MainApp>
     </Router>
   );
