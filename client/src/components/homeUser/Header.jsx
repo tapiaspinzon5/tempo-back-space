@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IconButton,
   styled,
@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import bannerH from "../../assets/images/bannerHeader.png";
 import { useTheme } from "@mui/material/styles";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Notifications from "../notifications/Notifications";
 //import { DarkModeContext } from "../../context/DarkModeProvider";
 //import ProgresBar from "../progressCharts/ProgresBar";
 //import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -95,6 +96,13 @@ const Header = () => {
   //controles Dark mode
   const theme = useTheme();
   // const colorMode = React.useContext(DarkModeContext);
+  const [showNotification, setShowNotification] = useState(false);
+  const handleNotification = () => {
+    console.log("...mostrando notificaciones");
+    setShowNotification(!showNotification);
+  };
+
+  console.log(showNotification);
 
   return (
     <MainHeader
@@ -118,35 +126,6 @@ const Header = () => {
         <img src={bannerH} alt="TP" />
       </TitleHeader>
       <RightHeader item xs={12} md={6}>
-        {/* <Box display="flex" alignItems="center">
-          <img src={coin} alt="coin-logo" />
-          <Typography variant="body2" marginLeft="1rem">
-            <b>50</b> Coins
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex" }}>
-          <Typography variant="body2">
-            {" "}
-            <b>1345</b> Pts
-          </Typography>
-          <Box sx={{ width: "10rem", paddingTop: "6px", margin: "0 1rem" }}>
-            <ProgresBar value={50} />{" "}
-          </Box>
-          <Typography variant="body2">
-            {" "}
-            <b>1345</b> Pts to level up
-          </Typography>
-        </Box>
-        <Box>
-          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === "dark" ? (
-              <Brightness7Icon />
-            ) : (
-              <Brightness4Icon />
-            )}
-          </IconButton>
-        </Box> */}
-
         <Search>
           <SearchIconWrapper>
             <SearchIcon sx={{ color: "#000" }} />
@@ -156,14 +135,16 @@ const Header = () => {
             inputProps={{ "aria-label": "search" }}
           />
         </Search>
+
+        {showNotification && <Notifications />}
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          onClick={handleNotification}
         >
-          <Badge badgeContent={7} color="error">
-            <NotificationsIcon />
-          </Badge>
+          <Badge badgeContent={0} color="error"></Badge>
+          <NotificationsIcon />
         </IconButton>
       </RightHeader>
     </MainHeader>

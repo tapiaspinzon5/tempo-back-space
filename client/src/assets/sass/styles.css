@@ -1,0 +1,36 @@
+.checkBox {
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 20px;
+  background: #97969669;
+}
+
+.test {
+  color: rgba(255, 0, 0, 0.616);
+}
+
+.notifications {
+  background: #fff;
+  position: absolute;
+  z-index: 1000;
+  top: 10vh;
+  right: 10%;
+  width: 414px;
+  height: 319px;
+  border-radius: 10px;
+  border: 1px solid #e9e8e8;
+  -webkit-box-shadow: 1px 1px 15px #cfcdcd;
+          box-shadow: 1px 1px 15px #cfcdcd;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+/*# sourceMappingURL=styles.css.map */
