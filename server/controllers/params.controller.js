@@ -272,7 +272,12 @@ exports.parametros = (req, tipo) => {
       ]);
 
     case "spQueryNotifications":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("Case", req.context, TYPES.Int),
+        new SpParam("IdNotificationMin", req.min, TYPES.Int),
+        new SpParam("IdNotificationMax", req.max, TYPES.Int),
+      ]);
     
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);

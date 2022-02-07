@@ -9,7 +9,7 @@ let post = (url, path, body, token) => {
         axios.post(url + path, body, headers)
             .then(respuesta => resolve(respuesta))
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 reject(error.response.data)
             });
     })
