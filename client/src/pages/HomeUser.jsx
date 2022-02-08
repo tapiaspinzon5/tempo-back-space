@@ -97,6 +97,7 @@ const HomeUser = () => {
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
         setData(kpis.data);
       }
+
       const token = await requestForToken();
       await tokenNotification(token, idccms);
     };

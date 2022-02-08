@@ -1,28 +1,28 @@
-.checkBox{
-    cursor: pointer;
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 20px;
-    background: #97969669;
+.checkBox {
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 20px;
+  background: #97969669;
 }
 
-.test{
-    color: rgba(255, 0, 0, 0.616)
+.test {
+  color: rgba(255, 0, 0, 0.616);
 }
 
-
-.notifications{
-    background: #fff;
-    position: absolute;
-    z-index: 1000;
-    top: 10vh;
-    right: 10%;
-    width: 414px;
-    height: 319px;
-    border-radius: 10px;
-    border: 1px solid #e9e8e8;
-    box-shadow: 1px 1px 15px #cfcdcd;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.notifications {
+  background: #fff;
+  position: absolute;
+  z-index: 1000;
+  top: 10vh;
+  right: 10%;
+  width: 414px;
+  height: 319px;
+  border-radius: 10px;
+  border: 1px solid #e9e8e8;
+  box-shadow: 1px 1px 15px #cfcdcd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: scroll;
 }

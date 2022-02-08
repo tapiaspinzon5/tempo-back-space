@@ -7,8 +7,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem("userTP"));
-  config.headers.Authorization = "Bearer " + user.token;
-  config.headers.refreshAuthorization = "Bearer " + user.refreshToken;
+  config.headers.Authorization = "Bearer " + user.Token;
+  config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
   config.headers["Access-Control-Allow-Origin"] = "*";
 
   return config;

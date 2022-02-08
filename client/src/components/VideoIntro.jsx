@@ -7,8 +7,8 @@ export const VideoIntro = () => {
         style={{ border: "solid 6px blue", borderRadius: "10px" }}
         width="70%"
         height="90%"
-        controls
-        url="https://www.youtube.com/watch?v=DEDjF2tLbhk"
+        controls={false}
+        url="https://www.youtube.com/watch?v=JfIxOMbA30Y"
       />
     </>
   );

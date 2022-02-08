@@ -1,8 +1,5 @@
 import { axiosInstance } from "../api/interceptor";
 
-//const url = "https://gamificationtest.teleperformance.co";
-const url = "http://localhost:4343";
-
 /* SUPER ADMIN */
 
 //Peticion carga de achivos creacion de equipos SuperUser
@@ -260,7 +257,11 @@ const tokenNotification = (data, idccms) => {
 const downloadNotifications = (idccms) => {
   try {
     return axiosInstance
-      .post(`getmynotifications?idccms=${idccms}`)
+      .post(`getmynotifications?idccms=${idccms}`, {
+        min: 0,
+        max: 10,
+        context: 1,
+      })
       .catch(function (error) {
         if (error.response) {
           return error.response;
@@ -273,7 +274,6 @@ const downloadNotifications = (idccms) => {
 
 //funcion para traer las actividades del usuario
 const loadUserActivities = (idccms, context) => {
-  //10.142.73.193 - 10.142.24.65
   try {
     return axiosInstance
       .post(`getactivitiesviewagent?idccms=${idccms}`, {

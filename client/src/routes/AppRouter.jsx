@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "../components/SideBar/Navbar";
-import { Grid, Button, styled, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Grid, styled } from "@mui/material";
+
 import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
@@ -29,8 +29,8 @@ import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
 import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
 import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
-import { VideoIntro } from "../components/VideoIntro";
 import NotificationsPage from "../pages/NotificationsPage";
+import { VideoView } from "../pages/VideoView";
 //import { Star5 } from "./Star 5/Star5";
 //import { QuizView } from "../pages/QuizView";
 //import { Description } from "../pages/Description";
@@ -41,62 +41,31 @@ const MainApp = styled(Grid)(() => ({
   display: "flex",
   //position: "relative",
 }));
-const MainHomevideo = styled(Grid)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  height: "95vh",
-  width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: "10px",
-}));
 
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const [video, setVideo] = useState(true);
+  //const userData = JSON.parse(localStorage.getItem("userTP"));
+  // const [video, setVideo] = useState(false);
   const [navView, setNavView] = useState(true);
-  const theme = useTheme();
-  const handleView = () => {
-    setVideo(false);
-  };
-  useEffect(() => {
-    if (userData?.NumberLogins !== 1) {
-      setVideo(false);
-    }
-  }, []);
+  console.log(userData);
+
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.NumberLogins === 1 ? (
-          <MainHomevideo>
-            <VideoIntro />
-            <Box
-              sx={{
-                margin: "0 15px 0 15px",
-                display: "flex",
-                justifyContent: "center",
-                padding: "0 2rem 2rem 0",
-              }}
-            >
-              <Button
-                onClick={handleView}
-                sx={{
-                  background: theme.palette.background.primary,
-                  color: "#FFFFFF",
-                  margin: "10px",
-                  width: "160px",
-                }}
-              >
-                Continue
-              </Button>
-            </Box>
-          </MainHomevideo>
-        ) : (
-          userData?.Role && navView && <Navbar />
-        )}
+        {userData?.NumberLogins > 1 && userData?.Role && navView && <Navbar />}
+        {userData?.NumberLogins === 1 && <VideoView />}
 
         <Routes>
-          {userData?.Role === "Agent" && (
+          {/*  {!video && userData?.NumberLogins === 1 && (
+            <>
+              <Route path="/" element={<Navigate to="/introvideo" />} />
+              <Route
+                path="/introvideo"
+                element={<VideoView setVideo={setVideo} />}
+              />
+            </>
+          )} */}
+          {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser />} />
@@ -161,14 +130,17 @@ const AppRouter = () => {
           )}
 
           {!userData?.Role && <Route path="/" element={<Login />} />}
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
+
+          {!userData?.Role && (
+            <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here!</p>
+                </main>
+              }
+            />
+          )}
         </Routes>
       </MainApp>
     </Router>

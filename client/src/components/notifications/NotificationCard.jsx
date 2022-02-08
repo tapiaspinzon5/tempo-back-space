@@ -24,7 +24,18 @@ const BoxCard = styled(Button)(() => ({
   },
 }));
 
-const NotificationCard = () => {
+const NotificationCard = ({ info }) => {
+  let fecha = new Date(info.FchAssignment).toLocaleString([], {
+    timeZone: "Etc/UTC",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  console.log("viene :", info.FchAssignment, "Queda:", fecha);
   return (
     <>
       <BoxCard>
@@ -35,10 +46,10 @@ const NotificationCard = () => {
             sx={{ width: 46, height: 46 }}
           />
           <Typography variant="body2" marginLeft="1rem">
-            Titulo de la notificaciones
+            {info.Name}
           </Typography>
         </Box>
-        <Typography variant="caption">5 min ago</Typography>
+        <Typography variant="caption">{fecha}</Typography>
       </BoxCard>
       <Divider variant="middle" sx={{ borderColor: "#aaaaaa" }} />
     </>

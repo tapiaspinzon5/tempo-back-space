@@ -15,7 +15,7 @@ const BoxTitle = styled(Box)(() => ({
   },
 }));
 
-const Notifications = () => {
+const Notifications = ({ notifications }) => {
   return (
     <div className="notifications">
       <BoxTitle>
@@ -23,10 +23,9 @@ const Notifications = () => {
           Notifications{" "}
         </Typography>
       </BoxTitle>
-
-      <NotificationCard />
-      <NotificationCard />
-      <NotificationCard />
+      {notifications.map((info) => (
+        <NotificationCard key={info.id} info={info} />
+      ))}
       <Button sx={{ textTransform: "none" }}> See All</Button>
     </div>
   );

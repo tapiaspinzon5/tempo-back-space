@@ -108,11 +108,11 @@ export const loginSubmit = (data) => async (dispatch) => {
       JSON.stringify({
         Token: requestData.data.Token,
         RefreshToken: requestData.data.RefreshToken,
+        NumberLogins: requestData.data.NumberLogins,
         Role: requestData.data.Role,
         UserName: requestData.data.UserName,
         Idccms: requestData.data.Idccms,
         Quartile: requestData.data.Quartile,
-        NumberLogins: 1 /* requestData.data.NumberLogins */,
       })
     );
   } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   styled,
@@ -7,11 +7,13 @@ import {
   InputBase,
   Badge,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import bannerH from "../../assets/images/bannerHeader.png";
 import { useTheme } from "@mui/material/styles";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Notifications from "../notifications/Notifications";
+import { downloadNotifications } from "../../utils/api";
 //import { DarkModeContext } from "../../context/DarkModeProvider";
 //import ProgresBar from "../progressCharts/ProgresBar";
 //import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -93,6 +95,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
+  const [cont, setCont] = useState(0);
+  const [notifications, setNotifications] = useState([]);
   //controles Dark mode
   const theme = useTheme();
   // const colorMode = React.useContext(DarkModeContext);
@@ -102,7 +108,28 @@ const Header = () => {
     setShowNotification(!showNotification);
   };
 
-  console.log(showNotification);
+  useEffect(() => {
+    const data = async () => {
+      const getNotifications = await downloadNotifications(idccms);
+      if (
+        getNotifications &&
+        getNotifications.status === 200 &&
+        getNotifications.data.length > 1
+      ) {
+        setNotifications(getNotifications.data);
+        let c = 0;
+        console.log(getNotifications.data);
+        getNotifications.data.forEach((el) => {
+          if (el.Status === "Unread") {
+            c += 1;
+          }
+        });
+        setCont(c);
+        console.log(c);
+      }
+    };
+    data();
+  }, []);
 
   return (
     <MainHeader
@@ -136,14 +163,14 @@ const Header = () => {
           />
         </Search>
 
-        {showNotification && <Notifications />}
+        {showNotification && <Notifications notifications={notifications} />}
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
           onClick={handleNotification}
         >
-          <Badge badgeContent={0} color="error"></Badge>
+          <Badge badgeContent={cont} color="error"></Badge>
           <NotificationsIcon />
         </IconButton>
       </RightHeader>

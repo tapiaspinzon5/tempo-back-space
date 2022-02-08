@@ -90,8 +90,8 @@ let responsep = (tipo, req, res, resultado) => {
       res.status(200).json(resultado);
       resolve(200);
     } else if (tipo == 2) {
-      console.log("Error at:", date, "res: ", resultado.msg);
-      res.status(404).json(resultado.msg);
+      console.log("Error at:", date, "res: ", resultado.msg || resultado.message);
+      res.status(resultado.code || 404).json(resultado.msg || resultado.message);
       resolve(404);
     } else if (tipo == 3) {
       res.status(401).json(resultado);
@@ -108,7 +108,7 @@ function oauthOther(req, res, next) {
     size: req.headers["content-length"],
   };
   redirect
-    .post(url, "oauthothers", data, req.headers.authorization.split(" ")[1])
+    .post(url, "oauthothers", data, req.headers.authorization?.split(" ")[1])
     .then((result) => {
       if (result.status == 200) {
         next();

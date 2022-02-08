@@ -6,7 +6,7 @@ const { decrypt } = require("./crypt.controller");
 const multiparty = require("multiparty");
 const path = require('path');
 const {transport} = require("../nodemailerConfig");
-const {sendFCMMessage} = require("../helpers/sendNotification")
+const {sendFCMMessage} = require("../helpers/sendNotification");
 
 exports.CallSp = (spName, req, res) => {
   // const payload = jwt.verify(req.headers.authorization.split(" ")[1],  process.env.SECRET);
@@ -584,10 +584,13 @@ exports.getActivitiesDescriptionAgent = async (req, res) => {
 };
 
 exports.getMyNotifications = async (req, res) => {
+
+  const {min, max, context} = req.body; 
+
   sql
     .query(
       "spQueryNotifications",
-      parametros({ idccms: req.query.idccms }, "spQueryNotifications")
+      parametros({ idccms: req.query.idccms, context, min, max }, "spQueryNotifications")
     )
     .then((result) => {
       responsep(1, req, res, result);
