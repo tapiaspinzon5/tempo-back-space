@@ -259,7 +259,7 @@ const downloadNotifications = (idccms) => {
     return axiosInstance
       .post(`getmynotifications?idccms=${idccms}`, {
         min: 0,
-        max: 10,
+        max: 4,
         context: 1,
       })
       .catch(function (error) {
