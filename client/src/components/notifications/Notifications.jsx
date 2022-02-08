@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Typography, Button, Box, styled } from "@mui/material";
 import NotificationCard from "./NotificationCard";
 
@@ -16,6 +17,7 @@ const BoxTitle = styled(Box)(() => ({
 }));
 
 const Notifications = ({ notifications }) => {
+  const navigate = useNavigate();
   return (
     <div className="notifications">
       <BoxTitle>
@@ -23,10 +25,17 @@ const Notifications = ({ notifications }) => {
           Notifications{" "}
         </Typography>
       </BoxTitle>
-      {notifications.map((info) => (
-        <NotificationCard key={info.id} info={info} />
-      ))}
-      <Button sx={{ textTransform: "none" }}> See All</Button>
+      <NotificationCard key={notifications[0].id} info={notifications[0]} />
+      <NotificationCard key={notifications[1].id} info={notifications[1]} />
+      <NotificationCard key={notifications[2].id} info={notifications[2]} />
+      <NotificationCard key={notifications[3].id} info={notifications[3]} />
+      <Button
+        sx={{ textTransform: "none" }}
+        onClick={() => navigate("/notifications")}
+      >
+        {" "}
+        See All
+      </Button>
     </div>
   );
 };

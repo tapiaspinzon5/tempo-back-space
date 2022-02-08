@@ -41,33 +41,13 @@ const NotificationsPage = () => {
           <Typography variant="h6" color="initial">
             Me Notifications
           </Typography>
-          <NotiBox>
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-          </NotiBox>
+          <NotiBox></NotiBox>
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant="h6" color="initial">
             Team Notifications
           </Typography>
-          <NotiBox>
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-            <NotificationCard />
-          </NotiBox>
+          <NotiBox></NotiBox>
         </Grid>
       </Grid>
       <Footer />

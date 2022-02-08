@@ -654,7 +654,6 @@ exports.getkpiteamTL = async (req, res) => {
     });
 };
 
-
 exports.getAgentsbykpiTL = async (req, res) => {
 
   const { idKpi } = req.body;
@@ -663,6 +662,40 @@ exports.getAgentsbykpiTL = async (req, res) => {
     .query(
       "spQueryKpiTeamAgent",
       parametros({ idccms: req.query.idccms, idKpi}, "spQueryKpiTeamAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.updateStatusNotification = async (req, res) => {
+
+  const { idNotificationMin, idNotificationMax } = req.body;
+
+  sql
+    .query(
+      "spChangeStatusNotifications",
+      parametros({ idccms: req.query.idccms, idNotificationMin, idNotificationMax }, "spChangeStatusNotifications")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.welcomeegp = async (req, res) => {
+
+  sql
+    .query(
+      "spBgWelcomeEGP",
+      parametros({ idccms: req.query.idccms}, "spBgWelcomeEGP")
     )
     .then((result) => {
       responsep(1, req, res, result);
