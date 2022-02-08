@@ -24,7 +24,7 @@ module.exports = (router) => {
   // Rutas para visualizar informacion.
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
   router.post("/gethomedata",oauth.oauthOther, oauth.oauthOther, routes.getHomeData ); 
-  // Retorna las notificaciones creadas en la DB cuando se asigna un challenge
+  // Retorna las notificaciones dependiendo del contexto 1.agente 2.Equipo, con un rango (min - max). 
   router.post("/getmynotifications",oauth.oauthOther, routes.getMyNotifications); 
   // Almacena en DB el token del navegador del usuario junto a su idccms
   router.post("/postfcmtoken", oauth.oauthOther, routes.postFcmToken); 
@@ -48,7 +48,18 @@ module.exports = (router) => {
   router.post("/getactivitiesdescriptionagent", oauth.oauthOther, routes.getActivitiesDescriptionAgent);   
   // Asignar challenges por parte del tl
   router.post("/postassignactivitiestl", oauth.oauthOther,routes.assignActivitiesTL);
-  
+  // Retorna los kpi de la campaña para la vista de KPI del Team leader
+  router.post("/getkpiteamtl", oauth.oauthOther, routes.getkpiteamTL);
+  // Retorna los agentes por kpi seleccionado en la vista KPI TL. 
+  router.post("/getagentsbykpitl", oauth.oauthOther, routes.getAgentsbykpiTL);
+  // Cambia el estado de una notificacion de no leida a leida. 
+  router.post("/updatestatusnotification", oauth.oauthOther, routes.updateStatusNotification);
+
+// RUTAS RELACIONADAS A LAS ACTIVIDADES
+  // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
+  router.post("/welcomeegp", oauth.oauthOther, routes.welcomeegp);
+
+
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
@@ -60,11 +71,7 @@ module.exports = (router) => {
   // Ruta de prueba para enviar notificaciones.
   router.post("/sendfcmnotification", oauth.oauthOther, routes.sendFCMNotificacion);
   
-  // Retorna los kpi de la campaña para la vista de KPI del Team leader
-  router.post("/getkpiteamtl", oauth.oauthOther, routes.getkpiteamTL);
 
-  // Retorna los agentes por kpi seleccionado en la vista KPI TL. 
-  router.post("/getagentsbykpitl", oauth.oauthOther, routes.getAgentsbykpiTL);
   
 
   // TODO: Borrar este endpoint

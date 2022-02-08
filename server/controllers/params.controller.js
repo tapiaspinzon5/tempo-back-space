@@ -290,12 +290,22 @@ exports.parametros = (req, tipo) => {
 
     case "spQueryKpiTeam":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-
+    
     case "spQueryKpiTeamAgent":
       return parametrizacion([
         new SpParam("idKpi", req.idKpi, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
+
+    case "spChangeStatusNotifications":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("IdNotificationMin", req.idNotificationMin, TYPES.Int),
+        new SpParam("IdNotificationMax", req.idNotificationMax, TYPES.Int),
+      ]);
+
+    case "spBgWelcomeEGP":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     //TODO: Borrar para despues 
     case "spChangeRoleAgent":
