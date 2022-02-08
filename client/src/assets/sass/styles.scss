@@ -1,3 +1,4 @@
+
 .checkBox{
     cursor: pointer;
     height: 1.5rem;
@@ -17,7 +18,6 @@
     z-index: 1000;
     top: 10vh;
     right: 10%;
-    width: 414px;
     height: 319px;
     border-radius: 10px;
     border: 1px solid #e9e8e8;
@@ -25,4 +25,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    animation: vernotificaciones .5s ease;
+    overflow: hidden;
+    //transition: 3s ease width ;
+    width: 414px;
 }
+
+
+
+@keyframes vernotificaciones  {
+    from{
+        height: 0;
+    }
+    to{
+        height: 319px;
+    }
+}
+

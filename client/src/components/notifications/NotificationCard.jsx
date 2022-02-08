@@ -40,7 +40,7 @@ const NotificationCard = () => {
         </Box>
         <Typography variant="caption">5 min ago</Typography>
       </BoxCard>
-      <Divider variant="middle" sx={{ borderColor: "#aaaaaa" }} />
+      <Divider variant="middle" sx={{ borderColor: "#e8e8e8" }} />
     </>
   );
 };

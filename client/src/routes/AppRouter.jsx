@@ -67,7 +67,7 @@ const AppRouter = () => {
   return (
     <Router>
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.NumberLogins === 1 ? (
+        {/* {userData?.NumberLogins === 1 ? (
           <MainHomevideo>
             <VideoIntro />
             <Box
@@ -93,8 +93,9 @@ const AppRouter = () => {
           </MainHomevideo>
         ) : (
           userData?.Role && navView && <Navbar />
-        )}
+        )} */}
 
+        {userData?.Role && navView && <Navbar />}
         <Routes>
           {userData?.Role === "Agent" && (
             <>
