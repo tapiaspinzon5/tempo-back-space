@@ -43,16 +43,16 @@ const SeeButton = styled(Button)(() => ({
 }));
 
 const HomeUser = () => {
-  const [notification, setNotification] = useState({
+  /*  const [notification, setNotification] = useState({
     title: "",
     body: "",
     url: "",
-  });
+  }); */
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [data, setData] = useState([]);
 
-  // Esta funcion esta pendiente de las nuevas notifiaciones
+  /*  // Esta funcion esta pendiente de las nuevas notifiaciones
   onMessageListener()
     .then((payload) => {
       setNotification({
@@ -89,7 +89,7 @@ const HomeUser = () => {
       noti();
     }
     // eslint-disable-next-line
-  }, [notification]);
+  }, [notification]); */
 
   useEffect(() => {
     const getData = async () => {
