@@ -170,7 +170,7 @@ const Header = () => {
           color="inherit"
           onClick={handleNotification}
         >
-          <Badge badgeContent={cont} color="error"></Badge>
+          <Badge badgeContent={cont < 11 ? cont : "10+"} color="error"></Badge>
           <NotificationsIcon />
         </IconButton>
       </RightHeader>

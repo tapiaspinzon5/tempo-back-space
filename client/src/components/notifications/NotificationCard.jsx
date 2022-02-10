@@ -8,6 +8,9 @@ import {
   Button,
 } from "@mui/material";
 import avatar from "../../assets/temp-image/avatar.png";
+import { useNavigate } from "react-router-dom";
+import { updateStatusNotifications } from "../../utils/api";
+import { useSelector } from "react-redux";
 
 const BoxCard = styled(Button)(() => ({
   display: "flex",
@@ -25,6 +28,9 @@ const BoxCard = styled(Button)(() => ({
 }));
 
 const NotificationCard = ({ info }) => {
+  const navigate = useNavigate();
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
   let fecha = new Date(info.FchAssignment).toLocaleString([], {
     timeZone: "Etc/UTC",
     hourCycle: "h23",
@@ -35,21 +41,28 @@ const NotificationCard = ({ info }) => {
     minute: "2-digit",
     second: "2-digit",
   });
-  console.log("viene :", info.FchAssignment, "Queda:", fecha);
+
+  const handleClick = async () => {
+    await updateStatusNotifications(idccms, info.IdNotification);
+    navigate(`/activitiesview/${info.IdChallenge}/${2}`);
+  };
+
   return (
     <>
       <BoxCard>
-        <Box>
-          <Avatar
-            alt="Remy Sharp"
-            src={avatar}
-            sx={{ width: 46, height: 46 }}
-          />
-          <Typography variant="body2" marginLeft="1rem">
-            {info.Name}
-          </Typography>
-        </Box>
-        <Typography variant="caption">{fecha}</Typography>
+        <Button onClick={handleClick}>
+          <Box>
+            <Avatar
+              alt="Remy Sharp"
+              src={avatar}
+              sx={{ width: 46, height: 46 }}
+            />
+            <Typography variant="body2" marginLeft="1rem">
+              {info.Name}
+            </Typography>
+          </Box>
+          <Typography variant="caption">{fecha}</Typography>
+        </Button>
       </BoxCard>
       <Divider variant="middle" sx={{ borderColor: "#e8e8e8" }} />
     </>

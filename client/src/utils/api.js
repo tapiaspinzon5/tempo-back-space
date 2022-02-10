@@ -258,9 +258,27 @@ const downloadNotifications = (idccms) => {
   try {
     return axiosInstance
       .post(`getmynotifications?idccms=${idccms}`, {
-        min: 0,
-        max: 4,
-        context: 1,
+        min: 1,
+        max: 11,
+        context: 3,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+///updatestatusnotification
+const updateStatusNotifications = (idccms, id) => {
+  try {
+    return axiosInstance
+      .post(`updatestatusnotification?idccms=${idccms}`, {
+        idNotificationMin: id,
+        idNotificationMax: id,
       })
       .catch(function (error) {
         if (error.response) {
@@ -364,4 +382,5 @@ export {
   tokenNotification,
   getKPIteamTL,
   getUsersKPI,
+  updateStatusNotifications,
 };

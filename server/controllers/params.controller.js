@@ -278,7 +278,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("IdNotificationMin", req.min, TYPES.Int),
         new SpParam("IdNotificationMax", req.max, TYPES.Int),
       ]);
-    
+
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);
 
@@ -290,16 +290,15 @@ exports.parametros = (req, tipo) => {
 
     case "spQueryKpiTeam":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    
+
     case "spQueryKpiTeamAgent":
       return parametrizacion([
         new SpParam("idKpi", req.idKpi, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
 
-<<<<<<< HEAD
     //TODO: Borrar para despues
-=======
+
     case "spChangeStatusNotifications":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
@@ -310,8 +309,8 @@ exports.parametros = (req, tipo) => {
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
-    //TODO: Borrar para despues 
->>>>>>> 33a33cbc27080a82cd68081835c4575d89cd8416
+    //TODO: Borrar para despues
+
     case "spChangeRoleAgent":
       return parametrizacion([
         new SpParam("Role", req.RoleAgent, TYPES.VarChar),
