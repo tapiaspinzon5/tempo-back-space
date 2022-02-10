@@ -41,9 +41,7 @@ const selectButton = {
   borderRadius: "10px",
   textTransform: "none",
 };
-function generateRandom(max) {
-  return Math.floor(Math.random() * max);
-}
+
 const images = [img1, img2, img3, img4];
 
 const ActivitiesView = () => {
@@ -55,6 +53,7 @@ const ActivitiesView = () => {
   const [userActivities, setUserActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noData, setNoData] = useState("");
+  const [mousePos, setMousePos] = useState(0);
   const [activities, setActivities] = useState({
     type: "",
     context: 0,
@@ -109,12 +108,30 @@ const ActivitiesView = () => {
       localStorage.setItem("menuActivity", JSON.stringify(activities));
     };
 
+    function generateRandom(max) {
+      return Math.floor(Math.random() * max);
+    }
+
     getData();
     handleLS();
     // eslint-disable-next-line
   }, [activities]);
 
-  //console.log(activities);
+  useEffect(() => {
+    const mousePosition = (e) => {
+      //console.log("posicion del mouse", e.clientX);
+      setMousePos((e.clientX / window.screen.width) * 100);
+    };
+    window.addEventListener("mousemove", mousePosition);
+    return () => {
+      window.removeEventListener("mousemove", mousePosition);
+    };
+
+    //mousePosition();
+  }, []);
+
+  //console.log(mousePosition);
+  // console.log(window.screen);
 
   return (
     <Grid width="100%">
@@ -158,6 +175,8 @@ const ActivitiesView = () => {
             Activities
           </Button>
         </BoxSelectBadge>
+        <p>{mousePos}</p>
+
         {loading ? (
           <LoadingComponent theme={activities.type} />
         ) : (
@@ -183,7 +202,9 @@ const ActivitiesView = () => {
                     <ActivitiesViewComponent
                       activity={activity}
                       context={activities.context}
-                      img1={images[generateRandom(images.length)]}
+                      //img1={images[generateRandom(images.length)]}
+                      images={images}
+                      mousePos={mousePos}
                     />
                   </Grid>
                 ))}

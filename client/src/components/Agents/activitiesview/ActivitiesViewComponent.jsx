@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import CardFloatDescription from "./CardFloatDescription";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.625rem",
   borderRadius: "10px",
+  //overflowX: "clip",
+  "&:hover": {
+    boxShadow: " 3px 3px 5px #A2A2A2",
+    opacity: 1,
+  },
 }));
 const CardViewer = styled(Box)(({ theme }) => ({
   //height: "14rem",
@@ -19,10 +25,7 @@ const CardViewer = styled(Box)(({ theme }) => ({
   justifyContent: "flex-end",
   alignItems: "left",
   boxSizing: "border-box",
-  "&:hover": {
-    boxShadow: " 3px 3px 5px #A2A2A2",
-    opacity: 1,
-  },
+
   p: {
     width: "70%",
     margin: "1rem",
@@ -54,18 +57,39 @@ const DownSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ActivitiesViewComponent = ({ activity, img1, context }) => {
+const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
   const navigate = useNavigate();
-  // const [background, setbackground] = useState(false);
-
+  const [showFloat, setShowFloat] = useState(true);
+  const [img1, setIme1] = useState(null);
   const { NameActivity, IdActivity } = activity;
+
+  const handleMouseEnter = () => {
+    setShowFloat(true);
+  };
+  const handleMouseLeave = () => {
+    setShowFloat(false);
+  };
+
+  useEffect(() => {
+    const index = Math.floor(Math.random() * images.length);
+    setIme1(images[index]);
+  }, []);
 
   return (
     <BoxCard
       sx={{
         backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${img1})`,
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
+      {showFloat && (
+        <CardFloatDescription
+          activity={activity}
+          img1={img1}
+          mousePos={mousePos}
+        />
+      )}
       <CardViewer>
         {/* <img src={img1} alt="" /> */}
         <Typography variant="body1" textAlign="left">
@@ -75,11 +99,11 @@ const ActivitiesViewComponent = ({ activity, img1, context }) => {
       <DownSection
       //sx={{ background }}
       >
-        <Button
+        {/* <Button
           onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
         >
           See more
-        </Button>
+        </Button> */}
       </DownSection>
     </BoxCard>
   );
