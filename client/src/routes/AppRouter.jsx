@@ -40,7 +40,7 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const [navView, setNavView] = useState(true);
-  console.log(userData);
+  //console.log(userData);
 
   return (
     <Router>

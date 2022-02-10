@@ -298,6 +298,7 @@ exports.parametros = (req, tipo) => {
       ]);
 
     //TODO: Borrar para despues
+
     case "spChangeStatusNotifications":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
@@ -309,6 +310,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     //TODO: Borrar para despues
+
     case "spChangeRoleAgent":
       return parametrizacion([
         new SpParam("Role", req.RoleAgent, TYPES.VarChar),

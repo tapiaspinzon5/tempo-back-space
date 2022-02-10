@@ -272,6 +272,25 @@ const downloadNotifications = (idccms) => {
   }
 };
 
+//Trae Todas  las Notificaciones del Agente y el Team
+const getNotifications = (idccms, min, max, context) => {
+  try {
+    return axiosInstance
+      .post(`getmynotifications?idccms=${idccms}`, {
+        min: 1,
+        max: 11,
+        context: 3,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 ///updatestatusnotification
 const updateStatusNotifications = (idccms, id) => {
   try {
@@ -390,6 +409,7 @@ export {
   createTeamReportingLead,
   downloadUsers,
   downloadNotifications,
+  getNotifications,
   assingActivities,
   loadUserActivities,
   userActivityDesc,

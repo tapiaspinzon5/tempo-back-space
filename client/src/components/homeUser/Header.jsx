@@ -111,7 +111,7 @@ const Header = () => {
   // const colorMode = React.useContext(DarkModeContext);
   const [showNotification, setShowNotification] = useState(false);
   const handleNotification = () => {
-    console.log("...mostrando notificaciones");
+    // console.log("...mostrando notificaciones");
     setShowNotification(!showNotification);
   };
   // Esta funcion esta pendiente de las nuevas notifiaciones

@@ -78,20 +78,18 @@ const NotificationCard = ({ info }) => {
 
   return (
     <>
-      <BoxCard>
-        <Button onClick={handleClick}>
-          <Box>
-            <Avatar
-              alt="Remy Sharp"
-              src={avatar}
-              sx={{ width: 46, height: 46 }}
-            />
-            <Typography variant="body2" marginLeft="1rem">
-              {info.Name}
-            </Typography>
-          </Box>
-          <Typography variant="caption">{fecha}</Typography>
-        </Button>
+      <BoxCard onClick={handleClick}>
+        <Box>
+          <Avatar
+            alt="Remy Sharp"
+            src={avatar}
+            sx={{ width: 46, height: 46 }}
+          />
+          <Typography variant="body2" marginLeft="1rem">
+            {info.Name}
+          </Typography>
+        </Box>
+        <Typography variant="caption">{fecha}</Typography>
       </BoxCard>
       <Divider variant="middle" sx={{ borderColor: "#e8e8e8" }} />
     </>
