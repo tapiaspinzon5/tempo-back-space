@@ -25,10 +25,30 @@ const Notifications = ({ notifications }) => {
           Notifications{" "}
         </Typography>
       </BoxTitle>
-      <NotificationCard key={notifications[0].id} info={notifications[0]} />
-      <NotificationCard key={notifications[1].id} info={notifications[1]} />
-      <NotificationCard key={notifications[2].id} info={notifications[2]} />
-      <NotificationCard key={notifications[3].id} info={notifications[3]} />
+      {notifications.length > 0 && (
+        <NotificationCard
+          key={notifications[0].IdNotification}
+          info={notifications[0]}
+        />
+      )}
+      {notifications.length > 1 && (
+        <NotificationCard
+          key={notifications[1].IdNotification}
+          info={notifications[1]}
+        />
+      )}
+      {notifications.length > 2 && (
+        <NotificationCard
+          key={notifications[2].IdNotification}
+          info={notifications[2]}
+        />
+      )}
+      {notifications.length > 3 && (
+        <NotificationCard
+          key={notifications[3].IdNotification}
+          info={notifications[3]}
+        />
+      )}
       <Button
         sx={{ textTransform: "none" }}
         onClick={() => navigate("/notifications")}

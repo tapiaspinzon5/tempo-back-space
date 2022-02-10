@@ -360,6 +360,20 @@ const downloadDataAdmin = (idccms, caso) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+/* Actividades */
+const welcomeToEGP = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`welcomeegp?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 export {
   uploadQuizes,
@@ -383,4 +397,5 @@ export {
   getKPIteamTL,
   getUsersKPI,
   updateStatusNotifications,
+  welcomeToEGP,
 };

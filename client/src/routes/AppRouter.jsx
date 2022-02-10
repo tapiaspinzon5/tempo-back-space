@@ -31,11 +31,6 @@ import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
 import NotificationsPage from "../pages/NotificationsPage";
 import { VideoView } from "../pages/VideoView";
-//import { Star5 } from "./Star 5/Star5";
-//import { QuizView } from "../pages/QuizView";
-//import { Description } from "../pages/Description";
-//import { Catalogue } from "./Catalogue/Catalogue";
-//import { VelBar } from "./Speed Bar/VelBar";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -44,8 +39,6 @@ const MainApp = styled(Grid)(() => ({
 
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
-  //const userData = JSON.parse(localStorage.getItem("userTP"));
-  // const [video, setVideo] = useState(false);
   const [navView, setNavView] = useState(true);
   console.log(userData);
 
@@ -56,15 +49,6 @@ const AppRouter = () => {
         {userData?.NumberLogins === 1 && <VideoView />}
 
         <Routes>
-          {/*  {!video && userData?.NumberLogins === 1 && (
-            <>
-              <Route path="/" element={<Navigate to="/introvideo" />} />
-              <Route
-                path="/introvideo"
-                element={<VideoView setVideo={setVideo} />}
-              />
-            </>
-          )} */}
           {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
@@ -86,35 +70,36 @@ const AppRouter = () => {
             </>
           )}
 
-          {userData?.Role === "Operation Manager" && (
-            <>
-              <Route path="/" element={<Navigate to="/homeom" />} />
-              <Route path="/homeom" element={<HomeOM />} />
-              <Route path="/upcampaign" element={<UpCampaign />} />
-            </>
-          )}
-          {userData?.Role === "QA Lead" && (
+          {userData?.NumberLogins > 1 &&
+            userData?.Role === "Operation Manager" && (
+              <>
+                <Route path="/" element={<Navigate to="/homeom" />} />
+                <Route path="/homeom" element={<HomeOM />} />
+                <Route path="/upcampaign" element={<UpCampaign />} />
+              </>
+            )}
+          {userData?.NumberLogins > 1 && userData?.Role === "QA Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/homeqal" element={<HomeQAL />} />
             </>
           )}
-          {userData?.Role === "Reporting Lead" && (
+          {userData?.NumberLogins > 1 && userData?.Role === "Reporting Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL />} />
               <Route path="/upagents" element={<UpAgents />} />
             </>
           )}
-          {userData?.Role === "Super Admin" && (
+          {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (
             <>
               <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA />} />
               <Route path="/upcount" element={<UpCount />} />
             </>
           )}
-          {userData?.Role === "Team Leader" && (
+          {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL />} />
