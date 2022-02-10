@@ -104,7 +104,7 @@ const Header = () => {
   // const colorMode = React.useContext(DarkModeContext);
   const [showNotification, setShowNotification] = useState(false);
   const handleNotification = () => {
-    console.log("...mostrando notificaciones");
+    // console.log("...mostrando notificaciones");
     setShowNotification(!showNotification);
   };
 
@@ -118,14 +118,14 @@ const Header = () => {
       ) {
         setNotifications(getNotifications.data);
         let c = 0;
-        console.log(getNotifications.data);
+        //   console.log(getNotifications.data);
         getNotifications.data.forEach((el) => {
           if (el.Status === "Unread") {
             c += 1;
           }
         });
         setCont(c);
-        console.log(c);
+        // console.log(c);
       }
     };
     data();

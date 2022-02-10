@@ -175,7 +175,6 @@ const ActivitiesView = () => {
             Activities
           </Button>
         </BoxSelectBadge>
-        <p>{mousePos}</p>
 
         {loading ? (
           <LoadingComponent theme={activities.type} />

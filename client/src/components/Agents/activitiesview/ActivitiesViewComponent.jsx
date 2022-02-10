@@ -59,7 +59,7 @@ const DownSection = styled(Box)(({ theme }) => ({
 
 const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
   const navigate = useNavigate();
-  const [showFloat, setShowFloat] = useState(true);
+  const [showFloat, setShowFloat] = useState(false);
   const [img1, setIme1] = useState(null);
   const { NameActivity, IdActivity } = activity;
 
