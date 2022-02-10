@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Button, styled, Box } from "@mui/material";
 import { VideoIntro } from "../components/VideoIntro";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { welcomeToEGP } from "../utils/api";
 
 const MainHomevideo = styled(Grid)(({ theme }) => ({
   display: "flex",
@@ -11,10 +13,13 @@ const MainHomevideo = styled(Grid)(({ theme }) => ({
   width: "100%",
   justifyContent: "center",
   alignItems: "center",
-  marginTop: "10px",
+  marginTop: "30px",
 }));
 
 export const VideoView = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
+  const [next, setNext] = useState(true);
   const theme = useTheme();
   const navigate = useNavigate();
   const handleView = async () => {
@@ -22,28 +27,50 @@ export const VideoView = () => {
     const videoOk = () => {
       data.NumberLogins = 2;
       localStorage.setItem("userTP", JSON.stringify(data));
+      welcomeToEGP(idccms);
     };
     await videoOk();
-    await navigate(`/homeusers`);
+    switch (userData.Role) {
+      case "Agent":
+        await navigate(`/homeusers`);
+        break;
+      case "Team Leader":
+        await navigate(`/hometl`);
+        break;
+      case "QA Lead":
+        await navigate(`/homeqal`);
+        break;
+      case "Operation Manager":
+        await navigate(`/homeom`);
+        break;
+      case "Super Admin":
+        await navigate(`/homesa`);
+        break;
+      case "Reporting Lead":
+        await navigate(`/homerl`);
+        break;
+      default:
+        break;
+    }
     await window.location.reload();
   };
   return (
     <MainHomevideo>
-      <VideoIntro />
+      <VideoIntro setNext={setNext} rol={userData.Role} />
       <Box
         sx={{
-          margin: "0 15px 0 15px",
+          margin: "015px 0 15px",
           display: "flex",
           justifyContent: "center",
-          padding: "0 2rem 2rem 0",
         }}
       >
         <Button
           onClick={handleView}
+          disabled={next}
           sx={{
             background: theme.palette.background.primary,
             color: "#FFFFFF",
-            margin: "10px",
+            //margin: "5px",
             width: "160px",
           }}
         >
