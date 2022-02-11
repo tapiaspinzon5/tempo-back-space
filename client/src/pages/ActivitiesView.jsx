@@ -130,8 +130,7 @@ const ActivitiesView = () => {
     //mousePosition();
   }, []);
 
-  //console.log(mousePosition);
-  // console.log(window.screen);
+  console.log(userActivities);
 
   return (
     <Grid width="100%">
@@ -188,16 +187,8 @@ const ActivitiesView = () => {
             )}
             <Grid container spacing={3}>
               {activities.type !== "Quizes" &&
-                userActivities?.map((activity) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    xl={2}
-                    key={activity.IdActivity}
-                  >
+                userActivities?.map((activity, index) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
                     <ActivitiesViewComponent
                       activity={activity}
                       context={activities.context}
