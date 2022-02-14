@@ -77,59 +77,16 @@ const ChallengeAssignment = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
+  const TLName = userData.Nombre;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
-  /*   const [notification, setNotification] = useState({
-    title: "",
-    body: "",
-    url: "",
-  }); */
-
-  /* // Esta funcion esta pendiente de las nuevas notifiaciones
-  onMessageListener()
-    .then((payload) => {
-      setNotification({
-        title: payload?.data?.title,
-        body: payload?.data?.body,
-        url: payload?.data?.url,
-      });
-    })
-    .catch((err) => //console.log("failed: ", err));
-
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
-  const noti = () => {
-    notification?.title &&
-      Toast.fire({
-        icon: "warning",
-        title: notification?.title,
-        text: notification?.body,
-      });
-  };
-
-  useEffect(() => {
-    if (notification?.title) {
-      noti();
-    }
-  }, [notification]); */
 
   useEffect(() => {
     const getData = async () => {
       const activities = await downloadActivities(idccms);
-      ////console.log(activities);
       if (
         activities &&
         activities.status === 200 &&
@@ -139,10 +96,8 @@ const ChallengeAssignment = () => {
       } else {
         setError(true);
       }
-      // setAssignment(activities.data);
       const user = await downloadUsers(idccms);
       if (user && user.status === 200 && user.data.length > 1) {
-        //console.log(user.data);
         setUsers(user.data);
       } else {
         setError(true);
@@ -150,11 +105,6 @@ const ChallengeAssignment = () => {
     };
 
     getData();
-
-    //asignacion de usuarios
-    //setUsers(userData);
-
-    // eslint-disable-next-line
   }, []);
 
   //funcion de asingacion de usuarios
@@ -179,20 +129,17 @@ const ChallengeAssignment = () => {
     setValidator(true);
     const { name, checked } = e.target;
 
-    //console.log(name, checked);
     if (name === "selecct-all") {
       if (activity[stage] !== undefined) {
         let tempUser = activity[stage].map((badge) => {
           return { ...badge, isChecked: checked };
         });
 
-        //console.log(tempUser);
         setActivity(tempUser);
       } else {
         let tempUser = activity.map((badge) => {
           return { ...badge, isChecked: checked };
         });
-        //console.log(tempUser);
         setActivity(tempUser);
       }
     } else {
@@ -215,14 +162,12 @@ const ChallengeAssignment = () => {
     e.preventDefault();
     setLoading(true);
     if (validator) {
-      const dataSend = validateDataCheck(users, activity);
-      //console.log(dataSend[0]);
+      const dataSend = validateDataCheck(users, activity, TLName);
       if (
         dataSend[0].idActivity.length > 0 &&
         dataSend[0].idccmsAssigned.length > 0
       ) {
         const resp = await assingActivities(dataSend[0], idccms);
-        //console.log(resp);
         if (resp && resp.status === 200) {
           setLoading(false);
           MySwal.fire({

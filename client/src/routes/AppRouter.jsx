@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -31,6 +31,10 @@ import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
 import NotificationsPage from "../pages/NotificationsPage";
 import { VideoView } from "../pages/VideoView";
+import { onMessageListener } from "../utils/firebase";
+import { toast, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -40,19 +44,67 @@ const MainApp = styled(Grid)(() => ({
 const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const [navView, setNavView] = useState(true);
-  //console.log(userData);
+  const [notification, setNotification] = useState({
+    title: "",
+    body: "",
+    url: "",
+  });
+  const [count, setCount] = useState(0);
+
+  // Esta funcion esta pendiente de las nuevas notifiaciones
+  onMessageListener()
+    .then((payload) => {
+      setNotification({
+        title: payload?.data?.Title,
+        challenge: payload?.data?.Challenge,
+        challenger: payload?.data?.Challenger,
+        url: payload?.data?.Url,
+      });
+    })
+    .catch((err) => console.log("failed: ", err));
+
+  const notify = () => {
+    notification?.title &&
+      toast(
+        <div>
+          <p>
+            <b>{notification?.title}</b>
+          </p>
+          <p>{"Challenge: " + notification?.challenge}</p>
+          <p>{"Challenger: " + notification?.challenger}</p>
+        </div>
+      );
+  };
+
+  useEffect(() => {
+    if (notification?.title) {
+      notify();
+      setCount(count + 1);
+    }
+    // eslint-disable-next-line
+  }, [notification]);
 
   return (
     <Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.NumberLogins > 1 && userData?.Role && navView && <Navbar />}
         {userData?.NumberLogins === 1 && <VideoView />}
-
         <Routes>
           {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
             <>
               <Route path="/" element={<Navigate to="/homeusers" />} />
-              <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
               <Route

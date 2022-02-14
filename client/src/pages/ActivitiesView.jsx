@@ -89,7 +89,6 @@ const ActivitiesView = () => {
         } else {
           setNoData("The Game Starts Soon");
         }
-        console.log("QZ:", quizes);
       } else {
         const getActivities = await loadUserActivities(idccms, context);
         if (getActivities && getActivities.status === 200) {
@@ -100,7 +99,6 @@ const ActivitiesView = () => {
         } else {
           setNoData("The Game Starts Soon");
         }
-        //console.log("AC:", getActivities);
       }
       setLoading(false);
     };

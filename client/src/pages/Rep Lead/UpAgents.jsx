@@ -63,7 +63,6 @@ export const UpAgents = () => {
     getData();
     // eslint-disable-next-line
   }, []);
-  //console.log(myAgents);
 
   const handleOpen = () => {
     setOpen(true);

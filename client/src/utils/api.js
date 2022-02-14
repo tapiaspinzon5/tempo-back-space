@@ -123,6 +123,8 @@ const assingActivities = (data, idccms) => {
   try {
     return axiosInstance
       .post(`postassignactivitiestl?idccms=${idccms}`, {
+        tlName: data.tlName,
+        nameActivity: data.nameActivity,
         idActivity: data.idActivity,
         idccmsAssigned: data.idccmsAssigned,
         fcmTokens: data.fcmTokens,
@@ -170,7 +172,7 @@ const getUsersKPI = (idccms, idKPI) => {
 
 /* AGENT */
 //trae la data del Home
-const downloadHomeData = (idccms, data) => {
+const downloadHomeData = (idccms) => {
   try {
     return axiosInstance
       .post(`gethomedata?idccms=${idccms}`)

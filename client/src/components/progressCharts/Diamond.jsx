@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { Liquid } from "@antv/g2plot";
 
-const Diamond = () => {
+const Diamond = ({ info }) => {
   const ref = useRef();
 
- 
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.33,
+      percent: info.ChallengeWon[0].ChallengeWon / 100,
       autoFit: true,
       shape: "diamond",
 
@@ -41,7 +40,7 @@ const Diamond = () => {
 
       statistic: {
         content: {
-          content: "33%",
+          content: `${Math.trunc(info.ChallengeWon[0].ChallengeWon)}%`,
           style: {
             color: " #bcdce4 ",
             fontSize: "25px",

@@ -57,7 +57,6 @@ const NotificationsPage = () => {
   useEffect(() => {
     setLoading(true);
     const traerNotificaciones = async () => {
-      console.log("trayendo datos");
       const data = await getNotifications(idccms, skipUser, limitUser, 1);
       setNotificationUser(data.data);
       const pages =
@@ -82,7 +81,6 @@ const NotificationsPage = () => {
   }, [limitTeam]);
 
   const paginationUser = (e, value) => {
-    console.log("pagination users", value);
     setPageUser(value);
     if (value !== 1) {
       setSkipUser(() => (value - 1) * 10);
@@ -93,7 +91,6 @@ const NotificationsPage = () => {
     }
   };
   const paginationTeam = (e, value) => {
-    console.log("pagination team", value);
     setPageTeam(value);
     if (value !== 1) {
       setSkipTeam(() => (value - 1) * 10);
@@ -103,21 +100,6 @@ const NotificationsPage = () => {
       setLimitTeam(() => 9);
     }
   };
-
-  const handleLoadMore = () => {
-    console.log("cargar mas...");
-    //loadNextPage(endCursor, pageSize).then((newPage) => {
-    //setLoading(false);
-    //setHasNextPage(newPage.hasNextPage);
-    //setItems([...items, newPage.items]);
-    //});
-  };
-
-  console.log("user:" + skipUser, limitUser);
-  console.log("team:" + skipTeam, limitTeam);
-
-  console.log(notificationUser);
-  console.log(notificationTeam);
 
   return (
     <MainNotification>

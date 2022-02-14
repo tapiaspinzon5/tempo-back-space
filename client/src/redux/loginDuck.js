@@ -2,8 +2,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 //url de apuntamiento
-//const url = "https://gamificationtest.teleperformance.co";
-const url = "http://localhost:4343";
+const url = "https://gamificationtest.teleperformance.co";
+//const url = "http://localhost:4343";
 
 //datainicial
 const initialData = {
@@ -113,6 +113,7 @@ export const loginSubmit = (data) => async (dispatch) => {
         UserName: requestData.data.UserName,
         Idccms: requestData.data.Idccms,
         Quartile: requestData.data.Quartile,
+        Nombre: requestData.data.Nombre,
       })
     );
   } catch (error) {

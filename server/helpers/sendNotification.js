@@ -3,7 +3,7 @@
 const {getMessaging} = require('firebase-admin/messaging');
 
 // Use this function to send push notifications to a specific user
-exports.sendFCMMessage= async (fcmToken, msg) => {
+exports.sendFCMMessage= async (tlName, nameActivity, fcmToken) => {
     try {
         const res = await getMessaging().send({
             webpush: {
@@ -20,10 +20,11 @@ exports.sendFCMMessage= async (fcmToken, msg) => {
                 //     },
                 // },
                 "data": {
-                  "title": "Te asiganron un reto !",
-                  "body":"",
-                  "image": "https://i.ibb.co/jz3nQ4H/tp-short.png",
-                  "url":"http://localhost:3000/#/activitiesview"
+                  "Title": "you have been assigned a challenge !",
+                  "Challenger" : `${tlName}`,
+                  "Challenge": `${nameActivity}`,
+                  "Image": "https://i.ibb.co/jz3nQ4H/tp-short.png",
+                  "Url":"http://localhost:3000/#/activitiesview"
                },
             },
             token: fcmToken,

@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Liquid } from "@antv/g2plot";
 
-const Circle = () => {
+const Circle = ({ info }) => {
   const ref = useRef();
-
-
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.76,
+      percent: info.TotalExperiences[0].TotalExp / 45,
       autoFit: true,
 
       outline: {
@@ -40,9 +38,9 @@ const Circle = () => {
 
       statistic: {
         content: {
-          content: "76%",
+          content: `${Math.trunc(info.TotalExperiences[0].TotalExp)} XP`,
           style: {
-            color: "#FF0",
+            color: "#00f",
             fontSize: "25px",
           },
         },

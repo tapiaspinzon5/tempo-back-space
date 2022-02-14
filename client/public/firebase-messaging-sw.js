@@ -5,12 +5,8 @@ importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("../firebase-messaging-sw.js")
-    .then(function (registration) {
-      //console.log("Registration successful, scope is:", registration.scope);
-    })
-    .catch(function (err) {
-      // console.log("Service worker registration failed, error:", err);
-    });
+    .then(function (registration) {})
+    .catch(function (err) {});
 }
 
 const firebaseConfig = {
@@ -30,15 +26,13 @@ const messaging = firebase.messaging();
 
 // esta funcion escucha las notificaciones cuando la app esta en segundo plano.
 messaging.onBackgroundMessage(function (payload) {
-  //console.log("Received background message ", payload);
   // Customize notification here
-  const notificationTitle = payload.data.title;
+  const notificationTitle = payload.data.Title;
   const notificationOptions = {
-    body: payload.data.body,
-    url: payload.data.url,
-    icon: payload.data.image,
+    body: payload.data.Challenge,
+    url: payload.data.Url,
+    icon: payload.data.Image,
   };
-
   // Muestra la notificacion
   self.registration.showNotification(notificationTitle, notificationOptions);
 });

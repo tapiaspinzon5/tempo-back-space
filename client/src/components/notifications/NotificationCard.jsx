@@ -31,7 +31,9 @@ const NotificationCard = ({ info }) => {
   const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  let fecha = new Date(info.FchAssignment).toLocaleString([], {
+  let fecha;
+  let hora;
+  let fechaBase = new Date(info.Date).toLocaleString([], {
     timeZone: "Etc/UTC",
     hourCycle: "h23",
     year: "numeric",
@@ -41,6 +43,33 @@ const NotificationCard = ({ info }) => {
     minute: "2-digit",
     second: "2-digit",
   });
+
+  let now = new Date().toLocaleString([], {
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  let fa = new Date(now);
+  let fb = new Date(fechaBase);
+
+  if (
+    now.replace(",", "").split(" ")[0] ===
+    fechaBase.replace(",", "").split(" ")[0]
+  ) {
+    hora = Math.trunc((fa - fb) / 60000);
+    if (hora < 31) {
+      fecha = `${hora} minuts ago`;
+    } else {
+      fecha = fechaBase.replace(",", "").split(" ")[1];
+    }
+  } else {
+    fecha = fechaBase.replace(",", "").split(" ")[0];
+  }
 
   const handleClick = async () => {
     await updateStatusNotifications(idccms, info.IdNotification);
@@ -57,7 +86,7 @@ const NotificationCard = ({ info }) => {
             sx={{ width: 46, height: 46 }}
           />
           <Typography variant="body2" marginLeft="1rem">
-            {info.Name}
+            {info.TypeNotification + "  " + info.Name}
           </Typography>
         </Box>
         <Typography variant="caption">{fecha}</Typography>

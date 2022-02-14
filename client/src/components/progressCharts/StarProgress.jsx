@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { Liquid } from "@antv/g2plot";
 
-const StarProgress = () => {
+const StarProgress = ({ info }) => {
   const ref = useRef();
 
- 
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: 0.53,
+      percent: info.GamesPlayed[0].TotalExp / 100,
       autoFit: true,
 
       shape: (x, y, width, height) => {
@@ -60,7 +59,7 @@ const StarProgress = () => {
 
       statistic: {
         content: {
-          content: "53%",
+          content: `${Math.trunc(info.GamesPlayed[0].TotalExp)}%`,
           style: {
             color: "#FFFB00",
             fontSize: "25px",
