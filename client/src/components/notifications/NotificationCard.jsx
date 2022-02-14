@@ -70,6 +70,7 @@ const NotificationCard = ({ info }) => {
   } else {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
+  console.log(now, fechaBase, new Date(now), fb);
 
   const handleClick = async () => {
     await updateStatusNotifications(idccms, info.IdNotification);

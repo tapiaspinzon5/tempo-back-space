@@ -6,13 +6,14 @@ import ProgressHome from "../components/homeUser/ProgressHome";
 import Podium from "../components/progressCharts/Podium";
 import Circle from "../components/progressCharts/Circle";
 import Diamond from "../components/progressCharts/Diamond";
-import medal2 from "../assets/badges/Grupo5630.svg";
+import medal2 from "../assets/badges/welcome.png";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useSelector } from "react-redux";
 import { downloadHomeData, tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
+import LoadingComponent from "../components/LoadingComponent";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -49,7 +50,7 @@ const HomeUser = ({ count }) => {
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
   const [gp, setGp] = useState(0);
-  const [badge, setBadge] = useState("");
+  const [badge, setBadge] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -95,7 +96,7 @@ const HomeUser = ({ count }) => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Total Exp
               </Typography>
-              {texp && <Circle info={texp} />}
+              {texp ? <Circle info={texp} /> : <LoadingComponent />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
                   See more
@@ -108,7 +109,7 @@ const HomeUser = ({ count }) => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Challenges Won
               </Typography>
-              {cw && <Diamond info={cw} />}
+              {cw ? <Diamond info={cw} /> : <LoadingComponent />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
                   See more
@@ -121,7 +122,7 @@ const HomeUser = ({ count }) => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Games Played
               </Typography>
-              {gp && <StarProgress info={gp} />}
+              {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
                   See more
@@ -143,7 +144,16 @@ const HomeUser = ({ count }) => {
                   height: "28vh",
                 }}
               >
-                <img src={medal} alt="top-Ten" height="75%" width="75%" />
+                {badge ? (
+                  <img
+                    src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
+                    alt="top-Ten"
+                    height="75%"
+                    width="55%"
+                  />
+                ) : (
+                  <LoadingComponent />
+                )}
 
                 <Box display="flex" justifyContent="center">
                   <SeeButton
