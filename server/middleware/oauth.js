@@ -23,7 +23,7 @@ function login(req, res) {
   let data = {
     //   body: bdata.body,
     body: req.body.body,
-    timeTkn: 100,
+    timeTkn: 540,
     project: process.env.PROJECT,
     ip: req.clientIp,
     uri: req.originalUrl,

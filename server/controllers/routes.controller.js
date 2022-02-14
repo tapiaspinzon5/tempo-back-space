@@ -448,31 +448,43 @@ exports.getLoadInstructions = async (req, res) => {
 exports.assignActivitiesTL = async (req, res) => {
 
   // const {data} = req.body
-  const {idActivity, idccmsAssigned,fcmTokens} = req.body;
-  let msg = ''
+  const {tlName, nameActivity, idActivity, idccmsAssigned, fcmTokens} = req.body;  
   let rows = [];
   let i = 0;
 
+  // Filtramos las personas que si tienen token para notificarlos
+  let fcmTokensFiltered = fcmTokens.filter(token => token);
+
+  // Armo tabla para la DB
   idActivity.forEach(act => {
     idccmsAssigned.forEach(id => {
       i = i + 1;
       rows.push([id,act,i])
     })
-  })
+  });
 
-  try {
-    let resp = fcmTokens.map(async (token) => {
-      return await sendFCMMessage(token,msg)
-    })
-    // res.status(200).json(resp);
-  } catch (error) {
-    res.status(500).json(error);
+  // Recorremos cada actividad
+  for (let i = 0; i < nameActivity.length; i++) {
+    try {
+      // enviamos la actividad por c/u  de los tokens
+      fcmTokensFiltered.forEach(async (token) => {
+        // console.log(tlName, nameActivity[i], token);
+        return await sendFCMMessage(tlName, nameActivity[i], token)
+      })
+      // res.status(200).json(resp);
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 
-  // let rows = id.map((row) => {
-  //   i = i + 1;
-  //   return [...row, i];
-  // });
+  // try {
+  //   let resp = fcmTokens.map(async (token) => {
+  //     return await sendFCMMessage(token,msg)
+  //   })
+  //   // res.status(200).json(resp);
+  // } catch (error) {
+  //   res.status(500).json(error);
+  // }
 
   sql
     .query(
