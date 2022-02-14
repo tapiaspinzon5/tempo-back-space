@@ -83,13 +83,13 @@ const CardFloatDescription = ({ activity, img1, mousePos }) => {
             <img src={activitiesIMG} alt="" />
           </BoxImage>
           <Typography variant="body2" align="left" marginBottom=".5rem">
-            {activity.Description}
+            {activity.Description || activity.DescriptionChallenge}
           </Typography>
           <BoxRewards>
             <Box marginRight="1rem">
               <Box display="flex" alignItems="center">
                 <Typography variant="body1" fontWeight={700} marginRight="5px">
-                  {activity.Experiences}
+                  {activity.Experiences || 0}
                 </Typography>
                 <img src={xpIco} alt="" />
               </Box>
@@ -100,7 +100,7 @@ const CardFloatDescription = ({ activity, img1, mousePos }) => {
             <Box>
               <Box display="flex" alignItems="center">
                 <Typography variant="body1" fontWeight={700} marginRight="5px">
-                  {activity.Epicoins}
+                  {activity.Epicoins || 0}
                 </Typography>
                 <img src={epicoins} alt="" />
               </Box>

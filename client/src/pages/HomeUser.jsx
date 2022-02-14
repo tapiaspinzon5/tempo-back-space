@@ -49,6 +49,7 @@ const HomeUser = ({ count }) => {
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
   const [gp, setGp] = useState(0);
+  const [badge, setBadge] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -58,6 +59,7 @@ const HomeUser = ({ count }) => {
         await setTExp(kpis.data[2]);
         await setCw(kpis.data[3]);
         await setGp(kpis.data[4]);
+        setBadge(() => kpis.data[5]);
       }
       console.log(kpis.data);
       const token = await requestForToken();
@@ -71,8 +73,7 @@ const HomeUser = ({ count }) => {
     data.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
-
-  console.log(data[5].Badge[0].Badge);
+  //console.log(badge.Badge[0].Badge);
   return (
     <>
       <MainHomeUser
@@ -142,14 +143,8 @@ const HomeUser = ({ count }) => {
                   height: "28vh",
                 }}
               >
-                {data[5].Badge[0].Badge && (
-                  <img
-                    src={data[5].Badge[0].Badge === "0" ? medal : medal2}
-                    alt="top-Ten"
-                    height="75%"
-                    width="75%"
-                  />
-                )}
+                <img src={medal} alt="top-Ten" height="75%" width="75%" />
+
                 <Box display="flex" justifyContent="center">
                   <SeeButton
                     sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}

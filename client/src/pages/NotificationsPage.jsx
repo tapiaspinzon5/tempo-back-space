@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography, Grid, styled, Box } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "../components/homeUser/Header";
 import NotificationCard from "../components/notifications/NotificationCard";
 import Footer from "../components/Footer";
 import { getNotifications } from "../utils/api";
+import LoadingComponent from "../components/LoadingComponent";
 const MainNotification = styled(Grid)(() => ({
   width: "100%",
   h6: {
@@ -41,48 +43,82 @@ const NotificationsPage = () => {
 
   const [notificationUser, setNotificationUser] = useState([]);
   const [notificationTeam, setNotificationTeam] = useState([]);
-  const [userNot, setuserNot] = useState({
-    skip: 0,
-    limit: 4,
-  });
-  const [teamNot, setTeamNot] = useState({
-    skip: 0,
-    limit: 4,
-  });
+  const [skipUser, setSkipUser] = useState(0);
+  const [limitUser, setLimitUser] = useState(9);
+  const [skipTeam, setSkipTeam] = useState(0);
+  const [limitTeam, setLimitTeam] = useState(9);
+  const [pageUser, setPageUser] = useState(1);
+  const [pageTeam, setPageTeam] = useState(1);
+  const [countUser, setCountUser] = useState(0);
+  const [countTeam, setCountTeam] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const traerNotificaciones = async () => {
-      console.log("trayendo datos ", userNot);
-      const data = await getNotifications(idccms, 0, 30, 1);
+      console.log("trayendo datos");
+      const data = await getNotifications(idccms, skipUser, limitUser, 1);
       setNotificationUser(data.data);
+      const pages =
+        data.data[0].NotificationRead + data.data[0].NotificationUnread;
+      setCountUser(parseInt(pages / 10 + 1));
+      setLoading(false);
     };
     traerNotificaciones();
-  }, [userNot]);
-  useEffect(() => {
-    const traerNotificaciones = async () => {
-      const dataTeam = await getNotifications(
-        idccms,
-        teamNot.skip,
-        teamNot.limit,
-        2
-      );
-      setNotificationTeam(dataTeam.data);
-    };
-    traerNotificaciones();
-  }, []);
+  }, [limitUser]);
 
-  const pagination = () => {
-    console.log("pagination");
-    setuserNot({
-      ...userNot,
-      skip: userNot.skip + 5,
-      limit: userNot.limit + 5,
-    });
+  useEffect(() => {
+    setLoading2(true);
+    const traerNotificaciones = async () => {
+      const dataTeam = await getNotifications(idccms, skipTeam, limitTeam, 2);
+      setNotificationTeam(dataTeam.data);
+      const pagesTeam =
+        dataTeam.data[0].NotificationRead + dataTeam.data[0].NotificationUnread;
+      setCountTeam(parseInt(pagesTeam / 10 + 1));
+      setLoading2(false);
+    };
+    traerNotificaciones();
+  }, [limitTeam]);
+
+  const paginationUser = (e, value) => {
+    console.log("pagination users", value);
+    setPageUser(value);
+    if (value !== 1) {
+      setSkipUser(() => (value - 1) * 10);
+      setLimitUser(() => value * 10);
+    } else {
+      setSkipUser(() => 0);
+      setLimitUser(() => 9);
+    }
+  };
+  const paginationTeam = (e, value) => {
+    console.log("pagination team", value);
+    setPageTeam(value);
+    if (value !== 1) {
+      setSkipTeam(() => (value - 1) * 10);
+      setLimitTeam(() => value * 10);
+    } else {
+      setSkipTeam(() => 0);
+      setLimitTeam(() => 9);
+    }
   };
 
-  console.log(userNot);
+  const handleLoadMore = () => {
+    console.log("cargar mas...");
+    //loadNextPage(endCursor, pageSize).then((newPage) => {
+    //setLoading(false);
+    //setHasNextPage(newPage.hasNextPage);
+    //setItems([...items, newPage.items]);
+    //});
+  };
+
+  console.log("user:" + skipUser, limitUser);
+  console.log("team:" + skipTeam, limitTeam);
+
   console.log(notificationUser);
-  // console.log(notificationTeam);
+  console.log(notificationTeam);
+
   return (
     <MainNotification>
       <Header />
@@ -92,29 +128,51 @@ const NotificationsPage = () => {
             Me Notifications
           </Typography>
           <NotiBox>
-            <InfiniteScroll
-              dataLength={notificationUser.length}
-              hasMore={true}
-              loader={<h4>Loading...</h4>}
-              next={pagination}
-            >
+            {loading ? (
+              <LoadingComponent />
+            ) : (
               <div>
-                {notificationUser.map((note) => (
-                  <NotificationCard info={note} />
+                {notificationUser.map((note, index) => (
+                  <NotificationCard info={note} key={index} />
                 ))}
               </div>
-            </InfiniteScroll>
+            )}
           </NotiBox>
+          <Stack spacing={2}>
+            <Pagination
+              count={countUser}
+              color="primary"
+              size="large"
+              onChange={paginationUser}
+              page={pageUser}
+            />
+          </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant="h6" color="initial">
             Team Notifications
           </Typography>
+
           <NotiBox>
-            {notificationTeam.map((note) => (
-              <NotificationCard info={note} />
-            ))}
+            {loading2 ? (
+              <LoadingComponent />
+            ) : (
+              notificationTeam.map((note, index) => (
+                <NotificationCard info={note} key={index} />
+              ))
+            )}
           </NotiBox>
+          <Box display="flex" justifyContent="right">
+            <Stack spacing={2}>
+              <Pagination
+                count={countTeam}
+                color="primary"
+                size="large"
+                onChange={paginationTeam}
+                page={pageTeam}
+              />
+            </Stack>
+          </Box>
         </Grid>
       </Grid>
       <Footer />

@@ -172,7 +172,7 @@ const getUsersKPI = (idccms, idKPI) => {
 
 /* AGENT */
 //trae la data del Home
-const downloadHomeData = (idccms, data) => {
+const downloadHomeData = (idccms) => {
   try {
     return axiosInstance
       .post(`gethomedata?idccms=${idccms}`)
