@@ -123,6 +123,8 @@ const assingActivities = (data, idccms) => {
   try {
     return axiosInstance
       .post(`postassignactivitiestl?idccms=${idccms}`, {
+        tlName: data.tlName,
+        nameActivity: data.nameActivity,
         idActivity: data.idActivity,
         idccmsAssigned: data.idccmsAssigned,
         fcmTokens: data.fcmTokens,
@@ -277,9 +279,9 @@ const getNotifications = (idccms, min, max, context) => {
   try {
     return axiosInstance
       .post(`getmynotifications?idccms=${idccms}`, {
-        min: 1,
-        max: 11,
-        context: 3,
+        min: min,
+        max: max,
+        context: context,
       })
       .catch(function (error) {
         if (error.response) {

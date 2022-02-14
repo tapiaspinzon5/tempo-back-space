@@ -14,8 +14,8 @@ import { useTheme } from "@mui/material/styles";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Notifications from "../notifications/Notifications";
 import { downloadNotifications } from "../../utils/api";
-import { onMessageListener } from "../../utils/firebase";
-import Swal from "sweetalert2";
+
+//import Swal from "sweetalert2";
 //import { DarkModeContext } from "../../context/DarkModeProvider";
 //import ProgresBar from "../progressCharts/ProgresBar";
 //import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -96,14 +96,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  const [notification, setNotification] = useState({
-    title: "",
-    body: "",
-    url: "",
-  });
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
   //controles Dark mode
@@ -114,45 +109,6 @@ const Header = () => {
     // console.log("...mostrando notificaciones");
     setShowNotification(!showNotification);
   };
-  // Esta funcion esta pendiente de las nuevas notifiaciones
-  onMessageListener()
-    .then((payload) => {
-      setNotification({
-        title: payload?.data?.title,
-        body: payload?.data?.body,
-        url: payload?.data?.url,
-      });
-    })
-    .catch((err) => console.log("failed: ", err));
-
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 5000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
-  const noti = () => {
-    notification?.title &&
-      Toast.fire({
-        icon: "warning",
-        title: notification?.title,
-        text: notification?.body,
-      });
-  };
-
-  useEffect(() => {
-    if (notification?.title) {
-      noti();
-      setCont(cont + 1);
-    }
-    // eslint-disable-next-line
-  }, [notification]);
 
   useEffect(() => {
     const data = async () => {
@@ -171,17 +127,27 @@ const Header = () => {
           }
         });
         setCont(c);
+        console.log(c);
       }
     };
     data();
   }, []);
+
+  /*  useEffect(() => {
+    if (notification?.title) {
+      notify();
+      setCont(cont + 1);
+    }
+    // eslint-disable-next-line
+  }, [notification]); */
+
   useEffect(() => {
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
       if (
         getNotifications &&
         getNotifications.status === 200 &&
-        getNotifications.data.length > 1
+        getNotifications.data.length > 0
       ) {
         setNotifications(getNotifications.data);
         console.log(notifications);
@@ -192,55 +158,61 @@ const Header = () => {
           }
         });
         setCont(c);
+        console.log(c);
       }
     };
     data();
-  }, [cont]);
+  }, [count]);
 
   return (
-    <MainHeader
-      container
-      sx={{
-        background: theme.palette.background.navigator,
-        color: "text.primary",
-      }}
-    >
-      <TitleHeader
-        item
-        xs={12}
-        md={6}
+    <>
+      <MainHeader
+        container
         sx={{
-          //background: theme.palette.background.primary,
+          background: theme.palette.background.navigator,
           color: "text.primary",
-          display: "flex",
-          justifyContent: "left",
         }}
       >
-        <img src={bannerH} alt="TP" />
-      </TitleHeader>
-      <RightHeader item xs={12} md={6}>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon sx={{ color: "#000" }} />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Search>
-
-        {showNotification && <Notifications notifications={notifications} />}
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-          onClick={handleNotification}
+        <TitleHeader
+          item
+          xs={12}
+          md={6}
+          sx={{
+            //background: theme.palette.background.primary,
+            color: "text.primary",
+            display: "flex",
+            justifyContent: "left",
+          }}
         >
-          <Badge badgeContent={cont < 11 ? cont : "10+"} color="error"></Badge>
-          <NotificationsIcon />
-        </IconButton>
-      </RightHeader>
-    </MainHeader>
+          <img src={bannerH} alt="TP" />
+        </TitleHeader>
+        <RightHeader item xs={12} md={6}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon sx={{ color: "#000" }} />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+
+          {showNotification && <Notifications notifications={notifications} />}
+          <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+            onClick={handleNotification}
+          >
+            <Badge
+              badgeContent={cont < 11 ? cont : "10+"}
+              color="error"
+            ></Badge>
+            <NotificationsIcon />
+          </IconButton>
+        </RightHeader>
+      </MainHeader>
+    </>
   );
 };
 

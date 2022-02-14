@@ -210,11 +210,12 @@ export const shortName = (word) => {
   return newName;
 };
 
-export const validateDataCheck = (agents, activities) => {
+export const validateDataCheck = (agents, activities, TLName) => {
   const newData = [];
   const funData = () => {
     const ag = [];
     const ac = [];
+    const acName = [];
     const tokens = [];
     agents.forEach((agt) => {
       if (agt.isChecked === true) {
@@ -226,10 +227,17 @@ export const validateDataCheck = (agents, activities) => {
     activities.forEach((act) => {
       if (act.isChecked === true) {
         ac.push(act.Id);
+        acName.push(act.Name);
       }
     });
 
-    newData.push({ idActivity: ac, idccmsAssigned: ag, fcmTokens: tokens });
+    newData.push({
+      tlName: TLName,
+      nameActivity: acName,
+      idActivity: ac,
+      idccmsAssigned: ag,
+      fcmTokens: tokens,
+    });
   };
   funData();
   return newData;

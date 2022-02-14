@@ -35,7 +35,46 @@ const CardQuiz = styled(Box)(({ theme }) => ({
 
 const CardQuizDesc = ({ quiz }) => {
   const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
-  //console.log(quiz);
+  let fecha;
+  let hora;
+  let fechaBase = new Date(fechaRegistro).toLocaleString([], {
+    timeZone: "Etc/UTC",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  let now = new Date().toLocaleString([], {
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  let fa = new Date(now);
+  let fb = new Date(fechaBase);
+
+  if (
+    now.replace(",", "").split(" ")[0] ===
+    fechaBase.replace(",", "").split(" ")[0]
+  ) {
+    hora = Math.trunc((fa - fb) / 60000);
+    if (hora < 31) {
+      fecha = `${hora} minuts ago`;
+    } else {
+      fecha = fechaBase.replace(",", "").split(" ")[1];
+    }
+  } else {
+    fecha = fechaBase.replace(",", "").split(" ")[0];
+  }
+
   return (
     <CardQuiz>
       <Box>
@@ -54,7 +93,7 @@ const CardQuizDesc = ({ quiz }) => {
         {Descripcion}
       </Typography>
       <Typography variant="body2" align="center">
-        {new Date(fechaRegistro).toDateString()}
+        {fecha}
       </Typography>
       <Typography variant="body2" align="center">
         Preguntas: {CantidadPreguntas}

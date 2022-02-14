@@ -30,15 +30,14 @@ const messaging = firebase.messaging();
 
 // esta funcion escucha las notificaciones cuando la app esta en segundo plano.
 messaging.onBackgroundMessage(function (payload) {
-  //console.log("Received background message ", payload);
+  console.log("Received background message ", payload);
   // Customize notification here
-  const notificationTitle = payload.data.title;
+  const notificationTitle = payload.data.Title;
   const notificationOptions = {
-    body: payload.data.body,
-    url: payload.data.url,
-    icon: payload.data.image,
+    body: payload.data.Challenge,
+    url: payload.data.Url,
+    icon: payload.data.Image,
   };
-
   // Muestra la notificacion
   self.registration.showNotification(notificationTitle, notificationOptions);
 });

@@ -113,6 +113,7 @@ export const loginSubmit = (data) => async (dispatch) => {
         UserName: requestData.data.UserName,
         Idccms: requestData.data.Idccms,
         Quartile: requestData.data.Quartile,
+        Nombre: requestData.data.Nombre,
       })
     );
   } catch (error) {

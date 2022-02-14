@@ -77,59 +77,16 @@ const ChallengeAssignment = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
+  const TLName = userData.Nombre;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
-  /*   const [notification, setNotification] = useState({
-    title: "",
-    body: "",
-    url: "",
-  }); */
-
-  /* // Esta funcion esta pendiente de las nuevas notifiaciones
-  onMessageListener()
-    .then((payload) => {
-      setNotification({
-        title: payload?.data?.title,
-        body: payload?.data?.body,
-        url: payload?.data?.url,
-      });
-    })
-    .catch((err) => //console.log("failed: ", err));
-
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
-  const noti = () => {
-    notification?.title &&
-      Toast.fire({
-        icon: "warning",
-        title: notification?.title,
-        text: notification?.body,
-      });
-  };
-
-  useEffect(() => {
-    if (notification?.title) {
-      noti();
-    }
-  }, [notification]); */
 
   useEffect(() => {
     const getData = async () => {
       const activities = await downloadActivities(idccms);
-      ////console.log(activities);
       if (
         activities &&
         activities.status === 200 &&
@@ -139,10 +96,8 @@ const ChallengeAssignment = () => {
       } else {
         setError(true);
       }
-      // setAssignment(activities.data);
       const user = await downloadUsers(idccms);
       if (user && user.status === 200 && user.data.length > 1) {
-        //console.log(user.data);
         setUsers(user.data);
       } else {
         setError(true);
@@ -150,11 +105,6 @@ const ChallengeAssignment = () => {
     };
 
     getData();
-
-    //asignacion de usuarios
-    //setUsers(userData);
-
-    // eslint-disable-next-line
   }, []);
 
   //funcion de asingacion de usuarios
@@ -215,7 +165,7 @@ const ChallengeAssignment = () => {
     e.preventDefault();
     setLoading(true);
     if (validator) {
-      const dataSend = validateDataCheck(users, activity);
+      const dataSend = validateDataCheck(users, activity, TLName);
       //console.log(dataSend[0]);
       if (
         dataSend[0].idActivity.length > 0 &&

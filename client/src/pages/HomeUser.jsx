@@ -6,13 +6,13 @@ import ProgressHome from "../components/homeUser/ProgressHome";
 import Podium from "../components/progressCharts/Podium";
 import Circle from "../components/progressCharts/Circle";
 import Diamond from "../components/progressCharts/Diamond";
+import medal2 from "../assets/badges/Grupo5630.svg";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useSelector } from "react-redux";
 import { downloadHomeData, tokenNotification } from "../utils/api";
-import { requestForToken, onMessageListener } from "../utils/firebase";
-import Swal from "sweetalert2";
+import { requestForToken } from "../utils/firebase";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -42,62 +42,24 @@ const SeeButton = styled(Button)(() => ({
   borderRadius: "10px",
 }));
 
-const HomeUser = () => {
-  /*  const [notification, setNotification] = useState({
-    title: "",
-    body: "",
-    url: "",
-  }); */
+const HomeUser = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [data, setData] = useState([]);
-
-  /*  // Esta funcion esta pendiente de las nuevas notifiaciones
-  onMessageListener()
-    .then((payload) => {
-      setNotification({
-        title: payload?.data?.title,
-        body: payload?.data?.body,
-        url: payload?.data?.url,
-      });
-    })
-    .catch((err) => console.log("failed: ", err));
-
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 15000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
-  const noti = () => {
-    notification?.title &&
-      Toast.fire({
-        icon: "warning",
-        title: notification?.title,
-        text: notification?.body,
-      });
-  };
-
-  useEffect(() => {
-    if (notification?.title) {
-      noti();
-    }
-    // eslint-disable-next-line
-  }, [notification]); */
+  const [texp, setTExp] = useState(0);
+  const [cw, setCw] = useState(0);
+  const [gp, setGp] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
       const kpis = await downloadHomeData(idccms);
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-        setData(kpis.data);
+        await setData(kpis.data);
+        await setTExp(kpis.data[2]);
+        await setCw(kpis.data[3]);
+        await setGp(kpis.data[4]);
       }
-
+      console.log(kpis.data);
       const token = await requestForToken();
       await tokenNotification(token, idccms);
     };
@@ -110,13 +72,13 @@ const HomeUser = () => {
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
-  //console.log(data);
+  console.log(data[5].Badge[0].Badge);
   return (
     <>
       <MainHomeUser
         sx={{ bgcolor: "background.default", color: "text.primary" }}
       >
-        <Header />
+        <Header count={count} />
         <Grid container spacing={3}>
           <Grid item xs={12} lg={5} xl={6}>
             {ranking && <ProgressHome dataKPI={data} />}
@@ -132,7 +94,7 @@ const HomeUser = () => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Total Exp
               </Typography>
-              <Circle />
+              {texp && <Circle info={texp} />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
                   See more
@@ -145,7 +107,7 @@ const HomeUser = () => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Challenges Won
               </Typography>
-              <Diamond />
+              {cw && <Diamond info={cw} />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
                   See more
@@ -158,7 +120,7 @@ const HomeUser = () => {
               <Typography variant="h6" align="center" fontWeight="bold">
                 Games Played
               </Typography>
-              <StarProgress />
+              {gp && <StarProgress info={gp} />}
               <Box display="flex" justifyContent="center">
                 <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
                   See more
@@ -180,7 +142,14 @@ const HomeUser = () => {
                   height: "28vh",
                 }}
               >
-                <img src={medal} alt="top-Ten" height="75%" width="75%" />
+                {data[5].Badge[0].Badge && (
+                  <img
+                    src={data[5].Badge[0].Badge === "0" ? medal : medal2}
+                    alt="top-Ten"
+                    height="75%"
+                    width="75%"
+                  />
+                )}
                 <Box display="flex" justifyContent="center">
                   <SeeButton
                     sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}

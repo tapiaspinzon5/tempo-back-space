@@ -33,7 +33,7 @@ const NotificationCard = ({ info }) => {
   const idccms = userData.Idccms;
   let fecha;
   let hora;
-  let fechaBase = new Date(info.FchAssignment).toLocaleString([], {
+  let fechaBase = new Date(info.Date).toLocaleString([], {
     timeZone: "Etc/UTC",
     hourCycle: "h23",
     year: "numeric",
@@ -86,7 +86,7 @@ const NotificationCard = ({ info }) => {
             sx={{ width: 46, height: 46 }}
           />
           <Typography variant="body2" marginLeft="1rem">
-            {info.Name}
+            {info.TypeNotification + "  " + info.Name}
           </Typography>
         </Box>
         <Typography variant="caption">{fecha}</Typography>
