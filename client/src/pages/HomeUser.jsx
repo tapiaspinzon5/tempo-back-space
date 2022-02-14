@@ -110,7 +110,7 @@ const HomeUser = () => {
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
-  //console.log(data);
+  console.log("Data:", data);
   return (
     <>
       <MainHomeUser

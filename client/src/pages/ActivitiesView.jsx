@@ -89,7 +89,7 @@ const ActivitiesView = () => {
         } else {
           setNoData("The Game Starts Soon");
         }
-        //console.log("QZ:", quizes);
+        console.log("QZ:", quizes);
       } else {
         const getActivities = await loadUserActivities(idccms, context);
         if (getActivities && getActivities.status === 200) {
@@ -119,7 +119,6 @@ const ActivitiesView = () => {
 
   useEffect(() => {
     const mousePosition = (e) => {
-      //console.log("posicion del mouse", e.clientX);
       setMousePos((e.clientX / window.screen.width) * 100);
     };
     window.addEventListener("mousemove", mousePosition);
@@ -129,8 +128,6 @@ const ActivitiesView = () => {
 
     //mousePosition();
   }, []);
-
-  console.log(userActivities);
 
   return (
     <Grid width="100%">
@@ -155,7 +152,7 @@ const ActivitiesView = () => {
             {" "}
             Challenges{" "}
           </Button>
-          <Button
+          {/* <Button
             sx={activities.type === "Quizes" && selectButton}
             onClick={() =>
               setActivities({ type: "Quizes", context: 0, menu: true })
@@ -163,7 +160,7 @@ const ActivitiesView = () => {
           >
             {" "}
             Quizes
-          </Button>
+          </Button> */}
           <Button
             sx={activities.type === "Activities" && selectButton}
             onClick={() =>

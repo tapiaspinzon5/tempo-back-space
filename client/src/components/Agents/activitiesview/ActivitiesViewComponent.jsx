@@ -99,11 +99,11 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
       <DownSection
       //sx={{ background }}
       >
-        {/* <Button
+        <Button
           onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
         >
           See more
-        </Button> */}
+        </Button>
       </DownSection>
     </BoxCard>
   );
