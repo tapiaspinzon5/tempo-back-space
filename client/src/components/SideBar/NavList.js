@@ -8,6 +8,9 @@ import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
 import { FiLogOut } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
+import { VscDiffAdded } from "react-icons/vsc";
+import { ImEqualizer2 } from "react-icons/im";
+
 //import awardIcon from "../../assets/Icons/award.svg";
 //import bookIcon from "../../assets/Icons/book-open.svg";
 //import pieIcon from "../../assets/Icons/pie-chart.svg";
@@ -68,8 +71,7 @@ export const NavList = ({ open, match, userData }) => {
           </LIcon>
           {open && match && <Typography>Dasboard</Typography>}
         </LItem>
-
-        {userData === "Agent" ? (
+        {userData === "Agent" && (
           <>
             {userData === "Agent" && (
               <LItem button onClick={() => navigate("/activitiesview")}>
@@ -80,8 +82,9 @@ export const NavList = ({ open, match, userData }) => {
               </LItem>
             )}
           </>
-        ) : (
-          //NAVBAR PARA ADMINISTRADORES
+        )}
+        {/* NAVBAR PARA ADMINISTRADORES */}
+        {
           <>
             {userData === "QA Lead" && (
               <LItem button onClick={() => navigate("/upquiz")}>
@@ -92,7 +95,29 @@ export const NavList = ({ open, match, userData }) => {
               </LItem>
             )}
           </>
-        )}
+        }
+        {
+          <>
+            {userData === "Team Leader" && (
+              <>
+                <LItem button onClick={() => navigate("/challengeasignment")}>
+                  <LIcon>
+                    <VscDiffAdded size={30} color="#fff" />
+                  </LIcon>
+                  {open && match && (
+                    <Typography>Challenge Assignment</Typography>
+                  )}
+                </LItem>
+                <LItem button onClick={() => navigate("/followingteams")}>
+                  <LIcon>
+                    <ImEqualizer2 size={30} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Following KPI</Typography>}
+                </LItem>
+              </>
+            )}
+          </>
+        }
         <LItem button onClick={logOut}>
           <LIcon>
             <FiLogOut size={30} color="#fff" />

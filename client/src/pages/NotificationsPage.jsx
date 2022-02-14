@@ -7,6 +7,7 @@ import Header from "../components/homeUser/Header";
 import NotificationCard from "../components/notifications/NotificationCard";
 import Footer from "../components/Footer";
 import { getNotifications } from "../utils/api";
+import LoadingComponent from "../components/LoadingComponent";
 const MainNotification = styled(Grid)(() => ({
   width: "100%",
   h6: {
@@ -50,8 +51,11 @@ const NotificationsPage = () => {
   const [pageTeam, setPageTeam] = useState(1);
   const [countUser, setCountUser] = useState(0);
   const [countTeam, setCountTeam] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const traerNotificaciones = async () => {
       console.log("trayendo datos");
       const data = await getNotifications(idccms, skipUser, limitUser, 1);
@@ -59,17 +63,20 @@ const NotificationsPage = () => {
       const pages =
         data.data[0].NotificationRead + data.data[0].NotificationUnread;
       setCountUser(parseInt(pages / 10 + 1));
+      setLoading(false);
     };
     traerNotificaciones();
   }, [limitUser]);
 
   useEffect(() => {
+    setLoading2(true);
     const traerNotificaciones = async () => {
       const dataTeam = await getNotifications(idccms, skipTeam, limitTeam, 2);
       setNotificationTeam(dataTeam.data);
       const pagesTeam =
         dataTeam.data[0].NotificationRead + dataTeam.data[0].NotificationUnread;
       setCountTeam(parseInt(pagesTeam / 10 + 1));
+      setLoading2(false);
     };
     traerNotificaciones();
   }, [limitTeam]);
@@ -121,11 +128,15 @@ const NotificationsPage = () => {
             Me Notifications
           </Typography>
           <NotiBox>
-            <div>
-              {notificationUser.map((note, index) => (
-                <NotificationCard info={note} key={index} />
-              ))}
-            </div>
+            {loading ? (
+              <LoadingComponent />
+            ) : (
+              <div>
+                {notificationUser.map((note, index) => (
+                  <NotificationCard info={note} key={index} />
+                ))}
+              </div>
+            )}
           </NotiBox>
           <Stack spacing={2}>
             <Pagination
@@ -143,9 +154,13 @@ const NotificationsPage = () => {
           </Typography>
 
           <NotiBox>
-            {notificationTeam.map((note, index) => (
-              <NotificationCard info={note} key={index} />
-            ))}
+            {loading2 ? (
+              <LoadingComponent />
+            ) : (
+              notificationTeam.map((note, index) => (
+                <NotificationCard info={note} key={index} />
+              ))
+            )}
           </NotiBox>
           <Box display="flex" justifyContent="right">
             <Stack spacing={2}>

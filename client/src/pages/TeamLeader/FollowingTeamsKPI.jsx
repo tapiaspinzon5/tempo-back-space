@@ -5,6 +5,7 @@ import Header from "../../components/homeUser/Header";
 //import ProgresBar from "../../components/progressCharts/ProgresBar";
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
+import Footer from "../../components/Footer";
 
 const MainFT = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -192,6 +193,7 @@ const FollowingTeamsKPI = () => {
           </Item>
         </UsersBox>
       </Grid>
+      <Footer />
     </MainFT>
   );
 };

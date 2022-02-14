@@ -7,7 +7,7 @@ const BoxLoading = styled(Box)(() => ({
   flexDirection: "column",
   alignItems: "center",
   h6: {
-    color: "#3047B0",
+    color: "#0087FF",
   },
 }));
 
@@ -17,7 +17,7 @@ const LoadingComponent = ({ theme }) => {
       <Typography variant="h6" color="initial">
         loading {theme}...
       </Typography>
-      <PongSpinner size={100} color="#FF00FF" />
+      <PongSpinner size={100} color="#0087FF" />
     </BoxLoading>
   );
 };
