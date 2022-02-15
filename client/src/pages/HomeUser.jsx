@@ -27,8 +27,8 @@ const MainHomeUser = styled(Grid)(({ theme }) => ({
 }));
 
 const BoxVinetas = styled(Box)(({ theme }) => ({
-  background: "#f9f9f9",
-  borderRadius: "10px",
+  ackground: "#f9f9f9",
+  borderRadius: "10pbx",
   h6: {
     color: "#3047B0",
   },

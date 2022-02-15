@@ -35,6 +35,7 @@ import { onMessageListener } from "../utils/firebase";
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import LeaderBoard from "../pages/Agent/LeaderBoard";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -107,6 +108,7 @@ const AppRouter = () => {
               <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/leaderboard" element={<LeaderBoard />} />
               <Route
                 path="/activitiesview/:idActivity/:context"
                 element={<ActivitiesDescription />}

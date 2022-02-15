@@ -85,7 +85,7 @@ const NotificationCard = ({ info }) => {
             src={avatar}
             sx={{ width: 46, height: 46 }}
           />
-          <Typography variant="body2" marginLeft="1rem">
+          <Typography variant="body2" marginLeft="1rem" align="left">
             {info.TypeNotification + "  " + info.Name}
           </Typography>
         </Box>

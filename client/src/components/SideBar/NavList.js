@@ -10,6 +10,7 @@ import { FiLogOut } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
+import { IoTrendingUpSharp } from "react-icons/io5";
 
 //import awardIcon from "../../assets/Icons/award.svg";
 //import bookIcon from "../../assets/Icons/book-open.svg";
@@ -73,14 +74,18 @@ export const NavList = ({ open, match, userData }) => {
         </LItem>
         {userData === "Agent" && (
           <>
-            {userData === "Agent" && (
-              <LItem button onClick={() => navigate("/activitiesview")}>
-                <LIcon>
-                  <img src={gridIcon} alt="Grid" />
-                </LIcon>
-                {open && match && <Typography>Library</Typography>}
-              </LItem>
-            )}
+            <LItem button onClick={() => navigate("/activitiesview")}>
+              <LIcon>
+                <img src={gridIcon} alt="Grid" />
+              </LIcon>
+              {open && match && <Typography>Library</Typography>}
+            </LItem>
+            <LItem button onClick={() => navigate("/leaderboard")}>
+              <LIcon>
+                <IoTrendingUpSharp size={30} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>LeaderBoard</Typography>}
+            </LItem>
           </>
         )}
         {/* NAVBAR PARA ADMINISTRADORES */}
