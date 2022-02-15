@@ -35,6 +35,7 @@ import { onMessageListener } from "../utils/firebase";
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { AgentChallengeAssignment } from "../pages/AgentChallengeAssignment";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -106,7 +107,14 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeusers" />} />
               <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route
+                path="/notifications"
+                element={<NotificationsPage count={count} />}
+              />
+              <Route
+                path="/challengeassignmentagent"
+                element={<AgentChallengeAssignment count={count} />}
+              />
               <Route
                 path="/activitiesview/:idActivity/:context"
                 element={<ActivitiesDescription />}
@@ -126,7 +134,7 @@ const AppRouter = () => {
             userData?.Role === "Operation Manager" && (
               <>
                 <Route path="/" element={<Navigate to="/homeom" />} />
-                <Route path="/homeom" element={<HomeOM />} />
+                <Route path="/homeom" element={<HomeOM count={count} />} />
                 <Route path="/upcampaign" element={<UpCampaign />} />
               </>
             )}
@@ -134,20 +142,20 @@ const AppRouter = () => {
             <>
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/upquiz" element={<UpQuiz />} />
-              <Route path="/homeqal" element={<HomeQAL />} />
+              <Route path="/homeqal" element={<HomeQAL count={count} />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Reporting Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
-              <Route path="/homerl" element={<HomeRL />} />
+              <Route path="/homerl" element={<HomeRL count={count} />} />
               <Route path="/upagents" element={<UpAgents />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (
             <>
               <Route path="/" element={<Navigate to="/homesa" />} />
-              <Route path="/homesa" element={<HomeSA />} />
+              <Route path="/homesa" element={<HomeSA count={count} />} />
               <Route path="/upcount" element={<UpCount />} />
             </>
           )}
@@ -158,12 +166,18 @@ const AppRouter = () => {
               {/* <Route path="/" element={<Navigate to="/hometl" />} /> */}
               {/* <Route path="/hometl" element={<HomeTL />} /> */}
               <Route path="/homeusers" element={<HomeUser />} />
-              <Route path="/followingteams" element={<FollowingTeamsKPI />} />
+              <Route
+                path="/followingteams"
+                element={<FollowingTeamsKPI count={count} />}
+              />
               <Route
                 path="/challengeasignment"
-                element={<ChallengeAssignment />}
+                element={<ChallengeAssignment count={count} />}
               />
-              <Route path="/badgesmanagement" element={<BadgeManagement />} />
+              <Route
+                path="/badgesmanagement"
+                element={<BadgeManagement count={count} />}
+              />
               <Route path="/teamprogress" element={<TeamsProgress />} />
             </>
           )}

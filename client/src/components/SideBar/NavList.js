@@ -81,6 +81,12 @@ export const NavList = ({ open, match, userData }) => {
                 {open && match && <Typography>Library</Typography>}
               </LItem>
             )}
+            {/*  <LItem button onClick={() => navigate("/challengeassignmentagent")}>
+              <LIcon>
+                <VscDiffAdded size={30} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Challenge Assignment</Typography>}
+            </LItem> */}
           </>
         )}
         {/* NAVBAR PARA ADMINISTRADORES */}

@@ -61,7 +61,7 @@ const Item = styled(Box)(({ theme }) => ({
   borderRadius: "20px",
 }));
 
-const FollowingTeamsKPI = () => {
+const FollowingTeamsKPI = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [kpi, setKpi] = useState([]);
@@ -96,7 +96,7 @@ const FollowingTeamsKPI = () => {
 
   return (
     <MainFT>
-      <Header />
+      <Header count={count} />
       <Typography variant="h5"> Following Team KPI</Typography>
 
       <Grid container>

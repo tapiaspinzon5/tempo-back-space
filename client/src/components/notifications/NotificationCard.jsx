@@ -54,8 +54,14 @@ const NotificationCard = ({ info }) => {
     second: "2-digit",
   });
 
-  let fa = new Date(now);
-  let fb = new Date(fechaBase);
+  let fa = new Date(
+    `${now.split("/")[1]}/${now.split("/")[0]}/${now.split("/")[2]}`
+  );
+  let fb = new Date(
+    `${fechaBase.split("/")[1]}/${fechaBase.split("/")[0]}/${
+      fechaBase.split("/")[2]
+    }`
+  );
 
   if (
     now.replace(",", "").split(" ")[0] ===
@@ -70,7 +76,7 @@ const NotificationCard = ({ info }) => {
   } else {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
-
+  console.log(fa, fb, fecha);
   const handleClick = async () => {
     await updateStatusNotifications(idccms, info.IdNotification);
     navigate(`/activitiesview/${info.IdChallenge}/${2}`);

@@ -58,9 +58,14 @@ const CardQuizDesc = ({ quiz }) => {
     second: "2-digit",
   });
 
-  let fa = new Date(now);
-  let fb = new Date(fechaBase);
-
+  let fa = new Date(
+    `${now.split("/")[1]}/${now.split("/")[0]}/${now.split("/")[2]}`
+  );
+  let fb = new Date(
+    `${fechaBase.split("/")[1]}/${fechaBase.split("/")[0]}/${
+      fechaBase.split("/")[2]
+    }`
+  );
   if (
     now.replace(",", "").split(" ")[0] ===
     fechaBase.replace(",", "").split(" ")[0]

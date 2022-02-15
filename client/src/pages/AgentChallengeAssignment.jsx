@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
-import Header from "../../components/homeUser/Header";
-import ShowActivity from "../../components/teamLeader/ShowActivity";
-import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
-import Footer from "../../components/Footer";
-import SearchAppBar from "../../components/Search";
-import { downloadActivities, downloadUsers } from "../../utils/api";
-import { validateDataCheck } from "../../helpers/helpers";
+import Header from "../components/homeUser/Header";
+import ShowActivity from "../components/teamLeader/ShowActivity";
+import ShowUserActivity from "../components/teamLeader/ShowUserActivity";
+import Footer from "../components/Footer";
+import SearchAppBar from "../components/Search";
+import { downloadActivities, downloadUsers } from "../utils/api";
+import { validateDataCheck } from "../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { ModalLoading } from "../../components/ModalLoading";
-import { assingActivities } from "../../utils/api";
+import { ModalLoading } from "../components/ModalLoading";
+import { assingActivities } from "../utils/api";
+import { UserChallenge } from "../components/Agents/Challenges/UserChallenge";
+import { ChallengeCard } from "../components/Agents/Challenges/ChallengeCard";
 //import { onMessageListener } from "../../utils/firebase";
 
 const MySwal = withReactContent(Swal);
@@ -72,8 +74,7 @@ const selectButton = {
   borderRadius: "10px",
   textTransform: "none",
 };
-
-const ChallengeAssignment = ({ count }) => {
+export const AgentChallengeAssignment = ({ count }) => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
@@ -109,19 +110,14 @@ const ChallengeAssignment = ({ count }) => {
 
   //funcion de asingacion de usuarios
   const handleUser = (e) => {
-    const { name, checked } = e.target;
-    if (name === "selecct-all") {
-      let tempUser = users.map((user) => {
-        return { ...user, isChecked: checked };
-      });
-
-      setUsers(tempUser);
-    } else {
-      let tempUser = users.map((user) =>
-        user.Agent === name ? { ...user, isChecked: checked } : user
-      );
-      setUsers(tempUser);
-    }
+    const { value, checked } = e.target;
+    console.log(value, checked);
+    let tempUser = users.map((user) =>
+      user.Agent === value
+        ? { ...user, isChecked: checked }
+        : { ...user, isChecked: false }
+    );
+    setUsers(tempUser);
   };
 
   ////////////////////////////// funcion de asingacion de Actividades
@@ -160,7 +156,8 @@ const ChallengeAssignment = ({ count }) => {
   ///Función Envio de Acctividades
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    console.log(users, activity, TLName);
+    /* setLoading(true);
     if (validator) {
       const dataSend = validateDataCheck(users, activity, TLName);
       if (
@@ -201,7 +198,7 @@ const ChallengeAssignment = ({ count }) => {
         icon: "error",
       });
       //idActivity: ac, idccmsAssigned: ag
-    }
+    } */
   };
 
   return (
@@ -212,131 +209,20 @@ const ChallengeAssignment = ({ count }) => {
         <Grid container>
           <Grid item xs={12}>
             <Typography variant="h5" fontWeight={500}>
-              Challenge Assignment
+              Challenge Assignment --time? --Attempts?
             </Typography>
           </Grid>
 
-          <BoxSelectBadge item xs={12}>
-            {/*  <Button
-              sx={stage === "Getting started" && selectButton}
-              onClick={() => setStage("Getting started")}
-            >
-              Getting Started{" "}
-            </Button>
-            <Button
-              sx={stage === "Battle" && selectButton}
-              onClick={() => setStage("Battle")}
-            >
-              {" "}
-              Battle{" "}
-            </Button>
-            <Button
-              sx={stage === "Being Awarded" && selectButton}
-              onClick={() => setStage("Being Awarded")}
-            >
-              {" "}
-              Being Awarded
-            </Button>
-            <Button
-              sx={stage === "Developing skills" && selectButton}
-              onClick={() => setStage("Developing skills")}
-            >
-              {" "}
-              Developing Skills
-            </Button>
-            <Button
-              sx={stage === "Getting stronger" && selectButton}
-              onClick={() => setStage("Getting stronger")}
-            >
-              {" "}
-              Getting Stronger
-            </Button> */}
-          </BoxSelectBadge>
+          <BoxSelectBadge item xs={12}></BoxSelectBadge>
         </Grid>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={7} padding={1}>
+          <Grid item xs={12} md={6} padding={1}>
             <BoxActivity>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                marginBottom={2}
-              >
-                <Button sx={selectButton}>
-                  <input
-                    type="checkbox"
-                    name="selecct-all"
-                    onChange={handleBadge}
-                    checked={
-                      activity.filter(
-                        (actividad) => actividad?.isChecked !== true
-                      ).length < 1
-                    } /* {
-                      activity[stage] !== undefined
-                        ? activity[stage].filter(
-                            (actividad) => actividad?.isChecked !== true
-                          ).length < 1
-                        : activity.filter(
-                            (actividad) => actividad?.isChecked !== true
-                          ).length < 1
-                    } */
-                  />
-                  Select all
-                </Button>
-                <SearchAppBar />
-              </Box>
-              <Boxview>
-                {/* {activity[stage] !== undefined
-                  ? activity[stage]?.map((act, index) => (
-                      <ShowActivity
-                        key={index}
-                        data={act}
-                        handleBadge={handleBadge}
-                      />
-                    ))
-                  : activity?.map((act, index) => (
-                      <ShowActivity
-                        key={index}
-                        data={act}
-                        handleBadge={handleBadge}
-                      />
-                    ))} */}
-                {!error ? (
-                  activity?.map((act, index) => (
-                    <ShowActivity
-                      key={index}
-                      data={act}
-                      handleBadge={handleBadge}
-                    />
-                  ))
-                ) : (
-                  <Typography variant="h5" fontWeight={500}>
-                    The Game Starts Soon
-                  </Typography>
-                )}
-              </Boxview>
-            </BoxActivity>
-          </Grid>
-          <Grid item xs={12} md={5} padding={1}>
-            <BoxActivity>
-              <Box marginBottom={2}>
-                <Button sx={selectButton}>
-                  <input
-                    type="checkbox"
-                    name="selecct-all"
-                    onChange={handleUser}
-                    checked={
-                      users.filter((user) => user?.isChecked !== true).length <
-                      1
-                    }
-                  />
-                  Select all
-                </Button>
-              </Box>
+              <Box marginBottom={2}></Box>
               <Boxview>
                 {!error ? (
                   users.map((user, index) => (
-                    <ShowUserActivity
+                    <UserChallenge
                       key={index}
                       user={user}
                       handleUser={handleUser}
@@ -350,14 +236,35 @@ const ChallengeAssignment = ({ count }) => {
               </Boxview>
             </BoxActivity>
           </Grid>
+          <Grid item xs={12} md={6} padding={1}>
+            <BoxActivity>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                marginBottom={2}
+              ></Box>
+              <Boxview>
+                {!error ? (
+                  activity?.map((act, index) => (
+                    <ChallengeCard
+                      key={index}
+                      data={act}
+                      handleSubmit={handleSubmit}
+                      // handleBadge={handleBadge}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="h5" fontWeight={500}>
+                    The Game Starts Soon
+                  </Typography>
+                )}
+              </Boxview>
+            </BoxActivity>
+          </Grid>
         </Grid>
-        <BoxAssingment>
-          <Button onClick={handleSubmit}>Assignement</Button>
-        </BoxAssingment>
         <Footer />
       </MainCA>
     </>
   );
 };
-
-export default ChallengeAssignment;

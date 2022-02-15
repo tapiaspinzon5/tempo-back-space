@@ -136,7 +136,7 @@ const ActivitiesView = () => {
           <Button
             sx={activities.type === "Missions" && selectButton}
             onClick={() =>
-              setActivities({ type: "Missions", context: 3, menu: true })
+              setActivities({ type: "Quizes", context: 0, menu: true })
             }
           >
             Missions

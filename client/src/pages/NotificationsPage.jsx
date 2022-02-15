@@ -37,7 +37,7 @@ const NotiBox = styled(Box)(() => ({
   },
 }));
 
-const NotificationsPage = () => {
+const NotificationsPage = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
 
@@ -103,7 +103,7 @@ const NotificationsPage = () => {
 
   return (
     <MainNotification>
-      <Header />
+      <Header count={count} />
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Typography variant="h6" color="initial">
