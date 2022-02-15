@@ -140,6 +140,8 @@ let quizTable = [
   { name: "ExamName", type: TYPES.VarChar },
   { name: "DescriptionExam", type: TYPES.VarChar },
   { name: "ApprovalExam", type: TYPES.Int },
+  { name: "Lob", type: TYPES.VarChar },
+  { name: "Topic", type: TYPES.VarChar },
   { name: "IdPregunta", type: TYPES.Int },
 ];
 
