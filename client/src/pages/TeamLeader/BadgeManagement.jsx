@@ -13,10 +13,10 @@ const MainBM = styled(Grid)(({ theme }) => ({
   },
 }));
 
-const BadgeManagement = () => {
+const BadgeManagement = ({ count }) => {
   return (
     <MainBM>
-      <Header />
+      <Header count={count} />
       <h1>Barge Management</h1>
     </MainBM>
   );

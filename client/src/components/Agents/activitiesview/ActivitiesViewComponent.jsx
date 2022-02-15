@@ -38,7 +38,6 @@ const DownSection = styled(Box)(({ theme }) => ({
   boxShadow: "1px 1px 5px #A2A2A2",
   maxWidth: "20rem",
   height: "4rem",
-  background: "rgba(0, 0, 255, 0.616)",
   borderRadius: "0 0  10px 10px",
   display: "flex",
   justifyContent: "center",
@@ -61,7 +60,7 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
   const navigate = useNavigate();
   const [showFloat, setShowFloat] = useState(false);
   const [img1, setIme1] = useState(null);
-  const { NameActivity, IdActivity } = activity;
+  const { NameActivity, IdActivity, Status } = activity;
 
   const handleMouseEnter = () => {
     setShowFloat(true);
@@ -77,9 +76,15 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
 
   return (
     <BoxCard
-      sx={{
-        backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${img1})`,
-      }}
+      sx={
+        Status
+          ? {
+              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${img1})`,
+            }
+          : {
+              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${img1})`,
+            }
+      }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -97,7 +102,13 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
         </Typography>
       </CardViewer>
       <DownSection
-      //sx={{ background }}
+        sx={
+          Status
+            ? { background: "rgba(56, 255, 100, 0.616)" }
+            : {
+                background: "rgba(50, 20, 255, 0.616)",
+              }
+        }
       >
         <Button
           onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}

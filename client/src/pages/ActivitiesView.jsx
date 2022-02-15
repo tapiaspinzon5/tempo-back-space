@@ -134,9 +134,9 @@ const ActivitiesView = () => {
 
         <BoxSelectBadge item xs={12}>
           <Button
-            sx={activities.type === "Missions" && selectButton}
+            sx={activities.type === "Quizes" && selectButton}
             onClick={() =>
-              setActivities({ type: "Missions", context: 3, menu: true })
+              setActivities({ type: "Quizes", context: 0, menu: true })
             }
           >
             Missions

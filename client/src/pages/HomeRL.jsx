@@ -46,13 +46,13 @@ const CardContent = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const HomeRL = () => {
+export const HomeRL = ({ count }) => {
   const navigate = useNavigate();
 
   return (
     <>
       <MainHomeRL sx={{ bgcolor: "background.default", color: "text.primary" }}>
-        <Header />
+        <Header count={count} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <CardContainer>

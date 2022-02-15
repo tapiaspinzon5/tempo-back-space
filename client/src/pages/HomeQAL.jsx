@@ -44,14 +44,14 @@ const CardContent = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const HomeQAL = () => {
+export const HomeQAL = ({ count }) => {
   const navigate = useNavigate();
   return (
     <>
       <MainHomeQAL
         sx={{ bgcolor: "background.default", color: "text.primary" }}
       >
-        <Header />
+        <Header count={count} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             {/* <AdminCard data={data[0]} /> */}

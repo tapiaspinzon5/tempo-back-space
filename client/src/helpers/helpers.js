@@ -14,6 +14,8 @@ export const validateHeaders = (headers) => {
     "ExamName",
     "DescriptionExam",
     "ApprovalExam",
+    "LOB",
+    "Topic",
   ];
 
   if (headers.length !== defaultHeaders.length) {
@@ -21,6 +23,7 @@ export const validateHeaders = (headers) => {
     return differentsArrays;
   }
 
+  console.log(headers);
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
@@ -59,6 +62,10 @@ export const validateFields = (data) => {
     } else if (col[8] === undefined) {
       errorField = true;
     } else if (isNaN(col[9])) {
+      errorField = true;
+    } else if (col[10] === undefined) {
+      errorField = true;
+    } else if (col[11] === undefined) {
       errorField = true;
     }
   });

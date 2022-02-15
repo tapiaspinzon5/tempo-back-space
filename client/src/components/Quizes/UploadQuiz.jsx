@@ -77,6 +77,8 @@ const UploadQuiz = ({ idccms, setLoading }) => {
               colum[7]?.toString(),
               colum[8]?.toString(),
               colum[9],
+              colum[10]?.toString(),
+              colum[11]?.toString(),
             ];
           });
 

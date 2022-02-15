@@ -40,6 +40,8 @@ export const VideoIntro = ({ setNext, rol }) => {
       <Box
         sx={{
           background: theme.palette.background.primary,
+          width: "65%",
+          height: "90%",
           padding: "10px",
           borderRadius: "10px",
         }}
