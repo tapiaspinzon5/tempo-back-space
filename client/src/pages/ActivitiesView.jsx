@@ -126,7 +126,7 @@ const ActivitiesView = () => {
 
     //mousePosition();
   }, []);
-
+  console.log(userActivities);
   return (
     <Grid width="100%">
       <MainViewver>
@@ -134,7 +134,7 @@ const ActivitiesView = () => {
 
         <BoxSelectBadge item xs={12}>
           <Button
-            sx={activities.type === "Missions" && selectButton}
+            sx={activities.type === "Quizes" && selectButton}
             onClick={() =>
               setActivities({ type: "Quizes", context: 0, menu: true })
             }

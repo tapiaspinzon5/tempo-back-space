@@ -23,6 +23,7 @@ export const validateHeaders = (headers) => {
     return differentsArrays;
   }
 
+  console.log(headers);
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
