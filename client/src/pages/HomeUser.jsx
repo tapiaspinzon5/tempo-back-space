@@ -85,7 +85,7 @@ const HomeUser = ({ count }) => {
             {ranking && <ProgressHome dataKPI={data} />}
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
-            {ranking && <Podium podio={ranking} />}
+            <>{ranking && <Podium podio={ranking} />}</>
           </Grid>
           <Grid item xs={12} md={6} lg={4} xl={3}>
             <Ranking ranking={ranking} />
