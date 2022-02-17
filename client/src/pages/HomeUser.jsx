@@ -74,7 +74,7 @@ const HomeUser = ({ count }) => {
     data.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
-
+  console.log(data);
   return (
     <>
       <MainHomeUser

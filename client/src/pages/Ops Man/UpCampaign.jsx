@@ -50,6 +50,7 @@ const ModalBox = styled(Box)(() => ({
 export const UpCampaign = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
+  const [template, setTemplate] = useState("");
 
   const idccms = userData.Idccms;
 
@@ -68,6 +69,7 @@ export const UpCampaign = () => {
 
   const handleOpen = () => {
     setOpen(true);
+    setTemplate("OM Template");
   };
   const handleClose = () => {
     setOpen(false);
@@ -85,7 +87,7 @@ export const UpCampaign = () => {
             aria-describedby="modal-modal-description"
           >
             <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-              <UpQuizModal handleClose={handleClose} template={"OM Template"} />
+              <UpQuizModal handleClose={handleClose} template={template} />
             </ModalBox>
           </Modal>
           <Grid>

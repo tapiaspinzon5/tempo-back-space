@@ -79,7 +79,7 @@ const CardQuizDesc = ({ quiz }) => {
   } else {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
-
+  console.log(fa, fb, fecha, fechaRegistro);
   return (
     <CardQuiz>
       <Box>

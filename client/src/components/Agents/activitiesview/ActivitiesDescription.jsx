@@ -87,7 +87,6 @@ const ActivitiesDescription = () => {
     getData();
     // eslint-disable-next-line
   }, []);
-
   return (
     <MainDesc>
       <BoxHead sx={{ backgroundImage: `url(${img4})` }}>
