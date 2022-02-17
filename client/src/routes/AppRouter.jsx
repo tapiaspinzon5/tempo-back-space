@@ -37,6 +37,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from "../pages/Agent/LeaderBoard";
 import { AgentChallengeAssignment } from "../pages/AgentChallengeAssignment";
+import AgentProfile from "../pages/Agent/AgentProfile";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -110,6 +111,7 @@ const AppRouter = () => {
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
               <Route path="/leaderboard" element={<LeaderBoard />} />
+              <Route path="/profile" element={<AgentProfile />} />
               <Route
                 path="/activitiesview/:idActivity/:context"
                 element={<ActivitiesDescription />}

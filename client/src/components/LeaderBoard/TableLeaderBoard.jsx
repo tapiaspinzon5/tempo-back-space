@@ -9,7 +9,7 @@ const BoxTable = styled(Grid)(() => ({
   height: "32rem",
   padding: "1rem",
   "& .super-app-theme--header": {
-    backgroundColor: "#E8E8E8",
+    //backgroundColor: "#E8E8E8",
     borderRadius: "3px",
     height: "2rem",
     color: "#3047b0",
@@ -65,13 +65,6 @@ const columns = [
   {
     field: "score",
     headerName: "Score",
-    width: 120,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "quartile",
-    headerName: "Quartile",
     width: 120,
     headerClassName: "super-app-theme--header",
     cellClassName: "super-app-theme--cell",

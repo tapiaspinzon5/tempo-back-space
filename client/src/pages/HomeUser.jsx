@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { downloadHomeData, tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
+import ProgressKPI from "../components/progressCharts/ProgressKPI";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -82,7 +83,8 @@ const HomeUser = ({ count }) => {
         <Header count={count} />
         <Grid container spacing={3}>
           <Grid item xs={12} lg={5} xl={6}>
-            {ranking && <ProgressHome dataKPI={data} />}
+            {/* {ranking && <ProgressHome dataKPI={data} />} */}
+            <ProgressKPI />
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <>{ranking && <Podium podio={ranking} />}</>
