@@ -22,62 +22,6 @@ const BoxTable = styled(Grid)(() => ({
   },
 }));
 
-const columns = [
-  {
-    field: "rank",
-    headerName: "Rank",
-    width: 120,
-    renderCell: (params) => (
-      <>
-        {params.value}
-        <Avatar
-          alt="Remy Sharp"
-          src={avatar}
-          sx={{ width: 40, height: 40 }}
-          style={{ marginLeft: 16 }}
-        />
-      </>
-    ),
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "user",
-    headerName: "User",
-    width: 250,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "team",
-    headerName: "Team",
-    width: 120,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "level",
-    headerName: "level",
-    width: 120,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "score",
-    headerName: "Score",
-    width: 120,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-  {
-    field: "quartile",
-    headerName: "Quartile",
-    width: 120,
-    headerClassName: "super-app-theme--header",
-    cellClassName: "super-app-theme--cell",
-  },
-];
-
 const rows = [
   {
     id: 1,
@@ -118,7 +62,56 @@ const rows = [
   { id: 9, rank: 9, user: "Roxie", team: "Team1", level: 65, score: 981 },
 ];
 
-const TableLeaderBoard = () => {
+const TableLeaderBoard = ({ width }) => {
+  console.log(width);
+  const columns = [
+    {
+      field: "rank",
+      headerName: "Rank",
+      width: width / 5 < 120 ? 120 : width / 6,
+      renderCell: (params) => (
+        <>
+          {params.value}
+          <Avatar
+            alt="Remy Sharp"
+            src={avatar}
+            sx={{ width: 40, height: 40 }}
+            style={{ marginLeft: 16 }}
+          />
+        </>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "user",
+      headerName: "User",
+      width: (2 * width) / 5 < 250 ? 250 : width / 3.5,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "team",
+      headerName: "Team",
+      width: width / 5 < 120 ? 120 : width / 6,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "level",
+      headerName: "level",
+      width: width / 5 < 120 ? 120 : width / 6,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "score",
+      headerName: "Score",
+      width: width / 5 < 120 ? 120 : width / 6,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+  ];
   return (
     <BoxTable sx={{}}>
       <DataGrid

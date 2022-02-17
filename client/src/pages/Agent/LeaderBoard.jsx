@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Typography, Grid, styled, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { MainPage, BoxContain } from "../../assets/styled/muistyled";
 import Header from "../../components/homeUser/Header";
 import Podium from "../../components/progressCharts/Podium";
-import { downloadHomeData, tokenNotification } from "../../utils/api";
-import { requestForToken } from "../../utils/firebase";
+import { downloadHomeData } from "../../utils/api";
 import LeaderRankBoard from "../../components/LeaderBoard/LeaderRankBoard";
 import TableLeaderBoard from "../../components/LeaderBoard/TableLeaderBoard";
 import Footer from "../../components/Footer";
+import LoadingComponent from "../../components/LoadingComponent";
 
 const LeaderBoard = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-
+  const ref = useRef();
   const [data, setData] = useState([]);
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -28,15 +29,16 @@ const LeaderBoard = () => {
             : data;
         setData(ranking);
       }
-      const token = await requestForToken();
-      await tokenNotification(token, idccms);
     };
     getData();
 
     // eslint-disable-next-line
   }, []);
-
-  console.log(data);
+  //caja.clientWidth
+  let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
+  useEffect(() => {
+    setWidth(ancho);
+  }, [ancho]);
   return (
     <MainPage>
       <Grid marginTop={2}>
@@ -54,8 +56,12 @@ const LeaderBoard = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={8}>
-          <BoxContain>
-            <TableLeaderBoard />
+          <BoxContain ref={ref}>
+            {data.length !== 0 ? (
+              <TableLeaderBoard width={width} />
+            ) : (
+              <LoadingComponent />
+            )}
           </BoxContain>
         </Grid>
         <Grid item xs={12} md={4}>
