@@ -161,6 +161,7 @@ const AppRouter = () => {
               {/* <Route path="/" element={<Navigate to="/hometl" />} /> */}
               {/* <Route path="/hometl" element={<HomeTL />} /> */}
               <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
               <Route
                 path="/followingteams"
                 element={<FollowingTeamsKPI count={count} />}

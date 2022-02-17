@@ -48,7 +48,7 @@ const ModalBox = styled(Box)(() => ({
 export const UpAgents = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
-
+  const [template, setTemplate] = useState("");
   const idccms = userData.Idccms;
 
   const [myAgents, setMyAgents] = useState([]);
@@ -66,6 +66,7 @@ export const UpAgents = () => {
 
   const handleOpen = () => {
     setOpen(true);
+    setTemplate("Rep Lead Template");
   };
   const handleClose = () => {
     setOpen(false);
@@ -83,10 +84,7 @@ export const UpAgents = () => {
             aria-describedby="modal-modal-description"
           >
             <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-              <UpQuizModal
-                handleClose={handleClose}
-                template={"Rep Lead Template"}
-              />
+              <UpQuizModal handleClose={handleClose} template={template} />
             </ModalBox>
           </Modal>
           <Typography variant="h5" fontWeight="bold" mt={4}>

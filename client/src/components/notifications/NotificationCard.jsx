@@ -31,6 +31,7 @@ const NotificationCard = ({ info }) => {
   const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
+  console.log(info);
   let fecha;
   let hora;
   let fechaBase = new Date(info.Date).toLocaleString([], {
@@ -76,10 +77,9 @@ const NotificationCard = ({ info }) => {
   } else {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
-  console.log(fa, fb, fecha);
   const handleClick = async () => {
     await updateStatusNotifications(idccms, info.IdNotification);
-    navigate(`/activitiesview/${info.IdChallenge}/${2}`);
+    navigate(`/activitiesview/${info.IdChallenge}/${1}`);
   };
 
   return (

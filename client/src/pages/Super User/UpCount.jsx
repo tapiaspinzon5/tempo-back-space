@@ -35,7 +35,7 @@ const ModalBox = styled(Box)(() => ({
 export const UpCount = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
-
+  const [template, setTemplate] = useState("");
   const idccms = userData.Idccms;
 
   const [myCounts, setMyCounts] = useState([]);
@@ -52,6 +52,7 @@ export const UpCount = () => {
   }, []);
   const handleOpen = () => {
     setOpen(true);
+    setTemplate("Super User Template");
   };
   const handleClose = () => {
     setOpen(false);
@@ -68,10 +69,7 @@ export const UpCount = () => {
             aria-describedby="modal-modal-description"
           >
             <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-              <UpQuizModal
-                handleClose={handleClose}
-                template={"Super User Template"}
-              />
+              <UpQuizModal handleClose={handleClose} template={template} />
             </ModalBox>
           </Modal>
           <Typography variant="h5" fontWeight="bold" mt={4}>
