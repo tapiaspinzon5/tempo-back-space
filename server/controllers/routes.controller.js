@@ -702,6 +702,26 @@ exports.updateStatusNotification = async (req, res) => {
     });
 };
 
+exports.getInfoLeaderboard = async (req, res) => {
+
+  const { context,kpi,time,group } = req.body;
+
+  sql
+    .query(
+      "spQueryLeaderBoard",
+      parametros({ idccms: req.query.idccms, context,kpi,time,group }, "spQueryLeaderBoard")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+// SPs actividades
 exports.welcomeegp = async (req, res) => {
 
   sql

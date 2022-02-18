@@ -54,6 +54,11 @@ module.exports = (router) => {
   router.post("/getagentsbykpitl", oauth.oauthOther, routes.getAgentsbykpiTL);
   // Cambia el estado de una notificacion de no leida a leida. 
   router.post("/updatestatusnotification", oauth.oauthOther, routes.updateStatusNotification);
+  // Retorna la data del leaderboard dependiendo los filtros (funciona tanto para agente, TL , SU). 
+  router.post("/getinfoleaderboard", oauth.oauthOther, routes.getInfoLeaderboard);
+
+
+
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
