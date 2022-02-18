@@ -19,12 +19,15 @@ const BoxSelect = styled(Box)(() => ({
   color: "red",
 }));
 
-const LeaderRankBoard = () => {
+const LeaderRankBoard = ({ kpis, setFilters }) => {
   const [kpiFilter, setKpiFilter] = useState("");
-  const [timeFilter, setTimeFilter] = useState("");
-  const [groupFilter, setGroupFilter] = useState("");
-
-  console.log(kpiFilter, timeFilter, groupFilter);
+  const [timeFilter, setTimeFilter] = useState("Day");
+  const [groupFilter, setGroupFilter] = useState("My Team");
+  // console.log(kpiFilter, timeFilter, groupFilter);
+  const handleFilterKPI = (e) => {
+    setKpiFilter(e.target.value);
+    setFilters({ kpi: e.target.value, time: timeFilter, group: groupFilter });
+  };
   return (
     <>
       <BoxSelect>
@@ -34,11 +37,23 @@ const LeaderRankBoard = () => {
             labelId="kpi-label"
             value={kpiFilter}
             label="Kpi"
-            onChange={(e) => setKpiFilter(e.target.value)}
+            onChange={(e) => {
+              setKpiFilter(e.target.value);
+              setFilters({
+                kpi: e.target.value,
+                time: timeFilter,
+                group: groupFilter,
+              });
+            }}
           >
-            <MenuItem value="aht">%AHT</MenuItem>
-            <MenuItem value="qa">QA</MenuItem>
-            <MenuItem value="ahd">Ahd</MenuItem>
+            <MenuItem value="">EXP Points</MenuItem>
+            {kpis.map((kpi, index) => (
+              <MenuItem key={index + kpi.Kpi} value={kpi.Kpi}>
+                {kpi.Kpi}
+              </MenuItem>
+            ))}
+            {/* <MenuItem value="qa">QA</MenuItem>
+            <MenuItem value="ahd">Ahd</MenuItem> */}
           </Select>
         </BoxFormControl>
         <BoxFormControl>
@@ -47,24 +62,38 @@ const LeaderRankBoard = () => {
             labelId="time-label"
             value={timeFilter}
             label="Time View"
-            onChange={(e) => setTimeFilter(e.target.value)}
+            onChange={(e) => {
+              setTimeFilter(e.target.value);
+              setFilters({
+                kpi: kpiFilter,
+                time: e.target.value,
+                group: groupFilter,
+              });
+            }}
           >
-            <MenuItem>Day</MenuItem>
-            <MenuItem value="week">Week</MenuItem>
-            <MenuItem value="mont">Month</MenuItem>
+            <MenuItem value="Day">Day</MenuItem>
+            <MenuItem value="Week">Week</MenuItem>
+            <MenuItem value="Mont">Month</MenuItem>
           </Select>
         </BoxFormControl>
         <BoxFormControl>
           <InputLabel id="time-label">Group</InputLabel>
           <Select
-            labelId="time-label"
+            labelId="group-label"
             value={groupFilter}
             label="Group"
-            onChange={(e) => setGroupFilter(e.target.value)}
+            onChange={(e) => {
+              setGroupFilter(e.target.value);
+              setFilters({
+                kpi: kpiFilter,
+                time: timeFilter,
+                group: e.target.value,
+              });
+            }}
           >
-            <MenuItem value="team">My Team</MenuItem>
-            <MenuItem value="lob">My LOB</MenuItem>
-            <MenuItem value="campaing">My Campaing</MenuItem>
+            <MenuItem value="My Team">My Team</MenuItem>
+            <MenuItem value="My Lob">My LOB</MenuItem>
+            <MenuItem value="My Campaing">My Campaing</MenuItem>
           </Select>
         </BoxFormControl>
       </BoxSelect>
