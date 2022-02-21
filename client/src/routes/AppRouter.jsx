@@ -36,7 +36,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from "../pages/Agent/LeaderBoard";
-import { AgentChallengeAssignment } from "../pages/AgentChallengeAssignment";
+import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignment";
 import AgentProfile from "../pages/Agent/AgentProfile";
 
 const MainApp = styled(Grid)(() => ({
