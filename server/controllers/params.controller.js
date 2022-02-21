@@ -314,6 +314,10 @@ exports.parametros = (req, tipo) => {
         new SpParam("Time", req.time, TYPES.VarChar),
         new SpParam("Group", req.group, TYPES.VarChar),
       ]);
+
+    case "spProfileAgent":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
