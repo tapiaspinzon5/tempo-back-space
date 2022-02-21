@@ -44,19 +44,22 @@ const ProgressKPI = ({ value, target }) => {
         <BoxChart
           sx={{
             backgroundColor: "#ff5c00",
-            width: `${widthRed}%`,
+            // width: `${widthRed}%`,
+            width: "33.333%",
           }}
         ></BoxChart>
         <BoxChart
           sx={{
             backgroundColor: "#f5d200",
-            width: "10%",
+            width: "33.333%",
+            // width: "10%",
           }}
         ></BoxChart>
         <BoxChart
           sx={{
             background: "linear-gradient(270deg, #00af9b 0%, #00d769 100%)",
-            width: `${widthTarget}%`,
+            width: "33.333%",
+            // width: `${widthTarget}%`,
           }}
         ></BoxChart>
       </BoxProgress>
