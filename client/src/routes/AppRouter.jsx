@@ -110,8 +110,15 @@ const AppRouter = () => {
               <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/leaderboard" element={<LeaderBoard />} />
+              <Route
+                path="/leaderboard"
+                element={<LeaderBoard count={count} />}
+              />
               <Route path="/profile" element={<AgentProfile />} />
+              <Route
+                path="/challenge"
+                element={<AgentChallengeAssignment count={count} />}
+              />
               <Route
                 path="/activitiesview/:idActivity/:context"
                 element={<ActivitiesDescription />}
@@ -167,6 +174,10 @@ const AppRouter = () => {
               <Route
                 path="/followingteams"
                 element={<FollowingTeamsKPI count={count} />}
+              />
+              <Route
+                path="/leaderboard"
+                element={<LeaderBoard count={count} />}
               />
               <Route
                 path="/challengeasignment"

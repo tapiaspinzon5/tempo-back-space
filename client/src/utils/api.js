@@ -365,6 +365,27 @@ const downloadActivities = (idccms) => {
   }
 };
 
+//getinfoleaderboard
+//Traer los datos del leaderboard para el agente y el Team leader
+const getDataLeaderboard = (idccms, context, kpi, time, group) => {
+  try {
+    return axiosInstance
+      .post(`getinfoleaderboard?idccms=${idccms}`, {
+        context: context,
+        kpi: kpi,
+        time: time,
+        group: group,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 // Trae la informacion del Equipo Creado Para OPSM Y REPL
 const downloadDataAdmin = (idccms, caso) => {
   try {
@@ -420,4 +441,5 @@ export {
   getUsersKPI,
   updateStatusNotifications,
   welcomeToEGP,
+  getDataLeaderboard,
 };
