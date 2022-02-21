@@ -1,56 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, styled } from "@mui/material";
 
 const MainProgress = styled(Box)(() => ({
-  background: "#f0f9f9",
-  padding: "1rem 0",
+  overflow: "hidden",
 }));
 
 const BoxProgress = styled(Box)(() => ({
   background: "#f9f9f9",
   borderRadius: "10px",
   display: "flex",
-  margin: ".5rem 0",
   overflow: "hidden",
 }));
 
 const BoxChart = styled(Box)(() => ({
   height: "1rem",
-  width: "33.33333333%",
 }));
 
-const ProgressKPI = () => {
-  const value = 10;
-  const target = 90;
+const ProgressKPI = ({ value, target }) => {
+  const [widthTarget, setWidthTarget] = useState(0);
+  const [widthRed, setWidthRed] = useState(0);
+  //const target = 90;
 
+  useEffect(() => {
+    setWidthTarget(100 - target);
+    setWidthRed(target - 10);
+  }, [target]);
+
+  console.log(widthTarget);
   return (
     <MainProgress>
       <Box
         sx={{
-          width: "5px",
-          height: "2rem",
-          background: "blue",
-          zIndex: "1000",
+          borderTop: "1rem solid #3047B0",
+          borderLeft: ".5rem solid transparent",
+          borderRight: ".5rem solid transparent",
+          width: "1px",
           position: "relative",
-          top: "2rem",
+          top: "10px",
           left: `${value}%`,
         }}
       />
       <BoxProgress>
         <BoxChart
           sx={{
-            backgroundColor: "red",
+            backgroundColor: "#ff5c00",
+            width: `${widthRed}%`,
           }}
         ></BoxChart>
         <BoxChart
           sx={{
-            backgroundColor: "yellow",
+            backgroundColor: "#f5d200",
+            width: "10%",
           }}
         ></BoxChart>
         <BoxChart
           sx={{
-            backgroundColor: "#0f0",
-            width: `(${100 - target})%`,
+            background: "linear-gradient(270deg, #00af9b 0%, #00d769 100%)",
+            width: `${widthTarget}%`,
           }}
         ></BoxChart>
       </BoxProgress>

@@ -84,7 +84,10 @@ const HomeUser = ({ count }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} lg={5} xl={6}>
             {/* {ranking && <ProgressHome dataKPI={data} />} */}
-            <ProgressKPI />
+            <ProgressKPI value={25} target={80} />
+            <ProgressKPI value={35} target={75} />
+            <ProgressKPI value={45} target={40} />
+            <ProgressKPI value={85} target={60} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <>{ranking && <Podium podio={ranking} />}</>
