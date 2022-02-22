@@ -720,6 +720,22 @@ exports.getInfoLeaderboard = async (req, res) => {
     });
 };
 
+exports.getAgentProfiledata = async (req, res) => {
+
+  sql
+    .query(
+      "spProfileAgent",
+      parametros({ idccms: req.query.idccms}, "spProfileAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 
 // SPs actividades
 exports.welcomeegp = async (req, res) => {
