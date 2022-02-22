@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, styled } from "@mui/material";
+import { positionValue } from "../../helpers/helpers";
 
 const MainProgress = styled(Box)(() => ({
   overflow: "hidden",
@@ -13,31 +14,29 @@ const BoxProgress = styled(Box)(() => ({
 }));
 
 const BoxChart = styled(Box)(() => ({
-  height: "1rem",
+  height: ".6rem",
 }));
 
-const ProgressKPI = ({ value, target }) => {
-  const [widthTarget, setWidthTarget] = useState(0);
-  const [widthRed, setWidthRed] = useState(0);
-  //const target = 90;
+const ProgressKPI = ({ value, target, kpi }) => {
+  const [arrowPos, setArrowPos] = useState(0);
 
   useEffect(() => {
-    setWidthTarget(100 - target);
-    setWidthRed(target - 10);
-  }, [target]);
+    const pos = positionValue(kpi);
+    setArrowPos(pos);
+  }, []);
 
-  console.log(widthTarget);
+  //console.log(kpi);
   return (
     <MainProgress>
       <Box
         sx={{
-          borderTop: "1rem solid #3047B0",
+          borderTop: ".7rem solid #3047B0",
           borderLeft: ".5rem solid transparent",
           borderRight: ".5rem solid transparent",
           width: "1px",
           position: "relative",
-          top: "10px",
-          left: `${value}%`,
+          top: "5px",
+          left: `${arrowPos}%`,
         }}
       />
       <BoxProgress>

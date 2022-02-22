@@ -249,3 +249,83 @@ export const validateDataCheck = (agents, activities, TLName) => {
   funData();
   return newData;
 };
+
+export const positionValue = (kpi) => {
+  const { ACTUAL, Quartile, Target, TargetQ1, TargetQ2, TargetQ3, TargetQ4 } =
+    kpi;
+
+  const direction = TargetQ1 - TargetQ2;
+  let setArrowPos;
+  //console.log("Q1", TargetQ1, "Q2", TargetQ2);
+  if (direction > 0) {
+    if (Target <= ACTUAL) {
+      setArrowPos = 82;
+    } else {
+      if (Quartile === "Q1") {
+        if (ACTUAL > TargetQ2) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q2") {
+        if (ACTUAL > TargetQ3) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q3") {
+        if (ACTUAL > TargetQ4) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q4") {
+        const pos = TargetQ3 - TargetQ4;
+        if (ACTUAL > TargetQ4 - pos) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+    }
+  } else {
+    //TARGET NEGATIVO
+    if (Target >= ACTUAL) {
+      setArrowPos = 82;
+    } else {
+      if (Quartile === "Q1") {
+        if (ACTUAL < TargetQ2) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q2") {
+        if (ACTUAL < TargetQ3) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q3") {
+        if (ACTUAL < TargetQ4) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+      if (Quartile === "Q4") {
+        const pos = TargetQ4 - TargetQ3;
+        if (ACTUAL < TargetQ4 + pos) {
+          setArrowPos = 50;
+        } else {
+          setArrowPos = 16.666;
+        }
+      }
+    }
+  }
+  return setArrowPos;
+};
