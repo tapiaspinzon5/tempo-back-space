@@ -38,6 +38,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from "../pages/Agent/LeaderBoard";
 import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignment";
 import AgentProfile from "../pages/Agent/AgentProfile";
+import Analytics from "../pages/Analytics";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -188,6 +189,7 @@ const AppRouter = () => {
                 element={<BadgeManagement count={count} />}
               />
               <Route path="/teamprogress" element={<TeamsProgress />} />
+              <Route path="/analytics" element={<Analytics />} />
             </>
           )}
 

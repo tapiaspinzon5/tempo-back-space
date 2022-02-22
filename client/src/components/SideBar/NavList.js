@@ -6,7 +6,7 @@ import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiPieChart } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
@@ -37,6 +37,9 @@ const LItem = styled(ListItem)(({ theme }) => ({
 
 const LIcon = styled(ListItemIcon)(({ theme }) => ({
   justifyContent: "center",
+  img: {
+    height: "25px",
+  },
 }));
 
 const ContentList = styled(List)(({ theme }) => ({
@@ -82,7 +85,7 @@ export const NavList = ({ open, match, userData }) => {
             </LItem>
             <LItem button onClick={() => navigate("/leaderboard")}>
               <LIcon>
-                <IoTrendingUpSharp size={30} color="#fff" />
+                <IoTrendingUpSharp size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>LeaderBoard</Typography>}
             </LItem>
@@ -94,7 +97,7 @@ export const NavList = ({ open, match, userData }) => {
             {userData === "QA Lead" && (
               <LItem button onClick={() => navigate("/upquiz")}>
                 <LIcon>
-                  <SiHtmlacademy size={30} color="#fff" />
+                  <SiHtmlacademy size={25} color="#fff" />
                 </LIcon>
                 {open && match && <Typography>Library</Typography>}
               </LItem>
@@ -107,7 +110,7 @@ export const NavList = ({ open, match, userData }) => {
               <>
                 <LItem button onClick={() => navigate("/challengeasignment")}>
                   <LIcon>
-                    <VscDiffAdded size={30} color="#fff" />
+                    <VscDiffAdded size={25} color="#fff" />
                   </LIcon>
                   {open && match && (
                     <Typography>Challenge Assignment</Typography>
@@ -115,9 +118,21 @@ export const NavList = ({ open, match, userData }) => {
                 </LItem>
                 <LItem button onClick={() => navigate("/followingteams")}>
                   <LIcon>
-                    <ImEqualizer2 size={30} color="#fff" />
+                    <ImEqualizer2 size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Following KPI</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/leaderboard")}>
+                  <LIcon>
+                    <IoTrendingUpSharp size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>LeaderBoard</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/analytics")}>
+                  <LIcon>
+                    <FiPieChart size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Analytics</Typography>}
                 </LItem>
               </>
             )}
@@ -125,7 +140,7 @@ export const NavList = ({ open, match, userData }) => {
         }
         <LItem button onClick={logOut}>
           <LIcon>
-            <FiLogOut size={30} color="#fff" />
+            <FiLogOut size={25} color="#fff" />
           </LIcon>
           {open && match && <Typography>Logout</Typography>}
         </LItem>
