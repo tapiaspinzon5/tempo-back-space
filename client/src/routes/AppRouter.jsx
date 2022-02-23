@@ -39,6 +39,7 @@ import LeaderBoard from "../pages/Agent/LeaderBoard";
 import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignment";
 import AgentProfile from "../pages/Agent/AgentProfile";
 import Analytics from "../pages/Analytics";
+import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -111,6 +112,7 @@ const AppRouter = () => {
               <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/useranalytics" element={<AgentAnalytics />} />
               <Route
                 path="/leaderboard"
                 element={<LeaderBoard count={count} />}
