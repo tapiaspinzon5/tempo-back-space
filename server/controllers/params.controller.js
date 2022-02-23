@@ -110,6 +110,8 @@ let suTable = [
   { name: "Q2", type: TYPES.Int },
   { name: "Q3", type: TYPES.Int },
   { name: "Q4", type: TYPES.Int },
+  { name: "OrderKpi", type: TYPES.VarChar },
+  { name: "IdRegistryKpi", type: TYPES.Int },
 ];
 
 // Columnas para armar la tabla del operationManager
