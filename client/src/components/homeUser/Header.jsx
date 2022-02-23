@@ -3,24 +3,18 @@ import {
   IconButton,
   styled,
   Grid,
-  alpha,
-  InputBase,
   Badge,
+  Box,
+  Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
 import bannerH from "../../assets/images/bannerHeader.png";
 import { useTheme } from "@mui/material/styles";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Notifications from "../notifications/Notifications";
 import { downloadNotifications } from "../../utils/api";
-
-//import Swal from "sweetalert2";
-//import { DarkModeContext } from "../../context/DarkModeProvider";
-//import ProgresBar from "../progressCharts/ProgresBar";
-//import Brightness4Icon from "@mui/icons-material/Brightness4";
-//import Brightness7Icon from "@mui/icons-material/Brightness7";
-//import coin from "../../assets/images/coin.svg";
+import ProgresBar from "../progressCharts/ProgresBar";
+import epicoinICO from "../../assets/Icons/epicoin-ico.svg";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -54,48 +48,6 @@ const RightHeader = styled(Grid)((theme) => ({
   justifyContent: "space-around",
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  //background: "#fff",
-  borderRadius: "10px",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "25ch",
-    },
-  },
-}));
-
 const Header = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
@@ -103,7 +55,6 @@ const Header = ({ count }) => {
   const [notifications, setNotifications] = useState([]);
   //controles Dark mode
   const theme = useTheme();
-  // const colorMode = React.useContext(DarkModeContext);
   const [showNotification, setShowNotification] = useState(false);
   const handleNotification = () => {
     setShowNotification(!showNotification);
@@ -131,14 +82,6 @@ const Header = ({ count }) => {
     data();
   }, []);
 
-  /*  useEffect(() => {
-    if (notification?.title) {
-      notify();
-      setCont(cont + 1);
-    }
-    // eslint-disable-next-line
-  }, [notification]); */
-
   useEffect(() => {
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
@@ -160,6 +103,16 @@ const Header = ({ count }) => {
     };
     data();
   }, [count]);
+
+  function notificationsLabel(count) {
+    if (count === 0) {
+      return "no notifications";
+    }
+    if (count > 10) {
+      return "more than 10 notifications";
+    }
+    return `${count} notifications`;
+  }
 
   return (
     <>
@@ -184,29 +137,41 @@ const Header = ({ count }) => {
           <img src={bannerH} alt="TP" />
         </TitleHeader>
         <RightHeader item xs={12} md={6}>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon sx={{ color: "#000" }} />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <Box display="flex" alignItems="center">
+            <Typography variant="body2">
+              <b>1120</b> Pts
+            </Typography>
+            <Box width="150px" margin="0 1rem">
+              <ProgresBar value={60} />
+            </Box>
+            <Typography variant="body2">
+              <b>1426</b> Pts to level up
+            </Typography>
+          </Box>
 
           {showNotification && <Notifications notifications={notifications} />}
+
           <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
+            aria-label={notificationsLabel(cont < 11 ? cont : "10+")}
             onClick={handleNotification}
           >
-            <Badge
-              badgeContent={cont < 11 ? cont : "10+"}
-              color="error"
-            ></Badge>
-            <NotificationsIcon />
+            <Badge badgeContent={cont < 11 ? cont : "10+"} color="error">
+              <IoIosNotificationsOutline color="#3047B0" size={30} />
+            </Badge>
           </IconButton>
+
+          <Box display="flex" alignItems="center">
+            <img src={epicoinICO} alt="coinICO" height={30} />
+            <Typography
+              variant="body2"
+              color="#3047B0"
+              fontWeight={700}
+              marginLeft="10px"
+            >
+              {" "}
+              50 Epicoins
+            </Typography>
+          </Box>
         </RightHeader>
       </MainHeader>
     </>

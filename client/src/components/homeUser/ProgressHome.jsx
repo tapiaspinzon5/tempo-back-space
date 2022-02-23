@@ -2,7 +2,9 @@ import React from "react";
 import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { ImFire } from "react-icons/im";
 import ProgresBar from "../progressCharts/ProgresBar";
-//import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { BsClock, BsPercent } from "react-icons/bs";
+import ProgressKPI from "../progressCharts/ProgressKPI";
 //import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({
@@ -17,11 +19,11 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
   color: "#3047B0",
   button: {
     textTransform: "none",
-    color: "#000",
-    background: "#3047B0",
-    borderRadius: 0,
+    color: "#3047B0",
+    marginLeft: ".5rem",
+    borderRadius: 10,
     "&:hover": {
-      background: "#3047B0",
+      background: "#f4f4f4",
     },
   },
 }));
@@ -68,39 +70,47 @@ const ProgressHome = ({ dataKPI }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box width="60%">
+              <Box width="100%">
                 <Box
-                  width="150%"
+                  width="100%"
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography variant="body1" fontWeight="bold">
-                    {kpi.Kpi}
-                  </Typography>
-                  <Typography variant="body1" fontWeight="bold" fontSize="12px">
-                    {`Up: ${new Date(kpi.Date).toDateString()}`}
-                  </Typography>
+                  <Typography variant="body1">{kpi.Kpi}</Typography>
                 </Box>
-                <Typography variant="caption">
-                  {"Your Score: " + kpi.ACTUAL} {kpi.unitKpi}
-                </Typography>
-                {kpi.unitKpi === "Percentage" ? (
-                  <ProgresBar value={kpi.ACTUAL} />
-                ) : kpi.TargetQ1 - kpi.TargetQ4 > 0 ? (
-                  <ProgresBar value={(kpi.ACTUAL * 100) / kpi.TargetQ1} />
-                ) : (
-                  <ProgresBar value={(kpi.ACTUAL * 100) / kpi.TargetQ4} />
-                )}
-                <Typography variant="body1" fontWeight="bold" fontSize="12px">
-                  {`Target: ${kpi.Target}`}
-                </Typography>
-                {/* <LinearGauge value={kpi} /> */}
-              </Box>
-              <Box>
-                {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-                See more
-      </Button> */}
+
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Box width="60%" paddingRight="1rem">
+                    <ProgressKPI value={kpi.ACTUAL} kpi={kpi} />
+                  </Box>
+                  <Box width="5rem">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      fontSize="12px"
+                    >
+                      {`${kpi.ACTUAL.toFixed(2)} / ${kpi.Target}`}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      fontSize="10px"
+                    >
+                      {`${kpi.unitKpi}`}
+                    </Typography>
+                  </Box>
+                  {kpi.unitKpi === "Percentage" ? <BsPercent /> : <BsClock />}
+                  <Box>
+                    <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
+                      See more
+                    </Button>
+                  </Box>
+                </Box>
               </Box>
             </Box>
             <Divider variant="fullWidth" light />
@@ -114,24 +124,15 @@ const ProgressHome = ({ dataKPI }) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box width="60%">
-              <Box
-                width="150%"
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography variant="body1" fontWeight="bold">
-                  {"The Game Starts Soon"}
-                </Typography>
-              </Box>
-
-              {/* <LinearGauge value={kpi} /> */}
-            </Box>
-            <Box>
-              {/* <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
-                See more
-      </Button> */}
+            <Box
+              width="150%"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Typography variant="body1" fontWeight="bold">
+                {"The Game Starts Soon"}
+              </Typography>
             </Box>
           </Box>
           <Divider variant="fullWidth" light />

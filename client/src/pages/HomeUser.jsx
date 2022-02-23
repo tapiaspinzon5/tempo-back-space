@@ -81,18 +81,14 @@ const HomeUser = ({ count }) => {
         sx={{ bgcolor: "background.default", color: "text.primary" }}
       >
         <Header count={count} />
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={5} xl={6}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} lg={6} xl={6}>
             {ranking && <ProgressHome dataKPI={data} />}
-            <ProgressKPI value={16} target={80} />
-            <ProgressKPI value={50} target={75} />
-            <ProgressKPI value={83} target={40} />
-            <ProgressKPI value={50} target={60} />
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <>{ranking && <Podium podio={ranking} />}</>
           </Grid>
-          <Grid item xs={12} md={6} lg={4} xl={3}>
+          <Grid item xs={12} md={6} lg={3} xl={3}>
             <Ranking ranking={ranking} />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
