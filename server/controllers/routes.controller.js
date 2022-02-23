@@ -90,12 +90,21 @@ exports.saveQuiz = async (req, res) => {
 };
 
 exports.uploadSU = async (req, res) => {
-  
+
+   // Funcion para insertar un id a las preguntas
+   let i = 0;
+   let data = req.body.data;
+ 
+   let rows = data.map((quest) => {
+     i = i + 1;
+     return [...quest, i];
+   });
+
   sql
     .query(
       "spInsertTeam",
       parametros(
-        { idccms: req.query.idccms, rows: req.body.data },
+        { idccms: req.query.idccms, rows},
         "spInsertTeam"
       )
     )
