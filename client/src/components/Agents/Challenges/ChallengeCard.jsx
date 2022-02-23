@@ -25,7 +25,9 @@ export const ChallengeCard = ({ data, handleSubmit }) => {
   return (
     <CardActiviy
       sx={{
+        height: "90px",
         backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${image})`,
+        backgroundSize: "cover",
       }}
     >
       <Box width="60%">

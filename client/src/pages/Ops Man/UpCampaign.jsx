@@ -117,14 +117,14 @@ export const UpCampaign = () => {
                 <Table sx={{ minWidth: 400 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ color: "#fff" }}>Teams</TableCell>
-                      <TableCell align="right" sx={{ color: "#fff" }}>
+                      <TableCell sx={{ color: "#3047B0" }}>Teams</TableCell>
+                      <TableCell align="right" sx={{ color: "#3047B0" }}>
                         Team Leads
                       </TableCell>
-                      <TableCell align="right" sx={{ color: "#fff" }}>
+                      <TableCell align="right" sx={{ color: "#3047B0" }}>
                         Reporting Lead
                       </TableCell>
-                      <TableCell align="right" sx={{ color: "#fff" }}>
+                      <TableCell align="right" sx={{ color: "#3047B0" }}>
                         QA Lead
                       </TableCell>
                     </TableRow>
@@ -140,17 +140,17 @@ export const UpCampaign = () => {
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ color: "#fff" }}
+                          sx={{ color: "#3047B0" }}
                         >
                           {row.nombre}
                         </TableCell>
-                        <TableCell align="right" sx={{ color: "#fff" }}>
+                        <TableCell align="right" sx={{ color: "#3047B0" }}>
                           {row.teamLeads}
                         </TableCell>
-                        <TableCell align="right" sx={{ color: "#fff" }}>
+                        <TableCell align="right" sx={{ color: "#3047B0" }}>
                           {row.reportingLeads}
                         </TableCell>
-                        <TableCell align="right" sx={{ color: "#fff" }}>
+                        <TableCell align="right" sx={{ color: "#3047B0" }}>
                           {row.QALeads}
                         </TableCell>
                       </TableRow>

@@ -19,15 +19,10 @@ const BoxSelect = styled(Box)(() => ({
   color: "red",
 }));
 
-const LeaderRankBoard = ({ kpis, setFilters }) => {
+const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
   const [kpiFilter, setKpiFilter] = useState("");
   const [timeFilter, setTimeFilter] = useState("Day");
   const [groupFilter, setGroupFilter] = useState("My Team");
-  // console.log(kpiFilter, timeFilter, groupFilter);
-  const handleFilterKPI = (e) => {
-    setKpiFilter(e.target.value);
-    setFilters({ kpi: e.target.value, time: timeFilter, group: groupFilter });
-  };
   return (
     <>
       <BoxSelect>
@@ -46,7 +41,7 @@ const LeaderRankBoard = ({ kpis, setFilters }) => {
               });
             }}
           >
-            <MenuItem value="">EXP Points</MenuItem>
+            {leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
             {kpis.map((kpi, index) => (
               <MenuItem key={index + kpi.Kpi} value={kpi.Kpi}>
                 {kpi.Kpi}

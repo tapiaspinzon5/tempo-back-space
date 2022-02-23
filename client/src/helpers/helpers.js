@@ -87,6 +87,7 @@ export const validateHeadersCreateTeam = (headers) => {
     "Q2",
     "Q3",
     "Q4",
+    "Order",
   ];
 
   if (headers.length !== defaultHeaders.length) {
@@ -106,7 +107,7 @@ export const validateHeadersCreateTeam = (headers) => {
 //Helper Validacion Campos carga archivos SuperUser creacion de equipos
 export const validateFieldsCreateTeams = (data) => {
   let errorField = false;
-
+  const orderOptions = ["asc", "dsc"];
   data.forEach((col) => {
     if (col[0] === undefined || isNaN(col[0])) {
       errorField = true;
@@ -123,6 +124,8 @@ export const validateFieldsCreateTeams = (data) => {
     } else if (col[6] === undefined || isNaN(col[6])) {
       errorField = true;
     } else if (col[7] === undefined || isNaN(col[7])) {
+      errorField = true;
+    } else if (col[8] === undefined || !orderOptions.includes(col[8])) {
       errorField = true;
     }
   });

@@ -25,19 +25,30 @@ const Analytics = ({ count }) => {
       const initialData = await getDataLeaderboard(
         idccms,
         1,
-        "AHT",
+        "",
         "day",
         "My Team"
       );
       if (
         initialData &&
         initialData.status === 200 &&
-        initialData.data.length > 1
+        initialData.data.length === 3
       ) {
-        setLoading(false);
+        const dataOrder = initialData.data[0].ScoreExp.sort(
+          (a, b) => b.score - a.score
+        );
+        let cont = 1;
+        dataOrder.forEach((el) => {
+          if (el.score) {
+            el.rank = cont;
+            cont += 1;
+          } else {
+            el.rank = dataOrder.length;
+          }
+        });
         setKpis(initialData.data[1].ListKpi);
-        setData(initialData.data[0].ScoreExp);
-        console.log(initialData.data[0].ScoreExp);
+        setData(dataOrder);
+        setLoading(false);
       }
     };
     getData();
@@ -46,27 +57,37 @@ const Analytics = ({ count }) => {
 
   useEffect(() => {
     setLoading(true);
-    console.log(idccms, filters);
-    /*  const getData = async () => {
-     const initialData = await getDataLeaderboard(
-       idccms,
-       2,
-       filters.kpi,
-       filters.time,
-       filters.group
-     );
-     if (
-       initialData &&
-       initialData.status === 200 &&
-       initialData.data.length > 1
-     ) {
-       console.log(initialData.data);
-       setLoading(false);
-       setKpis(initialData.data[1].ListKpi);
-       setData(initialData.data[0].ScoreExp);
+    const getData = async () => {
+      const filterData = await getDataLeaderboard(
+        idccms,
+        2,
+        filters.kpi,
+        filters.time,
+        filters.group
+      );
+      if (
+        filterData &&
+        filterData.status === 200 &&
+        filterData.data.length > 1
+      ) {
+        const dataOrder = filterData.data[2].ScoreResultKpi.sort(
+          (a, b) => b.KPIR - a.KPIR
+        );
+        let cont = 1;
+        dataOrder.forEach((el) => {
+          if (el.score) {
+            el.rank = cont;
+            cont += 1;
+          } else {
+            el.rank = dataOrder.length;
           }
-   };
-   getData(); */
+        });
+        setKpis(filterData.data[1].ListKpi);
+        setData(dataOrder);
+        setLoading(false);
+      }
+    };
+    getData();
 
     // eslint-disable-next-line
   }, [filters]);
@@ -94,7 +115,7 @@ const Analytics = ({ count }) => {
         <Grid item xs={12}>
           <BoxContain ref={ref}>
             {!loading ? (
-              <TableAnalytics width={width} rows={data} />
+              <TableAnalytics width={width} data={data} />
             ) : (
               <LoadingComponent />
             )}

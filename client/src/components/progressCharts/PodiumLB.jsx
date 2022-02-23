@@ -2,6 +2,7 @@ import React from "react";
 import podium from "../../assets/images/podium.png";
 import { Typography, Box, styled, Avatar } from "@mui/material";
 import { shortName } from "../../helpers/helpers";
+import avatar from "../../assets/temp-image/avatar.png";
 
 const PodiumBox = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -40,7 +41,12 @@ const Podium = ({ podio }) => {
       }}
     >
       <BoxAvatarPodium>
-        <Avatar alt="Diego Tapias" src="" />
+        <Avatar
+          alt="First Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
           {podio.length > 0
             ? shortName(podio[0].user) + "."
@@ -48,13 +54,23 @@ const Podium = ({ podio }) => {
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-1rem", left: "-35%" }}>
-        <Avatar alt="Daniel Moreno" src="" />
+        <Avatar
+          alt="Second Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
-          {podio.length > 1 ? shortName(podio[2].user) + "." : ""}
+          {podio.length > 1 ? shortName(podio[1].user) + "." : ""}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>
-        <Avatar alt="Matilde Puentes" src="" />
+        <Avatar
+          alt="Third Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
           {podio.length > 2 ? shortName(podio[2].user) + "." : ""}
         </Typography>
