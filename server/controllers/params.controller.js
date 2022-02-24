@@ -320,6 +320,13 @@ exports.parametros = (req, tipo) => {
     case "spProfileAgent":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
+    case "spQueryKpisAgents":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("Kpi", req.kpi, TYPES.VarChar),
+        // new SpParam("Time", req.time, TYPES.VarChar),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
