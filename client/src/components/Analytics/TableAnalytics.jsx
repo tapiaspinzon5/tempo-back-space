@@ -23,7 +23,6 @@ const BoxTable = styled(Grid)(() => ({
 }));
 
 const TableAnalytics = ({ width, data }) => {
-  console.log(width);
   const columns = [
     {
       field: "rank",
