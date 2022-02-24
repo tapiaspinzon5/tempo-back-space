@@ -104,7 +104,11 @@ const ProgressHome = ({ dataKPI }) => {
                       {`${kpi.unitKpi}`}
                     </Typography>
                   </Box>
-                  {kpi.unitKpi === "Percentage" ? <BsPercent /> : <BsClock />}
+                  {kpi.unitKpi === "Percentage" || kpi.unitKpi === "Avg" ? (
+                    <BsPercent />
+                  ) : (
+                    <BsClock />
+                  )}
                   <Box>
                     <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
                       See more

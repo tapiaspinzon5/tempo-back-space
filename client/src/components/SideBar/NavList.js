@@ -11,6 +11,7 @@ import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
 import { IoTrendingUpSharp } from "react-icons/io5";
+import { MdOutlinePeopleAlt } from "react-icons/md";
 
 //import awardIcon from "../../assets/Icons/award.svg";
 //import bookIcon from "../../assets/Icons/book-open.svg";
@@ -83,11 +84,23 @@ export const NavList = ({ open, match, userData }) => {
               </LIcon>
               {open && match && <Typography>Library</Typography>}
             </LItem>
+            <LItem button onClick={() => navigate("/challenge")}>
+              <LIcon>
+                <MdOutlinePeopleAlt size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Challenges</Typography>}
+            </LItem>
             <LItem button onClick={() => navigate("/leaderboard")}>
               <LIcon>
                 <IoTrendingUpSharp size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>LeaderBoard</Typography>}
+            </LItem>
+            <LItem button onClick={() => navigate("/useranalytics")}>
+              <LIcon>
+                <FiPieChart size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Analytics</Typography>}
             </LItem>
           </>
         )}
