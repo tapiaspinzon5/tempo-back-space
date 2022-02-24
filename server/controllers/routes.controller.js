@@ -745,6 +745,23 @@ exports.getAgentProfiledata = async (req, res) => {
     });
 };
 
+exports.getKpiandAnlyticsAgent = async (req, res) => {
+
+  const { kpi,time} = req.body;
+
+  sql
+    .query(
+      "spQueryKpisAgents",
+      parametros({ idccms: req.query.idccms, kpi, time}, "spQueryKpisAgents")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 // SPs actividades
 exports.welcomeegp = async (req, res) => {
