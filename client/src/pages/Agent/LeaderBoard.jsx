@@ -9,7 +9,6 @@ import LeaderRankBoard from "../../components/LeaderBoard/LeaderRankBoard";
 import TableLeaderBoard from "../../components/LeaderBoard/TableLeaderBoard";
 import Footer from "../../components/Footer";
 import LoadingComponent from "../../components/LoadingComponent";
-import { orderData } from "../../helpers/helpers";
 
 const LeaderBoard = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);

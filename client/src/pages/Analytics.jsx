@@ -70,8 +70,23 @@ const Analytics = ({ count }) => {
         filterData.status === 200 &&
         filterData.data.length > 1
       ) {
-        console.log(filterData.data);
-        if (filterData.data[2].ScoreResultKpi[0].OrderKpi === "asc") {
+        //console.log(filterData.data);
+        const dataOrder = filterData.data[2].ScoreResultKpi.sort(
+          (a, b) => b.KPIR - a.KPIR
+        );
+        let cont = 1;
+        dataOrder.forEach((el) => {
+          if (el.score) {
+            el.rank = cont;
+            cont += 1;
+          } else {
+            el.rank = dataOrder.length;
+          }
+        });
+        setKpis(filterData.data[1].ListKpi);
+        setData(dataOrder);
+        setLoading(false);
+        /*   if (filterData.data[2].ScoreResultKpi[0].OrderKpi === "asc") {
           const dataOrder = filterData.data[2].ScoreResultKpi.sort(
             (a, b) => b.KPIR - a.KPIR
           );
@@ -103,7 +118,7 @@ const Analytics = ({ count }) => {
           setKpis(filterData.data[1].ListKpi);
           setData(dataOrder);
           setLoading(false);
-        }
+        } */
       }
     };
     getData();

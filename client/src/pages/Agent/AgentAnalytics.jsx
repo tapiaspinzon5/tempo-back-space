@@ -41,7 +41,7 @@ const BoxContain = styled(Box)(() => ({
   },
 }));
 
-const AgentAnalytics = () => {
+const AgentAnalytics = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   //const [timeView, setTimeView] = useState("");
@@ -110,7 +110,7 @@ const AgentAnalytics = () => {
   }, [changeKpi]);
   return (
     <MainPage>
-      <Header />
+      <Header count={count} />
       <Box display="flex" color="#3047B0" alignItems="center" marginY="1rem">
         <Typography variant="h5" marginRight="1rem">
           {" "}

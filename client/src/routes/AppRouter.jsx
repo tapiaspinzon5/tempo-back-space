@@ -112,7 +112,10 @@ const AppRouter = () => {
               <Route path="/homeusers" element={<HomeUser count={count} />} />
               <Route path="/activitiesview" element={<ActivitiesView />} />
               <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/useranalytics" element={<AgentAnalytics />} />
+              <Route
+                path="/useranalytics"
+                element={<AgentAnalytics count={count} />}
+              />
               <Route
                 path="/leaderboard"
                 element={<LeaderBoard count={count} />}
@@ -169,7 +172,7 @@ const AppRouter = () => {
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
             <>
               <Route path="/" element={<Navigate to="/hometl" />} />
-              <Route path="/hometl" element={<HomeUser />} />
+              <Route path="/hometl" element={<HomeUser count={count} />} />
               {/* <Route path="/" element={<Navigate to="/hometl" />} /> */}
               {/* <Route path="/hometl" element={<HomeTL />} /> */}
               <Route path="/homeusers" element={<HomeUser />} />
@@ -191,7 +194,7 @@ const AppRouter = () => {
                 element={<BadgeManagement count={count} />}
               />
               <Route path="/teamprogress" element={<TeamsProgress />} />
-              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/analytics" element={<Analytics count={count} />} />
             </>
           )}
 
