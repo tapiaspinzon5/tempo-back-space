@@ -41,7 +41,12 @@ const Podium = ({ podio }) => {
       }}
     >
       <BoxAvatarPodium>
-        <Avatar alt="Diego Tapias" src={avatar} />
+        <Avatar
+          alt="First Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
           {podio.length > 0
             ? shortName(podio[0].Agent) + "."
@@ -49,13 +54,23 @@ const Podium = ({ podio }) => {
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-1rem", left: "-35%" }}>
-        <Avatar alt="Daniel Moreno" src={avatar} />
+        <Avatar
+          alt="Second Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
           {podio.length > 1 ? shortName(podio[1].Agent) + "." : ""}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>
-        <Avatar alt="Matilde Puentes" src={avatar} />
+        <Avatar
+          alt="Third Place"
+          src={avatar}
+          sx={{ width: 40, height: 40 }}
+          style={{ marginLeft: 16 }}
+        />
         <Typography variant="caption" color="initial">
           {podio.length > 2 ? shortName(podio[2].Agent) + "." : ""}
         </Typography>

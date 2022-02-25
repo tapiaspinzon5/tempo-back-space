@@ -110,6 +110,8 @@ let suTable = [
   { name: "Q2", type: TYPES.Int },
   { name: "Q3", type: TYPES.Int },
   { name: "Q4", type: TYPES.Int },
+  { name: "OrderKpi", type: TYPES.VarChar },
+  { name: "IdRegistryKpi", type: TYPES.Int },
 ];
 
 // Columnas para armar la tabla del operationManager
@@ -316,6 +318,17 @@ exports.parametros = (req, tipo) => {
         new SpParam("Time", req.time, TYPES.VarChar),
         new SpParam("Group", req.group, TYPES.VarChar),
       ]);
+
+    case "spProfileAgent":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+    case "spQueryKpisAgents":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("Kpi", req.kpi, TYPES.VarChar),
+        // new SpParam("Time", req.time, TYPES.VarChar),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

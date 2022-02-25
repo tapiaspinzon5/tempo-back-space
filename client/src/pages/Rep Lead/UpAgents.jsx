@@ -109,8 +109,8 @@ export const UpAgents = () => {
                 <Table sx={{ minWidth: 300 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ color: "#fff" }}>Teams</TableCell>
-                      <TableCell align="right" sx={{ color: "#fff" }}>
+                      <TableCell sx={{ color: "#3047B0" }}>Teams</TableCell>
+                      <TableCell align="right" sx={{ color: "#3047B0" }}>
                         Agents
                       </TableCell>
                     </TableRow>
@@ -126,11 +126,11 @@ export const UpAgents = () => {
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ color: "#fff" }}
+                          sx={{ color: "#3047B0" }}
                         >
                           {row.Nombre}
                         </TableCell>
-                        <TableCell align="right" sx={{ color: "#fff" }}>
+                        <TableCell align="right" sx={{ color: "#3047B0" }}>
                           {row.Total}
                         </TableCell>
                       </TableRow>

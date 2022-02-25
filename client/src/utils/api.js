@@ -346,6 +346,23 @@ const userActivityDesc = (idccms, idActivity, context) => {
   }
 };
 
+//Trae data Analytics Agente
+const getDataAnalytics = (idccms, kpi) => {
+  try {
+    return axiosInstance
+      .post(`getkpiandanlyticsagent?idccms=${idccms}`, {
+        kpi: kpi,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 /* TRANSVERSALES */
 
 //Traer los Challenges para asignar Tanto TL como AG
@@ -442,4 +459,5 @@ export {
   updateStatusNotifications,
   welcomeToEGP,
   getDataLeaderboard,
+  getDataAnalytics,
 };

@@ -2,21 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../../components/homeUser/Header";
-import ShowActivity from "../../components/teamLeader/ShowActivity";
-import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
 import Footer from "../../components/Footer";
-import SearchAppBar from "../../components/Search";
 import { downloadActivities, downloadUsers } from "../../utils/api";
-import { validateDataCheck } from "../../helpers/helpers";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../../components/ModalLoading";
-import { assingActivities } from "../../utils/api";
 import { UserChallenge } from "../../components/Agents/Challenges/UserChallenge";
 import { ChallengeCard } from "../../components/Agents/Challenges/ChallengeCard";
+import TPVSectionChallenge from "../../components/Agents/Challenges/TPVSectionChallenge";
+import tpv1 from "../../assets/images/tpv/tpv1.png";
 //import { onMessageListener } from "../../utils/firebase";
-
-const MySwal = withReactContent(Swal);
 
 const MainCA = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -55,20 +48,6 @@ const Boxview = styled(Grid)(() => ({
   height: "50vh",
 }));
 
-const BoxAssingment = styled(Box)(() => ({
-  display: "flex",
-  justifyContent: "flex-end",
-  margin: "2rem 0 ",
-  button: {
-    padding: ".5rem",
-    background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
-    color: "#fff",
-    width: "10rem",
-    textTransform: "none",
-    fontWeight: "600",
-    marginRight: "2rem",
-  },
-}));
 const selectButton = {
   boxShadow: "0px 3px 6px #00000029",
   borderRadius: "10px",
@@ -84,6 +63,7 @@ export const AgentChallengeAssignment = ({ count }) => {
   const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
+  const [view, setView] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -207,13 +187,44 @@ export const AgentChallengeAssignment = ({ count }) => {
       <MainCA>
         <Header count={count} />
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography variant="h5" fontWeight={500}>
               Challenge Assignment --time? --Attempts?
             </Typography>
           </Grid>
 
-          <BoxSelectBadge item xs={12}></BoxSelectBadge>
+          <BoxSelectBadge item xs={4}>
+            <Button sx={view && selectButton} onClick={() => setView(true)}>
+              Challenges
+            </Button>
+            <Button sx={!view && selectButton} onClick={() => setView(false)}>
+              TPVs
+            </Button>
+          </BoxSelectBadge>
+          {!view && (
+            <BoxSelectBadge
+              item
+              xs={2}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="body2" fontWeight={500}>
+                <img src={tpv1} alt="img ref" height={12} width={12} />
+                Available {"  "}
+                <img
+                  src={tpv1}
+                  alt="img ref"
+                  height={12}
+                  width={12}
+                  style={{ filter: "grayscale(100%)" }}
+                />
+                Non Available
+              </Typography>
+            </BoxSelectBadge>
+          )}
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} padding={1}>
@@ -244,22 +255,28 @@ export const AgentChallengeAssignment = ({ count }) => {
                 justifyContent="space-between"
                 marginBottom={2}
               ></Box>
-              <Boxview>
-                {!error ? (
-                  activity?.map((act, index) => (
-                    <ChallengeCard
-                      key={index}
-                      data={act}
-                      handleSubmit={handleSubmit}
-                      // handleBadge={handleBadge}
-                    />
-                  ))
-                ) : (
-                  <Typography variant="h5" fontWeight={500}>
-                    The Game Starts Soon
-                  </Typography>
-                )}
-              </Boxview>
+              {view ? (
+                <Boxview>
+                  {!error ? (
+                    activity?.map((act, index) => (
+                      <ChallengeCard
+                        key={index}
+                        data={act}
+                        handleSubmit={handleSubmit}
+                        // handleBadge={handleBadge}
+                      />
+                    ))
+                  ) : (
+                    <Typography variant="h5" fontWeight={500}>
+                      The Game Starts Soon
+                    </Typography>
+                  )}
+                </Boxview>
+              ) : (
+                <Boxview>
+                  <TPVSectionChallenge />
+                </Boxview>
+              )}
             </BoxActivity>
           </Grid>
         </Grid>

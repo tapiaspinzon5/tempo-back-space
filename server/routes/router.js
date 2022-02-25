@@ -56,6 +56,10 @@ module.exports = (router) => {
   router.post("/updatestatusnotification", oauth.oauthOther, routes.updateStatusNotification);
   // Retorna la data del leaderboard dependiendo los filtros (funciona tanto para agente, TL , SU). 
   router.post("/getinfoleaderboard", oauth.oauthOther, routes.getInfoLeaderboard);
+  // Retorna la informacion del perfil del agente . 
+  router.post("/getagentprofiledata", oauth.oauthOther, routes.getAgentProfiledata);
+  // Retorna la informacio de los kpi por agente. 
+  router.post("/getkpiandanlyticsagent", oauth.oauthOther, routes.getKpiandAnlyticsAgent);
 
 
 

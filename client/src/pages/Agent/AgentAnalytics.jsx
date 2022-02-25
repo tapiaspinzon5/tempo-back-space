@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -14,6 +14,10 @@ import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
+import { getDataAnalytics } from "../../utils/api";
+import LoadingComponent from "../../components/LoadingComponent";
+import { useSelector } from "react-redux";
+import { dataGraphics } from "../../helpers/helpers";
 
 const BoxContain = styled(Box)(() => ({
   background: "#f9f9f9",
@@ -37,106 +41,73 @@ const BoxContain = styled(Box)(() => ({
   },
 }));
 
-const kpiData = [
-  {
-    idccms: 4472074,
-    Kpi: "1 Stars",
-    Lob: "LOB1",
-    Type: 1,
-    unitKpi: "Hours",
-    Date: "2022-02-22T01:00:02.403",
-    ACTUAL: 8,
-    Id: 142,
-    Nombre: "Wapps Test 2",
-    IdEquipo: 142,
-    Quartile: "Q1",
-    Target: 8,
-    TargetQ1: 8,
-    TargetQ2: 10,
-    TargetQ3: 15,
-    TargetQ4: 20,
-    OrderKpi: "dsc",
-  },
-  {
-    idccms: 4472074,
-    Kpi: "AHT",
-    Lob: "LOB1",
-    Type: 2,
-    unitKpi: "Seconds",
-    Date: "2022-02-22T01:00:02.403",
-    ACTUAL: 968.067873,
-    Id: 142,
-    Nombre: "Wapps Test 2",
-    IdEquipo: 142,
-    Quartile: "Q1",
-    Target: 1260,
-    TargetQ1: 1260,
-    TargetQ2: 572,
-    TargetQ3: 352,
-    TargetQ4: 85,
-    OrderKpi: "asc",
-  },
-  {
-    idccms: 4472074,
-    Kpi: "AHT_In",
-    Lob: "LOB1",
-    Type: 2,
-    unitKpi: "Seconds",
-    Date: "2022-02-22T01:00:02.403",
-    ACTUAL: 379.085106,
-    Id: 142,
-    Nombre: "Wapps Test 2",
-    IdEquipo: 142,
-    Quartile: "Q1",
-    Target: 106,
-    TargetQ1: 106,
-    TargetQ2: 391,
-    TargetQ3: 715,
-    TargetQ4: 1316,
-    OrderKpi: "dsc",
-  },
-  {
-    idccms: 4472074,
-    Kpi: "AgentSat%",
-    Lob: "LOB1",
-    Type: 4,
-    unitKpi: "Avg",
-    Date: "2022-02-22T01:00:02.403",
-    ACTUAL: 50,
-    Id: 142,
-    Nombre: "Wapps Test 2",
-    IdEquipo: 142,
-    Quartile: "Q1",
-    Target: 100,
-    TargetQ1: 100,
-    TargetQ2: 80,
-    TargetQ3: 60,
-    TargetQ4: 50,
-    OrderKpi: "asc",
-  },
-  {
-    idccms: 4472074,
-    Kpi: "%ACW",
-    Lob: "LOB1",
-    Type: 5,
-    unitKpi: "Percentage",
-    Date: "2022-01-10T12:28:00.567",
-    ACTUAL: 0.0652,
-    Id: 142,
-    Nombre: "Wapps Test 2",
-    IdEquipo: 142,
-    Quartile: "Q1",
-    Target: 1,
-    TargetQ1: 1,
-    TargetQ2: 100,
-    TargetQ3: 800,
-    TargetQ4: 1000,
-    OrderKpi: "dsc",
-  },
-];
-
 const AgentAnalytics = () => {
-  const [timeView, setTimeView] = useState("");
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
+  //const [timeView, setTimeView] = useState("");
+  const [changeKpi, setChangeKpi] = useState("");
+  const [kpi, setKpi] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [options, setOptions] = useState({
+    stroke: {
+      curve: "smooth",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: [],
+    },
+  });
+  const [loadingKpi, setLoadingKpi] = useState(false);
+  const [loadingGraphic, setLoadingGraphic] = useState(false);
+
+  useEffect(() => {
+    setLoadingKpi(true);
+    setLoadingGraphic(true);
+    const getData = async () => {
+      const kpiList = await getDataAnalytics(idccms, "%Abs");
+      if (kpiList && kpiList.status === 200 && kpiList.data.length > 1) {
+        const dataGraphic = await getDataAnalytics(
+          idccms,
+          kpiList.data[1].KpiDetallado[0].Kpi
+        );
+        if (
+          dataGraphic &&
+          dataGraphic.status === 200 &&
+          dataGraphic.data.length > 1
+        ) {
+          const graphic = dataGraphics(dataGraphic.data[0].KPI);
+          setSeries([graphic[0]]);
+          setOptions({ ...options, xaxis: { categories: graphic[1] } });
+          setKpi(kpiList.data[1].KpiDetallado);
+          setLoadingKpi(false);
+          setLoadingGraphic(false);
+        }
+      }
+    };
+    getData();
+    // eslint-disable-next-line
+  }, []);
+  useEffect(() => {
+    setLoadingGraphic(true);
+    const getData = async () => {
+      const dataGraphic = await getDataAnalytics(idccms, changeKpi);
+      if (
+        dataGraphic &&
+        dataGraphic.status === 200 &&
+        dataGraphic.data.length > 1
+      ) {
+        const graphic = dataGraphics(dataGraphic.data[0].KPI);
+        setSeries([graphic[0]]);
+        setOptions({ ...options, xaxis: { categories: graphic[1] } });
+        console.log(graphic);
+        setLoadingGraphic(false);
+      }
+    };
+    getData();
+    // eslint-disable-next-line
+  }, [changeKpi]);
   return (
     <MainPage>
       <Header />
@@ -149,11 +120,19 @@ const AgentAnalytics = () => {
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <BoxContain sx={{ overflowY: "scroll" }}>
-            {kpiData.map((kpi, index) => (
-              <KpiCardUserAnalytics kpi={kpi} key={index} />
-            ))}
-          </BoxContain>
+          {loadingKpi ? (
+            <LoadingComponent />
+          ) : (
+            <BoxContain sx={{ overflowY: "scroll" }}>
+              {kpi.map((kpi, index) => (
+                <KpiCardUserAnalytics
+                  kpi={kpi}
+                  key={index}
+                  setChangeKpi={setChangeKpi}
+                />
+              ))}
+            </BoxContain>
+          )}
         </Grid>
         <Grid item xs={12} md={6}>
           <BoxContain>
@@ -164,7 +143,7 @@ const AgentAnalytics = () => {
             >
               <Typography variant="h6">Graphic data</Typography>
               <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
+                {/* <FormControl fullWidth>
                   <InputLabel id="time-view-label">Time view</InputLabel>
                   <Select
                     labelId="time-view-label"
@@ -177,10 +156,14 @@ const AgentAnalytics = () => {
                     <MenuItem value="Month">Month</MenuItem>
                     <MenuItem value="Week">Week</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </Box>
             </Box>
-            <LineChartGP />
+            {loadingGraphic ? (
+              <LoadingComponent />
+            ) : (
+              <LineChartGP series={series} options={options} />
+            )}
           </BoxContain>
         </Grid>
       </Grid>

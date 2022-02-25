@@ -90,12 +90,21 @@ exports.saveQuiz = async (req, res) => {
 };
 
 exports.uploadSU = async (req, res) => {
-  
+
+   // Funcion para insertar un id a las preguntas
+   let i = 0;
+   let data = req.body.data;
+ 
+   let rows = data.map((quest) => {
+     i = i + 1;
+     return [...quest, i];
+   });
+
   sql
     .query(
       "spInsertTeam",
       parametros(
-        { idccms: req.query.idccms, rows: req.body.data },
+        { idccms: req.query.idccms, rows},
         "spInsertTeam"
       )
     )
@@ -720,6 +729,39 @@ exports.getInfoLeaderboard = async (req, res) => {
     });
 };
 
+exports.getAgentProfiledata = async (req, res) => {
+
+  sql
+    .query(
+      "spProfileAgent",
+      parametros({ idccms: req.query.idccms}, "spProfileAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getKpiandAnlyticsAgent = async (req, res) => {
+
+  const { kpi,time} = req.body;
+
+  sql
+    .query(
+      "spQueryKpisAgents",
+      parametros({ idccms: req.query.idccms, kpi, time}, "spQueryKpisAgents")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 // SPs actividades
 exports.welcomeegp = async (req, res) => {

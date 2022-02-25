@@ -15,7 +15,10 @@ const BoxCard = styled(Box)(() => ({
   boxShadow: "0px 3px 6px #00000029",
 }));
 
-const KpiCardUserAnalytics = ({ kpi }) => {
+const KpiCardUserAnalytics = ({ kpi, setChangeKpi }) => {
+  const handleChange = () => {
+    setChangeKpi(kpi.Kpi);
+  };
   return (
     <BoxCard>
       <Box width="70%">
@@ -42,7 +45,11 @@ const KpiCardUserAnalytics = ({ kpi }) => {
         </Typography>
       </Box>
 
-      <Button size="small" endIcon={<MdOutlineArrowForwardIos size={30} />} />
+      <Button
+        onClick={handleChange}
+        size="small"
+        endIcon={<MdOutlineArrowForwardIos size={30} />}
+      />
     </BoxCard>
   );
 };

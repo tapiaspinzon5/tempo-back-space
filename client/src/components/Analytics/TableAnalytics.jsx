@@ -22,53 +22,12 @@ const BoxTable = styled(Grid)(() => ({
   },
 }));
 
-const rows = [
-  {
-    id: 1,
-    rank: 1,
-    user: "Snow Jhon Alexander",
-    team: "Team1",
-    level: 35,
-    score: 2312,
-  },
-  {
-    id: 2,
-    rank: 2,
-    user: "Lannister",
-    team: "Team1",
-    level: 42,
-    score: 3234,
-  },
-  { id: 3, rank: 3, user: "Lannister", team: "Team2", level: 45, score: 3423 },
-  { id: 4, rank: 4, user: "Stark", team: "Team1", level: 16, score: 23423 },
-  {
-    id: 5,
-    rank: 5,
-    user: "Targaryen",
-    team: "Team1",
-    level: null,
-    score: 5432,
-  },
-  {
-    id: 6,
-    rank: 6,
-    user: "Melisandre",
-    team: "Team2",
-    level: 150,
-    score: 3241,
-  },
-  { id: 7, rank: 7, user: "Clifford", team: "Team1", level: 44, score: 348 },
-  { id: 8, rank: 8, user: "Frances", team: "Team3", level: 36, score: 2359 },
-  { id: 9, rank: 9, user: "Roxie", team: "Team1", level: 65, score: 981 },
-];
-
-const TableAnalytics = ({ width }) => {
-  console.log(width);
+const TableAnalytics = ({ width, data }) => {
   const columns = [
     {
       field: "rank",
       headerName: "Rank",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 100 ? 100 : width / 13,
       renderCell: (params) => (
         <>
           {params.value}
@@ -86,63 +45,63 @@ const TableAnalytics = ({ width }) => {
     {
       field: "user",
       headerName: "User",
-      width: (2 * width) / 10 < 250 ? 250 : width / 10,
+      width: (2 * width) / 10 < 250 ? 200 : (2 * width) / 10,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "team",
       headerName: "Team",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 100 ? 100 : width / 11,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "lob",
       headerName: "LOB",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 10 ? 100 : width / 11,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "level",
       headerName: "Level",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 13,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "score",
       headerName: "Score",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 12,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "quartile",
+      field: "Quartile",
       headerName: "Quartile",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 12,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "missionsA",
       headerName: "Missions A",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 10,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "missionsC",
       headerName: "Missions C",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 10,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "KPIR",
       headerName: "KPI R",
-      width: width / 10 < 120 ? 120 : width / 10,
+      width: width / 10 < 90 ? 100 : width / 10,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
@@ -150,7 +109,7 @@ const TableAnalytics = ({ width }) => {
   return (
     <BoxTable sx={{}}>
       <DataGrid
-        rows={rows}
+        rows={data}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
