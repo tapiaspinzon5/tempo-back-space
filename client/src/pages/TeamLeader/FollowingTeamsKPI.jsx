@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Grid, styled, Typography, Box, Divider, Button } from "@mui/material";
+import { Grid, styled, Typography, Box, Divider, Button, IconButton, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import Header from "../../components/homeUser/Header";
-//import ProgresBar from "../../components/progressCharts/ProgresBar";
+import {FiPieChart} from 'react-icons/fi'
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
 import Footer from "../../components/Footer";
+import LineChartGP from "../../components/progressCharts/LineChartGP";
 
 const MainFT = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -43,14 +44,18 @@ const UsersBox = styled(Grid)(() => ({
     color: "#3047B0",
     fontWeight: 700,
   },
-}));
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
 
-// const Item = styled(Box)(() => ({
-//   background: "red",
-//   height: "70vh",
-//   width: "100%",
-//   borderRadius: "20px",
-// }));
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
+}));
 
 const Item = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -68,6 +73,8 @@ const FollowingTeamsKPI = ({ count }) => {
   const [usersKPI, setUsersKPI] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [showChart, setShowChart] = useState(false)
+  const [timeView, setTimeView] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -148,13 +155,47 @@ const FollowingTeamsKPI = ({ count }) => {
         </KpiBox>
 
         <UsersBox item xs={12} md={6}>
+
+
+
+
+
+
+
           <Item>
-            <Box display="flex" justifyContent="space-between" padding="0 2rem">
+            <Box display="flex" justifyContent="space-between" padding="0 2rem"   alignItems='center'>
+            {
+showChart?
+<Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                  <InputLabel id="time-view-label">Time view</InputLabel>
+                  <Select
+                    labelId="time-view-label"
+                    id="time-view"
+                    value={timeView}
+                    label="Time view"
+                    onChange={(e) => setTimeView(e.target.value)}
+                  >
+                    <MenuItem value="Day">Day</MenuItem>
+                    <MenuItem value="Month">Month</MenuItem>
+                    <MenuItem value="Week">Week</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              :
               <Typography variant="body1">Name</Typography>
-              <Typography variant="body1">{usersKPI[0]?.Kpi}</Typography>
+            }
+             <Box display='flex' alignItems='center'>
+              <Typography variant="body1" marginRight='3rem'>{usersKPI[0]?.Kpi}</Typography>
+              <IconButton onClick={()=>setShowChart(!showChart)} > <FiPieChart color='#3047B0'/></IconButton>
+             </Box>
             </Box>
             <Divider sx={{ borderColor: "#e8e8e8" }} />
-            {!error ? (
+            
+            {
+              showChart?
+              <LineChartGP/>:
+            !error ? (
               !loading ? (
                 usersKPI.map((user) => (
                   <Box
@@ -190,6 +231,7 @@ const FollowingTeamsKPI = ({ count }) => {
                 Information will be uploaded soon
               </Typography>
             )}
+            
           </Item>
         </UsersBox>
       </Grid>
