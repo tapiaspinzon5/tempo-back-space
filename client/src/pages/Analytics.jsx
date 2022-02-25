@@ -70,7 +70,7 @@ const Analytics = ({ count }) => {
         filterData.status === 200 &&
         filterData.data.length > 1
       ) {
-        console.log(filterData.data[2].ScoreResultKpi[0].OrderKpi);
+        console.log(filterData.data);
         if (filterData.data[2].ScoreResultKpi[0].OrderKpi === "asc") {
           const dataOrder = filterData.data[2].ScoreResultKpi.sort(
             (a, b) => b.KPIR - a.KPIR
