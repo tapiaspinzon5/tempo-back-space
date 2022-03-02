@@ -1,11 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Box, Typography, Divider, Button, styled } from "@mui/material";
 import { ImFire } from "react-icons/im";
-import ProgresBar from "../progressCharts/ProgresBar";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { BsClock, BsPercent } from "react-icons/bs";
 import ProgressKPI from "../progressCharts/ProgressKPI";
-//import { LinearGauge } from "../LinearGauge/LinearGauge";
 
 const CardProgressSection = styled(Box)(({ theme }) => ({
   height: "40vh",
@@ -17,6 +17,10 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
   scrollbarWidth: "thin",
   scrollbarColor: "blue green",
   color: "#3047B0",
+ 
+}));
+
+const BoxDataKPI =styled(Box)(()=>({
   button: {
     textTransform: "none",
     color: "#3047B0",
@@ -26,8 +30,23 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
       background: "#f4f4f4",
     },
   },
-}));
+}))
 
+const BoxStar = styled(Box)(() => ({
+display:'flex',
+alignItems:'center',
+button: {
+  textTransform: "none",
+  background: "#3047B0", 
+  borderRadius: '1px',
+  color:'#fff',
+  "&:hover": {
+
+   background:'linear-gradient(90deg, #0087FF, #3047B0)',
+   borderRadius:'5px 0 0 5px'
+  },
+},
+}));
 const Arrow = styled(Box)(() => ({
   width: "25px",
   borderLeft: "15px solid #3047B0",
@@ -36,6 +55,18 @@ const Arrow = styled(Box)(() => ({
 }));
 
 const ProgressHome = ({ dataKPI }) => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const role = userData.Role;
+  const navigate = useNavigate()
+  console.log('data de usuario', userData)
+
+  const handleDirection=()=>{
+    if(role === 'Agent'){
+      navigate('/activitiesview')
+    }else {
+      navigate('/challengeasignment')
+    }
+  }
   return (
     <CardProgressSection>
       <Box
@@ -47,15 +78,15 @@ const ProgressHome = ({ dataKPI }) => {
         <Typography variant="h6" fontWeight="bold">
           Gain more points today
         </Typography>
-        <Box display="flex" alignItems="center">
+        <BoxStar >
           <Typography variant="h6" mr={1}>
             Start
           </Typography>
-          <Button>
-            <ImFire size={25} color="#fff" />
+          <Button  onClick={handleDirection}>
+            <ImFire size={25}  />
           </Button>
           <Arrow />
-        </Box>
+        </BoxStar>
       </Box>
       <Divider variant="fullWidth" light />
 
@@ -63,7 +94,7 @@ const ProgressHome = ({ dataKPI }) => {
 
       {dataKPI.length > 0 ? (
         dataKPI[1].KPI.map((kpi, index) => (
-          <Box key={index}>
+          <BoxDataKPI key={index}>
             <Box
               display="flex"
               py={2}
@@ -118,7 +149,7 @@ const ProgressHome = ({ dataKPI }) => {
               </Box>
             </Box>
             <Divider variant="fullWidth" light />
-          </Box>
+          </BoxDataKPI>
         ))
       ) : (
         <Box>

@@ -16,8 +16,14 @@ const CardActiviy = styled(Box)(() => ({
 
   button: {
     textTransform: "none",
-    border: "1px solid blue",
-    padding: "0 15px",
+    //border: "1px solid blue",
+    borderRadius: "10px",
+    padding: ".6rem 1.2rem",
+    color: "#3047b0", background:'#fff',
+    '&:hover':{
+      boxShadow: "0px 3px 6px #3047b0",
+     background:'#e8e8e8',      
+    }
   },
 }));
 
@@ -26,7 +32,7 @@ export const ChallengeCard = ({ data, handleSubmit }) => {
     <CardActiviy
       sx={{
         height: "90px",
-        backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${image})`,
+        backgroundImage: `linear-gradient(90deg, rgba(52, 48, 102, 0.8), rgba(0, 135, 255, 0.2)), url(${image})`,
         backgroundSize: "cover",
       }}
     >
@@ -34,26 +40,12 @@ export const ChallengeCard = ({ data, handleSubmit }) => {
         <Typography variant="body1" color="#FFF">
           {data.Name}
         </Typography>
-        <Typography variant="body2" color="#FFF">
-          {data.Context}
-        </Typography>
+      
       </Box>
-      {/* {<Box display="flex" alignItems="center">
-        <img src={epiCoin} alt="" height={20} />
-        <Typography variant="caption" marginLeft={1}>
-          {data.RewardEpicoins
-            ? data.RewardEpicoins + " Epicoins"
-            : "0 Epicoins"}
-        </Typography>
-      </Box>}
-      <Box display="flex" alignItems="center">
-        <img src={start} alt="" height={20} />
-        <Typography variant="caption" marginLeft={1}>
-          {data.RewardPoints + " Points"}
-        </Typography>
-      </Box> */}
+  
       <Tooltip title={data.Description} placement="top" arrow>
-        <Button onClick={handleSubmit} sx={{ color: "#FFF" }}>
+        <Button onClick={handleSubmit} 
+        >
           To Challenge{" "}
         </Button>
       </Tooltip>
