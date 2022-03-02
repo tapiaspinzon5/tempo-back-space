@@ -189,7 +189,9 @@ useEffect(() => {
             {
 showChart?
 <Box sx={{ minWidth: 120 }}>
-                {/* <FormControl fullWidth>
+                <FormControl fullWidth
+                
+                >
                   <InputLabel id="time-view-label">Time view</InputLabel>
                   <Select
                     labelId="time-view-label"
@@ -197,12 +199,13 @@ showChart?
                     value={timeView}
                     label="Time view"
                     onChange={(e) => setTimeView(e.target.value)}
+                    disabled
                   >
                     <MenuItem value="Day">Day</MenuItem>
                     <MenuItem value="Month">Month</MenuItem>
                     <MenuItem value="Week">Week</MenuItem>
                   </Select>
-                </FormControl> */}
+                </FormControl> 
               </Box>
               :
               <Typography variant="body1">Name</Typography>

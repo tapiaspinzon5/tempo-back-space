@@ -43,7 +43,6 @@ import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
-  //position: "relative",
 }));
 
 const AppRouter = () => {

@@ -32,7 +32,7 @@ const ShowActivity = ({ data, handleBadge }) => {
       />
       <Box width="40%">
         <Typography variant="body1">{data.Name}</Typography>
-        <Typography variant="body2">{data.Context}</Typography>
+       
       </Box>
       <Box display="flex" alignItems="center">
         <img src={epiCoin} alt="" height={20} />

@@ -17,20 +17,31 @@ const tpv = [
 const BoxTPVUser = styled(Box)(() => ({
   color: "#3047b0",
   display: "flex",
-  minHeight: "70vh",
   flexDirection: "column",
-  justifyContent: "space-between",
-
-  padding: "1rem",
+  padding: " .5rem",
 }));
 const CardTPV = styled(Box)(() => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  marginBottom: "1.551rem",
+  marginBottom: ".551rem",
+  backgroundColor: "#FFF",
+   borderRadius: "10px",
+   overflow:'hidden', 
   img: {
-    height: "5rem",
+    height: "4.5rem",
+    margin:'.5rem'
   },
+  button:{
+    boxShadow: "0px 3px 6px #00000029",
+    borderRadius: "10px",
+    textTransform: "none",
+    padding:'.3rem 2.5rem',
+    '&:hover':{
+      boxShadow: "0px 3px 6px #3047b0",
+     background:'#e9e9e9',      
+    }
+  }
 }));
 
 const TPVSectionChallenge = () => {
@@ -38,7 +49,6 @@ const TPVSectionChallenge = () => {
     <BoxTPVUser>
       {tpv.map((data, index) => (
         <CardTPV
-          sx={{ backgroundColor: "#FFF", borderRadius: "10px" }}
           key={index}
         >
           <img src={data.image} alt={data.msj} />

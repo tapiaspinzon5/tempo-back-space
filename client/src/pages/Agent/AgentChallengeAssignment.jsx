@@ -46,6 +46,17 @@ const BoxActivity = styled(Grid)(() => ({
 const Boxview = styled(Grid)(() => ({
   overflowY: "scroll",
   height: "50vh",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
 }));
 
 const selectButton = {
@@ -263,7 +274,6 @@ export const AgentChallengeAssignment = ({ count }) => {
                         key={index}
                         data={act}
                         handleSubmit={handleSubmit}
-                        // handleBadge={handleBadge}
                       />
                     ))
                   ) : (

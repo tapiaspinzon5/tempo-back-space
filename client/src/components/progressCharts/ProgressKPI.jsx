@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, styled } from "@mui/material";
 import { positionValue } from "../../helpers/helpers";
+import {GoArrowSmallUp, GoArrowSmallDown} from 'react-icons/go'
+
 
 const MainProgress = styled(Box)(() => ({
   overflow: "hidden",
+  width:'95%',
 }));
 
 const BoxProgress = styled(Box)(() => ({
@@ -19,14 +22,22 @@ const BoxChart = styled(Box)(() => ({
 
 const ProgressKPI = ({ value, target, kpi }) => {
   const [arrowPos, setArrowPos] = useState(0);
+  const [dir, setDir] = useState(true)
 
   useEffect(() => {
     const pos = positionValue(kpi);
     setArrowPos(pos);
+    if(kpi.TargetQ1 > kpi.TargetQ2){
+      setDir(true)
+    }else{
+      setDir(false)
+    }
   }, []);
 
-  //console.log(kpi);
+  console.log(kpi);
   return (
+    <Box display='flex' alignItems='center' >
+
     <MainProgress>
       <Box
         sx={{
@@ -43,7 +54,6 @@ const ProgressKPI = ({ value, target, kpi }) => {
         <BoxChart
           sx={{
             backgroundColor: "#ff5c00",
-            // width: `${widthRed}%`,
             width: "33.333%",
           }}
         ></BoxChart>
@@ -51,18 +61,24 @@ const ProgressKPI = ({ value, target, kpi }) => {
           sx={{
             backgroundColor: "#f5d200",
             width: "33.333%",
-            // width: "10%",
           }}
         ></BoxChart>
         <BoxChart
           sx={{
             background: "linear-gradient(270deg, #00af9b 0%, #00d769 100%)",
             width: "33.333%",
-            // width: `${widthTarget}%`,
           }}
         ></BoxChart>
       </BoxProgress>
     </MainProgress>
+      {
+        dir?
+      <GoArrowSmallUp  color=' #00d769'  size={25}/>
+      :
+      <GoArrowSmallDown color=' #00d769' size={25}/>
+      }
+    </Box>
+
   );
 };
 
