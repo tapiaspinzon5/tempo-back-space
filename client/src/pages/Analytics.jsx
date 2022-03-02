@@ -78,9 +78,11 @@ const Analytics = ({ count }) => {
         dataOrder.forEach((el) => {
           if (el.score) {
             el.rank = cont;
+            el.AverageKpi = el.AverageKpi.toFixed(2);
             cont += 1;
           } else {
             el.rank = dataOrder.length;
+            el.AverageKpi = el.AverageKpi.toFixed(2);
           }
         });
         setKpis(filterData.data[1].ListKpi);

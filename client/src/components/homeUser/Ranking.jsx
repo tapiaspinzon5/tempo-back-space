@@ -31,18 +31,14 @@ const CardRanking = styled(Box)(({ theme }) => ({
 }));
 
 const Ranking = ({ ranking }) => {
-  let ran;
-  if (ranking.length > 2) {
-    ran = ranking.slice(3, ranking.length + 1);
-  }
   return (
     <BoxRanking>
-      {ran && ran.length > 3 ? (
-        ran.map((user, index) => (
+      {ranking && ranking.length > 3 ? (
+        ranking.map((user, index) => (
           <CardRanking>
             <Box>
               <Typography variant="body2" fontWeight="bold">
-                {index + 3}
+                {index + 1}
               </Typography>
               <Avatar alt={user.Agent} src={avatarIMG} />
               <Typography variant="body2" fontWeight="bold" color="initial">

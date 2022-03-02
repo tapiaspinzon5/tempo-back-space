@@ -5,7 +5,7 @@ const Circle = ({ info }) => {
   const ref = useRef();
   useEffect(() => {
     const liquidPlot = new Liquid(ref.current, {
-      percent: info.TotalExperiences[0].TotalExp / 45,
+      percent: info.Level[0].Exp / info.Level[0].High,
       autoFit: true,
 
       outline: {
@@ -25,20 +25,9 @@ const Circle = ({ info }) => {
           brandColor: "#00f",
         },
       },
-      /* pattern: {
-          type: "square",
-          cfg: {
-            size: 4,
-            padding: 4,
-            rotation: 0,
-            fill: "#FFF",
-            isStagger: true,
-          },
-        }, */
-
       statistic: {
         content: {
-          content: `${Math.trunc(info.TotalExperiences[0].TotalExp)} XP`,
+          content: `${Math.trunc(info.Level[0].Exp)} XP`,
           style: {
             color: "#00f",
             fontSize: "25px",

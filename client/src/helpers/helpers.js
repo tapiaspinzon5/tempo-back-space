@@ -337,7 +337,7 @@ export const dataGraphics = (data) => {
   const series = [];
   const date = [];
   data.forEach((dato) => {
-    series.push(dato.actual);
+    series.push(dato.actual.toFixed(2));
     date.push(dato.Date.split("T")[0]);
   });
   return [{ name: data[0].Kpi, data: series }, date];

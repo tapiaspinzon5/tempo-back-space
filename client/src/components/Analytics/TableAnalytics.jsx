@@ -99,7 +99,7 @@ const TableAnalytics = ({ width, data }) => {
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "KPIR",
+      field: "AverageKpi",
       headerName: "KPI R",
       width: width / 10 < 90 ? 100 : width / 10,
       headerClassName: "super-app-theme--header",

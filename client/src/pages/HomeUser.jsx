@@ -58,7 +58,7 @@ const HomeUser = ({ count }) => {
       const kpis = await downloadHomeData(idccms);
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
         await setData(kpis.data);
-        await setTExp(kpis.data[2]);
+        await setTExp(kpis.data[6]);
         await setCw(kpis.data[3]);
         await setGp(kpis.data[4]);
         setBadge(() => kpis.data[5]);

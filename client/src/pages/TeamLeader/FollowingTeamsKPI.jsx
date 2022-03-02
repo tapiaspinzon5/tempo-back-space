@@ -74,6 +74,7 @@ const FollowingTeamsKPI = ({ count }) => {
       const data = await getKPIteamTL(idccms);
       if (data && data.status === 200 && data.data.length > 3) {
         setKpi(data.data);
+        console.log(data.data);
       } else {
         setError(true);
       }
