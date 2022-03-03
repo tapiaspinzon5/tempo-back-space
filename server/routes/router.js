@@ -61,7 +61,8 @@ module.exports = (router) => {
   // Retorna la informacio de los kpi por agente. 
   router.post("/getkpiandanlyticsagent", oauth.oauthOther, routes.getKpiandAnlyticsAgent);
 
-
+  // Asignar challenges y TPVs Agent-Agent 
+  router.post("/postassignagentagent", oauth.oauthOther,routes.postAssignAgentAgent);
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES

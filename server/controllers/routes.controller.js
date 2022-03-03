@@ -779,3 +779,59 @@ exports.welcomeegp = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
+
+exports.postAssignAgentAgent = async (req, res) => {
+
+  // const {data} = req.body
+  const {context,agentName, nameChallengeTPV, idChallengeTPV, idccmsAssigned, fcmTokens} = req.body;  
+  let rows = [];
+  let i = 0;
+
+  // Filtramos las personas que si tienen token para notificarlos
+  let fcmTokensFiltered = fcmTokens.filter(token => token);
+
+  // Armo tabla para la DB
+  idActivity.forEach(act => {
+    idccmsAssigned.forEach(id => {
+      i = i + 1;
+      rows.push([id,act,i])
+    })
+  });
+
+  // Recorremos cada actividad
+  for (let i = 0; i < nameActivity.length; i++) {
+    try {
+      // enviamos la actividad por c/u  de los tokens
+      fcmTokensFiltered.forEach(async (token) => {
+        // console.log(tlName, nameActivity[i], token);
+        return await sendFCMMessage(tlName, nameActivity[i], token)
+      })
+      // res.status(200).json(resp);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
+
+  // try {
+  //   let resp = fcmTokens.map(async (token) => {
+  //     return await sendFCMMessage(token,msg)
+  //   })
+  //   // res.status(200).json(resp);
+  // } catch (error) {
+  //   res.status(500).json(error);
+  // }
+
+  sql
+    .query(
+      "spInsertChallengeAgent",
+      parametros({ idccms: req.query.idccms, rows}, "spInsertChallengeAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
