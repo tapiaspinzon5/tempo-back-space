@@ -9,6 +9,10 @@ import LeaderRankBoard from "../../components/LeaderBoard/LeaderRankBoard";
 import TableLeaderBoard from "../../components/LeaderBoard/TableLeaderBoard";
 import Footer from "../../components/Footer";
 import LoadingComponent from "../../components/LoadingComponent";
+import {
+  deleteDuplicatesKpis,
+  deleteDuplicatesScore,
+} from "../../helpers/helpers";
 
 const LeaderBoard = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
@@ -18,7 +22,10 @@ const LeaderBoard = ({ count }) => {
   const [kpis, setKpis] = useState([]);
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    time: "Day",
+    group: "My Team",
+  });
   const [xpOrkpi, setXpOrkpi] = useState(false);
 
   useEffect(() => {
@@ -28,8 +35,8 @@ const LeaderBoard = ({ count }) => {
         idccms,
         1,
         "",
-        "day",
-        "My Team"
+        filters.time,
+        filters.group
       );
       if (
         initialData &&
@@ -66,30 +73,17 @@ const LeaderBoard = ({ count }) => {
           idccms,
           1,
           "",
-          "day",
-          "My Team"
+          filters.time,
+          filters.group
         );
         if (
           initialData &&
           initialData.status === 200 &&
           initialData.data.length === 3
         ) {
-          const dataOrder = initialData.data[0].ScoreExp.sort(
-            (a, b) => b.score - a.score
+          const dataOrder = await deleteDuplicatesScore(
+            initialData.data[0].ScoreExp
           );
-          let cont = 1;
-          dataOrder.forEach((el) => {
-            if (el.score) {
-            el.rank = cont;
-            //el.AverageKpi = el.AverageKpi.toFixed(2);
-
-              cont += 1;
-            } else {
-              el.rank = dataOrder.length;
-             // el.AverageKpi = el.AverageKpi.toFixed(2);
-            
-            }
-          });
           setKpis(initialData.data[1].ListKpi);
           setData(dataOrder);
           setLoading(false);
@@ -111,18 +105,10 @@ const LeaderBoard = ({ count }) => {
           filterData.data.length > 1
         ) {
           setXpOrkpi(true);
-          const dataOrder = filterData.data[2].ScoreResultKpi.sort(
-            (a, b) => b.KPIR - a.KPIR
+          const dataOrder = await deleteDuplicatesKpis(
+            filterData.data[2].ScoreResultKpi,
+            filters.time
           );
-          let cont = 1;
-          dataOrder.forEach((el) => {
-            if (el.score) {
-              el.rank = cont;
-              cont += 1;
-            } else {
-              el.rank = dataOrder.length;
-            }
-          });
           setKpis(filterData.data[1].ListKpi);
           setData(dataOrder);
           setLoading(false);

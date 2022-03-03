@@ -78,7 +78,7 @@ const TableAnalytics = ({ width, data }) => {
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "Quartile",
+      field: "quartile",
       headerName: "Quartile",
       width: width / 10 < 90 ? 100 : width / 12,
       headerClassName: "super-app-theme--header",
@@ -99,7 +99,7 @@ const TableAnalytics = ({ width, data }) => {
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "AverageKpi",
+      field: "KPIR",
       headerName: "KPI R",
       width: width / 10 < 90 ? 100 : width / 10,
       headerClassName: "super-app-theme--header",

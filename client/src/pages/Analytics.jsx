@@ -8,6 +8,10 @@ import LeaderRankBoard from "../components/LeaderBoard/LeaderRankBoard";
 import Footer from "../components/Footer";
 import LoadingComponent from "../components/LoadingComponent";
 import TableAnalytics from "../components/Analytics/TableAnalytics";
+import {
+  deleteDuplicatesKpis,
+  deleteDuplicatesScore,
+} from "../helpers/helpers";
 
 const Analytics = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
@@ -17,7 +21,10 @@ const Analytics = ({ count }) => {
   const [kpis, setKpis] = useState([]);
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    time: "Day",
+    group: "My Team",
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -57,73 +64,55 @@ const Analytics = ({ count }) => {
 
   useEffect(() => {
     setLoading(true);
-    const getData = async () => {
-      const filterData = await getDataLeaderboard(
-        idccms,
-        2,
-        filters.kpi,
-        filters.time,
-        filters.group
-      );
-      if (
-        filterData &&
-        filterData.status === 200 &&
-        filterData.data.length > 1
-      ) {
-        //console.log(filterData.data);
-        const dataOrder = filterData.data[2].ScoreResultKpi.sort(
-          (a, b) => b.KPIR - a.KPIR
+    if (filters.kpi === "") {
+      const getData = async () => {
+        const initialData = await getDataLeaderboard(
+          idccms,
+          1,
+          "",
+          filters.time,
+          filters.group
         );
-        let cont = 1;
-        dataOrder.forEach((el) => {
-          if (el.score) {
-            el.rank = cont;
-            el.AverageKpi = el.AverageKpi.toFixed(2);
-            cont += 1;
-          } else {
-            el.rank = dataOrder.length;
-            el.AverageKpi = el.AverageKpi.toFixed(2);
-          }
-        });
-        setKpis(filterData.data[1].ListKpi);
-        setData(dataOrder);
-        setLoading(false);
-        /*   if (filterData.data[2].ScoreResultKpi[0].OrderKpi === "asc") {
-          const dataOrder = filterData.data[2].ScoreResultKpi.sort(
-            (a, b) => b.KPIR - a.KPIR
+        if (
+          initialData &&
+          initialData.status === 200 &&
+          initialData.data.length === 3
+        ) {
+          const dataOrder = await deleteDuplicatesScore(
+            initialData.data[0].ScoreExp
           );
-          let cont = 1;
-          dataOrder.forEach((el) => {
-            if (el.score) {
-              el.rank = cont;
-              cont += 1;
-            } else {
-              el.rank = dataOrder.length;
-            }
-          });
+          setKpis(initialData.data[1].ListKpi);
+          setData(dataOrder);
+          setLoading(false);
+        }
+      };
+      getData();
+    } else {
+      const getData = async () => {
+        const filterData = await getDataLeaderboard(
+          idccms,
+          2,
+          filters.kpi,
+          filters.time,
+          filters.group
+        );
+        if (
+          filterData &&
+          filterData.status === 200 &&
+          filterData.data.length > 1
+        ) {
+          const dataOrder = await deleteDuplicatesKpis(
+            filterData.data[2].ScoreResultKpi,
+            filters.time
+          );
+
           setKpis(filterData.data[1].ListKpi);
           setData(dataOrder);
           setLoading(false);
-        } else {
-          const dataOrder = filterData.data[2].ScoreResultKpi.sort(
-            (a, b) => a.KPIR - b.KPIR
-          );
-          let cont = 1;
-          dataOrder.forEach((el) => {
-            if (el.score) {
-              el.rank = cont;
-              cont += 1;
-            } else {
-              el.rank = dataOrder.length;
-            }
-          });
-          setKpis(filterData.data[1].ListKpi);
-          setData(dataOrder);
-          setLoading(false);
-        } */
-      }
-    };
-    getData();
+        }
+      };
+      getData();
+    }
 
     // eslint-disable-next-line
   }, [filters]);
