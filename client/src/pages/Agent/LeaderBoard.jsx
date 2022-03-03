@@ -23,10 +23,12 @@ const LeaderBoard = ({ count }) => {
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
+    kpi: "",
     time: "Day",
     group: "My Team",
   });
   const [xpOrkpi, setXpOrkpi] = useState(false);
+  const [podium, setPodium] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -38,11 +40,13 @@ const LeaderBoard = ({ count }) => {
         filters.time,
         filters.group
       );
+      console.log(initialData);
       if (
         initialData &&
         initialData.status === 200 &&
-        initialData.data.length === 3
+        initialData.data.length === 4
       ) {
+        setPodium(initialData.data[3].Podium);
         const dataOrder = initialData.data[0].ScoreExp.sort(
           (a, b) => b.score - a.score
         );
@@ -79,7 +83,7 @@ const LeaderBoard = ({ count }) => {
         if (
           initialData &&
           initialData.status === 200 &&
-          initialData.data.length === 3
+          initialData.data.length === 4
         ) {
           const dataOrder = await deleteDuplicatesScore(
             initialData.data[0].ScoreExp
@@ -161,7 +165,7 @@ const LeaderBoard = ({ count }) => {
             justifyContent="center"
           >
             <Box padding={2} width="100%">
-              <PodiumLB podio={data} />
+              <PodiumLB podio={podium} />
             </Box>
           </BoxContain>
         </Grid>

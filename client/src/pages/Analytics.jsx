@@ -39,7 +39,7 @@ const Analytics = ({ count }) => {
       if (
         initialData &&
         initialData.status === 200 &&
-        initialData.data.length === 3
+        initialData.data.length === 4
       ) {
         const dataOrder = initialData.data[0].ScoreExp.sort(
           (a, b) => b.score - a.score
@@ -76,7 +76,7 @@ const Analytics = ({ count }) => {
         if (
           initialData &&
           initialData.status === 200 &&
-          initialData.data.length === 3
+          initialData.data.length === 4
         ) {
           const dataOrder = await deleteDuplicatesScore(
             initialData.data[0].ScoreExp
