@@ -133,7 +133,7 @@ const FollowingTeamsKPI = ({ count }) => {
       let seriesData = [];
       let categoriesData = [];
       usersKPI.forEach((dato) => {
-        seriesData.push(dato.Actual);
+        seriesData.push(dato.Actual.toFixed(2));
         categoriesData.push(dato.Agent);
       });
       setOptions({ ...options, xaxis: { categories: categoriesData } });

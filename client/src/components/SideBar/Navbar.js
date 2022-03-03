@@ -69,7 +69,7 @@ export const Navbar = () => {
           <SideBar
             sx={{
               width: open ? 180 : 70,
-              transition: " width 0.5s",
+              transition: " width 05s.",
               background: theme.palette.background.primary,
               height: "95vh",
             }}

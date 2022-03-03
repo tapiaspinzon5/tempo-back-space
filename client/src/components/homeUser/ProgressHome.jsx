@@ -58,7 +58,7 @@ const ProgressHome = ({ dataKPI }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const role = userData.Role;
   const navigate = useNavigate()
-  console.log('data de usuario', userData)
+  
 
   const handleDirection=()=>{
     if(role === 'Agent'){

@@ -29,7 +29,7 @@ const Circle = ({ info }) => {
         content: {
           content: `${Math.trunc(info.Level[0].Exp)} XP`,
           style: {
-            color: "#00f",
+            color: "#0087FF",
             fontSize: "25px",
           },
         },

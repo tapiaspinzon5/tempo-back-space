@@ -47,6 +47,7 @@ const SeeButton = styled(Button)(() => ({
 const HomeUser = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
+  const useName = userData.Nombre
   const [data, setData] = useState([]);
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
@@ -65,6 +66,7 @@ const HomeUser = ({ count }) => {
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
+      console.log(kpis)
     };
     getData();
     // eslint-disable-next-line
@@ -74,7 +76,7 @@ const HomeUser = ({ count }) => {
     data.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
-  console.log(data);
+
   return (
     <>
       <MainHomeUser
@@ -89,7 +91,7 @@ const HomeUser = ({ count }) => {
             <>{ranking && <Podium podio={ranking} />}</>
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
-            <Ranking ranking={ranking} />
+            <Ranking ranking={ranking} useName={useName} />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <BoxVinetas>

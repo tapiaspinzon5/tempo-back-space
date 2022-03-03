@@ -200,7 +200,7 @@ export const AgentChallengeAssignment = ({ count }) => {
         <Grid container>
           <Grid item xs={6}>
             <Typography variant="h5" fontWeight={500}>
-              Challenge Assignment --time? --Attempts?
+              Challenge Assignment
             </Typography>
           </Grid>
 
