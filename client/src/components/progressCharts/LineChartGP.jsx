@@ -6,7 +6,7 @@ const LineChartGP = ({ series, options }) => {
 
   return (
     <div>
-      <Chart options={options} series={series} type="area" width="100%" />
+      <Chart options={options} series={series} type="bar" width="100%" />
     </div>
   );
 };

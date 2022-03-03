@@ -34,7 +34,6 @@ const ProgressKPI = ({ value, target, kpi }) => {
     }
   }, []);
 
-  console.log(kpi);
   return (
     <Box display='flex' alignItems='center' >
 

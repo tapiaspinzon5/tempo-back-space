@@ -1,5 +1,6 @@
 import React from "react";
-import { Typography, styled, Box, Avatar } from "@mui/material";
+import { Typography,  Box, Avatar } from "@mui/material";
+import {styled} from '@mui/material/styles'
 import avatarIMG from "../../assets/temp-image/avatar.png";
 
 const BoxRanking = styled(Box)(({ theme }) => ({
@@ -23,19 +24,25 @@ const CardRanking = styled(Box)(({ theme }) => ({
     color: "#3047B0",
     margin: "0 .5rem",
     fontSize: "12px",
+    
+   
   },
   div: {
     display: "flex",
     alignItems: "center",
   },
+
+  
 }));
 
-const Ranking = ({ ranking }) => {
+const Ranking = ({ ranking, useName }) => {
   return (
     <BoxRanking>
       {ranking && ranking.length > 3 ? (
         ranking.map((user, index) => (
-          <CardRanking>
+          <CardRanking  
+sx={useName === user.Agent &&{background:'#3047B030'}}
+          >
             <Box>
               <Typography variant="body2" fontWeight="bold">
                 {index + 1}
