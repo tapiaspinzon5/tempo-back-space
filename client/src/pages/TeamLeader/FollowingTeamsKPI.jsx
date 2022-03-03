@@ -103,7 +103,7 @@ const FollowingTeamsKPI = ({ count }) => {
   useEffect(() => {
     const getData = async () => {
       const data = await getKPIteamTL(idccms);
-      console.log(data.data);
+      //console.log(data.data);
       if (data && data.status === 200 && data.data.length > 0) {
         setKpi(data.data[2].KpiDetallado);
       } else {
@@ -112,12 +112,14 @@ const FollowingTeamsKPI = ({ count }) => {
     };
     getData();
     handleKPI();
+
     setLoading(false);
   }, []);
 
   const handleKPI = async (idKPI) => {
     setLoading(true);
     const data = await getUsersKPI(idccms, idKPI ? idKPI : 1);
+    console.log(data.data);
     if (data && data.status === 200 && data.data.length > 1) {
       setUsersKPI(data.data);
     } else {
@@ -126,7 +128,7 @@ const FollowingTeamsKPI = ({ count }) => {
     setLoading(false);
   };
   console.log(kpi);
-  console.log(usersKPI);
+  //console.log(usersKPI);
 
   useEffect(() => {
     const handleChart = () => {
