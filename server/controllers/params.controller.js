@@ -334,6 +334,9 @@ exports.parametros = (req, tipo) => {
     case "spQueryAnalitycsExp":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
       
+    case "spQueryDasboardTeamLeader":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
