@@ -853,6 +853,22 @@ exports.getanalyticsexprl = async (req, res) => {
     });
 };
 
+
+exports.getDashboardTL = async (req, res) => {
+  sql
+    .query(
+      "spQueryDasboardTeamLeader",
+      parametros({ idccms: req.query.idccms }, "spQueryDasboardTeamLeader")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 

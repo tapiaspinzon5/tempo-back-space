@@ -67,6 +67,9 @@ module.exports = (router) => {
   router.post("/getanalyticskpirl", oauth.oauthOther,routes.getanalyticskpirl);
   router.post("/getanalyticsexprl", oauth.oauthOther,routes.getanalyticsexprl);
 
+  // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  router.post("/getdashboardtl",oauth.oauthOther, oauth.oauthOther, routes.getDashboardTL ); 
+
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
