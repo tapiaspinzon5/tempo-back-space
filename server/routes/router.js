@@ -63,6 +63,9 @@ module.exports = (router) => {
 
   // Asignar challenges y TPVs Agent-Agent 
   router.post("/postassignagentagent", oauth.oauthOther,routes.postAssignAgentAgent);
+  // Asignar challenges y TPVs Agent-Agent 
+  router.post("/getanalyticskpirl", oauth.oauthOther,routes.getanalyticskpirl);
+  router.post("/getanalyticsexprl", oauth.oauthOther,routes.getanalyticsexprl);
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
