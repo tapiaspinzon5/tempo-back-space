@@ -74,7 +74,8 @@ export const UploadCount = ({ idccms, setLoading }) => {
               colum[5],
               colum[6],
               colum[7],
-              colum[8]?.toString(),
+              colum[8],
+              colum[9]?.toString(),
             ];
           });
 

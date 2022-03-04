@@ -49,7 +49,7 @@ const Podium = ({ podio }) => {
         />
         <Typography variant="caption" color="initial">
           {podio.length > 0
-            ? shortName(podio[0].user) + "."
+            ? shortName(podio[0].Agent) + "."
             : "The Game Starts Soon"}
         </Typography>
       </BoxAvatarPodium>
@@ -61,7 +61,7 @@ const Podium = ({ podio }) => {
           style={{ marginLeft: 16 }}
         />
         <Typography variant="caption" color="initial">
-          {podio.length > 1 ? shortName(podio[1].user) + "." : ""}
+          {podio.length > 1 ? shortName(podio[1].Agent) + "." : ""}
         </Typography>
       </BoxAvatarPodium>
       <BoxAvatarPodium sx={{ top: "-2rem", left: "35%" }}>
@@ -72,7 +72,7 @@ const Podium = ({ podio }) => {
           style={{ marginLeft: 16 }}
         />
         <Typography variant="caption" color="initial">
-          {podio.length > 2 ? shortName(podio[2].user) + "." : ""}
+          {podio.length > 2 ? shortName(podio[2].Agent) + "." : ""}
         </Typography>
       </BoxAvatarPodium>
     </PodiumBox>

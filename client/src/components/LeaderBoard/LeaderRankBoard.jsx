@@ -7,7 +7,6 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
-import TableLeaderBoard from "./TableLeaderBoard";
 
 const BoxFormControl = styled(FormControl)(() => ({
   width: "8rem",
@@ -68,7 +67,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
           >
             <MenuItem value="Day">Day</MenuItem>
             <MenuItem value="Week">Week</MenuItem>
-            <MenuItem value="Mont">Month</MenuItem>
+            <MenuItem value="Month">Month</MenuItem>
           </Select>
         </BoxFormControl>
         <BoxFormControl>
@@ -88,7 +87,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
           >
             <MenuItem value="My Team">My Team</MenuItem>
             <MenuItem value="My Lob">My LOB</MenuItem>
-            <MenuItem value="My Campaing">My Campaing</MenuItem>
+            <MenuItem value="My Campaign">My Campaign</MenuItem>
           </Select>
         </BoxFormControl>
       </BoxSelect>
