@@ -68,6 +68,32 @@ const createTeamReportingLead = (dataCSV, idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+const downloadReportExp = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getanalyticsexprl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+const downloadReportKpi = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getanalyticskpirl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 /* QA LEAD */
 
@@ -460,4 +486,6 @@ export {
   welcomeToEGP,
   getDataLeaderboard,
   getDataAnalytics,
+  downloadReportExp,
+  downloadReportKpi,
 };

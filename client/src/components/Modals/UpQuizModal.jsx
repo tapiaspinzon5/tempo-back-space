@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, Box, styled, Button } from "@mui/material";
 import instructions from "../../assets/images/instructions.png";
 import Quiz_template from "../../assets/filesTemplatesCSV/QuizTemplate.csv";

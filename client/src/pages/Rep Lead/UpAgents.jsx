@@ -18,10 +18,15 @@ import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiDownload } from "react-icons/fi";
-import { downloadDataAdmin } from "../../utils/api";
+import {
+  downloadDataAdmin,
+  downloadReportExp,
+  downloadReportKpi,
+} from "../../utils/api";
 import { UploadAgents } from "../../components/Agents/UploadAgents";
 import { ModalLoading } from "../../components/ModalLoading";
 import UpQuizModal from "../../components/Modals/UpQuizModal";
+import ExcelJS from "exceljs";
 
 const MainUpCampaign = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -53,6 +58,9 @@ export const UpAgents = () => {
 
   const [myAgents, setMyAgents] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [repKpi, setRepKpi] = useState([]);
+  const [repExp, setRepExp] = useState([]);
+  const [download, setDownload] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -64,12 +72,101 @@ export const UpAgents = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    const getReports = async () => {
+      const expReport = await downloadReportExp(idccms);
+      const kpiReport = await downloadReportKpi(idccms);
+      if (
+        expReport &&
+        expReport.status === 200 &&
+        expReport.data.length > 4 &&
+        expReport.data[0].length !== 0 &&
+        kpiReport &&
+        kpiReport.status === 200 &&
+        kpiReport.data.length > 4 &&
+        kpiReport.data[0].length !== 0
+      ) {
+        setDownload(false);
+        setRepExp(expReport.data);
+        setRepKpi(kpiReport.data);
+      }
+    };
+
+    getReports();
+    // eslint-disable-next-line
+  }, []);
+
   const handleOpen = () => {
     setOpen(true);
     setTemplate("Rep Lead Template");
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const kpiSheet = (workbook) => {
+    const worksheet = workbook.getWorksheet("KPI´s");
+    worksheet.columns = [
+      { header: "Campaign", key: "Campaign" },
+      { header: "CCMS ID Agent", key: "IdAgent" },
+      { header: "Agent", key: "Agent" },
+      { header: "Level", key: "level" },
+      { header: "Quartile", key: "Quartile" },
+      { header: "LOB", key: "Lob" },
+      { header: "CCMS ID Team Leader", key: "idTeamLeader" },
+      { header: "Team Leader", key: "TeamLeader" },
+      { header: "Team Name", key: "team" },
+      { header: "IdEquipo", key: "IdEquipo" },
+      { header: "Date Value", key: "Date" },
+      { header: "Week Average", key: "Week" },
+      { header: "Kpi", key: "kpi" },
+      { header: "Unit Kpi", key: "unitKpi" },
+      { header: "Value Kpi", key: "KPIR" },
+      { header: "Average Kpi Week", key: "AverageWeek" },
+      { header: "Average Kpi Month", key: "AverageMonth" },
+    ];
+    worksheet.addRows(repKpi);
+  };
+  const expSheet = (workbook) => {
+    const worksheet = workbook.getWorksheet("EXP Points");
+    worksheet.columns = [
+      { header: "Campaign", key: "Campaign" },
+      { header: "CCMS ID Agent", key: "IdAgent" },
+      { header: "Agent", key: "Agent" },
+      { header: "Level", key: "Level" },
+      { header: "Quartile", key: "Quartile" },
+      { header: "LOB", key: "Lob" },
+      { header: "CCMS ID Team Leader", key: "idTeamLeader" },
+      { header: "Team Leader", key: "TeamLeader" },
+      { header: "Team Name", key: "Team" },
+      { header: "IdEquipo", key: "IdEquipo" },
+      { header: "Date Value", key: "Date" },
+      { header: "Week Average", key: "Week" },
+      { header: "Score", key: "ScoreExp" },
+      { header: "Score Week", key: "SumExpWeek" },
+      { header: "Score Month", key: "SumExpMonth" },
+      { header: "Epicoins in GP", key: "ScoreCoins" },
+      { header: "Epicoins GP Week", key: "SumCoinsWeek" },
+      { header: "Epicoins GP Month", key: "SumCoinsMonth" },
+    ];
+    worksheet.addRows(repExp);
+  };
+
+  const handleDownloadReport = async (e) => {
+    e.preventDefault();
+    const workbook = new ExcelJS.Workbook();
+    workbook.addWorksheet("KPI´s");
+    workbook.addWorksheet("EXP Points");
+    await kpiSheet(workbook);
+    await expSheet(workbook);
+    let fecha = new Date().toLocaleDateString();
+    const uint8Array = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([uint8Array], { type: "application/octet-binary" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Report_${fecha}.xlsx`;
+    a.click();
+    a.remove();
   };
 
   return (
@@ -87,12 +184,27 @@ export const UpAgents = () => {
               <UpQuizModal handleClose={handleClose} template={template} />
             </ModalBox>
           </Modal>
-          <Typography variant="h5" fontWeight="bold" mt={4}>
-            Acquire new skills to strengthen your progress
-          </Typography>
-          <Typography variant="body1" mt={2}>
-            Acquire new skills to strengthen your progress
-          </Typography>
+          <Grid container>
+            <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+              <Typography variant="h5" fontWeight="bold" mt={4}>
+                Acquire new skills to strengthen your progress
+              </Typography>
+              <Typography variant="body1" mt={2}>
+                Acquire new skills to strengthen your progress
+              </Typography>
+            </Grid>
+            <Grid item mt={4} xs={12} sm={6} md={6} lg={3} xl={2}>
+              <Button
+                disabled={download}
+                startIcon={<FiDownload />}
+                onClick={handleDownloadReport}
+                sx={{ height: "3rem", textTransform: "none" }}
+              >
+                Download Reports
+              </Button>
+            </Grid>
+          </Grid>
+
           <Grid container spacing={3} mt={4}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <UploadAgents idccms={idccms} setLoading={setLoading} />
