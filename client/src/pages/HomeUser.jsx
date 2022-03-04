@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Grid, styled, Typography, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Grid, styled, Typography, Button, Box, Stack, Skeleton } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -15,9 +16,9 @@ import {
   tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
-import ProgressKPI from "../components/progressCharts/ProgressKPI";
 import { useSelector, useDispatch } from "react-redux";
 import { downloadHomeData } from "../redux/homeDataDuck";
+import { logoutAction } from "../redux/loginDuck";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -54,7 +55,8 @@ const HomeUser = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
 
   const idccms = userData.Idccms;
-  const useName = userData.Nombre
+  const useName = userData.Nombre;
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
@@ -74,8 +76,10 @@ const HomeUser = ({ count }) => {
 
   useEffect(() => {
 
-    
-      if(homeData !== null){
+    if(homeData === 'UnauthorizedError'){
+      dispatch(logoutAction());
+      navigate("/");
+    }else if(homeData !== null){
         setData(homeData);
         setTExp(homeData[6]);
         setCw(homeData[3]);
@@ -90,13 +94,17 @@ const HomeUser = ({ count }) => {
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
-      console.log(homeData)
   return (
     <>
       <MainHomeUser
         sx={{ bgcolor: "background.default", color: "text.primary" }}
       >
-        <Header count={count} />
+         {texp ?
+         <Header count={count}  />
+         :
+      <Skeleton variant="rectangular" width='50%' height='11vh' />
+         }    
+   
         <Grid container spacing={1}>
           <Grid item xs={12} lg={6} xl={6}>
             {ranking && <ProgressHome dataKPI={data} />}

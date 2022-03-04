@@ -50,8 +50,7 @@ const RightHeader = styled(Grid)((theme) => ({
 
 const Header = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const dataHeader = useSelector((store) => store.homeData.homeData);
- // const header =  
+  const homeData = useSelector((store) => store.homeData.homeData);
   const idccms = userData.Idccms;
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
@@ -117,14 +116,26 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
-  useEffect(()=>{
-if(dataHeader !== null){
- setLevel(dataHeader[6].Level[0])
- //const progress = 
-}
-  },[dataHeader])
+useEffect(()=>{
+// if(texp !== 0  ){
+//  setLevel((prev)=>(texp?.Level[0]))
+// }
 
-console.log(dataHeader)
+
+if(homeData !== null ){
+  if(homeData === 'UnauthorizedError' ){
+    
+    console.log('token caducado')
+  }else{
+    console.log('token en uso')
+  }
+}else{
+  console.log('no data')
+
+}
+   },[homeData])
+
+console.log(homeData)
   return (
     <>
       <MainHeader
@@ -147,16 +158,17 @@ console.log(dataHeader)
         >
           <img src={bannerH} alt="TP" />
         </TitleHeader>
+        {homeData !== 'UnauthorizedError' &&
         <RightHeader item xs={12} md={6}>
           <Box display="flex" alignItems="center">
             <Typography variant="body2">
-              <b>{level.Exp}</b> Pts
+              <b>{homeData[6].Level[0].Exp}</b> Pts
             </Typography>
             <Box width="150px" margin="0 1rem">
-              <ProgresBar value={(level.Exp * 100/level.High)} />
+              <ProgresBar value={(homeData[6].Level[0].Exp * 100/homeData[6].Level[0].High)} />
             </Box>
             <Typography variant="body2">
-              <b>{level.High}</b> Pts to level up
+              <b>{homeData[6].Level[0].High}</b> Pts to level up
             </Typography>
           </Box>
 
@@ -180,10 +192,11 @@ console.log(dataHeader)
               marginLeft="10px"
             >
               {" "}
-             {level.ResObtenidoCoin} Epicoins
+             {homeData[6].Level[0].ResObtenidoCoin} Epicoins
             </Typography>
           </Box>
         </RightHeader>
+        }
       </MainHeader>
     </>
   );

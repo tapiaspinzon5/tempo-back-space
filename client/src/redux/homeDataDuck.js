@@ -60,7 +60,7 @@ console.log(idccms)
                 dispatch({
                     type: ERROR_DATA,
                     payload: {
-                      error: error.response,
+                      error: error.response.data,
                     },
                 });
             }})

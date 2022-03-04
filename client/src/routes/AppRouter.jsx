@@ -6,11 +6,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "../components/SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
-
 import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
