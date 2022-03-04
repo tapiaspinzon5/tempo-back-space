@@ -330,6 +330,12 @@ exports.parametros = (req, tipo) => {
         // new SpParam("Time", req.time, TYPES.VarChar),
       ]);
 
+    case "spQueryAnalitycsKpi":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+    case "spQueryAnalitycsExp":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
