@@ -44,7 +44,8 @@ const LeaderBoard = ({ count }) => {
       if (
         initialData &&
         initialData.status === 200 &&
-        initialData.data.length === 4
+        initialData.data.length === 4 &&
+        initialData.data[0].length !== 0
       ) {
         setPodium(initialData.data[3].Podium);
         const dataOrder = initialData.data[0].ScoreExp.sort(
