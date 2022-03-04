@@ -763,22 +763,6 @@ exports.getKpiandAnlyticsAgent = async (req, res) => {
     });
 };
 
-// SPs actividades
-exports.welcomeegp = async (req, res) => {
-
-  sql
-    .query(
-      "spBgWelcomeEGP",
-      parametros({ idccms: req.query.idccms}, "spBgWelcomeEGP")
-    )
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
-    });
-};
 
 
 exports.postAssignAgentAgent = async (req, res) => {
@@ -826,6 +810,56 @@ exports.postAssignAgentAgent = async (req, res) => {
     .query(
       "spInsertChallengeAgent",
       parametros({ idccms: req.query.idccms, rows}, "spInsertChallengeAgent")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
+exports.getanalyticskpirl = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryAnalitycsKpi",
+      parametros({ idccms: req.query.idccms}, "spQueryAnalitycsKpi")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getanalyticsexprl = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryAnalitycsExp",
+      parametros({ idccms: req.query.idccms}, "spQueryAnalitycsExp")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+/****************** SPs actividades ******************/
+exports.welcomeegp = async (req, res) => {
+
+  sql
+    .query(
+      "spBgWelcomeEGP",
+      parametros({ idccms: req.query.idccms}, "spBgWelcomeEGP")
     )
     .then((result) => {
       responsep(1, req, res, result);
