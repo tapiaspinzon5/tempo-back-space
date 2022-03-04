@@ -170,11 +170,10 @@ const AppRouter = () => {
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
             <>
+              {/* <Route path="/" element={<Navigate to="/hometl" />} />
+              <Route path="/hometl" element={<HomeUser count={count} />} /> */}
               <Route path="/" element={<Navigate to="/hometl" />} />
-              <Route path="/hometl" element={<HomeUser count={count} />} />
-              {/* <Route path="/" element={<Navigate to="/hometl" />} /> */}
-              {/* <Route path="/hometl" element={<HomeTL />} /> */}
-              <Route path="/homeusers" element={<HomeUser />} />
+              <Route path="/hometl" element={<HomeTL count={count} />} />
               <Route path="/notifications" element={<NotificationsPage />} />
               <Route
                 path="/followingteams"

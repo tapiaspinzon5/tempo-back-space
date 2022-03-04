@@ -48,18 +48,9 @@ const LeaderBoard = ({ count }) => {
         initialData.data[0].length !== 0
       ) {
         setPodium(initialData.data[3].Podium);
-        const dataOrder = initialData.data[0].ScoreExp.sort(
-          (a, b) => b.score - a.score
+        const dataOrder = await deleteDuplicatesScore(
+          initialData.data[0].ScoreExp
         );
-        let cont = 1;
-        dataOrder.forEach((el) => {
-          if (el.score) {
-            el.rank = cont;
-            cont += 1;
-          } else {
-            el.rank = dataOrder.length;
-          }
-        });
         setKpis(initialData.data[1].ListKpi);
         setData(dataOrder);
         setLoading(false);

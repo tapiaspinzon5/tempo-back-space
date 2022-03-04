@@ -126,6 +126,20 @@ const uploadQuizes = (data, idccms) => {
 };
 
 /* TEAM LEADER */
+// trae info Home team leader
+const downloadHomeDataTl = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getdashboardtl?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 //Trae el equipo de un TEam Leader para asignarle actividades
 
@@ -488,4 +502,5 @@ export {
   getDataAnalytics,
   downloadReportExp,
   downloadReportKpi,
+  downloadHomeDataTl,
 };

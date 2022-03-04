@@ -1,14 +1,21 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Grid, styled, Typography, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-//import { AdminCard } from "../components/AdminCard/AdminCard";
-import img1 from "../assets/images/TL-1.svg";
-import img2 from "../assets/images/TL-2.svg";
-import img3 from "../assets/images/TL-3.svg";
+import ProgressHome from "../components/homeUser/ProgressHome";
+import Podium from "../components/progressCharts/Podium";
+import Circle from "../components/progressCharts/Circle";
+import Diamond from "../components/progressCharts/Diamond";
+import medal2 from "../assets/badges/welcome.png";
+import medal from "../assets/badges/ten.svg";
+import StarProgress from "../components/progressCharts/StarProgress";
+import Ranking from "../components/homeUser/Ranking";
+import { useSelector } from "react-redux";
+import { downloadHomeDataTl, tokenNotification } from "../utils/api";
+import { requestForToken } from "../utils/firebase";
+import LoadingComponent from "../components/LoadingComponent";
 
-const MainHomeTL = styled(Grid)(({ theme }) => ({
+const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
   minHeight: "95vh",
@@ -19,107 +26,142 @@ const MainHomeTL = styled(Grid)(({ theme }) => ({
   },
 }));
 
-const CardContainer = styled(Grid)(({ theme }) => ({
-  marginTop: "25px",
-  input: {
-    display: "none",
-  },
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
+const BoxVinetas = styled(Box)(({ theme }) => ({
+  ackground: "#f9f9f9",
+  borderRadius: "10pbx",
+  h6: {
+    color: "#3047B0",
   },
 }));
+export const HomeTL = ({ count }) => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
+  const useName = userData.Nombre;
+  const [data, setData] = useState([]);
+  const [texp, setTExp] = useState(0);
+  const [cw, setCw] = useState(0);
+  const [gp, setGp] = useState(0);
+  const [badge, setBadge] = useState(0);
+  const [podium, setPodium] = useState([]);
 
-const CardContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-  width: "55vh",
-  height: "70vh",
-  backgroundColor: "#f9f9f9",
-  borderRadius: "10px",
-  padding: "15px",
-  alignItems: "center",
-  justifyContent: "center",
-  "&:hover": {
-    background: "#f2f2f2",
-  },
-  img: {
-    width: "100%",
-  },
-}));
+  useEffect(() => {
+    const getData = async () => {
+      const kpis = await downloadHomeDataTl(idccms);
+      if (kpis && kpis.status === 200 && kpis.data.length > 1) {
+        await setData(kpis.data);
+        await setTExp(kpis.data[6]);
+        await setCw(kpis.data[3]);
+        await setGp(kpis.data[4]);
+        setBadge(() => kpis.data[5]);
+        setPodium(kpis.data[7].Podium);
+      }
+      const token = await requestForToken();
+      await tokenNotification(token, idccms);
+      console.log(kpis);
+    };
+    getData();
+    // eslint-disable-next-line
+  }, []);
 
-export const HomeTL = () => {
-  const navigate = useNavigate();
+  const ranking =
+    data.length > 0 && Array.isArray(data)
+      ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
+      : data;
 
   return (
     <>
-      <MainHomeTL sx={{ bgcolor: "background.default", color: "text.primary" }}>
-        <Header />
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[0]} /> */}
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button onClick={() => navigate("/followingteams")}>
-                    <img src={img1} alt="top-Ten" />
-                  </Button>
-
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
-                  >
-                    Following Teams KPI
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+      <MainHomeUser
+        sx={{ bgcolor: "background.default", color: "text.primary" }}
+      >
+        <Header count={count} />
+        <Grid container spacing={1}>
+          <Grid item xs={12} lg={6} xl={6}>
+            {ranking && <ProgressHome dataKPI={data} />}
           </Grid>
-          <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[1]} /> */}
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button onClick={() => navigate("/challengeasignment")}>
-                    <img src={img2} alt="top-Ten" />
-                  </Button>
-
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
-                  >
-                    Challenge Assignment
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+          <Grid item xs={12} md={6} lg={3} xl={3}>
+            <>{ranking && <Podium podio={podium} />}</>
           </Grid>
-          <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[2]} /> */}
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button onClick={() => navigate("/badgesmanagement")}>
-                    <img src={img3} alt="top-Ten" />
-                  </Button>
+          <Grid item xs={12} md={6} lg={3} xl={3}>
+            <Ranking ranking={ranking} useName={useName} />
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Total Exp
+              </Typography>
+              {texp ? <Circle info={texp} /> : <LoadingComponent />}
+              {/* <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
+                  See more
+                </SeeButton>
+              </Box> */}
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Challenges Won
+              </Typography>
+              {cw ? <Diamond info={cw} /> : <LoadingComponent />}
+              {/* <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
+                  See more
+                </SeeButton>
+              </Box> */}
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Games Played
+              </Typography>
+              {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
+              {/* <Box display="flex" justifyContent="center">
+                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
+                  See more
+                </SeeButton>
+              </Box> */}
+            </BoxVinetas>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <BoxVinetas>
+              <Typography variant="h6" align="center" fontWeight="bold">
+                Latest Achievement
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "22vh",
+                }}
+              >
+                {badge ? (
+                  <img
+                    src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
+                    alt="top-Ten"
+                    height="100%"
+                    // width="55%"
+                  />
+                ) : (
+                  <LoadingComponent />
+                )}
 
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
+                {/* <Box display="flex" justifyContent="center">
+                  <SeeButton
+                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
                   >
-                    Badges Management
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+                    See more more
+                  </SeeButton>
+                </Box> */}
+              </Box>
+            </BoxVinetas>
           </Grid>
         </Grid>
+
         <Footer />
-      </MainHomeTL>
+      </MainHomeUser>
     </>
   );
 };

@@ -56,7 +56,7 @@ const ActivitiesView = () => {
   const [mousePos, setMousePos] = useState(0);
   const [activities, setActivities] = useState({
     type: "",
-    context: 0,
+    context: 3,
   });
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const ActivitiesView = () => {
     } else {
       setActivities({
         type: "Quizes",
-        context: 0,
+        context: 3,
       });
     }
     // eslint-disable-next-line
@@ -79,10 +79,11 @@ const ActivitiesView = () => {
     const context = activities.context;
     const getData = async () => {
       setNoData("");
-      if (activities.context === 0) {
-        const quizes = await loadQuizesUser(idccms);
+      if (activities.context === 3) {
+        const quizes = await loadUserActivities(idccms, context);
         if (quizes && quizes.status === 200) {
-          setQuizUser(quizes.data);
+          setQuizUser(quizes.data[1].Quices);
+          setUserActivities(quizes.data[0].Activities);
           if (quizes.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
@@ -92,7 +93,7 @@ const ActivitiesView = () => {
       } else {
         const getActivities = await loadUserActivities(idccms, context);
         if (getActivities && getActivities.status === 200) {
-          setUserActivities(getActivities.data);
+          setUserActivities(getActivities.data.Activities);
           if (getActivities.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
@@ -136,7 +137,7 @@ const ActivitiesView = () => {
           <Button
             sx={activities.type === "Quizes" && selectButton}
             onClick={() =>
-              setActivities({ type: "Quizes", context: 0, menu: true })
+              setActivities({ type: "Quizes", context: 3, menu: true })
             }
           >
             Missions
@@ -206,6 +207,18 @@ const ActivitiesView = () => {
                     key={quiz.IdExamen}
                   >
                     <CardActivityManage quiz={quiz} progress={20} />
+                  </Grid>
+                ))}
+              {activities.type === "Quizes" &&
+                userActivities?.map((activity, index) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
+                    <ActivitiesViewComponent
+                      activity={activity}
+                      context={activities.context}
+                      //img1={images[generateRandom(images.length)]}
+                      images={images}
+                      mousePos={mousePos}
+                    />
                   </Grid>
                 ))}
             </Grid>

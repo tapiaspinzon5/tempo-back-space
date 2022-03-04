@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 import { downloadHomeData, tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
-import ProgressKPI from "../components/progressCharts/ProgressKPI";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -35,24 +34,16 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
   },
 }));
 
-const SeeButton = styled(Button)(() => ({
-  textTransform: "none",
-  background: "#bdbdbd",
-  color: "white",
-  width: "8rem",
-  padding: "0",
-  borderRadius: "10px",
-}));
-
 const HomeUser = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  const useName = userData.Nombre
+  const useName = userData.Nombre;
   const [data, setData] = useState([]);
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
   const [gp, setGp] = useState(0);
   const [badge, setBadge] = useState(0);
+  const [podium, setPodium] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -63,10 +54,11 @@ const HomeUser = ({ count }) => {
         await setCw(kpis.data[3]);
         await setGp(kpis.data[4]);
         setBadge(() => kpis.data[5]);
+        setPodium(kpis.data[7].Podium);
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
-      console.log(kpis)
+      console.log(kpis);
     };
     getData();
     // eslint-disable-next-line
@@ -88,7 +80,7 @@ const HomeUser = ({ count }) => {
             {ranking && <ProgressHome dataKPI={data} />}
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
-            <>{ranking && <Podium podio={ranking} />}</>
+            <>{ranking && <Podium podio={podium} />}</>
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <Ranking ranking={ranking} useName={useName} />
@@ -143,7 +135,7 @@ const HomeUser = ({ count }) => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                 height: "22vh",
+                  height: "22vh",
                 }}
               >
                 {badge ? (
@@ -151,7 +143,7 @@ const HomeUser = ({ count }) => {
                     src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
                     alt="top-Ten"
                     height="100%"
-                   // width="55%"
+                    // width="55%"
                   />
                 ) : (
                   <LoadingComponent />
@@ -168,7 +160,7 @@ const HomeUser = ({ count }) => {
             </BoxVinetas>
           </Grid>
         </Grid>
-     
+
         <Footer />
       </MainHomeUser>
     </>
