@@ -102,7 +102,7 @@ export const AgentChallengeAssignment = ({ count }) => {
   //funcion de asingacion de usuarios
   const handleUser = (e) => {
     const { value, checked } = e.target;
-    console.log(value, checked);
+
     let tempUser = users.map((user) =>
       user.Agent === value
         ? { ...user, isChecked: checked }
@@ -147,49 +147,6 @@ export const AgentChallengeAssignment = ({ count }) => {
   ///Función Envio de Acctividades
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(users, activity, TLName);
-    /* setLoading(true);
-    if (validator) {
-      const dataSend = validateDataCheck(users, activity, TLName);
-      if (
-        dataSend[0].idActivity.length > 0 &&
-        dataSend[0].idccmsAssigned.length > 0
-      ) {
-        const resp = await assingActivities(dataSend[0], idccms);
-        if (resp && resp.status === 200) {
-          setLoading(false);
-          MySwal.fire({
-            title: <p>Successful Assignments</p>,
-            icon: "success",
-            confirmButtonText: "Accept",
-            allowOutsideClick: false,
-          }).then((resultado) => {
-            if (resultado.value) {
-              window.location.reload();
-            }
-          });
-        } else {
-          setLoading(false);
-          MySwal.fire({
-            title: <p>Send Error</p>,
-            icon: "error",
-          });
-        }
-      } else {
-        setLoading(false);
-        MySwal.fire({
-          title: <p>Check your Assignments</p>,
-          icon: "error",
-        });
-      }
-    } else {
-      setLoading(false);
-      MySwal.fire({
-        title: <p>Check your Assignments</p>,
-        icon: "error",
-      });
-      //idActivity: ac, idccmsAssigned: ag
-    } */
   };
 
   return (

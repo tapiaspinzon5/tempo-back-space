@@ -226,6 +226,7 @@ const downloadHomeData = (idccms) => {
   }
 };
 
+
 //Trae los quices del agente
 const loadQuizesUser = (idccms) => {
   try {

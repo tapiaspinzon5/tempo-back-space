@@ -1,6 +1,5 @@
 import { Box, Typography, styled } from "@mui/material";
 import React from "react";
-import TPVSection from "./TPVSection";
 
 const BoxBadgeUser = styled(Box)(() => ({
   color: "#3047b0",

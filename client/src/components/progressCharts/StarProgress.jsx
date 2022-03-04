@@ -46,16 +46,7 @@ const StarProgress = ({ info }) => {
           brandColor: "#f5be55 ",
         },
       },
-      /* pattern: {
-          type: "square",
-          cfg: {
-            size: 4,
-            padding: 4,
-            rotation: 0,
-            fill: "#FFF",
-            isStagger: true,
-          },
-        }, */
+      
 
       statistic: {
         content: {

@@ -96,7 +96,7 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
         />
       )}
       <CardViewer>
-        {/* <img src={img1} alt="" /> */}
+     
         <Typography variant="body1" textAlign="left">
           {NameActivity}
         </Typography>

@@ -46,8 +46,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
                 {kpi.Kpi}
               </MenuItem>
             ))}
-            {/* <MenuItem value="qa">QA</MenuItem>
-            <MenuItem value="ahd">Ahd</MenuItem> */}
+         
           </Select>
         </BoxFormControl>
         <BoxFormControl>
@@ -91,7 +90,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
           </Select>
         </BoxFormControl>
       </BoxSelect>
-      {/* <TableLeaderBoard /> */}
+  
     </>
   );
 };

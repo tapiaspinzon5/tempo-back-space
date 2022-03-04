@@ -21,19 +21,16 @@ export const requestForToken = () => {
   })
     .then((currentToken) => {
       if (currentToken) {
-        // console.log("current token for client: ", currentToken);
-        // Send the token to your server and update the UI if necessary
+     
         return currentToken;
       } else {
         // Show permission request UI
-        console.log(
-          "No registration token available. Request permission to generate one."
-        );
+       
         // ...
       }
     })
     .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
+     
       return err;
     });
 };
@@ -41,7 +38,7 @@ export const requestForToken = () => {
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-      console.log("payload", payload);
+     
       resolve(payload);
     });
   });

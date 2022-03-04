@@ -24,7 +24,6 @@ import tpmar from "../assets/images/tp-mar-blue.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { loginSubmit } from "../redux/loginDuck";
 
-//import { loginSubmit } from "../utils/api";
 
 const ImageLogin = styled(Box)(() => ({
   img: {

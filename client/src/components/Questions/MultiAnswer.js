@@ -78,9 +78,7 @@ function BpCheckbox(props) {
 }
 
 export const MultiAnswer = ({ el, answer, setAnswer }) => {
-  /*   const handleChangeA = (e) => {
-    setAnswer({ ...answer, [el.id]: {OA: e.target.checked ? e.target.value : "" }});
-  }; */
+ 
 
   return (
     <div>

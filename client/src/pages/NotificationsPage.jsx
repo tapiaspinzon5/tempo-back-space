@@ -33,7 +33,6 @@ const NotiBox = styled(Box)(() => ({
   "&::-webkit-scrollbar-thumb": {
     backgroundColor: "#e8e8e8" /* color of the scroll thumb */,
     borderRadius: "20px" /* roundness of the scroll thumb */,
-    //border: "3px solid transparent" /* creates padding around scroll thumb */,
   },
 }));
 

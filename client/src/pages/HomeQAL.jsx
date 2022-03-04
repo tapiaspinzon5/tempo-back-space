@@ -54,10 +54,10 @@ export const HomeQAL = ({ count }) => {
         <Header count={count} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[0]} /> */}
+            
           </Grid>
           <Grid item xs={12} md={4}>
-            {/* <AdminCard data={data[1]} /> */}
+            
             <CardContainer>
               <CardContent>
                 <Box display="flex" flexDirection="column">

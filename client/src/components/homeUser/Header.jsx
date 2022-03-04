@@ -7,7 +7,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import bannerH from "../../assets/images/bannerHeader.png";
 import { useTheme } from "@mui/material/styles";
 import Notifications from "../notifications/Notifications";
@@ -50,9 +50,11 @@ const RightHeader = styled(Grid)((theme) => ({
 
 const Header = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
+  const homeData = useSelector((store) => store.homeData.homeData);
   const idccms = userData.Idccms;
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
+
   //controles Dark mode
   const theme = useTheme();
   const [showNotification, setShowNotification] = useState(false);
@@ -136,43 +138,58 @@ const Header = ({ count }) => {
         >
           <img src={bannerH} alt="TP" />
         </TitleHeader>
-        <RightHeader item xs={12} md={6}>
-          <Box display="flex" alignItems="center">
-            <Typography variant="body2">
-              <b>1120</b> Pts
-            </Typography>
-            <Box width="150px" margin="0 1rem">
-              <ProgresBar value={60} />
-            </Box>
-            <Typography variant="body2">
-              <b>1426</b> Pts to level up
-            </Typography>
-          </Box>
+        {userData.Role === "Agent" || userData.Role === "Team Leader" ? (
+          <>
+            {homeData !== "UnauthorizedError" && (
+              <RightHeader item xs={12} md={6}>
+                <Box display="flex" alignItems="center">
+                  <Typography variant="body2">
+                    <b>{homeData[6].Level[0].Exp}</b> Pts
+                  </Typography>
+                  <Box width="150px" margin="0 1rem">
+                    <ProgresBar
+                      value={
+                        (homeData[6].Level[0].Exp * 100) /
+                        homeData[6].Level[0].High
+                      }
+                    />
+                  </Box>
+                  <Typography variant="body2">
+                    <b>{homeData[6].Level[0].High}</b> Pts to level up
+                  </Typography>
+                </Box>
 
-          {showNotification && <Notifications notifications={notifications} />}
+                {showNotification && (
+                  <Notifications notifications={notifications} />
+                )}
 
-          <IconButton
-            aria-label={notificationsLabel(cont < 11 ? cont : "10+")}
-            onClick={handleNotification}
-          >
-            <Badge badgeContent={cont < 11 ? cont : "10+"} color="error">
-              <IoIosNotificationsOutline color="#3047B0" size={30} />
-            </Badge>
-          </IconButton>
+                <IconButton
+                  aria-label={notificationsLabel(cont < 11 ? cont : "10+")}
+                  onClick={handleNotification}
+                >
+                  <Badge badgeContent={cont < 11 ? cont : "10+"} color="error">
+                    <IoIosNotificationsOutline color="#3047B0" size={30} />
+                  </Badge>
+                </IconButton>
 
-          <Box display="flex" alignItems="center">
-            <img src={epicoinICO} alt="coinICO" height={30} />
-            <Typography
-              variant="body2"
-              color="#3047B0"
-              fontWeight={700}
-              marginLeft="10px"
-            >
-              {" "}
-              50 Epicoins
-            </Typography>
-          </Box>
-        </RightHeader>
+                <Box display="flex" alignItems="center">
+                  <img src={epicoinICO} alt="coinICO" height={30} />
+                  <Typography
+                    variant="body2"
+                    color="#3047B0"
+                    fontWeight={700}
+                    marginLeft="10px"
+                  >
+                    {" "}
+                    {homeData[6].Level[0].ResObtenidoCoin} Epicoins
+                  </Typography>
+                </Box>
+              </RightHeader>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
       </MainHeader>
     </>
   );

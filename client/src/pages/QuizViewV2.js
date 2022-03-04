@@ -140,14 +140,7 @@ export const QuizViewV2 = ({ setNavView }) => {
         </Typography>
       </Grid>
 
-      {/* {quiz.map((question) => (
-          <OneAnswer
-            key={question.Idpregunta}
-            question={question}
-            answer={answer}
-            setAnswer={setAnswer}
-          />
-        ))} */}
+      
       {quiz.length > 0 &&
         (quiz[next].Respuesta3 === null ? (
           <TrueFalse

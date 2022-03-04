@@ -45,16 +45,7 @@ export const Star5 = () => {
           brandColor: "#FAAD14",
         },
       },
-      /* pattern: {
-        type: "square",
-        cfg: {
-          size: 4,
-          padding: 4,
-          rotation: 0,
-          fill: "#FFF",
-          isStagger: true,
-        },
-      }, */
+      
 
       statistic: {
         content: {

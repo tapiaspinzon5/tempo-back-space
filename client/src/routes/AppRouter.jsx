@@ -6,11 +6,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "../components/SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
-
 import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
@@ -40,6 +38,7 @@ import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignmen
 import AgentProfile from "../pages/Agent/AgentProfile";
 import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
+//import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -104,6 +103,7 @@ const AppRouter = () => {
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.NumberLogins > 1 && userData?.Role && navView && <Navbar />}
         {userData?.NumberLogins === 1 && <VideoView />}
+ 
         <Routes>
           {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
             <>
@@ -170,8 +170,7 @@ const AppRouter = () => {
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
             <>
-              {/* <Route path="/" element={<Navigate to="/hometl" />} />
-              <Route path="/hometl" element={<HomeUser count={count} />} /> */}
+            
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL count={count} />} />
               <Route path="/notifications" element={<NotificationsPage />} />

@@ -15,17 +15,10 @@ const CardUser = styled(Box)(() => ({
 }));
 
 export const UserChallenge = ({ user, handleUser }) => {
-  //console.log(user);
   return (
     <>
       <CardUser>
-        {/* <input
-          type="checkbox"
-          className="checkBox"
-          name={user.Agent}
-          checked={user?.isChecked || false}
-          onChange={handleUser}
-        /> */}
+        
         <Radio
           checked={user?.isChecked || false}
           onChange={handleUser}

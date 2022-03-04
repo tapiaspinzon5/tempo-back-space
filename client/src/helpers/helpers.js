@@ -23,7 +23,7 @@ export const validateHeaders = (headers) => {
     return differentsArrays;
   }
 
-  console.log(headers);
+
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
@@ -262,7 +262,7 @@ export const positionValue = (kpi) => {
 
   const direction = TargetQ1 - TargetQ2;
   let setArrowPos;
-  //console.log("Q1", TargetQ1, "Q2", TargetQ2);
+
   if (direction > 0) {
     if (Target <= ACTUAL) {
       setArrowPos = 82;

@@ -40,7 +40,7 @@ const LeaderBoard = ({ count }) => {
         filters.time,
         filters.group
       );
-      console.log(initialData);
+
       if (
         initialData &&
         initialData.status === 200 &&

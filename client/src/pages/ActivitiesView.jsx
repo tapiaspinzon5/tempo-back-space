@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Typography, Grid, styled, Button } from "@mui/material";
 //import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import { loadQuizesUser, loadUserActivities } from "../utils/api";
+import { loadUserActivities } from "../utils/api";
 import ActivitiesViewComponent from "../components/Agents/activitiesview/ActivitiesViewComponent";
 import CardActivityManage from "../components/Quizes/CardActivityManage";
 import img1 from "../assets/temp-image/Enmascarargrupo2039.png";
@@ -82,7 +82,9 @@ const ActivitiesView = () => {
       if (activities.context === 3) {
         const quizes = await loadUserActivities(idccms, context);
         if (quizes && quizes.status === 200) {
-          setQuizUser(quizes.data[1].Quices);
+          if (quizes.data[1].Quices) {
+            setQuizUser(quizes.data[1].Quices);
+          }
           setUserActivities(quizes.data[0].Activities);
           if (quizes.data.length < 1) {
             setNoData("No assigned " + activities.type);
@@ -131,8 +133,6 @@ const ActivitiesView = () => {
   return (
     <Grid width="100%">
       <MainViewver>
-        {/* <Header /> */}
-
         <BoxSelectBadge item xs={12}>
           <Button
             sx={activities.type === "Quizes" && selectButton}
@@ -151,15 +151,7 @@ const ActivitiesView = () => {
             {" "}
             Challenges{" "}
           </Button>
-          {/* <Button
-            sx={activities.type === "Quizes" && selectButton}
-            onClick={() =>
-              setActivities({ type: "Quizes", context: 0, menu: true })
-            }
-          >
-            {" "}
-            Quizes
-          </Button> */}
+
           <Button
             sx={activities.type === "Activities" && selectButton}
             onClick={() =>

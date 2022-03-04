@@ -9,7 +9,6 @@ const url = "http://localhost:4343";
 const initialData = {
   loading: false,
   userData: null,
-  // userData: { role: "Team Leader" },
 };
 
 //roles

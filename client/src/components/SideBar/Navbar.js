@@ -88,36 +88,7 @@ export const Navbar = () => {
           </SideBar>
         </Box>
       )}
-      {/* {!match && (
-        <SideBar sx={{ width: "100%", height: "5%" }}>
-          <IconButton
-            sx={{
-              flexGrow: 0,
-              justifyContent: "center",
-              alignItems: "center",
-              minWidth: "40px",
-              padding: "10px",
-            }}
-            onClick={() => setOpen(!open)}
-          >
-            TP
-          </IconButton>
-          {open && <NavList open={open} />}
-        </SideBar>
-      )} */}
-      {/* {!match && (
-        <SideBar
-          sx={{
-            height: open ? 120 : 60,
-            transition: " height 1.5s",
-          }}
-        >
-          {!open && <Up onClick={() => setOpen(!open)} />}
-          {open && <Down onClick={() => setOpen(!open)} />}
-
-          <NavList />
-        </SideBar>
-      )} */}
+      
       {!match && (
         <SideBar
           sx={{
@@ -144,20 +115,7 @@ export const Navbar = () => {
           <NavList />
         </SideBar>
       )}
-      {/* {!match && (
-        <SideBar
-          sx={{
-            height: open ? 120 : 60,
-            transition: " height 1.5s",
-          }}
-        >
-          <StyledFab aria-label="add" onClick={() => setOpen(!open)}>
-            {!open && <ArrowDropUpIcon />}
-            {open && <ArrowDropDownIcon />}
-          </StyledFab>
-          <NavList />
-        </SideBar>
-      )} */}
+
     </>
   );
 };

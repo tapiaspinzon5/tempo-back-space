@@ -51,7 +51,7 @@ export default function SearchAppBar() {
     <Toolbar>
       <Search>
         <SearchIconWrapper>
-          {/* <SearchIcon /> */}
+     
           <img src={searchIco} alt="" />{" "}
         </SearchIconWrapper>
         <StyledInputBase

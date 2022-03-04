@@ -57,7 +57,7 @@ export const HomeTL = ({ count }) => {
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
-      console.log(kpis);
+
     };
     getData();
     // eslint-disable-next-line
@@ -90,11 +90,7 @@ export const HomeTL = ({ count }) => {
                 Total Exp
               </Typography>
               {texp ? <Circle info={texp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+            
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -103,11 +99,7 @@ export const HomeTL = ({ count }) => {
                 Challenges Won
               </Typography>
               {cw ? <Diamond info={cw} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -116,11 +108,7 @@ export const HomeTL = ({ count }) => {
                 Games Played
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -148,13 +136,7 @@ export const HomeTL = ({ count }) => {
                   <LoadingComponent />
                 )}
 
-                {/* <Box display="flex" justifyContent="center">
-                  <SeeButton
-                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
-                  >
-                    See more more
-                  </SeeButton>
-                </Box> */}
+                
               </Box>
             </BoxVinetas>
           </Grid>

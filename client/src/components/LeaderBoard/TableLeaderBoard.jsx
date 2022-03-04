@@ -23,7 +23,7 @@ const BoxTable = styled(Grid)(() => ({
 }));
 
 const TableLeaderBoard = ({ width, data, xpOrkpi }) => {
-  //console.log(data);
+ 
   const columns = [
     {
       field: "rank",

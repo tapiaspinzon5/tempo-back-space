@@ -216,42 +216,7 @@ const ChallengeAssignment = ({ count }) => {
             </Typography>
           </Grid>
 
-          <BoxSelectBadge item xs={12}>
-            {/*  <Button
-              sx={stage === "Getting started" && selectButton}
-              onClick={() => setStage("Getting started")}
-            >
-              Getting Started{" "}
-            </Button>
-            <Button
-              sx={stage === "Battle" && selectButton}
-              onClick={() => setStage("Battle")}
-            >
-              {" "}
-              Battle{" "}
-            </Button>
-            <Button
-              sx={stage === "Being Awarded" && selectButton}
-              onClick={() => setStage("Being Awarded")}
-            >
-              {" "}
-              Being Awarded
-            </Button>
-            <Button
-              sx={stage === "Developing skills" && selectButton}
-              onClick={() => setStage("Developing skills")}
-            >
-              {" "}
-              Developing Skills
-            </Button>
-            <Button
-              sx={stage === "Getting stronger" && selectButton}
-              onClick={() => setStage("Getting stronger")}
-            >
-              {" "}
-              Getting Stronger
-            </Button> */}
-          </BoxSelectBadge>
+          <BoxSelectBadge item xs={12}></BoxSelectBadge>
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} md={7} padding={1}>
@@ -271,36 +236,14 @@ const ChallengeAssignment = ({ count }) => {
                       activity.filter(
                         (actividad) => actividad?.isChecked !== true
                       ).length < 1
-                    } /* {
-                      activity[stage] !== undefined
-                        ? activity[stage].filter(
-                            (actividad) => actividad?.isChecked !== true
-                          ).length < 1
-                        : activity.filter(
-                            (actividad) => actividad?.isChecked !== true
-                          ).length < 1
-                    } */
+                    } 
                   />
                   Select all
                 </Button>
                 <SearchAppBar />
               </Box>
               <Boxview>
-                {/* {activity[stage] !== undefined
-                  ? activity[stage]?.map((act, index) => (
-                      <ShowActivity
-                        key={index}
-                        data={act}
-                        handleBadge={handleBadge}
-                      />
-                    ))
-                  : activity?.map((act, index) => (
-                      <ShowActivity
-                        key={index}
-                        data={act}
-                        handleBadge={handleBadge}
-                      />
-                    ))} */}
+               
                 {!error ? (
                   activity?.map((act, index) => (
                     <ShowActivity

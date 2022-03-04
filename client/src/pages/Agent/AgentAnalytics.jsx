@@ -4,10 +4,7 @@ import {
   Grid,
   Typography,
   styled,
-  MenuItem,
-  FormControl,
-  Select,
-  InputLabel,
+
 } from "@mui/material";
 import { MainPage } from "../../assets/styled/muistyled";
 import Footer from "../../components/Footer";
@@ -101,13 +98,18 @@ const AgentAnalytics = ({ count }) => {
         const graphic = dataGraphics(dataGraphic.data[0].KPI);
         setSeries([graphic[0]]);
         setOptions({ ...options, xaxis: { categories: graphic[1] } });
-        console.log(graphic);
+    
         setLoadingGraphic(false);
       }
     };
     getData();
     // eslint-disable-next-line
   }, [changeKpi]);
+
+  const  handleKPI =()=>{
+   
+  }
+  
   return (
     <MainPage>
       <Header count={count} />
@@ -129,6 +131,7 @@ const AgentAnalytics = ({ count }) => {
                   kpi={kpi}
                   key={index}
                   setChangeKpi={setChangeKpi}
+                   handleKPI={ handleKPI}
                 />
               ))}
             </BoxContain>
@@ -143,20 +146,7 @@ const AgentAnalytics = ({ count }) => {
             >
               <Typography variant="h6">Graphic data</Typography>
               <Box sx={{ minWidth: 120 }}>
-                {/* <FormControl fullWidth>
-                  <InputLabel id="time-view-label">Time view</InputLabel>
-                  <Select
-                    labelId="time-view-label"
-                    id="time-view"
-                    value={timeView}
-                    label="Time view"
-                    onChange={(e) => setTimeView(e.target.value)}
-                  >
-                    <MenuItem value="Day">Day</MenuItem>
-                    <MenuItem value="Month">Month</MenuItem>
-                    <MenuItem value="Week">Week</MenuItem>
-                  </Select>
-                </FormControl> */}
+           
               </Box>
             </Box>
             {loadingGraphic ? (

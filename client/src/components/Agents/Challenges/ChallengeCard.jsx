@@ -1,7 +1,5 @@
 import React from "react";
 import { Button, styled, Typography, Box, Tooltip } from "@mui/material";
-import start from "../../../assets/Icons/start-icon.svg";
-import epiCoin from "../../../assets/Icons/epicoin-ico.svg";
 import image from "../../../assets/temp-image/challenge.png";
 
 const CardActiviy = styled(Box)(() => ({
@@ -19,11 +17,12 @@ const CardActiviy = styled(Box)(() => ({
     //border: "1px solid blue",
     borderRadius: "10px",
     padding: ".6rem 1.2rem",
-    color: "#3047b0", background:'#fff',
-    '&:hover':{
+    color: "#3047b0",
+    background: "#fff",
+    "&:hover": {
       boxShadow: "0px 3px 6px #3047b0",
-     background:'#e8e8e8',      
-    }
+      background: "#e8e8e8",
+    },
   },
 }));
 
@@ -40,14 +39,10 @@ export const ChallengeCard = ({ data, handleSubmit }) => {
         <Typography variant="body1" color="#FFF">
           {data.Name}
         </Typography>
-      
       </Box>
-  
+
       <Tooltip title={data.Description} placement="top" arrow>
-        <Button onClick={handleSubmit} 
-        >
-          To Challenge{" "}
-        </Button>
+        <Button onClick={handleSubmit}>To Challenge </Button>
       </Tooltip>
     </CardActiviy>
   );

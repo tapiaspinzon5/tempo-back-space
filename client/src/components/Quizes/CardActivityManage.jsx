@@ -111,15 +111,10 @@ const CardActivityManage = ({ quiz }) => {
       }}
     >
       <CardViewer>
-        {/* <img src={image} alt="img" /> */}
+       
         <Typography variant="body1">{ExamName}</Typography>
         <Typography variant="body1">Quiz id: {IdExamen}</Typography>
-        {/* <Box width={185}>
-          <ProgresBar value={valueProgress} />
-          <Typography variant="caption" color="initial">
-            {PreguntasRespondidas} / {CantidadPreguntas}
-          </Typography>
-        </Box> */}
+        
       </CardViewer>
       <DownSection sx={{ background }}>
         <Button

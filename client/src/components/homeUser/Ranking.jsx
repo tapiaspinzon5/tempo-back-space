@@ -42,6 +42,7 @@ const Ranking = ({ ranking, useName }) => {
         ranking.map((user, index) => (
           <CardRanking  
 sx={useName === user.Agent &&{background:'#3047B030'}}
+key={index}
           >
             <Box>
               <Typography variant="body2" fontWeight="bold">
@@ -67,53 +68,7 @@ sx={useName === user.Agent &&{background:'#3047B030'}}
         </CardRanking>
       )}
 
-      {/* <CardRanking>
-        <Box>
-          <Typography variant="body2" fontWeight="bold">
-            4
-          </Typography>
-          <Avatar alt="Pepito" src="" />
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            {ranking[3] && ranking[3]?.Agent}
-          </Typography>
-        </Box>
-        <Typography variant="body2" fontWeight="bold" color="initial">
-          {ranking[3] && `${ranking[3]?.ResObtenido} XP`}
-        </Typography>
-      </CardRanking>
-      {ranking[4] && (
-        <CardRanking>
-          <Box>
-            <Typography variant="body2" fontWeight="bold" marginRight={2}>
-              5
-            </Typography>
-            <Avatar alt="Pepito" src="" />
-            <Typography variant="body2" fontWeight="bold" color="initial">
-              {ranking[4]?.Agent}
-            </Typography>
-          </Box>
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            {`${ranking[4]?.ResObtenido} XP`}
-          </Typography>
-        </CardRanking>
-      )}
-      {ranking[5] && (
-        <CardRanking>
-          <Box>
-            <Typography variant="body2" fontWeight="bold" marginRight={2}>
-              6
-            </Typography>
-            <Avatar alt="Pepito" src="" />
-            <Typography variant="body2" fontWeight="bold" color="initial">
-              {ranking[5]?.Agent}
-            </Typography>
-          </Box>
-          <Typography variant="body2" fontWeight="bold" color="initial">
-            {`${ranking[5]?.ResObtenido} XP`}
-          </Typography>
-        </CardRanking>
-      )} 
-      */}
+   
     </BoxRanking>
   );
 };

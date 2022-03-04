@@ -18,7 +18,7 @@ export const Description = () => {
       }}
     >
       <CssBaseline />
-      {/* <Navbar /> */}
+
       <DescriptionCard />
     </Box>
   );

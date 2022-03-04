@@ -25,10 +25,7 @@ const AppRouter = () => {
 
         <Routes>
           <Route path="/" element={<HomeUser />} />
-          {/* <Route path="/catalogo" element={<Catalogue />} /> */}
-          {/* <Route path="/description/:gameID" element={<Description />} /> */}
-          {/* <Route path="/test" element={<VelBar />} /> */}
-          {/* <Route path="/quiz" element={<QuizView />} /> */}
+          
           <Route path="/quizv2" element={<QuizViewV2 />} />
           <Route path="/teamprogress" element={<TeamsProgress />} />
           <Route path="/activitiesview" element={<ActivitiesView />} />

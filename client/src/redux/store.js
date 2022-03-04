@@ -3,10 +3,12 @@ import thunk from "redux-thunk";
 
 //import reducers
 import loginReducer, { readUserActiveAction } from "./loginDuck";
+import homeDataReducer from "./homeDataDuck";
 
 //combine reducers
 const rootReducers = combineReducers({
   loginUser: loginReducer,
+  homeData: homeDataReducer,
 });
 
 //  extension para el navegador

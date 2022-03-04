@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Grid, styled, Typography, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  Grid,
+  styled,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  Skeleton,
+} from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -10,10 +19,15 @@ import medal2 from "../assets/badges/welcome.png";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
-import { useSelector } from "react-redux";
-import { downloadHomeData, tokenNotification } from "../utils/api";
+import {
+  //downloadHomeData,
+  tokenNotification,
+} from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
+import { useSelector, useDispatch } from "react-redux";
+import { downloadHomeData } from "../redux/homeDataDuck";
+import { logoutAction } from "../redux/loginDuck";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -35,9 +49,14 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
 }));
 
 const HomeUser = ({ count }) => {
+  const dispatch = useDispatch();
+
+  const homeData = useSelector((store) => store.homeData.homeData);
   const userData = useSelector((store) => store.loginUser.userData);
+
   const idccms = userData.Idccms;
   const useName = userData.Nombre;
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [texp, setTExp] = useState(0);
   const [cw, setCw] = useState(0);
@@ -47,25 +66,37 @@ const HomeUser = ({ count }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const kpis = await downloadHomeData(idccms);
-      if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-        await setData(kpis.data);
-        await setTExp(kpis.data[6]);
-        await setCw(kpis.data[3]);
-        await setGp(kpis.data[4]);
-        setBadge(() => kpis.data[5]);
-        setPodium(kpis.data[7].Podium);
-      }
+      dispatch(downloadHomeData(idccms));
+
       const token = await requestForToken();
+
       await tokenNotification(token, idccms);
-      console.log(kpis);
     };
+
     getData();
+
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (homeData === "UnauthorizedError") {
+      dispatch(logoutAction());
+
+      navigate("/");
+    } else if (homeData !== null) {
+      setData(homeData);
+      setTExp(homeData[6]);
+      setCw(homeData[3]);
+      setGp(homeData[4]);
+      setBadge(() => homeData[5]);
+      setPodium(homeData[7].Podium);
+    }
+
+    // eslint-disable-next-line
+  }, [homeData]);
+
   const ranking =
-    data.length > 0 && Array.isArray(data)
+    data?.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
@@ -74,7 +105,12 @@ const HomeUser = ({ count }) => {
       <MainHomeUser
         sx={{ bgcolor: "background.default", color: "text.primary" }}
       >
-        <Header count={count} />
+        {texp ? (
+          <Header count={count} />
+        ) : (
+          <Skeleton variant="rectangular" width="50%" height="11vh" />
+        )}
+
         <Grid container spacing={1}>
           <Grid item xs={12} lg={6} xl={6}>
             {ranking && <ProgressHome dataKPI={data} />}
@@ -91,11 +127,6 @@ const HomeUser = ({ count }) => {
                 Total Exp
               </Typography>
               {texp ? <Circle info={texp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -104,11 +135,6 @@ const HomeUser = ({ count }) => {
                 Challenges Won
               </Typography>
               {cw ? <Diamond info={cw} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -117,11 +143,6 @@ const HomeUser = ({ count }) => {
                 Games Played
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -143,19 +164,10 @@ const HomeUser = ({ count }) => {
                     src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
                     alt="top-Ten"
                     height="100%"
-                    // width="55%"
                   />
                 ) : (
                   <LoadingComponent />
                 )}
-
-                {/* <Box display="flex" justifyContent="center">
-                  <SeeButton
-                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
-                  >
-                    See more more
-                  </SeeButton>
-                </Box> */}
               </Box>
             </BoxVinetas>
           </Grid>

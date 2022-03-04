@@ -1,4 +1,4 @@
-import { Grid, styled, Box } from "@mui/material";
+import { Grid, styled } from "@mui/material";
 
 export const MainPage = styled(Grid)(({ theme }) => ({
   position: "relative",
