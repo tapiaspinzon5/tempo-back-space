@@ -7,7 +7,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import bannerH from "../../assets/images/bannerHeader.png";
 import { useTheme } from "@mui/material/styles";
 import Notifications from "../notifications/Notifications";
@@ -15,6 +15,7 @@ import { downloadNotifications } from "../../utils/api";
 import ProgresBar from "../progressCharts/ProgresBar";
 import epicoinICO from "../../assets/Icons/epicoin-ico.svg";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { downloadHomeData } from "../../redux/homeDataDuck";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -49,6 +50,7 @@ const RightHeader = styled(Grid)((theme) => ({
 }));
 
 const Header = ({ count }) => {
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const homeData = useSelector((store) => store.homeData.homeData);
   const idccms = userData.Idccms;
@@ -61,6 +63,7 @@ const Header = ({ count }) => {
   const handleNotification = () => {
     setShowNotification(!showNotification);
   };
+
 
   useEffect(() => {
     const data = async () => {
@@ -115,26 +118,11 @@ const Header = ({ count }) => {
     }
     return `${count} notifications`;
   }
-
-useEffect(()=>{
-// if(texp !== 0  ){
-//  setLevel((prev)=>(texp?.Level[0]))
-// }
-
-
-if(homeData !== null ){
-  if(homeData === 'UnauthorizedError' ){
-    
-    console.log('token caducado')
-  }else{
-    console.log('token en uso')
-  }
-}else{
-  console.log('no data')
-
-}
-   },[homeData])
-
+  
+  
+  
+  
+ 
 console.log(homeData)
   return (
     <>
@@ -158,6 +146,7 @@ console.log(homeData)
         >
           <img src={bannerH} alt="TP" />
         </TitleHeader>
+          {userData.Role === "Agent" || userData.Role === 'Team Leader' ? <>
         {homeData !== 'UnauthorizedError' &&
         <RightHeader item xs={12} md={6}>
           <Box display="flex" alignItems="center">
@@ -197,6 +186,13 @@ console.log(homeData)
           </Box>
         </RightHeader>
         }
+         </>
+          :
+          <>
+            
+          </>
+
+          }
       </MainHeader>
     </>
   );

@@ -145,7 +145,7 @@ const FollowingTeamsKPI = ({ count }) => {
 
  return (
     <MainFT>
-      <Header count={count} />
+       <Header count={count} /> 
       <Typography variant="h5"> Following Team KPI</Typography>
 
       <Grid container>

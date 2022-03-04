@@ -141,7 +141,10 @@ const ProgressHome = ({ dataKPI }) => {
                     <BsClock />
                   )}
                   <Box>
-                    <Button size="small" endIcon={<MdOutlineArrowForwardIos />}>
+                    <Button size="small" endIcon={<MdOutlineArrowForwardIos />} onClick={()=> 
+                {  role === 'Agent' ?  navigate('/useranalytics') :
+                    navigate('/followingteams')}
+                    }>
                       See more
                     </Button>
                   </Box>

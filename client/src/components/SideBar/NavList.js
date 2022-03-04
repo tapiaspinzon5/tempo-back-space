@@ -13,10 +13,6 @@ import { ImEqualizer2 } from "react-icons/im";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 
-//import awardIcon from "../../assets/Icons/award.svg";
-//import bookIcon from "../../assets/Icons/book-open.svg";
-//import pieIcon from "../../assets/Icons/pie-chart.svg";
-//import settingsIcon from "../../assets/Icons/settings.svg";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -29,12 +25,6 @@ const LItem = styled(ListItem)(({ theme }) => ({
   },
 }));
 
-/* `
-  justify-content: space-between;
-  align-content: center;
-  margin-bottom: 40px;
-  padding: 10px;
-`; */
 
 const LIcon = styled(ListItemIcon)(({ theme }) => ({
   justifyContent: "center",

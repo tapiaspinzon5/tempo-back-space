@@ -121,11 +121,7 @@ const HomeUser = ({ count }) => {
                 Total Exp
               </Typography>
               {texp ? <Circle info={texp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #137ee0    " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -134,11 +130,7 @@ const HomeUser = ({ count }) => {
                 Challenges Won
               </Typography>
               {cw ? <Diamond info={cw} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: " #0cce6c   " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+           
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -147,11 +139,7 @@ const HomeUser = ({ count }) => {
                 Games Played
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
-              {/* <Box display="flex" justifyContent="center">
-                <SeeButton sx={{ backgroundColor: "  #f5be55  " }}>
-                  See more
-                </SeeButton>
-              </Box> */}
+        
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -173,19 +161,11 @@ const HomeUser = ({ count }) => {
                     src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
                     alt="top-Ten"
                     height="100%"
-                   // width="55%"
+                   
                   />
                 ) : (
                   <LoadingComponent />
                 )}
-
-                {/* <Box display="flex" justifyContent="center">
-                  <SeeButton
-                    sx={{ backgroundColor: " #45a2c1 ", marginTop: "1.6rem" }}
-                  >
-                    See more more
-                  </SeeButton>
-                </Box> */}
               </Box>
             </BoxVinetas>
           </Grid>
