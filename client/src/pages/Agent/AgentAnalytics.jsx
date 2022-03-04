@@ -108,6 +108,8 @@ const AgentAnalytics = ({ count }) => {
     getData();
     // eslint-disable-next-line
   }, [changeKpi]);
+
+  
   return (
     <MainPage>
       <Header count={count} />

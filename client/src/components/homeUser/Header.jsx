@@ -50,9 +50,12 @@ const RightHeader = styled(Grid)((theme) => ({
 
 const Header = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
+  const dataHeader = useSelector((store) => store.homeData.homeData);
+ // const header =  
   const idccms = userData.Idccms;
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
+  const [level, setLevel] = useState([])
   //controles Dark mode
   const theme = useTheme();
   const [showNotification, setShowNotification] = useState(false);
@@ -114,6 +117,14 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
+  useEffect(()=>{
+if(dataHeader !== null){
+ setLevel(dataHeader[6].Level[0])
+ //const progress = 
+}
+  },[dataHeader])
+
+console.log(level)
   return (
     <>
       <MainHeader
@@ -139,13 +150,13 @@ const Header = ({ count }) => {
         <RightHeader item xs={12} md={6}>
           <Box display="flex" alignItems="center">
             <Typography variant="body2">
-              <b>1120</b> Pts
+              <b>{level.Exp}</b> Pts
             </Typography>
             <Box width="150px" margin="0 1rem">
-              <ProgresBar value={60} />
+              <ProgresBar value={(level.Exp * 100/level.High)} />
             </Box>
             <Typography variant="body2">
-              <b>1426</b> Pts to level up
+              <b>{level.High}</b> Pts to level up
             </Typography>
           </Box>
 
@@ -169,7 +180,7 @@ const Header = ({ count }) => {
               marginLeft="10px"
             >
               {" "}
-              50 Epicoins
+             {level.ResObtenidoCoin} Epicoins
             </Typography>
           </Box>
         </RightHeader>

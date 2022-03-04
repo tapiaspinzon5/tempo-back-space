@@ -40,6 +40,7 @@ import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignmen
 import AgentProfile from "../pages/Agent/AgentProfile";
 import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
+import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",

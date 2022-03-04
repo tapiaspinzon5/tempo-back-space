@@ -42,6 +42,7 @@ const Ranking = ({ ranking, useName }) => {
         ranking.map((user, index) => (
           <CardRanking  
 sx={useName === user.Agent &&{background:'#3047B030'}}
+key={index}
           >
             <Box>
               <Typography variant="body2" fontWeight="bold">

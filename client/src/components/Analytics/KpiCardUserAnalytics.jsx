@@ -9,16 +9,19 @@ const BoxCard = styled(Box)(() => ({
   backgroundColor: "white",
   color: "#3047b0",
   display: "flex",
-  margin: ".3rem 0",
-  padding: ".3rem",
+  margin: "1rem 0rem",
+  padding: ".5rem",
   borderRadius: "10px",
   boxShadow: "0px 3px 6px #00000029",
 }));
 
-const KpiCardUserAnalytics = ({ kpi, setChangeKpi }) => {
+const KpiCardUserAnalytics = ({ kpi, setChangeKpi, handleKPI }) => {
   const handleChange = () => {
     setChangeKpi(kpi.Kpi);
+    handleKPI(kpi.IdRegistryKpi)
   };
+
+
   return (
     <BoxCard>
       <Box width="70%">
@@ -44,7 +47,6 @@ const KpiCardUserAnalytics = ({ kpi, setChangeKpi }) => {
           {`${kpi.unitKpi}`}
         </Typography>
       </Box>
-
       <Button
         onClick={handleChange}
         size="small"

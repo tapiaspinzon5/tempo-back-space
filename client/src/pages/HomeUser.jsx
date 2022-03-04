@@ -10,11 +10,14 @@ import medal2 from "../assets/badges/welcome.png";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
-import { useSelector } from "react-redux";
-import { downloadHomeData, tokenNotification } from "../utils/api";
+import { 
+  //downloadHomeData, 
+  tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
 import ProgressKPI from "../components/progressCharts/ProgressKPI";
+import { useSelector, useDispatch } from "react-redux";
+import { downloadHomeData } from "../redux/homeDataDuck";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -45,7 +48,11 @@ const SeeButton = styled(Button)(() => ({
 }));
 
 const HomeUser = ({ count }) => {
+  const dispatch = useDispatch()
+  
+  const homeData = useSelector((store) => store.homeData.homeData);
   const userData = useSelector((store) => store.loginUser.userData);
+
   const idccms = userData.Idccms;
   const useName = userData.Nombre
   const [data, setData] = useState([]);
@@ -56,27 +63,32 @@ const HomeUser = ({ count }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const kpis = await downloadHomeData(idccms);
-      if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-        await setData(kpis.data);
-        await setTExp(kpis.data[6]);
-        await setCw(kpis.data[3]);
-        await setGp(kpis.data[4]);
-        setBadge(() => kpis.data[5]);
-      }
+      dispatch(downloadHomeData(idccms))
       const token = await requestForToken();
-      await tokenNotification(token, idccms);
-      console.log(kpis)
+       await tokenNotification(token, idccms);
+    
     };
     getData();
     // eslint-disable-next-line
   }, []);
 
-  const ranking =
-    data.length > 0 && Array.isArray(data)
+  useEffect(() => {
+      if(homeData !== null){
+        setData(homeData);
+        setTExp(homeData[6]);
+        setCw(homeData[3]);
+        setGp(homeData[4]);
+        setBadge(() => homeData[5]);
+      }
+    // eslint-disable-next-line
+  }, [homeData]);
+
+
+  const ranking =  data?.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
+      console.log(homeData)
   return (
     <>
       <MainHomeUser
