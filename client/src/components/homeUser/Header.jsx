@@ -124,7 +124,7 @@ if(dataHeader !== null){
 }
   },[dataHeader])
 
-console.log(level)
+console.log(dataHeader)
   return (
     <>
       <MainHeader

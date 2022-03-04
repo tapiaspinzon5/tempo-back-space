@@ -73,6 +73,8 @@ const HomeUser = ({ count }) => {
   }, []);
 
   useEffect(() => {
+
+    
       if(homeData !== null){
         setData(homeData);
         setTExp(homeData[6]);
