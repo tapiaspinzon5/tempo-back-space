@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Typography, Grid, styled, Button } from "@mui/material";
+import { Typography, Grid, styled, Button, Box } from "@mui/material";
 //import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import { loadUserActivities } from "../utils/api";
@@ -81,7 +81,7 @@ const ActivitiesView = () => {
       setNoData("");
       if (activities.context === 3) {
         const quizes = await loadUserActivities(idccms, context);
-        if (quizes && quizes.status === 200) {
+        if (quizes && quizes.status === 200 && quizes.data.length === 2) {
           if (quizes.data[1].Quices) {
             setQuizUser(quizes.data[1].Quices);
           }
@@ -168,7 +168,7 @@ const ActivitiesView = () => {
         ) : (
           <>
             {noData && (
-              <Typography variant="h6" sx={{ color: "#3047B0" }}>
+              <Typography variant="h5" sx={{ color: "#3047B0" }}>
                 {" "}
                 {noData}
               </Typography>
@@ -186,34 +186,59 @@ const ActivitiesView = () => {
                     />
                   </Grid>
                 ))}
-
-              {activities.type === "Quizes" &&
-                quizUser.map((quiz) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    xl={2}
-                    key={quiz.IdExamen}
-                  >
-                    <CardActivityManage quiz={quiz} progress={20} />
-                  </Grid>
-                ))}
-              {activities.type === "Quizes" &&
-                userActivities?.map((activity, index) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
-                    <ActivitiesViewComponent
-                      activity={activity}
-                      context={activities.context}
-                      //img1={images[generateRandom(images.length)]}
-                      images={images}
-                      mousePos={mousePos}
-                    />
-                  </Grid>
-                ))}
             </Grid>
+            {!noData && (
+              <Box>
+                <Typography variant="h5" sx={{ color: "#3047B0" }}>
+                  Missions
+                </Typography>
+                <Grid container spacing={3}>
+                  {activities.type === "Quizes" &&
+                    userActivities?.map((activity, index) => (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        xl={2}
+                        key={index}
+                      >
+                        <ActivitiesViewComponent
+                          activity={activity}
+                          context={activities.context}
+                          //img1={images[generateRandom(images.length)]}
+                          images={images}
+                          mousePos={mousePos}
+                        />
+                      </Grid>
+                    ))}
+                </Grid>
+              </Box>
+            )}
+            {!noData && (
+              <Box>
+                <Typography variant="h5" sx={{ color: "#3047B0" }}>
+                  Quizes
+                </Typography>
+                <Grid container spacing={3}>
+                  {activities.type === "Quizes" &&
+                    quizUser.map((quiz) => (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        xl={2}
+                        key={quiz.IdExamen}
+                      >
+                        <CardActivityManage quiz={quiz} progress={20} />
+                      </Grid>
+                    ))}
+                </Grid>
+              </Box>
+            )}
           </>
         )}
       </MainViewver>
