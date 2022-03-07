@@ -15,6 +15,7 @@ import { downloadNotifications } from "../../utils/api";
 import ProgresBar from "../progressCharts/ProgresBar";
 import epicoinICO from "../../assets/Icons/epicoin-ico.svg";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { headerDataAction } from "../../redux/homeDataDuck";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -49,8 +50,11 @@ const RightHeader = styled(Grid)((theme) => ({
 }));
 
 const Header = ({ count }) => {
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const homeData = useSelector((store) => store.homeData.homeData);
+  const headerData = useSelector((store) => store.homeData.headerData);
+  
   const idccms = userData.Idccms;
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
@@ -63,6 +67,8 @@ const Header = ({ count }) => {
   };
 
   useEffect(() => {
+
+    dispatch(headerDataAction(idccms))
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
       if (
@@ -116,6 +122,8 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
+  // console.log(headerData)
+
   return (
     <>
       <MainHeader
@@ -144,18 +152,18 @@ const Header = ({ count }) => {
               <RightHeader item xs={12} md={6}>
                 <Box display="flex" alignItems="center">
                   <Typography variant="body2">
-                    <b>{homeData[6].Level[0].Exp}</b> Pts
+                    <b>{headerData?.Exp}</b> Pts
                   </Typography>
                   <Box width="150px" margin="0 1rem">
                     <ProgresBar
                       value={
-                        (homeData[6].Level[0].Exp * 100) /
-                        homeData[6].Level[0].High
+                        (headerData?.Exp * 100) /
+                        headerData?.High
                       }
                     />
                   </Box>
                   <Typography variant="body2">
-                    <b>{homeData[6].Level[0].High}</b> Pts to level up
+                    <b>{headerData?.High}</b> Pts to level up
                   </Typography>
                 </Box>
 
@@ -181,7 +189,7 @@ const Header = ({ count }) => {
                     marginLeft="10px"
                   >
                     {" "}
-                    {homeData[6].Level[0].ResObtenidoCoin} Epicoins
+                    {headerData?.ResObtenidoCoin} Epicoins
                   </Typography>
                 </Box>
               </RightHeader>

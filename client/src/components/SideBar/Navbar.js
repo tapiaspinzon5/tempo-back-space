@@ -7,6 +7,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import avatar from "../../assets/temp-image/avatar.png";
+import shortTP from '../../assets/Icons/tp_short_white.png'
 
 const SideBar = styled(AppBar)(({ theme }) => ({
   position: "sticky",
@@ -25,31 +26,6 @@ const SideBar = styled(AppBar)(({ theme }) => ({
   },
 }));
 
-// const Up = styled(ArrowDropUpIcon)({
-//   position: "absolute",
-//   zIndex: 1,
-//   top: -20,
-//   left: 0,
-//   right: 0,
-//   margin: "0 auto",
-// });
-// const Down = styled(ArrowDropUpIcon)({
-//   position: "absolute",
-//   zIndex: 1,
-//   top: -20,
-//   left: 0,
-//   right: 0,
-//   margin: "0 auto",
-// });
-
-// const StyledFab = styled(Fab)({
-//   position: "absolute",
-//   zIndex: 1,
-//   top: -30,
-//   left: 0,
-//   right: 0,
-//   margin: "0 auto",
-// });
 
 export const Navbar = () => {
   const userData = useSelector((store) => store.loginUser.userData.Role);
@@ -85,7 +61,15 @@ export const Navbar = () => {
             </div>
             <Divider />
             <NavList open={open} match={match} userData={userData} />
+           <IconButton sx={{ flexGrow: 1 }} onClick={() => setOpen(!open)}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={shortTP}
+                  sx={{ width: 56, height: 56 }}
+                />
+              </IconButton>
           </SideBar>
+  
         </Box>
       )}
       
@@ -113,6 +97,7 @@ export const Navbar = () => {
           </IconButton>
 
           <NavList />
+          
         </SideBar>
       )}
 
