@@ -83,7 +83,7 @@ const HomeUser = ({ count }) => {
       dispatch(logoutAction());
 
       navigate("/");
-    } else if (homeData !== null) {
+    } else if (homeData !== null && homeData.length > 1) {
       setData(homeData);
       setTExp(homeData[6]);
       setCw(homeData[3]);
@@ -116,7 +116,7 @@ const HomeUser = ({ count }) => {
             {ranking && <ProgressHome dataKPI={data} />}
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
-            <>{ranking && <Podium podio={podium} />}</>
+            {ranking && <Podium podio={podium} />}
           </Grid>
           <Grid item xs={12} md={6} lg={3} xl={3}>
             <Ranking ranking={ranking} useName={useName} />

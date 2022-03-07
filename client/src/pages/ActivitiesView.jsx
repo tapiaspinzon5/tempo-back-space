@@ -187,7 +187,7 @@ const ActivitiesView = () => {
                   </Grid>
                 ))}
             </Grid>
-            {!noData && (
+            {!noData && activities.type === "Quizes" && (
               <Box>
                 <Typography variant="h5" sx={{ color: "#3047B0" }}>
                   Missions
@@ -216,13 +216,14 @@ const ActivitiesView = () => {
                 </Grid>
               </Box>
             )}
-            {!noData && (
-              <Box>
+            {!noData && activities.type === "Quizes" && (
+              <Box mt={3}>
                 <Typography variant="h5" sx={{ color: "#3047B0" }}>
                   Quizes
                 </Typography>
                 <Grid container spacing={3}>
-                  {activities.type === "Quizes" &&
+                  {quizUser[0].Quiz !== "0" ? (
+                    activities.type === "Quizes" &&
                     quizUser.map((quiz) => (
                       <Grid
                         item
@@ -235,7 +236,12 @@ const ActivitiesView = () => {
                       >
                         <CardActivityManage quiz={quiz} progress={20} />
                       </Grid>
-                    ))}
+                    ))
+                  ) : (
+                    <Typography variant="h6" sx={{ color: "#3047B0", mt: 3 }}>
+                      You don´ t have Quices assingned
+                    </Typography>
+                  )}
                 </Grid>
               </Box>
             )}
