@@ -61,13 +61,16 @@ export const Navbar = () => {
             </div>
             <Divider />
             <NavList open={open} match={match} userData={userData} />
-           <IconButton sx={{ flexGrow: 1 }} onClick={() => setOpen(!open)}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src={shortTP}
-                  sx={{ width: 56, height: 56 }}
-                />
+          
+          <Box
+            sx={{ flexGrow: 1 }} 
+          >
+
+           <IconButton 
+           onClick={() => setOpen(!open)}>
+                  <img src={shortTP} alt=' ' height={45} width={45}  />
               </IconButton>
+          </Box>
           </SideBar>
   
         </Box>

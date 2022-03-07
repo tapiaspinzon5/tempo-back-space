@@ -38,6 +38,7 @@ import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignmen
 import AgentProfile from "../pages/Agent/AgentProfile";
 import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
+import OptionsProfile from "../components/OptionsProfile";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -101,7 +102,12 @@ const AppRouter = () => {
         pauseOnHover
       />
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.NumberLogins > 1 && userData?.Role && navView && <Navbar />}
+        {userData?.NumberLogins > 1 && userData?.Role && navView && <>
+        <Navbar />
+        {/* <OptionsProfile/> */}
+        </>
+        
+        }
         {userData?.NumberLogins === 1 && <VideoView />}
  
         <Routes>

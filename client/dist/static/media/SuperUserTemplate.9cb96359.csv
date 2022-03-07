@@ -1,0 +1,6 @@
+﻿Ident,TeamName,KPI,Campaign,Q1,Q2,Q3,Q4,Target,Order
+4462685,Equipo Wapps Test,%Abs,Aero Republica,14,20,40,95,15,dsc
+4462685,Equipo Wapps Test,%ADH,Aero Republica,100,80,60,22,99,asc
+4462685,Equipo Wapps Test,%Conf,Aero Republica,125,60,40,22,120,asc
+4462685,Equipo Wapps Test,AHT_In,Aero Republica,106,391,715,1316,100,dsc
+4462685,Equipo Wapps Test,AgentSat%,Aero Republica,100,80,60,50,98,asc
