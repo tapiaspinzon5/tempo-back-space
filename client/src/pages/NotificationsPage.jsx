@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import { Typography, Grid, styled, Box } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -64,6 +64,7 @@ const NotificationsPage = ({ count }) => {
       setLoading(false);
     };
     traerNotificaciones();
+    // eslint-disable-next-line
   }, [limitUser]);
 
   useEffect(() => {
@@ -77,6 +78,7 @@ const NotificationsPage = ({ count }) => {
       setLoading2(false);
     };
     traerNotificaciones();
+    // eslint-disable-next-line
   }, [limitTeam]);
 
   const paginationUser = (e, value) => {

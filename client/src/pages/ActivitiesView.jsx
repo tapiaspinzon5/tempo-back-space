@@ -32,7 +32,6 @@ const BoxSelectBadge = styled(Grid)(() => ({
     fontWeight: "600",
     border: "1px solid #00000009",
   },
-
   margin: "2rem 0",
 }));
 
@@ -109,9 +108,9 @@ const ActivitiesView = () => {
       localStorage.setItem("menuActivity", JSON.stringify(activities));
     };
 
-    function generateRandom(max) {
-      return Math.floor(Math.random() * max);
-    }
+    // function generateRandom(max) {
+    //   return Math.floor(Math.random() * max);
+    // }
 
     getData();
     handleLS();

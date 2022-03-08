@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar, Box, Typography, styled } from "@mui/material";
-import avatar from "../../assets/temp-image/avatar.png";
 import star from "../../assets/Icons/start-icon.svg";
 import epicoin from "../../assets/Icons/epicoin-ico.svg";
 import level from "../../assets/Icons/level-icon.svg";

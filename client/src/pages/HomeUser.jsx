@@ -4,9 +4,7 @@ import {
   Grid,
   styled,
   Typography,
-  Button,
   Box,
-  Stack,
   Skeleton,
 } from "@mui/material";
 import Header from "../components/homeUser/Header";
@@ -100,9 +98,6 @@ const HomeUser = ({ count }) => {
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
-
-
-        console.log(homeData)
   return (
     <>
       <MainHomeUser

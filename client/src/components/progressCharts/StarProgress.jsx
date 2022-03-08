@@ -60,6 +60,7 @@ const StarProgress = ({ info }) => {
     });
     liquidPlot.render();
     return () => liquidPlot.destroy();
+    // eslint-disable-next-line
   }, []);
 
   return (

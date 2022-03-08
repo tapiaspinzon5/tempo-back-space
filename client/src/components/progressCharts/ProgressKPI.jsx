@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, styled } from "@mui/material";
+import {  Box, styled } from "@mui/material";
 import { positionValue } from "../../helpers/helpers";
 import {GoArrowSmallUp, GoArrowSmallDown} from 'react-icons/go'
 
@@ -32,6 +32,7 @@ const ProgressKPI = ({ value, target, kpi }) => {
     }else{
       setDir(false)
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

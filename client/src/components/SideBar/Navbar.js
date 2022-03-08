@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavList } from "./NavList";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, AppBar, Divider, IconButton, Avatar } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";

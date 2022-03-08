@@ -98,7 +98,7 @@ const UpQuiz = () => {
                 Download Quiz Template
               </Button>
             </Grid>
-            {misQuizes?.map((quiz) => (
+            {misQuizes?.map((quiz, index) => (
               <Grid
                 item
                 xs={12}
@@ -106,7 +106,7 @@ const UpQuiz = () => {
                 md={4}
                 lg={3}
                 xl={2}
-                key={quiz.IdExamen}
+                key={index}
               >
                 <CardQuizDesc quiz={quiz} />
               </Grid>

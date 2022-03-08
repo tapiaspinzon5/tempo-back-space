@@ -97,6 +97,7 @@ export const AgentChallengeAssignment = ({ count }) => {
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
 
   //funcion de asingacion de usuarios

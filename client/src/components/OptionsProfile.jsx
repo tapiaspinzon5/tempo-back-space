@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {Typography, Box, styled, Avatar, Button, List, ListItem, ListItemButton, ListItemText, ListItemIcon} from '@mui/material'
+import {Typography, Box, styled, Avatar,  List, ListItem, ListItemButton, ListItemText, ListItemIcon} from '@mui/material'
 import {FiPower} from 'react-icons/fi'
 import { logoutAction } from '../redux/loginDuck'
 
@@ -33,12 +33,12 @@ const OptionsProfile = ({setSeeProfile, profile, navLong}) => {
     <BoxVinetas onClick={()=>{setSeeProfile(false)}} sx={navLong?{left:'13rem'}: {left:'6.5rem'}}>
     <Box display='flex' justifyContent='space-between' alignItems='center'>
       <Box>
-        <Typography variant="h6">{profile.Agent}</Typography>
-        <Typography variant="body1">{profile.Role}</Typography>
+        <Typography variant="h6">{profile?.Agent}</Typography>
+        <Typography variant="body1">{profile?.Role}</Typography>
       </Box>
           <Avatar
                   alt="Remy Sharp"
-                  src={profile.AvatarProfile}
+                  src={profile?.AvatarProfile}
                   sx={{ width: 75, height:75}}
                 />
     </Box>
