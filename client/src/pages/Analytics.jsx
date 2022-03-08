@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Typography, Grid, styled, Box } from "@mui/material";
+import { Typography, Grid,  Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { MainPage, BoxContain } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";

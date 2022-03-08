@@ -15,7 +15,6 @@ import {
 import Header from "../../components/homeUser/Header";
 import { FiPieChart } from "react-icons/fi";
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
-import LoadingComponent from "../../components/LoadingComponent";
 import Footer from "../../components/Footer";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
@@ -74,11 +73,11 @@ const FollowingTeamsKPI = ({ count }) => {
   const idccms = userData.Idccms;
   const [kpi, setKpi] = useState([]);
   const [usersKPI, setUsersKPI] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [, setLoading] = useState(true);
+  const [, setError] = useState(false);
   const [showChart, setShowChart] = useState(false);
   const [timeView, setTimeView] = useState("");
-  const [changeKpi, setChangeKpi] = useState("");
+  const [, setChangeKpi] = useState("");
   const [series, setSeries] = useState([]);
   const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
@@ -112,6 +111,7 @@ const FollowingTeamsKPI = ({ count }) => {
     handleKPI();
 
     setLoading(false);
+    // eslint-disable-next-line
   }, []);
 
   const handleKPI = async (idKPI) => {
@@ -139,6 +139,7 @@ const FollowingTeamsKPI = ({ count }) => {
     };
 
     handleChart();
+    // eslint-disable-next-line
   }, [usersKPI, typeChart]);
 
   return (

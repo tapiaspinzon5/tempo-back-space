@@ -87,6 +87,7 @@ const Header = ({ count }) => {
       }
     };
     data();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -109,6 +110,7 @@ const Header = ({ count }) => {
       }
     };
     data();
+    // eslint-disable-next-line
   }, [count]);
 
   function notificationsLabel(count) {
@@ -121,7 +123,7 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
-  console.log(headerData)
+ 
 
   return (
     <>

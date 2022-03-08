@@ -2,7 +2,7 @@ import React from "react";
 import { MainPage } from "../../assets/styled/muistyled";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
-import { Grid, styled, Box, Typography } from "@mui/material";
+import { Grid, styled,  Typography } from "@mui/material";
 import ProfileSection from "../../components/Profile/ProfileSection";
 import TPVSection from "../../components/Profile/TPVSection";
 import BadgesSection from "../../components/Profile/BadgesSection";

@@ -80,7 +80,7 @@ const ChallengeAssignment = ({ count }) => {
   const TLName = userData.Nombre;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
-  const [stage, setStage] = useState("Getting started");
+  const [stage, ] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
 
@@ -105,6 +105,7 @@ const ChallengeAssignment = ({ count }) => {
     };
 
     getData();
+    // eslint-disable-next-line
   }, []);
 
   //funcion de asingacion de usuarios

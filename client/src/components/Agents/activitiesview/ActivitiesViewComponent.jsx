@@ -72,6 +72,7 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
   useEffect(() => {
     const index = Math.floor(Math.random() * images.length);
     setIme1(images[index]);
+    // eslint-disable-next-line
   }, []);
 
   return (

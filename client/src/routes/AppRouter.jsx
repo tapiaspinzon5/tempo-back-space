@@ -87,6 +87,7 @@ const AppRouter = () => {
   };
 useEffect(()=>{
     dispatch(headerDataAction(userData?.idccms))
+    // eslint-disable-next-line
 },[])
   useEffect(() => {
     if (notification?.title) {
@@ -95,7 +96,6 @@ useEffect(()=>{
     }
     // eslint-disable-next-line
   }, [notification]);
-console.log(headerData)
   return (
     <Router>
       <ToastContainer

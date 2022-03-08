@@ -49,7 +49,7 @@ export const HomeQAL = ({ count }) => {
   return (
     <>
       <MainHomeQAL
-        sx={{ bgcolor: "background.default", color: "text.primary" }}
+//        sx={{ bgcolor: "background.default" }}
       >
         <Header count={count} />
         <Grid container spacing={3}>
@@ -73,7 +73,7 @@ export const HomeQAL = ({ count }) => {
                     variant="h6"
                     align="center"
                     fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
+                    sx={{ margin: "10px", color: "#3047B0" }}
                   >
                     Quizzes Questions Upload
                   </Typography>
