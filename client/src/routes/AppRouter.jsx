@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { headerDataAction } from "../redux/homeDataDuck";
+
 import {
   HashRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "../components/SideBar/Navbar";
 import { Grid, styled } from "@mui/material";
@@ -31,7 +33,6 @@ import NotificationsPage from "../pages/NotificationsPage";
 import { VideoView } from "../pages/VideoView";
 import { onMessageListener } from "../utils/firebase";
 import { toast, ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from "../pages/Agent/LeaderBoard";
 import { AgentChallengeAssignment } from "../pages/Agent/AgentChallengeAssignment";
@@ -46,8 +47,13 @@ const MainApp = styled(Grid)(() => ({
 }));
 
 const AppRouter = () => {
+  const dispatch = useDispatch()
+  const headerData = useSelector((store) => store.homeData.headerData);
   const userData = useSelector((store) => store.loginUser.userData);
+   //const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
+  const [navLong, setNavLong] = useState(true);
+  const [seeProfile, setSeeProfile] = useState(false)
   const [notification, setNotification] = useState({
     title: "",
     body: "",
@@ -79,7 +85,9 @@ const AppRouter = () => {
         </div>
       );
   };
-
+useEffect(()=>{
+    dispatch(headerDataAction(userData?.idccms))
+},[])
   useEffect(() => {
     if (notification?.title) {
       notify();
@@ -87,7 +95,7 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, [notification]);
-
+console.log(headerData)
   return (
     <Router>
       <ToastContainer
@@ -103,8 +111,12 @@ const AppRouter = () => {
       />
       <MainApp sx={{ bgcolor: "background.default" }}>
         {userData?.NumberLogins > 1 && userData?.Role && navView && <>
-        <Navbar />
-        {/* <OptionsProfile/> */}
+        <Navbar seeProfile={seeProfile} setSeeProfile={setSeeProfile} avatar={headerData?.AvatarProfile}   setNavLong={setNavLong}/>
+       {
+seeProfile&&
+       <OptionsProfile  setSeeProfile={setSeeProfile} profile={headerData}  navLong={navLong}/>
+       } 
+         
         </>
         
         }
@@ -125,7 +137,7 @@ const AppRouter = () => {
                 path="/leaderboard"
                 element={<LeaderBoard count={count} />}
               />
-              <Route path="/profile" element={<AgentProfile />} />
+              <Route path="/profile" element={<AgentProfile profile={headerData}/>} />
               <Route
                 path="/challenge"
                 element={<AgentChallengeAssignment count={count} />}

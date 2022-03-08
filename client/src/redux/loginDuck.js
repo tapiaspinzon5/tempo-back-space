@@ -43,6 +43,7 @@ export default function loginReducer(state = initialData, action) {
     case CERRANDO_SESION_EXITO:
       return {
         ...initialData,
+        loading:false
       };
 
     case ERROR_LOGIN:

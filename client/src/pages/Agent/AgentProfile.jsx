@@ -13,7 +13,7 @@ const BoxSection = styled(Grid)(() => ({
   borderRadius: "10px",
 }));
 
-const AgentProfile = () => {
+const AgentProfile = ({profile}) => {
   return (
     <MainPage>
       <Header />
@@ -21,7 +21,7 @@ const AgentProfile = () => {
         <Typography variant="h1" color="initial"></Typography>
         <Grid item xs={12} md={4}>
           <BoxSection>
-            <ProfileSection />
+            <ProfileSection profile={profile}/>
           </BoxSection>
         </Grid>
         <Grid item xs={12} md={4}>
