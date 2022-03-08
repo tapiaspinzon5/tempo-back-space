@@ -1,12 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logoutAction } from "../../redux/loginDuck";
 import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
-import { FiLogOut, FiPieChart } from "react-icons/fi";
+import { FiPieChart } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
@@ -16,7 +14,6 @@ import { MdOutlinePeopleAlt } from "react-icons/md";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
-
   marginBottom: "20px",
   padding: "10px",
   [theme.breakpoints.down("md")]: {
@@ -51,12 +48,8 @@ const ContentList = styled(List)(({ theme }) => ({
 }));
 
 export const NavList = ({ open, match, userData }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const logOut = () => {
-    dispatch(logoutAction());
-    navigate("/");
-  };
+
   return (
     <>
       <ContentList>
@@ -141,12 +134,12 @@ export const NavList = ({ open, match, userData }) => {
             )}
           </>
         }
-        <LItem button onClick={logOut}>
+        {/* <LItem button onClick={logOut}>
           <LIcon>
             <FiLogOut size={25} color="#fff" />
           </LIcon>
           {open && match && <Typography>Logout</Typography>}
-        </LItem>
+        </LItem> */}
       </ContentList>
     </>
   );

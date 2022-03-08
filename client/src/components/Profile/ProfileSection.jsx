@@ -25,19 +25,19 @@ const BoxReward = styled(Box)(() => ({
     marginLeft: "1rem",
   },
 }));
-const ProfileSection = () => {
+const ProfileSection = ({profile}) => {
   return (
     <BoxProfileUser>
       <Box display="flex" flexDirection="column" alignItems="center">
         <Avatar
           alt="Remy Sharp"
-          src={avatar}
+          src={profile.Avatar}
           sx={{ width: 160, height: 160 }}
         />
         <Typography variant="h6" fontWeight={700}>
-          Matilde Puentes Gutierrez
+          {profile?.Agent}
         </Typography>
-        <Typography variant="body1">Analista Desarrollador Senior</Typography>
+        <Typography variant="body1">{profile?.Role}</Typography>
       </Box>
       <Box
         display="flex"
@@ -48,29 +48,29 @@ const ProfileSection = () => {
         <Box display="flex">
           <Box>
             <BoxReward>
-              <Typography variant="body1"> 3</Typography>
+              <Typography variant="body1"> {profile?.LevelAgent.slice(6)}</Typography>
               <img src={level} alt="" />
             </BoxReward>
             <Typography variant="caption">Level</Typography>
           </Box>
           <Box>
             <BoxReward>
-              <Typography variant="body1">110</Typography>
+              <Typography variant="body1">{profile?.Exp}</Typography>
               <img src={star} alt="" />
             </BoxReward>
             <Typography variant="caption">XP Points</Typography>
           </Box>
           <Box>
             <BoxReward>
-              <Typography variant="body1">53</Typography>
+              <Typography variant="body1">{profile?.ResObtenidoCoin}</Typography>
               <img src={epicoin} alt="" />
             </BoxReward>
             <Typography variant="caption">Epicoins</Typography>
           </Box>
         </Box>
         <Box sx={{ width: "20rem", marginTop: "1rem" }}>
-          <ProgresBar value={70} />
-          <Typography variant="caption"> 54 points to level 4 </Typography>
+          <ProgresBar value={profile?.Exp*100/profile?.High} />
+          <Typography variant="caption"> {profile?.High-profile?.Exp} points to next level  </Typography>
         </Box>
       </Box>
       <Box>
