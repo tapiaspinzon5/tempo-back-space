@@ -2,12 +2,14 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyANsokTJLSPb_yJ9484JfoGESh_1eDueQw",
-  authDomain: "fcm-test-36ab9.firebaseapp.com",
-  projectId: "fcm-test-36ab9",
-  storageBucket: "fcm-test-36ab9.appspot.com",
-  messagingSenderId: "622382328481",
-  appId: "1:622382328481:web:a04da539dbde34a0005ee0",
+  apiKey: "AIzaSyBvIm4awdjTWROGds-dGId7zhqici0Vexk",
+  authDomain: "fir-296723.firebaseapp.com",
+  databaseURL: "https://fir-296723.firebaseio.com",
+  projectId: "firebase-296723",
+  storageBucket: "firebase-296723.appspot.com",
+  messagingSenderId: "2889986059",
+  appId: "1:2889986059:web:46d643403583fdc45c170e",
+  measurementId: "G-4DJTT2TTPM",
 };
 
 initializeApp(firebaseConfig);
@@ -17,20 +19,17 @@ const messaging = getMessaging();
 export const requestForToken = () => {
   return getToken(messaging, {
     vapidKey:
-      "BMWZMH-KjWzuMb_HmmhAx53RPrJpT7w-Jz-2j8MMG31OeOyO2lXrzK8pdspjxkJpeiT4v27AFIPYSJ6eDWae4YE",
+      "BB65a8VyiH1Io6kGfVo61pfjWh5i_iRiyJwXcdOXfKZ7iiefwHxkemEdQcWTIM6ir34T9Q1ZxVclwi3HX-vgyXY",
   })
     .then((currentToken) => {
       if (currentToken) {
-     
         return currentToken;
       } else {
         // Show permission request UI
-       
         // ...
       }
     })
     .catch((err) => {
-     
       return err;
     });
 };
@@ -38,7 +37,6 @@ export const requestForToken = () => {
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-     
       resolve(payload);
     });
   });
