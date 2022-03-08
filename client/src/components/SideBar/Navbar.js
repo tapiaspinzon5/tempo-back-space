@@ -7,6 +7,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import shortTP from '../../assets/Icons/tp_short_white.png'
+import avatarLocal from '../../assets/temp-image/avatar.png'
 
 
 const SideBar = styled(AppBar)(({ theme }) => ({
@@ -60,7 +61,7 @@ export const Navbar = ({seeProfile, setSeeProfile, avatar, setNavLong}) => {
               <IconButton sx={{ flexGrow: 1 }} onClick={() => setSeeProfile(!seeProfile)}>
                 <Avatar
                   alt="Remy Sharp"
-                  src={avatar}
+                  src={avatar || avatarLocal}
                   sx={{ width: 56, height: 56 }}
                 />
               </IconButton>

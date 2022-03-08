@@ -98,6 +98,9 @@ const HomeUser = ({ count }) => {
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
 
+
+
+      console.log(idccms)
   return (
     <>
       <MainHomeUser
@@ -159,7 +162,7 @@ const HomeUser = ({ count }) => {
               >
                 {badge ? (
                   <img
-                    src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
+                    src={badge && badge?.Badge[0].Badge === "0" ? medal : medal2}
                     alt="top-Ten"
                     height="100%"
                   />

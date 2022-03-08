@@ -96,7 +96,7 @@ dataHome()
 
 //trae la data del Home
 export const headerDataAction =  (idccms) => (dispatch)=>{
-
+  console.log(idccms, 'desde el pato')
     dispatch({
         type: LOADING,
       });

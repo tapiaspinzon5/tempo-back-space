@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {Typography, Box, styled, Avatar,  List, ListItem, ListItemButton, ListItemText, ListItemIcon} from '@mui/material'
 import {FiPower} from 'react-icons/fi'
 import { logoutAction } from '../redux/loginDuck'
+import avatarLocal from '../assets/temp-image/avatar.png'
 
 const BoxVinetas = styled(Box)(({ theme }) => ({
     width:'20rem',
@@ -38,7 +39,7 @@ const OptionsProfile = ({setSeeProfile, profile, navLong}) => {
       </Box>
           <Avatar
                   alt="Remy Sharp"
-                  src={profile?.AvatarProfile}
+                  src={profile?.AvatarProfile || avatarLocal}
                   sx={{ width: 75, height:75}}
                 />
     </Box>

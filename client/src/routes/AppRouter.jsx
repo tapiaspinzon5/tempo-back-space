@@ -50,7 +50,7 @@ const AppRouter = () => {
   const dispatch = useDispatch()
   const headerData = useSelector((store) => store.homeData.headerData);
   const userData = useSelector((store) => store.loginUser.userData);
-   //const idccms = userData?.Idccms;
+  const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
   const [navLong, setNavLong] = useState(true);
   const [seeProfile, setSeeProfile] = useState(false)
@@ -86,7 +86,9 @@ const AppRouter = () => {
       );
   };
 useEffect(()=>{
-    dispatch(headerDataAction(userData?.idccms))
+  if(idccms > 0){
+    dispatch(headerDataAction(idccms))
+  }
     // eslint-disable-next-line
 },[])
   useEffect(() => {
