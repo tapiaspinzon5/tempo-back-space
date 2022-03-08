@@ -66,17 +66,16 @@ const Header = ({ count }) => {
   };
 
   useEffect(() => {
-
-    dispatch(headerDataAction(idccms))
+   dispatch(headerDataAction(idccms))
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
       if (
         getNotifications &&
         getNotifications.status === 200 &&
         getNotifications.data.length > 0
-      ) {
+        ) {
         setNotifications(getNotifications.data);
-
+        
         let c = 0;
         getNotifications.data.forEach((el) => {
           if (el.Status === "Unread") {
@@ -87,9 +86,8 @@ const Header = ({ count }) => {
       }
     };
     data();
-    // eslint-disable-next-line
   }, []);
-
+  
   useEffect(() => {
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
@@ -97,14 +95,14 @@ const Header = ({ count }) => {
         getNotifications &&
         getNotifications.status === 200 &&
         getNotifications.data.length > 0
-      ) {
-        setNotifications(getNotifications.data);
+        ) {
+          setNotifications(getNotifications.data);
 
-        let c = 0;
-        getNotifications.data.forEach((el) => {
-          if (el.Status === "Unread") {
-            c += 1;
-          }
+          let c = 0;
+          getNotifications.data.forEach((el) => {
+            if (el.Status === "Unread") {
+              c += 1;
+            }
         });
         setCont(c);
       }
@@ -112,6 +110,7 @@ const Header = ({ count }) => {
     data();
     // eslint-disable-next-line
   }, [count]);
+  
 
   function notificationsLabel(count) {
     if (count === 0) {
@@ -124,7 +123,6 @@ const Header = ({ count }) => {
   }
 
  
-
   return (
     <>
       <MainHeader

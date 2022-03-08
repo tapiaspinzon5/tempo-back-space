@@ -30,7 +30,7 @@ const ProfileSection = ({profile}) => {
       <Box display="flex" flexDirection="column" alignItems="center">
         <Avatar
           alt="Remy Sharp"
-          src={profile.Avatar}
+          src={profile?.Avatar}
           sx={{ width: 160, height: 160 }}
         />
         <Typography variant="h6" fontWeight={700}>
