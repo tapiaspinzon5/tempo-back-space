@@ -454,10 +454,10 @@ exports.getLoadInstructions = async (req, res) => {
 };
 
 
-exports.assignActivitiesTL = async (req, res) => {
+exports.postAssignChallenges = async (req, res) => {
 
   // const {data} = req.body
-  const {tlName, nameActivity, idActivity, idccmsAssigned, fcmTokens} = req.body;  
+  const {userName, nameChallenge, idChallenge, idccmsAssigned, fcmTokens} = req.body;  
   let rows = [];
   let i = 0;
 
@@ -465,7 +465,7 @@ exports.assignActivitiesTL = async (req, res) => {
   let fcmTokensFiltered = fcmTokens.filter(token => token);
 
   // Armo tabla para la DB
-  idActivity.forEach(act => {
+  idChallenge.forEach(act => {
     idccmsAssigned.forEach(id => {
       i = i + 1;
       rows.push([id,act,i])
@@ -473,12 +473,12 @@ exports.assignActivitiesTL = async (req, res) => {
   });
 
   // Recorremos cada actividad
-  for (let i = 0; i < nameActivity.length; i++) {
+  for (let i = 0; i < nameChallenge.length; i++) {
     try {
       // enviamos la actividad por c/u  de los tokens
       fcmTokensFiltered.forEach(async (token) => {
-        // console.log(tlName, nameActivity[i], token);
-        return await sendFCMMessage(tlName, nameActivity[i], token)
+        // console.log(userName, nameChallenge[i], token);
+        return await sendFCMMessage(userName, nameChallenge[i], token)
       })
       // res.status(200).json(resp);
     } catch (error) {
@@ -764,63 +764,6 @@ exports.getKpiandAnlyticsAgent = async (req, res) => {
 };
 
 
-
-exports.postAssignAgentAgent = async (req, res) => {
-
-  // const {data} = req.body
-  const {context,agentName, nameChallengeTPV, idChallengeTPV, idccmsAssigned, fcmTokens} = req.body;  
-  let rows = [];
-  let i = 0;
-
-  // Filtramos las personas que si tienen token para notificarlos
-  let fcmTokensFiltered = fcmTokens.filter(token => token);
-
-  // Armo tabla para la DB
-  idActivity.forEach(act => {
-    idccmsAssigned.forEach(id => {
-      i = i + 1;
-      rows.push([id,act,i])
-    })
-  });
-
-  // Recorremos cada actividad
-  for (let i = 0; i < nameActivity.length; i++) {
-    try {
-      // enviamos la actividad por c/u  de los tokens
-      fcmTokensFiltered.forEach(async (token) => {
-        // console.log(tlName, nameActivity[i], token);
-        return await sendFCMMessage(tlName, nameActivity[i], token)
-      })
-      // res.status(200).json(resp);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  }
-
-  // try {
-  //   let resp = fcmTokens.map(async (token) => {
-  //     return await sendFCMMessage(token,msg)
-  //   })
-  //   // res.status(200).json(resp);
-  // } catch (error) {
-  //   res.status(500).json(error);
-  // }
-
-  sql
-    .query(
-      "spInsertChallengeAgent",
-      parametros({ idccms: req.query.idccms, rows}, "spInsertChallengeAgent")
-    )
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
-    });
-};
-
-
 exports.getanalyticskpirl = async (req, res) => {
 
   sql
@@ -871,7 +814,24 @@ exports.getDashboardTL = async (req, res) => {
 
 exports.postassigntpv = async (req, res) => {
 
-  const {idTpv, idccmsAssigned }= req.body;
+  const {userName, nameTPV, idTpv, idccmsAssigned, fcmTokens} = req.body;  
+
+  // Filtramos las personas que si tienen token para notificarlos
+  let fcmTokensFiltered = fcmTokens.filter(token => token);
+
+  // Recorremos cada actividad
+  for (let i = 0; i < nameTPV.length; i++) {
+    try {
+      // enviamos la actividad por c/u  de los tokens
+      fcmTokensFiltered.forEach(async (token) => {
+        // console.log(userName, nameTPV[i], token);
+        return await sendFCMMessage(userName, nameTPV[i], token)
+      })
+      // res.status(200).json(resp);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
 
   sql
     .query(

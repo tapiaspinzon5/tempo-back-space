@@ -23,7 +23,7 @@ module.exports = (router) => {
 
   // Rutas para visualizar informacion.
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
-  router.post("/gethomedata",oauth.oauthOther, oauth.oauthOther, routes.getHomeData ); 
+  router.post("/gethomedata", oauth.oauthOther, routes.getHomeData ); 
   // Retorna las notificaciones dependiendo del contexto 1.agente 2.Equipo, con un rango (min - max). 
   router.post("/getmynotifications",oauth.oauthOther, routes.getMyNotifications); 
   // Almacena en DB el token del navegador del usuario junto a su idccms
@@ -46,8 +46,8 @@ module.exports = (router) => {
   router.post("/getactivitiesviewagent", oauth.oauthOther, routes.getActivitiesViewAgent);   
   // Retorna la descripcion de una actividad para el agente.
   router.post("/getactivitiesdescriptionagent", oauth.oauthOther, routes.getActivitiesDescriptionAgent);   
-  // Asignar challenges por parte del tl
-  router.post("/postassignactivitiestl", oauth.oauthOther,routes.assignActivitiesTL);
+  // Asignar challenges desde TL y agentes.
+  router.post("/postassignchallenges", oauth.oauthOther,routes.postAssignChallenges);
   // Retorna los kpi de la campaña para la vista de KPI del Team leader
   router.post("/getkpiteamtl", oauth.oauthOther, routes.getkpiteamTL);
   // Retorna los agentes por kpi seleccionado en la vista KPI TL. 
@@ -61,8 +61,6 @@ module.exports = (router) => {
   // Retorna la informacio de los kpi por agente. 
   router.post("/getkpiandanlyticsagent", oauth.oauthOther, routes.getKpiandAnlyticsAgent);
 
-  // Asignar challenges y TPVs Agent-Agent 
-  router.post("/postassignagentagent", oauth.oauthOther,routes.postAssignAgentAgent);
   // Asignar challenges y TPVs Agent-Agent 
   router.post("/getanalyticskpirl", oauth.oauthOther,routes.getanalyticskpirl);
   router.post("/getanalyticsexprl", oauth.oauthOther,routes.getanalyticsexprl);
