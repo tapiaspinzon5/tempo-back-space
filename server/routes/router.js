@@ -68,7 +68,11 @@ module.exports = (router) => {
   router.post("/getanalyticsexprl", oauth.oauthOther,routes.getanalyticsexprl);
 
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
-  router.post("/getdashboardtl",oauth.oauthOther, oauth.oauthOther, routes.getDashboardTL ); 
+  router.post("/getdashboardtl", oauth.oauthOther, routes.getDashboardTL ); 
+  // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  router.post("/postassigntpv", oauth.oauthOther, routes.postassigntpv ); 
+
+
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES

@@ -869,6 +869,25 @@ exports.getDashboardTL = async (req, res) => {
     });
 };
 
+exports.postassigntpv = async (req, res) => {
+
+  const {idTpv, idccmsAssigned }= req.body;
+
+  sql
+    .query(
+      "spInsertTpvs",
+      parametros({idccms:req.query.idccms, idTpv, idccmsAssigned },"spInsertTpvs"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 
