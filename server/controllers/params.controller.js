@@ -237,6 +237,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idccms", req.idccmsAssigned, TYPES.Int),
       ]);
 
     case "spQueryLoadInstructions":

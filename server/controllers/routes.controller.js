@@ -291,12 +291,12 @@ exports.getTemplate = async (req, res) => {
 
 exports.getChanllenges = async (req, res) => {
 
-  const {context}= req.body;
+  const {context, idccmsAssigned }= req.body;
 
   sql
     .query(
       "spQueryActivities",
-      parametros({idccms:req.query.idccms, context},"spQueryActivities"
+      parametros({idccms:req.query.idccms, context,idccmsAssigned },"spQueryActivities"
       )
     )
     .then((result) => {
