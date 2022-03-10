@@ -301,6 +301,8 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("idKpi", req.idKpi, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("Time", req.time, TYPES.VarChar),
+        new SpParam("idccms", req.agentIdccms, TYPES.Int),
       ]);
 
     //TODO: Borrar para despues

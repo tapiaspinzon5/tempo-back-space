@@ -677,12 +677,12 @@ exports.getkpiteamTL = async (req, res) => {
 
 exports.getAgentsbykpiTL = async (req, res) => {
 
-  const { idKpi } = req.body;
+  const { idKpi, time, agentIdccms } = req.body;
 
   sql
     .query(
       "spQueryKpiTeamAgent",
-      parametros({ idccms: req.query.idccms, idKpi}, "spQueryKpiTeamAgent")
+      parametros({ idccms: req.query.idccms, idKpi, time, agentIdccms }, "spQueryKpiTeamAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
