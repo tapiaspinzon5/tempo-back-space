@@ -40,6 +40,7 @@ import AgentProfile from "../pages/Agent/AgentProfile";
 import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 import OptionsProfile from "../components/OptionsProfile";
+import TeamInformation from "../pages/TeamLeader/TeamInformation";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -52,7 +53,7 @@ const AppRouter = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
-  const [navLong, setNavLong] = useState(true);
+  const [navLong, setNavLong] = useState(false);
   const [seeProfile, setSeeProfile] = useState(false)
   const [notification, setNotification] = useState({
     title: "",
@@ -190,10 +191,10 @@ seeProfile&&
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
             <>
-            
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL count={count} />} />
               <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/profile" element={<AgentProfile profile={headerData}/>} />
               <Route
                 path="/followingteams"
                 element={<FollowingTeamsKPI count={count} />}
@@ -210,6 +211,7 @@ seeProfile&&
                 path="/badgesmanagement"
                 element={<BadgeManagement count={count} />}
               />
+              <Route path="/teaminformation" element={<TeamInformation/>} />
               <Route path="/teamprogress" element={<TeamsProgress />} />
               <Route path="/analytics" element={<Analytics count={count} />} />
             </>

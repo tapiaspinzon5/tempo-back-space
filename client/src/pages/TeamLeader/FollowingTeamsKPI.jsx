@@ -19,23 +19,8 @@ import Footer from "../../components/Footer";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
 import { AiOutlineLineChart, AiOutlineBarChart } from "react-icons/ai";
+import { MainPage } from "../../assets/styled/muistyled";
 
-const MainFT = styled(Grid)(({ theme }) => ({
-  position: "relative",
-  overflow: "hidden",
-  minHeight: "95vh",
-  width: "100%",
-  padding: "0 2rem",
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-
-  h5: {
-    fontWeight: "700",
-    color: "#3047B0",
-    margin: "2rem 0",
-  },
-}));
 
 const UsersBox = styled(Grid)(() => ({
   borderRadius: "20px",
@@ -101,7 +86,7 @@ const FollowingTeamsKPI = ({ count }) => {
     const getData = async () => {
       const data = await getKPIteamTL(idccms);
 
-      if (data && data.status === 200 && data.data.length > 0) {
+      if (data && data.status === 200 && data.data.length > 1) {
         setKpi(data.data[2].KpiDetallado);
       } else {
         setError(true);
@@ -143,7 +128,7 @@ const FollowingTeamsKPI = ({ count }) => {
   }, [usersKPI, typeChart]);
 
   return (
-    <MainFT>
+    <MainPage>
       <Header count={count} />
       <Typography variant="h5"> Following Team KPI</Typography>
 
@@ -255,7 +240,7 @@ const FollowingTeamsKPI = ({ count }) => {
         </UsersBox>
       </Grid>
       <Footer />
-    </MainFT>
+    </MainPage>
   );
 };
 

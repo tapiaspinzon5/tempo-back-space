@@ -86,6 +86,7 @@ const Header = ({ count }) => {
       }
     };
     data();
+    // eslint-disable-next-line
   }, []);
   
   useEffect(() => {
