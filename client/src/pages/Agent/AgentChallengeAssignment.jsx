@@ -167,8 +167,7 @@ export const AgentChallengeAssignment = ({ count }) => {
   const handleSubmitTpvs = async (tpv) => {
     setFullLoading(true);
     const dataToSendTpv = await validateDataCheckTpvs(users, tpv, userName);
-    console.log(dataToSendTpv);
-    /* const sendTpv = await assingTpvs(dataToSendTpv, idccms);
+    const sendTpv = await assingTpvs(dataToSendTpv, idccms);
     if (sendTpv && sendTpv.status === 200) {
       setFullLoading(false);
       MySwal.fire({
@@ -187,7 +186,7 @@ export const AgentChallengeAssignment = ({ count }) => {
         title: <p>Send Error</p>,
         icon: "error",
       });
-    } */
+    }
   };
 
   return (
