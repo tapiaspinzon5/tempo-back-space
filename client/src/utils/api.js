@@ -157,28 +157,6 @@ const downloadUsers = (idccms) => {
   }
 };
 
-//Asignación de actividades
-
-const assingActivities = (data, idccms) => {
-  try {
-    return axiosInstance
-      .post(`postassignactivitiestl?idccms=${idccms}`, {
-        tlName: data.tlName,
-        nameActivity: data.nameActivity,
-        idActivity: data.idActivity,
-        idccmsAssigned: data.idccmsAssigned,
-        fcmTokens: data.fcmTokens,
-      })
-      .catch(function (error) {
-        if (error.response) {
-          return error.response;
-        }
-      });
-  } catch (error) {
-    return Promise.resolve({ data: null, error: error });
-  }
-};
-
 //funcion para Traer los KPI del Team Leader
 const getKPIteamTL = (idccms) => {
   try {
@@ -225,7 +203,20 @@ const downloadHomeData = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
-
+//Trae data profile agente
+const downloadProfile = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`getagentprofiledata?idccms=${idccms}`)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 //Trae los quices del agente
 const loadQuizesUser = (idccms) => {
@@ -407,11 +398,55 @@ const getDataAnalytics = (idccms, kpi) => {
 /* TRANSVERSALES */
 
 //Traer los Challenges para asignar Tanto TL como AG
-const downloadActivities = (idccms) => {
+const downloadActivities = (ccmsAgent, idccms) => {
   try {
     return axiosInstance
       .post(`getchanllenges?idccms=${idccms}`, {
         context: 2,
+        idccmsAssigned: ccmsAgent,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Envia TPVs
+const assingTpvs = (data, idccms) => {
+  try {
+    return axiosInstance
+      .post(`postassigntpv?idccms=${idccms}`, {
+        userName: data.userName,
+        nameTPV: data.nameTPV,
+        idTpv: data.idTpv,
+        idccmsAssigned: data.idccmsAssigned,
+        fcmTokens: data.fcmTokens,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Asignación de actividades
+
+const assingChallenges = (data, idccms) => {
+  try {
+    return axiosInstance
+      .post(`postassignchallenges?idccms=${idccms}`, {
+        userName: data.userName,
+        nameChallenge: data.nameChallenge,
+        idChallenge: data.idChallenge,
+        idccmsAssigned: data.idccmsAssigned,
+        fcmTokens: data.fcmTokens,
       })
       .catch(function (error) {
         if (error.response) {
@@ -491,7 +526,7 @@ export {
   downloadUsers,
   downloadNotifications,
   getNotifications,
-  assingActivities,
+  assingChallenges,
   loadUserActivities,
   userActivityDesc,
   tokenNotification,
@@ -504,4 +539,6 @@ export {
   downloadReportExp,
   downloadReportKpi,
   downloadHomeDataTl,
+  downloadProfile,
+  assingTpvs,
 };

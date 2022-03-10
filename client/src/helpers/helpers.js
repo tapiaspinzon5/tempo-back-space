@@ -23,7 +23,6 @@ export const validateHeaders = (headers) => {
     return differentsArrays;
   }
 
-
   for (let i = 0; i < defaultHeaders.length; i++) {
     if (defaultHeaders[i] !== headers[i]) {
       differentsArrays = true;
@@ -223,12 +222,10 @@ export const shortName = (word) => {
   return newName;
 };
 
-export const validateDataCheck = (agents, activities, TLName) => {
+export const validateDataCheck = (agents, challenge, userName) => {
   const newData = [];
   const funData = () => {
     const ag = [];
-    const ac = [];
-    const acName = [];
     const tokens = [];
     agents.forEach((agt) => {
       if (agt.isChecked === true) {
@@ -237,17 +234,33 @@ export const validateDataCheck = (agents, activities, TLName) => {
       }
     });
 
-    activities.forEach((act) => {
-      if (act.isChecked === true) {
-        ac.push(act.Id);
-        acName.push(act.Name);
+    newData.push({
+      userName: userName,
+      nameChallenge: [challenge.Name],
+      idChallenge: [challenge.Id],
+      idccmsAssigned: ag,
+      fcmTokens: tokens,
+    });
+  };
+  funData();
+  return newData;
+};
+export const validateDataCheckTpvs = (agents, tpv, userName) => {
+  const newData = [];
+  const funData = () => {
+    const ag = [];
+    const tokens = [];
+    agents.forEach((agt) => {
+      if (agt.isChecked === true) {
+        ag.push(agt.ident);
+        tokens.push(agt.Token);
       }
     });
 
     newData.push({
-      tlName: TLName,
-      nameActivity: acName,
-      idActivity: ac,
+      userName: userName,
+      nameTPV: [tpv.TPV],
+      idTpv: [tpv.id],
       idccmsAssigned: ag,
       fcmTokens: tokens,
     });

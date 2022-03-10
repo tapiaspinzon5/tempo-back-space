@@ -41,9 +41,16 @@ export const ChallengeCard = ({ data, handleSubmit }) => {
         </Typography>
       </Box>
 
-      <Tooltip title={data.Description} placement="top" arrow>
-        <Button onClick={handleSubmit}>To Challenge </Button>
-      </Tooltip>
+      {data.Status === 0 && (
+        <Tooltip title={data.Description} placement="top" arrow>
+          <Button
+            onClick={() => handleSubmit(data)}
+            disabled={data.Status === 0 ? false : true}
+          >
+            To Challenge{" "}
+          </Button>
+        </Tooltip>
+      )}
     </CardActiviy>
   );
 };

@@ -18,11 +18,10 @@ export const UserChallenge = ({ user, handleUser }) => {
   return (
     <>
       <CardUser>
-        
         <Radio
           checked={user?.isChecked || false}
           onChange={handleUser}
-          value={user.Agent}
+          value={user.Agent + "-" + user.ident}
           name="radio-button"
           inputProps={{ "aria-label": "A" }}
         />

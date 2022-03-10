@@ -7,11 +7,11 @@ import tpv4 from "../../assets/images/tpv/tpv4.png";
 import tpv5 from "../../assets/images/tpv/tpv5.png";
 
 const tpv = [
-  { image: tpv1, msj: "You're fun to work with", amount: 110 },
-  { image: tpv2, msj: "You're a great leader", amount: 234 },
-  { image: tpv3, msj: "Thanks for your help", amount: 320 },
-  { image: tpv4, msj: "You're a Gamification wizard", amount: 111 },
-  { image: tpv5, msj: "You're a great friend at work", amount: 97 },
+  { image: tpv1 },
+  { image: tpv2 },
+  { image: tpv3 },
+  { image: tpv4 },
+  { image: tpv5 },
 ];
 
 const BoxTPVUser = styled(Box)(() => ({
@@ -33,7 +33,7 @@ const CardTPV = styled(Box)(() => ({
   },
 }));
 
-const TPVSection = () => {
+const TPVSection = ({ tpvs }) => {
   return (
     <BoxTPVUser>
       <Box>
@@ -54,13 +54,13 @@ const TPVSection = () => {
         </Typography>
       </Box>
 
-      {tpv.map((data, index) => (
+      {tpvs.map((data, index) => (
         <CardTPV key={index}>
-          <img src={data.image} alt={data.msj} />
+          <img src={tpv[index].image} alt={data.Element} />
           <Box width="60%">
-            <Typography variant="body2">{data.msj}</Typography>
+            <Typography variant="body2">{data.TPV}</Typography>
           </Box>
-          <Typography variant="body1">{data.amount}</Typography>
+          <Typography variant="body1">{data.Accumulated}</Typography>
         </CardTPV>
       ))}
     </BoxTPVUser>

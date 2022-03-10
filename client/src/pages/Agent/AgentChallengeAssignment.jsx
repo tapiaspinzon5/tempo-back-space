@@ -3,13 +3,27 @@ import { useSelector } from "react-redux";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
-import { downloadActivities, downloadUsers } from "../../utils/api";
+import {
+  downloadActivities,
+  downloadUsers,
+  assingChallenges,
+  assingTpvs,
+} from "../../utils/api";
+import LoadingComponent from "../../components/LoadingComponent";
 import { ModalLoading } from "../../components/ModalLoading";
 import { UserChallenge } from "../../components/Agents/Challenges/UserChallenge";
 import { ChallengeCard } from "../../components/Agents/Challenges/ChallengeCard";
 import TPVSectionChallenge from "../../components/Agents/Challenges/TPVSectionChallenge";
 import tpv1 from "../../assets/images/tpv/tpv1.png";
+import {
+  validateDataCheck,
+  validateDataCheckTpvs,
+} from "../../helpers/helpers";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 //import { onMessageListener } from "../../utils/firebase";
+
+const MySwal = withReactContent(Swal);
 
 const MainCA = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -66,31 +80,36 @@ const selectButton = {
 };
 export const AgentChallengeAssignment = ({ count }) => {
   const [loading, setLoading] = useState(false);
+  const [fullLoading, setFullLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  const TLName = userData.Nombre;
+  const userName = userData.Nombre;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
-  const [stage, setStage] = useState("Getting started");
   const [users, setUsers] = useState([]);
-  const [validator, setValidator] = useState(false);
   const [view, setView] = useState(true);
+  const [tpvs, setTpvs] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const activities = await downloadActivities(idccms);
-      if (
-        activities &&
-        activities.status === 200 &&
-        activities.data.length > 1
-      ) {
-        setActivity(activities.data);
-      } else {
-        setError(true);
-      }
       const user = await downloadUsers(idccms);
       if (user && user.status === 200 && user.data.length > 1) {
-        setUsers(user.data);
+        setLoading(true);
+        let ccmsAgent = user.data[0].Agents[0].ident;
+        user.data[0].Agents[0].isChecked = true;
+        setUsers(user.data[0].Agents);
+        setTpvs(user.data[1].Tpvs);
+        const activities = await downloadActivities(ccmsAgent, idccms);
+        if (
+          activities &&
+          activities.status === 200 &&
+          activities.data.length > 1
+        ) {
+          setActivity(activities.data);
+          setLoading(false);
+        } else {
+          setError(true);
+        }
       } else {
         setError(true);
       }
@@ -101,58 +120,79 @@ export const AgentChallengeAssignment = ({ count }) => {
   }, []);
 
   //funcion de asingacion de usuarios
-  const handleUser = (e) => {
+  const handleUser = async (e) => {
+    setLoading(true);
     const { value, checked } = e.target;
-
     let tempUser = users.map((user) =>
-      user.Agent === value
+      user.Agent === value.split("-")[0]
         ? { ...user, isChecked: checked }
         : { ...user, isChecked: false }
     );
     setUsers(tempUser);
-  };
-
-  ////////////////////////////// funcion de asingacion de Actividades
-  const handleBadge = (e) => {
-    setValidator(true);
-    const { name, checked } = e.target;
-
-    if (name === "selecct-all") {
-      if (activity[stage] !== undefined) {
-        let tempUser = activity[stage].map((badge) => {
-          return { ...badge, isChecked: checked };
-        });
-
-        setActivity(tempUser);
-      } else {
-        let tempUser = activity.map((badge) => {
-          return { ...badge, isChecked: checked };
-        });
-        setActivity(tempUser);
-      }
+    const activities = await downloadActivities(value.split("-")[1], idccms);
+    if (activities && activities.status === 200 && activities.data.length > 1) {
+      setActivity(activities.data);
+      setLoading(false);
     } else {
-      if (activity[stage] !== undefined) {
-        let tempUser = activity[stage].map((badge, index) =>
-          badge.Name === name ? { ...badge, isChecked: checked } : badge
-        );
-        setActivity(tempUser);
-      } else {
-        let tempUser = activity.map((badge, index) =>
-          badge.Name === name ? { ...badge, isChecked: checked } : badge
-        );
-        setActivity(tempUser);
-      }
+      setError(true);
     }
   };
 
-  ///Función Envio de Acctividades
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  ///Función Envio de Challenges
+  const handleSubmit = async (data) => {
+    setFullLoading(true);
+    const dataToSendChallenge = await validateDataCheck(users, data, userName);
+    const sendChallenge = await assingChallenges(dataToSendChallenge, idccms);
+    if (sendChallenge && sendChallenge.status === 200) {
+      setFullLoading(false);
+      MySwal.fire({
+        title: <p>Successful Assignments</p>,
+        icon: "success",
+        confirmButtonText: "Accept",
+        allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          window.location.reload();
+        }
+      });
+    } else {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>Send Error</p>,
+        icon: "error",
+      });
+    }
+  };
+  ///Función Envio de Tpvs
+  const handleSubmitTpvs = async (tpv) => {
+    setFullLoading(true);
+    const dataToSendTpv = await validateDataCheckTpvs(users, tpv, userName);
+    console.log(dataToSendTpv);
+    /* const sendTpv = await assingTpvs(dataToSendTpv, idccms);
+    if (sendTpv && sendTpv.status === 200) {
+      setFullLoading(false);
+      MySwal.fire({
+        title: <p>Successful Assignments</p>,
+        icon: "success",
+        confirmButtonText: "Accept",
+        allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          window.location.reload();
+        }
+      });
+    } else {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>Send Error</p>,
+        icon: "error",
+      });
+    } */
   };
 
   return (
     <>
-      {loading && <ModalLoading />}
+      {fullLoading && <ModalLoading />}
       <MainCA>
         <Header count={count} />
         <Grid container>
@@ -227,13 +267,17 @@ export const AgentChallengeAssignment = ({ count }) => {
               {view ? (
                 <Boxview>
                   {!error ? (
-                    activity?.map((act, index) => (
-                      <ChallengeCard
-                        key={index}
-                        data={act}
-                        handleSubmit={handleSubmit}
-                      />
-                    ))
+                    loading ? (
+                      <LoadingComponent />
+                    ) : (
+                      activity?.map((act, index) => (
+                        <ChallengeCard
+                          key={index}
+                          data={act}
+                          handleSubmit={handleSubmit}
+                        />
+                      ))
+                    )
                   ) : (
                     <Typography variant="h5" fontWeight={500}>
                       The Game Starts Soon
@@ -242,7 +286,10 @@ export const AgentChallengeAssignment = ({ count }) => {
                 </Boxview>
               ) : (
                 <Boxview>
-                  <TPVSectionChallenge />
+                  <TPVSectionChallenge
+                    tpvs={tpvs}
+                    handleSubmitTpvs={handleSubmitTpvs}
+                  />
                 </Boxview>
               )}
             </BoxActivity>

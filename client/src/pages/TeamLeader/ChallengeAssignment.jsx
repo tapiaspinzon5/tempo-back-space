@@ -11,7 +11,7 @@ import { validateDataCheck } from "../../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../../components/ModalLoading";
-import { assingActivities } from "../../utils/api";
+import { assingChallenges } from "../../utils/api";
 //import { onMessageListener } from "../../utils/firebase";
 
 const MySwal = withReactContent(Swal);
@@ -80,7 +80,7 @@ const ChallengeAssignment = ({ count }) => {
   const TLName = userData.Nombre;
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
-  const [stage, ] = useState("Getting started");
+  const [stage] = useState("Getting started");
   const [users, setUsers] = useState([]);
   const [validator, setValidator] = useState(false);
 
@@ -168,7 +168,7 @@ const ChallengeAssignment = ({ count }) => {
         dataSend[0].idActivity.length > 0 &&
         dataSend[0].idccmsAssigned.length > 0
       ) {
-        const resp = await assingActivities(dataSend[0], idccms);
+        const resp = await assingChallenges(dataSend[0], idccms);
         if (resp && resp.status === 200) {
           setLoading(false);
           MySwal.fire({
@@ -237,14 +237,13 @@ const ChallengeAssignment = ({ count }) => {
                       activity.filter(
                         (actividad) => actividad?.isChecked !== true
                       ).length < 1
-                    } 
+                    }
                   />
                   Select all
                 </Button>
                 <SearchAppBar />
               </Box>
               <Boxview>
-               
                 {!error ? (
                   activity?.map((act, index) => (
                     <ShowActivity
