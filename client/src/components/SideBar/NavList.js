@@ -4,7 +4,7 @@ import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
-import { FiPieChart } from "react-icons/fi";
+import { FiPieChart, FiUsers } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
@@ -117,6 +117,12 @@ export const NavList = ({ open, match, userData }) => {
                     <ImEqualizer2 size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Following KPI</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/teaminformation")}>
+                  <LIcon>
+                    <FiUsers size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Team Information</Typography>}
                 </LItem>
                 <LItem button onClick={() => navigate("/leaderboard")}>
                   <LIcon>

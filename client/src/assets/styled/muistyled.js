@@ -3,12 +3,18 @@ import { Grid, styled } from "@mui/material";
 export const MainPage = styled(Grid)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
-  //minHeight: "95vh",
+  minHeight: "95vh",
   width: "100%",
   padding: "1rem 2rem",
   //   [theme.breakpoints.down("md")]: {
   //     top: "15px",
   //   },
+
+   h5: {
+    fontWeight: "700",
+    color: "#3047B0",
+    margin: "2rem 0",
+  },
 }));
 
 export const BoxContain = styled(Grid)(() => ({

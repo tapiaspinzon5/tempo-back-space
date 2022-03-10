@@ -99,8 +99,6 @@ const HomeUser = ({ count }) => {
       : data;
 
 
-
-      console.log(idccms)
   return (
     <>
       <MainHomeUser
