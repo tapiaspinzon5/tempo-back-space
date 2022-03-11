@@ -171,10 +171,11 @@ export const QuizViewV2 = ({ setNavView }) => {
           <Button
             onClick={handleBack}
             sx={{
-              background: theme.palette.background.primary,
+                background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
               color: "#FFFFFF",
               margin: "10px",
               width: "160px",
+              borderRadius:'10px',
             }}
           >
             Back
@@ -184,7 +185,8 @@ export const QuizViewV2 = ({ setNavView }) => {
           <Button
             onClick={handleNext}
             sx={{
-              background: theme.palette.background.primary,
+              background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
+              borderRadius:'10px',
               color: "#FFFFFF",
               margin: "10px",
               width: "160px",

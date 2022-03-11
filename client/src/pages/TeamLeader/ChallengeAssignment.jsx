@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import ShowActivity from "../../components/teamLeader/ShowActivity";
@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../../components/ModalLoading";
 import { assingChallenges } from "../../utils/api";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 //import { onMessageListener } from "../../utils/firebase";
 
 const MySwal = withReactContent(Swal);
@@ -74,6 +76,8 @@ const selectButton = {
 };
 
 const ChallengeAssignment = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
@@ -93,7 +97,13 @@ const ChallengeAssignment = ({ count }) => {
         activities.data.length > 1
       ) {
         setActivity(activities.data);
-      } else {
+      } 
+      else if(activities.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
+      }
+      
+      else {
         setError(true);
       }
       const user = await downloadUsers(idccms);
@@ -102,6 +112,7 @@ const ChallengeAssignment = ({ count }) => {
       } else {
         setError(true);
       }
+
     };
 
     getData();

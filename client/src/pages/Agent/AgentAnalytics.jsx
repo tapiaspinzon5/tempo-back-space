@@ -4,8 +4,8 @@ import {
   Grid,
   Typography,
   styled,
-
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { MainPage } from "../../assets/styled/muistyled";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
@@ -13,8 +13,9 @@ import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytic
 import LineChartGP from "../../components/progressCharts/LineChartGP";
 import { getDataAnalytics } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { dataGraphics } from "../../helpers/helpers";
+import { logoutAction } from "../../redux/loginDuck";
 
 const BoxContain = styled(Box)(() => ({
   background: "#f9f9f9",
@@ -39,9 +40,10 @@ const BoxContain = styled(Box)(() => ({
 }));
 
 const AgentAnalytics = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  //const [timeView, setTimeView] = useState("");
   const [changeKpi, setChangeKpi] = useState("");
   const [kpi, setKpi] = useState([]);
   const [series, setSeries] = useState([]);
@@ -81,6 +83,9 @@ const AgentAnalytics = ({ count }) => {
           setLoadingKpi(false);
           setLoadingGraphic(false);
         }
+      }else if(kpiList.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
       }
     };
     getData();

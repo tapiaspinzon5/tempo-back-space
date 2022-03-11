@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid, styled, Typography, Button, Box } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
@@ -21,7 +21,9 @@ import {
 } from "../../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-//import { onMessageListener } from "../../utils/firebase";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
+
 
 const MySwal = withReactContent(Swal);
 
@@ -79,6 +81,8 @@ const selectButton = {
   textTransform: "none",
 };
 export const AgentChallengeAssignment = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [fullLoading, setFullLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
@@ -110,6 +114,10 @@ export const AgentChallengeAssignment = ({ count }) => {
         } else {
           setError(true);
         }
+      } 
+      else if(user.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
       } else {
         setError(true);
       }

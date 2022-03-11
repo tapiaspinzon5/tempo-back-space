@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Grid,
   styled,
@@ -20,6 +20,8 @@ import LineChartGP from "../../components/progressCharts/LineChartGP";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
 import { AiOutlineLineChart, AiOutlineBarChart } from "react-icons/ai";
 import { MainPage } from "../../assets/styled/muistyled";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 
 
 const UsersBox = styled(Grid)(() => ({
@@ -54,6 +56,8 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 
 const FollowingTeamsKPI = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [kpi, setKpi] = useState([]);
@@ -88,7 +92,13 @@ const FollowingTeamsKPI = ({ count }) => {
 
       if (data && data.status === 200 && data.data.length > 1) {
         setKpi(data.data[2].KpiDetallado);
-      } else {
+      } 
+      else if(data.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
+      }
+      
+      else {
         setError(true);
       }
     };

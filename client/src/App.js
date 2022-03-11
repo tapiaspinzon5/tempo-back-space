@@ -4,6 +4,8 @@ import DarkModeProvider from "./context/DarkModeProvider";
 import { Provider } from "react-redux";
 import generateStore from "./redux/store";
 
+
+
 const App = () => {
   const store = generateStore();
 

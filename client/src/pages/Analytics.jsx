@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Typography, Grid,  Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MainPage, BoxContain } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import { getDataLeaderboard } from "../utils/api";
@@ -12,8 +12,12 @@ import {
   deleteDuplicatesKpis,
   deleteDuplicatesScore,
 } from "../helpers/helpers";
+import { logoutAction } from "../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 
 const Analytics = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const ref = useRef();
@@ -47,6 +51,10 @@ const Analytics = ({ count }) => {
         setKpis(initialData.data[1].ListKpi);
         setData(dataOrder);
         setLoading(false);
+      }
+      else if(initialData.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
       }
     };
     getData();

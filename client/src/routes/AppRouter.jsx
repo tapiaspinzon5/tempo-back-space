@@ -41,7 +41,6 @@ import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 import OptionsProfile from "../components/OptionsProfile";
 import TeamInformation from "../pages/TeamLeader/TeamInformation";
-//import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
@@ -99,6 +98,8 @@ useEffect(()=>{
     }
     // eslint-disable-next-line
   }, [notification]);
+
+
   return (
     <Router>
       <ToastContainer
@@ -218,8 +219,9 @@ seeProfile&&
           )}
 
           {!userData?.Role && <Route path="/" element={<Login />} />}
+          {!userData?.Role && <Route path="*" element={<Login />} />}
 
-          {!userData?.Role && (
+          {userData?.Role && (
             <Route
               path="*"
               element={

@@ -10,10 +10,12 @@ import medal2 from "../assets/badges/welcome.png";
 import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { downloadHomeDataTl, tokenNotification } from "../utils/api";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
+import { logoutAction } from "../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 
 const MainHomeUser = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -34,6 +36,8 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
   },
 }));
 export const HomeTL = ({ count }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const useName = userData.Nombre;
@@ -48,12 +52,15 @@ export const HomeTL = ({ count }) => {
     const getData = async () => {
       const kpis = await downloadHomeDataTl(idccms);
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-        await setData(kpis.data);
-        await setTExp(kpis.data[6]);
-        await setCw(kpis.data[3]);
-        await setGp(kpis.data[4]);
+         setData(kpis.data);
+         setTExp(kpis.data[6]);
+         setCw(kpis.data[3]);
+         setGp(kpis.data[4]);
         setBadge(() => kpis.data[5]);
         setPodium(kpis.data[7].Podium);
+      }else if(kpis.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
