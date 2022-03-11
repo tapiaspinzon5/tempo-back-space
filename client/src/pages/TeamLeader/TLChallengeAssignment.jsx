@@ -128,7 +128,10 @@ export const TLChallengeAssignment = ({ count }) => {
   const handleSubmit = async (data) => {
     setFullLoading(true);
     const dataToSendChallenge = await validateDataCheck(users, data, userName);
-    const sendChallenge = await assingChallenges(dataToSendChallenge, idccms);
+    const sendChallenge = await assingChallenges(
+      dataToSendChallenge[0],
+      idccms
+    );
     if (sendChallenge && sendChallenge.status === 200) {
       setFullLoading(false);
       MySwal.fire({

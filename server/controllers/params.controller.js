@@ -345,7 +345,7 @@ exports.parametros = (req, tipo) => {
     case "spInsertTpvs":
       return parametrizacion([
         new SpParam("idTpv", req.idTpv, TYPES.Int),
-        new SpParam("idAssignmentUser", req.ident, TYPES.Int),
+        new SpParam("idAssignmentUser", req.idccms, TYPES.Int),
         new SpParam("ident", req.idccmsAssigned, TYPES.Int),
       ]);
       

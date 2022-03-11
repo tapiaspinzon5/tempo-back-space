@@ -102,6 +102,10 @@ const AgentAnalytics = ({ count }) => {
     stroke: {
       curve: "smooth",
     },
+    fill: {
+      type: "solid",
+      opacity: [0.35, 1],
+    },
     dataLabels: {
       enabled: false,
     },
@@ -140,12 +144,17 @@ const AgentAnalytics = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
+          let targetData = [];
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
+            targetData.push(data.data[1].KpiDetallado[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "Values", type: "area", data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);
@@ -162,17 +171,23 @@ const AgentAnalytics = ({ count }) => {
     getData();
     // eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     const handleChart = async () => {
       let seriesData = [];
       let categoriesData = [];
+      let targetData = [];
       if (timeView === "Day") {
         graph.forEach((dato) => {
           seriesData.push(dato.Actual.toFixed(2));
+          targetData.push(actualKpi.Target);
           categoriesData.push(dato.Date.split("T")[0]);
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
+        setSeries([
+          { name: "Values", type: typeChart, data: seriesData },
+          { name: "Target", type: "line", data: targetData },
+        ]);
       } else if (timeView === "Week") {
         const hash = {};
         let filterData = await graph.filter(function (current) {
