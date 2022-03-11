@@ -79,8 +79,8 @@ const HomeUser = ({ count }) => {
   useEffect(() => {
     if (homeData === "UnauthorizedError") {
       dispatch(logoutAction());
-
       navigate("/");
+      
     } else if (homeData !== null && homeData.length > 1) {
       setData(homeData);
       setTExp(homeData[6]);

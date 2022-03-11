@@ -52,11 +52,12 @@ const QuizDetails = () => {
           <Button
             onClick={() => navigate(`/quiz/${idquiz}`)}
             sx={{
-              background: theme.palette.background.primary,
+               background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
               color: "#FFFFFF",
               width: "240px",
               textTransform: "none",
               fontSize: "20px",
+              borderRadius:'10px',
             }}
           >
             Start the test

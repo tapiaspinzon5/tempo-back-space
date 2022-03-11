@@ -68,10 +68,10 @@ export const VideoView = () => {
           onClick={handleView}
           disabled={next}
           sx={{
-            background: theme.palette.background.primary,
+           background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
             color: "#FFFFFF",
-            //margin: "5px",
             width: "160px",
+            borderRadius:'10px',
           }}
         >
           Continue

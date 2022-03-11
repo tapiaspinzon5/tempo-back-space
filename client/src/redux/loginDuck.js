@@ -132,7 +132,6 @@ export const readUserActiveAction = () => (dispatch) => {
 };
 
 //action logout
-
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem("userTP");
   dispatch({

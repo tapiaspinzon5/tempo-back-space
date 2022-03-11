@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Typography, Grid, styled, Button, Box } from "@mui/material";
-//import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import { loadUserActivities } from "../utils/api";
 import ActivitiesViewComponent from "../components/Agents/activitiesview/ActivitiesViewComponent";
@@ -11,6 +11,7 @@ import img2 from "../assets/temp-image/Enmascarargrupo2040.png";
 import img3 from "../assets/temp-image/Enmascarargrupo2044.png";
 import img4 from "../assets/temp-image/Enmascarargrupo2046.png";
 import LoadingComponent from "../components/LoadingComponent";
+import { logoutAction } from "../redux/loginDuck";
 
 const MainViewver = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -44,10 +45,10 @@ const selectButton = {
 const images = [img1, img2, img3, img4];
 
 const ActivitiesView = () => {
+  const navigate = useNavigate()
+const dispatch = useDispatch()
   const userData = useSelector((store) => store.loginUser.userData);
-
   const idccms = userData.Idccms;
-
   const [quizUser, setQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -88,7 +89,12 @@ const ActivitiesView = () => {
           if (quizes.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
-        } else {
+        } 
+        else if(quizes.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
+        }
+        else {
           setNoData("The Game Starts Soon");
         }
       } else {
@@ -98,19 +104,23 @@ const ActivitiesView = () => {
           if (getActivities.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
-        } else {
+        } 
+        else if(getActivities.data === 'UnauthorizedError'){
+        dispatch(logoutAction());
+        navigate("/");
+        }   else{
           setNoData("The Game Starts Soon");
+          console.log(getActivities.data)
+
         }
       }
-      setLoading(false);
+           setLoading(false);
     };
     const handleLS = () => {
       localStorage.setItem("menuActivity", JSON.stringify(activities));
     };
 
-    // function generateRandom(max) {
-    //   return Math.floor(Math.random() * max);
-    // }
+
 
     getData();
     handleLS();
@@ -126,7 +136,6 @@ const ActivitiesView = () => {
       window.removeEventListener("mousemove", mousePosition);
     };
 
-    //mousePosition();
   }, []);
 
   return (

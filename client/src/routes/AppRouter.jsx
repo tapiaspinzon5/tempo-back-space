@@ -100,6 +100,8 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, [notification]);
+
+
   return (
     <Router>
       <ToastContainer
@@ -232,8 +234,9 @@ const AppRouter = () => {
           )}
 
           {!userData?.Role && <Route path="/" element={<Login />} />}
+          {!userData?.Role && <Route path="*" element={<Login />} />}
 
-          {!userData?.Role && (
+          {userData?.Role && (
             <Route
               path="*"
               element={

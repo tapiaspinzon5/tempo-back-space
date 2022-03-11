@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Grid,
   styled,
@@ -23,6 +23,8 @@ import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytic
 import { AiOutlineLineChart, AiOutlineBarChart } from "react-icons/ai";
 import { MainPage } from "../../assets/styled/muistyled";
 import { ConvertMonth } from "../../helpers/helpers";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 
 const UsersBox = styled(Grid)(() => ({
   borderRadius: "20px",
@@ -76,6 +78,8 @@ const BoxFormControl = styled(FormControl)(() => ({
   margin: " 0 2rem",
 }));
 const AgentAnalytics = ({ count }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [view, setView] = useState(true);
@@ -148,6 +152,9 @@ const AgentAnalytics = ({ count }) => {
         } else {
           setError(true);
         }
+      } else if (data.data === "UnauthorizedError") {
+        dispatch(logoutAction());
+        navigate("/");
       } else {
         setError(true);
       }
