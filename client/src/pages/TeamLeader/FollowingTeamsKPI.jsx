@@ -98,7 +98,7 @@ const FollowingTeamsKPI = ({ count }) => {
   const [showChart, setShowChart] = useState(false);
   const [timeView, setTimeView] = useState("Day");
   const [series, setSeries] = useState([]);
-  const [typeChart, setTypeChart] = useState("area");
+  const [typeChart, setTypeChart] = useState("line");
   const [options, setOptions] = useState({
     stroke: {
       curve: "smooth",
@@ -148,7 +148,7 @@ const FollowingTeamsKPI = ({ count }) => {
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([{ name: "", type: "area", data: seriesData }]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);

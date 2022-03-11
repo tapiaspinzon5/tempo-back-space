@@ -24,7 +24,6 @@ import withReactContent from "sweetalert2-react-content";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 
-
 const MySwal = withReactContent(Swal);
 
 const MainCA = styled(Grid)(({ theme }) => ({
@@ -81,8 +80,8 @@ const selectButton = {
   textTransform: "none",
 };
 export const AgentChallengeAssignment = ({ count }) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [fullLoading, setFullLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
@@ -114,8 +113,7 @@ export const AgentChallengeAssignment = ({ count }) => {
         } else {
           setError(true);
         }
-      } 
-      else if(user.data === 'UnauthorizedError'){
+      } else if (user.data === "UnauthorizedError") {
         dispatch(logoutAction());
         navigate("/");
       } else {
@@ -150,6 +148,7 @@ export const AgentChallengeAssignment = ({ count }) => {
   const handleSubmit = async (data) => {
     setFullLoading(true);
     const dataToSendChallenge = await validateDataCheck(users, data, userName);
+    console.log(dataToSendChallenge);
     const sendChallenge = await assingChallenges(dataToSendChallenge, idccms);
     if (sendChallenge && sendChallenge.status === 200) {
       setFullLoading(false);
