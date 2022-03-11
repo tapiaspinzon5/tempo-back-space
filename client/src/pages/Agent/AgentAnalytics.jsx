@@ -1,50 +1,99 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  styled,
-
-} from "@mui/material";
-import { MainPage } from "../../assets/styled/muistyled";
-import Footer from "../../components/Footer";
-import Header from "../../components/homeUser/Header";
-import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
-import LineChartGP from "../../components/progressCharts/LineChartGP";
-import { getDataAnalytics } from "../../utils/api";
-import LoadingComponent from "../../components/LoadingComponent";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { dataGraphics } from "../../helpers/helpers";
+import {
+  Grid,
+  styled,
+  Typography,
+  Box,
+  Divider,
+  IconButton,
+  FormControl,
+  Select,
+  MenuItem,
+  Button,
+  InputLabel,
+} from "@mui/material";
+import LoadingComponent from "../../components/LoadingComponent";
+import Header from "../../components/homeUser/Header";
+import { FiPieChart } from "react-icons/fi";
+import { getKPIteamTL, getUsersKPI } from "../../utils/api";
+import Footer from "../../components/Footer";
+import LineChartGP from "../../components/progressCharts/LineChartGP";
+import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
+import { AiOutlineLineChart, AiOutlineBarChart } from "react-icons/ai";
+import { MainPage } from "../../assets/styled/muistyled";
+import { ConvertMonth } from "../../helpers/helpers";
 
-const BoxContain = styled(Box)(() => ({
-  background: "#f9f9f9",
-  padding: "1rem",
-  height: "60vh",
-  borderRadius: "10px",
-  color: "#3047B0",
-
+const UsersBox = styled(Grid)(() => ({
+  borderRadius: "20px",
+  padding: " 0 0 0 1rem",
+  overflowY: "scroll",
+  height: "65vh",
+  p: {
+    color: "#3047B0",
+    fontWeight: 700,
+  },
   "&::-webkit-scrollbar": {
-    width: "6px" /* width of the entire scrollbar */,
+    width: "6px",
   },
 
   "&::-webkit-scrollbar-track": {
-    background: "white" /* color of the tracking area */,
+    background: "white",
   },
   "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "#e8e8e8" /* color of the scroll thumb */,
-    borderRadius: "20px" /* roundness of the scroll thumb */,
-    marginRight: "1rem",
-    //border: "3px solid transparent" /* creates padding around scroll thumb */,
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
   },
 }));
+const BoxSelectBadge = styled(Grid)(() => ({
+  button: {
+    textTransform: "none",
+    background: "#fff",
+    margin: "5px",
+    width: "9rem",
+    fontWeight: "600",
+    border: "1px solid #00000009",
+  },
 
+  margin: "2rem 0",
+}));
+
+const Item = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(4),
+  color: theme.palette.text.secondary,
+  background: "#f9f9f9",
+  minHeight: "50vh",
+  borderRadius: "20px",
+}));
+const selectButton = {
+  boxShadow: "0px 3px 6px #00000029",
+  borderRadius: "10px",
+  textTransform: "none",
+};
+const BoxFormControl = styled(FormControl)(() => ({
+  width: "9rem",
+  margin: " 0 2rem",
+}));
 const AgentAnalytics = ({ count }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  //const [timeView, setTimeView] = useState("");
-  const [changeKpi, setChangeKpi] = useState("");
+  const [view, setView] = useState(true);
   const [kpi, setKpi] = useState([]);
+  const [actualKpi, setActualKpi] = useState([]);
+  const [agents, setAgents] = useState([]);
+  const [actualAgent, setActualAgent] = useState("");
+  const [usersKPI, setUsersKPI] = useState([]);
+  const [graph, setGraph] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingGraph, setLoadingGraph] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [loadingKpi, setLoadingKpi] = useState(false);
+  const [error, setError] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+  const [timeView, setTimeView] = useState("Day");
   const [series, setSeries] = useState([]);
+  const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
     stroke: {
       curve: "smooth",
@@ -54,108 +103,276 @@ const AgentAnalytics = ({ count }) => {
     },
     xaxis: {
       categories: [],
+      labels: {
+        style: {
+          fontSize: "10px",
+        },
+      },
     },
   });
-  const [loadingKpi, setLoadingKpi] = useState(false);
-  const [loadingGraphic, setLoadingGraphic] = useState(false);
-
   useEffect(() => {
-    setLoadingKpi(true);
-    setLoadingGraphic(true);
     const getData = async () => {
-      const kpiList = await getDataAnalytics(idccms, "%Abs");
-      if (kpiList && kpiList.status === 200 && kpiList.data.length > 1) {
-        const dataGraphic = await getDataAnalytics(
+      setLoading(true);
+      setLoadingGraph(true);
+      setLoadingList(true);
+      const data = await getKPIteamTL(idccms);
+      if (data && data.status === 200 && data.data.length > 1) {
+        setKpi(data.data[1].KpiDetallado);
+        setAgents(data.data[0].AgentsTeams);
+        setActualKpi(data.data[1].KpiDetallado[0]);
+        setLoading(false);
+        const listAndGraph = await getUsersKPI(
           idccms,
-          kpiList.data[1].KpiDetallado[0].Kpi
+          data.data[1].KpiDetallado[0].IdRegistryKpi,
+          timeView,
+          idccms
         );
         if (
-          dataGraphic &&
-          dataGraphic.status === 200 &&
-          dataGraphic.data.length > 1
+          listAndGraph &&
+          listAndGraph.status === 200 &&
+          listAndGraph.data.length > 1
         ) {
-          const graphic = dataGraphics(dataGraphic.data[0].KPI);
-          setSeries([graphic[0]]);
-          setOptions({ ...options, xaxis: { categories: graphic[1] } });
-          setKpi(kpiList.data[1].KpiDetallado);
-          setLoadingKpi(false);
-          setLoadingGraphic(false);
+          setUsersKPI(listAndGraph.data[1].KpiValues);
+          setGraph(listAndGraph.data[0].GraphicAverage);
+          let seriesData = [];
+          let categoriesData = [];
+          listAndGraph.data[0].GraphicAverage.forEach((dato) => {
+            seriesData.push(dato.Actual.toFixed(2));
+            categoriesData.push(dato.Date.split("T")[0]);
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+          setLoading(false);
+          setLoadingGraph(false);
+          setLoadingList(false);
+        } else {
+          setError(true);
         }
+      } else {
+        setError(true);
       }
     };
     getData();
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
-    setLoadingGraphic(true);
-    const getData = async () => {
-      const dataGraphic = await getDataAnalytics(idccms, changeKpi);
-      if (
-        dataGraphic &&
-        dataGraphic.status === 200 &&
-        dataGraphic.data.length > 1
-      ) {
-        const graphic = dataGraphics(dataGraphic.data[0].KPI);
-        setSeries([graphic[0]]);
-        setOptions({ ...options, xaxis: { categories: graphic[1] } });
-    
-        setLoadingGraphic(false);
+    const handleChart = async () => {
+      let seriesData = [];
+      let categoriesData = [];
+      if (timeView === "Day") {
+        graph.forEach((dato) => {
+          seriesData.push(dato.Actual.toFixed(2));
+          categoriesData.push(dato.Date.split("T")[0]);
+        });
+        setOptions({ ...options, xaxis: { categories: categoriesData } });
+        setSeries([{ name: "", data: seriesData }]);
+      } else if (timeView === "Week") {
+        const hash = {};
+        let filterData = await graph.filter(function (current) {
+          let exists = !hash[current.Week];
+          hash[current.Week] = true;
+          return exists;
+        });
+        filterData.forEach((dato) => {
+          seriesData.push(dato.AverageWeekAgent.toFixed(2));
+          categoriesData.push(dato.Week.split("T")[0]);
+        });
+        setOptions({ ...options, xaxis: { categories: categoriesData } });
+        setSeries([{ name: "", data: seriesData }]);
+      } else if (timeView === "Month") {
+        const hash = {};
+        let filterData = await graph.filter(function (current) {
+          let exists = !hash[current.Month];
+          hash[current.Month] = true;
+          return exists;
+        });
+        filterData.forEach((dato) => {
+          seriesData.push(dato.AverageMonthAgent.toFixed(2));
+          categoriesData.push(ConvertMonth(dato.Month));
+        });
+        setOptions({ ...options, xaxis: { categories: categoriesData } });
+        setSeries([{ name: "", data: seriesData }]);
+      } else {
+        setError(true);
       }
     };
-    getData();
-    // eslint-disable-next-line
-  }, [changeKpi]);
 
-  const  handleKPI =()=>{
-   
-  }
-  
+    handleChart();
+    // eslint-disable-next-line
+  }, [graph, typeChart]);
+
+  const handleTimeView = (e) => {
+    e.preventDefault();
+    setTypeChart("area");
+    setLoadingGraph(true);
+    setLoadingList(true);
+    setSeries([]);
+    setOptions({
+      stroke: {
+        curve: "smooth",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "10px",
+          },
+        },
+      },
+    });
+    setTimeView(e.target.value);
+    const newData = async () => {
+      const listAndGraph = await getUsersKPI(
+        idccms,
+        actualKpi.IdRegistryKpi,
+        e.target.value,
+        idccms //ccms id del integrante del equipo
+      );
+      if (
+        listAndGraph &&
+        listAndGraph.status === 200 &&
+        listAndGraph.data.length > 1
+      ) {
+        setGraph(listAndGraph.data[0].GraphicAverage);
+        setLoadingGraph(false);
+      } else {
+        setError(true);
+      }
+    };
+    newData();
+  };
+
+  const handleKPI = async (idKpi) => {
+    setTypeChart("area");
+    setLoadingGraph(true);
+    setLoadingList(true);
+    setSeries([]);
+    setOptions({
+      stroke: {
+        curve: "smooth",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: "10px",
+          },
+        },
+      },
+    });
+    setTimeView("Day");
+    const newData = async () => {
+      const listAndGraph = await getUsersKPI(
+        idccms,
+        idKpi,
+        "Day",
+        idccms //ccms id del integrante del equipo
+      );
+      if (
+        listAndGraph &&
+        listAndGraph.status === 200 &&
+        listAndGraph.data.length > 1
+      ) {
+        setGraph(listAndGraph.data[0].GraphicAverage);
+        setUsersKPI(listAndGraph.data[1].KpiValues);
+        setLoadingGraph(false);
+        setLoadingList(false);
+      } else {
+        setError(true);
+      }
+    };
+    newData();
+  };
   return (
     <MainPage>
       <Header count={count} />
-      <Box display="flex" color="#3047B0" alignItems="center" marginY="1rem">
-        <Typography variant="h5" marginRight="1rem">
-          {" "}
-          KPI's
-        </Typography>
-        <Typography variant="body1"> Name team - AMAZON</Typography>
-      </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          {loadingKpi ? (
-            <LoadingComponent />
-          ) : (
-            <BoxContain sx={{ overflowY: "scroll" }}>
-              {kpi.map((kpi, index) => (
-                <KpiCardUserAnalytics
-                  kpi={kpi}
-                  key={index}
-                  setChangeKpi={setChangeKpi}
-                   handleKPI={ handleKPI}
-                />
-              ))}
-            </BoxContain>
-          )}
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <BoxContain>
+      <Typography variant="h5"> Following Team KPI</Typography>
+      <Grid container>
+        <UsersBox item xs={12} md={6}>
+          <Item>
+            <Typography variant="body1" marginBottom={2}>
+              KPIs Name Team - Campaña
+            </Typography>
+            <Divider sx={{ borderColor: "#e8e8e8" }} />
+
+            {!error ? (
+              !loadingKpi ? (
+                kpi?.map((detail, index) => (
+                  <KpiCardUserAnalytics
+                    key={index}
+                    kpi={detail}
+                    setActualKpi={setActualKpi}
+                    handleKPI={handleKPI}
+                  />
+                ))
+              ) : (
+                <LoadingComponent />
+              )
+            ) : (
+              <Typography variant="body1" marginBottom={2}>
+                Game starts soon
+              </Typography>
+            )}
+          </Item>
+        </UsersBox>
+
+        <UsersBox item xs={12} md={6}>
+          <Item>
             <Box
               display="flex"
               justifyContent="space-between"
+              padding="0 2rem"
               alignItems="center"
             >
-              <Typography variant="h6">Graphic data</Typography>
-              <Box sx={{ minWidth: 120 }}>
-           
+              <>
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="time-view-label">Time view</InputLabel>
+                    <Select
+                      labelId="time-view-label"
+                      id="time-view"
+                      value={timeView}
+                      label="Time view"
+                      onChange={handleTimeView}
+                    >
+                      <MenuItem value="Day">Day</MenuItem>
+                      <MenuItem value="Week">Week</MenuItem>
+                      <MenuItem value="Month">Month</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+                <IconButton onClick={() => setTypeChart("area")}>
+                  <AiOutlineLineChart />
+                </IconButton>
+                <IconButton onClick={() => setTypeChart("bar")}>
+                  <AiOutlineBarChart />
+                </IconButton>
+              </>
+              <Box display="flex" alignItems="center">
+                <Typography variant="body1" marginRight="3rem">
+                  {usersKPI[0]?.Kpi}
+                </Typography>
               </Box>
             </Box>
-            {loadingGraphic ? (
-              <LoadingComponent />
+            <Divider sx={{ borderColor: "#e8e8e8" }} />
+
+            {!loadingGraph ? (
+              <LineChartGP
+                series={series}
+                options={options}
+                typeChart={typeChart}
+              />
             ) : (
-              <LineChartGP series={series} options={options} />
+              <LoadingComponent />
             )}
-          </BoxContain>
-        </Grid>
+          </Item>
+        </UsersBox>
       </Grid>
       <Footer />
     </MainPage>

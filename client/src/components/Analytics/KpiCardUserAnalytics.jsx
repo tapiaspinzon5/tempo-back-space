@@ -15,12 +15,11 @@ const BoxCard = styled(Box)(() => ({
   boxShadow: "0px 3px 6px #00000029",
 }));
 
-const KpiCardUserAnalytics = ({ kpi, setChangeKpi, handleKPI }) => {
+const KpiCardUserAnalytics = ({ kpi, setActualKpi, handleKPI }) => {
   const handleChange = () => {
-    setChangeKpi(kpi.Kpi);
-    handleKPI(kpi.IdRegistryKpi)
+    setActualKpi(kpi);
+    handleKPI(kpi.IdRegistryKpi);
   };
-
 
   return (
     <BoxCard>

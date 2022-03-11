@@ -86,19 +86,19 @@ const ChallengeAssignment = ({ count }) => {
 
   useEffect(() => {
     const getData = async () => {
+      const user = await downloadUsers(idccms);
+      if (user && user.status === 200 && user.data.length > 1) {
+        setUsers(user.data[0].Agents);
+      } else {
+        setError(true);
+      }
       const activities = await downloadActivities(idccms);
       if (
         activities &&
         activities.status === 200 &&
         activities.data.length > 1
       ) {
-        setActivity(activities.data);
-      } else {
-        setError(true);
-      }
-      const user = await downloadUsers(idccms);
-      if (user && user.status === 200 && user.data.length > 1) {
-        setUsers(user.data);
+        setActivity(activities.data[0]);
       } else {
         setError(true);
       }

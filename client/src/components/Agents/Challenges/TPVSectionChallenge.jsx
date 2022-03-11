@@ -48,7 +48,7 @@ const TPVSectionChallenge = ({ tpvs, handleSubmitTpvs }) => {
   return (
     <BoxTPVUser>
       {tpvs.map((data, index) => (
-        <CardTPV key={index + "tpv"}>
+        <CardTPV key={index}>
           <img
             src={tpv[index].image}
             alt={data.Element}

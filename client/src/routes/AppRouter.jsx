@@ -41,6 +41,7 @@ import Analytics from "../pages/Analytics";
 import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 import OptionsProfile from "../components/OptionsProfile";
 import TeamInformation from "../pages/TeamLeader/TeamInformation";
+import { TLChallengeAssignment } from "../pages/TeamLeader/TLChallengeAssignment";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -48,13 +49,13 @@ const MainApp = styled(Grid)(() => ({
 }));
 
 const AppRouter = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const headerData = useSelector((store) => store.homeData.headerData);
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
   const [navLong, setNavLong] = useState(false);
-  const [seeProfile, setSeeProfile] = useState(false)
+  const [seeProfile, setSeeProfile] = useState(false);
   const [notification, setNotification] = useState({
     title: "",
     body: "",
@@ -86,12 +87,12 @@ const AppRouter = () => {
         </div>
       );
   };
-useEffect(()=>{
-  if(idccms > 0){
-    dispatch(headerDataAction(idccms))
-  }
+  useEffect(() => {
+    if (idccms > 0) {
+      dispatch(headerDataAction(idccms));
+    }
     // eslint-disable-next-line
-},[])
+  }, []);
   useEffect(() => {
     if (notification?.title) {
       notify();
@@ -113,18 +114,25 @@ useEffect(()=>{
         pauseOnHover
       />
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.NumberLogins > 1 && userData?.Role && navView && <>
-        <Navbar seeProfile={seeProfile} setSeeProfile={setSeeProfile} avatar={headerData?.AvatarProfile}   setNavLong={setNavLong}/>
-       {
-seeProfile&&
-       <OptionsProfile  setSeeProfile={setSeeProfile} profile={headerData}  navLong={navLong}/>
-       } 
-         
-        </>
-        
-        }
+        {userData?.NumberLogins > 1 && userData?.Role && navView && (
+          <>
+            <Navbar
+              seeProfile={seeProfile}
+              setSeeProfile={setSeeProfile}
+              avatar={headerData?.AvatarProfile}
+              setNavLong={setNavLong}
+            />
+            {seeProfile && (
+              <OptionsProfile
+                setSeeProfile={setSeeProfile}
+                profile={headerData}
+                navLong={navLong}
+              />
+            )}
+          </>
+        )}
         {userData?.NumberLogins === 1 && <VideoView />}
- 
+
         <Routes>
           {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
             <>
@@ -140,7 +148,10 @@ seeProfile&&
                 path="/leaderboard"
                 element={<LeaderBoard count={count} />}
               />
-              <Route path="/profile" element={<AgentProfile profile={headerData}/>} />
+              <Route
+                path="/profile"
+                element={<AgentProfile profile={headerData} />}
+              />
               <Route
                 path="/challenge"
                 element={<AgentChallengeAssignment count={count} />}
@@ -194,7 +205,10 @@ seeProfile&&
               <Route path="/" element={<Navigate to="/hometl" />} />
               <Route path="/hometl" element={<HomeTL count={count} />} />
               <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/profile" element={<AgentProfile profile={headerData}/>} />
+              <Route
+                path="/profile"
+                element={<AgentProfile profile={headerData} />}
+              />
               <Route
                 path="/followingteams"
                 element={<FollowingTeamsKPI count={count} />}
@@ -205,13 +219,13 @@ seeProfile&&
               />
               <Route
                 path="/challengeasignment"
-                element={<ChallengeAssignment count={count} />}
+                element={<TLChallengeAssignment count={count} />}
               />
               <Route
                 path="/badgesmanagement"
                 element={<BadgeManagement count={count} />}
               />
-              <Route path="/teaminformation" element={<TeamInformation/>} />
+              <Route path="/teaminformation" element={<TeamInformation />} />
               <Route path="/teamprogress" element={<TeamsProgress />} />
               <Route path="/analytics" element={<Analytics count={count} />} />
             </>

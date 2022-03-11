@@ -42,7 +42,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
           >
             {leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
             {kpis.map((kpi, index) => (
-              <MenuItem key={index + kpi.Kpi} value={kpi.Kpi}>
+              <MenuItem key={index} value={kpi.Kpi}>
                 {kpi.Kpi}
               </MenuItem>
             ))}

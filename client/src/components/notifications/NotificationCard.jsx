@@ -31,6 +31,7 @@ const NotificationCard = ({ info }) => {
   const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
+  console.log(info);
   let fecha;
   let hora;
   let fechaBase = new Date(info.Date).toLocaleString([], {
@@ -78,7 +79,17 @@ const NotificationCard = ({ info }) => {
   }
   const handleClick = async () => {
     await updateStatusNotifications(idccms, info.IdNotification);
-    navigate(`/activitiesview/${info.IdChallenge}/${1}`);
+    if (userData.Role === "Team Leader") {
+      navigate("/notifications");
+    } else {
+      if (info.TypeActivity === "Challenge") {
+        navigate(`/activitiesview/${info.IdChallenge}/${2}`);
+      } else if (info.TypeActivity === "Activity") {
+        navigate(`/activitiesview/${info.IdChallenge}/${1}`);
+      } else {
+        navigate("/notifications");
+      }
+    }
   };
 
   return (
