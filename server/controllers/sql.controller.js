@@ -8,13 +8,13 @@ exports.query = (storedProcedure, parametros) => {
 
     return new Promise((resolve, reject) => {
 
-        var conn = new Connection(properties.configtest);
+        let conn = new Connection(properties.configtest);
         conn.on('connect', (err) => {
             if (err) {
                 console.log(err)
                 reject('error while connecting server')
             } else {
-                request = new Request(storedProcedure, (err, rowCount, rows) => {
+                let request = new Request(storedProcedure, (err, rowCount, rows) => {
                     if (err) {
                         console.log('error proc:', err.procName, ' - message: ', err.message, ' - procline', err.lineNumber)
                         reject('error in query execution')
@@ -70,7 +70,7 @@ exports.query = (storedProcedure, parametros) => {
 
 let injectjson = (rows) => {
     return new Promise((resolve, reject) => {
-        jsonArray = []
+        let jsonArray = []
         rows.forEach((columns) => {
             let rowObject = {};
             columns.forEach((column) => {
