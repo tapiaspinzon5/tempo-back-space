@@ -76,7 +76,6 @@ export const TLChallengeAssignment = ({ count }) => {
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
   const [users, setUsers] = useState([]);
-  console.log(userData);
   useEffect(() => {
     const getData = async () => {
       const user = await downloadUsers(idccms);

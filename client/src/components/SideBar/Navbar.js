@@ -35,7 +35,6 @@ export const Navbar = ({seeProfile, setSeeProfile, avatar, setNavLong}) => {
   const theme = useTheme();
   const match = useMediaQuery(theme.breakpoints.up("md"));
   const handleWidth = () => {
-    console.log('abriendo ')
           setOpen(!open)
           setNavLong(!open)
 }

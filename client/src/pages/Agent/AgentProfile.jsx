@@ -26,7 +26,6 @@ const AgentProfile = ({ profile }) => {
     const getData = async () => {
       setLoading(true);
       const userData = await downloadProfile(idccms);
-      console.log(userData.data[1]);
       if (userData && userData.status === 200 && userData.data.length > 1) {
         setLoading(false);
         setTpvs(userData.data[1].Tpv);

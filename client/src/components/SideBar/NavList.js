@@ -4,7 +4,7 @@ import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
-import { FiPieChart, FiUsers } from "react-icons/fi";
+import { FiPieChart, FiUploadCloud, FiUsers } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
@@ -102,6 +102,18 @@ export const NavList = ({ open, match, userData }) => {
         }
         {
           <>
+            {userData === "Reporting Lead" && (
+              <LItem button onClick={() => navigate("/upkpi")}>
+                <LIcon>
+                  <FiUploadCloud size={25} color="#fff" />
+                </LIcon>
+                {open && match && <Typography>Library</Typography>}
+              </LItem>
+            )}
+          </>
+        }
+        {
+          <>
             {userData === "Team Leader" && (
               <>
                 <LItem button onClick={() => navigate("/challengeasignment")}>
@@ -140,12 +152,7 @@ export const NavList = ({ open, match, userData }) => {
             )}
           </>
         }
-        {/* <LItem button onClick={logOut}>
-          <LIcon>
-            <FiLogOut size={25} color="#fff" />
-          </LIcon>
-          {open && match && <Typography>Logout</Typography>}
-        </LItem> */}
+       
       </ContentList>
     </>
   );

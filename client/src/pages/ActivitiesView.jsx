@@ -57,23 +57,19 @@ const dispatch = useDispatch()
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    console.log('primer Effect')
       if (localStorage.getItem("menuActivity")) {
         setActivities(()=>JSON.parse(localStorage.getItem("menuActivity")));
-        console.log('existe localstorage')
       }
       else {
         setActivities({
           type: "Quizes",
           context: 3,
         });
-        console.log('NO existe localstora')
     }
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    console.log('segundo Effect')
     setUserActivities([]);
     setLoading(true);
     const context = activities.context;
@@ -137,7 +133,6 @@ const dispatch = useDispatch()
   }, []);
 
 
-    console.log(activities)
   return (
     <Grid width="100%">
       <MainViewver>

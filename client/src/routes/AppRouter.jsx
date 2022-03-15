@@ -42,6 +42,7 @@ import AgentAnalytics from "../pages/Agent/AgentAnalytics";
 import OptionsProfile from "../components/OptionsProfile";
 import TeamInformation from "../pages/TeamLeader/TeamInformation";
 import { TLChallengeAssignment } from "../pages/TeamLeader/TLChallengeAssignment";
+import KpiUpload from "../pages/Rep Lead/KpiUpload";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -73,7 +74,7 @@ const AppRouter = () => {
         url: payload?.data?.Url,
       });
     })
-    .catch((err) => console.log("failed: ", err));
+    .catch((err) => alert("failed: ", err));
 
   const notify = () => {
     notification?.title &&
@@ -193,6 +194,7 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL count={count} />} />
               <Route path="/upagents" element={<UpAgents />} />
+              <Route path="/upkpi" element={<KpiUpload />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (

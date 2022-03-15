@@ -58,9 +58,12 @@ const NotificationsPage = ({ count }) => {
     const traerNotificaciones = async () => {
       const data = await getNotifications(idccms, skipUser, limitUser, 1);
       setNotificationUser(data.data);
-      const pages =
-        data.data[0].NotificationRead + data.data[0].NotificationUnread;
-      setCountUser(parseInt(pages / 10 + 1));
+      if(data.data.length > 0){
+        const pages =data.data[0].NotificationRead + data.data[0].NotificationUnread;
+        setCountUser(parseInt(pages / 10 + 1));
+      }else{
+        setCountUser(1)
+      }
       setLoading(false);
     };
     traerNotificaciones();
@@ -72,9 +75,14 @@ const NotificationsPage = ({ count }) => {
     const traerNotificaciones = async () => {
       const dataTeam = await getNotifications(idccms, skipTeam, limitTeam, 2);
       setNotificationTeam(dataTeam.data);
-      const pagesTeam =
-        dataTeam.data[0].NotificationRead + dataTeam.data[0].NotificationUnread;
-      setCountTeam(parseInt(pagesTeam / 10 + 1));
+
+        if(dataTeam.data.length > 0){
+        const pagesTeam =
+          dataTeam.data[0].NotificationRead + dataTeam.data[0].NotificationUnread;
+        setCountTeam(parseInt(pagesTeam / 10 + 1));
+      }else{
+        setCountTeam(1)
+      }
       setLoading2(false);
     };
     traerNotificaciones();
@@ -102,6 +110,8 @@ const NotificationsPage = ({ count }) => {
     }
   };
 
+
+  console.log(notificationUser.length)
   return (
     <MainNotification>
       <Header count={count} />
@@ -114,11 +124,17 @@ const NotificationsPage = ({ count }) => {
             {loading ? (
               <LoadingComponent />
             ) : (
-              <div>
-                {notificationUser.map((note, index) => (
+              <>
+                {
+                  notificationUser.length > 0 ?
+                  notificationUser.map((note, index) => (
                   <NotificationCard info={note} key={index} />
-                ))}
-              </div>
+                )) :
+                 <Typography variant="h6" color="initial">
+            No Notifications
+          </Typography>
+                }
+              </>
             )}
           </NotiBox>
           <Stack spacing={2}>
@@ -140,9 +156,17 @@ const NotificationsPage = ({ count }) => {
             {loading2 ? (
               <LoadingComponent />
             ) : (
+              <>
+{
+  notificationTeam.length >0 ?
               notificationTeam.map((note, index) => (
                 <NotificationCard info={note} key={index} />
-              ))
+              )) :
+               <Typography variant="h6" color="initial">
+            No Notifications
+          </Typography>
+}
+              </>
             )}
           </NotiBox>
           <Box display="flex" justifyContent="right">
