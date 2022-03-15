@@ -7,6 +7,7 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const BoxFormControl = styled(FormControl)(() => ({
   width: "8rem",
@@ -19,6 +20,8 @@ const BoxSelect = styled(Box)(() => ({
 }));
 
 const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const userRol = userData.Role;
   const [kpiFilter, setKpiFilter] = useState("");
   const [timeFilter, setTimeFilter] = useState("Day");
   const [groupFilter, setGroupFilter] = useState("My Team");
@@ -46,7 +49,6 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
                 {kpi.Kpi}
               </MenuItem>
             ))}
-         
           </Select>
         </BoxFormControl>
         <BoxFormControl>
@@ -85,12 +87,15 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard }) => {
             }}
           >
             <MenuItem value="My Team">My Team</MenuItem>
-            <MenuItem value="My Lob">My LOB</MenuItem>
-            <MenuItem value="My Campaign">My Campaign</MenuItem>
+            {userRol === "Team Leader" && (
+              <MenuItem value="My Lob">My LOB</MenuItem>
+            )}
+            {userRol === "SuperAdmin" && (
+              <MenuItem value="My Campaign">My Campaign</MenuItem>
+            )}
           </Select>
         </BoxFormControl>
       </BoxSelect>
-  
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, styled, Typography,  Box } from "@mui/material";
+import { Grid, styled, Typography, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -11,7 +11,12 @@ import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import { useDispatch, useSelector } from "react-redux";
-import { downloadHomeDataTl, tokenNotification } from "../utils/api";
+import {
+  //downloadHomeDataTl,
+  getKpisHome,
+  tokenNotification,
+} from "../utils/api";
+import { downloadHomeDataTl } from "../redux/homeDataDuckTL";
 import { requestForToken } from "../utils/firebase";
 import LoadingComponent from "../components/LoadingComponent";
 import { logoutAction } from "../redux/loginDuck";
@@ -36,9 +41,10 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
   },
 }));
 export const HomeTL = ({ count }) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
+  const homeData = useSelector((store) => store.homeDataTl.homeData);
   const idccms = userData.Idccms;
   const useName = userData.Nombre;
   const [data, setData] = useState([]);
@@ -50,21 +56,62 @@ export const HomeTL = ({ count }) => {
 
   useEffect(() => {
     const getData = async () => {
+      dispatch(downloadHomeDataTl(idccms));
+
+      const token = await requestForToken();
+
+      await tokenNotification(token, idccms);
+    };
+
+    getData();
+
+    // eslint-disable-next-line
+  }, []);
+  const getData = async () => {
+    const rol = userData.Role === "Agent" ? 1 : 2;
+    const kpis = await getKpisHome(idccms, rol);
+    if (kpis && kpis.status === 200 && kpis.data.length > 0) {
+      setData(kpis.data[0].KPI);
+    } else {
+      setData([]);
+    }
+  };
+  useEffect(() => {
+    if (homeData === "UnauthorizedError") {
+      dispatch(logoutAction());
+      navigate("/");
+    } else if (homeData !== null && homeData.length > 1) {
+      getData();
+      setTExp(homeData[5]);
+      setCw(homeData[2]);
+      setGp(homeData[3]);
+      setBadge(() => homeData[4]);
+      setPodium(homeData[6].Podium);
+    }
+
+    // eslint-disable-next-line
+  }, [homeData]);
+
+  const ranking =
+    homeData?.length > 0 && Array.isArray(homeData)
+      ? homeData[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
+      : [];
+  /*   useEffect(() => {
+    const getData = async () => {
       const kpis = await downloadHomeDataTl(idccms);
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-         setData(kpis.data);
-         setTExp(kpis.data[6]);
-         setCw(kpis.data[3]);
-         setGp(kpis.data[4]);
-        setBadge(() => kpis.data[5]);
-        setPodium(kpis.data[7].Podium);
-      }else if(kpis.data === 'UnauthorizedError'){
+        // setData(kpis.data);
+        setTExp(kpis.data[5]);
+        setCw(kpis.data[2]);
+        setGp(kpis.data[3]);
+        setBadge(() => kpis.data[4]);
+        setPodium(kpis.data[6].Podium);
+      } else if (kpis.data === "UnauthorizedError") {
         dispatch(logoutAction());
         navigate("/");
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
-
     };
     getData();
     // eslint-disable-next-line
@@ -73,7 +120,7 @@ export const HomeTL = ({ count }) => {
   const ranking =
     data.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
-      : data;
+      : data; */
 
   return (
     <>
@@ -97,7 +144,6 @@ export const HomeTL = ({ count }) => {
                 Total Exp
               </Typography>
               {texp ? <Circle info={texp} /> : <LoadingComponent />}
-            
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -106,16 +152,14 @@ export const HomeTL = ({ count }) => {
                 Challenges Won
               </Typography>
               {cw ? <Diamond info={cw} /> : <LoadingComponent />}
-             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <BoxVinetas>
               <Typography variant="h6" align="center" fontWeight="bold">
-                Games Played
+                Missions Progress
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
-             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -142,8 +186,6 @@ export const HomeTL = ({ count }) => {
                 ) : (
                   <LoadingComponent />
                 )}
-
-                
               </Box>
             </BoxVinetas>
           </Grid>

@@ -147,7 +147,15 @@ export const UpAgents = () => {
       { header: "Epicoins in GP", key: "ScoreCoins" },
       { header: "Epicoins GP Week", key: "SumCoinsWeek" },
       { header: "Epicoins GP Month", key: "SumCoinsMonth" },
+      { header: "Login", key: "Login" },
     ];
+    /* 
+AssignedMissions: 3
+BadgesWon: "Polished and Ready"
+ChallengesWon: 0
+FalledMissions: 0
+QuizGrading: 0
+ */
     worksheet.addRows(repExp);
   };
 

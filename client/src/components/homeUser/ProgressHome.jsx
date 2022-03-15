@@ -17,10 +17,9 @@ const CardProgressSection = styled(Box)(({ theme }) => ({
   scrollbarWidth: "thin",
   scrollbarColor: "blue green",
   color: "#3047B0",
- 
 }));
 
-const BoxDataKPI =styled(Box)(()=>({
+const BoxDataKPI = styled(Box)(() => ({
   button: {
     textTransform: "none",
     color: "#3047B0",
@@ -30,22 +29,21 @@ const BoxDataKPI =styled(Box)(()=>({
       background: "#f4f4f4",
     },
   },
-}))
+}));
 
 const BoxStar = styled(Box)(() => ({
-display:'flex',
-alignItems:'center',
-button: {
-  textTransform: "none",
-  background: "#3047B0", 
-  borderRadius: '1px',
-  color:'#fff',
-  "&:hover": {
-
-   background:'linear-gradient(90deg, #0087FF, #3047B0)',
-   borderRadius:'5px 0 0 5px'
+  display: "flex",
+  alignItems: "center",
+  button: {
+    textTransform: "none",
+    background: "#3047B0",
+    borderRadius: "1px",
+    color: "#fff",
+    "&:hover": {
+      background: "linear-gradient(90deg, #0087FF, #3047B0)",
+      borderRadius: "5px 0 0 5px",
+    },
   },
-},
 }));
 const Arrow = styled(Box)(() => ({
   width: "25px",
@@ -57,16 +55,15 @@ const Arrow = styled(Box)(() => ({
 const ProgressHome = ({ dataKPI }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const role = userData.Role;
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
-  const handleDirection=()=>{
-    if(role === 'Agent'){
-      navigate('/activitiesview')
-    }else {
-      navigate('/challengeasignment')
+  const handleDirection = () => {
+    if (role === "Agent") {
+      navigate("/activitiesview");
+    } else {
+      navigate("/challengeasignment");
     }
-  }
+  };
   return (
     <CardProgressSection>
       <Box
@@ -76,14 +73,16 @@ const ProgressHome = ({ dataKPI }) => {
         py={2}
       >
         <Typography variant="h6" fontWeight="bold">
-          Gain more points today
+          {role === "Agent"
+            ? "Gain more points today"
+            : "Assign more challenges today"}
         </Typography>
-        <BoxStar >
+        <BoxStar>
           <Typography variant="h6" mr={1}>
             Start
           </Typography>
-          <Button  onClick={handleDirection}>
-            <ImFire size={25}  />
+          <Button onClick={handleDirection}>
+            <ImFire size={25} />
           </Button>
           <Arrow />
         </BoxStar>
@@ -93,7 +92,7 @@ const ProgressHome = ({ dataKPI }) => {
       {/* Card Progress section */}
 
       {dataKPI.length > 0 ? (
-        dataKPI[1].KPI.map((kpi, index) => (
+        dataKPI.map((kpi, index) => (
           <BoxDataKPI key={index}>
             <Box
               display="flex"
@@ -141,10 +140,15 @@ const ProgressHome = ({ dataKPI }) => {
                     <BsClock />
                   )}
                   <Box>
-                    <Button size="small" endIcon={<MdOutlineArrowForwardIos />} onClick={()=> 
-                {  role === 'Agent' ?  navigate('/useranalytics') :
-                    navigate('/followingteams')}
-                    }>
+                    <Button
+                      size="small"
+                      endIcon={<MdOutlineArrowForwardIos />}
+                      onClick={() => {
+                        role === "Agent"
+                          ? navigate("/useranalytics")
+                          : navigate("/followingteams");
+                      }}
+                    >
                       See more
                     </Button>
                   </Box>

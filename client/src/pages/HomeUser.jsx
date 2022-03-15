@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Grid,
-  styled,
-  Typography,
-  Box,
-  Skeleton,
-} from "@mui/material";
+import { Grid, styled, Typography, Box, Skeleton } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -18,6 +12,7 @@ import medal from "../assets/badges/ten.svg";
 import StarProgress from "../components/progressCharts/StarProgress";
 import Ranking from "../components/homeUser/Ranking";
 import {
+  getKpisHome,
   //downloadHomeData,
   tokenNotification,
 } from "../utils/api";
@@ -75,29 +70,35 @@ const HomeUser = ({ count }) => {
 
     // eslint-disable-next-line
   }, []);
-
+  const getData = async () => {
+    const rol = userData.Role === "Agent" ? 1 : 2;
+    const kpis = await getKpisHome(idccms, rol);
+    if (kpis && kpis.status === 200 && kpis.data.length > 0) {
+      setData(kpis.data[0].KPI);
+    } else {
+      setData([]);
+    }
+  };
   useEffect(() => {
     if (homeData === "UnauthorizedError") {
       dispatch(logoutAction());
       navigate("/");
-      
     } else if (homeData !== null && homeData.length > 1) {
-      setData(homeData);
-      setTExp(homeData[6]);
-      setCw(homeData[3]);
-      setGp(homeData[4]);
-      setBadge(() => homeData[5]);
-      setPodium(homeData[7].Podium);
+      getData();
+      setTExp(homeData[5]);
+      setCw(homeData[2]);
+      setGp(homeData[3]);
+      setBadge(() => homeData[4]);
+      setPodium(homeData[6].Podium);
     }
 
     // eslint-disable-next-line
   }, [homeData]);
 
   const ranking =
-    data?.length > 0 && Array.isArray(data)
-      ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
-      : data;
-
+    homeData?.length > 0 && Array.isArray(homeData)
+      ? homeData[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
+      : [];
 
   return (
     <>
@@ -139,7 +140,7 @@ const HomeUser = ({ count }) => {
           <Grid item xs={12} md={6} lg={3}>
             <BoxVinetas>
               <Typography variant="h6" align="center" fontWeight="bold">
-                Games Played
+                Missions Progress
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
             </BoxVinetas>
@@ -160,7 +161,9 @@ const HomeUser = ({ count }) => {
               >
                 {badge ? (
                   <img
-                    src={badge && badge?.Badge[0].Badge === "0" ? medal : medal2}
+                    src={
+                      badge && badge?.Badge[0].Badge === "0" ? medal : medal2
+                    }
                     alt="top-Ten"
                     height="100%"
                   />

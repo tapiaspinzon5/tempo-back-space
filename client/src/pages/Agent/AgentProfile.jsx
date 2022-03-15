@@ -20,7 +20,7 @@ const AgentProfile = ({ profile }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [tpvs, setTpvs] = useState([]);
-  const [badges, setBadges] = useState([]);
+  //const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getData = async () => {
@@ -29,7 +29,7 @@ const AgentProfile = ({ profile }) => {
       if (userData && userData.status === 200 && userData.data.length > 1) {
         setLoading(false);
         setTpvs(userData.data[1].Tpv);
-        setBadges(userData.data[2].Badge);
+        //setBadges(userData.data[2].Badge);
       } else {
         //  setError(true);
       }

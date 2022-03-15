@@ -1,7 +1,6 @@
 // Scripts for firebase and firebase messaging
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
-import firebaseConfig from "../src/utils/firebase";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
@@ -9,6 +8,13 @@ if ("serviceWorker" in navigator) {
     .then(function (registration) {})
     .catch(function (err) {});
 }
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBvIm4awdjTWROGds-dGId7zhqici0Vexk",
+  projectId: "firebase-296723",
+  messagingSenderId: "2889986059",
+  appId: "1:2889986059:web:46d643403583fdc45c170e",
+};
 
 // Inicializar firebase
 firebase.initializeApp(firebaseConfig);

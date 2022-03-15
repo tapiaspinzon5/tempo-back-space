@@ -26,7 +26,7 @@ import { UpCount } from "../pages/Super User/UpCount";
 import { UpCampaign } from "../pages/Ops Man/UpCampaign";
 import { UpAgents } from "../pages/Rep Lead/UpAgents";
 import FollowingTeamsKPI from "../pages/TeamLeader/FollowingTeamsKPI";
-import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
+//import ChallengeAssignment from "../pages/TeamLeader/ChallengeAssignment";
 import BadgeManagement from "../pages/TeamLeader/BadgeManagement";
 import ActivitiesDescription from "../components/Agents/activitiesview/ActivitiesDescription";
 import NotificationsPage from "../pages/NotificationsPage";
@@ -51,8 +51,8 @@ const MainApp = styled(Grid)(() => ({
 
 const AppRouter = () => {
   const dispatch = useDispatch();
-  const headerData = useSelector((store) => store.homeData.headerData);
   const userData = useSelector((store) => store.loginUser.userData);
+  const headerData = useSelector((store) => store.homeData.headerData);
   const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
   const [navLong, setNavLong] = useState(false);
@@ -101,7 +101,6 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, [notification]);
-
 
   return (
     <Router>
