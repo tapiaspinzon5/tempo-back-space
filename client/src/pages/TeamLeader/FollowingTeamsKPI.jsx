@@ -98,7 +98,7 @@ const FollowingTeamsKPI = ({ count }) => {
   const [showChart, setShowChart] = useState(false);
   const [timeView, setTimeView] = useState("Day");
   const [series, setSeries] = useState([]);
-  const [typeChart, setTypeChart] = useState("line");
+  const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
     stroke: {
       curve: "smooth",
@@ -131,8 +131,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
           timeView,
-          4492826
-          //data.data[0].AgentsTeams[0].Ident
+          4492826 //idccms // ccms del team Leader
         );
         if (
           listAndGraph &&
@@ -148,7 +147,7 @@ const FollowingTeamsKPI = ({ count }) => {
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", type: "area", data: seriesData }]);
+          setSeries([{ name: "Values", data: seriesData }]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);
@@ -168,43 +167,84 @@ const FollowingTeamsKPI = ({ count }) => {
 
   useEffect(() => {
     const handleChart = async () => {
-      let seriesData = [];
-      let categoriesData = [];
-      if (timeView === "Day") {
-        graph.forEach((dato) => {
-          seriesData.push(dato.AverageDayTeam.toFixed(2));
-          categoriesData.push(dato.Date.split("T")[0]);
-        });
-        setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
-      } else if (timeView === "Week") {
-        const hash = {};
-        let filterData = await graph.filter(function (current) {
-          let exists = !hash[current.Week];
-          hash[current.Week] = true;
-          return exists;
-        });
-        filterData.forEach((dato) => {
-          seriesData.push(dato.AverageWeekTeam.toFixed(2));
-          categoriesData.push(dato.Week.split("T")[0]);
-        });
-        setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
-      } else if (timeView === "Month") {
-        const hash = {};
-        let filterData = await graph.filter(function (current) {
-          let exists = !hash[current.Month];
-          hash[current.Month] = true;
-          return exists;
-        });
-        filterData.forEach((dato) => {
-          seriesData.push(dato.AverageMonthTeam.toFixed(2));
-          categoriesData.push(ConvertMonth(dato.Month));
-        });
-        setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
+      if (!view) {
+        let seriesData = [];
+        let categoriesData = [];
+        if (timeView === "Day") {
+          graph.forEach((dato) => {
+            seriesData.push(dato.Actual.toFixed(2));
+            categoriesData.push(dato.Date.split("T")[0]);
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else if (timeView === "Week") {
+          const hash = {};
+          let filterData = await graph.filter(function (current) {
+            let exists = !hash[current.Week];
+            hash[current.Week] = true;
+            return exists;
+          });
+          filterData.forEach((dato) => {
+            seriesData.push(dato.AverageWeekAgent.toFixed(2));
+            categoriesData.push(dato.Week.split("T")[0]);
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else if (timeView === "Month") {
+          const hash = {};
+          let filterData = await graph.filter(function (current) {
+            let exists = !hash[current.Month];
+            hash[current.Month] = true;
+            return exists;
+          });
+          filterData.forEach((dato) => {
+            seriesData.push(dato.AverageMonthAgent.toFixed(2));
+            categoriesData.push(ConvertMonth(dato.Month));
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else {
+          setError(true);
+        }
       } else {
-        setError(true);
+        let seriesData = [];
+        let categoriesData = [];
+        if (timeView === "Day") {
+          graph.forEach((dato) => {
+            seriesData.push(dato.AverageDayTeam.toFixed(2));
+            categoriesData.push(dato.Date.split("T")[0]);
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else if (timeView === "Week") {
+          const hash = {};
+          let filterData = await graph.filter(function (current) {
+            let exists = !hash[current.Week];
+            hash[current.Week] = true;
+            return exists;
+          });
+          filterData.forEach((dato) => {
+            seriesData.push(dato.AverageWeekTeam.toFixed(2));
+            categoriesData.push(dato.Week.split("T")[0]);
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else if (timeView === "Month") {
+          const hash = {};
+          let filterData = await graph.filter(function (current) {
+            let exists = !hash[current.Month];
+            hash[current.Month] = true;
+            return exists;
+          });
+          filterData.forEach((dato) => {
+            seriesData.push(dato.AverageMonthTeam.toFixed(2));
+            categoriesData.push(ConvertMonth(dato.Month));
+          });
+          setOptions({ ...options, xaxis: { categories: categoriesData } });
+          setSeries([{ name: "", data: seriesData }]);
+        } else {
+          setError(true);
+        }
       }
     };
 
@@ -235,25 +275,47 @@ const FollowingTeamsKPI = ({ count }) => {
       },
     });
     setTimeView(e.target.value);
-    const newData = async () => {
-      const listAndGraph = await getUsersKPI(
-        idccms,
-        actualKpi.IdRegistryKpi,
-        e.target.value,
-        4492826 //ccms id del integrante del equipo
-      );
-      if (
-        listAndGraph &&
-        listAndGraph.status === 200 &&
-        listAndGraph.data.length > 1
-      ) {
-        setGraph(listAndGraph.data[0].GraphicAverage);
-        setLoadingGraph(false);
-      } else {
-        setError(true);
-      }
-    };
-    newData();
+    if (!view) {
+      const newData = async () => {
+        const listAndGraph = await getUsersKPI(
+          idccms,
+          actualKpi.IdRegistryKpi,
+          e.target.value,
+          4492826 //actualAgent//ccms id del integrante del equipo
+        );
+        if (
+          listAndGraph &&
+          listAndGraph.status === 200 &&
+          listAndGraph.data.length > 1
+        ) {
+          setGraph(listAndGraph.data[0].GraphicAverage);
+          setLoadingGraph(false);
+        } else {
+          setError(true);
+        }
+      };
+      newData();
+    } else {
+      const newData = async () => {
+        const listAndGraph = await getUsersKPI(
+          idccms,
+          actualKpi.IdRegistryKpi,
+          e.target.value,
+          4492826 //idccms //ccms id Team Leader
+        );
+        if (
+          listAndGraph &&
+          listAndGraph.status === 200 &&
+          listAndGraph.data.length > 1
+        ) {
+          setGraph(listAndGraph.data[0].GraphicAverage);
+          setLoadingGraph(false);
+        } else {
+          setError(true);
+        }
+      };
+      newData();
+    }
   };
 
   const handleKPI = async (idKpi) => {
@@ -285,7 +347,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           idKpi,
           "Day",
-          4492826 //ccms id del integrante del equipo
+          4492826 //actualAgent //ccms id del integrante del equipo
         );
         if (
           listAndGraph &&
@@ -329,7 +391,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           idKpi,
           "Day",
-          4492826 //ccms id del integrante del equipo
+          4492826 //idccms //ccms id del Team Leader
         );
         if (
           listAndGraph &&
@@ -371,7 +433,7 @@ const FollowingTeamsKPI = ({ count }) => {
           ag,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
           "Day",
-          ag
+          ag // //ccms id del agente del equipo
         );
         if (
           listAndGraph &&
@@ -405,6 +467,7 @@ const FollowingTeamsKPI = ({ count }) => {
     setTimeView("Day");
     setView(true);
     setActualAgent("");
+    setTypeChart("area");
     const getData = async () => {
       setLoading(true);
       setLoadingGraph(true);
@@ -421,8 +484,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
           "Day",
-          4492826
-          //data.data[0].AgentsTeams[0].Ident
+          4492826 //idccms //ccms id del Team Leader
         );
         if (
           listAndGraph &&

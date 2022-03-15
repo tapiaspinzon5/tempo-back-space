@@ -10,12 +10,12 @@ const initialData = {
 //TYPES
 const LOADING = "LOADING";
 const ERROR_DATA = "ERROR_DATA";
-const GET_HOME_DATA = "GET_HOME_DATA";
-const GET_HEADER_DATA = "GET_HEADER_DATA";
+const GET_HOME_DATA_TL = "GET_HOME_DATA_TL";
+const GET_HEADER_DATA_TL = "GET_HEADER_DATA_TL";
 
 //REDUCERS
 
-export default function homeDataReducer(state = initialData, action) {
+export default function homeDataTlReducer(state = initialData, action) {
   switch (action.type) {
     case LOADING:
       return {
@@ -23,7 +23,7 @@ export default function homeDataReducer(state = initialData, action) {
         loading: true,
       };
 
-    case GET_HOME_DATA:
+    case GET_HOME_DATA_TL:
       return {
         ...state,
         homeData: action.payload.data,
@@ -36,7 +36,7 @@ export default function homeDataReducer(state = initialData, action) {
         loading: false,
       };
 
-    case GET_HEADER_DATA:
+    case GET_HEADER_DATA_TL:
       return {
         ...state,
         headerData: action.payload.data,
@@ -51,7 +51,7 @@ export default function homeDataReducer(state = initialData, action) {
 //ACTIONS
 
 //trae la data del Home
-export const downloadHomeData = (idccms) => (dispatch) => {
+export const downloadHomeDataTl = (idccms) => (dispatch) => {
   dispatch({
     type: LOADING,
   });
@@ -59,7 +59,7 @@ export const downloadHomeData = (idccms) => (dispatch) => {
   const dataHome = async () => {
     try {
       const data = await axiosInstance
-        .post(`gethomedata?idccms=${idccms}`)
+        .post(`getdashboardtl?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             dispatch({
@@ -72,7 +72,7 @@ export const downloadHomeData = (idccms) => (dispatch) => {
         });
 
       dispatch({
-        type: GET_HOME_DATA,
+        type: GET_HOME_DATA_TL,
         payload: {
           data: data.data,
         },
@@ -98,7 +98,7 @@ export const headerDataAction = (idccms) => (dispatch) => {
   const dataHeader = async () => {
     try {
       const data = await axiosInstance
-        .post(`gethomedata?idccms=${idccms}`)
+        .post(`getdashboardtl?idccms=${idccms}`)
         .catch(function (error) {
           if (error.response) {
             dispatch({
@@ -111,7 +111,7 @@ export const headerDataAction = (idccms) => (dispatch) => {
         });
 
       dispatch({
-        type: GET_HEADER_DATA,
+        type: GET_HEADER_DATA_TL,
         payload: {
           data: data.data[5].Level[0],
         },

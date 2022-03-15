@@ -416,6 +416,22 @@ const downloadActivities = (ccmsAgent, idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+//Traer los kpi para el HOme Tanto TL como AG
+const getKpisHome = (idccms, context) => {
+  try {
+    return axiosInstance
+      .post(`getkpiagentkpiteam?idccms=${idccms}`, {
+        context: context,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 //Envia TPVs
 const assingTpvs = (data, idccms) => {
@@ -543,4 +559,5 @@ export {
   downloadHomeDataTl,
   downloadProfile,
   assingTpvs,
+  getKpisHome,
 };

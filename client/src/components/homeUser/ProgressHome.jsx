@@ -92,7 +92,7 @@ const ProgressHome = ({ dataKPI }) => {
       {/* Card Progress section */}
 
       {dataKPI.length > 0 ? (
-        dataKPI[1].KPI.map((kpi, index) => (
+        dataKPI.map((kpi, index) => (
           <BoxDataKPI key={index}>
             <Box
               display="flex"

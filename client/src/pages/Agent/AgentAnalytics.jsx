@@ -10,12 +10,11 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Button,
   InputLabel,
 } from "@mui/material";
 import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
-import { FiPieChart } from "react-icons/fi";
+
 import { getKPIteamTL, getUsersKPI } from "../../utils/api";
 import Footer from "../../components/Footer";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
@@ -47,18 +46,6 @@ const UsersBox = styled(Grid)(() => ({
     borderRadius: "20px",
   },
 }));
-const BoxSelectBadge = styled(Grid)(() => ({
-  button: {
-    textTransform: "none",
-    background: "#fff",
-    margin: "5px",
-    width: "9rem",
-    fontWeight: "600",
-    border: "1px solid #00000009",
-  },
-
-  margin: "2rem 0",
-}));
 
 const Item = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -68,33 +55,19 @@ const Item = styled(Box)(({ theme }) => ({
   minHeight: "50vh",
   borderRadius: "20px",
 }));
-const selectButton = {
-  boxShadow: "0px 3px 6px #00000029",
-  borderRadius: "10px",
-  textTransform: "none",
-};
-const BoxFormControl = styled(FormControl)(() => ({
-  width: "9rem",
-  margin: " 0 2rem",
-}));
+
 const AgentAnalytics = ({ count }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  const [view, setView] = useState(true);
   const [kpi, setKpi] = useState([]);
   const [actualKpi, setActualKpi] = useState([]);
-  const [agents, setAgents] = useState([]);
-  const [actualAgent, setActualAgent] = useState("");
   const [usersKPI, setUsersKPI] = useState([]);
   const [graph, setGraph] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [loadingGraph, setLoadingGraph] = useState(false);
-  const [loadingList, setLoadingList] = useState(false);
   const [loadingKpi, setLoadingKpi] = useState(false);
   const [error, setError] = useState(false);
-  const [showChart, setShowChart] = useState(false);
   const [timeView, setTimeView] = useState("Day");
   const [series, setSeries] = useState([]);
   const [typeChart, setTypeChart] = useState("area");
@@ -138,15 +111,12 @@ const AgentAnalytics = ({ count }) => {
 
   useEffect(() => {
     const getData = async () => {
-      setLoading(true);
       setLoadingGraph(true);
-      setLoadingList(true);
+      setLoadingKpi(true);
       const data = await getKPIteamTL(idccms);
       if (data && data.status === 200 && data.data.length > 1) {
         setKpi(data.data[1].KpiDetallado);
-        setAgents(data.data[0].AgentsTeams);
         setActualKpi(data.data[1].KpiDetallado[0]);
-        setLoading(false);
         const listAndGraph = await getUsersKPI(
           idccms,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
@@ -162,26 +132,8 @@ const AgentAnalytics = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
-          let targetData = [
-            {
-              y: 56, // data.data[1].KpiDetallado[0].Target,
-              borderColor: "#D7263D",
-              label: {
-                borderColor: "#D7263D",
-                style: {
-                  color: "#fff",
-                  background: "#D7263D",
-                },
-                text: "Target to achieve",
-              },
-            },
-          ];
-          /*  setOptions({
-            ...options,
-            annotations: {
-              yaxis: targetData
-            },
-          }); */
+          // let TargetData=[]
+
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
             // targetData.push(data.data[1].KpiDetallado[0].Target);
@@ -190,22 +142,20 @@ const AgentAnalytics = ({ count }) => {
           setOptions({
             ...options,
             xaxis: { categories: categoriesData },
-            annotations: {
-              yaxis: targetData,
-            },
           });
           setSeries([{ name: "Values", data: seriesData }]);
-          setLoading(false);
+          setLoadingKpi(false);
           setLoadingGraph(false);
-          setLoadingList(false);
         } else {
           setError(true);
+          setLoadingKpi(false);
         }
       } else if (data.data === "UnauthorizedError") {
         dispatch(logoutAction());
         navigate("/");
       } else {
         setError(true);
+        setLoadingKpi(false);
       }
     };
     getData();
@@ -264,7 +214,7 @@ const AgentAnalytics = ({ count }) => {
     e.preventDefault();
     setTypeChart("area");
     setLoadingGraph(true);
-    setLoadingList(true);
+
     setSeries([]);
     setOptions({
       stroke: {
@@ -307,7 +257,7 @@ const AgentAnalytics = ({ count }) => {
   const handleKPI = async (idKpi) => {
     setTypeChart("area");
     setLoadingGraph(true);
-    setLoadingList(true);
+
     setSeries([]);
     setOptions({
       stroke: {
@@ -341,7 +291,6 @@ const AgentAnalytics = ({ count }) => {
         setGraph(listAndGraph.data[0].GraphicAverage);
         setUsersKPI(listAndGraph.data[1].KpiValues);
         setLoadingGraph(false);
-        setLoadingList(false);
       } else {
         setError(true);
       }
