@@ -70,7 +70,7 @@ const NotificationCard = ({ info }) => {
   ) {
     hora = Math.trunc((fa - fb) / 60000);
     if (hora < 31) {
-      fecha = `${hora} minuts ago`;
+      fecha = `${hora} minutes ago`;
     } else {
       fecha = fechaBase.replace(",", "").split(" ")[1];
     }

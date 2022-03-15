@@ -99,6 +99,23 @@ const AgentAnalytics = ({ count }) => {
   const [series, setSeries] = useState([]);
   const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
+    // colors: ["#03A9F4", "#D7263D"],
+    annotations: {
+      yaxis: [
+        {
+          y: 50, // data.data[1].KpiDetallado[0].Target,
+          borderColor: "#D7263D",
+          label: {
+            borderColor: "#D7263D",
+            style: {
+              color: "#fff",
+              background: "#D7263D",
+            },
+            text: "Target to achieve",
+          },
+        },
+      ],
+    },
     stroke: {
       curve: "smooth",
     },
@@ -118,6 +135,7 @@ const AgentAnalytics = ({ count }) => {
       },
     },
   });
+
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
@@ -144,17 +162,39 @@ const AgentAnalytics = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
-          let targetData = [];
+          let targetData = [
+            {
+              y: 56, // data.data[1].KpiDetallado[0].Target,
+              borderColor: "#D7263D",
+              label: {
+                borderColor: "#D7263D",
+                style: {
+                  color: "#fff",
+                  background: "#D7263D",
+                },
+                text: "Target to achieve",
+              },
+            },
+          ];
+          /*  setOptions({
+            ...options,
+            annotations: {
+              yaxis: targetData
+            },
+          }); */
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
-            targetData.push(data.data[1].KpiDetallado[0].Target);
+            // targetData.push(data.data[1].KpiDetallado[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
-          setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([
-            { name: "Values", type: "area", data: seriesData },
-            { name: "Target", type: "line", data: targetData },
-          ]);
+          setOptions({
+            ...options,
+            xaxis: { categories: categoriesData },
+            annotations: {
+              yaxis: targetData,
+            },
+          });
+          setSeries([{ name: "Values", data: seriesData }]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);
@@ -184,10 +224,7 @@ const AgentAnalytics = ({ count }) => {
           categoriesData.push(dato.Date.split("T")[0]);
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([
-          { name: "Values", type: typeChart, data: seriesData },
-          { name: "Target", type: "line", data: targetData },
-        ]);
+        setSeries([{ name: "Values", data: seriesData }]);
       } else if (timeView === "Week") {
         const hash = {};
         let filterData = await graph.filter(function (current) {
@@ -200,7 +237,7 @@ const AgentAnalytics = ({ count }) => {
           categoriesData.push(dato.Week.split("T")[0]);
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
+        setSeries([{ name: "Values", data: seriesData }]);
       } else if (timeView === "Month") {
         const hash = {};
         let filterData = await graph.filter(function (current) {
@@ -213,7 +250,7 @@ const AgentAnalytics = ({ count }) => {
           categoriesData.push(ConvertMonth(dato.Month));
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "", data: seriesData }]);
+        setSeries([{ name: "Values", data: seriesData }]);
       } else {
         setError(true);
       }

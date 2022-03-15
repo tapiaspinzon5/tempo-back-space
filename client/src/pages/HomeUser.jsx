@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Grid,
-  styled,
-  Typography,
-  Box,
-  Skeleton,
-} from "@mui/material";
+import { Grid, styled, Typography, Box, Skeleton } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -80,7 +74,6 @@ const HomeUser = ({ count }) => {
     if (homeData === "UnauthorizedError") {
       dispatch(logoutAction());
       navigate("/");
-      
     } else if (homeData !== null && homeData.length > 1) {
       setData(homeData);
       setTExp(homeData[6]);
@@ -97,7 +90,6 @@ const HomeUser = ({ count }) => {
     data?.length > 0 && Array.isArray(data)
       ? data[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
       : data;
-
 
   return (
     <>
@@ -139,7 +131,7 @@ const HomeUser = ({ count }) => {
           <Grid item xs={12} md={6} lg={3}>
             <BoxVinetas>
               <Typography variant="h6" align="center" fontWeight="bold">
-                Games Played
+                Missions Progress
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
             </BoxVinetas>
@@ -160,7 +152,9 @@ const HomeUser = ({ count }) => {
               >
                 {badge ? (
                   <img
-                    src={badge && badge?.Badge[0].Badge === "0" ? medal : medal2}
+                    src={
+                      badge && badge?.Badge[0].Badge === "0" ? medal : medal2
+                    }
                     alt="top-Ten"
                     height="100%"
                   />

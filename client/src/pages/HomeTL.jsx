@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, styled, Typography,  Box } from "@mui/material";
+import { Grid, styled, Typography, Box } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import ProgressHome from "../components/homeUser/ProgressHome";
@@ -36,8 +36,8 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
   },
 }));
 export const HomeTL = ({ count }) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const useName = userData.Nombre;
@@ -52,19 +52,18 @@ export const HomeTL = ({ count }) => {
     const getData = async () => {
       const kpis = await downloadHomeDataTl(idccms);
       if (kpis && kpis.status === 200 && kpis.data.length > 1) {
-         setData(kpis.data);
-         setTExp(kpis.data[6]);
-         setCw(kpis.data[3]);
-         setGp(kpis.data[4]);
+        setData(kpis.data);
+        setTExp(kpis.data[6]);
+        setCw(kpis.data[3]);
+        setGp(kpis.data[4]);
         setBadge(() => kpis.data[5]);
         setPodium(kpis.data[7].Podium);
-      }else if(kpis.data === 'UnauthorizedError'){
+      } else if (kpis.data === "UnauthorizedError") {
         dispatch(logoutAction());
         navigate("/");
       }
       const token = await requestForToken();
       await tokenNotification(token, idccms);
-
     };
     getData();
     // eslint-disable-next-line
@@ -97,7 +96,6 @@ export const HomeTL = ({ count }) => {
                 Total Exp
               </Typography>
               {texp ? <Circle info={texp} /> : <LoadingComponent />}
-            
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -106,16 +104,14 @@ export const HomeTL = ({ count }) => {
                 Challenges Won
               </Typography>
               {cw ? <Diamond info={cw} /> : <LoadingComponent />}
-             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <BoxVinetas>
               <Typography variant="h6" align="center" fontWeight="bold">
-                Games Played
+                Missions Progress
               </Typography>
               {gp ? <StarProgress info={gp} /> : <LoadingComponent />}
-             
             </BoxVinetas>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
@@ -142,8 +138,6 @@ export const HomeTL = ({ count }) => {
                 ) : (
                   <LoadingComponent />
                 )}
-
-                
               </Box>
             </BoxVinetas>
           </Grid>
