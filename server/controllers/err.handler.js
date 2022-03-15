@@ -55,11 +55,12 @@ let middleware = (req, res, next) => {
         req.user = data
         next()
     } catch (error) {
-        if (req.originalUrl == '/api/ccmslogin' || req.originalUrl == '/api/test' || req.originalUrl == '/api/test2') {
+        // if (req.originalUrl == '/api/ccmslogin' || req.originalUrl == '/api/test' || req.originalUrl == '/api/test2') {
             next()
-        } else {
-            next()
-        }
+        // } 
+        // else {
+        //     next()
+        // }
     }
 }
 

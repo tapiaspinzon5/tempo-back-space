@@ -70,6 +70,7 @@ module.exports = (router) => {
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
   router.post("/postassigntpv", oauth.oauthOther, routes.postassigntpv ); 
 
+  router.post("/getkpiagentkpiteam", oauth.oauthOther, routes.getKpiAgentKpiTeam ); 
 
 
 
