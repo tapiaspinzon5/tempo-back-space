@@ -31,7 +31,6 @@ const NotificationCard = ({ info }) => {
   const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
-  console.log(info);
   let fecha;
   let hora;
   let fechaBase = new Date(info.Date).toLocaleString([], {

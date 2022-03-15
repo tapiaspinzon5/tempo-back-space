@@ -14,7 +14,6 @@ import ActivitiesView from "../pages/ActivitiesView";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
-  //position: "relative",
 }));
 
 const AppRouter = () => {

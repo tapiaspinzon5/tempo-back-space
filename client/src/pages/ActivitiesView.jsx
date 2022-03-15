@@ -54,21 +54,17 @@ const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [noData, setNoData] = useState("");
   const [mousePos, setMousePos] = useState(0);
-  const [activities, setActivities] = useState({
-    type: "",
-    context: 3,
-  });
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    if (!activities.menu) {
       if (localStorage.getItem("menuActivity")) {
-        setActivities(JSON.parse(localStorage.getItem("menuActivity")));
+        setActivities(()=>JSON.parse(localStorage.getItem("menuActivity")));
       }
-    } else {
-      setActivities({
-        type: "Quizes",
-        context: 3,
-      });
+      else {
+        setActivities({
+          type: "Quizes",
+          context: 3,
+        });
     }
     // eslint-disable-next-line
   }, []);
@@ -79,7 +75,7 @@ const dispatch = useDispatch()
     const context = activities.context;
     const getData = async () => {
       setNoData("");
-      if (activities.context === 3) {
+      if (context === 3) {
         const quizes = await loadUserActivities(idccms, context);
         if (quizes && quizes.status === 200 && quizes.data.length === 2) {
           if (quizes.data[1].Quices) {
@@ -110,8 +106,6 @@ const dispatch = useDispatch()
         navigate("/");
         }   else{
           setNoData("The Game Starts Soon");
-          console.log(getActivities.data)
-
         }
       }
            setLoading(false);
@@ -137,6 +131,7 @@ const dispatch = useDispatch()
     };
 
   }, []);
+
 
   return (
     <Grid width="100%">
@@ -188,7 +183,6 @@ const dispatch = useDispatch()
                     <ActivitiesViewComponent
                       activity={activity}
                       context={activities.context}
-                      //img1={images[generateRandom(images.length)]}
                       images={images}
                       mousePos={mousePos}
                     />

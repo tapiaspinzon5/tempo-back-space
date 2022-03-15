@@ -50,7 +50,6 @@ const userData =[
 
 const TeamInformation = () => {
     const handleUser=(idccms)=>{
-        console.log('userSelect', idccms)
     }
   return (
     <MainPage>
