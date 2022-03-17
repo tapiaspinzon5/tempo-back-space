@@ -1,52 +1,16 @@
 import React from "react";
-
-import { Grid, styled, Typography, Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Grid,  Typography  } from "@mui/material";
+import { ButtonHome, MainPage } from "../assets/styled/muistyled";
 
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import img3 from "../assets/images/OM-3.svg";
+import Analytics from '../assets/images/HomeAdmin/OpenAnalytics.png'
+import OM_LOBManage from '../assets/images/HomeAdmin/OM_LOBManage.png'
+import OM_RoleManage from '../assets/images/HomeAdmin/OM_RoleManage.png'
 
-//import { AdminCard } from "../components/AdminCard/AdminCard";
-//import img2 from "../assets/images/OM-2.svg";
-//import img1 from "../assets/images/OM-1.svg";
-import { useNavigate } from "react-router-dom";
 
-const MainHomeOM = styled(Grid)(({ theme }) => ({
-  position: "relative",
-  overflow: "hidden",
-  minHeight: "95vh",
-  width: "100%",
-  padding: "0 2rem",
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
 
-const CardContainer = styled(Grid)(({ theme }) => ({
-  marginTop: "25px",
-  input: {
-    display: "none",
-  },
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
-
-const CardContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-
-  width: "55vh",
-  height: "70vh",
-  backgroundColor: "#f9f9f9",
-
-  borderRadius: "10px",
-  padding: "15px",
-  alignItems: "center",
-  justifyContent: "center",
-  "&:hover": {
-    background: "#f2f2f2",
-  },
-}));
 
 ////////////////////////////////////////
 export const HomeOM = ({ count }) => {
@@ -54,36 +18,44 @@ export const HomeOM = ({ count }) => {
 
   return (
     <>
-      <MainHomeOM sx={{ bgcolor: "background.default", color: "text.primary" }}>
+      <MainPage>
         <Header count={count} />
-        <Grid container spacing={3}>
+        <Typography variant="h5" > Welcome to Space GP - Operation Manager</Typography>
+
+
+        <Grid container spacing={1}>
           <Grid item xs={12} md={4}>
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button
+                  <ButtonHome
+                  disabled
                     onClick={() => {
                       navigate("/upcampaign");
                     }}
                   >
-                    <img src={img3} alt="top-Ten" />
-                  </Button>
-
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
+                    <img src={OM_LOBManage} alt="top-Ten" />
+                  </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>
+                  <ButtonHome
+                    onClick={() => {
+                      navigate("/upcampaign");
+                    }}
                   >
-                    Assigning Team Members
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+                    <img src={OM_RoleManage} alt="top-Ten" />
+                  </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>
+                  <ButtonHome
+                  disabled
+                    onClick={() => {
+                      navigate("/upcampaign");
+                    }}
+                  >
+                    <img src={Analytics} alt="top-Ten" />
+                  </ButtonHome>
           </Grid>
         </Grid>
         <Footer />
-      </MainHomeOM>
+      </MainPage>
     </>
   );
 };
