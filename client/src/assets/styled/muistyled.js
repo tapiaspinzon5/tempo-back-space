@@ -1,4 +1,4 @@
-import { Grid, styled } from "@mui/material";
+import { Grid, styled, Button } from "@mui/material";
 
 export const MainPage = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -6,9 +6,6 @@ export const MainPage = styled(Grid)(({ theme }) => ({
   minHeight: "95vh",
   width: "100%",
   padding: "1rem 2rem",
-  //   [theme.breakpoints.down("md")]: {
-  //     top: "15px",
-  //   },
 
    h5: {
     fontWeight: "700",
@@ -22,4 +19,17 @@ export const BoxContain = styled(Grid)(() => ({
   //background: "#f1f1f1",
   minHeight: "32rem",
   borderRadius: "10px",
+}));
+
+
+export const ButtonHome = styled(Button)(({ theme }) => ({
+  width:'100%',
+  img:{
+    width:'100%',
+    '&:hover':{
+      boxShadow:'5px 5px 10px #3047B0',
+      borderRadius:'10px',
+      transform:'scale(1.01)'
+    }
+  }
 }));

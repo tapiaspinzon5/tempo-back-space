@@ -1,136 +1,68 @@
 import React from "react";
-import { Grid, styled, Box, Typography, Button } from "@mui/material";
+import { Grid, Typography,  } from "@mui/material";
 
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-//import { AdminCard } from "../components/AdminCard/AdminCard";
-import img1 from "../assets/images/SA-NU-PER.svg";
-import img2 from "../assets/images/SA-NU.svg";
-import img3 from "../assets/images/SA-KPI.svg";
+import Analytics from '../assets/images/HomeAdmin/OpenAnalytics.png'
+import SA_OpenAccount from '../assets/images/HomeAdmin/SA_OpenAccount.png'
+import SA_OpenUser from '../assets/images/HomeAdmin/SA_OpenUser.png'
+
 
 import { useNavigate } from "react-router-dom";
+import { ButtonHome, MainPage } from "../assets/styled/muistyled";
 
-const MainHomeSA = styled(Grid)(({ theme }) => ({
-  position: "relative",
-  overflow: "hidden",
-  minHeight: "95vh",
-  width: "100%",
-  padding: "0 2rem",
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
 
-const CardContainer = styled(Grid)(({ theme }) => ({
-  marginTop: "25px",
-  input: {
-    display: "none",
-  },
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
-
-const CardContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-  width: "55vh",
-  height: "70vh",
-  backgroundColor: "#f9f9f9",
-  borderRadius: "10px",
-  padding: "15px",
-  alignItems: "center",
-  justifyContent: "center",
-  "&:hover": {
-    background: "#f2f2f2",
-  },
-  img: {},
-}));
 
 export const HomeSA = ({ count }) => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <MainHomeSA sx={{ bgcolor: "background.default", color: "text.primary" }}>
+  
+      <MainPage>
         <Header count={count} />
-        <Grid container spacing={3}>
+
+        <Typography variant="h5" > Welcome to Space GP - Super Admin</Typography>
+
+        <Grid container spacing={1}>
           <Grid item xs={12} md={4}>
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button
+         
+                  <ButtonHome
                     onClick={() => {
                       navigate("/usermanage");
                     }}
                     disabled
                   >
-                    <img src={img1} alt="top-Ten" />
-                  </Button>
+                    <img src={SA_OpenUser} alt="Open User" />
+                  </ButtonHome>
 
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
-                  >
-                    User management
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
           </Grid>
           <Grid item xs={12} md={4}>
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button
+         
+                  <ButtonHome
                     onClick={() => {
                       navigate("/upcount");
                     }}
                   >
-                    <img src={img2} alt="top-Ten" />
-                  </Button>
+                    <img src={SA_OpenAccount} alt="Open Account" />
+                  </ButtonHome>
 
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
-                  >
-                    Account creation
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
           </Grid>
           <Grid item xs={12} md={4}>
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button
+          
+                  <ButtonHome
                     onClick={() => {
                       navigate("/analitycs-su");
                     }}
                     disabled
                   >
-                    <img src={img3} alt="top-Ten" />
-                  </Button>
+                    <img src={Analytics} alt="Analytics" />
+                  </ButtonHome>
 
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ m: "10px", color: "#3047B0" }}
-                  >
-                    Analytics
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+                 
           </Grid>
         </Grid>
         <Footer />
-      </MainHomeSA>
-    </>
+      </MainPage>
+    
   );
 };

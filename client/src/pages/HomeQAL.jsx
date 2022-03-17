@@ -1,89 +1,56 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, styled, Box, Typography, Button } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
-import img2 from "../assets/images/QA-2.svg";
-//import img1 from "../assets/images/QA-1.svg";
-//import { AdminCard } from "../components/AdminCard/AdminCard";
+import QA_MissionManage from '../assets/images/HomeAdmin/QA_MissionManage.png'
+import QA_MissionAssign from '../assets/images/HomeAdmin/QA_MissionAssignment.png'
+import Analytics from '../assets/images/HomeAdmin/OpenAnalytics.png'
+import { ButtonHome, MainPage } from "../assets/styled/muistyled";
 
-const MainHomeQAL = styled(Grid)(({ theme }) => ({
-  position: "relative",
-  overflow: "hidden",
-  minHeight: "95vh",
-  width: "100%",
-  padding: "0 2rem",
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
-
-const CardContainer = styled(Grid)(({ theme }) => ({
-  marginTop: "25px",
-  input: {
-    display: "none",
-  },
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
-
-const CardContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-
-  width: "55vh",
-  height: "70vh",
-  backgroundColor: "#f9f9f9",
-
-  borderRadius: "10px",
-  padding: "15px",
-  alignItems: "center",
-  justifyContent: "center",
-  "&:hover": {
-    background: "#f2f2f2",
-  },
-}));
 
 export const HomeQAL = ({ count }) => {
   const navigate = useNavigate();
   return (
-    <>
-      <MainHomeQAL
-//        sx={{ bgcolor: "background.default" }}
-      >
+  
+      <MainPage  >
         <Header count={count} />
-        <Grid container spacing={3}>
+        <Typography variant="h5" > Welcome to Space GP - QA Lead</Typography>
+        <Grid container spacing={1}>
           <Grid item xs={12} md={4}>
-            
-          </Grid>
-          <Grid item xs={12} md={4}>
-            
-            <CardContainer>
-              <CardContent>
-                <Box display="flex" flexDirection="column">
-                  <Button
+             <ButtonHome
+             disabled
                     onClick={() => {
                       navigate("/upquiz");
                     }}
                   >
-                    <img src={img2} alt="top-Ten" />
-                  </Button>
-
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    fontWeight="bold"
-                    sx={{ margin: "10px", color: "#3047B0" }}
+                    <img src={QA_MissionManage} alt="QA_MissionManage" />
+                  </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>
+             <ButtonHome
+                    onClick={() => {
+                      navigate("/upquiz");
+                    }}
                   >
-                    Quizzes Questions Upload
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardContainer>
+                    <img src={QA_MissionAssign} alt="QA_MissionAssign" />
+                  </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>          
+                  <ButtonHome
+                  disabled
+                    onClick={() => {
+                      navigate("/upquiz");
+                    }}
+                  >
+                    <img src={Analytics} alt="Analytics" />
+                  </ButtonHome>
+
+                  
           </Grid>
         </Grid>
         <Footer />
-      </MainHomeQAL>
-    </>
+      </MainPage>
+    
   );
 };
