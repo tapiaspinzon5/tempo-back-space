@@ -16,6 +16,7 @@ import ProgresBar from "../progressCharts/ProgresBar";
 import epicoinICO from "../../assets/Icons/epicoin-ico.svg";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { headerDataAction } from "../../redux/homeDataDuck";
+import { headerDataTlAction } from "../../redux/homeDataDuckTL";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -49,11 +50,12 @@ const RightHeader = styled(Grid)((theme) => ({
 }));
 
 const Header = ({ count }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const homeData = useSelector((store) => store.homeData.homeData);
   const headerData = useSelector((store) => store.homeData.headerData);
-  
+  const headerDataTl = useSelector((store) => store.homeDataTl.headerData);
+
   const idccms = userData.Idccms;
   const [cont, setCont] = useState(0);
   const [notifications, setNotifications] = useState([]);
@@ -66,16 +68,17 @@ const Header = ({ count }) => {
   };
 
   useEffect(() => {
-   dispatch(headerDataAction(idccms))
+    dispatch(headerDataAction(idccms));
+    dispatch(headerDataTlAction(idccms));
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
       if (
         getNotifications &&
         getNotifications.status === 200 &&
         getNotifications.data.length > 0
-        ) {
+      ) {
         setNotifications(getNotifications.data);
-        
+
         let c = 0;
         getNotifications.data.forEach((el) => {
           if (el.Status === "Unread") {
@@ -88,7 +91,7 @@ const Header = ({ count }) => {
     data();
     // eslint-disable-next-line
   }, []);
-  
+
   useEffect(() => {
     const data = async () => {
       const getNotifications = await downloadNotifications(idccms);
@@ -96,14 +99,14 @@ const Header = ({ count }) => {
         getNotifications &&
         getNotifications.status === 200 &&
         getNotifications.data.length > 0
-        ) {
-          setNotifications(getNotifications.data);
+      ) {
+        setNotifications(getNotifications.data);
 
-          let c = 0;
-          getNotifications.data.forEach((el) => {
-            if (el.Status === "Unread") {
-              c += 1;
-            }
+        let c = 0;
+        getNotifications.data.forEach((el) => {
+          if (el.Status === "Unread") {
+            c += 1;
+          }
         });
         setCont(c);
       }
@@ -111,7 +114,6 @@ const Header = ({ count }) => {
     data();
     // eslint-disable-next-line
   }, [count]);
-  
 
   function notificationsLabel(count) {
     if (count === 0) {
@@ -123,7 +125,6 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
- 
   return (
     <>
       <MainHeader
@@ -152,18 +153,29 @@ const Header = ({ count }) => {
               <RightHeader item xs={12} md={6}>
                 <Box display="flex" alignItems="center">
                   <Typography variant="body2">
-                    <b>{headerData?.Exp}</b> Pts
+                    <b>
+                      {userData.Role === "Agent"
+                        ? headerData?.Exp
+                        : headerDataTl?.Exp}
+                    </b>{" "}
+                    Pts
                   </Typography>
                   <Box width="150px" margin="0 1rem">
                     <ProgresBar
                       value={
-                        (headerData?.Exp * 100) /
-                        headerData?.High
+                        userData.Role === "Agent"
+                          ? (headerData?.Exp * 100) / headerData?.High
+                          : (headerDataTl?.Exp * 100) / headerDataTl?.High
                       }
                     />
                   </Box>
                   <Typography variant="body2">
-                    <b>{headerData?.High}</b> Pts to level up
+                    <b>
+                      {userData.Role === "Agent"
+                        ? headerData?.High
+                        : headerDataTl?.High}
+                    </b>{" "}
+                    Pts to level up
                   </Typography>
                 </Box>
 
@@ -180,18 +192,22 @@ const Header = ({ count }) => {
                   </Badge>
                 </IconButton>
 
-                <Box display="flex" alignItems="center">
-                  <img src={epicoinICO} alt="coinICO" height={30} />
-                  <Typography
-                    variant="body2"
-                    color="#3047B0"
-                    fontWeight={700}
-                    marginLeft="10px"
-                  >
-                    {" "}
-                    {headerData?.ResObtenidoCoin} Epicoins
-                  </Typography>
-                </Box>
+                {userData.Role === "Agent" ? (
+                  <Box display="flex" alignItems="center">
+                    <img src={epicoinICO} alt="coinICO" height={30} />
+                    <Typography
+                      variant="body2"
+                      color="#3047B0"
+                      fontWeight={700}
+                      marginLeft="10px"
+                    >
+                      {" "}
+                      {headerData?.ResObtenidoCoin} Epicoins
+                    </Typography>
+                  </Box>
+                ) : (
+                  <></>
+                )}
               </RightHeader>
             )}
           </>

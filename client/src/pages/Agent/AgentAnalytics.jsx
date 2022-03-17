@@ -72,23 +72,7 @@ const AgentAnalytics = ({ count }) => {
   const [series, setSeries] = useState([]);
   const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
-    // colors: ["#03A9F4", "#D7263D"],
-    annotations: {
-      yaxis: [
-        {
-          y: 50, // data.data[1].KpiDetallado[0].Target,
-          borderColor: "#D7263D",
-          label: {
-            borderColor: "#D7263D",
-            style: {
-              color: "#fff",
-              background: "#D7263D",
-            },
-            text: "Target to achieve",
-          },
-        },
-      ],
-    },
+    colors: ["#03A9F4", "#D7263D"],
     stroke: {
       curve: "smooth",
     },
@@ -132,18 +116,21 @@ const AgentAnalytics = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
-          // let TargetData=[]
+          let targetData = [];
 
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
-            // targetData.push(data.data[1].KpiDetallado[0].Target);
+            targetData.push(data.data[1].KpiDetallado[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({
             ...options,
             xaxis: { categories: categoriesData },
           });
-          setSeries([{ name: "Values", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: "area", data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
           setLoadingKpi(false);
           setLoadingGraph(false);
         } else {
@@ -174,7 +161,10 @@ const AgentAnalytics = ({ count }) => {
           categoriesData.push(dato.Date.split("T")[0]);
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "Values", data: seriesData }]);
+        setSeries([
+          { name: "KPI value", type: typeChart, data: seriesData },
+          { name: "Target", type: "line", data: targetData },
+        ]);
       } else if (timeView === "Week") {
         const hash = {};
         let filterData = await graph.filter(function (current) {
@@ -184,10 +174,14 @@ const AgentAnalytics = ({ count }) => {
         });
         filterData.forEach((dato) => {
           seriesData.push(dato.AverageWeekAgent.toFixed(2));
+          targetData.push(actualKpi.Target);
           categoriesData.push(dato.Week.split("T")[0]);
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "Values", data: seriesData }]);
+        setSeries([
+          { name: "KPI average", type: typeChart, data: seriesData },
+          { name: "Target", type: "line", data: targetData },
+        ]);
       } else if (timeView === "Month") {
         const hash = {};
         let filterData = await graph.filter(function (current) {
@@ -197,10 +191,14 @@ const AgentAnalytics = ({ count }) => {
         });
         filterData.forEach((dato) => {
           seriesData.push(dato.AverageMonthAgent.toFixed(2));
+          targetData.push(actualKpi.Target);
           categoriesData.push(ConvertMonth(dato.Month));
         });
         setOptions({ ...options, xaxis: { categories: categoriesData } });
-        setSeries([{ name: "Values", data: seriesData }]);
+        setSeries([
+          { name: "KPI average", type: typeChart, data: seriesData },
+          { name: "Target", type: "line", data: targetData },
+        ]);
       } else {
         setError(true);
       }
@@ -217,8 +215,13 @@ const AgentAnalytics = ({ count }) => {
 
     setSeries([]);
     setOptions({
+      colors: ["#03A9F4", "#D7263D"],
       stroke: {
         curve: "smooth",
+      },
+      fill: {
+        type: "solid",
+        opacity: [0.35, 1],
       },
       dataLabels: {
         enabled: false,
@@ -257,11 +260,15 @@ const AgentAnalytics = ({ count }) => {
   const handleKPI = async (idKpi) => {
     setTypeChart("area");
     setLoadingGraph(true);
-
     setSeries([]);
     setOptions({
+      colors: ["#03A9F4", "#D7263D"],
       stroke: {
         curve: "smooth",
+      },
+      fill: {
+        type: "solid",
+        opacity: [0.35, 1],
       },
       dataLabels: {
         enabled: false,

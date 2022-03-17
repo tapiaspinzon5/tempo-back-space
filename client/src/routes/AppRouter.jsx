@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { headerDataAction } from "../redux/homeDataDuck";
-
+import { headerDataTlAction } from "../redux/homeDataDuckTL";
 import {
   HashRouter as Router,
   Routes,
@@ -53,6 +53,7 @@ const AppRouter = () => {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const headerData = useSelector((store) => store.homeData.headerData);
+  const headerDataTl = useSelector((store) => store.homeDataTl.headerData);
   const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
   const [navLong, setNavLong] = useState(false);
@@ -91,6 +92,7 @@ const AppRouter = () => {
   useEffect(() => {
     if (idccms > 0) {
       dispatch(headerDataAction(idccms));
+      dispatch(headerDataTlAction(idccms));
     }
     // eslint-disable-next-line
   }, []);
@@ -128,6 +130,7 @@ const AppRouter = () => {
               <OptionsProfile
                 setSeeProfile={setSeeProfile}
                 profile={headerData}
+                teamlead={headerDataTl}
                 navLong={navLong}
               />
             )}
@@ -237,7 +240,7 @@ const AppRouter = () => {
           {!userData?.Role && <Route path="/" element={<Login />} />}
           {!userData?.Role && <Route path="*" element={<Login />} />}
 
-          {userData?.Role && (
+          {userData?.Role && userData?.NumberLogins !== 1 && (
             <Route
               path="*"
               element={
