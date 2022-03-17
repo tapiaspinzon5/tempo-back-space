@@ -90,7 +90,7 @@ export const downloadHomeDataTl = (idccms) => (dispatch) => {
 };
 
 //trae la data del Home
-export const headerDataAction = (idccms) => (dispatch) => {
+export const headerDataTlAction = (idccms) => (dispatch) => {
   dispatch({
     type: LOADING,
   });
