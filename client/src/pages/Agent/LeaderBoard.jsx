@@ -17,8 +17,8 @@ import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 
 const LeaderBoard = ({ count }) => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const ref = useRef();
@@ -58,11 +58,10 @@ const LeaderBoard = ({ count }) => {
         setKpis(initialData.data[1].ListKpi);
         setData(dataOrder);
         setLoading(false);
-      }else if(initialData.data === 'UnauthorizedError'){
+      } else if (initialData.data === "UnauthorizedError") {
         dispatch(logoutAction());
         navigate("/");
       }
-      
     };
     getData();
     // eslint-disable-next-line
@@ -165,6 +164,9 @@ const LeaderBoard = ({ count }) => {
             justifyContent="center"
           >
             <Box padding={2} width="100%">
+              <Typography variant="h6" fontWeight="500" color="#3047B0">
+                General Journey Podium
+              </Typography>
               <PodiumLB podio={podium} />
             </Box>
           </BoxContain>

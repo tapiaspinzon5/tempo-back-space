@@ -16,7 +16,7 @@ import {
 import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 import { FiPieChart } from "react-icons/fi";
-import { getKPIteamTL, getUsersKPI } from "../../utils/api";
+import { getKpisHome, getKPIteamTL, getUsersKPI } from "../../utils/api";
 import Footer from "../../components/Footer";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
@@ -100,8 +100,13 @@ const FollowingTeamsKPI = ({ count }) => {
   const [series, setSeries] = useState([]);
   const [typeChart, setTypeChart] = useState("area");
   const [options, setOptions] = useState({
+    colors: ["#03A9F4", "#D7263D"],
     stroke: {
       curve: "smooth",
+    },
+    fill: {
+      type: "solid",
+      opacity: [0.35, 1],
     },
     dataLabels: {
       enabled: false,
@@ -124,6 +129,7 @@ const FollowingTeamsKPI = ({ count }) => {
       const data = await getKPIteamTL(idccms);
       if (data && data.status === 200 && data.data.length > 1) {
         setKpi(data.data[1].KpiDetallado);
+        setError(false);
         setAgents(data.data[0].AgentsTeams);
         setActualKpi(data.data[1].KpiDetallado[0]);
         setLoading(false);
@@ -131,7 +137,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
           timeView,
-          4492826 //idccms // ccms del team Leader
+          idccms // ccms del team Leader
         );
         if (
           listAndGraph &&
@@ -142,12 +148,17 @@ const FollowingTeamsKPI = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
+          let targetData = [];
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.AverageDayTeam.toFixed(2));
+            targetData.push(data.data[1].KpiDetallado[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "Values", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: "area", data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);
@@ -170,13 +181,18 @@ const FollowingTeamsKPI = ({ count }) => {
       if (!view) {
         let seriesData = [];
         let categoriesData = [];
+        let targetData = [];
         if (timeView === "Day") {
           graph.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else if (timeView === "Week") {
           const hash = {};
           let filterData = await graph.filter(function (current) {
@@ -186,10 +202,14 @@ const FollowingTeamsKPI = ({ count }) => {
           });
           filterData.forEach((dato) => {
             seriesData.push(dato.AverageWeekAgent.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(dato.Week.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI average", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else if (timeView === "Month") {
           const hash = {};
           let filterData = await graph.filter(function (current) {
@@ -199,23 +219,32 @@ const FollowingTeamsKPI = ({ count }) => {
           });
           filterData.forEach((dato) => {
             seriesData.push(dato.AverageMonthAgent.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(ConvertMonth(dato.Month));
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI average", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else {
           setError(true);
         }
       } else {
         let seriesData = [];
         let categoriesData = [];
+        let targetData = [];
         if (timeView === "Day") {
           graph.forEach((dato) => {
             seriesData.push(dato.AverageDayTeam.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else if (timeView === "Week") {
           const hash = {};
           let filterData = await graph.filter(function (current) {
@@ -225,10 +254,14 @@ const FollowingTeamsKPI = ({ count }) => {
           });
           filterData.forEach((dato) => {
             seriesData.push(dato.AverageWeekTeam.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(dato.Week.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI average", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else if (timeView === "Month") {
           const hash = {};
           let filterData = await graph.filter(function (current) {
@@ -238,10 +271,14 @@ const FollowingTeamsKPI = ({ count }) => {
           });
           filterData.forEach((dato) => {
             seriesData.push(dato.AverageMonthTeam.toFixed(2));
+            targetData.push(actualKpi.Target);
             categoriesData.push(ConvertMonth(dato.Month));
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI average", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
         } else {
           setError(true);
         }
@@ -259,8 +296,13 @@ const FollowingTeamsKPI = ({ count }) => {
     setLoadingList(true);
     setSeries([]);
     setOptions({
+      colors: ["#03A9F4", "#D7263D"],
       stroke: {
         curve: "smooth",
+      },
+      fill: {
+        type: "solid",
+        opacity: [0.35, 1],
       },
       dataLabels: {
         enabled: false,
@@ -281,7 +323,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           actualKpi.IdRegistryKpi,
           e.target.value,
-          4492826 //actualAgent//ccms id del integrante del equipo
+          actualAgent //ccms id del integrante del equipo
         );
         if (
           listAndGraph &&
@@ -301,7 +343,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           actualKpi.IdRegistryKpi,
           e.target.value,
-          4492826 //idccms //ccms id Team Leader
+          idccms //ccms id Team Leader
         );
         if (
           listAndGraph &&
@@ -326,8 +368,13 @@ const FollowingTeamsKPI = ({ count }) => {
       setLoadingList(true);
       setSeries([]);
       setOptions({
+        colors: ["#03A9F4", "#D7263D"],
         stroke: {
           curve: "smooth",
+        },
+        fill: {
+          type: "solid",
+          opacity: [0.35, 1],
         },
         dataLabels: {
           enabled: false,
@@ -347,7 +394,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           idKpi,
           "Day",
-          4492826 //actualAgent //ccms id del integrante del equipo
+          actualAgent //ccms id del integrante del equipo
         );
         if (
           listAndGraph &&
@@ -370,8 +417,13 @@ const FollowingTeamsKPI = ({ count }) => {
       setLoadingList(true);
       setSeries([]);
       setOptions({
+        colors: ["#03A9F4", "#D7263D"],
         stroke: {
           curve: "smooth",
+        },
+        fill: {
+          type: "solid",
+          opacity: [0.35, 1],
         },
         dataLabels: {
           enabled: false,
@@ -391,7 +443,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           idKpi,
           "Day",
-          4492826 //idccms //ccms id del Team Leader
+          idccms //ccms id del Team Leader
         );
         if (
           listAndGraph &&
@@ -414,6 +466,7 @@ const FollowingTeamsKPI = ({ count }) => {
     e.preventDefault();
     let ag = e.target.value;
     setShowChart(true);
+    setTypeChart("area");
     setTimeView("Day");
     setView(false);
     setActualAgent(ag);
@@ -422,16 +475,16 @@ const FollowingTeamsKPI = ({ count }) => {
       setLoadingGraph(true);
       setLoadingList(true);
       setLoadingKpi(true);
-      const data = await getKPIteamTL(ag);
-      if (data && data.status === 200 && data.data.length > 1) {
-        setKpi(data.data[1].KpiDetallado);
-        setAgents(data.data[0].AgentsTeams);
-        setActualKpi(data.data[1].KpiDetallado[0]);
+      const data = await getKpisHome(ag, 1);
+      if (data && data.status === 200 && data.data.length > 0) {
+        setKpi(data.data[0].KPI);
+        setError(false);
+        setActualKpi(data.data[0].KPI);
         setLoadingKpi(false);
         setLoading(false);
         const listAndGraph = await getUsersKPI(
           ag,
-          data.data[1].KpiDetallado[0].IdRegistryKpi,
+          data.data[0].KPI[0].IdRegistryKpi,
           "Day",
           ag // //ccms id del agente del equipo
         );
@@ -444,12 +497,17 @@ const FollowingTeamsKPI = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
+          let targetData = [];
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
+            targetData.push(data.data[0].KPI[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);
@@ -462,6 +520,7 @@ const FollowingTeamsKPI = ({ count }) => {
     };
     getData();
   };
+
   const handleTeam = () => {
     setShowChart(false);
     setTimeView("Day");
@@ -476,6 +535,7 @@ const FollowingTeamsKPI = ({ count }) => {
       const data = await getKPIteamTL(idccms);
       if (data && data.status === 200 && data.data.length > 1) {
         setKpi(data.data[1].KpiDetallado);
+        setError(false);
         setAgents(data.data[0].AgentsTeams);
         setActualKpi(data.data[1].KpiDetallado[0]);
         setLoading(false);
@@ -484,7 +544,7 @@ const FollowingTeamsKPI = ({ count }) => {
           idccms,
           data.data[1].KpiDetallado[0].IdRegistryKpi,
           "Day",
-          4492826 //idccms //ccms id del Team Leader
+          idccms //ccms id del Team Leader
         );
         if (
           listAndGraph &&
@@ -495,12 +555,17 @@ const FollowingTeamsKPI = ({ count }) => {
           setGraph(listAndGraph.data[0].GraphicAverage);
           let seriesData = [];
           let categoriesData = [];
+          let targetData = [];
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.AverageDayTeam.toFixed(2));
+            targetData.push(data.data[1].KpiDetallado[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({ ...options, xaxis: { categories: categoriesData } });
-          setSeries([{ name: "", data: seriesData }]);
+          setSeries([
+            { name: "KPI value", type: typeChart, data: seriesData },
+            { name: "Target", type: "line", data: targetData },
+          ]);
           setLoading(false);
           setLoadingGraph(false);
           setLoadingList(false);

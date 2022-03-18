@@ -45,8 +45,8 @@ const selectButton = {
 const images = [img1, img2, img3, img4];
 
 const ActivitiesView = () => {
-  const navigate = useNavigate()
-const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [quizUser, setQuizUser] = useState([]);
@@ -57,14 +57,13 @@ const dispatch = useDispatch()
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-      if (localStorage.getItem("menuActivity")) {
-        setActivities(()=>JSON.parse(localStorage.getItem("menuActivity")));
-      }
-      else {
-        setActivities({
-          type: "Quizes",
-          context: 3,
-        });
+    if (localStorage.getItem("menuActivity")) {
+      setActivities(() => JSON.parse(localStorage.getItem("menuActivity")));
+    } else {
+      setActivities({
+        type: "Quizes",
+        context: 3,
+      });
     }
     // eslint-disable-next-line
   }, []);
@@ -85,12 +84,10 @@ const dispatch = useDispatch()
           if (quizes.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
-        } 
-        else if(quizes.data === 'UnauthorizedError'){
-        dispatch(logoutAction());
-        navigate("/");
-        }
-        else {
+        } else if (quizes.data === "UnauthorizedError") {
+          dispatch(logoutAction());
+          navigate("/");
+        } else {
           setNoData("The Game Starts Soon");
         }
       } else {
@@ -100,21 +97,18 @@ const dispatch = useDispatch()
           if (getActivities.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
-        } 
-        else if(getActivities.data === 'UnauthorizedError'){
-        dispatch(logoutAction());
-        navigate("/");
-        }   else{
+        } else if (getActivities.data === "UnauthorizedError") {
+          dispatch(logoutAction());
+          navigate("/");
+        } else {
           setNoData("The Game Starts Soon");
         }
       }
-           setLoading(false);
+      setLoading(false);
     };
     const handleLS = () => {
       localStorage.setItem("menuActivity", JSON.stringify(activities));
     };
-
-
 
     getData();
     handleLS();
@@ -129,9 +123,7 @@ const dispatch = useDispatch()
     return () => {
       window.removeEventListener("mousemove", mousePosition);
     };
-
   }, []);
-
 
   return (
     <Grid width="100%">

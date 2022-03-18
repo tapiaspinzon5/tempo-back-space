@@ -15,7 +15,7 @@ import {
 import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 
-import { getKPIteamTL, getUsersKPI } from "../../utils/api";
+import { getKpisHome, getUsersKPI } from "../../utils/api";
 import Footer from "../../components/Footer";
 import LineChartGP from "../../components/progressCharts/LineChartGP";
 import KpiCardUserAnalytics from "../../components/Analytics/KpiCardUserAnalytics";
@@ -97,13 +97,14 @@ const AgentAnalytics = ({ count }) => {
     const getData = async () => {
       setLoadingGraph(true);
       setLoadingKpi(true);
-      const data = await getKPIteamTL(idccms);
-      if (data && data.status === 200 && data.data.length > 1) {
-        setKpi(data.data[1].KpiDetallado);
-        setActualKpi(data.data[1].KpiDetallado[0]);
+      const data = await getKpisHome(idccms, 1);
+      if (data && data.status === 200 && data.data.length > 0) {
+        //console.log(data.data[0].KPI);
+        setKpi(data.data[0].KPI);
+        setActualKpi(data.data[0].KPI[0]);
         const listAndGraph = await getUsersKPI(
           idccms,
-          data.data[1].KpiDetallado[0].IdRegistryKpi,
+          data.data[0].KPI[0].IdRegistryKpi,
           timeView,
           idccms
         );
@@ -120,7 +121,7 @@ const AgentAnalytics = ({ count }) => {
 
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual.toFixed(2));
-            targetData.push(data.data[1].KpiDetallado[0].Target);
+            targetData.push(data.data[0].KPI[0].Target);
             categoriesData.push(dato.Date.split("T")[0]);
           });
           setOptions({
@@ -307,7 +308,7 @@ const AgentAnalytics = ({ count }) => {
   return (
     <MainPage>
       <Header count={count} />
-      <Typography variant="h5"> Following Team KPI</Typography>
+      <Typography variant="h5"> KPI s</Typography>
       <Grid container>
         <UsersBox item xs={12} md={6}>
           <Item>
