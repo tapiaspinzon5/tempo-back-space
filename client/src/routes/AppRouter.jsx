@@ -43,6 +43,9 @@ import OptionsProfile from "../components/OptionsProfile";
 import TeamInformation from "../pages/TeamLeader/TeamInformation";
 import { TLChallengeAssignment } from "../pages/TeamLeader/TLChallengeAssignment";
 import KpiUpload from "../pages/Rep Lead/KpiUpload";
+import UploadAgentSection from "../pages/Rep Lead/UploadAgentSection";
+import LeaderBoardRL from "../pages/Rep Lead/LeaderBoardRL";
+import AnalyticsRL from "../pages/Rep Lead/AnalyticsRL";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -103,6 +106,7 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, [notification]);
+
 
   return (
     <Router>
@@ -197,6 +201,9 @@ const AppRouter = () => {
               <Route path="/homerl" element={<HomeRL count={count} />} />
               <Route path="/upagents" element={<UpAgents />} />
               <Route path="/upkpi" element={<KpiUpload />} />
+              <Route path="/uploadAgent" element={<UploadAgentSection />} />
+              <Route path="/leaderboard" element={<LeaderBoardRL />} />
+              <Route path="/analytics" element={<AnalyticsRL/>} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (

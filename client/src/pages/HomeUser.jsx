@@ -162,9 +162,9 @@ const HomeUser = ({ count }) => {
                 {badge ? (
                   <img
                     src={
-                      badge && badge?.Badge[0].Badge === "0" ? medal : medal2
+                      badge && badge?.Badge[0].ImageBadge
                     }
-                    alt="top-Ten"
+                    alt="Your Last Badge"
                     height="100%"
                   />
                 ) : (
