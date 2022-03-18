@@ -73,13 +73,7 @@ const CardActivityManage = ({ quiz }) => {
   } = quiz;
 
   useEffect(() => {
-    if (PreguntasRespondidas !== 0) {
-      //const result = parseInt((PreguntasRespondidas * 100) / CantidadPreguntas);
-      //setValueProgress(result);
-    } else {
-      //setValueProgress(0);
-    }
-
+ 
     switch (EstadoExamen) {
       case "Failed":
         setbackground("rgba(255, 0, 0, 0.616) 0% 0% no-repeat padding-box");

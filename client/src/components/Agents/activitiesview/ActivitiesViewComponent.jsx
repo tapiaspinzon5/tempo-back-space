@@ -75,15 +75,16 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
     // eslint-disable-next-line
   }, []);
 
+
   return (
     <BoxCard
       sx={
         Status
           ? {
-              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${img1})`,
+              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${activity.fullScreen || img1})`,
             }
           : {
-              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${img1})`,
+              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${activity.fullScreen || img1})`,
             }
       }
       onMouseEnter={handleMouseEnter}

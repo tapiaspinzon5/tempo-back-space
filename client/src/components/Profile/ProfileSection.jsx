@@ -5,6 +5,7 @@ import epicoin from "../../assets/Icons/epicoin-ico.svg";
 import level from "../../assets/Icons/level-icon.svg";
 import ProgresBar from "../progressCharts/ProgresBar";
 import badgeImg from "../../assets/temp-image/Badges/Missions.png";
+import { useSelector } from "react-redux";
 
 const BoxProfileUser = styled(Box)(() => ({
   color: "#3047b0",
@@ -25,6 +26,8 @@ const BoxReward = styled(Box)(() => ({
   },
 }));
 const ProfileSection = ({profile}) => {
+  const badgeData = useSelector((store) => store.homeData.badgeData);
+  
   return (
     <BoxProfileUser>
       <Box display="flex" flexDirection="column" alignItems="center">
@@ -73,7 +76,7 @@ const ProfileSection = ({profile}) => {
         </Box>
       </Box>
       <Box>
-        <img src={badgeImg} alt="" height={160} />
+        <img src={badgeData?.ImageBadge} alt="" height={160} />
         <Typography variant="body1"> Latest Achievement</Typography>
       </Box>
     </BoxProfileUser>

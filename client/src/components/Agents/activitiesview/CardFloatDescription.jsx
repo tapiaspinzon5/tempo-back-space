@@ -47,7 +47,6 @@ const BoxImage = styled(Box)(() => ({
   img: {
     margin: "0 15px",
     height: "70px",
-    width: "70px",
     marginBottom: ".5rem",
   },
 }));
@@ -73,14 +72,14 @@ const CardFloatDescription = ({ activity, img1, mousePos }) => {
       >
         <BoxLeft
           sx={{
-            backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${img1})`,
+            backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${activity.fullScreen || img1})`,
           }}
         >
           <Typography variant="subtitle2">{activity.NameActivity}</Typography>{" "}
         </BoxLeft>
         <BoxRight>
           <BoxImage>
-            <img src={activitiesIMG} alt="" />
+            <img src={activity.ImageBadge || activitiesIMG} alt="" />
           </BoxImage>
           <Typography variant="body2" align="left" marginBottom=".5rem">
             {activity.Description || activity.DescriptionChallenge}

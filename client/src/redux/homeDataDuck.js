@@ -4,6 +4,7 @@ import { axiosInstance } from "../api/interceptor";
 const initialData = {
   loading: false,
   homeData: null,
+  badgeData:null,
   headerData: null,
 };
 
@@ -27,6 +28,7 @@ export default function homeDataReducer(state = initialData, action) {
       return {
         ...state,
         homeData: action.payload.data,
+
         loading: false,
       };
     case ERROR_DATA:
@@ -40,6 +42,7 @@ export default function homeDataReducer(state = initialData, action) {
       return {
         ...state,
         headerData: action.payload.data,
+        badgeData: action.payload.badge,
         loading: false,
       };
 
@@ -114,6 +117,7 @@ export const headerDataAction = (idccms) => (dispatch) => {
         type: GET_HEADER_DATA,
         payload: {
           data: data.data[5].Level[0],
+          badge: data.data[4].Badge[0]
         },
       });
     } catch (error) {

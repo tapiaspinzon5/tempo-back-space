@@ -178,7 +178,7 @@ export const HomeTL = ({ count }) => {
               >
                 {badge ? (
                   <img
-                    src={badge && badge.Badge[0].Badge === "0" ? medal : medal2}
+                    src={badge.Badge[0].ImageBadge || medal2}
                     alt="top-Ten"
                     height="100%"
                     // width="55%"

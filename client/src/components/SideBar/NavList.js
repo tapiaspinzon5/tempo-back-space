@@ -10,6 +10,7 @@ import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2 } from "react-icons/im";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
+import { AiOutlineFileAdd } from "react-icons/ai";
 
 
 const LItem = styled(ListItem)(({ theme }) => ({
@@ -103,12 +104,35 @@ export const NavList = ({ open, match, userData }) => {
         {
           <>
             {userData === "Reporting Lead" && (
+              <>
+               <LItem button onClick={() => navigate("/uploadAgent")}>
+                  <LIcon>
+                    <AiOutlineFileAdd size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Agent Upload</Typography>}
+                </LItem>
+  <LItem button onClick={() => navigate("/leaderboard")}>
+                  <LIcon>
+                    <IoTrendingUpSharp size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>LeaderBoard</Typography>}
+                </LItem>
+ <LItem button onClick={() => navigate("/analytics")}>
+                  <LIcon>
+                    <FiPieChart size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Analytics</Typography>}
+                </LItem>
+
               <LItem button onClick={() => navigate("/upkpi")}>
                 <LIcon>
                   <FiUploadCloud size={25} color="#fff" />
                 </LIcon>
                 {open && match && <Typography>Library</Typography>}
               </LItem>
+              
+              </>
+                
             )}
           </>
         }

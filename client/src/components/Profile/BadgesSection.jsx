@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Typography, styled, Badge } from "@mui/material";
 import React from "react";
 
 const BoxBadgeUser = styled(Box)(() => ({
@@ -13,6 +13,9 @@ const BoxBadgeUser = styled(Box)(() => ({
 const BoxBages = styled(Box)(() => ({
   height: "34.3rem",
   overflowY: "scroll",
+  display:'flex',
+  flexWrap:'wrap',
+  justifyContent:'space-around',
   "&::-webkit-scrollbar": {
     width: "6px",
   },
@@ -25,7 +28,10 @@ const BoxBages = styled(Box)(() => ({
     borderRadius: "20px",
   },
 }));
-const BadgesSection = () => {
+
+
+const BadgesSection = ({badges}) => {
+
   return (
     <BoxBadgeUser>
       <Box>
@@ -42,7 +48,26 @@ const BadgesSection = () => {
           Badges
         </Typography>
       </Box>
-      <BoxBages>imagenes de los badges ...pendiente por definir</BoxBages>
+      <BoxBages>
+            {badges.map((badge, index)=>(
+          <Badge
+          key={index}
+          sx={{marginBottom:'2rem'}}
+          badgeContent={badge.NumBadges} color="primary"
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'right',
+  }}
+>
+<img src={badge.ImageBadge} alt={badge.Name}   height={120}
+            style={badge.NumBadges>0?{
+              filter: 'grayscale(0%)'
+            }:{
+              filter: 'grayscale(85%)'
+            }} />
+</Badge>       
+            ))}
+      </BoxBages>
     </BoxBadgeUser>
   );
 };

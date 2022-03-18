@@ -7,14 +7,16 @@ import { userActivityDesc } from "../../../utils/api";
 import img4 from "../../../assets/temp-image/desc/MicrosoftTeams-image.png";
 import epicoins from "../../../assets/Icons/epicoin-ico.svg";
 import xpIco from "../../../assets/Icons/start-icon.svg";
+import Header from "../../homeUser/Header";
+import { MainPage } from "../../../assets/styled/muistyled";
 
 const MainDesc = styled(Grid)(() => ({
   width: "100%",
-  padding: "1rem",
+  padding: "1rem 0",
 }));
 const BoxHead = styled(Grid)(() => ({
   width: "100%",
-  minHeight: "45vh",
+  minHeight: "40vh",
   background: "#f9f9f9",
   borderRadius: "20px",
   display: "flex",
@@ -38,37 +40,24 @@ const BoxBody = styled(Grid)(() => ({
   h5: {
     fontWeight: "600",
   },
-
-  ul: {
-    listStyle: "none",
-    paddingLeft: 0,
-    span: {
-      fontWeight: "bold",
-    },
-    li: {
-      marginBottom: "1rem",
-      fontSize: "20px",
-    },
-  },
 }));
 
-const LeftBox = styled(Grid)(() => ({
-  background: "#e8e8e8",
-  borderRadius: "20px",
+const GridSection = styled(Grid)(() => ({
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'center'
 }));
-const RewardBox = styled(Grid)(() => ({
-  background: "white",
-  borderRadius: "20px",
-  minHeight: "5rem",
+
+const BoxRewards = styled(Box)(() => ({
   display: "flex",
-  padding: "1rem",
-  p: {
-    fontSize: "20px",
     fontWeight: "700",
     color: "#3047b0",
-    margin: "0 1rem",
+  img: {
+    height: "45px",
+    width: "45px",
   },
 }));
+
 
 const ActivitiesDescription = () => {
   const params = useParams();
@@ -87,55 +76,53 @@ const ActivitiesDescription = () => {
     getData();
     // eslint-disable-next-line
   }, []);
+
+  console.log(activity)
   return (
+    <MainPage>
+    <Header/>
     <MainDesc>
-      <BoxHead sx={{ backgroundImage: `url(${img4})` }}>
+      <BoxHead sx={{ backgroundImage: `url(${activity.descriptionImage || img4})` }}>
         <Typography variant="h4" color="initial">
           {activity.Category}
         </Typography>
       </BoxHead>
       <BoxBody container>
-        <Grid item xs={12} md={6} p={2}>
-          <Typography variant="h4" color="initial">
-            {" "}
-            Activity Details
-          </Typography>
-          <ul>
-            <li>
-              <span>Agent:</span> {activity.AgentName}
-            </li>
-            <li>
-              <span>Assigned by:</span> {activity.UserAsig}
-            </li>
-            <li>
-              <span>Date of assignment:</span>{" "}
-              {activity.FchAssignment?.substr(0, 10)}
-            </li>
-            <li>
-              <span>Stage:</span> {activity.Stage}
-            </li>
-          </ul>
-        </Grid>
-        <LeftBox item xs={12} md={6} p={2}>
-          <Typography variant="h4" color="initial" gutterBottom>
-            Activity Description
-          </Typography>
-          <Typography
-            variant="body1"
-            color="initial"
-            fontSize={20}
-            gutterBottom
-          >
-            {activity.Description}
-          </Typography>
-          <Typography variant="body1" color="initial" fontSize={20}>
-            {activity.HowToWin}
-          </Typography>
+        <GridSection item xs={12} md={4}>
+        <img src={activity.ImageBadge} alt={activity.Description} height={200}/>
+        </GridSection>
+        <GridSection item xs={12} md={4}>
+        <Typography variant="h6" color="initial">{activity.Description}</Typography>
+        </GridSection>
+        <GridSection item xs={12} md={4}>
 
-          <Typography variant="h4" color="initial" mt={4}>
-            Reward:
-          </Typography>
-          <RewardBox>
+          <BoxRewards>
+            <Box marginRight="1rem">
+              <Box display="flex" alignItems="center">
+                <Typography variant="h6" fontWeight={700} marginRight="5px">
+                  {activity.RewardPoints ? activity.RewardPoints : 0} 
+                </Typography>
+                <img src={xpIco} alt="" />
+              </Box>
+              <Typography variant="caption" fontWeight={700} textAlign="center">
+                XP
+              </Typography>
+            </Box>
+            <Box>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h6" fontWeight={700} marginRight="5px">
+                  {activity.RewardEpicoins ? activity.RewardEpicoins : 0}
+                </Typography>
+                <img src={epicoins} alt="" />
+              </Box>
+              <Typography variant="caption" fontWeight={700} textAlign="center">
+                Epicoins
+              </Typography>
+            </Box>
+          </BoxRewards>
+
+
+         {/* <RewardBox>
             <Box display="flex" alignItems="center">
               <img src={epicoins} alt="" />
               <Typography variant="body1" color="initial">
@@ -148,11 +135,12 @@ const ActivitiesDescription = () => {
                 {activity.RewardPoints ? activity.RewardPoints : 0} XP
               </Typography>
             </Box>
-          </RewardBox>
-        </LeftBox>
-      </BoxBody>
+          </RewardBox> */}
+        </GridSection>
+      </BoxBody> 
       <Footer />
     </MainDesc>
+        </MainPage>
   );
 };
 

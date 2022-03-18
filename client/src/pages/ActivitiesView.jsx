@@ -209,7 +209,6 @@ const dispatch = useDispatch()
                         <ActivitiesViewComponent
                           activity={activity}
                           context={activities.context}
-                          //img1={images[generateRandom(images.length)]}
                           images={images}
                           mousePos={mousePos}
                         />
