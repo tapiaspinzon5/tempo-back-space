@@ -56,11 +56,17 @@ const DownSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
+const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
   const navigate = useNavigate();
   const [showFloat, setShowFloat] = useState(false);
   const [img1, setIme1] = useState(null);
-  const { NameActivity, IdActivity, Status } = activity;
+  const { NameActivity, IdActivity, Status, Category } = activity;
+  let context;
+  if (type === "Activities") {
+    context = Category === "Activity" ? 1 : Category === "Challenge" ? 2 : 3;
+  } else {
+    context = 2;
+  }
 
   const handleMouseEnter = () => {
     setShowFloat(true);
@@ -75,16 +81,19 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
     // eslint-disable-next-line
   }, []);
 
-
   return (
     <BoxCard
       sx={
         Status
           ? {
-              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${activity.fullScreen || img1})`,
+              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${
+                activity.fullScreen || img1
+              })`,
             }
           : {
-              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${activity.fullScreen || img1})`,
+              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${
+                activity.fullScreen || img1
+              })`,
             }
       }
       onMouseEnter={handleMouseEnter}
@@ -98,7 +107,6 @@ const ActivitiesViewComponent = ({ activity, images, context, mousePos }) => {
         />
       )}
       <CardViewer>
-     
         <Typography variant="body1" textAlign="left">
           {NameActivity}
         </Typography>

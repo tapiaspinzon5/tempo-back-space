@@ -487,3 +487,39 @@ export const ConvertMonth = (month) => {
   }
   return mes;
 };
+
+export const quizFilter = (quices, filter) => {
+  let newData = [];
+  quices.forEach((quiz) => {
+    if (quiz.EstadoExamen === filter.split("-")[0]) {
+      newData.push(quiz);
+    }
+  });
+  return newData;
+};
+export const challengesFilter = (challenges, filter) => {
+  let newData = [];
+  challenges.forEach((challenge) => {
+    if (challenge.ShowActivity === filter.split("-")[1]) {
+      newData.push(challenge);
+    }
+  });
+  return newData;
+};
+export const activitiesFilter = (activities, filter) => {
+  let newData = [];
+  if (filter.split("-")[0] === "Complete") {
+    activities.forEach((activity) => {
+      if (activity.Status === true) {
+        newData.push(activity);
+      }
+    });
+  } else {
+    activities.forEach((activity) => {
+      if (activity.Stage === filter) {
+        newData.push(activity);
+      }
+    });
+  }
+  return newData;
+};

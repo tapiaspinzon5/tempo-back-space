@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Typography, Grid, styled, Button, Box } from "@mui/material";
+import {
+  Typography,
+  Grid,
+  styled,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import Footer from "../components/Footer";
 import { loadUserActivities } from "../utils/api";
 import ActivitiesViewComponent from "../components/Agents/activitiesview/ActivitiesViewComponent";
@@ -12,6 +22,11 @@ import img3 from "../assets/temp-image/Enmascarargrupo2044.png";
 import img4 from "../assets/temp-image/Enmascarargrupo2046.png";
 import LoadingComponent from "../components/LoadingComponent";
 import { logoutAction } from "../redux/loginDuck";
+import {
+  activitiesFilter,
+  challengesFilter,
+  quizFilter,
+} from "../helpers/helpers";
 
 const MainViewver = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -41,6 +56,10 @@ const selectButton = {
   borderRadius: "10px",
   textTransform: "none",
 };
+const BoxFormControl = styled(FormControl)(() => ({
+  width: "8rem",
+  margin: "2rem 0 0 2rem",
+}));
 
 const images = [img1, img2, img3, img4];
 
@@ -50,27 +69,43 @@ const ActivitiesView = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [quizUser, setQuizUser] = useState([]);
+  const [actualQuizUser, setActualQuizUser] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
+  const [actualUserActivities, setActualUserActivities] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("All");
   const [noData, setNoData] = useState("");
   const [mousePos, setMousePos] = useState(0);
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState({
+    type: "Quizes",
+    context: 3,
+  });
 
   useEffect(() => {
-    if (localStorage.getItem("menuActivity")) {
-      setActivities(() => JSON.parse(localStorage.getItem("menuActivity")));
-    } else {
-      setActivities({
-        type: "Quizes",
-        context: 3,
-      });
-    }
+    setLoading(true);
+    const context = activities.context;
+    setNoData("");
+    const getData = async () => {
+      const quizes = await loadUserActivities(idccms, context);
+      if (quizes && quizes.status === 200 && quizes.data.length > 1) {
+        if (quizes.data[1].Quices) {
+          setQuizUser(quizes.data[1].Quices);
+          setActualQuizUser(quizes.data[1].Quices);
+        }
+        setLoading(false);
+      } else if (quizes.data === "UnauthorizedError") {
+        dispatch(logoutAction());
+        navigate("/");
+      }
+    };
+    getData();
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     setUserActivities([]);
     setLoading(true);
+    setFilter("All");
     const context = activities.context;
     const getData = async () => {
       setNoData("");
@@ -79,8 +114,8 @@ const ActivitiesView = () => {
         if (quizes && quizes.status === 200 && quizes.data.length === 2) {
           if (quizes.data[1].Quices) {
             setQuizUser(quizes.data[1].Quices);
+            setActualQuizUser(quizes.data[1].Quices);
           }
-          setUserActivities(quizes.data[0].Activities);
           if (quizes.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
@@ -94,6 +129,7 @@ const ActivitiesView = () => {
         const getActivities = await loadUserActivities(idccms, context);
         if (getActivities && getActivities.status === 200) {
           setUserActivities(getActivities.data.Activities);
+          setActualUserActivities(getActivities.data.Activities);
           if (getActivities.data.length < 1) {
             setNoData("No assigned " + activities.type);
           }
@@ -106,12 +142,9 @@ const ActivitiesView = () => {
       }
       setLoading(false);
     };
-    const handleLS = () => {
-      localStorage.setItem("menuActivity", JSON.stringify(activities));
-    };
 
     getData();
-    handleLS();
+
     // eslint-disable-next-line
   }, [activities]);
 
@@ -125,38 +158,141 @@ const ActivitiesView = () => {
     };
   }, []);
 
+  const handleStatus = async (e) => {
+    let statusfilter = e.target.value;
+    setFilter(statusfilter);
+    setLoading(true);
+    if (statusfilter !== "All") {
+      if (activities.type === "Quizes") {
+        setNoData("");
+        const newOrder = await quizFilter(actualQuizUser, statusfilter);
+        if (newOrder.length > 0) {
+          setQuizUser(newOrder);
+          setLoading(false);
+        } else {
+          setNoData("No Quices " + statusfilter.split("-")[0]);
+          setLoading(false);
+        }
+      } else if (activities.type === "Challenges") {
+        setNoData("");
+        const newOrder = await challengesFilter(
+          actualUserActivities,
+          statusfilter
+        );
+        if (newOrder.length > 0) {
+          setUserActivities(newOrder);
+          setLoading(false);
+        } else {
+          setNoData("No Challenges " + statusfilter.split("-")[0]);
+          setLoading(false);
+        }
+      } else {
+        setNoData("");
+        const newOrder = await activitiesFilter(
+          actualUserActivities,
+          statusfilter
+        );
+        if (newOrder.length > 0) {
+          setUserActivities(newOrder);
+          setLoading(false);
+        } else {
+          setNoData("No Activities " + statusfilter.split("-")[0]);
+          setLoading(false);
+        }
+      }
+    } else if (activities.type === "Quizes") {
+      setNoData("");
+      setQuizUser(actualQuizUser);
+      setLoading(false);
+    } else {
+      setNoData("");
+      setUserActivities(actualUserActivities);
+      setLoading(false);
+    }
+  };
+
   return (
     <Grid width="100%">
       <MainViewver>
-        <BoxSelectBadge item xs={12}>
-          <Button
-            sx={activities.type === "Quizes" && selectButton}
-            onClick={() =>
-              setActivities({ type: "Quizes", context: 3, menu: true })
-            }
-          >
-            Missions
-          </Button>
-          <Button
-            sx={activities.type === "Challenges" && selectButton}
-            onClick={() =>
-              setActivities({ type: "Challenges", context: 2, menu: true })
-            }
-          >
-            {" "}
-            Challenges{" "}
-          </Button>
+        <Grid container>
+          <BoxSelectBadge item xs={6}>
+            <Button
+              sx={activities.type === "Quizes" && selectButton}
+              onClick={() =>
+                setActivities({ type: "Quizes", context: 3, menu: true })
+              }
+            >
+              Missions
+            </Button>
+            <Button
+              sx={activities.type === "Challenges" && selectButton}
+              onClick={() =>
+                setActivities({ type: "Challenges", context: 2, menu: true })
+              }
+            >
+              {" "}
+              Challenges{" "}
+            </Button>
 
-          <Button
-            sx={activities.type === "Activities" && selectButton}
-            onClick={() =>
-              setActivities({ type: "Activities", context: 1, menu: true })
-            }
+            <Button
+              sx={activities.type === "Activities" && selectButton}
+              onClick={() =>
+                setActivities({ type: "Activities", context: 1, menu: true })
+              }
+            >
+              {" "}
+              Activities
+            </Button>
+          </BoxSelectBadge>
+          <Box
+            item
+            xs={6}
+            sx={{ display: "flex", width: "50%", justifyContent: "flex-end" }}
           >
-            {" "}
-            Activities
-          </Button>
-        </BoxSelectBadge>
+            <BoxFormControl>
+              <InputLabel id="time-label">Status View</InputLabel>
+              <Select
+                labelId="time-label"
+                value={filter}
+                label="Time View"
+                onChange={handleStatus}
+              >
+                <MenuItem value="All">All</MenuItem>
+                {activities.type === "Challenges" && (
+                  <MenuItem value="assign-0">Assign</MenuItem>
+                )}
+                {activities.type === "Quizes" && (
+                  <MenuItem value="Start-4">Start</MenuItem>
+                )}
+                <MenuItem value="Complete-2">Complete</MenuItem>
+                {(activities.type === "Quizes" ||
+                  activities.type === "Challenges") && (
+                  <MenuItem value="Failed-3">Failed</MenuItem>
+                )}
+                {activities.type === "Challenges" && (
+                  <MenuItem value="In progress-1">In Progress</MenuItem>
+                )}
+                {activities.type === "Activities" && (
+                  <MenuItem value="Getting started">Getting started</MenuItem>
+                )}
+                {activities.type === "Activities" && (
+                  <MenuItem value="Getting stronger">Getting stronger</MenuItem>
+                )}
+                {activities.type === "Activities" && (
+                  <MenuItem value="Battle">Battle</MenuItem>
+                )}
+                {activities.type === "Activities" && (
+                  <MenuItem value="Developing skills">
+                    Developing skills
+                  </MenuItem>
+                )}
+                {activities.type === "Activities" && (
+                  <MenuItem value="Being Awarded">Being Awarded </MenuItem>
+                )}
+              </Select>
+            </BoxFormControl>
+          </Box>
+        </Grid>
 
         {loading ? (
           <LoadingComponent theme={activities.type} />
@@ -169,12 +305,13 @@ const ActivitiesView = () => {
               </Typography>
             )}
             <Grid container spacing={3}>
-              {activities.type !== "Quizes" &&
+              {!noData &&
+                activities.type !== "Quizes" &&
                 userActivities?.map((activity, index) => (
                   <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
                     <ActivitiesViewComponent
                       activity={activity}
-                      context={activities.context}
+                      type={activities.type}
                       images={images}
                       mousePos={mousePos}
                     />
@@ -182,40 +319,12 @@ const ActivitiesView = () => {
                 ))}
             </Grid>
             {!noData && activities.type === "Quizes" && (
-              <Box>
-                <Typography variant="h5" sx={{ color: "#3047B0" }}>
-                  Missions
-                </Typography>
-                <Grid container spacing={3}>
-                  {activities.type === "Quizes" &&
-                    userActivities?.map((activity, index) => (
-                      <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
-                        xl={2}
-                        key={index}
-                      >
-                        <ActivitiesViewComponent
-                          activity={activity}
-                          context={activities.context}
-                          images={images}
-                          mousePos={mousePos}
-                        />
-                      </Grid>
-                    ))}
-                </Grid>
-              </Box>
-            )}
-            {!noData && activities.type === "Quizes" && (
               <Box mt={3}>
                 <Typography variant="h5" sx={{ color: "#3047B0" }}>
                   Quizes
                 </Typography>
                 <Grid container spacing={3}>
-                  {quizUser[0].Quiz !== "0" ? (
+                  {quizUser.length > 0 ? (
                     activities.type === "Quizes" &&
                     quizUser.map((quiz) => (
                       <Grid
