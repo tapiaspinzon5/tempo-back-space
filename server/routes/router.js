@@ -1,4 +1,5 @@
 const routes = require("../controllers/routes.controller");
+const { checkIdccms } = require("../middleware/checkIdccms");
 const oauth = require("../middleware/oauth");
 
 module.exports = (router) => {
@@ -23,7 +24,7 @@ module.exports = (router) => {
 
   // Rutas para visualizar informacion.
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
-  router.post("/gethomedata", oauth.oauthOther, routes.getHomeData ); 
+  router.post("/gethomedata", oauth.oauthOther,checkIdccms, routes.getHomeData ); 
   // Retorna las notificaciones dependiendo del contexto 1.agente 2.Equipo, con un rango (min - max). 
   router.post("/getmynotifications",oauth.oauthOther, routes.getMyNotifications); 
   // Almacena en DB el token del navegador del usuario junto a su idccms
@@ -61,17 +62,21 @@ module.exports = (router) => {
   // Retorna la informacio de los kpi por agente. 
   router.post("/getkpiandanlyticsagent", oauth.oauthOther, routes.getKpiandAnlyticsAgent);
 
-  // Asignar challenges y TPVs Agent-Agent 
+  // Retorna reporte de kpi de los agentes de todos los equipo y campañas.
   router.post("/getanalyticskpirl", oauth.oauthOther,routes.getanalyticskpirl);
+  // Retorna reporte de EXP y EC de los agentes de todos los equipo y campañas.
   router.post("/getanalyticsexprl", oauth.oauthOther,routes.getanalyticsexprl);
 
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
   router.post("/getdashboardtl", oauth.oauthOther, routes.getDashboardTL ); 
-  // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
+  // Endpoint para asignar TPV
   router.post("/postassigntpv", oauth.oauthOther, routes.postassigntpv ); 
 
   router.post("/getkpiagentkpiteam", oauth.oauthOther, routes.getKpiAgentKpiTeam ); 
 
+
+  // Carga el seguimiento de los kpi de forma manual.
+  router.post("/uploadkpirl",oauth.oauthOther, routes.uploadKpirl); 
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
