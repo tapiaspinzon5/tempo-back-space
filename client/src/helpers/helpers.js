@@ -523,3 +523,75 @@ export const activitiesFilter = (activities, filter) => {
   }
   return newData;
 };
+
+//Helper Validacion Headers carga archivos carga KPI  Rep Lead
+
+export const validateHeadersUploadKPIs = (headers) => {
+  let differentsArrays = false;
+
+  let defaultHeaders = [
+    "Kpi",
+    "unitKpi",
+    "Type",
+    "Idccms",
+    "Date",
+    "Score",
+  ];
+
+  if (headers.length !== defaultHeaders.length) {
+    return;
+  }
+
+  for (let i = 0; i < defaultHeaders.length; i++) {
+    if (defaultHeaders[i] !== headers[i]) {
+      differentsArrays = true;
+      break;
+    }
+  }
+
+  return differentsArrays;
+};
+
+//Helper Validacion Campos carga archivos carga KPI  Rep Lead
+
+export const validateFieldsUploadKPIs = (data) => {
+  console.log(data)
+  let errorField = false;
+  const typeOptions = [1,2,3,4];
+  const unitOptions = ['Hours','Seconds', 'Avg','Percentage'];
+  data.forEach((col) => {
+    if (col[0] === undefined) {
+      errorField = true;
+    } else if (col[1] === undefined || !unitOptions.includes(col[1])) {
+      errorField = true;
+    } else if (col[2] === undefined || !typeOptions.includes(col[2])) {
+      errorField = true;
+    } else  if (col[3] === undefined || isNaN(col[3])) {
+      errorField = true;
+    }else if (col[4] === undefined) {
+      errorField = true;
+    } else if (col[5] === undefined || dateValidator(col[5])) {
+      errorField = true;
+    }
+  });
+
+  return errorField;
+};
+
+const dateValidator = (date)=>{
+  if(typeof(date)==='string'){
+    let arr= date.split("/")
+    let year=new date().getYear()
+    if(arr!==date){
+      if(year - 2< parseInt(arr[0]) <  year+1&& 0<parseInt(arr[1])<13&&0<parseInt(arr[2])<30 ){
+        return false
+      }else{
+        return true
+      }
+    }else{
+      return true
+    }
+  }else {
+    return true
+  }
+}

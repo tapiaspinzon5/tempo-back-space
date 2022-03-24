@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import { MainPage } from '../../assets/styled/muistyled'
 import Footer from '../../components/Footer'
 import Header from '../../components/homeUser/Header'
 import { Grid, Typography, styled, Box, Button } from '@mui/material'
 import { FiDownload, FiUpload } from 'react-icons/fi'
 import TableKPIUpload from '../../components/ReportingLead/TableKPIUpload'
+import downloadTemplate from "../../assets/filesTemplatesCSV/Load_Kpi_Template.csv"
+import { ModalLoading } from "../../components/ModalLoading";
+import XLSX from "xlsx";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { validateFieldsUploadKPIs, validateHeadersUploadKPIs } from "../../helpers/helpers";
+import { uploadKPIs } from "../../utils/api";
 
+const MySwal = withReactContent(Swal);
 
 const Item = styled(Box)(() => ({
   background: "#f9f9f9",
@@ -68,18 +77,123 @@ const dataKPI = [
 ]
 
 const KpiUpload = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const idccms = userData.Idccms;
+  const [loading, setLoading] = useState(false);
 
-    const uploadFile = (e) => {
-    const fileKPI = e.target.files[0];
-    console.log(fileKPI)
+  const loadFile = (e) => {
+    setLoading(true);
+    const fileCSV = e.target.files[0];
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        //Parse data
+        const ab = e.target.result;
+        const wb = XLSX.read(ab, { type: "array",cellDates:true,cellText:false });
+        //Get first worksheet
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        //Convert array of arrays
+        //const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        const data = XLSX.utils
+          .sheet_to_json(ws, { header: 1, raw:false,dateNF:"yyyy-mm-dd"})
+          .map((colum) => {
+            console.log(parseInt(colum[2]))
+            return [
+              colum[0]?.toString(),
+              colum[1]?.toString(),
+             isNaN(parseInt(colum[2]))?colum[2]: parseInt(colum[2]),
+             isNaN(parseInt(colum[2]))?colum[3]: parseInt(colum[3]),
+             colum[4]?.toString(),
+             isNaN(parseInt(colum[2]))?colum[5]: parseInt(colum[5]),
+            ];
+          });
+
+        if (data.length > 1) {
+          let differentsHeaders = validateHeadersUploadKPIs(data[0]);
+
+          if (differentsHeaders) {
+            reject(" Wrong Headers!");
+            return;
+          }
+
+          data.shift();
+          let incorrectValues = validateFieldsUploadKPIs(data);
+
+          if (incorrectValues) {
+            reject(" Wrong values!");
+            return;
+          }
+          resolve(data);
+        } else {
+          reject("No data!");
+        }
+        //Update state
+      };
+      reader.readAsArrayBuffer(fileCSV);
+    });
+  };
+
+  const uploadFile = async (e) => {
+    const fileCSV = e.target.files[0];
+    let data;
+    if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>Only files in .csv format</p>,
+        icon: "error",
+      });
+    } else {
+      try {
+        data = await loadFile(e);
+        e.target.value = null;
+      } catch (error) {
+        setLoading(false);
+        MySwal.fire({
+          title: <p> {error} </p>,
+          icon: "error",
+        });
+        e.target.value = null;
+        return;
+      }
+
+      //setData(data);
+      const resp = await uploadKPIs(data, idccms);
+
+      if (resp.status === 200) {
+        setLoading(false);
+        MySwal.fire({
+          title: <p>File upload</p>,
+          icon: "success",
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((resultado) => {
+          if (resultado.value) {
+            window.location.reload();
+          }
+        });
+      }
     }
+  };
+
+    const downloadFile = () => {
+      var link = document.createElement("a");
+      link.setAttribute("download", "Upload KPI template"); 
+      //link.href = Quiz_template;
+      link.href = downloadTemplate;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    };
 
   return (
     <MainPage minHeight='100vh'>
+      {loading && <ModalLoading />}
     <Header/>
     <Typography variant="h5" >Kpi's Upload Section</Typography>
 <BoxButton>
-   <Button  startIcon={<FiDownload />}>
+   <Button  startIcon={<FiDownload />} onClick={() => downloadFile()}>
   Download Template
 </Button>
     <BoxUpKPI>

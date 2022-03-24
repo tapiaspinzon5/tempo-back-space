@@ -35,8 +35,8 @@ const ModalBox = styled(Box)(() => ({
 export const UpCount = () => {
   const [loading, setLoading] = useState(false);
   const userData = useSelector((store) => store.loginUser.userData);
-  const [template, setTemplate] = useState("");
   const idccms = userData.Idccms;
+  const [template, setTemplate] = useState("");
 
   const [myCounts, setMyCounts] = useState([]);
   const [open, setOpen] = React.useState(false);

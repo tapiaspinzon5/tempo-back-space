@@ -94,6 +94,24 @@ const downloadReportKpi = (idccms) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+//Peticion carga de achivos carag KPI
+const uploadKPIs = (dataCSV, idccms) => {
+  console.log(dataCSV, idccms)
+  return {status:200}
+  /* try {
+    return axiosInstance
+      .post(`PENDIENTE!!!!!!!!!!!!!!!!!!!?idccms=${idccms}`, {
+        data: dataCSV,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+ */};
 
 /* QA LEAD */
 
@@ -560,4 +578,5 @@ export {
   downloadProfile,
   assingTpvs,
   getKpisHome,
+  uploadKPIs
 };

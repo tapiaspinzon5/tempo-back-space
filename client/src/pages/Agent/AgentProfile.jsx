@@ -59,7 +59,7 @@ const AgentProfile = ({ profile }) => {
         </Grid>
         <Grid item xs={12} md={4}>
           <BoxSection>
-            <BadgesSection badges={badges}/>
+          {!loading ?<BadgesSection badges={badges}/>: <LoadingComponent />}
           </BoxSection>
         </Grid>
       </Grid>
