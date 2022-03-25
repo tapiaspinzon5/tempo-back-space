@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { MainPage } from '../../assets/styled/muistyled'
+import { MainPage,BoxUpFile,
+  ButtonAction, } from '../../assets/styled/muistyled'
 import Footer from '../../components/Footer'
 import Header from '../../components/homeUser/Header'
 import { Grid, Typography, styled, Box, Button } from '@mui/material'
@@ -21,60 +22,21 @@ const Item = styled(Box)(() => ({
   borderRadius: "10px",
   p: {
     color: "#3047B0",
-},
-
+  },
 }));
 
-const BoxButton= styled(Box)(( ) => ({
-display:'flex',
-margin:'1rem 0',
-button:{
-  boxShadow: "1px 1px 2px #A2A2A2",
-  height: "2.5rem",
-  borderRadius: "8px",
-  background: "#F9F9F9 0% 0% no-repeat padding-box",
-  marginRight:'2rem',
-  textTransform:'none',
-  color: "#3047B0",
-  '&:hover':{
-    boxShadow: "1px 1px 5px #A2A2A2",
-  }
-}
-
-}))
-const BoxUpKPI = styled(Box)(() => ({
-  height: "2.5rem",
-  width: "8rem",
-  boxShadow: "1px 1px 3px #A2A2A2",
-  borderRadius: "8px",
-  background: "#F9F9F9 0% 0% no-repeat padding-box",
+const BoxButton = styled(Box)(() => ({
   display: "flex",
-  justifyContent: "space-around",
-  alignItems: "center",
-   '&:hover':{
-    boxShadow: "1px 1px 5px #A2A2A2",
-  },
-  input: {
-    display: "none",
-  },
-  label: {
-    cursor: "pointer",
-    fontSize:'14px',
-    color: "#3047B0",
-    svg: {
-      marginRight:'.5rem'
-    },
-  },
+  margin: "1rem 0",
 }));
-
 
 const dataKPI = [
-  {acron: 'AHT', description:'Average Handle Time', idKPI: 12},
-  {acron: 'SSKI', description:'Soft Skills', idKPI: 23},
-  {acron: 'QA', description:'Quality Assurance', idKPI: 34},
-  {acron: 'EXE', description:'Execution', idKPI: 56},
-  {acron: 'ABS', description:'Absemteeism', idKPI: 67},
-]
+  { acron: "AHT", description: "Average Handle Time", idKPI: 12 },
+  { acron: "SSKI", description: "Soft Skills", idKPI: 23 },
+  { acron: "QA", description: "Quality Assurance", idKPI: 34 },
+  { acron: "EXE", description: "Execution", idKPI: 56 },
+  { acron: "ABS", description: "Absemteeism", idKPI: 67 },
+];
 
 const KpiUpload = () => {
   const userData = useSelector((store) => store.loginUser.userData);
@@ -196,10 +158,10 @@ const KpiUpload = () => {
     <Header/>
     <Typography variant="h5" >Kpi's Upload Section</Typography>
 <BoxButton>
-   <Button  startIcon={<FiDownload />} onClick={() => downloadFile()}>
+   <ButtonAction  startIcon={<FiDownload />} onClick={() => downloadFile()}>
   Download Template
-</Button>
-    <BoxUpKPI>
+</ButtonAction>
+    <BoxUpFile>
       <label htmlFor="kpi">
         <FiUpload size={20} />
         Upload 
@@ -210,7 +172,7 @@ const KpiUpload = () => {
         name="kpi"
         onChange={(e) => uploadFile(e)}
       />
-    </BoxUpKPI>
+    </BoxUpFile>
 </BoxButton>
     <Grid container >
     <Grid item xs={12} md={8} >
@@ -221,7 +183,7 @@ const KpiUpload = () => {
 </Grid>
     <Footer/>
     </MainPage>
-  )
-}
+  );
+};
 
-export default KpiUpload
+export default KpiUpload;
