@@ -555,9 +555,8 @@ export const validateHeadersUploadKPIs = (headers) => {
 //Helper Validacion Campos carga archivos carga KPI  Rep Lead
 
 export const validateFieldsUploadKPIs = (data) => {
-  console.log(data)
   let errorField = false;
-  const typeOptions = [1,2,3,4];
+  const typeOptions = [1,2,4,5];
   const unitOptions = ['Hours','Seconds', 'Avg','Percentage'];
   data.forEach((col) => {
     if (col[0] === undefined) {
@@ -568,9 +567,9 @@ export const validateFieldsUploadKPIs = (data) => {
       errorField = true;
     } else  if (col[3] === undefined || isNaN(col[3])) {
       errorField = true;
-    }else if (col[4] === undefined) {
+    }else if (col[4] === undefined || dateValidator(col[4])) {
       errorField = true;
-    } else if (col[5] === undefined || dateValidator(col[5])) {
+    } else if (col[5] === undefined) {
       errorField = true;
     }
   });
@@ -580,10 +579,10 @@ export const validateFieldsUploadKPIs = (data) => {
 
 const dateValidator = (date)=>{
   if(typeof(date)==='string'){
-    let arr= date.split("/")
-    let year=new date().getYear()
-    if(arr!==date){
-      if(year - 2< parseInt(arr[0]) <  year+1&& 0<parseInt(arr[1])<13&&0<parseInt(arr[2])<30 ){
+    let arr= date.split("-")
+    let year=new Date().getYear()
+    if(arr[0]!==date){
+      if(year - 2< parseInt(arr[0]) <  year+1&& 0<parseInt(arr[1])<13&&0<parseInt(arr[2])<32 ){
         return false
       }else{
         return true

@@ -95,11 +95,9 @@ const KpiUpload = () => {
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         //Convert array of arrays
-        //const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1, raw:false,dateNF:"yyyy-mm-dd"})
           .map((colum) => {
-            console.log(parseInt(colum[2]))
             return [
               colum[0]?.toString(),
               colum[1]?.toString(),
