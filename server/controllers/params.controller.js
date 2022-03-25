@@ -154,6 +154,16 @@ let quizResults = [
   { name: "IdPregunta", type: TYPES.Int },
 ];
 
+// Columnas para armar la tabla de respuestas del usuario.
+let kpiReports = [
+  { name: "Kpi", type: TYPES.VarChar },
+  { name: "unitKpi", type: TYPES.VarChar },
+  { name: "Type", type: TYPES.Int },
+  { name: "Idccms", type: TYPES.Int },
+  { name: "Date", type: TYPES.VarChar },
+  { name: "Score", type: TYPES.Float },
+];
+
 // Columnas para armar la tabla del reportingLead
 let assignActivitiesTLTable = [
   { name: "Ident", type: TYPES.Int },
@@ -351,12 +361,18 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccmsAssigned, TYPES.Int),
       ]);
 
-      case "spQueryDashboardKPI":
+    case "spQueryDashboardKPI":
+    return parametrizacion([
+      new SpParam("ident", req.idccms, TYPES.Int),
+      new SpParam("Case", req.context, TYPES.Int),
+    ]);
+
+    case "spInsertKpi":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("Case", req.context, TYPES.Int),
+        SpParamTable2("table", kpiReports, req.rows),
       ]);
-      
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

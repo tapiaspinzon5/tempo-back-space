@@ -866,6 +866,38 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
     });
 };
 
+
+exports.uploadKpirl = async (req, res) => {
+
+  // Funcion para insertar un id a las preguntas
+  // let i = 0;
+  // let data = req.body.data;
+
+  // let rows = data.map((rep) => {
+  //   i = i + 1;
+  //   return [...rep, i];
+  // });
+
+  console.log(req.body.data);
+
+ sql
+   .query(
+     "spInsertKpi",
+     parametros(
+       { idccms: req.query.idccms, rows:req.body.data},
+       "spInsertKpi"
+     )
+   )
+   .then((result) => {
+     responsep(1, req, res, result);
+   })
+   .catch((err) => {
+     console.log(err, "sp");
+     responsep(2, req, res, err);
+   });
+};
+
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 
