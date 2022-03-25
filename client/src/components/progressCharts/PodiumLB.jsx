@@ -4,19 +4,19 @@ import { Typography, Box, styled, Avatar } from "@mui/material";
 import { shortName } from "../../helpers/helpers";
 import avatar from "../../assets/temp-image/avatar.png";
 
-const PodiumBox = styled(Box)(({ theme }) => ({
-  height: "40vh",
+const PodiumBox = styled(Box)(() => ({
+
   padding: "1rem",
   backgroundColor: "#f9f9f9",
   backgroundImage: `url(${podium})`,
-  backgroundPosition: "center bottom",
+  backgroundPosition: "bottom",
   backgroundRepeat: "no-repeat",
 
   margin: "1rem 0",
   borderRadius: "5px",
 }));
 
-const BoxAvatarPodium = styled(Box)(({ theme }) => ({
+const BoxAvatarPodium = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -31,11 +31,12 @@ const Podium = ({ podio }) => {
   return (
     <PodiumBox
       sx={{
+        height: {xs:"60vh", xl:'40vh'},
         backgroundSize: {
           xs: "90%",
           sm: "60%",
           md: "80%",
-          lg: "60%",
+          lg: "80%",
           xl: "60% ",
         },
       }}
@@ -44,7 +45,7 @@ const Podium = ({ podio }) => {
         <Avatar
           alt="First Place"
           src={avatar}
-          sx={{ width: 40, height: 40 }}
+          sx={{ width: {xs: 60, xl:70}, height: {xs: 60, xl:70} }}
           style={{ marginLeft: 16 }}
         />
         <Typography variant="caption" color="initial">
@@ -57,7 +58,7 @@ const Podium = ({ podio }) => {
         <Avatar
           alt="Second Place"
           src={avatar}
-          sx={{ width: 40, height: 40 }}
+          sx={{ width: {xs: 60, xl:70}, height: {xs: 60, xl:70} }}
           style={{ marginLeft: 16 }}
         />
         <Typography variant="caption" color="initial">
@@ -68,7 +69,7 @@ const Podium = ({ podio }) => {
         <Avatar
           alt="Third Place"
           src={avatar}
-          sx={{ width: 40, height: 40 }}
+          sx={{ width: {xs: 60, xl:70}, height: {xs: 60, xl:70} }}
           style={{ marginLeft: 16 }}
         />
         <Typography variant="caption" color="initial">
