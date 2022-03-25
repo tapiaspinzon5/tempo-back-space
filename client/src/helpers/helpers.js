@@ -578,8 +578,9 @@ export const validateFieldsUploadKPIs = (data) => {
 };
 
 const dateValidator = (date)=>{
+  console.log(date)
   if(typeof(date)==='string'){
-    let arr= date.split("-")
+    let arr= date.split("/")
     let year=new Date().getYear()
     if(arr[0]!==date){
       if(year - 2< parseInt(arr[0]) <  year+1&& 0<parseInt(arr[1])<13&&0<parseInt(arr[2])<32 ){

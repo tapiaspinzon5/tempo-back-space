@@ -476,6 +476,7 @@ const FollowingTeamsKPI = ({ count }) => {
       setLoadingList(true);
       setLoadingKpi(true);
       const data = await getKpisHome(ag, 1);
+      console.log(data)
       if (data && data.status === 200 && data.data.length > 0) {
         setKpi(data.data[0].KPI);
         setError(false);
@@ -488,6 +489,7 @@ const FollowingTeamsKPI = ({ count }) => {
           "Day",
           ag // //ccms id del agente del equipo
         );
+        console.log(listAndGraph)
         if (
           listAndGraph &&
           listAndGraph.status === 200 &&
@@ -722,7 +724,7 @@ const FollowingTeamsKPI = ({ count }) => {
                         <Typography variant="body2"> {user.Agent}</Typography>
                         <Typography variant="body2">
                           {" "}
-                          {user.ACTUAL.toFixed(2)}%
+                          {user.actual.toFixed(2)}%
                         </Typography>
                       </Box>
                     ))

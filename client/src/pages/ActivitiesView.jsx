@@ -264,7 +264,11 @@ const ActivitiesView = () => {
                 {activities.type === "Quizes" && (
                   <MenuItem value="Start-4">Start</MenuItem>
                 )}
-                <MenuItem value="Complete-2">Complete</MenuItem>
+                {activities.type === "Quizes" && (
+                  <MenuItem value="Approved-4">Approved</MenuItem>
+                )}
+                {(activities.type === "Activities" ||
+                  activities.type === "Challenges") &&<MenuItem value="Complete-2">Complete</MenuItem>}
                 {(activities.type === "Quizes" ||
                   activities.type === "Challenges") && (
                   <MenuItem value="Failed-3">Failed</MenuItem>

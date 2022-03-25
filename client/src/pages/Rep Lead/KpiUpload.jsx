@@ -90,21 +90,26 @@ const KpiUpload = () => {
       reader.onload = (e) => {
         //Parse data
         const ab = e.target.result;
-        const wb = XLSX.read(ab, { type: "array",cellDates:true,cellText:false });
+        const wb = XLSX.readFile(ab, { type: "array" , cellDates:true, cellText:false });
         //Get first worksheet
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         //Convert array of arrays
         const data = XLSX.utils
-          .sheet_to_json(ws, { header: 1, raw:false,dateNF:"yyyy-mm-dd"})
+          .sheet_to_json(ws, { header: 1,
+            defval: '',
+            blankrows: true, 
+            raw: false,
+            dateNF:"yyyy-mm-dd" })
           .map((colum) => {
+            console.log(colum[4])
             return [
               colum[0]?.toString(),
               colum[1]?.toString(),
-             isNaN(parseInt(colum[2]))?colum[2]: parseInt(colum[2]),
-             isNaN(parseInt(colum[2]))?colum[3]: parseInt(colum[3]),
+             isNaN(parseInt(colum[2]))?colum[2]: parseFloat(colum[2]),
+             isNaN(parseInt(colum[2]))?colum[3]: parseFloat(colum[3]),
              colum[4]?.toString(),
-             isNaN(parseInt(colum[2]))?colum[5]: parseInt(colum[5]),
+             isNaN(parseInt(colum[2]))?colum[5]: parseFloat(colum[5]),
             ];
           });
 

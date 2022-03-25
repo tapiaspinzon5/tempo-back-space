@@ -96,8 +96,9 @@ const downloadReportKpi = (idccms) => {
 };
 //Peticion carga de achivos carag KPI
 const uploadKPIs = (dataCSV, idccms) => {
-//  return {status:200}
-  try {
+  console.log(dataCSV)
+ return {status:200}
+  /* try {
     return axiosInstance
       .post(`uploadkpirl?idccms=${idccms}`, {
         data: dataCSV,
@@ -109,7 +110,7 @@ const uploadKPIs = (dataCSV, idccms) => {
       });
   } catch (error) {
     return Promise.resolve({ data: null, error: error });
-  }
+  } */
 };
 
 /* QA LEAD */
