@@ -919,6 +919,25 @@ exports.getKpisCampaign = async (req, res) => {
 };
 
 
+exports.postCreateNewChallengTl = async (req, res) => {
+
+  sql
+    .query(
+      "spInsertChallenge",
+      parametros(
+        { idccms: req.query.idccms, body: req.body },
+        "spInsertChallenge"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+ };
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 

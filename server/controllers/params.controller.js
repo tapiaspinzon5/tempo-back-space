@@ -378,6 +378,17 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
       ]);
 
+    case "spInsertChallenge":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("action", req.body.action, TYPES.VarChar),
+        new SpParam("kpi", req.body.kpi, TYPES.VarChar),
+        new SpParam("quantity", req.body.quantity, TYPES.Int),
+        new SpParam("measureUnit", req.body.measureUnit, TYPES.VarChar),
+        new SpParam("initialDate", req.body.initialDate, TYPES.Date),
+        new SpParam("finalDate", req.body.finalDate, TYPES.Date),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
