@@ -46,6 +46,8 @@ import KpiUpload from "../pages/Rep Lead/KpiUpload";
 import UploadAgentSection from "../pages/Rep Lead/UploadAgentSection";
 import LeaderBoardRL from "../pages/Rep Lead/LeaderBoardRL";
 import AnalyticsRL from "../pages/Rep Lead/AnalyticsRL";
+import InformationQuices from "../pages/QALead/InformationQuices";
+import MissionsAssignment from "../pages/QALead/MissionsAssignment";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -106,7 +108,6 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, [notification]);
-
 
   return (
     <Router>
@@ -193,6 +194,13 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/upquiz" element={<UpQuiz />} />
               <Route path="/homeqal" element={<HomeQAL count={count} />} />
+              <Route path="/quiziformation" element={<InformationQuices />} />
+              <Route path="/leaderboard" element={<LeaderBoardRL />} />
+              <Route path="/analytics" element={<AnalyticsRL />} />
+              <Route
+                path="/missionassignment"
+                element={<MissionsAssignment />}
+              />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Reporting Lead" && (
@@ -203,7 +211,7 @@ const AppRouter = () => {
               <Route path="/upkpi" element={<KpiUpload />} />
               <Route path="/uploadAgent" element={<UploadAgentSection />} />
               <Route path="/leaderboard" element={<LeaderBoardRL />} />
-              <Route path="/analytics" element={<AnalyticsRL/>} />
+              <Route path="/analytics" element={<AnalyticsRL />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (

@@ -16,21 +16,10 @@ import { ChallengeCard } from "../../components/Agents/Challenges/ChallengeCard"
 import { validateDataCheck } from "../../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { ButtonAction, MainPage } from "../../assets/styled/muistyled";
+import FormCreateNewChallenge from "../../components/Modals/FormCreateNewChallenge";
 
 const MySwal = withReactContent(Swal);
-
-const MainCA = styled(Grid)(({ theme }) => ({
-  position: "relative",
-  overflow: "hidden",
-  minHeight: "95vh",
-  width: "100%",
-  color: "#3047b0",
-
-  padding: "0 2rem",
-  [theme.breakpoints.down("md")]: {
-    top: "15px",
-  },
-}));
 
 const BoxSelectBadge = styled(Grid)(() => ({
   button: {
@@ -76,6 +65,9 @@ export const TLChallengeAssignment = ({ count }) => {
   const [activity, setActivity] = useState([]);
   const [error, setError] = useState(false);
   const [users, setUsers] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
   useEffect(() => {
     const getData = async () => {
       const user = await downloadUsers(idccms);
@@ -154,13 +146,25 @@ export const TLChallengeAssignment = ({ count }) => {
   return (
     <>
       {fullLoading && <ModalLoading />}
-      <MainCA>
+      <FormCreateNewChallenge openModal={openModal} handleClose={handleClose} />
+
+      <MainPage>
         <Header count={count} />
         <Grid container>
           <Grid item xs={6}>
-            <Typography variant="h5" fontWeight={500}>
-              Challenge Assignment
-            </Typography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="h5" fontWeight={500}>
+                Challenge Assignment
+              </Typography>
+
+              <ButtonAction onClick={handleOpen}>
+                Create New Challenge
+              </ButtonAction>
+            </Box>
           </Grid>
 
           <BoxSelectBadge item xs={4}></BoxSelectBadge>
@@ -217,7 +221,7 @@ export const TLChallengeAssignment = ({ count }) => {
           </Grid>
         </Grid>
         <Footer />
-      </MainCA>
+      </MainPage>
     </>
   );
 };
