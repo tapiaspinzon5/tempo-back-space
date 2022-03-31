@@ -373,6 +373,11 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", kpiReports, req.rows),
       ]);
 
+    case "spQueryListKpi":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

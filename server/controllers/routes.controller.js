@@ -898,6 +898,27 @@ exports.uploadKpirl = async (req, res) => {
 };
 
 
+exports.getKpisCampaign = async (req, res) => {
+
+
+ sql
+   .query(
+     "spQueryListKpi",
+     parametros(
+       { idccms: req.query.idccms},
+       "spQueryListKpi"
+     )
+   )
+   .then((result) => {
+     responsep(1, req, res, result);
+   })
+   .catch((err) => {
+     console.log(err, "sp");
+     responsep(2, req, res, err);
+   });
+};
+
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 

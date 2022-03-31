@@ -76,8 +76,10 @@ module.exports = (router) => {
 
 
   // Carga el seguimiento de los kpi de forma manual.
-  router.post("/uploadkpirl",oauth.oauthOther, routes.uploadKpirl); 
-
+  router.post("/uploadkpirl",oauth.oauthOther, routes.uploadKpirl);
+  
+  // Entrega los kpis de la campaña. 
+  router.post("/getkpiscampaign",oauth.oauthOther, routes.getKpisCampaign); 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
