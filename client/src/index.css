@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -16,6 +16,6 @@ code {
     monospace;
 }
 .test {
-  color: #e6e6e6e0;
+  color: #e6e6e6a9;
   text-transform: capitalize;
 }

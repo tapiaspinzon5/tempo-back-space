@@ -17,7 +17,29 @@ export const MainPage = styled(Grid)(({ theme }) => ({
 export const BoxContain = styled(Grid)(() => ({
   background: "#f9f9f9",
   //background: "#f1f1f1",
-  minHeight: "32rem",
+  height: "32rem",
+  borderRadius: "10px",
+  overflowY: "scroll",
+  overflowX: "hidden",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
+}));
+
+// BLUE boton de acttion
+export const ButtonActionBlue = styled(Button)(() => ({
+  background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
+  color: "#FFFFFF",
+  width: "180px",
+  textTransform: "none",
   borderRadius: "10px",
 }));
 

@@ -11,7 +11,7 @@ import { ImEqualizer2 } from "react-icons/im";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { AiOutlineFileAdd } from "react-icons/ai";
-
+import { BsWindowSidebar } from "react-icons/bs";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
@@ -22,7 +22,6 @@ const LItem = styled(ListItem)(({ theme }) => ({
     justifyContent: "center",
   },
 }));
-
 
 const LIcon = styled(ListItemIcon)(({ theme }) => ({
   justifyContent: "center",
@@ -92,12 +91,42 @@ export const NavList = ({ open, match, userData }) => {
         {
           <>
             {userData === "QA Lead" && (
-              <LItem button onClick={() => navigate("/upquiz")}>
-                <LIcon>
-                  <SiHtmlacademy size={25} color="#fff" />
-                </LIcon>
-                {open && match && <Typography>Library</Typography>}
-              </LItem>
+              <>
+                <LItem button onClick={() => navigate("/upquiz")}>
+                  <LIcon>
+                    <AiOutlineFileAdd size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Library</Typography>}
+                </LItem>
+
+                <LItem button onClick={() => navigate("/missionassignment")}>
+                  <LIcon>
+                    <SiHtmlacademy size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Mission Assignment</Typography>}
+                </LItem>
+
+                <LItem button onClick={() => navigate("/leaderboard")}>
+                  <LIcon>
+                    <IoTrendingUpSharp size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>LeaderBoard</Typography>}
+                </LItem>
+
+                <LItem button onClick={() => navigate("/analytics")}>
+                  <LIcon>
+                    <FiPieChart size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Analytics</Typography>}
+                </LItem>
+
+                <LItem button onClick={() => navigate("/quiziformation")}>
+                  <LIcon>
+                    <BsWindowSidebar size={22} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Quiz Information</Typography>}
+                </LItem>
+              </>
             )}
           </>
         }
@@ -105,34 +134,32 @@ export const NavList = ({ open, match, userData }) => {
           <>
             {userData === "Reporting Lead" && (
               <>
-               <LItem button onClick={() => navigate("/uploadAgent")}>
+                <LItem button onClick={() => navigate("/uploadAgent")}>
                   <LIcon>
                     <AiOutlineFileAdd size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Agent Upload</Typography>}
                 </LItem>
-  <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem button onClick={() => navigate("/leaderboard")}>
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
- <LItem button onClick={() => navigate("/analytics")}>
+                <LItem button onClick={() => navigate("/analytics")}>
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
 
-              <LItem button onClick={() => navigate("/upkpi")}>
-                <LIcon>
-                  <FiUploadCloud size={25} color="#fff" />
-                </LIcon>
-                {open && match && <Typography>Library</Typography>}
-              </LItem>
-              
+                <LItem button onClick={() => navigate("/upkpi")}>
+                  <LIcon>
+                    <FiUploadCloud size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Library</Typography>}
+                </LItem>
               </>
-                
             )}
           </>
         }
@@ -176,7 +203,6 @@ export const NavList = ({ open, match, userData }) => {
             )}
           </>
         }
-       
       </ContentList>
     </>
   );
