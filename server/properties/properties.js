@@ -2,18 +2,18 @@ require('dotenv').config()
 if(process.env.ENV == 'Production' || process.env.ENV == 'Development'){
     module.exports = {
         configtest: {
-            server: process.env.IP_SQL,
+            server: atob(process.env.IP_SQL),
             authentication: {
                 type: process.env.TYPE,
                 options: {
-                    userName: process.env.SQL_USERNAME,
-                    password: process.env.SQL_PASSWORD,
+                    userName: atob(process.env.SQL_USERNAME),
+                    password: atob(process.env.SQL_PASSWORD),
                 }
             },
             driver: process.env.DRIVER, 
             options: {
-                instanceName: process.env.INSTANCE,
-                database: process.env.DATABASE,
+                instanceName: atob(process.env.INSTANCE),
+                database: atob(process.env.DATABASE),
                 rowCollectionOnDone: true,
                 rowCollectionOnRequestCompletion: true,
                 connectTimeout: 30000,
