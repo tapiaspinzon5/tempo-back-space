@@ -98,7 +98,11 @@ export const UploadCampaign = ({ idccms, setLoading }) => {
   const uploadFile = async (e) => {
     const fileCSV = e.target.files[0];
     let data = [];
-    if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+    if (
+      fileCSV === undefined ||
+      (fileCSV.type !== "text/csv" &&
+        fileCSV.type !== "application/vnd.ms-excel")
+    ) {
       setLoading(false);
       MySwal.fire({
         title: <p>Only files in .csv format</p>,

@@ -112,8 +112,9 @@ const UploadQuiz = ({ idccms, setLoading }) => {
     let data = [];
 
     if (
-      fileQuiz === undefined ||
-      fileQuiz.type !== "application/vnd.ms-excel"
+      fileCSV === undefined ||
+      (fileCSV.type !== "text/csv" &&
+        fileCSV.type !== "application/vnd.ms-excel")
     ) {
       setLoading(false);
       MySwal.fire({

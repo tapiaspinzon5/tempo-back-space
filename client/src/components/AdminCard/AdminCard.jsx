@@ -56,7 +56,7 @@ export const AdminCard = ({ data, disabledCard }) => {
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        
+
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1 })
           .map((colum) => {
@@ -99,7 +99,11 @@ export const AdminCard = ({ data, disabledCard }) => {
 
   const uploadFile = async (e) => {
     const fileCSV = e.target.files[0];
-    if (fileCSV === undefined || fileCSV.type !== "application/vnd.ms-excel") {
+    if (
+      fileCSV === undefined ||
+      (fileCSV.type !== "text/csv" &&
+        fileCSV.type !== "application/vnd.ms-excel")
+    ) {
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
