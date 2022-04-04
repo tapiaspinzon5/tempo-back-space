@@ -2,8 +2,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 //url de apuntamiento
-//const url = "https://gamificationtest.teleperformance.co";
+//Localhost
 const url = "http://localhost:4343";
+// Desarrollo - testing
+//const url = "https://gamificationtest.teleperformance.co";
+// Pilot
+//const url = "https://spacegptest.teleperformance.co/api/";
 
 //datainicial
 const initialData = {
@@ -43,7 +47,7 @@ export default function loginReducer(state = initialData, action) {
     case CERRANDO_SESION_EXITO:
       return {
         ...initialData,
-        loading:false
+        loading: false,
       };
 
     case ERROR_LOGIN:
@@ -58,7 +62,6 @@ export default function loginReducer(state = initialData, action) {
 }
 
 //ACTIONS
-
 //Action login de usuario
 export const loginSubmit = (data) => async (dispatch) => {
   dispatch({

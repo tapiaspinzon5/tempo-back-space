@@ -161,7 +161,7 @@ export const TLChallengeAssignment = ({ count }) => {
 								Challenge Assignment
 							</Typography>
 
-							<ButtonAction onClick={handleOpen}>
+							<ButtonAction onClick={handleOpen} disabled>
 								Create New Challenge
 							</ButtonAction>
 						</Box>

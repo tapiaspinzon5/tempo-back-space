@@ -7,6 +7,8 @@ import Header from "../../components/homeUser/Header";
 import ChallengeAssignment from "../TeamLeader/ChallengeAssignment";
 import SearchAppBar from "../../components/Search";
 import ShowActivity from "../../components/teamLeader/ShowActivity";
+import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
+import MissionAssignmentCard from "../../components/Quizes/MissionAssignmentCard";
 
 const BoxActivity = styled(Grid)(() => ({
   background: "#f2f2f2",
@@ -23,16 +25,53 @@ const active = {
   boxShadow: "1px 1px 5px #A2A2A2",
   transform: "scale(1.01)",
 };
+
+const dataMissions = [
+  { mission: 1 },
+  { mission: 2 },
+  { mission: 3 },
+  { mission: 4 },
+  { mission: 5 },
+  { mission: 6 },
+  { mission: 7 },
+];
+const dataUsers = [
+  { user: 1, Agent: "alguno1", Experiences: 231 },
+  { user: 2, Agent: "alguno2", Experiences: 231 },
+  { user: 3, Agent: "alguno3", Experiences: 231 },
+  { user: 4, Agent: "alguno4", Experiences: 231 },
+  { user: 5, Agent: "alguno5", Experiences: 231 },
+  { user: 6, Agent: "alguno6", Experiences: 231 },
+  { user: 7, Agent: "alguno7", Experiences: 231 },
+  { user: 8, Agent: "alguno8", Experiences: 231 },
+];
 const MissionsAssignment = () => {
   const [select, setSelect] = useState("agents");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [missions, setMission] = useState(dataMissions);
+  const [users, setUsers] = useState(dataUsers);
 
-  const [missions, setMission] = useState([]);
+  //funcion de asingacion de usuarios
+  const handleUser = (e) => {
+    const { name, checked } = e.target;
+    if (name === "selecct-all") {
+      let tempUser = users.map((user) => {
+        return { ...user, isChecked: checked };
+      });
+
+      setUsers(tempUser);
+    } else {
+      let tempUser = users.map((user) =>
+        user.Agent === name ? { ...user, isChecked: checked } : user
+      );
+      setUsers(tempUser);
+    }
+  };
 
   ////////////////////////////// funcion de asingacion de Actividades
   const handleMissions = (e) => {
-    // setValidator(true);
-    // const { name, checked } = e.target;
+    const { name, checked } = e.target;
     // if (name === "selecct-all") {
     //   if (activity[stage] !== undefined) {
     //     let tempUser = activity[stage].map((badge) => {
@@ -99,9 +138,7 @@ const MissionsAssignment = () => {
               justifyContent="space-between"
               marginBottom={2}
             >
-              <Button
-              //sx={selectButton}
-              >
+              <ButtonAction>
                 <input
                   type="checkbox"
                   name="selecct-all"
@@ -112,15 +149,15 @@ const MissionsAssignment = () => {
                   }
                 />
                 Select all
-              </Button>
+              </ButtonAction>
               <SearchAppBar />
             </Box>
             <Boxview>
               {!error ? (
-                missions?.map((act, index) => (
-                  <ShowActivity
+                missions?.map((mission, index) => (
+                  <MissionAssignmentCard
                     key={index}
-                    data={act}
+                    mission={mission}
                     handleMissions={handleMissions}
                   />
                 ))
@@ -132,7 +169,46 @@ const MissionsAssignment = () => {
             </Boxview>
           </BoxActivity>
         </Grid>
-        <Grid xs={12} md={6}></Grid>
+        <Grid xs={12} md={6}>
+          <BoxActivity>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              marginBottom={2}
+            >
+              <ButtonAction
+              //sx={selectButton}
+              >
+                <input
+                  type="checkbox"
+                  name="selecct-all"
+                  onChange={handleUser}
+                  checked={
+                    users.filter((user) => user?.isChecked !== true).length < 1
+                  }
+                />
+                Select all
+              </ButtonAction>
+              <SearchAppBar />
+            </Box>
+            <Boxview>
+              {!error ? (
+                users.map((user, index) => (
+                  <ShowUserActivity
+                    key={index}
+                    user={user}
+                    handleUser={handleUser}
+                  />
+                ))
+              ) : (
+                <Typography variant="h5" fontWeight={500}>
+                  The Game Starts Soon
+                </Typography>
+              )}
+            </Boxview>
+          </BoxActivity>
+        </Grid>
       </Grid>
       {/* <ChallengeAssignment /> */}
 

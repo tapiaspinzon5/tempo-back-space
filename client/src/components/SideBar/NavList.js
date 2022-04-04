@@ -99,28 +99,36 @@ export const NavList = ({ open, match, userData }) => {
                   {open && match && <Typography>Library</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/missionassignment")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/missionassignment")}
+                  disabled
+                >
                   <LIcon>
                     <SiHtmlacademy size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Mission Assignment</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem button onClick={() => navigate("/leaderboard")} disabled>
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/analytics")}>
+                <LItem button onClick={() => navigate("/analytics")} disabled>
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/quiziformation")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/quiziformation")}
+                  disabled
+                >
                   <LIcon>
                     <BsWindowSidebar size={22} color="#fff" />
                   </LIcon>
@@ -134,19 +142,19 @@ export const NavList = ({ open, match, userData }) => {
           <>
             {userData === "Reporting Lead" && (
               <>
-                <LItem button onClick={() => navigate("/uploadAgent")}>
+                <LItem button onClick={() => navigate("/uploadAgent")} disabled>
                   <LIcon>
                     <AiOutlineFileAdd size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Agent Upload</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem button onClick={() => navigate("/leaderboard")} disabled>
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/analytics")}>
+                <LItem button onClick={() => navigate("/analytics")} disabled>
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
@@ -181,7 +189,11 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Following KPI</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/teaminformation")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/teaminformation")}
+                  disabled
+                >
                   <LIcon>
                     <FiUsers size={25} color="#fff" />
                   </LIcon>
