@@ -3,7 +3,7 @@ require("dotenv").config();
 
 async function configure(call) {
 
-  let idKey = atob(process.env.IDKEY)
+  let idKey =  Buffer.from(process.env.IDKEY, 'base64').toString()
 
   let body = {
     key: idKey,

@@ -4,8 +4,8 @@ exports.transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: atob(process.env.NODEMAILER_USER),
-    pass: atob(process.env.NODEMAILER_PASS),
+    user: Buffer.from(process.env.NODEMAILER_USER, 'base64').toString(),
+    pass: Buffer.from(process.env.NODEMAILER_PASS, 'base64').toString()
   }
 });
 

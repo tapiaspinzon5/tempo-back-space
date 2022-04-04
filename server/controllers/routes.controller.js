@@ -51,8 +51,11 @@ let responsep = (tipo, req, res, resultado, cookie) => {
   return new Promise((resolve, reject) => {
     if (tipo == 1) {
       res.cookie("XSRF-TOKEN", req.csrfToken(), {
-        "max-Age": new Date(Date.now() + 90000000),
+        expires: new Date(Date.now() + 900000),
+        httpOnly: true,
         path: "/",
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "Strict",
       });
       res.status(200).json(resultado);
       resolve("Enviado");
