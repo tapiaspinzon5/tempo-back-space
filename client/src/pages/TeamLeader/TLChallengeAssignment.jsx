@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Grid, styled, Typography, Box } from "@mui/material";
+import { Grid, styled, Typography, Box, Button } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import {
@@ -18,6 +18,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ButtonAction, MainPage } from "../../assets/styled/muistyled";
 import FormCreateNewChallenge from "../../components/Modals/FormCreateNewChallenge";
+import TLChallengeCard from "../../components/Agents/Challenges/TLChallengeCard";
+import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
 
 const MySwal = withReactContent(Swal);
 
@@ -38,11 +40,12 @@ const BoxActivity = styled(Grid)(() => ({
 	background: "#f2f2f2",
 	padding: "1rem",
 	borderRadius: "20px",
+	height: "55vh",
 }));
 
 const Boxview = styled(Grid)(() => ({
 	overflowY: "scroll",
-	height: "50vh",
+	height: "40vh",
 	"&::-webkit-scrollbar": {
 		width: "6px",
 	},
@@ -55,6 +58,40 @@ const Boxview = styled(Grid)(() => ({
 		borderRadius: "20px",
 	},
 }));
+const BoxviewCh = styled(Grid)(() => ({
+	overflowY: "scroll",
+	height: "45vh",
+	"&::-webkit-scrollbar": {
+		width: "6px",
+	},
+
+	"&::-webkit-scrollbar-track": {
+		background: "white",
+	},
+	"&::-webkit-scrollbar-thumb": {
+		backgroundColor: "#e8e8e8",
+		borderRadius: "20px",
+	},
+}));
+const BoxAssingment = styled(Box)(() => ({
+	display: "flex",
+	justifyContent: "flex-end",
+	margin: "2rem 0 ",
+	button: {
+		padding: ".5rem",
+		background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
+		color: "#fff",
+		width: "10rem",
+		textTransform: "none",
+		fontWeight: "600",
+		marginRight: "2rem",
+	},
+}));
+const selectButton = {
+	boxShadow: "0px 3px 6px #00000029",
+	borderRadius: "10px",
+	textTransform: "none",
+};
 
 export const TLChallengeAssignment = ({ count }) => {
 	const [loading, setLoading] = useState(false);
@@ -97,21 +134,19 @@ export const TLChallengeAssignment = ({ count }) => {
 	}, []);
 
 	//funcion de asingacion de usuarios
-	const handleUser = async (e) => {
-		setLoading(true);
-		const { value, checked } = e.target;
-		let tempUser = users.map((user) =>
-			user.Agent === value.split("-")[0]
-				? { ...user, isChecked: checked }
-				: { ...user, isChecked: false }
-		);
-		setUsers(tempUser);
-		const activities = await downloadActivities(value.split("-")[1], idccms);
-		if (activities && activities.status === 200 && activities.data.length > 1) {
-			setActivity(activities.data);
-			setLoading(false);
+	const handleUser = (e) => {
+		const { name, checked } = e.target;
+		if (name === "selecct-all") {
+			let tempUser = users.map((user) => {
+				return { ...user, isChecked: checked };
+			});
+
+			setUsers(tempUser);
 		} else {
-			setError(true);
+			let tempUser = users.map((user) =>
+				user.Agent === name ? { ...user, isChecked: checked } : user
+			);
+			setUsers(tempUser);
 		}
 	};
 
@@ -173,10 +208,43 @@ export const TLChallengeAssignment = ({ count }) => {
 					<Grid item xs={12} md={6} padding={1}>
 						<BoxActivity>
 							<Box marginBottom={2}></Box>
+							<BoxviewCh>
+								{!error ? (
+									activity?.map((act, index) => (
+										<TLChallengeCard
+											key={index}
+											challenge={act}
+											handleChallenge={handleSubmit}
+										/>
+									))
+								) : (
+									<Typography variant="h5" fontWeight={500}>
+										The Game Starts Soon
+									</Typography>
+								)}
+							</BoxviewCh>
+						</BoxActivity>
+					</Grid>
+					<Grid item xs={12} md={5} padding={1}>
+						<BoxActivity>
+							<Box marginBottom={2}>
+								<Button sx={selectButton}>
+									<input
+										type="checkbox"
+										name="selecct-all"
+										onChange={handleUser}
+										checked={
+											users.filter((user) => user?.isChecked !== true).length <
+											1
+										}
+									/>
+									Select all
+								</Button>
+							</Box>
 							<Boxview>
 								{!error ? (
 									users.map((user, index) => (
-										<UserChallenge
+										<ShowUserActivity
 											key={index}
 											user={user}
 											handleUser={handleUser}
@@ -190,36 +258,10 @@ export const TLChallengeAssignment = ({ count }) => {
 							</Boxview>
 						</BoxActivity>
 					</Grid>
-					<Grid item xs={12} md={6} padding={1}>
-						<BoxActivity>
-							<Box
-								display="flex"
-								alignItems="center"
-								justifyContent="space-between"
-								marginBottom={2}
-							></Box>
-							<Boxview>
-								{!error ? (
-									loading ? (
-										<LoadingComponent />
-									) : (
-										activity?.map((act, index) => (
-											<ChallengeCard
-												key={index}
-												data={act}
-												handleSubmit={handleSubmit}
-											/>
-										))
-									)
-								) : (
-									<Typography variant="h5" fontWeight={500}>
-										The Game Starts Soon
-									</Typography>
-								)}
-							</Boxview>
-						</BoxActivity>
-					</Grid>
 				</Grid>
+				<BoxAssingment>
+					<Button onClick={handleSubmit}>Assignement</Button>
+				</BoxAssingment>
 				<Footer />
 			</MainPage>
 		</>

@@ -32,7 +32,13 @@ function login(req, res) {
   redirect
     .post(url, "oauthlogin", data, null)
     .then((result) => {
-      res.cookie(req.csrfToken());
+      res.cookie("token1",req.csrfToken(),{
+        expires: new Date(Date.now() + 900000),
+        httpOnly: true,
+        path: "/",
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "Strict",
+      });
       sql
         .query(
           "spQueryRoleEmployee",

@@ -24,7 +24,7 @@ module.exports = (router) => {
 
   // Rutas para visualizar informacion.
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
-  router.post("/gethomedata", oauth.oauthOther,checkIdccms, routes.getHomeData ); 
+  router.post("/gethomedata", oauth.oauthOther,routes.getHomeData ); 
   // Retorna las notificaciones dependiendo del contexto 1.agente 2.Equipo, con un rango (min - max). 
   router.post("/getmynotifications",oauth.oauthOther, routes.getMyNotifications); 
   // Almacena en DB el token del navegador del usuario junto a su idccms

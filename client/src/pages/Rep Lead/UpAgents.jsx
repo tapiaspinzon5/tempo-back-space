@@ -53,11 +53,11 @@ const ModalBox = styled(Box)(() => ({
 export const UpAgents = () => {
 	const [loading, setLoading] = useState(false);
 	const userData = useSelector((store) => store.loginUser.userData);
-	const [template, setTemplate] = useState("");
 	const idccms = userData.Idccms;
+	const [template, setTemplate] = useState("");
+	const [open, setOpen] = React.useState(false);
 
 	const [myAgents, setMyAgents] = useState([]);
-	const [open, setOpen] = React.useState(false);
 	const [repKpi, setRepKpi] = useState([]);
 	const [repExp, setRepExp] = useState([]);
 	const [download, setDownload] = useState(true);
