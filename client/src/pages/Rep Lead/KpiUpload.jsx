@@ -12,7 +12,6 @@ import TableKPIUpload from "../../components/ReportingLead/TableKPIUpload";
 import downloadTemplate from "../../assets/filesTemplatesCSV/Load_Kpi_Template.csv";
 import { ModalLoading } from "../../components/ModalLoading";
 import XLSX from "xlsx";
-import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
@@ -50,8 +49,6 @@ const ModalBox = styled(Box)(() => ({
 }));
 
 const KpiUpload = () => {
-	const userData = useSelector((store) => store.loginUser.userData);
-	const idccms = userData.Idccms;
 	const [loading, setLoading] = useState(false);
 	const [tableLoading, setTableLoading] = useState(false);
 	const [dataKpi, setDataKpi] = useState([]);
@@ -61,7 +58,7 @@ const KpiUpload = () => {
 	useEffect(() => {
 		const getdata = async () => {
 			setTableLoading(true);
-			const kpis = await getKPIsCampaign(idccms);
+			const kpis = await getKPIsCampaign();
 			setTableLoading(false);
 			setDataKpi(kpis.data);
 		};
@@ -172,7 +169,7 @@ const KpiUpload = () => {
 			}
 
 			//setData(data);
-			const resp = await uploadKPIs(data, idccms);
+			const resp = await uploadKPIs(data);
 
 			if (resp.status === 200) {
 				setLoading(false);

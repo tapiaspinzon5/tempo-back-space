@@ -1,5 +1,4 @@
 import React from "react";
-//import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -43,11 +42,7 @@ const BoxUpQuiz = styled(Box)(({ theme }) => ({
 	},
 }));
 
-const UploadQuiz = ({ idccms, setLoading }) => {
-	// const userData = useSelector((store) => store.loginUser.userData);
-	// const [data, setData] = React.useState([]);
-	// const idccms = userData.idccms;
-
+const UploadQuiz = ({ setLoading }) => {
 	const loadFile = (e) => {
 		setLoading(true);
 		const fileQuiz = e.target.files[0];
@@ -136,7 +131,7 @@ const UploadQuiz = ({ idccms, setLoading }) => {
 			}
 
 			//setData(data);
-			const resp = await uploadQuizes({ data }, idccms);
+			const resp = await uploadQuizes({ data });
 
 			if (resp.status === 200) {
 				setLoading(false);

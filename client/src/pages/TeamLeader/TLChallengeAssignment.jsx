@@ -97,7 +97,6 @@ export const TLChallengeAssignment = ({ count }) => {
 	const [loading, setLoading] = useState(false);
 	const [fullLoading, setFullLoading] = useState(false);
 	const userData = useSelector((store) => store.loginUser.userData);
-	const idccms = userData.Idccms;
 	const userName = userData.Nombre;
 	const [activity, setActivity] = useState([]);
 	const [error, setError] = useState(false);
@@ -107,13 +106,13 @@ export const TLChallengeAssignment = ({ count }) => {
 	const handleClose = () => setOpenModal(false);
 	useEffect(() => {
 		const getData = async () => {
-			const user = await downloadUsers(idccms);
+			const user = await downloadUsers();
 			if (user && user.status === 200 && user.data.length > 1) {
 				setLoading(true);
 				let ccmsAgent = user.data[0].Agents[0].ident;
 				user.data[0].Agents[0].isChecked = true;
 				setUsers(user.data[0].Agents);
-				const activities = await downloadActivities(ccmsAgent, idccms);
+				const activities = await downloadActivities(ccmsAgent);
 				if (
 					activities &&
 					activities.status === 200 &&
@@ -154,10 +153,7 @@ export const TLChallengeAssignment = ({ count }) => {
 	const handleSubmit = async (data) => {
 		setFullLoading(true);
 		const dataToSendChallenge = await validateDataCheck(users, data, userName);
-		const sendChallenge = await assingChallenges(
-			dataToSendChallenge[0],
-			idccms
-		);
+		const sendChallenge = await assingChallenges(dataToSendChallenge[0]);
 		if (sendChallenge && sendChallenge.status === 200) {
 			setFullLoading(false);
 			MySwal.fire({

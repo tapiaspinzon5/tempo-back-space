@@ -45,7 +45,7 @@ const BoxUpCount = styled(Box)(({ theme }) => ({
 		},
 	},
 }));
-export const UploadCount = ({ idccms, setLoading }) => {
+export const UploadCount = ({ setLoading }) => {
 	//Funcion para  validar campos Archivo .csv
 	const loadFile = (e) => {
 		setLoading(true);
@@ -135,7 +135,7 @@ export const UploadCount = ({ idccms, setLoading }) => {
 			}
 
 			//setData(data);
-			const resp = await createTeamSuperUser(data, idccms);
+			const resp = await createTeamSuperUser(data);
 
 			if (resp.status === 200) {
 				setLoading(false);

@@ -19,7 +19,6 @@ import {
 	validateHeadersProvideUsersRL,
 } from "../../helpers/helpers";
 import { createTeamReportingLead } from "../../utils/api";
-import { useSelector } from "react-redux";
 
 const MySwal = withReactContent(Swal);
 
@@ -63,8 +62,6 @@ const dataAgent = [
 
 const UploadAgentSection = () => {
 	const [loading, setLoading] = useState(false);
-	const userData = useSelector((store) => store.loginUser.userData);
-	const idccms = userData.Idccms;
 	const [newAgent, setNewAgent] = useState(false);
 	const [template, setTemplate] = useState("");
 	const [open, setOpen] = React.useState(false);
@@ -153,7 +150,7 @@ const UploadAgentSection = () => {
 			}
 
 			//setData(data);
-			const resp = await createTeamReportingLead(data, idccms);
+			const resp = await createTeamReportingLead(data);
 
 			if (resp.status === 200) {
 				setLoading(false);

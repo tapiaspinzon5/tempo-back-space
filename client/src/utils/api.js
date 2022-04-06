@@ -3,10 +3,10 @@ import { axiosInstance } from "../api/interceptor";
 /* SUPER ADMIN */
 
 //Peticion carga de achivos creacion de equipos SuperUser
-const createTeamSuperUser = (dataCSV, idccms) => {
+const createTeamSuperUser = (dataCSV) => {
 	try {
 		return axiosInstance
-			.post(`uploadSU?idccms=${idccms}`, {
+			.post(`uploadSU`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {
@@ -19,15 +19,13 @@ const createTeamSuperUser = (dataCSV, idccms) => {
 	}
 };
 
-const downloadCounts = (idccms) => {
+const downloadCounts = () => {
 	try {
-		return axiosInstance
-			.post(`getteamsbysu?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getteamsbysu`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
@@ -35,10 +33,10 @@ const downloadCounts = (idccms) => {
 
 /* OPERATION MANAGER */
 
-const createTeamOperationManager = (dataCSV, idccms) => {
+const createTeamOperationManager = (dataCSV) => {
 	try {
 		return axiosInstance
-			.post(`uploadopsm?idccms=${idccms}`, {
+			.post(`uploadopsm`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {
@@ -53,10 +51,10 @@ const createTeamOperationManager = (dataCSV, idccms) => {
 
 /* REPORTING LEAD */
 
-const createTeamReportingLead = (dataCSV, idccms) => {
+const createTeamReportingLead = (dataCSV) => {
 	try {
 		return axiosInstance
-			.post(`uploadrepl?idccms=${idccms}`, {
+			.post(`uploadrepl`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {
@@ -68,39 +66,35 @@ const createTeamReportingLead = (dataCSV, idccms) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
-const downloadReportExp = (idccms) => {
+const downloadReportExp = () => {
 	try {
-		return axiosInstance
-			.post(`getanalyticsexprl?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getanalyticsexprl`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
-const downloadReportKpi = (idccms) => {
+const downloadReportKpi = () => {
 	try {
-		return axiosInstance
-			.post(`getanalyticskpirl?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getanalyticskpirl`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
 //Peticion carga de achivos carag KPI
-const uploadKPIs = (dataCSV, idccms) => {
+const uploadKPIs = (dataCSV) => {
 	console.log(dataCSV);
 	return { status: 200 };
 	/* try {
 		return axiosInstance
-			.post(`uploadkpirl?idccms=${idccms}`, {
+			.post(`uploadkpirl`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {
@@ -113,15 +107,13 @@ const uploadKPIs = (dataCSV, idccms) => {
 	} */
 };
 //Peticion carga de achivos carag KPI
-const getKPIsCampaign = (idccms) => {
+const getKPIsCampaign = () => {
 	try {
-		return axiosInstance
-			.post(`getkpiscampaign?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getkpiscampaign`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
@@ -129,29 +121,25 @@ const getKPIsCampaign = (idccms) => {
 
 /* QA LEAD */
 
-const loadQuizes = (idccms) => {
+const loadQuizes = () => {
 	try {
-		return axiosInstance
-			.post(`getquizqa?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getquizqa`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
 
-const uploadQuizes = (data, idccms) => {
+const uploadQuizes = (data) => {
 	try {
-		return axiosInstance
-			.post(`uploadquiz?idccms=${idccms}`, data)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`uploadquiz`, data).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
@@ -159,15 +147,13 @@ const uploadQuizes = (data, idccms) => {
 
 /* TEAM LEADER */
 // trae info Home team leader
-const downloadHomeDataTl = (idccms) => {
+const downloadHomeDataTl = () => {
 	try {
-		return axiosInstance
-			.post(`getdashboardtl?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getdashboardtl`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
@@ -175,10 +161,10 @@ const downloadHomeDataTl = (idccms) => {
 
 //Trae el equipo de un TEam Leader para asignarle actividades
 
-const downloadUsers = (idccms) => {
+const downloadUsers = () => {
 	try {
 		return axiosInstance
-			.post(`getagentschallengeassignmenttl?idccms=${idccms}`)
+			.post(`getagentschallengeassignmenttl`)
 			.catch(function (error) {
 				if (error.response) {
 					return error.response;
@@ -190,24 +176,22 @@ const downloadUsers = (idccms) => {
 };
 
 //funcion para Traer los KPI del Team Leader
-const getKPIteamTL = (idccms) => {
+const getKPIteamTL = () => {
 	try {
-		return axiosInstance
-			.post(`getkpiteamtl?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getkpiteamtl`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
 //funcion para Traer los KPI con sus usuarios  del Team Leader
-const getUsersKPI = (idccms, idKPI, time, agentIdccms) => {
+const getUsersKPI = (idKPI, time, agentIdccms) => {
 	try {
 		return axiosInstance
-			.post(`getagentsbykpitl?idccms=${idccms}`, {
+			.post(`getagentsbykpitl`, {
 				idKpi: idKPI,
 				time: time,
 				agentIdccms: agentIdccms,
@@ -223,40 +207,36 @@ const getUsersKPI = (idccms, idKPI, time, agentIdccms) => {
 };
 
 /* AGENT */
-//trae la data del Home
-const downloadHomeData = (idccms) => {
+//trae la data del Home no se esta usando
+const downloadHomeData = () => {
 	try {
-		return axiosInstance
-			.post(`gethomedata?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`gethomedata`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
 //Trae data profile agente
-const downloadProfile = (idccms) => {
+const downloadProfile = () => {
 	try {
-		return axiosInstance
-			.post(`getagentprofiledata?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`getagentprofiledata`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
 
-//Trae los quices del agente
-const loadQuizesUser = (idccms) => {
+//Trae los quices del agente no se usa
+const loadQuizesUser = () => {
 	try {
 		return axiosInstance
-			.post(`getquizbyagent?idccms=${idccms}`, {
+			.post(`getquizbyagent`, {
 				context: 2,
 			})
 			.catch(function (error) {
@@ -271,10 +251,10 @@ const loadQuizesUser = (idccms) => {
 
 //Trae el Quiz para realizarlo
 
-const getExam = (idccms, idquiz) => {
+const getExam = (idquiz) => {
 	try {
 		return axiosInstance
-			.post(`getQuizDetail?idccms=${idccms}`, {
+			.post(`getQuizDetail`, {
 				idQuiz: idquiz,
 			})
 			.catch(function (error) {
@@ -288,10 +268,10 @@ const getExam = (idccms, idquiz) => {
 };
 
 //Sube las  Respuestas del Quiz
-const uploadAnswers = (data, idccms, idExam) => {
+const uploadAnswers = (data, idExam) => {
 	try {
 		return axiosInstance
-			.post(`getresultquiz?idccms=${idccms}&idExam=${idExam}`, {
+			.post(`getresultquiz?idExam=${idExam}`, {
 				data: data,
 			})
 			.catch(function (error) {
@@ -305,10 +285,10 @@ const uploadAnswers = (data, idccms, idExam) => {
 };
 
 ///Envia token Navegador del agente a la base
-const tokenNotification = (data, idccms) => {
+const tokenNotification = (data) => {
 	try {
 		return axiosInstance
-			.post(`postfcmtoken?idccms=${idccms}`, {
+			.post(`postfcmtoken`, {
 				fcmNotification: data,
 			})
 			.catch(function (error) {
@@ -322,10 +302,10 @@ const tokenNotification = (data, idccms) => {
 };
 
 //Trae las Notificaciones que tiene el Agente
-const downloadNotifications = (idccms) => {
+const downloadNotifications = () => {
 	try {
 		return axiosInstance
-			.post(`getmynotifications?idccms=${idccms}`, {
+			.post(`getmynotifications`, {
 				min: 1,
 				max: 11,
 				context: 3,
@@ -341,10 +321,10 @@ const downloadNotifications = (idccms) => {
 };
 
 //Trae Todas  las Notificaciones del Agente y el Team
-const getNotifications = (idccms, min, max, context) => {
+const getNotifications = (min, max, context) => {
 	try {
 		return axiosInstance
-			.post(`getmynotifications?idccms=${idccms}`, {
+			.post(`getmynotifications`, {
 				min: min,
 				max: max,
 				context: context,
@@ -360,10 +340,10 @@ const getNotifications = (idccms, min, max, context) => {
 };
 
 ///updatestatusnotification
-const updateStatusNotifications = (idccms, id) => {
+const updateStatusNotifications = (id) => {
 	try {
 		return axiosInstance
-			.post(`updatestatusnotification?idccms=${idccms}`, {
+			.post(`updatestatusnotification`, {
 				idNotificationMin: id,
 				idNotificationMax: id,
 			})
@@ -378,10 +358,10 @@ const updateStatusNotifications = (idccms, id) => {
 };
 
 //funcion para traer las actividades del usuario
-const loadUserActivities = (idccms, context) => {
+const loadUserActivities = (context) => {
 	try {
 		return axiosInstance
-			.post(`getactivitiesviewagent?idccms=${idccms}`, {
+			.post(`getactivitiesviewagent`, {
 				context: context,
 			})
 			.catch(function (error) {
@@ -395,10 +375,10 @@ const loadUserActivities = (idccms, context) => {
 };
 
 //funcion para deactividad individual
-const userActivityDesc = (idccms, idActivity, context) => {
+const userActivityDesc = (idActivity, context) => {
 	try {
 		return axiosInstance
-			.post(`getactivitiesdescriptionagent?idccms=${idccms}`, {
+			.post(`getactivitiesdescriptionagent`, {
 				idActivity: idActivity,
 				context: context,
 			})
@@ -412,11 +392,11 @@ const userActivityDesc = (idccms, idActivity, context) => {
 	}
 };
 
-//Trae data Analytics Agente
-const getDataAnalytics = (idccms, kpi) => {
+//Trae data Analytics Agente no se esta usando
+const getDataAnalytics = (kpi) => {
 	try {
 		return axiosInstance
-			.post(`getkpiandanlyticsagent?idccms=${idccms}`, {
+			.post(`getkpiandanlyticsagent`, {
 				kpi: kpi,
 			})
 			.catch(function (error) {
@@ -432,10 +412,10 @@ const getDataAnalytics = (idccms, kpi) => {
 /* TRANSVERSALES */
 
 //Traer los Challenges para asignar Tanto TL como AG
-const downloadActivities = (ccmsAgent, idccms) => {
+const downloadActivities = (ccmsAgent) => {
 	try {
 		return axiosInstance
-			.post(`getchanllenges?idccms=${idccms}`, {
+			.post(`getchanllenges`, {
 				context: 2,
 				idccmsAssigned: ccmsAgent,
 			})
@@ -449,10 +429,10 @@ const downloadActivities = (ccmsAgent, idccms) => {
 	}
 };
 //Traer los kpi para el HOme Tanto TL como AG
-const getKpisHome = (idccms, context) => {
+const getKpisHome = (context) => {
 	try {
 		return axiosInstance
-			.post(`getkpiagentkpiteam?idccms=${idccms}`, {
+			.post(`getkpiagentkpiteam`, {
 				context: context,
 			})
 			.catch(function (error) {
@@ -466,10 +446,10 @@ const getKpisHome = (idccms, context) => {
 };
 
 //Envia TPVs
-const assingTpvs = (data, idccms) => {
+const assingTpvs = (data) => {
 	try {
 		return axiosInstance
-			.post(`postassigntpv?idccms=${idccms}`, {
+			.post(`postassigntpv`, {
 				userName: data.userName,
 				nameTPV: data.nameTPV,
 				idTpv: data.idTpv,
@@ -488,10 +468,10 @@ const assingTpvs = (data, idccms) => {
 
 //Asignación de actividades
 
-const assingChallenges = (data, idccms) => {
+const assingChallenges = (data) => {
 	try {
 		return axiosInstance
-			.post(`postassignchallenges?idccms=${idccms}`, {
+			.post(`postassignchallenges`, {
 				userName: data.userName,
 				nameChallenge: data.nameChallenge,
 				idChallenge: data.idChallenge,
@@ -510,10 +490,10 @@ const assingChallenges = (data, idccms) => {
 
 //getinfoleaderboard
 //Traer los datos del leaderboard para el agente y el Team leader
-const getDataLeaderboard = (idccms, context, kpi, time, group) => {
+const getDataLeaderboard = (context, kpi, time, group) => {
 	try {
 		return axiosInstance
-			.post(`getinfoleaderboard?idccms=${idccms}`, {
+			.post(`getinfoleaderboard`, {
 				context: context,
 				kpi: kpi,
 				time: time,
@@ -530,10 +510,10 @@ const getDataLeaderboard = (idccms, context, kpi, time, group) => {
 };
 
 // Trae la informacion del Equipo Creado Para OPSM Y REPL
-const downloadDataAdmin = (idccms, caso) => {
+const downloadDataAdmin = (caso) => {
 	try {
 		return axiosInstance
-			.post(`gettemplatesloaded?idccms=${idccms}`, {
+			.post(`gettemplatesloaded`, {
 				caso: caso,
 			})
 			.catch(function (error) {
@@ -545,16 +525,14 @@ const downloadDataAdmin = (idccms, caso) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
-/* Actividades */
-const welcomeToEGP = (idccms) => {
+/* Actividades  no se esta usando*/
+const welcomeToEGP = () => {
 	try {
-		return axiosInstance
-			.post(`welcomeegp?idccms=${idccms}`)
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
+		return axiosInstance.post(`welcomeegp`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
