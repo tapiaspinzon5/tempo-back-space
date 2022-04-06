@@ -19,7 +19,7 @@ const SliderQuizCategory = ({ quizUser, category }) => {
   return (
     <Box sx={{ width: "86vw" }}>
       <Swiper
-        loop={true}
+        loop={false}
         loopFillGroupWithBlank={true}
         pagination={{
           clickable: true,
@@ -53,14 +53,13 @@ const SliderQuizCategory = ({ quizUser, category }) => {
           },
         }}
       >
-        {quizUser.map((quiz) =>
-          quiz.Topic === category ? (
-            <SwiperSlide>
-              <CardActivityManage quiz={quiz} progress={20} />
-            </SwiperSlide>
-          ) : (
-            ""
-          )
+        {quizUser.map(
+          (quiz) =>
+            quiz.Topic === category && (
+              <SwiperSlide>
+                <CardActivityManage quiz={quiz} progress={20} />
+              </SwiperSlide>
+            )
         )}
       </Swiper>
     </Box>

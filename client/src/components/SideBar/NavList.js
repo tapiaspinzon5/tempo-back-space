@@ -7,7 +7,7 @@ import gridIcon from "../../assets/Icons/grid.svg";
 import { FiPieChart, FiUploadCloud, FiUsers } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
-import { ImEqualizer2 } from "react-icons/im";
+import { ImEqualizer2, ImProfile } from "react-icons/im";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -215,6 +215,41 @@ export const NavList = ({ open, match, userData }) => {
             )}
           </>
         }
+        {userData === "Operation Manager" && (
+          <>
+            <LItem button onClick={() => navigate("/upquiz")}>
+              <LIcon>
+                <AiOutlineFileAdd size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Library</Typography>}
+            </LItem>
+
+            <LItem
+              button
+              onClick={() => navigate("/missionassignment")}
+              disabled
+            >
+              <LIcon>
+                <ImProfile size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Mission Assignment</Typography>}
+            </LItem>
+
+            <LItem button onClick={() => navigate("/leaderboard")}>
+              <LIcon>
+                <IoTrendingUpSharp size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>LeaderBoard</Typography>}
+            </LItem>
+
+            <LItem button onClick={() => navigate("/analytics")}>
+              <LIcon>
+                <FiPieChart size={25} color="#fff" />
+              </LIcon>
+              {open && match && <Typography>Analytics</Typography>}
+            </LItem>
+          </>
+        )}
       </ContentList>
     </>
   );

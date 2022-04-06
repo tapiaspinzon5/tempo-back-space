@@ -7,7 +7,7 @@ const url = "http://localhost:4343";
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
 // Pilot
-//const url = "https://spacegptest.teleperformance.co/api/";
+//const url = "https://spacegptest.teleperformance.co";
 
 //datainicial
 const initialData = {

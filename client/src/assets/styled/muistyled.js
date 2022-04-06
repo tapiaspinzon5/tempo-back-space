@@ -1,4 +1,4 @@
-import { Grid, styled, Button, Box } from "@mui/material";
+import { Grid, styled, Button, Box, TextField } from "@mui/material";
 
 export const MainPage = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -138,5 +138,16 @@ export const BoxDataTable = styled(Box)(() => ({
   "&:hover": {
     boxShadow: "1px 1px 5px #A2A2A2",
     background: "#EFF8FB99",
+  },
+}));
+
+export const InputText = styled(TextField)(() => ({
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderRadius: "10px",
+    },
+    "&:hover fieldset": {
+      borderColor: "#3047B0",
+    },
   },
 }));
