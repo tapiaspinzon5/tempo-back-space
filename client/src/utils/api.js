@@ -430,11 +430,12 @@ const downloadActivities = (ccmsAgent) => {
 	}
 };
 //Traer los kpi para el HOme Tanto TL como AG
-const getKpisHome = (context) => {
+const getKpisHome = (context, agentIdccms) => {
 	try {
 		return axiosInstance
 			.post(`getkpiagentkpiteam`, {
 				context: context,
+				agentIdccms: agentIdccms,
 			})
 			.catch(function (error) {
 				if (error.response) {
