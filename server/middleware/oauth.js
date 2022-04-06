@@ -6,22 +6,8 @@ const parametros = require("../controllers/params.controller").parametros;
 const url = "https://oauth.teleperformance.co/api/";
 
 function login(req, res) {
-  // return
-  // const newBody = {
-  //     user : req.body.body.id,
-  //     pass : req.body.body.password,
-  // }
-
-  //  const newBody = {
-  //      user : req.body.body.id,
-  //      pass : req.body.body.password,
-  //  }
-
-  //  const btoaData = btoa(JSON.stringify(newBody));
-  //  const bdata = {body: 's'+ btoaData};
 
   let data = {
-    //   body: bdata.body,
     body: req.body.body,
     timeTkn: 540,
     project: process.env.PROJECT,

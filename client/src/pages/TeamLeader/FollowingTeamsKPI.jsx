@@ -136,7 +136,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					data.data[1].KpiDetallado[0].IdRegistryKpi,
 					timeView,
-					idccms // ccms del team Leader
+					idccms, // ccms del team Leader
+					2
 				);
 				if (
 					listAndGraph &&
@@ -321,7 +322,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					actualKpi.IdRegistryKpi,
 					e.target.value,
-					actualAgent //ccms id del integrante del equipo
+					actualAgent, //ccms id del integrante del equipo
+					1
 				);
 				if (
 					listAndGraph &&
@@ -340,7 +342,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					actualKpi.IdRegistryKpi,
 					e.target.value,
-					idccms //ccms id Team Leader
+					idccms, //ccms id Team Leader
+					2
 				);
 				if (
 					listAndGraph &&
@@ -390,7 +393,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					idKpi,
 					"Day",
-					actualAgent //ccms id del integrante del equipo
+					actualAgent, //ccms id del integrante del equipo
+					1
 				);
 				if (
 					listAndGraph &&
@@ -438,7 +442,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					idKpi,
 					"Day",
-					idccms //ccms id del Team Leader
+					idccms, //ccms id del Team Leader
+					2
 				);
 				if (
 					listAndGraph &&
@@ -481,7 +486,8 @@ const FollowingTeamsKPI = ({ count }) => {
 					ag,
 					data.data[0].KPI[0].IdRegistryKpi,
 					"Day",
-					ag // //ccms id del agente del equipo
+					ag, // //ccms id del agente del equipo
+					1
 				);
 				console.log(listAndGraph);
 				if (
@@ -539,7 +545,8 @@ const FollowingTeamsKPI = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					data.data[1].KpiDetallado[0].IdRegistryKpi,
 					"Day",
-					idccms //ccms id del Team Leader
+					idccms, //ccms id del Team Leader
+					2
 				);
 				if (
 					listAndGraph &&

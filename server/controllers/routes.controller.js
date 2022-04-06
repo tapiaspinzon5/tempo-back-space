@@ -9,10 +9,6 @@ const {transport} = require("../nodemailerConfig");
 const {sendFCMMessage} = require("../helpers/sendNotification");
 
 exports.CallSp = (spName, req, res) => {
-  // const payload = jwt.verify(req.headers.authorization.split(" ")[1],  process.env.SECRET);
-  // const idccms = JSON.parse(decrypt(payload.data)).data.idccms;
-  // req.body.idccms = 1234567;
-
   sql
     .query(spName, parametros(req.body, spName))
     .then((result) => {
@@ -23,7 +19,6 @@ exports.CallSp = (spName, req, res) => {
       responsep(2, req, res, err);
     });
 };
-// };
 
 function isEmpty(req) {
   for (var key in req) {
@@ -303,46 +298,6 @@ exports.getChanllenges = async (req, res) => {
       )
     )
     .then((result) => {
-
-      // let tempGetStarted = []
-      // let tempGetStronger = []
-      // let tempBattle = []
-      // let tempDevelopingSkills = []
-      // let tempBeingAwarded = []
-
-      // result.forEach(element => {
-
-      //   switch (element?.Stage) {
-      //     case "Getting started":
-      //       tempGetStarted.push(element)
-      //       break;
-      //     case "Getting stronger":
-      //       tempGetStronger.push(element)
-      //       break;
-      //     case "Battle":
-      //       tempBattle.push(element)
-      //       break;
-      //     case "Developing skills":
-      //       tempDevelopingSkills.push(element)
-      //       break;
-      //     case "Being Awarded":
-      //       tempBeingAwarded.push(element)
-      //       break;
-        
-      //     default:
-      //       break;
-      //   }
-      // });
-
-      // let filterData = {
-      //   "Getting started":tempGetStarted,
-      //   "Getting stronger":tempGetStronger,
-      //   "Battle":tempBattle,
-      //   "Developing skills":tempDevelopingSkills,
-      //   "Being Awarded":tempBeingAwarded,
-      // }
-
-      // console.log(filterData);
       responsep(1, req, res, result);
     })
     .catch((err) => {
@@ -489,15 +444,6 @@ exports.postAssignChallenges = async (req, res) => {
     }
   }
 
-  // try {
-  //   let resp = fcmTokens.map(async (token) => {
-  //     return await sendFCMMessage(token,msg)
-  //   })
-  //   // res.status(200).json(resp);
-  // } catch (error) {
-  //   res.status(500).json(error);
-  // }
-
   sql
     .query(
       "spInsertChallengeAgent",
@@ -579,13 +525,6 @@ exports.sendFCMNotificacion = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-  // try {
-  //   let resp = await sendFCMMessage(FCMtoken, msg)
-  //   console.log(resp);
-  //   res.status(200).json(resp);
-  // } catch (error) {
-  //   res.status(500).json(error);
-  // }
 };
 
 
@@ -680,12 +619,12 @@ exports.getkpiteamTL = async (req, res) => {
 
 exports.getAgentsbykpiTL = async (req, res) => {
 
-  const { idKpi, time, agentIdccms } = req.body;
+  const { idKpi, time, agentIdccms, context } = req.body;
 
   sql
     .query(
       "spQueryKpiTeamAgent",
-      parametros({ idccms: req.query.idccms, idKpi, time, agentIdccms }, "spQueryKpiTeamAgent")
+      parametros({ idccms: req.query.idccms, idKpi, time, agentIdccms,context }, "spQueryKpiTeamAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -871,17 +810,6 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
 
 
 exports.uploadKpirl = async (req, res) => {
-
-  // Funcion para insertar un id a las preguntas
-  // let i = 0;
-  // let data = req.body.data;
-
-  // let rows = data.map((rep) => {
-  //   i = i + 1;
-  //   return [...rep, i];
-  // });
-
-  console.log(req.body.data);
 
  sql
    .query(

@@ -188,13 +188,14 @@ const getKPIteamTL = () => {
 	}
 };
 //funcion para Traer los KPI con sus usuarios  del Team Leader
-const getUsersKPI = (idKPI, time, agentIdccms) => {
+const getUsersKPI = (idKPI, time, agentIdccms, context) => {
 	try {
 		return axiosInstance
 			.post(`getagentsbykpitl`, {
 				idKpi: idKPI,
 				time: time,
 				agentIdccms: agentIdccms,
+				context: context,
 			})
 			.catch(function (error) {
 				if (error.response) {

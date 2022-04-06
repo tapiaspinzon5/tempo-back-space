@@ -105,7 +105,8 @@ const AgentAnalytics = ({ count }) => {
 				const listAndGraph = await getUsersKPI(
 					data.data[0].KPI[0].IdRegistryKpi,
 					timeView,
-					idccms
+					idccms,
+					1
 				);
 				if (
 					listAndGraph &&
@@ -240,7 +241,8 @@ const AgentAnalytics = ({ count }) => {
 			const listAndGraph = await getUsersKPI(
 				actualKpi.IdRegistryKpi,
 				e.target.value,
-				idccms //ccms id del integrante del equipo
+				idccms, //ccms id del integrante del equipo
+				1
 			);
 			if (
 				listAndGraph &&
@@ -286,7 +288,8 @@ const AgentAnalytics = ({ count }) => {
 			const listAndGraph = await getUsersKPI(
 				idKpi,
 				"Day",
-				idccms //ccms id del integrante del equipo
+				idccms, //ccms id del integrante del equipo
+				1
 			);
 			if (
 				listAndGraph &&

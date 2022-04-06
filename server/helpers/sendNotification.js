@@ -7,18 +7,6 @@ exports.sendFCMMessage= async (tlName, nameActivity, fcmToken) => {
     try {
         const res = await getMessaging().send({
             webpush: {
-                // notification: {
-                //     ...msg,
-                //     icon: 'https://your-website.com/favicon.png',
-                //     requireInteraction: msg.requireInteraction ?? false,
-                //     actions: [{
-                //         title: 'Open',
-                //         action: 'open',
-                //     }],
-                //     data: {
-                //         link: msg.link,
-                //     },
-                // },
                 "data": {
                   "Title": "you have been assigned a challenge !",
                   "Challenger" : `${tlName}`,

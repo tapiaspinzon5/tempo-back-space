@@ -1,40 +1,6 @@
 const TYPES = require("tedious").TYPES;
 const moment = require("moment");
 
-// let parametrizacion = (data) => {
-//   console.log(data)
-//   try {
-//     let obj = {
-//       table: [],
-//     };
-//     data.forEach((dato) => {
-//       let nombre = dato.item;
-//       let valor = dato.datos.valor;
-//       let tipo = dato.datos.tipo;
-//       console.log(nombre, valor, tipo)
-//       if (tipo == "varchar") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.VarChar });
-//       } else if (tipo == "int") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.Int });
-//       } else if (tipo == "bit") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.Bit });
-//       } else if (tipo == "date") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.Date });
-//       } else if (tipo == "time") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.Time });
-//       } else if (tipo == "char") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.Char });
-//       } else if (tipo == "bigint") {
-//         obj.table.push({ nombre: nombre, valor: valor, tipo: TYPES.BigInt });
-//       }
-//     });
-//     return obj.table;
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };
-
 let parametrizacion = (data) => {
   try {
     return data.map(({ name, value, type, schema }) => ({
@@ -313,6 +279,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("Time", req.time, TYPES.VarChar),
         new SpParam("idccms", req.agentIdccms, TYPES.Int),
+        new SpParam("Case", req.context, TYPES.Int),
       ]);
 
     //TODO: Borrar para despues
