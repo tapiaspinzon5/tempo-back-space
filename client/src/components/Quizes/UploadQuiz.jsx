@@ -287,7 +287,10 @@ const UploadQuiz = ({ setLoading }) => {
             {/* <ButtonActionBlue sx={{ marginRight: "2rem" }}>
               Back
             </ButtonActionBlue> */}
-            <ButtonActionBlue disabled={fileName ? true : false} type="submit">
+            <ButtonActionBlue
+              //disabled={fileName ? true : false}
+              disabled
+            >
               Next
             </ButtonActionBlue>
           </Box>

@@ -4,6 +4,8 @@ import { InputText } from "../../assets/styled/muistyled";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
+  fileName = true;
+
   return (
     <Box
       component="form"

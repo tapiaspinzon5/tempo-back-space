@@ -94,7 +94,7 @@ const UpQuiz = () => {
             </Typography>
             <Box display="flex">
               <Box>
-                <ButtonAction onClick={() => setShowCat(!showCat)}>
+                <ButtonAction onClick={() => setShowCat(!showCat)} disabled>
                   Set Categories
                 </ButtonAction>
                 {showCat && <CardCateroriesQuiz />}
