@@ -792,9 +792,23 @@ exports.postassigntpv = async (req, res) => {
 
 exports.getKpiAgentKpiTeam = async (req, res) => {
 
-  const {context} = req.body;
+  const {context, agentIdccms} = req.body;
 
-  sql
+  if (context && agentIdccms) {
+    sql
+    .query(
+      "spQueryDashboardKPI",
+      parametros({ idccms: agentIdccms, context}, "spQueryDashboardKPI")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+  } else {
+    sql
     .query(
       "spQueryDashboardKPI",
       parametros({ idccms: req.query.idccms, context}, "spQueryDashboardKPI")
@@ -806,6 +820,9 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
+  }
+
+ 
 };
 
 
