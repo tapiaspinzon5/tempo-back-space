@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const properties = require("./properties/properties");
+const csrf = require("csurf");
+// const csrfProtection = csrf({cookie: true});
 const port = properties.PORT;
 const app = express();
 const requestIp = require("request-ip");
@@ -30,7 +32,7 @@ const corsOptions = {
 	// origin: 'https://spacegptest.teleperformance.co/',
 };
 app.use(cors(corsOptions));
-app.use(helmet.frameguard({ action: "DENY" }));
+app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
 app.use((req, res, next) => {
 	res.set({
 		"Cache-Control": `no-cache, no-store, must-revalidate`,
@@ -41,6 +43,7 @@ app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(csrfProtection);
 app.disable("x-powered-by");
 app.use(bodyParser.json({ limit: "10mb", type: "application/json" }));
 app.use(requestIp.mw());
