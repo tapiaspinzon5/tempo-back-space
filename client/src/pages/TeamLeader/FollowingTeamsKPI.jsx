@@ -126,7 +126,7 @@ const FollowingTeamsKPI = ({ count }) => {
 			setLoading(true);
 			setLoadingGraph(true);
 			setLoadingList(true);
-			const data = await getKPIteamTL(idccms);
+			const data = await getKPIteamTL();
 			if (data && data.status === 200 && data.data.length > 1) {
 				setKpi(data.data[1].KpiDetallado);
 				setError(false);
@@ -134,7 +134,6 @@ const FollowingTeamsKPI = ({ count }) => {
 				setActualKpi(data.data[1].KpiDetallado[0]);
 				setLoading(false);
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					data.data[1].KpiDetallado[0].IdRegistryKpi,
 					timeView,
 					idccms // ccms del team Leader
@@ -320,7 +319,6 @@ const FollowingTeamsKPI = ({ count }) => {
 		if (!view) {
 			const newData = async () => {
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					actualKpi.IdRegistryKpi,
 					e.target.value,
 					actualAgent //ccms id del integrante del equipo
@@ -340,7 +338,6 @@ const FollowingTeamsKPI = ({ count }) => {
 		} else {
 			const newData = async () => {
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					actualKpi.IdRegistryKpi,
 					e.target.value,
 					idccms //ccms id Team Leader
@@ -391,7 +388,6 @@ const FollowingTeamsKPI = ({ count }) => {
 			setTimeView("Day");
 			const newData = async () => {
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					idKpi,
 					"Day",
 					actualAgent //ccms id del integrante del equipo
@@ -440,7 +436,6 @@ const FollowingTeamsKPI = ({ count }) => {
 			setTimeView("Day");
 			const newData = async () => {
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					idKpi,
 					"Day",
 					idccms //ccms id del Team Leader
@@ -533,7 +528,7 @@ const FollowingTeamsKPI = ({ count }) => {
 			setLoadingGraph(true);
 			setLoadingList(true);
 			setLoadingKpi(true);
-			const data = await getKPIteamTL(idccms);
+			const data = await getKPIteamTL();
 			if (data && data.status === 200 && data.data.length > 1) {
 				setKpi(data.data[1].KpiDetallado);
 				setError(false);
@@ -542,7 +537,6 @@ const FollowingTeamsKPI = ({ count }) => {
 				setLoading(false);
 				setLoadingKpi(false);
 				const listAndGraph = await getUsersKPI(
-					idccms,
 					data.data[1].KpiDetallado[0].IdRegistryKpi,
 					"Day",
 					idccms //ccms id del Team Leader
@@ -701,9 +695,9 @@ const FollowingTeamsKPI = ({ count }) => {
 							<>
 								{!error ? (
 									!loadingList ? (
-										usersKPI.map((user) => (
+										usersKPI.map((user, index) => (
 											<Box
-												key={user.idccms}
+												key={index + 7}
 												sx={{
 													boxShadow: "3px 3px 3px #e8e8e8",
 													height: "3rem",

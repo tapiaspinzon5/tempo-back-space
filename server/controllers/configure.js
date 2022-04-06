@@ -2,8 +2,11 @@ const redirect = require("../controllers/redirect.controller");
 require("dotenv").config();
 
 async function configure(call) {
+
+  let idKey =  Buffer.from(process.env.IDKEY, 'base64').toString()
+
   let body = {
-    key: process.env.IDKEY,
+    key: idKey,
     project: process.env.PROJECT,
     ip: "",
     uri: "/api/configserver",

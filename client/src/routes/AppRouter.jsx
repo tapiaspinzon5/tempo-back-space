@@ -187,8 +187,6 @@ const AppRouter = () => {
                 <Route path="/" element={<Navigate to="/homeom" />} />
                 <Route path="/homeom" element={<HomeOM count={count} />} />
                 <Route path="/upcampaign" element={<UpCampaign />} />
-                <Route path="/leaderboard" element={<LeaderBoardRL />} />
-                <Route path="/analytics" element={<AnalyticsRL />} />
               </>
             )}
           {userData?.NumberLogins > 1 && userData?.Role === "QA Lead" && (

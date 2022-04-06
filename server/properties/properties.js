@@ -2,18 +2,18 @@ require('dotenv').config()
 if(process.env.ENV == 'Production' || process.env.ENV == 'Development'){
     module.exports = {
         configtest: {
-            server: process.env.IP_SQL,
+            server: Buffer.from(process.env.IP_SQL, 'base64').toString(),
             authentication: {
                 type: process.env.TYPE,
                 options: {
-                    userName: process.env.SQL_USERNAME,
-                    password: process.env.SQL_PASSWORD,
+                    userName: Buffer.from(process.env.SQL_USERNAME, 'base64').toString(),
+                    password: Buffer.from(process.env.SQL_PASSWORD, 'base64').toString(),
                 }
             },
             driver: process.env.DRIVER, 
             options: {
-                instanceName: process.env.INSTANCE,
-                database: process.env.DATABASE,
+                instanceName: Buffer.from(process.env.INSTANCE, 'base64').toString(), 
+                database:     Buffer.from(process.env.DATABASESPACE, 'base64').toString(), 
                 rowCollectionOnDone: true,
                 rowCollectionOnRequestCompletion: true,
                 connectTimeout: 30000,

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-//import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -102,10 +101,7 @@ const BoxSteeper = styled(Box)(() => ({
   },
 }));
 
-const UploadQuiz = ({ idccms, setLoading }) => {
-  // const userData = useSelector((store) => store.loginUser.userData);
-  // const [data, setData] = React.useState([]);
-  // const idccms = userData.idccms;
+const UploadQuiz = ({ setLoading }) => {
   const [open, setOpen] = React.useState(false);
   const [fileName, setFileName] = React.useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
@@ -207,7 +203,7 @@ const UploadQuiz = ({ idccms, setLoading }) => {
       }
 
       //setData(data);
-      const resp = await uploadQuizes({ data }, idccms);
+      const resp = await uploadQuizes({ data });
 
       if (resp.status === 200) {
         setLoading(false);

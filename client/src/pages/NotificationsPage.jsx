@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Typography, Grid, styled, Box } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useSelector } from "react-redux";
 import Header from "../components/homeUser/Header";
 import NotificationCard from "../components/notifications/NotificationCard";
 import Footer from "../components/Footer";
@@ -37,9 +36,6 @@ const NotiBox = styled(Box)(() => ({
 }));
 
 const NotificationsPage = ({ count }) => {
-	const userData = useSelector((store) => store.loginUser.userData);
-	const idccms = userData.Idccms;
-
 	const [notificationUser, setNotificationUser] = useState([]);
 	const [notificationTeam, setNotificationTeam] = useState([]);
 	const [skipUser, setSkipUser] = useState(0);
@@ -56,7 +52,7 @@ const NotificationsPage = ({ count }) => {
 	useEffect(() => {
 		setLoading(true);
 		const traerNotificaciones = async () => {
-			const data = await getNotifications(idccms, skipUser, limitUser, 1);
+			const data = await getNotifications(skipUser, limitUser, 1);
 			setNotificationUser(data.data);
 			if (data.data.length > 0) {
 				const pages =
@@ -74,7 +70,7 @@ const NotificationsPage = ({ count }) => {
 	useEffect(() => {
 		setLoading2(true);
 		const traerNotificaciones = async () => {
-			const dataTeam = await getNotifications(idccms, skipTeam, limitTeam, 2);
+			const dataTeam = await getNotifications(skipTeam, limitTeam, 2);
 			setNotificationTeam(dataTeam.data);
 
 			if (dataTeam.data.length > 0) {

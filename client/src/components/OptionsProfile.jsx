@@ -15,6 +15,7 @@ import {
 import { FiPower } from "react-icons/fi";
 import { logoutAction } from "../redux/loginDuck";
 import avatarLocal from "../assets/temp-image/avatar.png";
+import { useSelector } from "react-redux";
 
 const BoxVinetas = styled(Box)(({ theme }) => ({
   width: "20rem",
@@ -31,6 +32,7 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
 }));
 
 const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
+  const userData = useSelector((store) => store.loginUser.userData.Role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logOut = () => {
@@ -55,21 +57,20 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
           sx={{ width: 75, height: 75 }}
         />
       </Box>
-
       <Box sx={{ width: "100%", maxWidth: 360 }}>
         <nav aria-label="secondary mailbox folders">
           <List>
-            {}
-
-            <ListItem disablePadding>
-              <ListItemButton
-                component="a"
-                href="#/profile"
-                sx={{ paddingLeft: 0 }}
-              >
-                <ListItemText primary="Profile" />
-              </ListItemButton>
-            </ListItem>
+            {(userData === "Agent" || userData === "Team Leader") && (
+              <ListItem disablePadding>
+                <ListItemButton
+                  component="a"
+                  href="#/profile"
+                  sx={{ paddingLeft: 0 }}
+                >
+                  <ListItemText primary="Profile" />
+                </ListItemButton>
+              </ListItem>
+            )}
             <ListItem disablePadding>
               <ListItemButton sx={{ paddingLeft: 0 }} onClick={logOut}>
                 <ListItemIcon>

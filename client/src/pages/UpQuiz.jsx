@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Typography, Grid, styled, Button, Modal, Box } from "@mui/material";
 import { FiDownload } from "react-icons/fi";
 //import Header from "../components/homeUser/Header";
@@ -12,6 +11,7 @@ import { ModalLoading } from "../components/ModalLoading";
 import { ButtonAction, MainPage } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import CardCateroriesQuiz from "../components/Quizes/CardCateroriesQuiz";
+import { useSelector } from "react-redux";
 
 const MainUpQuiz = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -38,18 +38,18 @@ const ModalBox = styled(Box)(() => ({
 
 const UpQuiz = () => {
   const [loading, setLoading] = useState(false);
-  const userData = useSelector((store) => store.loginUser.userData);
+  //const userData = useSelector((store) => store.loginUser.userData);
   const [template, setTemplate] = useState("");
   const [open, setOpen] = React.useState(false);
   const [showCat, setShowCat] = React.useState(false);
 
-  const idccms = userData.Idccms;
+  //const idccms = userData.Idccms;
 
   const [misQuizes, setMisQuizes] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const quizes = await loadQuizes(idccms);
+      const quizes = await loadQuizes();
       setMisQuizes(quizes.data);
     };
 
@@ -107,7 +107,7 @@ const UpQuiz = () => {
 
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <UploadQuiz idccms={idccms} setLoading={setLoading} />
+              <UploadQuiz setLoading={setLoading} />
             </Grid>
             {misQuizes?.map((quiz, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>

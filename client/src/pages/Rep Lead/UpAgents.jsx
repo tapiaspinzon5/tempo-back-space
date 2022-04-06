@@ -14,7 +14,6 @@ import {
 	Box,
 	Button,
 } from "@mui/material";
-import { useSelector } from "react-redux";
 //import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiDownload } from "react-icons/fi";
@@ -52,19 +51,17 @@ const ModalBox = styled(Box)(() => ({
 
 export const UpAgents = () => {
 	const [loading, setLoading] = useState(false);
-	const userData = useSelector((store) => store.loginUser.userData);
 	const [template, setTemplate] = useState("");
-	const idccms = userData.Idccms;
+	const [open, setOpen] = React.useState(false);
 
 	const [myAgents, setMyAgents] = useState([]);
-	const [open, setOpen] = React.useState(false);
 	const [repKpi, setRepKpi] = useState([]);
 	const [repExp, setRepExp] = useState([]);
 	const [download, setDownload] = useState(true);
 
 	useEffect(() => {
 		const getData = async () => {
-			const agents = await downloadDataAdmin(idccms, 3);
+			const agents = await downloadDataAdmin(3);
 			setMyAgents(agents.data);
 		};
 
@@ -74,8 +71,8 @@ export const UpAgents = () => {
 
 	useEffect(() => {
 		const getReports = async () => {
-			const expReport = await downloadReportExp(idccms);
-			const kpiReport = await downloadReportKpi(idccms);
+			const expReport = await downloadReportExp();
+			const kpiReport = await downloadReportKpi();
 			if (
 				expReport &&
 				expReport.status === 200 &&
@@ -215,7 +212,7 @@ QuizGrading: 0
 
 					<Grid container spacing={3} mt={4}>
 						<Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-							<UploadAgents idccms={idccms} setLoading={setLoading} />
+							<UploadAgents setLoading={setLoading} />
 							<Button
 								startIcon={<FiDownload />}
 								onClick={handleOpen}
