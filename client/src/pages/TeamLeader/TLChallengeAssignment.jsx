@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 import { Grid, styled, Typography, Box, Button } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
@@ -94,35 +96,44 @@ const selectButton = {
 };
 
 export const TLChallengeAssignment = ({ count }) => {
-	const [loading, setLoading] = useState(false);
-	const [fullLoading, setFullLoading] = useState(false);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const userData = useSelector((store) => store.loginUser.userData);
 	const userName = userData.Nombre;
 	const [activity, setActivity] = useState([]);
-	const [error, setError] = useState(false);
 	const [users, setUsers] = useState([]);
+	const [kpisInfo, setKpisInfo] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [fullLoading, setFullLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const handleOpen = () => setOpenModal(true);
-	const handleClose = () => setOpenModal(false);
+
 	useEffect(() => {
+		setLoading(true);
 		const getData = async () => {
-			const user = await downloadUsers();
-			if (user && user.status === 200 && user.data.length > 1) {
-				setLoading(true);
-				let ccmsAgent = user.data[0].Agents[0].ident;
-				user.data[0].Agents[0].isChecked = true;
-				setUsers(user.data[0].Agents);
-				const activities = await downloadActivities(ccmsAgent);
-				if (
-					activities &&
-					activities.status === 200 &&
-					activities.data.length > 1
-				) {
-					setActivity(activities.data);
+			const activities = await downloadActivities(null, 1);
+			if (
+				activities &&
+				activities.status === 200 &&
+				activities.data.length > 1
+			) {
+				setActivity(activities.data[0].Challenges);
+				setKpisInfo(activities.data[1].Kpis);
+				const user = await downloadUsers(/* id challenge */ 1, 2);
+				if (user && user.status === 200 && user.data.length > 1) {
+					user.data[0].Agents[0].isChecked = true;
+					setUsers(user.data[0].Agents);
 					setLoading(false);
+				} else if (user.data === "UnauthorizedError") {
+					dispatch(logoutAction());
+					navigate("/");
 				} else {
 					setError(true);
 				}
+			} else if (activities.data === "UnauthorizedError") {
+				dispatch(logoutAction());
+				navigate("/");
 			} else {
 				setError(true);
 			}
@@ -149,6 +160,9 @@ export const TLChallengeAssignment = ({ count }) => {
 		}
 	};
 
+	///funcion para traer agentes que se puede asignar retos
+	const handleChallenge = () => {};
+
 	///Función Envio de Challenges
 	const handleSubmit = async (data) => {
 		setFullLoading(true);
@@ -174,10 +188,21 @@ export const TLChallengeAssignment = ({ count }) => {
 			});
 		}
 	};
+	//funcion de envio de creacion de challenges
+	const handleSubmitNC = (data, interval) => {
+		setOpenModal(false);
+		console.log(data, interval);
+	};
+
 	return (
 		<>
 			{fullLoading && <ModalLoading />}
-			<FormCreateNewChallenge openModal={openModal} handleClose={handleClose} />
+			<FormCreateNewChallenge
+				openModal={openModal}
+				setOpenModal={setOpenModal}
+				handleSubmitNC={handleSubmitNC}
+				kpisInfo={kpisInfo}
+			/>
 
 			<MainPage>
 				<Header count={count} />
@@ -192,7 +217,7 @@ export const TLChallengeAssignment = ({ count }) => {
 								Challenge Assignment
 							</Typography>
 
-							<ButtonAction onClick={handleOpen} disabled>
+							<ButtonAction onClick={handleOpen}>
 								Create New Challenge
 							</ButtonAction>
 						</Box>
@@ -210,7 +235,7 @@ export const TLChallengeAssignment = ({ count }) => {
 										<TLChallengeCard
 											key={index}
 											challenge={act}
-											handleChallenge={handleSubmit}
+											handleChallenge={handleChallenge}
 										/>
 									))
 								) : (
@@ -224,7 +249,18 @@ export const TLChallengeAssignment = ({ count }) => {
 					<Grid item xs={12} md={5} padding={1}>
 						<BoxActivity>
 							<Box marginBottom={2}>
-								<Button sx={selectButton}>
+								<Button
+									sx={selectButton}
+									onClick={() =>
+										users.filter((user) => user?.isChecked !== true).length < 1
+											? handleUser({
+													target: { name: "selecct-all", checked: false },
+											  })
+											: handleUser({
+													target: { name: "selecct-all", checked: true },
+											  })
+									}
+								>
 									<input
 										type="checkbox"
 										name="selecct-all"
@@ -237,21 +273,25 @@ export const TLChallengeAssignment = ({ count }) => {
 									Select all
 								</Button>
 							</Box>
-							<Boxview>
-								{!error ? (
-									users.map((user, index) => (
-										<ShowUserActivity
-											key={index}
-											user={user}
-											handleUser={handleUser}
-										/>
-									))
-								) : (
-									<Typography variant="h5" fontWeight={500}>
-										The Game Starts Soon
-									</Typography>
-								)}
-							</Boxview>
+							{!loading ? (
+								<Boxview>
+									{!error ? (
+										users.map((user, index) => (
+											<ShowUserActivity
+												key={index}
+												user={user}
+												handleUser={handleUser}
+											/>
+										))
+									) : (
+										<Typography variant="h5" fontWeight={500}>
+											The Game Starts Soon
+										</Typography>
+									)}
+								</Boxview>
+							) : (
+								<LoadingComponent />
+							)}
 						</BoxActivity>
 					</Grid>
 				</Grid>

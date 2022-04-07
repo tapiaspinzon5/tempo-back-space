@@ -94,14 +94,14 @@ export const AgentChallengeAssignment = ({ count }) => {
 
 	useEffect(() => {
 		const getData = async () => {
-			const user = await downloadUsers();
+			const user = await downloadUsers(1, 1);
 			if (user && user.status === 200 && user.data.length > 1) {
 				setLoading(true);
 				let ccmsAgent = user.data[0].Agents[0].ident;
 				user.data[0].Agents[0].isChecked = true;
 				setUsers(user.data[0].Agents);
 				setTpvs(user.data[1].Tpvs);
-				const activities = await downloadActivities(ccmsAgent);
+				const activities = await downloadActivities(ccmsAgent, 2);
 				if (
 					activities &&
 					activities.status === 200 &&
@@ -134,7 +134,7 @@ export const AgentChallengeAssignment = ({ count }) => {
 				: { ...user, isChecked: false }
 		);
 		setUsers(tempUser);
-		const activities = await downloadActivities(value.split("-")[1]);
+		const activities = await downloadActivities(value.split("-")[1], 2);
 		if (activities && activities.status === 200 && activities.data.length > 1) {
 			setActivity(activities.data);
 			setLoading(false);

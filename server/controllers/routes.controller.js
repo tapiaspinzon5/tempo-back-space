@@ -289,12 +289,17 @@ exports.getTemplate = async (req, res) => {
 
 exports.getChanllenges = async (req, res) => {
 
-  const {context, idccmsAssigned }= req.body;
+  let {idccmsAssigned, context }= req.body;
 
+  if (context === 1) {
+    idccmsAssigned = req.query.idccms
+  }
+
+  console.log(idccmsAssigned);
   sql
     .query(
       "spQueryActivities",
-      parametros({idccms:req.query.idccms, context,idccmsAssigned },"spQueryActivities"
+      parametros({idccms:req.query.idccms, context, idccmsAssigned},"spQueryActivities"
       )
     )
     .then((result) => {
@@ -459,10 +464,13 @@ exports.postAssignChallenges = async (req, res) => {
 };
 
 exports.getAgentsChallengeAssignmentTL = async (req, res) => {
+
+  const {context, idChallenge } = req.body;
+
   sql
     .query(
       "spQueryTeamsAgents",
-      parametros({ idccms: req.query.idccms }, "spQueryTeamsAgents")
+      parametros({ idccms: req.query.idccms, context, idChallenge }, "spQueryTeamsAgents")
     )
     .then((result) => {
       responsep(1, req, res, result);

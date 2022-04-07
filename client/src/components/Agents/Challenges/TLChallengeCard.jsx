@@ -43,7 +43,7 @@ const TLChallengeCard = ({ challenge, handleChallenge }) => {
 					name="radio-button"
 					inputProps={{ "aria-label": "A" }}
 				/>
-				<Box width="60%">
+				<Box width="90%">
 					<Typography variant="body1" color="#FFF">
 						{challenge.Name}
 					</Typography>
