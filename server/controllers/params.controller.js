@@ -211,9 +211,9 @@ exports.parametros = (req, tipo) => {
     
     case "spQueryActivities":
       return parametrizacion([
-        new SpParam("case", req.context, TYPES.Int),
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idccms", req.idccmsAssigned, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
       ]);
 
     case "spQueryLoadInstructions":
@@ -232,7 +232,11 @@ exports.parametros = (req, tipo) => {
       ]);
       
     case "spQueryTeamsAgents":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("IdChallenge", req.idChallenge, TYPES.Int),
+      ]);
     
     case "spQueryActivitiesAgent":
       return parametrizacion([
