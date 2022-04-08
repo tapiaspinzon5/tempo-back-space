@@ -84,6 +84,18 @@ module.exports = (router) => {
   // Enpoint implementado para insertar nuevos challenges por parte del TL. 
   router.post("/postcreatenewchallengtl",oauth.oauthOther, routes.postCreateNewChallengTl); 
 
+  // Enpoint implementado para inactivar agentes. 
+  router.post("/postinactiveagent",oauth.oauthOther, routes.postinactiveagent);
+
+  // Endpoint para consultar agentes creados en la master Data. 
+  router.post("/getmasterinfoagents",oauth.oauthOther, routes.getMasterInfoAgents); 
+
+
+
+
+
+
+
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
   router.post("/welcomeegp", oauth.oauthOther, routes.welcomeegp);
