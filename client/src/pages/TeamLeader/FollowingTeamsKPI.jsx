@@ -475,7 +475,7 @@ const FollowingTeamsKPI = ({ count }) => {
 			setLoadingGraph(true);
 			setLoadingList(true);
 			setLoadingKpi(true);
-			const data = await getKpisHome(ag, 1);
+			const data = await getKpisHome(1, ag);
 			if (data && data.status === 200 && data.data.length > 0) {
 				setKpi(data.data[0].KPI);
 				setError(false);
@@ -483,7 +483,6 @@ const FollowingTeamsKPI = ({ count }) => {
 				setLoadingKpi(false);
 				setLoading(false);
 				const listAndGraph = await getUsersKPI(
-					ag,
 					data.data[0].KPI[0].IdRegistryKpi,
 					"Day",
 					ag, // //ccms id del agente del equipo

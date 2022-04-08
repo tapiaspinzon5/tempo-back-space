@@ -68,7 +68,7 @@ const HomeUser = ({ count }) => {
 	}, []);
 	const getData = async () => {
 		const rol = userData.Role === "Agent" ? 1 : 2;
-		const kpis = await getKpisHome(rol);
+		const kpis = await getKpisHome(rol, null);
 		if (kpis && kpis.status === 200 && kpis.data.length > 0) {
 			setData(kpis.data[0].KPI);
 		} else {

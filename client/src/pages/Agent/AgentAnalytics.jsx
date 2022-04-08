@@ -97,7 +97,7 @@ const AgentAnalytics = ({ count }) => {
 		const getData = async () => {
 			setLoadingGraph(true);
 			setLoadingKpi(true);
-			const data = await getKpisHome(1);
+			const data = await getKpisHome(1,null);
 			if (data && data.status === 200 && data.data.length > 0) {
 				//console.log(data.data[0].KPI);
 				setKpi(data.data[0].KPI);

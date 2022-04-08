@@ -48,6 +48,8 @@ import LeaderBoardRL from "../pages/Rep Lead/LeaderBoardRL";
 import AnalyticsRL from "../pages/Rep Lead/AnalyticsRL";
 import InformationQuices from "../pages/QALead/InformationQuices";
 import MissionsAssignment from "../pages/QALead/MissionsAssignment";
+import RoleManagementSecttion from "../pages/Ops Man/RoleManagementSecttion";
+import LOBManagementSection from "../pages/Ops Man/LOBManagementSection";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -186,7 +188,17 @@ const AppRouter = () => {
               <>
                 <Route path="/" element={<Navigate to="/homeom" />} />
                 <Route path="/homeom" element={<HomeOM count={count} />} />
+                <Route
+                  path="/rolemanagement"
+                  element={<RoleManagementSecttion />}
+                />
+                <Route
+                  path="/lobmanagement"
+                  element={<LOBManagementSection />}
+                />
                 <Route path="/upcampaign" element={<UpCampaign />} />
+                <Route path="/leaderboard" element={<LeaderBoardRL />} />
+                <Route path="/analytics" element={<AnalyticsRL />} />
               </>
             )}
           {userData?.NumberLogins > 1 && userData?.Role === "QA Lead" && (

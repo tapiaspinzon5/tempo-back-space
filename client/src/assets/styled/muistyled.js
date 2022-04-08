@@ -6,7 +6,9 @@ export const MainPage = styled(Grid)(({ theme }) => ({
   minHeight: "95vh",
   width: "100%",
   padding: "1rem 2rem",
-
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
   h5: {
     fontWeight: "700",
     color: "#3047B0",
@@ -150,4 +152,15 @@ export const InputText = styled(TextField)(() => ({
       borderColor: "#3047B0",
     },
   },
+}));
+
+//tarjeta de usuario avataar-nombre y cargo
+export const CardUser = styled(Box)(() => ({
+  color: "#3047b0",
+  background: "#fff",
+  display: "flex",
+  alignItems: "center",
+  //justifyContent: "space-between",
+  padding: "1rem",
+  borderRadius: "10px",
 }));

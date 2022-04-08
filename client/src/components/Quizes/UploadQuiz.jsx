@@ -102,9 +102,9 @@ const BoxSteeper = styled(Box)(() => ({
 }));
 
 const UploadQuiz = ({ setLoading }) => {
-  const [open, setOpen] = React.useState(false);
   const [fileName, setFileName] = React.useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
   };

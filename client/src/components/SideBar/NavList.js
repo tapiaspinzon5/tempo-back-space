@@ -217,18 +217,14 @@ export const NavList = ({ open, match, userData }) => {
         }
         {userData === "Operation Manager" && (
           <>
-            <LItem button onClick={() => navigate("/upquiz")}>
+            <LItem button onClick={() => navigate("/lobmanagement")}>
               <LIcon>
                 <AiOutlineFileAdd size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>Library</Typography>}
             </LItem>
 
-            <LItem
-              button
-              onClick={() => navigate("/missionassignment")}
-              disabled
-            >
+            <LItem button onClick={() => navigate("/rolemanagement")}>
               <LIcon>
                 <ImProfile size={25} color="#fff" />
               </LIcon>
