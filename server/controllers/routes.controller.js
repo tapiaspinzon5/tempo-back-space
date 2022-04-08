@@ -894,6 +894,48 @@ exports.postCreateNewChallengTl = async (req, res) => {
     });
  };
 
+exports.postinactiveagent = async (req, res) => {
+
+  const { idccmsAgent} = req.body;
+
+  sql
+    .query(
+      "spInactivateAgent",
+      parametros(
+        { idccms: req.query.idccms, idccmsAgent},
+        "spInactivateAgent"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getMasterInfoAgents = async (req, res) => {
+
+  const {idccmsAgent, context} = req.body;
+
+  sql
+    .query(
+      "spQueryAgents",
+      parametros(
+        { idccmsAgent, context},
+        "spQueryAgents"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 
