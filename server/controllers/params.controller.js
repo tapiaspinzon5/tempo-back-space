@@ -358,6 +358,18 @@ exports.parametros = (req, tipo) => {
         new SpParam("finalDate", req.body.finalDate, TYPES.Date),
       ]);
 
+    case "spInactivateAgent":
+      return parametrizacion([
+        new SpParam("ident", req.idccmsAgent, TYPES.Int),
+        new SpParam("identassignement", req.idccms, TYPES.Int),
+      ]);
+
+    case "spQueryAgents":
+      return parametrizacion([
+        new SpParam("ident", req.idccmsAgent, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
