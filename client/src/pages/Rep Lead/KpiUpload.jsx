@@ -101,7 +101,6 @@ const KpiUpload = () => {
 						//dateNF: "yyyy-mm-dd",
 					})
 					.map((colum) => {
-						console.log(colum[4]);
 						return [
 							colum[0]?.toString(),
 							colum[1]?.toString(),

@@ -31,7 +31,7 @@ const style = {
 const inicialDataNC = {
 	action: "",
 	kpi: "",
-	unit: "",
+	unitKpi: "",
 	quantity: "",
 };
 
@@ -47,6 +47,13 @@ const FormCreateNewChallenge = ({
 		setOpenModal(false);
 		setNewChallenge(inicialDataNC);
 		setDate([null, null]);
+	};
+	const handleChange = (e) => {
+		setNewChallenge({
+			...newChallenge,
+			kpi: e.target.value,
+			unitKpi: e.target.value.unitKpi,
+		});
 	};
 
 	return (
@@ -97,17 +104,11 @@ const FormCreateNewChallenge = ({
 						<FormControl fullWidth sx={{ marginTop: "1rem" }}>
 							<InputLabel id="kpi-select-label">KPI</InputLabel>
 							<Select
-								labelid="kpi-select-label"
+								labelid="kpi-select"
 								id="kpi-select"
 								value={newChallenge.kpi}
 								label="KPI"
-								onChange={(e) =>
-									setNewChallenge({
-										...newChallenge,
-										kpi: e.target.value.Kpi,
-										unit: e.target.value.unitKpi,
-									})
-								}
+								onChange={handleChange}
 							>
 								{kpisInfo.map((kpi, index) => (
 									<MenuItem key={index + 13} value={kpi}>
@@ -139,9 +140,9 @@ const FormCreateNewChallenge = ({
 								variant="outline"
 								label="Measure Unit"
 								placeholder="Unit"
-								value={newChallenge.unit}
+								value={newChallenge.unitKpi}
 								onChange={(e) =>
-									setNewChallenge({ ...newChallenge, unit: e.target.value })
+									setNewChallenge({ ...newChallenge, unitKpi: e.target.value })
 								}
 							/>
 						</FormControl>
@@ -175,7 +176,7 @@ const FormCreateNewChallenge = ({
 									!newChallenge.action ||
 									!newChallenge.kpi ||
 									!newChallenge.quantity ||
-									!newChallenge.unit ||
+									!newChallenge.unitKpi ||
 									!date[0] ||
 									!date[1]
 								}

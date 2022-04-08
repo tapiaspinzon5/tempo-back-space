@@ -9,6 +9,7 @@ import {
 	downloadActivities,
 	downloadUsers,
 	assingChallenges,
+	createNewChallenge,
 } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
 import { ModalLoading } from "../../components/ModalLoading";
@@ -101,16 +102,19 @@ export const TLChallengeAssignment = ({ count }) => {
 	const userData = useSelector((store) => store.loginUser.userData);
 	const userName = userData.Nombre;
 	const [activity, setActivity] = useState([]);
+	const [actualActivity, setActualActivity] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [kpisInfo, setKpisInfo] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [loadingC, setLoadingC] = useState(false);
 	const [fullLoading, setFullLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const handleOpen = () => setOpenModal(true);
 
 	useEffect(() => {
 		setLoading(true);
+		setLoadingC(true);
 		const getData = async () => {
 			const activities = await downloadActivities(null, 1);
 			if (
@@ -118,11 +122,16 @@ export const TLChallengeAssignment = ({ count }) => {
 				activities.status === 200 &&
 				activities.data.length > 1
 			) {
+				activities.data[0].Challenges[0].isChecked = true;
 				setActivity(activities.data[0].Challenges);
+				setActualActivity(activities.data[0].Challenges[0]);
 				setKpisInfo(activities.data[1].Kpis);
-				const user = await downloadUsers(/* id challenge */ 1, 2);
+				setLoadingC(false);
+				const user = await downloadUsers(
+					2,
+					activities.data[0].Challenges[0].Id
+				);
 				if (user && user.status === 200 && user.data.length > 1) {
-					user.data[0].Agents[0].isChecked = true;
 					setUsers(user.data[0].Agents);
 					setLoading(false);
 				} else if (user.data === "UnauthorizedError") {
@@ -161,12 +170,42 @@ export const TLChallengeAssignment = ({ count }) => {
 	};
 
 	///funcion para traer agentes que se puede asignar retos
-	const handleChallenge = () => {};
+	const handleChallenge = async (e) => {
+		setLoading(true);
+		const { value, checked } = e.target;
+		let tempChallenge = activity.map((challenge) =>
+			challenge.Description === value.split("-")[0]
+				? { ...challenge, isChecked: checked }
+				: { ...challenge, isChecked: false }
+		);
+		setActivity(tempChallenge);
+		const user = await downloadUsers(2, value.split("-")[1]);
+		if (user && user.status === 200 && user.data.length > 1) {
+			const challenge = [];
+			tempChallenge.forEach((el) => {
+				if (el.isChecked) {
+					challenge.push(el);
+				}
+			});
+			setActualActivity(challenge[0]);
+			setUsers(user.data[0].Agents);
+			setLoading(false);
+		} else if (user.data === "UnauthorizedError") {
+			dispatch(logoutAction());
+			navigate("/");
+		} else {
+			setError(true);
+		}
+	};
 
 	///Función Envio de Challenges
-	const handleSubmit = async (data) => {
+	const handleSubmit = async () => {
 		setFullLoading(true);
-		const dataToSendChallenge = await validateDataCheck(users, data, userName);
+		const dataToSendChallenge = await validateDataCheck(
+			users,
+			actualActivity,
+			userName
+		);
 		const sendChallenge = await assingChallenges(dataToSendChallenge[0]);
 		if (sendChallenge && sendChallenge.status === 200) {
 			setFullLoading(false);
@@ -181,7 +220,7 @@ export const TLChallengeAssignment = ({ count }) => {
 				}
 			});
 		} else {
-			setLoading(false);
+			setFullLoading(false);
 			MySwal.fire({
 				title: <p>Send Error</p>,
 				icon: "error",
@@ -189,9 +228,29 @@ export const TLChallengeAssignment = ({ count }) => {
 		}
 	};
 	//funcion de envio de creacion de challenges
-	const handleSubmitNC = (data, interval) => {
+	const handleSubmitNC = async (data, interval) => {
 		setOpenModal(false);
-		console.log(data, interval);
+		setFullLoading(true);
+		const sendNewCH = await createNewChallenge(data, interval);
+		if (sendNewCH && sendNewCH.status === 200) {
+			setFullLoading(false);
+			MySwal.fire({
+				title: <p>Create Challenge Successful</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			setFullLoading(false);
+			MySwal.fire({
+				title: <p>Send Error</p>,
+				icon: "error",
+			});
+		}
 	};
 
 	return (
@@ -229,21 +288,25 @@ export const TLChallengeAssignment = ({ count }) => {
 					<Grid item xs={12} md={6} padding={1}>
 						<BoxActivity>
 							<Box marginBottom={2}></Box>
-							<BoxviewCh>
-								{!error ? (
-									activity?.map((act, index) => (
-										<TLChallengeCard
-											key={index}
-											challenge={act}
-											handleChallenge={handleChallenge}
-										/>
-									))
-								) : (
-									<Typography variant="h5" fontWeight={500}>
-										The Game Starts Soon
-									</Typography>
-								)}
-							</BoxviewCh>
+							{!loadingC ? (
+								<BoxviewCh>
+									{!error ? (
+										activity?.map((act, index) => (
+											<TLChallengeCard
+												key={index}
+												challenge={act}
+												handleChallenge={handleChallenge}
+											/>
+										))
+									) : (
+										<Typography variant="h5" fontWeight={500}>
+											The Game Starts Soon
+										</Typography>
+									)}
+								</BoxviewCh>
+							) : (
+								<LoadingComponent />
+							)}
 						</BoxActivity>
 					</Grid>
 					<Grid item xs={12} md={5} padding={1}>

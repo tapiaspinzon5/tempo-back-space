@@ -90,7 +90,6 @@ const downloadReportKpi = () => {
 };
 //Peticion carga de achivos carag KPI
 const uploadKPIs = (dataCSV) => {
-	console.log(dataCSV);
 	return { status: 200 };
 	/* try {
 		return axiosInstance
@@ -216,7 +215,7 @@ const createNewChallenge = (data, period) => {
 		return axiosInstance
 			.post(`postcreatenewchallengtl`, {
 				action: data.action,
-				kpi: data.kpi,
+				kpi: data.kpi.Kpi,
 				quantity: data.quantity,
 				measureUnit: data.measureUnit,
 				initialDate: period[0],

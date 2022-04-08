@@ -488,7 +488,6 @@ const FollowingTeamsKPI = ({ count }) => {
 					ag, // //ccms id del agente del equipo
 					1
 				);
-				console.log(listAndGraph);
 				if (
 					listAndGraph &&
 					listAndGraph.status === 200 &&
