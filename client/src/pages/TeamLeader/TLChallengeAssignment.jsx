@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 import { Grid, styled, Typography, Box, Button } from "@mui/material";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
@@ -7,6 +9,7 @@ import {
 	downloadActivities,
 	downloadUsers,
 	assingChallenges,
+	createNewChallenge,
 } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
 import { ModalLoading } from "../../components/ModalLoading";
@@ -94,35 +97,52 @@ const selectButton = {
 };
 
 export const TLChallengeAssignment = ({ count }) => {
-	const [loading, setLoading] = useState(false);
-	const [fullLoading, setFullLoading] = useState(false);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const userData = useSelector((store) => store.loginUser.userData);
 	const userName = userData.Nombre;
 	const [activity, setActivity] = useState([]);
-	const [error, setError] = useState(false);
+	const [actualActivity, setActualActivity] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [kpisInfo, setKpisInfo] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [loadingC, setLoadingC] = useState(false);
+	const [fullLoading, setFullLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const handleOpen = () => setOpenModal(true);
-	const handleClose = () => setOpenModal(false);
+
 	useEffect(() => {
+		setLoading(true);
+		setLoadingC(true);
 		const getData = async () => {
-			const user = await downloadUsers();
-			if (user && user.status === 200 && user.data.length > 1) {
-				setLoading(true);
-				let ccmsAgent = user.data[0].Agents[0].ident;
-				user.data[0].Agents[0].isChecked = true;
-				setUsers(user.data[0].Agents);
-				const activities = await downloadActivities(ccmsAgent);
-				if (
-					activities &&
-					activities.status === 200 &&
-					activities.data.length > 1
-				) {
-					setActivity(activities.data);
+			const activities = await downloadActivities(null, 1);
+			if (
+				activities &&
+				activities.status === 200 &&
+				activities.data.length > 1
+			) {
+				activities.data[0].Challenges[0].isChecked = true;
+				setActivity(activities.data[0].Challenges);
+				setActualActivity(activities.data[0].Challenges[0]);
+				setKpisInfo(activities.data[1].Kpis);
+				setLoadingC(false);
+				const user = await downloadUsers(
+					2,
+					activities.data[0].Challenges[0].Id
+				);
+				if (user && user.status === 200 && user.data.length > 1) {
+					setUsers(user.data[0].Agents);
 					setLoading(false);
+				} else if (user.data === "UnauthorizedError") {
+					dispatch(logoutAction());
+					navigate("/");
 				} else {
 					setError(true);
 				}
+			} else if (activities.data === "UnauthorizedError") {
+				dispatch(logoutAction());
+				navigate("/");
 			} else {
 				setError(true);
 			}
@@ -149,10 +169,43 @@ export const TLChallengeAssignment = ({ count }) => {
 		}
 	};
 
+	///funcion para traer agentes que se puede asignar retos
+	const handleChallenge = async (e) => {
+		setLoading(true);
+		const { value, checked } = e.target;
+		let tempChallenge = activity.map((challenge) =>
+			challenge.Description === value.split("-")[0]
+				? { ...challenge, isChecked: checked }
+				: { ...challenge, isChecked: false }
+		);
+		setActivity(tempChallenge);
+		const user = await downloadUsers(2, value.split("-")[1]);
+		if (user && user.status === 200 && user.data.length > 1) {
+			const challenge = [];
+			tempChallenge.forEach((el) => {
+				if (el.isChecked) {
+					challenge.push(el);
+				}
+			});
+			setActualActivity(challenge[0]);
+			setUsers(user.data[0].Agents);
+			setLoading(false);
+		} else if (user.data === "UnauthorizedError") {
+			dispatch(logoutAction());
+			navigate("/");
+		} else {
+			setError(true);
+		}
+	};
+
 	///Función Envio de Challenges
-	const handleSubmit = async (data) => {
+	const handleSubmit = async () => {
 		setFullLoading(true);
-		const dataToSendChallenge = await validateDataCheck(users, data, userName);
+		const dataToSendChallenge = await validateDataCheck(
+			users,
+			actualActivity,
+			userName
+		);
 		const sendChallenge = await assingChallenges(dataToSendChallenge[0]);
 		if (sendChallenge && sendChallenge.status === 200) {
 			setFullLoading(false);
@@ -167,17 +220,48 @@ export const TLChallengeAssignment = ({ count }) => {
 				}
 			});
 		} else {
-			setLoading(false);
+			setFullLoading(false);
 			MySwal.fire({
 				title: <p>Send Error</p>,
 				icon: "error",
 			});
 		}
 	};
+	//funcion de envio de creacion de challenges
+	const handleSubmitNC = async (data, interval) => {
+		setOpenModal(false);
+		setFullLoading(true);
+		const sendNewCH = await createNewChallenge(data, interval);
+		if (sendNewCH && sendNewCH.status === 200) {
+			setFullLoading(false);
+			MySwal.fire({
+				title: <p>Create Challenge Successful</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			setFullLoading(false);
+			MySwal.fire({
+				title: <p>Send Error</p>,
+				icon: "error",
+			});
+		}
+	};
+
 	return (
 		<>
 			{fullLoading && <ModalLoading />}
-			<FormCreateNewChallenge openModal={openModal} handleClose={handleClose} />
+			<FormCreateNewChallenge
+				openModal={openModal}
+				setOpenModal={setOpenModal}
+				handleSubmitNC={handleSubmitNC}
+				kpisInfo={kpisInfo}
+			/>
 
 			<MainPage>
 				<Header count={count} />
@@ -192,7 +276,7 @@ export const TLChallengeAssignment = ({ count }) => {
 								Challenge Assignment
 							</Typography>
 
-							<ButtonAction onClick={handleOpen} disabled>
+							<ButtonAction onClick={handleOpen}>
 								Create New Challenge
 							</ButtonAction>
 						</Box>
@@ -204,27 +288,42 @@ export const TLChallengeAssignment = ({ count }) => {
 					<Grid item xs={12} md={6} padding={1}>
 						<BoxActivity>
 							<Box marginBottom={2}></Box>
-							<BoxviewCh>
-								{!error ? (
-									activity?.map((act, index) => (
-										<TLChallengeCard
-											key={index}
-											challenge={act}
-											handleChallenge={handleSubmit}
-										/>
-									))
-								) : (
-									<Typography variant="h5" fontWeight={500}>
-										The Game Starts Soon
-									</Typography>
-								)}
-							</BoxviewCh>
+							{!loadingC ? (
+								<BoxviewCh>
+									{!error ? (
+										activity?.map((act, index) => (
+											<TLChallengeCard
+												key={index}
+												challenge={act}
+												handleChallenge={handleChallenge}
+											/>
+										))
+									) : (
+										<Typography variant="h5" fontWeight={500}>
+											The Game Starts Soon
+										</Typography>
+									)}
+								</BoxviewCh>
+							) : (
+								<LoadingComponent />
+							)}
 						</BoxActivity>
 					</Grid>
 					<Grid item xs={12} md={5} padding={1}>
 						<BoxActivity>
 							<Box marginBottom={2}>
-								<Button sx={selectButton}>
+								<Button
+									sx={selectButton}
+									onClick={() =>
+										users.filter((user) => user?.isChecked !== true).length < 1
+											? handleUser({
+													target: { name: "selecct-all", checked: false },
+											  })
+											: handleUser({
+													target: { name: "selecct-all", checked: true },
+											  })
+									}
+								>
 									<input
 										type="checkbox"
 										name="selecct-all"
@@ -237,21 +336,25 @@ export const TLChallengeAssignment = ({ count }) => {
 									Select all
 								</Button>
 							</Box>
-							<Boxview>
-								{!error ? (
-									users.map((user, index) => (
-										<ShowUserActivity
-											key={index}
-											user={user}
-											handleUser={handleUser}
-										/>
-									))
-								) : (
-									<Typography variant="h5" fontWeight={500}>
-										The Game Starts Soon
-									</Typography>
-								)}
-							</Boxview>
+							{!loading ? (
+								<Boxview>
+									{!error ? (
+										users.map((user, index) => (
+											<ShowUserActivity
+												key={index}
+												user={user}
+												handleUser={handleUser}
+											/>
+										))
+									) : (
+										<Typography variant="h5" fontWeight={500}>
+											The Game Starts Soon
+										</Typography>
+									)}
+								</Boxview>
+							) : (
+								<LoadingComponent />
+							)}
 						</BoxActivity>
 					</Grid>
 				</Grid>

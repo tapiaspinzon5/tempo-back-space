@@ -106,9 +106,6 @@ export const UploadCount = ({ setLoading }) => {
 
 	const uploadFile = async (e) => {
 		const fileCSV = e.target.files[0];
-
-		console.log(fileCSV);
-
 		let data;
 		if (
 			fileCSV === undefined ||

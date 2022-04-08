@@ -90,7 +90,6 @@ const downloadReportKpi = () => {
 };
 //Peticion carga de achivos carag KPI
 const uploadKPIs = (dataCSV) => {
-	console.log(dataCSV);
 	return { status: 200 };
 	/* try {
 		return axiosInstance
@@ -161,10 +160,13 @@ const downloadHomeDataTl = () => {
 
 //Trae el equipo de un TEam Leader para asignarle actividades
 
-const downloadUsers = () => {
+const downloadUsers = (context, idChallenge) => {
 	try {
 		return axiosInstance
-			.post(`getagentschallengeassignmenttl`)
+			.post(`getagentschallengeassignmenttl`, {
+				context: context,
+				idChallenge: idChallenge,
+			})
 			.catch(function (error) {
 				if (error.response) {
 					return error.response;
@@ -196,6 +198,28 @@ const getUsersKPI = (idKPI, time, agentIdccms, context) => {
 				time: time,
 				agentIdccms: agentIdccms,
 				context: context,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+//funcion para Crear Nuevos Challenges
+const createNewChallenge = (data, period) => {
+	try {
+		return axiosInstance
+			.post(`postcreatenewchallengtl`, {
+				action: data.action,
+				kpi: data.kpi.Kpi,
+				quantity: data.quantity,
+				measureUnit: data.measureUnit,
+				initialDate: period[0],
+				finalDate: period[1],
 			})
 			.catch(function (error) {
 				if (error.response) {
@@ -413,11 +437,11 @@ const getDataAnalytics = (kpi) => {
 /* TRANSVERSALES */
 
 //Traer los Challenges para asignar Tanto TL como AG
-const downloadActivities = (ccmsAgent) => {
+const downloadActivities = (ccmsAgent, context) => {
 	try {
 		return axiosInstance
 			.post(`getchanllenges`, {
-				context: 2,
+				context: context,
 				idccmsAssigned: ccmsAgent,
 			})
 			.catch(function (error) {
@@ -574,4 +598,5 @@ export {
 	getKpisHome,
 	uploadKPIs,
 	getKPIsCampaign,
+	createNewChallenge,
 };

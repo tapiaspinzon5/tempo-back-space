@@ -574,7 +574,6 @@ export const validateFieldsUploadKPIs = (data) => {
 };
 
 const dateValidator = (date) => {
-	console.log(date);
 	if (typeof date === "string") {
 		let arr = date.split("-");
 		let year = new Date().getYear();
@@ -611,7 +610,6 @@ export const quizCategories = async (data) => {
 };
 
 export const quizByCategory = (data, status) => {
-	console.log(data);
 	const quizFilter = [];
 	const catFilter = [];
 	data.forEach((quiz) => {
