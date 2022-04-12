@@ -50,6 +50,8 @@ import InformationQuices from "../pages/QALead/InformationQuices";
 import MissionsAssignment from "../pages/QALead/MissionsAssignment";
 import RoleManagementSecttion from "../pages/Ops Man/RoleManagementSecttion";
 import LOBManagementSection from "../pages/Ops Man/LOBManagementSection";
+import AccountCreation from "../pages/Super User/AccountCreation";
+import UserPermission from "../pages/Super User/UserPermission";
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
@@ -231,6 +233,10 @@ const AppRouter = () => {
               <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA count={count} />} />
               <Route path="/upcount" element={<UpCount />} />
+              <Route path="/accountcreation" element={<AccountCreation />} />
+              <Route path="/setuserpermissions" element={<UserPermission />} />
+              <Route path="/leaderboard" element={<LeaderBoardRL />} />
+              <Route path="/analytics" element={<AnalyticsRL />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (

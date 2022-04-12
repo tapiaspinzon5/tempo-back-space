@@ -4,7 +4,7 @@ import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
-import { FiPieChart, FiUploadCloud, FiUsers } from "react-icons/fi";
+import { FiKey, FiPieChart, FiUploadCloud, FiUsers } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
 import { ImEqualizer2, ImProfile } from "react-icons/im";
@@ -163,6 +163,40 @@ export const NavList = ({ open, match, userData }) => {
             )}
           </>
         }
+
+        {
+          <>
+            {userData === "Super Admin" && (
+              <>
+                <LItem button onClick={() => navigate("/accountcreation")}>
+                  <LIcon>
+                    <AiOutlineFileAdd size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Account Creation</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/setuserpermissions")}>
+                  <LIcon>
+                    <FiKey size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>User Permissions</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/leaderboard")}>
+                  <LIcon>
+                    <IoTrendingUpSharp size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>LeaderBoard</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/analytics")}>
+                  <LIcon>
+                    <FiPieChart size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Analytics</Typography>}
+                </LItem>
+              </>
+            )}
+          </>
+        }
+
         {
           <>
             {userData === "Team Leader" && (

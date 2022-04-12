@@ -36,6 +36,32 @@ export const BoxContain = styled(Grid)(() => ({
   },
 }));
 
+export const ScrollContainer = styled(Box)(() => ({
+  background: "#f9f9f9",
+  borderRadius: "10px",
+  overflowY: "scroll",
+  overflowX: "hidden",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
+}));
+
+export const BoxData = styled(Box)(() => ({
+  background: "#f9f9f9",
+  height: "70vh",
+  borderRadius: "10px",
+  padding: "1rem 1rem 0",
+  color: "#3047b0",
+}));
+
 // BLUE boton de acttion
 export const ButtonActionBlue = styled(Button)(() => ({
   background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",

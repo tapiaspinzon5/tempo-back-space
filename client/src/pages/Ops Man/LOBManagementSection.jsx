@@ -5,19 +5,12 @@ import {
   ButtonAction,
   CardUser,
   MainPage,
+  BoxData,
 } from "../../assets/styled/muistyled";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
-
-const BoxData = styled(Box)(() => ({
-  background: "#f9f9f9",
-  height: "35rem",
-  borderRadius: "10px",
-  padding: "1rem 1rem 0",
-  color: "#3047b0",
-}));
 
 const CardLOB = styled(Box)(() => ({
   background: "#fff",
