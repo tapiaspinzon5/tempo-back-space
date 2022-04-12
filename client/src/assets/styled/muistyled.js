@@ -1,4 +1,4 @@
-import { Grid, styled, Button, Box } from "@mui/material";
+import { Grid, styled, Button, Box, TextField } from "@mui/material";
 
 export const MainPage = styled(Grid)(({ theme }) => ({
   position: "relative",
@@ -6,7 +6,9 @@ export const MainPage = styled(Grid)(({ theme }) => ({
   minHeight: "95vh",
   width: "100%",
   padding: "1rem 2rem",
-
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
   h5: {
     fontWeight: "700",
     color: "#3047B0",
@@ -139,4 +141,26 @@ export const BoxDataTable = styled(Box)(() => ({
     boxShadow: "1px 1px 5px #A2A2A2",
     background: "#EFF8FB99",
   },
+}));
+
+export const InputText = styled(TextField)(() => ({
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderRadius: "10px",
+    },
+    "&:hover fieldset": {
+      borderColor: "#3047B0",
+    },
+  },
+}));
+
+//tarjeta de usuario avataar-nombre y cargo
+export const CardUser = styled(Box)(() => ({
+  color: "#3047b0",
+  background: "#fff",
+  display: "flex",
+  alignItems: "center",
+  //justifyContent: "space-between",
+  padding: "1rem",
+  borderRadius: "10px",
 }));
