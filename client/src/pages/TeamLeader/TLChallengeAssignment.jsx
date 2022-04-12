@@ -305,7 +305,7 @@ export const TLChallengeAssignment = ({ count }) => {
 												/>
 											))
 										) : (
-											<Typography variant="h5" fontWeight={500}>
+											<Typography variant="h5" fontWeight={300}>
 												All your teammates have been assigned this challenge
 											</Typography>
 										)
@@ -350,13 +350,19 @@ export const TLChallengeAssignment = ({ count }) => {
 							{!loading ? (
 								<Boxview>
 									{!error ? (
-										users.map((user, index) => (
-											<ShowUserActivity
-												key={index}
-												user={user}
-												handleUser={handleUser}
-											/>
-										))
+										users.length > 0 ? (
+											users.map((user, index) => (
+												<ShowUserActivity
+													key={index}
+													user={user}
+													handleUser={handleUser}
+												/>
+											))
+										) : (
+											<Typography variant="h5" fontWeight={500}>
+												All your teammates have been assigned this challenge
+											</Typography>
+										)
 									) : (
 										<Typography variant="h5" fontWeight={500}>
 											The Game Starts Soon
