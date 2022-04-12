@@ -132,7 +132,10 @@ export const TLChallengeAssignment = ({ count }) => {
 					activities.data[0].Challenges[0].Id
 				);
 				if (user && user.status === 200 && user.data.length > 1) {
-					setUsers(user.data[0].Agents);
+					const fUsers = await user.data[0].Agents.filter(
+						(us) => us.Status === 1
+					);
+					setUsers(fUsers);
 					setLoading(false);
 				} else if (user.data === "UnauthorizedError") {
 					dispatch(logoutAction());
@@ -187,9 +190,11 @@ export const TLChallengeAssignment = ({ count }) => {
 					challenge.push(el);
 				}
 			});
-			setActualActivity(challenge[0]);
-			setUsers(user.data[0].Agents);
+			const fUsers = await user.data[0].Agents.filter((us) => us.Status === 1);
+
+			setUsers(fUsers);
 			setLoading(false);
+			setActualActivity(challenge[0]);
 		} else if (user.data === "UnauthorizedError") {
 			dispatch(logoutAction());
 			navigate("/");
@@ -291,13 +296,19 @@ export const TLChallengeAssignment = ({ count }) => {
 							{!loadingC ? (
 								<BoxviewCh>
 									{!error ? (
-										activity?.map((act, index) => (
-											<TLChallengeCard
-												key={index}
-												challenge={act}
-												handleChallenge={handleChallenge}
-											/>
-										))
+										activity.length > 0 ? (
+											activity?.map((act, index) => (
+												<TLChallengeCard
+													key={index}
+													challenge={act}
+													handleChallenge={handleChallenge}
+												/>
+											))
+										) : (
+											<Typography variant="h5" fontWeight={500}>
+												All your teammates have been assigned this challenge
+											</Typography>
+										)
 									) : (
 										<Typography variant="h5" fontWeight={500}>
 											The Game Starts Soon

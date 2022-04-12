@@ -936,6 +936,25 @@ exports.getMasterInfoAgents = async (req, res) => {
     });
 };
 
+exports.getInfoLeaderBoardrl = async (req, res) => {
+
+  const { context,kpi,time } = req.body;
+
+  sql
+    .query(
+      "spQueryLeaderBoardRL",
+      parametros({ idccms: req.query.idccms, context,kpi,time }, "spQueryLeaderBoardRL")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 

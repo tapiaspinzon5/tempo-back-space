@@ -107,7 +107,10 @@ export const AgentChallengeAssignment = ({ count }) => {
 					activities.status === 200 &&
 					activities.data.length > 1
 				) {
-					setActivity(activities.data);
+					const fChallenges = activities.data[0].Challenges.filter(
+						(ch) => ch.Status === 1
+					);
+					setActivity(fChallenges);
 					setLoading(false);
 				} else {
 					setError(true);
@@ -136,7 +139,10 @@ export const AgentChallengeAssignment = ({ count }) => {
 		setUsers(tempUser);
 		const activities = await downloadActivities(value.split("-")[1], 2);
 		if (activities && activities.status === 200 && activities.data.length > 1) {
-			setActivity(activities.data);
+			const fChallenges = activities.data[0].Challenges.filter(
+				(ch) => ch.Status === 1
+			);
+			setActivity(fChallenges);
 			setLoading(false);
 		} else {
 			setError(true);
@@ -274,7 +280,7 @@ export const AgentChallengeAssignment = ({ count }) => {
 									{!error ? (
 										loading ? (
 											<LoadingComponent />
-										) : (
+										) : activity.length > 0 ? (
 											activity?.map((act, index) => (
 												<ChallengeCard
 													key={index}
@@ -282,6 +288,10 @@ export const AgentChallengeAssignment = ({ count }) => {
 													handleSubmit={handleSubmit}
 												/>
 											))
+										) : (
+											<Typography variant="h5" fontWeight={500}>
+												Your teammate have all challenges assigned
+											</Typography>
 										)
 									) : (
 										<Typography variant="h5" fontWeight={500}>

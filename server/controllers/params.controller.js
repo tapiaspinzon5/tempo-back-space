@@ -319,6 +319,14 @@ exports.parametros = (req, tipo) => {
 				new SpParam("context", req.context, TYPES.Int),
 			]);
 
+		case "spQueryLeaderBoardRL":
+			return parametrizacion([
+				new SpParam("case", req.context, TYPES.Int),
+				new SpParam("ident", req.idccms, TYPES.Int),
+				new SpParam("Kpi", req.kpi, TYPES.VarChar),
+				new SpParam("Time", req.time, TYPES.VarChar),
+			]);
+
 		// Casos de Actividades
 		case "spBgWelcomeEGP":
 			return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
