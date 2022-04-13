@@ -78,16 +78,16 @@ export const validateHeadersCreateTeam = (headers) => {
 	let differentsArrays = false;
 
 	let defaultHeaders = [
-		"Ident",
-		"TeamName",
-		"KPI",
+		"IdentPM",
 		"Campaign",
+		"KPI",
 		"Q1",
 		"Q2",
 		"Q3",
 		"Q4",
-		"Target",
-		"Order",
+		"CriticalPoint",
+		"OrderKpi",
+		"typeLoad",
 	];
 
 	if (headers.length !== defaultHeaders.length) {
@@ -115,7 +115,7 @@ export const validateFieldsCreateTeams = (data) => {
 			errorField = true;
 		} else if (col[2] === undefined) {
 			errorField = true;
-		} else if (col[3] === undefined) {
+		} else if (col[3] === undefined || isNaN(col[3])) {
 			errorField = true;
 		} else if (col[4] === undefined || isNaN(col[4])) {
 			errorField = true;
@@ -125,9 +125,9 @@ export const validateFieldsCreateTeams = (data) => {
 			errorField = true;
 		} else if (col[7] === undefined || isNaN(col[7])) {
 			errorField = true;
-		} else if (col[8] === undefined || isNaN(col[8])) {
+		} else if (col[8] === undefined || !orderOptions.includes(col[8])) {
 			errorField = true;
-		} else if (col[9] === undefined || !orderOptions.includes(col[9])) {
+		} else if (col[9] !== (0 || 1)) {
 			errorField = true;
 		}
 	});

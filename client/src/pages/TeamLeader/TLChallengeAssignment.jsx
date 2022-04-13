@@ -177,7 +177,7 @@ export const TLChallengeAssignment = ({ count }) => {
 		setLoading(true);
 		const { value, checked } = e.target;
 		let tempChallenge = activity.map((challenge) =>
-			challenge.Description === value.split("-")[0]
+			challenge.Description === value.split("*")[0]
 				? { ...challenge, isChecked: checked }
 				: { ...challenge, isChecked: false }
 		);

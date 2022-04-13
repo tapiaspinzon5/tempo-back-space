@@ -9,7 +9,6 @@ import Header from "../../components/homeUser/Header";
 import { Grid, Typography, styled, Box, Modal } from "@mui/material";
 import { FiDownload, FiUpload } from "react-icons/fi";
 import TableKPIUpload from "../../components/ReportingLead/TableKPIUpload";
-import downloadTemplate from "../../assets/filesTemplatesCSV/Load_Kpi_Template.csv";
 import { ModalLoading } from "../../components/ModalLoading";
 import XLSX from "xlsx";
 import Swal from "sweetalert2";
@@ -20,6 +19,9 @@ import {
 } from "../../helpers/helpers";
 import { getKPIsCampaign, uploadKPIs } from "../../utils/api";
 import UpQuizModal from "../../components/Modals/UpQuizModal";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const MySwal = withReactContent(Swal);
 
@@ -49,7 +51,10 @@ const ModalBox = styled(Box)(() => ({
 }));
 
 const KpiUpload = () => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const [tableLoading, setTableLoading] = useState(false);
 	const [dataKpi, setDataKpi] = useState([]);
 	const [template, setTemplate] = useState("");
@@ -59,12 +64,20 @@ const KpiUpload = () => {
 		const getdata = async () => {
 			setTableLoading(true);
 			const kpis = await getKPIsCampaign();
-			setTableLoading(false);
-			setDataKpi(kpis.data);
+			if (kpis && kpis.status === 200 && kpis.data.length > 1) {
+				setTableLoading(false);
+				setDataKpi(kpis.data);
+			} else if (kpis.data === "UnauthorizedError") {
+				dispatch(logoutAction());
+				navigate("/");
+			} else {
+				setError(true);
+			}
 		};
 		getdata();
 		// eslint-disable-next-line
 	}, []);
+
 	const handleOpen = () => {
 		setOpen(true);
 		setTemplate("Load Kpi Template");
@@ -98,7 +111,6 @@ const KpiUpload = () => {
 						defval: "",
 						blankrows: true,
 						raw: true,
-						//dateNF: "yyyy-mm-dd",
 					})
 					.map((colum) => {
 						return [
@@ -108,9 +120,9 @@ const KpiUpload = () => {
 							isNaN(parseInt(colum[3])) ? colum[3] : parseFloat(colum[3]),
 							colum[4] === "Date"
 								? colum[4]
-								: `${colum[4].getFullYear()}-${
-										colum[4].getMonth() + 1
-								  }-${colum[4].getDate()}`,
+								: `${colum[4] ? colum[4].getFullYear() : null}-${
+										colum[4] ? colum[4].getMonth() + 1 : null
+								  }-${colum[4] ? colum[4].getDate() : null}`,
 							isNaN(parseInt(colum[5])) ? colum[5] : parseFloat(colum[5]),
 						];
 					});
@@ -220,9 +232,15 @@ const KpiUpload = () => {
 			</BoxButton>
 			<Grid container>
 				<Grid item xs={12} md={8}>
-					<Item>
-						<TableKPIUpload dataKPI={dataKpi} tableLoading={tableLoading} />
-					</Item>
+					{!error ? (
+						<Item>
+							<TableKPIUpload dataKPI={dataKpi} tableLoading={tableLoading} />
+						</Item>
+					) : (
+						<Typography variant="h5" fontWeight={500}>
+							The Game Starts Soon
+						</Typography>
+					)}
 				</Grid>
 			</Grid>
 			<Footer />

@@ -98,7 +98,6 @@ const MissionsAssignment = () => {
 		//   }
 		//  }
 	};
-	console.log(error);
 
 	return (
 		<MainPage>
