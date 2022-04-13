@@ -7,6 +7,7 @@ const multiparty = require("multiparty");
 const path = require('path');
 const {transport} = require("../nodemailerConfig");
 const {sendFCMMessage} = require("../helpers/sendNotification");
+const { randomInt } = require('crypto');
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -28,7 +29,7 @@ function isEmpty(req) {
 }
 
 exports.test = (req, res) => {
-  let num = Math.floor(Math.random() * (100 - 1)) + 1;
+  let num = Math.floor(randomInt(0,10) * (100 - 1)) + 1;
   let options = {
     //ms s    m     h   d
     maxAge: 1000 * 60 * 60 * 24 * 60, // would expire after 15 minutes
