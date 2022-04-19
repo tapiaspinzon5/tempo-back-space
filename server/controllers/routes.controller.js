@@ -117,12 +117,14 @@ exports.uploadSU = async (req, res) => {
 };
 
 exports.uploadOpsM = async (req, res) => {
- 
+
+  const {context, idLeader, cas} = req.body;
+
   sql
     .query(
       "spInsertOrganizationalUnit",
       parametros(
-        { idccms: req.query.idccms, rows: req.body.data },
+        { idccms: req.query.idccms, context, idLeader, cas },
         "spInsertOrganizationalUnit"
       )
     )
@@ -945,6 +947,66 @@ exports.getInfoLeaderBoardrl = async (req, res) => {
     .query(
       "spQueryLeaderBoardRL",
       parametros({ idccms: req.query.idccms, context,kpi,time }, "spQueryLeaderBoardRL")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postCreateCampaign = async (req, res) => {
+
+  let i = 0;
+  let data = req.body.data;
+
+  let rows = data.map((quest) => {
+    i = i + 1;
+    return [...quest, i];
+  });
+
+  sql
+    .query(
+      "spInsertCampaign",
+      parametros({ idccms: req.query.idccms, rows}, "spInsertCampaign")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postCreateLOB = async (req, res) => {
+
+  const {lobName, tlIdccms} = req.body;
+
+  sql
+    .query(
+      "spInsertLob",
+      parametros({ idccms: req.query.idccms, lobName, tlIdccms }, "spInsertLob")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getLobsOpsm = async (req, res) => {
+
+  const {idLob, context} = req.body;
+
+  sql
+    .query(
+      "spQueryLobTeams",
+      parametros({ idccms: req.query.idccms,idLob, context}, "spQueryLobTeams")
     )
     .then((result) => {
       responsep(1, req, res, result);

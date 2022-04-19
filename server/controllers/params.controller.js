@@ -81,6 +81,20 @@ let suTable = [
   { name: "IdRegistryKpi", type: TYPES.Int },
 ];
 
+let suTable2 = [
+  { name: "IdentPM", type: TYPES.Int },
+  { name: "Campaign", type: TYPES.VarChar },
+  { name: "KPI", type: TYPES.VarChar },
+  { name: "Q1", type: TYPES.Float },
+  { name: "Q2", type: TYPES.Float },
+  { name: "Q3", type: TYPES.Float },
+  { name: "Q4", type: TYPES.Float },
+  { name: "CriticalPoint", type: TYPES.Float },
+  { name: "OrderKpi", type: TYPES.VarChar },
+  { name: "typeLoad", type: TYPES.Bit },
+  { name: "IdRegistryKpi", type: TYPES.Int },
+];
+
 // Columnas para armar la tabla del operationManager
 let opsmTable = [
   { name: "Ident", type: TYPES.Int },
@@ -137,6 +151,9 @@ let assignActivitiesTLTable = [
   { name: "idRegistry", type: TYPES.Int },
 ];
 
+let tlIdccmsArray = [
+  { name: "identTL", type: TYPES.Int },
+];
 exports.parametros = (req, tipo) => {
   switch (tipo) {
     case "spInsertCentral":
@@ -201,7 +218,10 @@ exports.parametros = (req, tipo) => {
     case "spInsertOrganizationalUnit":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", opsmTable, req.rows),
+        new SpParam("idccms", req.idLeader, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("case", req.cas, TYPES.Int),
+        // SpParamTable2("table", opsmTable, req.rows),
       ]);
     case "spInsertEmployee":
       return parametrizacion([
@@ -376,6 +396,26 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("Kpi", req.kpi, TYPES.VarChar),
         new SpParam("Time", req.time, TYPES.VarChar),
+      ]);
+
+    case "spInsertCampaign":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.VarChar),
+        SpParamTable2("table", suTable2, req.rows),
+      ]);
+
+    case "spInsertLob":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.VarChar),
+        new SpParam("NameLob", req.lobName, TYPES.VarChar),
+        SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
+      ]);
+
+    case "spQueryLobTeams":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
       ]);
 
     // Casos de Actividades
