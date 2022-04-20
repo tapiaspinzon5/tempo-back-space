@@ -93,10 +93,14 @@ module.exports = (router) => {
   // Leaderboard para RL. 
   router.post("/getinfoleaderboardrl",oauth.oauthOther, routes.getInfoLeaderBoardrl); 
 
+  
+  // Endpoint para crear campañas. 
+  router.post("/postcreatecampaign",oauth.oauthOther, routes.postCreateCampaign); 
 
+  // Endpoint para crear LOB. 
+  router.post("/postcreatelob",oauth.oauthOther, routes.postCreateLOB); 
 
-
-
+  router.post("/getlobsopsm",oauth.oauthOther, routes.getLobsOpsm); 
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES

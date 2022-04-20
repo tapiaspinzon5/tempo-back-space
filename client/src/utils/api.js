@@ -50,6 +50,22 @@ const createTeamOperationManager = (dataCSV) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
+const getLobs = (context, idLob) => {
+	try {
+		return axiosInstance
+			.post(`getlobsopsm`, {
+				context: context,
+				idLob: idLob,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
 
 /* REPORTING LEAD */
 
@@ -553,6 +569,25 @@ const downloadDataAdmin = (caso) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
+
+/* Trae info de agente en especifico */
+const getInfoAgent = (idccmsAgent) => {
+	try {
+		return axiosInstance
+			.post(`getmasterinfoagents`, {
+				context: 2,
+				idccmsAgent: idccmsAgent,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
 /* Actividades  no se esta usando*/
 const welcomeToEGP = () => {
 	try {
@@ -601,4 +636,6 @@ export {
 	uploadKPIs,
 	getKPIsCampaign,
 	createNewChallenge,
+	getLobs,
+	getInfoAgent,
 };

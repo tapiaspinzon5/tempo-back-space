@@ -675,3 +675,20 @@ export const quizByCategory = (data, status) => {
 	});
 	return { quices: quizFilter, categories: catFilter };
 };
+
+// filtra las LOB
+export const filterLobList = async (data) => {
+	const hash = {};
+	let lobData = await data.filter(function (current) {
+		let exists = !hash[current.NameLob];
+		hash[current.NameLob] = true;
+		return exists;
+	});
+	return lobData;
+};
+
+//filtra los team leaders de cada LOB
+export const teamLeaderList = async (data, firstLob) => {
+	const TLList = data.filter((lob) => lob.NameLob === firstLob.NameLob);
+	return TLList;
+};

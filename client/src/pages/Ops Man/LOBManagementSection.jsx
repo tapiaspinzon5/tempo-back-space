@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	Grid,
@@ -22,10 +22,15 @@ import withReactContent from "sweetalert2-react-content";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
+import { getLobs } from "../../utils/api";
+import { filterLobList, teamLeaderList } from "../../helpers/helpers";
 const MySwal = withReactContent(Swal);
 
-const CardLOB = styled(Box)(() => ({
+const CardLOB = styled(Button)(() => ({
 	background: "#fff",
 	display: "flex",
 	width: "92%",
@@ -35,6 +40,7 @@ const CardLOB = styled(Box)(() => ({
 	padding: "1rem",
 	borderRadius: "10px",
 	marginTop: ".5rem",
+	textTransform: "none",
 	"&:hover": {
 		boxShadow: "3px 3px 5px #00000029",
 	},
@@ -52,26 +58,54 @@ const ModalBox = styled(Box)(() => ({
 	backgroundColor: "RGBA(255,255,255,0.9)",
 }));
 
-const lob = [
-	{ name: "LOB 1", id: 1 },
-	{ name: "LOB 2", id: 2 },
-	{ name: "LOB 3", id: 3 },
-	{ name: "LOB 4", id: 4 },
-	{ name: "LOB 5", id: 5 },
-	{ name: "LOB 6", id: 6 },
-	{ name: "LOB 7", id: 7 },
-	{ name: "LOB 8", id: 8 },
-	{ name: "LOB 9", id: 9 },
-	{ name: "LOB 10", id: 10 },
-	{ name: "LOB 11", id: 11 },
-	{ name: "LOB 12", id: 12 },
-];
-
 const LOBManagementSection = () => {
-	const [open, setOpen] = React.useState(false);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
+	const [lob, setLob] = useState([]);
+	const [noData, setNoData] = useState(false);
 	const [dataLOB, setDataLOB] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [teamLeads, setTeamLeads] = useState([]);
+	const [allData, setAllData] = useState([]);
+	const [loadingLob, setLoadingLob] = useState(false);
+	const [loadingTl, setLoadingTl] = useState(false);
 	const [fullLoading, setFullLoading] = useState(false);
+	const [error, setError] = useState(false);
+
+	useEffect(() => {
+		const getData = async () => {
+			setLoadingLob(true);
+			setLoadingTl(true);
+			const allLobs = await getLobs(1, 1032);
+			if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
+				if (
+					allLobs.data[0].idCampaign !== "0" &&
+					allLobs.data[0].nameCampaign !== "0"
+				) {
+					const filterLobs = await filterLobList(allLobs.data);
+					const TLList = await teamLeaderList(allLobs.data, filterLobs[0]);
+					setAllData(allLobs.data);
+					setLob(filterLobs);
+					setTeamLeads(TLList);
+					setLoadingLob(false);
+					setLoadingTl(false);
+				} else {
+					setLoadingLob(false);
+					setLoadingTl(false);
+					setNoData(true);
+				}
+			} else if (allLobs.data === "UnauthorizedError") {
+				dispatch(logoutAction());
+				navigate("/");
+			} else {
+				setLoadingLob(false);
+				setLoadingTl(false);
+				setError(true);
+			}
+		};
+		getData();
+	}, []);
+
 	const handleOpen = (item) => {
 		setOpen(true);
 
@@ -87,8 +121,11 @@ const LOBManagementSection = () => {
 		setOpen(false);
 		setDataLOB([]);
 	};
-	const handleLob = () => {
-		setLoading(!loading);
+	const handleLob = async (datalob) => {
+		setLoadingTl(true);
+		const TLList = await teamLeaderList(allData, datalob);
+		setTeamLeads(TLList);
+		setLoadingTl(false);
 	};
 	return (
 		<>
@@ -107,23 +144,31 @@ const LOBManagementSection = () => {
 								</ButtonAction>
 							</Box>
 							<BoxContain>
-								{lob.map((item) => (
-									<CardLOB index={item.id}>
-										<Button
-											sx={{
-												width: "100%",
-												height: "100%",
-												justifyContent: "flex-start",
-											}}
-											onClick={handleLob}
-										>
-											<Typography variant="body1"> {item.name}</Typography>
-										</Button>
-										<ButtonAction onClick={() => handleOpen(item)}>
-											<FiEdit3 />
-										</ButtonAction>
-									</CardLOB>
-								))}
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noData ? (
+									<Typography variant="body1"></Typography>
+								) : loadingLob ? (
+									<LoadingComponent />
+								) : (
+									lob.map((item) => (
+										<CardLOB index={item.idLob} onClick={() => handleLob(item)}>
+											{/* <Button
+												sx={{
+													width: "100%",
+													height: "100%",
+													justifyContent: "flex-start",
+												}}
+												onClick={() => handleLob(item)}
+											> */}
+											<Typography variant="body1"> {item.NameLob}</Typography>
+											{/* </Button> */}
+											<ButtonAction onClick={() => handleOpen(item)}>
+												<FiEdit3 />
+											</ButtonAction>
+										</CardLOB>
+									))
+								)}
 							</BoxContain>
 						</BoxData>
 					</Grid>
@@ -135,13 +180,17 @@ const LOBManagementSection = () => {
 								</Typography>
 							</Box>
 							<BoxContain>
-								{loading ? (
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noData ? (
+									<Typography variant="body1">Create new Lob</Typography>
+								) : loadingTl ? (
 									<LoadingComponent />
 								) : (
-									lob.map((item) => (
+									teamLeads.map((item) => (
 										<CardUser
 											sx={{ width: "92%", marginY: ".5rem" }}
-											index={item.id}
+											index={item.idTeam}
 										>
 											<Avatar
 												alt="user"
@@ -149,10 +198,8 @@ const LOBManagementSection = () => {
 												sx={{ width: 50, height: 50, marginRight: "2rem" }}
 											/>
 											<Box textAlign="left">
-												<Typography variant="body1">Matilde Puentes</Typography>
-												<Typography variant="body2">
-													Analista desarrollador Senior
-												</Typography>
+												<Typography variant="body1">{item.NameTL}</Typography>
+												<Typography variant="body2">Team Leader</Typography>
 											</Box>
 										</CardUser>
 									))
