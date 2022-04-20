@@ -72,13 +72,67 @@ export const validateFields = (data) => {
 	return errorField;
 };
 
+/* export const validateHeadersCreateTeam = (headers) => {
+	let differentsArrays = false;
+	let defaultHeaders = [
+		"Ident",
+		"TeamName",
+		"KPI",
+		"Campaign",
+		"Q1",
+		"Q2",
+		"Q3",
+		"Q4",
+		"Target",
+		"Order",
+	];
+	if (headers.length !== defaultHeaders.length) {
+		return;
+	}
+	for (let i = 0; i < defaultHeaders.length; i++) {
+		if (defaultHeaders[i] !== headers[i]) {
+			differentsArrays = true;
+			break;
+		}
+	}
+	return differentsArrays;
+};
+//Helper Validacion Campos carga archivos SuperUser creacion de equipos
+export const validateFieldsCreateTeams = (data) => {
+	let errorField = false;
+	const orderOptions = ["asc", "dsc"];
+	data.forEach((col) => {
+		if (col[0] === undefined || isNaN(col[0])) {
+			errorField = true;
+		} else if (col[1] === undefined) {
+			errorField = true;
+		} else if (col[2] === undefined) {
+			errorField = true;
+		} else if (col[3] === undefined) {
+			errorField = true;
+		} else if (col[4] === undefined || isNaN(col[4])) {
+			errorField = true;
+		} else if (col[5] === undefined || isNaN(col[5])) {
+			errorField = true;
+		} else if (col[6] === undefined || isNaN(col[6])) {
+			errorField = true;
+		} else if (col[7] === undefined || isNaN(col[7])) {
+			errorField = true;
+		} else if (col[8] === undefined || isNaN(col[8])) {
+			errorField = true;
+		} else if (col[9] === undefined || !orderOptions.includes(col[9])) {
+			errorField = true;
+		}
+	});
+	return errorField;
+}; */
 //Helper Validacion Headers carga archivos SuperUser creacion de equipos
 
 export const validateHeadersCreateTeam = (headers) => {
 	let differentsArrays = false;
 
 	let defaultHeaders = [
-		"IdentPM",
+		"IdentOM",
 		"Campaign",
 		"KPI",
 		"Q1",
@@ -108,6 +162,7 @@ export const validateHeadersCreateTeam = (headers) => {
 export const validateFieldsCreateTeams = (data) => {
 	let errorField = false;
 	const orderOptions = ["asc", "dsc"];
+	const typeLoad = [0, 1];
 	data.forEach((col) => {
 		if (col[0] === undefined || isNaN(col[0])) {
 			errorField = true;
@@ -127,7 +182,7 @@ export const validateFieldsCreateTeams = (data) => {
 			errorField = true;
 		} else if (col[8] === undefined || !orderOptions.includes(col[8])) {
 			errorField = true;
-		} else if (col[9] !== (0 || 1)) {
+		} else if (col[9] === undefined || !typeLoad.includes(col[9])) {
 			errorField = true;
 		}
 	});

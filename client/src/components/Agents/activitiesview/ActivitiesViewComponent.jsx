@@ -76,7 +76,11 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
 	};
 
 	useEffect(() => {
-		const index = Math.floor(Math.random() * images.length);
+		const crypto = window.crypto;
+		var array = new Uint32Array(1);
+		const index = Math.floor(
+			(crypto.getRandomValues(array)[0] / 10000000000) * images.length
+		);
 		setIme1(images[index]);
 		// eslint-disable-next-line
 	}, []);

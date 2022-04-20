@@ -5,8 +5,10 @@ import { axiosInstance } from "../api/interceptor";
 //Peticion carga de achivos creacion de equipos SuperUser
 const createTeamSuperUser = (dataCSV) => {
 	try {
+		//postcreatecampaign
+		//uploadSU
 		return axiosInstance
-			.post(`uploadSU`, {
+			.post(`postcreatecampaign`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {

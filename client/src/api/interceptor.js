@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
 	//baseURL: "https://gamificationtest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
+	//baseURL: "http://10.159.186.180:4343/api/",
 });
 
 axiosInstance.interceptors.request.use((config) => {

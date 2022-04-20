@@ -65,6 +65,18 @@ export const UploadCount = ({ setLoading }) => {
 				const data = XLSX.utils
 					.sheet_to_json(ws, { header: 1 })
 					.map((colum) => {
+						/* return [
+							colum[0],
+							colum[1]?.toString(),
+							colum[2]?.toString(),
+							colum[3]?.toString(),
+							colum[4],
+							colum[5],
+							colum[6],
+							colum[7],
+							colum[8],
+							colum[9]?.toString(),
+						]; */
 						return [
 							colum[0],
 							colum[1]?.toString(),
@@ -88,6 +100,7 @@ export const UploadCount = ({ setLoading }) => {
 					}
 
 					data.shift();
+					console.log(data);
 					let incorrectValues = validateFieldsCreateTeams(data);
 
 					if (incorrectValues) {
@@ -145,6 +158,12 @@ export const UploadCount = ({ setLoading }) => {
 					if (resultado.value) {
 						window.location.reload();
 					}
+				});
+			} else {
+				setLoading(false);
+				MySwal.fire({
+					title: <p>Send Error</p>,
+					icon: "error",
 				});
 			}
 		}

@@ -93,9 +93,10 @@ const HomeUser = ({ count }) => {
 
 	const ranking =
 		homeData?.length > 1 && Array.isArray(homeData)
-			? homeData[0].AgentsRanking.sort((a, b) => b.ResObtenido - a.ResObtenido)
+			? homeData[0].AgentsRanking.sort(
+					(a, b) => b.ResObtenidoExp - a.ResObtenidoExp
+			  )
 			: [];
-
 	return (
 		<>
 			<MainHomeUser
