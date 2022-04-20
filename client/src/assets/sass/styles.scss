@@ -1,48 +1,86 @@
-
-.checkBox{
-    cursor: pointer;
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 20px;
-    background: #97969669;
+.checkBox {
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 20px;
+  background: #97969669;
 }
 
 .test {
   color: rgba(255, 0, 0, 0.616);
 }
 
+.notifications {
+  background: #fff;
+  position: absolute;
+  z-index: 1000;
+  top: 10vh;
+  right: 10%;
+  height: 319px;
+  border-radius: 10px;
+  border: 1px solid #e9e8e8;
+  box-shadow: 1px 1px 15px #cfcdcd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: vernotificaciones 0.5s ease;
+  overflow: hidden;
+  //transition: 3s ease width ;
+  width: 414px;
+}
 
-.notifications{
-    background: #fff;
-    position: absolute;
-    z-index: 1000;
-    top: 10vh;
-    right: 10%;
+@keyframes vernotificaciones {
+  from {
+    height: 0;
+  }
+  to {
     height: 319px;
-    border-radius: 10px;
-    border: 1px solid #e9e8e8;
-    box-shadow: 1px 1px 15px #cfcdcd;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    animation: vernotificaciones .5s ease;
-    overflow: hidden;
-    //transition: 3s ease width ;
-    width: 414px;
+  }
 }
 
-
-
-@keyframes vernotificaciones  {
-    from{
-        height: 0;
-    }
-    to{
-        height: 319px;
-    }
+.animationName {
+  border: red;
 }
 
+//Switch Personalizado
 
-.animationName{
-    border:red
+.check {
+  position: relative;
+  display: block;
+  input {
+    display: none;
+  }
+}
+
+.check-1 {
+  height: 3.4rem;
+  width: 100%;
+  border: 1px solid #3047b0;
+  border-radius: 10px;
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 2s ease-in-out;
+}
+
+.check-1::before {
+  content: "Off";
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  height: 3.3rem;
+  width: 50%;
+  border-radius: 10px;
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  //  background-color: #3047b0;
+  background: linear-gradient(180deg, #3047b0 0%, #0087ff 100%);
+}
+
+.check input:checked + .check-1::before {
+  content: "On";
+  left: 50%;
 }

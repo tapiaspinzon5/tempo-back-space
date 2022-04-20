@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CardFloatDescription from "./CardFloatDescription";
+import CardFloatChallengesDescription from "./CardFloatChallengesDescription";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.625rem",
@@ -99,13 +100,20 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {showFloat && (
-        <CardFloatDescription
-          activity={activity}
-          img1={img1}
-          mousePos={mousePos}
-        />
-      )}
+      {showFloat &&
+        (type === "Challenges" ? (
+          <CardFloatChallengesDescription
+            activity={activity}
+            img1={img1}
+            mousePos={mousePos}
+          />
+        ) : (
+          <CardFloatDescription
+            activity={activity}
+            img1={img1}
+            mousePos={mousePos}
+          />
+        ))}
       <CardViewer>
         <Typography variant="body1" textAlign="left">
           {NameActivity}

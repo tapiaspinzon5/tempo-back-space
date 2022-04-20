@@ -66,7 +66,7 @@ export const BoxData = styled(Box)(() => ({
 export const ButtonActionBlue = styled(Button)(() => ({
   background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
   color: "#FFFFFF",
-  width: "180px",
+  //width: "180px",
   textTransform: "none",
   borderRadius: "10px",
 }));
@@ -189,4 +189,35 @@ export const CardUser = styled(Box)(() => ({
   //justifyContent: "space-between",
   padding: "1rem",
   borderRadius: "10px",
+}));
+
+//Caja con scroll
+export const ScrollBox = styled(Box)(() => ({
+  //height: "8.5rem",
+  overflowY: "scroll",
+  padding: "0 .3rem",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
+}));
+
+//ESTILOS PARA MODAL
+export const ModalBox = styled(Box)(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  borderRadius: "20px",
+  boxShadow: "2px 2px 5px #2f2f2f",
+  padding: "1rem",
+  backgroundColor: "RGBA(255,255,255,0.9)",
 }));

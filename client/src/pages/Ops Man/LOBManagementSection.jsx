@@ -15,13 +15,13 @@ import CreateEditLOB from "../../components/Modals/CreateEditLOB";
 const CardLOB = styled(Box)(() => ({
   background: "#fff",
   display: "flex",
-  width: "92%",
-  border: "1px solid #f9f9f9",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "1rem",
   borderRadius: "10px",
   marginTop: ".5rem",
+  width: "92%",
+  border: "1px solid #f9f9f9",
+  padding: "1rem",
   "&:hover": {
     boxShadow: "3px 3px 5px #00000029",
   },
@@ -59,7 +59,6 @@ const LOBManagementSection = () => {
   const [dataLOB, setDataLOB] = useState([]);
   const handleOpen = (item) => {
     setOpen(true);
-
     if (item) {
       setDataLOB({
         ...dataLOB,
