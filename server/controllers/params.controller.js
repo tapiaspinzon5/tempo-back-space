@@ -409,6 +409,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("NameLob", req.lobName, TYPES.VarChar),
         new SpParam("Context", req.context, TYPES.Int),
+        new SpParam("idlob", req.idlob, TYPES.Int),
         SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
       ]);
 

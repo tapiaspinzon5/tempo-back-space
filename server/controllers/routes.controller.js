@@ -983,12 +983,12 @@ exports.postCreateCampaign = async (req, res) => {
 
 exports.postCreateLOB = async (req, res) => {
 
-  const {lobName, tlIdccms, context} = req.body;
+  const {lobName, tlIdccms, context, idlob} = req.body;
 
   sql
     .query(
       "spInsertLob",
-      parametros({ idccms: req.query.idccms, lobName, tlIdccms, context }, "spInsertLob")
+      parametros({ idccms: req.query.idccms, lobName, tlIdccms, context,idlob}, "spInsertLob")
     )
     .then((result) => {
       responsep(1, req, res, result);
