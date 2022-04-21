@@ -692,3 +692,25 @@ export const teamLeaderList = async (data, firstLob) => {
 	const TLList = data.filter((lob) => lob.NameLob === firstLob.NameLob);
 	return TLList;
 };
+export const createTeamLeaderList = (data, name) => {
+	const TLList = data.filter((tl) => tl.checked === true);
+	let list = [];
+	TLList.forEach((tl) => {
+		list.push([tl.idccms]);
+	});
+	return { lobName: name, tlIdccms: list };
+};
+export const filterTeamLeaderList = (data) => {
+	let list = [];
+	data.forEach((tl) => {
+		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: true });
+	});
+	return list;
+};
+/* export const editTeamLeaderList = (data) => {
+	let list = [];
+	data.forEach((tl) => {
+		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: false });
+	});
+	return list;
+}; */

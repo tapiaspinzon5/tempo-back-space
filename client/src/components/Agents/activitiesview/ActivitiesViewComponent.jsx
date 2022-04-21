@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CardFloatDescription from "./CardFloatDescription";
+import CardFloatChallengesDescription from "./CardFloatChallengesDescription";
 
 const BoxCard = styled(Box)(() => ({
 	maxWidth: "19.625rem",
@@ -85,53 +86,60 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
 		// eslint-disable-next-line
 	}, []);
 
-	return (
-		<BoxCard
-			sx={
-				Status
-					? {
-							backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${
-								activity.fullScreen || img1
-							})`,
-					  }
-					: {
-							background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${
-								activity.fullScreen || img1
-							})`,
-					  }
-			}
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
-		>
-			{showFloat && (
-				<CardFloatDescription
-					activity={activity}
-					img1={img1}
-					mousePos={mousePos}
-				/>
-			)}
-			<CardViewer>
-				<Typography variant="body1" textAlign="left">
-					{NameActivity}
-				</Typography>
-			</CardViewer>
-			<DownSection
-				sx={
-					Status
-						? { background: "rgba(56, 255, 100, 0.616)" }
-						: {
-								background: "rgba(50, 20, 255, 0.616)",
-						  }
-				}
-			>
-				<Button
-					onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
-				>
-					See more
-				</Button>
-			</DownSection>
-		</BoxCard>
-	);
+  return (
+    <BoxCard
+      sx={
+        Status
+          ? {
+              backgroundImage: `linear-gradient(45deg, rgba(255, 0, 0, 0.2), rgba(0, 0, 150, 0.2)), url(${
+                activity.fullScreen || img1
+              })`,
+            }
+          : {
+              background: `linear-gradient(45deg, rgba(00, 00, 00, 0.8), rgba(0, 00, 00, 0.8)), url(${
+                activity.fullScreen || img1
+              })`,
+            }
+      }
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {showFloat &&
+        (type === "Challenges" ? (
+          <CardFloatChallengesDescription
+            activity={activity}
+            img1={img1}
+            mousePos={mousePos}
+          />
+        ) : (
+          <CardFloatDescription
+            activity={activity}
+            img1={img1}
+            mousePos={mousePos}
+          />
+        ))}
+      <CardViewer>
+        <Typography variant="body1" textAlign="left">
+          {NameActivity}
+        </Typography>
+      </CardViewer>
+      <DownSection
+        sx={
+          Status
+            ? { background: "rgba(56, 255, 100, 0.616)" }
+            : {
+                background: "rgba(50, 20, 255, 0.616)",
+              }
+        }
+      >
+        <Button
+          onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
+        >
+          See more
+        </Button>
+      </DownSection>
+    </BoxCard>
+  );
 };
 
 export default ActivitiesViewComponent;

@@ -35,11 +35,13 @@ const downloadCounts = () => {
 
 /* OPERATION MANAGER */
 
-const createTeamOperationManager = (dataCSV) => {
+const createTeamOperationManager = (context, idLeader, cas) => {
 	try {
 		return axiosInstance
 			.post(`uploadopsm`, {
-				data: dataCSV,
+				context: context,
+				idLeader: idLeader,
+				cas: cas,
 			})
 			.catch(function (error) {
 				if (error.response) {
@@ -50,6 +52,21 @@ const createTeamOperationManager = (dataCSV) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
+
+//trae el RL y el QA de una cuenta
+const getQARLCount = () => {
+	try {
+		return axiosInstance.post(`getrlqacampaignleaders`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+//trae las LOBs de una cuenta
 const getLobs = (context, idLob) => {
 	try {
 		return axiosInstance
@@ -229,13 +246,14 @@ const getUsersKPI = (idKPI, time, agentIdccms, context) => {
 
 //funcion para Crear Nuevos Challenges
 const createNewChallenge = (data, period) => {
+	console.log(data);
 	try {
 		return axiosInstance
 			.post(`postcreatenewchallengtl`, {
 				action: data.action,
 				kpi: data.kpi.Kpi,
 				quantity: data.quantity,
-				measureUnit: data.measureUnit,
+				measureUnit: data.kpi.unitKpi,
 				initialDate: period[0],
 				finalDate: period[1],
 			})
@@ -638,4 +656,5 @@ export {
 	createNewChallenge,
 	getLobs,
 	getInfoAgent,
+	getQARLCount,
 };

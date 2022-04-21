@@ -22,7 +22,7 @@ import withReactContent from "sweetalert2-react-content";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
@@ -94,7 +94,7 @@ const LOBManagementSection = () => {
 					setLoadingTl(false);
 					setNoData(true);
 				}
-			} else if (allLobs.data === "UnauthorizedError") {
+			} else if (allLobs && allLobs.data === "UnauthorizedError") {
 				dispatch(logoutAction());
 				navigate("/");
 			} else {
@@ -106,15 +106,11 @@ const LOBManagementSection = () => {
 		getData();
 	}, []);
 
-	const handleOpen = (item) => {
+	const handleOpen = async (item, name) => {
 		setOpen(true);
-
 		if (item) {
-			setDataLOB({
-				...dataLOB,
-				idLob: item.id,
-				nameLob: item.name,
-			});
+			//const TLList = await editTeamLeaderList(tls);
+			setDataLOB({ idLob: item, name });
 		}
 	};
 	const handleClose = () => {
@@ -153,17 +149,10 @@ const LOBManagementSection = () => {
 								) : (
 									lob.map((item) => (
 										<CardLOB index={item.idLob} onClick={() => handleLob(item)}>
-											{/* <Button
-												sx={{
-													width: "100%",
-													height: "100%",
-													justifyContent: "flex-start",
-												}}
-												onClick={() => handleLob(item)}
-											> */}
 											<Typography variant="body1"> {item.NameLob}</Typography>
-											{/* </Button> */}
-											<ButtonAction onClick={() => handleOpen(item)}>
+											<ButtonAction
+												onClick={() => handleOpen(item.idLob, item.NameLob)}
+											>
 												<FiEdit3 />
 											</ButtonAction>
 										</CardLOB>
@@ -216,7 +205,7 @@ const LOBManagementSection = () => {
 					aria-describedby="modal-modal-description"
 				>
 					<ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
-						<CreateEditLOB setDataLOB={setDataLOB} dataLOB={dataLOB} />
+						<CreateEditLOB dataLOB={dataLOB} />
 					</ModalBox>
 				</Modal>
 			</MainPage>

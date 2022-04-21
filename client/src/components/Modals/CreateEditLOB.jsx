@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	FormControl,
@@ -10,7 +10,12 @@ import {
 	FormHelperText,
 } from "@mui/material";
 import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
-import { getInfoAgent } from "../../utils/api";
+import { getInfoAgent, getLobs } from "../../utils/api";
+import {
+	createTeamLeaderList,
+	editTeamLeaderList,
+	filterTeamLeaderList,
+} from "../../helpers/helpers";
 
 const TableCont = styled(Box)(() => ({
 	color: "#3047B0",
@@ -41,29 +46,105 @@ const BoxCeldas = styled(Box)(() => ({
 		borderRadius: "20px",
 	},
 }));
-const initialDataForm = {
-	name: "",
-	TeamLeaders: [],
-};
 
-const CreateEditLOB = ({ setDataLOB, dataLOB }) => {
-	const [dataForm, setDataForm] = useState(
-		dataLOB.idLob ? dataLOB : initialDataForm
-	);
+const CreateEditLOB = ({ dataLOB }) => {
+	const [dataTL, setDataTL] = useState([]);
+	const [nameLOB, setNameLOB] = useState("");
 	const [error, setError] = useState(false);
 	const [msgError, setMsgError] = useState("");
+	const [errorList, setErrorList] = useState(false);
+	const [msgErrorList, setMsgErrorList] = useState("");
 	const [errorccms, setErrorccms] = useState(false);
 	const [msgErrorccms, setMsgErrorccms] = useState("");
 	const [tempCcms, setTempCcms] = useState("");
+
+	useEffect(() => {
+		const getData = async () => {
+			const tls = await getLobs(2, dataLOB.idLob);
+			if (tls && tls.status === 200 && tls.data.length > 0) {
+				const TLList = await filterTeamLeaderList(tls.data);
+				setDataTL(TLList);
+				setNameLOB(dataLOB.name);
+			}
+		};
+
+		if (dataLOB.length !== 0) {
+			getData();
+		}
+	}, []);
+
 	const handleSearch = async (ccms) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
-			console.log(ccms, info);
+			if (info && info.status === 200 && info.data.length > 0) {
+				let duplicates = dataTL.filter(
+					(tl) => tl.idccms === info.data[0].ident
+				);
+				if (dataTL.length === 0) {
+					setErrorList(false);
+					setMsgErrorList("");
+					setDataTL([
+						...dataTL,
+						{
+							name: info.data[0].FullName,
+							idccms: info.data[0].ident,
+							checked: false,
+						},
+					]);
+					setTempCcms("");
+				} else if (duplicates.length > 0) {
+					setErrorccms(true);
+					setMsgErrorccms("The user is in the list");
+				} else {
+					setErrorList(false);
+					setMsgErrorList("");
+					setDataTL([
+						...dataTL,
+						{
+							name: info.data[0].FullName,
+							idccms: info.data[0].ident,
+							checked: false,
+						},
+					]);
+					setTempCcms("");
+				}
+			} else {
+				setErrorccms(true);
+				setMsgErrorccms("CCMS not exist");
+			}
 		} else {
 			setErrorccms(true);
 			setMsgErrorccms("No data");
 		}
 	};
+
+	const handleCheck = (info) => {
+		let tempList = dataTL.map((tl) =>
+			tl.idccms === info.idccms ? { ...tl, checked: !tl.checked } : tl
+		);
+		setDataTL(tempList);
+	};
+
+	const handleCreate = async () => {
+		if (nameLOB) {
+			if (dataTL.length > 0) {
+				const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
+				console.log("Create", dataToSend);
+			} else {
+				setErrorList(true);
+				setMsgErrorList("No data");
+			}
+		} else {
+			setError(true);
+			setMsgError("No data");
+		}
+	};
+
+	const handleEdit = async () => {
+		const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
+		console.log("Edit", dataToSend);
+	};
+
 	return (
 		<Box>
 			<Typography
@@ -73,7 +154,7 @@ const CreateEditLOB = ({ setDataLOB, dataLOB }) => {
 				marginY={3}
 				fontWeight={700}
 			>
-				{dataLOB.idLob ? "Edit LOB - Name LOB" : "Creation LOB"}
+				{dataLOB.length !== 0 ? "Edit LOB - Name LOB" : "Creation LOB"}
 			</Typography>
 			<InputText
 				error={error}
@@ -82,8 +163,12 @@ const CreateEditLOB = ({ setDataLOB, dataLOB }) => {
 				variant="outlined"
 				type="text"
 				fullWidth
-				onChange={() => {}}
-				value={dataLOB.nameLob ? dataLOB.nameLob : dataForm.name}
+				onChange={(e) => {
+					setNameLOB(e.target.value);
+					setError(false);
+					setMsgError("");
+				}}
+				value={nameLOB}
 				helperText={error && msgError}
 			/>
 			<Box marginY={3}>
@@ -121,12 +206,12 @@ const CreateEditLOB = ({ setDataLOB, dataLOB }) => {
 				</FormControl>
 			</Box>
 
-			{dataLOB.idLob && (
+			{dataLOB.length !== 0 && (
 				<Typography variant="body1" gutterBottom color="#3047B0">
 					Edit Team Leader Assignment
 				</Typography>
 			)}
-			<BoxTL>
+			<BoxTL sx={{ border: errorList ? "1px solid red" : "1px solid #3047B0" }}>
 				<Box display="flex" textAlign="center">
 					<Box width="45%" color="#3047B0">
 						<Typography variant="body1" fontWeight={700}>
@@ -141,23 +226,33 @@ const CreateEditLOB = ({ setDataLOB, dataLOB }) => {
 					<Box width="10%" />
 				</Box>
 				<BoxCeldas>
-					{[1, 2, 3, 4, 5, 6].map((item, index) => (
+					{dataTL.map((item, index) => (
 						<TableCont display="flex" textAlign="center" key={index}>
 							<Box width="45%">
-								<Typography variant="body2">1234567</Typography>
+								<Typography variant="body2">{item.idccms}</Typography>
 							</Box>
 							<Box width="45%">
-								<Typography variant="body2">Deiby Niño Garces</Typography>
+								<Typography variant="body2">{item.name}</Typography>
 							</Box>
 							<Box width="10%">
-								<input type="checkbox" id="idccms" value="idccms" />
+								<input
+									type="checkbox"
+									id="isChecked"
+									checked={item.checked}
+									onChange={() => handleCheck(item)}
+								/>
 							</Box>
 						</TableCont>
 					))}
 				</BoxCeldas>
 			</BoxTL>
+			{errorList && <FormHelperText error>{msgErrorList}</FormHelperText>}
 			<Box display="flex" justifyContent="flex-end" marginY={3}>
-				<ButtonActionBlue>Save</ButtonActionBlue>
+				<ButtonActionBlue
+					onClick={dataLOB.length !== 0 ? handleEdit : handleCreate}
+				>
+					Save
+				</ButtonActionBlue>
 			</Box>
 		</Box>
 	);
