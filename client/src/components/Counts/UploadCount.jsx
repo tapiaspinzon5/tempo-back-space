@@ -65,18 +65,6 @@ export const UploadCount = ({ setLoading }) => {
 				const data = XLSX.utils
 					.sheet_to_json(ws, { header: 1 })
 					.map((colum) => {
-						/* return [
-							colum[0],
-							colum[1]?.toString(),
-							colum[2]?.toString(),
-							colum[3]?.toString(),
-							colum[4],
-							colum[5],
-							colum[6],
-							colum[7],
-							colum[8],
-							colum[9]?.toString(),
-						]; */
 						return [
 							colum[0],
 							colum[1]?.toString(),

@@ -53,6 +53,25 @@ const createTeamOperationManager = (context, idLeader, cas) => {
 	}
 };
 
+const createLobOperationManager = (context, lobName, idlob, tlIdccms) => {
+	try {
+		return axiosInstance
+			.post(`postcreatelob`, {
+				lobName: lobName,
+				context: context,
+				idlob: idlob,
+				tlIdccms: tlIdccms,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
 //trae el RL y el QA de una cuenta
 const getQARLCount = () => {
 	try {
@@ -657,4 +676,5 @@ export {
 	getLobs,
 	getInfoAgent,
 	getQARLCount,
+	createLobOperationManager,
 };

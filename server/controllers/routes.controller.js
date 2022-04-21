@@ -983,12 +983,12 @@ exports.postCreateCampaign = async (req, res) => {
 
 exports.postCreateLOB = async (req, res) => {
 
-  const {lobName, tlIdccms} = req.body;
+  const {lobName, tlIdccms, context, idlob} = req.body;
 
   sql
     .query(
       "spInsertLob",
-      parametros({ idccms: req.query.idccms, lobName, tlIdccms }, "spInsertLob")
+      parametros({ idccms: req.query.idccms, lobName, tlIdccms, context,idlob}, "spInsertLob")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -1007,6 +1007,22 @@ exports.getLobsOpsm = async (req, res) => {
     .query(
       "spQueryLobTeams",
       parametros({ idccms: req.query.idccms,idLob, context}, "spQueryLobTeams")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getrlqaCampaignLeaders = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryManagementOP",
+      parametros({ idccms: req.query.idccms}, "spQueryManagementOP")
     )
     .then((result) => {
       responsep(1, req, res, result);

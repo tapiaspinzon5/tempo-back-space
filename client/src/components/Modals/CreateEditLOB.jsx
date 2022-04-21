@@ -10,12 +10,18 @@ import {
 	FormHelperText,
 } from "@mui/material";
 import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
-import { getInfoAgent, getLobs } from "../../utils/api";
+import {
+	createLobOperationManager,
+	getInfoAgent,
+	getLobs,
+} from "../../utils/api";
 import {
 	createTeamLeaderList,
-	editTeamLeaderList,
 	filterTeamLeaderList,
 } from "../../helpers/helpers";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const TableCont = styled(Box)(() => ({
 	color: "#3047B0",
@@ -47,7 +53,7 @@ const BoxCeldas = styled(Box)(() => ({
 	},
 }));
 
-const CreateEditLOB = ({ dataLOB }) => {
+const CreateEditLOB = ({ setOpen, dataLOB }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
 	const [error, setError] = useState(false);
@@ -58,20 +64,24 @@ const CreateEditLOB = ({ dataLOB }) => {
 	const [msgErrorccms, setMsgErrorccms] = useState("");
 	const [tempCcms, setTempCcms] = useState("");
 
-	useEffect(() => {
-		const getData = async () => {
-			const tls = await getLobs(2, dataLOB.idLob);
-			if (tls && tls.status === 200 && tls.data.length > 0) {
-				const TLList = await filterTeamLeaderList(tls.data);
-				setDataTL(TLList);
-				setNameLOB(dataLOB.name);
-			}
-		};
+	useEffect(
+		() => {
+			const getData = async () => {
+				const tls = await getLobs(2, dataLOB.idLob);
+				if (tls && tls.status === 200 && tls.data.length > 0) {
+					const TLList = await filterTeamLeaderList(tls.data);
+					setDataTL(TLList);
+					setNameLOB(dataLOB.name);
+				}
+			};
 
-		if (dataLOB.length !== 0) {
-			getData();
-		}
-	}, []);
+			if (dataLOB.length !== 0) {
+				getData();
+			}
+		},
+		// eslint-disable-next-line
+		[]
+	);
 
 	const handleSearch = async (ccms) => {
 		if (ccms) {
@@ -125,11 +135,54 @@ const CreateEditLOB = ({ dataLOB }) => {
 		setDataTL(tempList);
 	};
 
+	const submit = async (context, idLob) => {
+		const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
+		const data = await createLobOperationManager(
+			context,
+			dataToSend.lobName,
+			idLob, /// id lob seleccionada
+			dataToSend.tlIdccms
+		);
+		if (data.status === 200) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	const handleCreate = async () => {
 		if (nameLOB) {
 			if (dataTL.length > 0) {
-				const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
-				console.log("Create", dataToSend);
+				setOpen(false);
+				MySwal.fire({
+					title: (
+						<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
+					),
+					icon: "info",
+					showDenyButton: true,
+					confirmButtonText: "Accept",
+					allowOutsideClick: false,
+				}).then((result) => {
+					if (result.isConfirmed) {
+						const res = submit(1, 0);
+						if (res) {
+							MySwal.fire({
+								title: <p>Created LOB successfully!</p>,
+								icon: "success",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
+						} else {
+							Swal.fire("Send Error!", "", "error");
+						}
+					} else if (result.isDenied) {
+						Swal.fire("Changes are not saved", "", "info");
+					}
+				});
 			} else {
 				setErrorList(true);
 				setMsgErrorList("No data");
@@ -141,8 +194,44 @@ const CreateEditLOB = ({ dataLOB }) => {
 	};
 
 	const handleEdit = async () => {
-		const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
-		console.log("Edit", dataToSend);
+		if (nameLOB) {
+			if (dataTL.length > 0) {
+				setOpen(false);
+				MySwal.fire({
+					title: <p>{`Are you sure you want create the LOB ${nameLOB}?`}</p>,
+					icon: "info",
+					showDenyButton: true,
+					confirmButtonText: "Accept",
+					allowOutsideClick: false,
+				}).then((result) => {
+					if (result.isConfirmed) {
+						const res = submit(2, dataLOB.idLob);
+						if (res) {
+							MySwal.fire({
+								title: <p>Saved!</p>,
+								icon: "success",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
+						} else {
+							Swal.fire("Send Error!", "", "error");
+						}
+					} else if (result.isDenied) {
+						Swal.fire("Changes are not saved", "", "info");
+					}
+				});
+			} else {
+				setErrorList(true);
+				setMsgErrorList("No data");
+			}
+		} else {
+			setError(true);
+			setMsgError("No data");
+		}
 	};
 
 	return (

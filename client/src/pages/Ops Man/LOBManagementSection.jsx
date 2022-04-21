@@ -16,9 +16,6 @@ import {
 	BoxData,
 } from "../../assets/styled/muistyled";
 import LoadingComponent from "../../components/LoadingComponent";
-import { ModalLoading } from "../../components/ModalLoading";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
@@ -28,7 +25,6 @@ import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
 import { getLobs } from "../../utils/api";
 import { filterLobList, teamLeaderList } from "../../helpers/helpers";
-const MySwal = withReactContent(Swal);
 
 const CardLOB = styled(Button)(() => ({
 	background: "#fff",
@@ -69,42 +65,45 @@ const LOBManagementSection = () => {
 	const [allData, setAllData] = useState([]);
 	const [loadingLob, setLoadingLob] = useState(false);
 	const [loadingTl, setLoadingTl] = useState(false);
-	const [fullLoading, setFullLoading] = useState(false);
 	const [error, setError] = useState(false);
 
-	useEffect(() => {
-		const getData = async () => {
-			setLoadingLob(true);
-			setLoadingTl(true);
-			const allLobs = await getLobs(1, 1032);
-			if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
-				if (
-					allLobs.data[0].idCampaign !== "0" &&
-					allLobs.data[0].nameCampaign !== "0"
-				) {
-					const filterLobs = await filterLobList(allLobs.data);
-					const TLList = await teamLeaderList(allLobs.data, filterLobs[0]);
-					setAllData(allLobs.data);
-					setLob(filterLobs);
-					setTeamLeads(TLList);
-					setLoadingLob(false);
-					setLoadingTl(false);
+	useEffect(
+		() => {
+			const getData = async () => {
+				setLoadingLob(true);
+				setLoadingTl(true);
+				const allLobs = await getLobs(1, 1032);
+				if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
+					if (
+						allLobs.data[0].idCampaign !== "0" &&
+						allLobs.data[0].nameCampaign !== "0"
+					) {
+						const filterLobs = await filterLobList(allLobs.data);
+						const TLList = await teamLeaderList(allLobs.data, filterLobs[0]);
+						setAllData(allLobs.data);
+						setLob(filterLobs);
+						setTeamLeads(TLList);
+						setLoadingLob(false);
+						setLoadingTl(false);
+					} else {
+						setLoadingLob(false);
+						setLoadingTl(false);
+						setNoData(true);
+					}
+				} else if (allLobs && allLobs.data === "UnauthorizedError") {
+					dispatch(logoutAction());
+					navigate("/");
 				} else {
 					setLoadingLob(false);
 					setLoadingTl(false);
-					setNoData(true);
+					setError(true);
 				}
-			} else if (allLobs && allLobs.data === "UnauthorizedError") {
-				dispatch(logoutAction());
-				navigate("/");
-			} else {
-				setLoadingLob(false);
-				setLoadingTl(false);
-				setError(true);
-			}
-		};
-		getData();
-	}, []);
+			};
+			getData();
+		},
+		// eslint-disable-next-line
+		[]
+	);
 
 	const handleOpen = async (item, name) => {
 		setOpen(true);
@@ -124,92 +123,89 @@ const LOBManagementSection = () => {
 		setLoadingTl(false);
 	};
 	return (
-		<>
-			{fullLoading && <ModalLoading />}
-			<MainPage>
-				<Box>
-					<Header />
-					<Typography variant="h5">LOB Management Section</Typography>
-				</Box>
-				<Grid container spacing={1}>
-					<Grid item xs={12} md={6}>
-						<BoxData>
-							<Box marginY={1}>
-								<ButtonAction onClick={() => handleOpen()}>
-									Create New LOB
-								</ButtonAction>
-							</Box>
-							<BoxContain>
-								{error ? (
-									<Typography variant="body1">Server Problems</Typography>
-								) : noData ? (
-									<Typography variant="body1"></Typography>
-								) : loadingLob ? (
-									<LoadingComponent />
-								) : (
-									lob.map((item) => (
-										<CardLOB index={item.idLob} onClick={() => handleLob(item)}>
-											<Typography variant="body1"> {item.NameLob}</Typography>
-											<ButtonAction
-												onClick={() => handleOpen(item.idLob, item.NameLob)}
-											>
-												<FiEdit3 />
-											</ButtonAction>
-										</CardLOB>
-									))
-								)}
-							</BoxContain>
-						</BoxData>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<BoxData>
-							<Box marginY={1}>
-								<Typography variant="h6" textAlign="center">
-									Team Lead's
-								</Typography>
-							</Box>
-							<BoxContain>
-								{error ? (
-									<Typography variant="body1">Server Problems</Typography>
-								) : noData ? (
-									<Typography variant="body1">Create new Lob</Typography>
-								) : loadingTl ? (
-									<LoadingComponent />
-								) : (
-									teamLeads.map((item) => (
-										<CardUser
-											sx={{ width: "92%", marginY: ".5rem" }}
-											index={item.idTeam}
+		<MainPage>
+			<Box>
+				<Header />
+				<Typography variant="h5">LOB Management Section</Typography>
+			</Box>
+			<Grid container spacing={1}>
+				<Grid item xs={12} md={6}>
+					<BoxData>
+						<Box marginY={1}>
+							<ButtonAction onClick={() => handleOpen()}>
+								Create New LOB
+							</ButtonAction>
+						</Box>
+						<BoxContain>
+							{error ? (
+								<Typography variant="body1">Server Problems</Typography>
+							) : noData ? (
+								<Typography variant="body1"></Typography>
+							) : loadingLob ? (
+								<LoadingComponent />
+							) : (
+								lob.map((item) => (
+									<CardLOB index={item.idLob} onClick={() => handleLob(item)}>
+										<Typography variant="body1"> {item.NameLob}</Typography>
+										<ButtonAction
+											onClick={() => handleOpen(item.idLob, item.NameLob)}
 										>
-											<Avatar
-												alt="user"
-												src="./user.png"
-												sx={{ width: 50, height: 50, marginRight: "2rem" }}
-											/>
-											<Box textAlign="left">
-												<Typography variant="body1">{item.NameTL}</Typography>
-												<Typography variant="body2">Team Leader</Typography>
-											</Box>
-										</CardUser>
-									))
-								)}
-							</BoxContain>
-						</BoxData>
-					</Grid>
+											<FiEdit3 />
+										</ButtonAction>
+									</CardLOB>
+								))
+							)}
+						</BoxContain>
+					</BoxData>
 				</Grid>
-				<Footer />
-				<Modal
-					open={open}
-					onClose={handleClose}
-					aria-labelledby="modal-modal-title"
-					aria-describedby="modal-modal-description"
-				>
-					<ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
-						<CreateEditLOB dataLOB={dataLOB} />
-					</ModalBox>
-				</Modal>
-			</MainPage>
-		</>
+				<Grid item xs={12} md={6}>
+					<BoxData>
+						<Box marginY={1}>
+							<Typography variant="h6" textAlign="center">
+								Team Lead's
+							</Typography>
+						</Box>
+						<BoxContain>
+							{error ? (
+								<Typography variant="body1">Server Problems</Typography>
+							) : noData ? (
+								<Typography variant="body1">Create new Lob</Typography>
+							) : loadingTl ? (
+								<LoadingComponent />
+							) : (
+								teamLeads.map((item) => (
+									<CardUser
+										sx={{ width: "92%", marginY: ".5rem" }}
+										index={item.idTeam}
+									>
+										<Avatar
+											alt="user"
+											src="./user.png"
+											sx={{ width: 50, height: 50, marginRight: "2rem" }}
+										/>
+										<Box textAlign="left">
+											<Typography variant="body1">{item.NameTL}</Typography>
+											<Typography variant="body2">Team Leader</Typography>
+										</Box>
+									</CardUser>
+								))
+							)}
+						</BoxContain>
+					</BoxData>
+				</Grid>
+			</Grid>
+			<Footer />
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
+					<CreateEditLOB setOpen={setOpen} dataLOB={dataLOB} />
+				</ModalBox>
+			</Modal>
+		</MainPage>
 	);
 };
 

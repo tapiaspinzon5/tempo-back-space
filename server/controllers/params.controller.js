@@ -369,12 +369,13 @@ exports.parametros = (req, tipo) => {
 				new SpParam("context", req.context, TYPES.Int),
 			]);
 
-		case "spQueryLeaderBoardRL":
+		case "spInsertLob":
 			return parametrizacion([
-				new SpParam("case", req.context, TYPES.Int),
 				new SpParam("ident", req.idccms, TYPES.Int),
-				new SpParam("Kpi", req.kpi, TYPES.VarChar),
-				new SpParam("Time", req.time, TYPES.VarChar),
+				new SpParam("NameLob", req.lobName, TYPES.VarChar),
+				new SpParam("Context", req.context, TYPES.Int),
+				new SpParam("idlob", req.idlob, TYPES.Int),
+				SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
 			]);
 
 		case "spInsertCampaign":
@@ -383,12 +384,12 @@ exports.parametros = (req, tipo) => {
 				SpParamTable2("table", suTable2, req.rows),
 			]);
 
-		case "spInsertLob":
-			return parametrizacion([
-				new SpParam("ident", req.idccms, TYPES.VarChar),
-				new SpParam("NameLob", req.lobName, TYPES.VarChar),
-				SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
-			]);
+		case "spQueryManagementOP":
+			return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+		// Casos de Actividades
+		case "spBgWelcomeEGP":
+			return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
 		case "spQueryLobTeams":
 			return parametrizacion([
