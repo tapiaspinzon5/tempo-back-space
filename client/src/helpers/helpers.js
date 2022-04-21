@@ -653,3 +653,13 @@ export const filterTeamLeaderList = (data) => {
 	});
 	return list;
 };
+
+export const getTLDuplicates = (allData, dataList, dataUser) => {
+	let duplicatesList = dataList.filter((tl) => tl.idccms === dataUser.ident);
+	let duplicatesLobs = allData.filter((tl) => tl.identTL === dataUser.ident);
+	if (duplicatesList.length > 0 || duplicatesLobs.length > 0) {
+		return true;
+	} else {
+		return false;
+	}
+};

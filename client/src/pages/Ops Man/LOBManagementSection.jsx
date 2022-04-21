@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
 import { getLobs } from "../../utils/api";
 import { filterLobList, teamLeaderList } from "../../helpers/helpers";
+import imgAvatar from "../../assets/temp-image/avatar.png";
 
 const CardLOB = styled(Button)(() => ({
 	background: "#fff",
@@ -180,7 +181,7 @@ const LOBManagementSection = () => {
 									>
 										<Avatar
 											alt="user"
-											src="./user.png"
+											src={imgAvatar}
 											sx={{ width: 50, height: 50, marginRight: "2rem" }}
 										/>
 										<Box textAlign="left">
@@ -202,7 +203,11 @@ const LOBManagementSection = () => {
 				aria-describedby="modal-modal-description"
 			>
 				<ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
-					<CreateEditLOB setOpen={setOpen} dataLOB={dataLOB} />
+					<CreateEditLOB
+						allData={allData}
+						setOpen={setOpen}
+						dataLOB={dataLOB}
+					/>
 				</ModalBox>
 			</Modal>
 		</MainPage>

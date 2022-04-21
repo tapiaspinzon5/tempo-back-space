@@ -12,6 +12,7 @@ import {
 	Avatar,
 	FormHelperText,
 } from "@mui/material";
+import imgAvatar from "../../assets/temp-image/avatar.png";
 import {
 	ButtonActionBlue,
 	CardUser,
@@ -209,10 +210,10 @@ const RoleManagementSecttion = () => {
 
 	const submit = async (context, acQA, cas) => {
 		const cqa = await createTeamOperationManager(context, acQA.Ident, cas);
-		if (cqa.status === 200) {
-			return true;
+		if (cqa && cqa.status === 200) {
+			return "ok";
 		} else {
-			return false;
+			return "mal";
 		}
 	};
 
@@ -230,7 +231,7 @@ const RoleManagementSecttion = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					const res = submit(1, nQA, 2);
-					if (res) {
+					if (res === "ok") {
 						MySwal.fire({
 							title: <p>Saved!</p>,
 							icon: "success",
@@ -242,7 +243,16 @@ const RoleManagementSecttion = () => {
 							}
 						});
 					} else {
-						Swal.fire("Send Error!", "", "error");
+						MySwal.fire({
+							title: <p>Send Error!</p>,
+							icon: "error",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								window.location.reload();
+							}
+						});
 					}
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
@@ -259,7 +269,7 @@ const RoleManagementSecttion = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					const res = submit(1, acQA, 1);
-					if (res) {
+					if (res === "ok") {
 						MySwal.fire({
 							title: <p>Assigned!</p>,
 							icon: "success",
@@ -271,7 +281,16 @@ const RoleManagementSecttion = () => {
 							}
 						});
 					} else {
-						Swal.fire("Send Error!", "", "error");
+						MySwal.fire({
+							title: <p>Send Error!</p>,
+							icon: "error",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								window.location.reload();
+							}
+						});
 					}
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
@@ -294,7 +313,7 @@ const RoleManagementSecttion = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					const res = submit(2, nRL, 2);
-					if (res) {
+					if (res === "ok") {
 						MySwal.fire({
 							title: <p>Saved!</p>,
 							icon: "success",
@@ -306,7 +325,16 @@ const RoleManagementSecttion = () => {
 							}
 						});
 					} else {
-						Swal.fire("Send Error!", "", "error");
+						MySwal.fire({
+							title: <p>Send Error!</p>,
+							icon: "error",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								window.location.reload();
+							}
+						});
 					}
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
@@ -325,7 +353,7 @@ const RoleManagementSecttion = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					const res = submit(2, acRL, 1);
-					if (res) {
+					if (res === "ok") {
 						MySwal.fire({
 							title: <p>Assigned!</p>,
 							icon: "success",
@@ -337,7 +365,16 @@ const RoleManagementSecttion = () => {
 							}
 						});
 					} else {
-						Swal.fire("Send Error!", "", "error");
+						MySwal.fire({
+							title: <p>Send Error!</p>,
+							icon: "error",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								window.location.reload();
+							}
+						});
 					}
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
@@ -432,7 +469,7 @@ const RoleManagementSecttion = () => {
 							<CardUser width="48%" marginLeft={1}>
 								<Avatar
 									alt="user"
-									src="./user.png"
+									src={imgAvatar}
 									sx={{ width: 70, height: 70, marginRight: "1rem" }}
 								/>
 								<Box textAlign="left">
@@ -450,7 +487,7 @@ const RoleManagementSecttion = () => {
 							<CardUser width="48%" marginLeft={1}>
 								<Avatar
 									alt="user"
-									src="./user.png"
+									src={imgAvatar}
 									sx={{ width: 70, height: 70, marginRight: "1rem" }}
 								/>
 								<Box textAlign="left">
@@ -545,7 +582,7 @@ const RoleManagementSecttion = () => {
 							<CardUser width="48%" marginLeft={1}>
 								<Avatar
 									alt="user"
-									src="./user.png"
+									src={imgAvatar}
 									sx={{ width: 70, height: 70, marginRight: "1rem" }}
 								/>
 								<Box textAlign="left">
@@ -563,7 +600,7 @@ const RoleManagementSecttion = () => {
 							<CardUser width="48%" marginLeft={1}>
 								<Avatar
 									alt="user"
-									src="./user.png"
+									src={imgAvatar}
 									sx={{ width: 70, height: 70, marginRight: "1rem" }}
 								/>
 								<Box textAlign="left">

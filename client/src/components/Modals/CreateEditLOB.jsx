@@ -15,9 +15,11 @@ import {
 	getInfoAgent,
 	getLobs,
 } from "../../utils/api";
+
 import {
 	createTeamLeaderList,
 	filterTeamLeaderList,
+	getTLDuplicates,
 } from "../../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -53,7 +55,7 @@ const BoxCeldas = styled(Box)(() => ({
 	},
 }));
 
-const CreateEditLOB = ({ setOpen, dataLOB }) => {
+const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
 	const [error, setError] = useState(false);
@@ -87,10 +89,8 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
 			if (info && info.status === 200 && info.data.length > 0) {
-				let duplicates = dataTL.filter(
-					(tl) => tl.idccms === info.data[0].ident
-				);
-				if (dataTL.length === 0) {
+				const duplicates = await getTLDuplicates(allData, dataTL, info.data[0]);
+				if (dataTL.length === 0 && !duplicates) {
 					setErrorList(false);
 					setMsgErrorList("");
 					setDataTL([
@@ -102,9 +102,9 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 						},
 					]);
 					setTempCcms("");
-				} else if (duplicates.length > 0) {
+				} else if (duplicates) {
 					setErrorccms(true);
-					setMsgErrorccms("The user is in the list");
+					setMsgErrorccms("The user is in the list or in other Team");
 				} else {
 					setErrorList(false);
 					setMsgErrorList("");
@@ -143,10 +143,10 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 			idLob, /// id lob seleccionada
 			dataToSend.tlIdccms
 		);
-		if (data.status === 200) {
-			return true;
+		if (data && data.status === 200) {
+			return "ok";
 		} else {
-			return false;
+			return "Jodido";
 		}
 	};
 
@@ -165,7 +165,7 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 				}).then((result) => {
 					if (result.isConfirmed) {
 						const res = submit(1, 0);
-						if (res) {
+						if (res === "ok") {
 							MySwal.fire({
 								title: <p>Created LOB successfully!</p>,
 								icon: "success",
@@ -177,7 +177,16 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 								}
 							});
 						} else {
-							Swal.fire("Send Error!", "", "error");
+							MySwal.fire({
+								title: <p>Send Error!</p>,
+								icon: "error",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
 						}
 					} else if (result.isDenied) {
 						Swal.fire("Changes are not saved", "", "info");
@@ -198,7 +207,7 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 			if (dataTL.length > 0) {
 				setOpen(false);
 				MySwal.fire({
-					title: <p>{`Are you sure you want create the LOB ${nameLOB}?`}</p>,
+					title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
 					icon: "info",
 					showDenyButton: true,
 					confirmButtonText: "Accept",
@@ -206,7 +215,7 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 				}).then((result) => {
 					if (result.isConfirmed) {
 						const res = submit(2, dataLOB.idLob);
-						if (res) {
+						if (res === "ok") {
 							MySwal.fire({
 								title: <p>Saved!</p>,
 								icon: "success",
@@ -218,7 +227,16 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 								}
 							});
 						} else {
-							Swal.fire("Send Error!", "", "error");
+							MySwal.fire({
+								title: <p>Send Error!</p>,
+								icon: "error",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
 						}
 					} else if (result.isDenied) {
 						Swal.fire("Changes are not saved", "", "info");
@@ -295,9 +313,13 @@ const CreateEditLOB = ({ setOpen, dataLOB }) => {
 				</FormControl>
 			</Box>
 
-			{dataLOB.length !== 0 && (
+			{dataLOB.length !== 0 ? (
 				<Typography variant="body1" gutterBottom color="#3047B0">
 					Edit Team Leader Assignment
+				</Typography>
+			) : (
+				<Typography variant="body1" gutterBottom color="#3047B0">
+					Team Leader List
 				</Typography>
 			)}
 			<BoxTL sx={{ border: errorList ? "1px solid red" : "1px solid #3047B0" }}>
