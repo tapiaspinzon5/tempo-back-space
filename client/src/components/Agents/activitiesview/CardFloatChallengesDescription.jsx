@@ -12,7 +12,7 @@ const BoxFloat = styled(Box)(() => ({
 }));
 const BoxConatiner = styled(Box)(() => ({
   minHeight: "180px",
-  width: "480px",
+  width: "520px",
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
@@ -26,7 +26,7 @@ const BoxConatiner = styled(Box)(() => ({
 }));
 const BoxLeft = styled(Box)(() => ({
   minHeight: "180px",
-  width: "50%",
+  width: "40%",
   backgroundSize: "cover",
   display: "flex",
   alignItems: "flex-end",
@@ -34,12 +34,18 @@ const BoxLeft = styled(Box)(() => ({
   paddingLeft: "10px",
   borderRadius: "10px",
 }));
-const BoxRight = styled(Box)(() => ({
-  width: "50%",
+const BoxCenter = styled(Box)(() => ({
+  width: "30%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "10px",
+}));
+const BoxRight = styled(Box)(() => ({
+  width: "30%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "10px 10px 10px 0",
   color: "#3047B0",
   fontSize: "12px",
 }));
@@ -59,7 +65,6 @@ const BoxRewards = styled(Box)(() => ({
 }));
 
 const CardFloatChallengesDescription = ({ activity, img1, mousePos }) => {
-  console.log(activity);
   return (
     <BoxFloat>
       <BoxConatiner
@@ -80,13 +85,10 @@ const CardFloatChallengesDescription = ({ activity, img1, mousePos }) => {
         >
           <Typography variant="subtitle2">{activity.NameActivity}</Typography>{" "}
         </BoxLeft>
-        <BoxRight>
+        <BoxCenter>
           <BoxImage>
-            {/* <img src={activity.ImageBadge || activitiesIMG} alt="" /> */}
+            <img src={activity.ImageBadge || activitiesIMG} alt="" />
           </BoxImage>
-          <Typography variant="body2" align="left" marginBottom=".5rem">
-            {activity.Description || activity.DescriptionChallenge}
-          </Typography>
           <BoxRewards>
             <Box marginRight="1rem">
               <Box display="flex" alignItems="center">
@@ -111,6 +113,29 @@ const CardFloatChallengesDescription = ({ activity, img1, mousePos }) => {
               </Typography>
             </Box>
           </BoxRewards>
+        </BoxCenter>
+        <BoxRight>
+          <Typography
+            variant="body2"
+            align="left"
+            marginBottom=".5rem"
+            fontWeight={700}
+          >
+            {activity.Description || activity.DescriptionChallenge}
+          </Typography>
+          <Typography variant="body2" align="left" marginBottom=".5rem">
+            <b>Assignment by:</b>
+            <br />
+            <span style={{ fontSize: "12px" }}>{activity.AssignementUser}</span>
+          </Typography>
+          <Typography variant="body2" align="left" marginBottom=".5rem">
+            <b>Due date:</b>
+            <br />
+            <span style={{ fontSize: "12px" }}>
+              {activity.InitialDate.substr(0, 10)} to{" "}
+              {activity.Finaldate.substr(0, 10)}
+            </span>
+          </Typography>
         </BoxRight>
       </BoxConatiner>
     </BoxFloat>

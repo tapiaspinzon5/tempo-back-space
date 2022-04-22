@@ -110,7 +110,9 @@ const CardActivityManage = ({ quiz }) => {
         </CardViewer>
         <DownSection sx={{ background }}>
           <Button
-            onClick={() => navigate(`/quizdetails/${IdExamen}/${EstadoExamen}`)}
+            onClick={() =>
+              navigate(`/quizdetails/${IdExamen}/${EstadoExamen}/${ExamName}`)
+            }
             disabled={active}
           >
             {EstadoExamen}

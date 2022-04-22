@@ -5,76 +5,76 @@ import CardFloatDescription from "./CardFloatDescription";
 import CardFloatChallengesDescription from "./CardFloatChallengesDescription";
 
 const BoxCard = styled(Box)(() => ({
-	maxWidth: "19.625rem",
-	borderRadius: "10px",
-	//overflowX: "clip",
-	"&:hover": {
-		boxShadow: " 3px 3px 5px #A2A2A2",
-		opacity: 1,
-	},
+  maxWidth: "19.625rem",
+  borderRadius: "10px",
+  //overflowX: "clip",
+  "&:hover": {
+    boxShadow: " 3px 3px 5px #A2A2A2",
+    opacity: 1,
+  },
 }));
 const CardViewer = styled(Box)(({ theme }) => ({
-	//height: "14rem",
-	height: "9rem",
-	maxWidth: "19.625rem",
-	boxShadow: "1px 1px 5px #A2A2A2",
-	borderRadius: "10px 10px 0 0 ",
-	//background: "#F9F9F9 0% 0% no-repeat padding-box",
+  //height: "14rem",
+  height: "9rem",
+  maxWidth: "19.625rem",
+  boxShadow: "1px 1px 5px #A2A2A2",
+  borderRadius: "10px 10px 0 0 ",
+  //background: "#F9F9F9 0% 0% no-repeat padding-box",
 
-	display: "flex",
-	flexDirection: "column",
-	justifyContent: "flex-end",
-	alignItems: "left",
-	boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-end",
+  alignItems: "left",
+  boxSizing: "border-box",
 
-	p: {
-		width: "70%",
-		margin: "1rem",
-		color: "white",
-		fontWeight: 500,
-	},
+  p: {
+    width: "70%",
+    margin: "1rem",
+    color: "white",
+    fontWeight: 500,
+  },
 }));
 
 const DownSection = styled(Box)(({ theme }) => ({
-	boxShadow: "1px 1px 5px #A2A2A2",
-	maxWidth: "20rem",
-	height: "4rem",
-	borderRadius: "0 0  10px 10px",
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	button: {
-		color: "#000",
-		background: "#fff",
-		textTransform: "none",
-		fontWeight: "bold",
-		width: "111px",
-		padding: 0,
-		borderRadius: "10px",
-		"&:hover": {
-			background: "#e6e6e6e0",
-		},
-	},
+  boxShadow: "1px 1px 5px #A2A2A2",
+  maxWidth: "20rem",
+  height: "4rem",
+  borderRadius: "0 0  10px 10px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  button: {
+    color: "#000",
+    background: "#fff",
+    textTransform: "none",
+    fontWeight: "bold",
+    width: "111px",
+    padding: 0,
+    borderRadius: "10px",
+    "&:hover": {
+      background: "#e6e6e6e0",
+    },
+  },
 }));
 
 const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
-	const navigate = useNavigate();
-	const [showFloat, setShowFloat] = useState(false);
-	const [img1, setIme1] = useState(null);
-	const { NameActivity, IdActivity, Status, Category } = activity;
-	let context;
-	if (type === "Activities") {
-		context = Category === "Activity" ? 1 : Category === "Challenge" ? 1 : 3;
-	} else {
-		context = 2;
-	}
+  const navigate = useNavigate();
+  const [showFloat, setShowFloat] = useState(false);
+  const [img1, setIme1] = useState(null);
+  const { NameActivity, IdActivity, Status, Category } = activity;
+  let context;
+  if (type === "Activities") {
+    context = Category === "Activity" ? 1 : Category === "Challenge" ? 1 : 3;
+  } else {
+    context = 2;
+  }
 
-	const handleMouseEnter = () => {
-		setShowFloat(true);
-	};
-	const handleMouseLeave = () => {
-		setShowFloat(false);
-	};
+  const handleMouseEnter = () => {
+    setShowFloat(true);
+  };
+  const handleMouseLeave = () => {
+    setShowFloat(false);
+  };
 
 	useEffect(() => {
 		const crypto = window.crypto;
@@ -105,14 +105,14 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
       onMouseLeave={handleMouseLeave}
     >
       {showFloat &&
-        (type === "Challenges" ? (
-          <CardFloatChallengesDescription
+        (type === "Activities" ? (
+          <CardFloatDescription
             activity={activity}
             img1={img1}
             mousePos={mousePos}
           />
         ) : (
-          <CardFloatDescription
+          <CardFloatChallengesDescription
             activity={activity}
             img1={img1}
             mousePos={mousePos}
