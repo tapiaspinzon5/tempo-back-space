@@ -7,6 +7,7 @@ const multiparty = require("multiparty");
 const path = require('path');
 const {transport} = require("../nodemailerConfig");
 const {sendFCMMessage} = require("../helpers/sendNotification");
+const { randomInt } = require('crypto');
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -28,7 +29,7 @@ function isEmpty(req) {
 }
 
 exports.test = (req, res) => {
-  let num = Math.floor(Math.random() * (100 - 1)) + 1;
+  let num = Math.floor(randomInt(0,10) * (100 - 1)) + 1;
   let options = {
     //ms s    m     h   d
     maxAge: 1000 * 60 * 60 * 24 * 60, // would expire after 15 minutes
@@ -116,12 +117,14 @@ exports.uploadSU = async (req, res) => {
 };
 
 exports.uploadOpsM = async (req, res) => {
- 
+
+  const {context, idLeader, cas} = req.body;
+
   sql
     .query(
       "spInsertOrganizationalUnit",
       parametros(
-        { idccms: req.query.idccms, rows: req.body.data },
+        { idccms: req.query.idccms, context, idLeader, cas },
         "spInsertOrganizationalUnit"
       )
     )
@@ -944,6 +947,82 @@ exports.getInfoLeaderBoardrl = async (req, res) => {
     .query(
       "spQueryLeaderBoardRL",
       parametros({ idccms: req.query.idccms, context,kpi,time }, "spQueryLeaderBoardRL")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postCreateCampaign = async (req, res) => {
+
+  let i = 0;
+  let data = req.body.data;
+
+  let rows = data.map((quest) => {
+    i = i + 1;
+    return [...quest, i];
+  });
+
+  sql
+    .query(
+      "spInsertCampaign",
+      parametros({ idccms: req.query.idccms, rows}, "spInsertCampaign")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postCreateLOB = async (req, res) => {
+
+  const {lobName, tlIdccms, context, idlob} = req.body;
+
+  sql
+    .query(
+      "spInsertLob",
+      parametros({ idccms: req.query.idccms, lobName, tlIdccms, context,idlob}, "spInsertLob")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getLobsOpsm = async (req, res) => {
+
+  const {idLob, context} = req.body;
+
+  sql
+    .query(
+      "spQueryLobTeams",
+      parametros({ idccms: req.query.idccms,idLob, context}, "spQueryLobTeams")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getrlqaCampaignLeaders = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryManagementOP",
+      parametros({ idccms: req.query.idccms}, "spQueryManagementOP")
     )
     .then((result) => {
       responsep(1, req, res, result);

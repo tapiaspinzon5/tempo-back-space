@@ -77,18 +77,18 @@ export const validateFields = (data) => {
 export const validateHeadersCreateTeam = (headers) => {
   let differentsArrays = false;
 
-  let defaultHeaders = [
-    "IdentPM",
-    "Campaign",
-    "KPI",
-    "Q1",
-    "Q2",
-    "Q3",
-    "Q4",
-    "CriticalPoint",
-    "OrderKpi",
-    "typeLoad",
-  ];
+	let defaultHeaders = [
+		"IdentOM",
+		"Campaign",
+		"KPI",
+		"Q1",
+		"Q2",
+		"Q3",
+		"Q4",
+		"CriticalPoint",
+		"OrderKpi",
+		"typeLoad",
+	];
 
   if (headers.length !== defaultHeaders.length) {
     return;
@@ -106,31 +106,32 @@ export const validateHeadersCreateTeam = (headers) => {
 
 //Helper Validacion Campos carga archivos SuperUser creacion de equipos
 export const validateFieldsCreateTeams = (data) => {
-  let errorField = false;
-  const orderOptions = ["asc", "dsc"];
-  data.forEach((col) => {
-    if (col[0] === undefined || isNaN(col[0])) {
-      errorField = true;
-    } else if (col[1] === undefined) {
-      errorField = true;
-    } else if (col[2] === undefined) {
-      errorField = true;
-    } else if (col[3] === undefined || isNaN(col[3])) {
-      errorField = true;
-    } else if (col[4] === undefined || isNaN(col[4])) {
-      errorField = true;
-    } else if (col[5] === undefined || isNaN(col[5])) {
-      errorField = true;
-    } else if (col[6] === undefined || isNaN(col[6])) {
-      errorField = true;
-    } else if (col[7] === undefined || isNaN(col[7])) {
-      errorField = true;
-    } else if (col[8] === undefined || !orderOptions.includes(col[8])) {
-      errorField = true;
-    } else if (col[9] !== (0 || 1)) {
-      errorField = true;
-    }
-  });
+	let errorField = false;
+	const orderOptions = ["asc", "dsc"];
+	const typeLoad = [0, 1];
+	data.forEach((col) => {
+		if (col[0] === undefined || isNaN(col[0])) {
+			errorField = true;
+		} else if (col[1] === undefined) {
+			errorField = true;
+		} else if (col[2] === undefined) {
+			errorField = true;
+		} else if (col[3] === undefined || isNaN(col[3])) {
+			errorField = true;
+		} else if (col[4] === undefined || isNaN(col[4])) {
+			errorField = true;
+		} else if (col[5] === undefined || isNaN(col[5])) {
+			errorField = true;
+		} else if (col[6] === undefined || isNaN(col[6])) {
+			errorField = true;
+		} else if (col[7] === undefined || isNaN(col[7])) {
+			errorField = true;
+		} else if (col[8] === undefined || !orderOptions.includes(col[8])) {
+			errorField = true;
+		} else if (col[9] === undefined || !typeLoad.includes(col[9])) {
+			errorField = true;
+		}
+	});
 
   return errorField;
 };
@@ -648,4 +649,57 @@ export const quizByCategory = (data, status) => {
     }
   });
   return { quices: quizFilter, categories: catFilter };
+};
+
+// filtra las LOB
+export const filterLobList = async (data) => {
+	const hash = {};
+	let lobData = await data.filter(function (current) {
+		let exists = !hash[current.NameLob];
+		hash[current.NameLob] = true;
+		return exists;
+	});
+	return lobData;
+};
+
+//filtra los team leaders de cada LOB
+export const teamLeaderList = async (data, firstLob) => {
+	const TLList = data.filter((lob) => lob.NameLob === firstLob.NameLob);
+	return TLList;
+};
+export const createTeamLeaderList = (data, name) => {
+	const TLList = data.filter((tl) => tl.checked === true);
+	let list = [];
+	TLList.forEach((tl) => {
+		list.push([tl.idccms]);
+	});
+	return { lobName: name, tlIdccms: list };
+};
+export const filterTeamLeaderList = (data) => {
+	let list = [];
+	data.forEach((tl) => {
+		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: true });
+	});
+	return list;
+};
+
+export const getTLDuplicates = (allData, dataList, dataUser) => {
+	let duplicatesList = dataList.filter((tl) => tl.idccms === dataUser.ident);
+	let duplicatesLobs = allData.filter((tl) => tl.identTL === dataUser.ident);
+	if (duplicatesList.length > 0 || duplicatesLobs.length > 0) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+export const getLobNameDuplicate = (allData, name) => {
+	let duplicates = allData.filter(
+		(tl) => tl.NameLob.toLowerCase() === name.toLowerCase()
+	);
+	if (duplicates.length > 0) {
+		return true;
+	} else {
+		return false;
+	}
 };

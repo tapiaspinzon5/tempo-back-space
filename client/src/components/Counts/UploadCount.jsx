@@ -88,6 +88,7 @@ export const UploadCount = ({ setLoading }) => {
 					}
 
 					data.shift();
+					console.log(data);
 					let incorrectValues = validateFieldsCreateTeams(data);
 
 					if (incorrectValues) {
@@ -145,6 +146,12 @@ export const UploadCount = ({ setLoading }) => {
 					if (resultado.value) {
 						window.location.reload();
 					}
+				});
+			} else {
+				setLoading(false);
+				MySwal.fire({
+					title: <p>Send Error</p>,
+					icon: "error",
 				});
 			}
 		}

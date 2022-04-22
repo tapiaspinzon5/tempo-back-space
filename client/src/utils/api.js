@@ -5,8 +5,10 @@ import { axiosInstance } from "../api/interceptor";
 //Peticion carga de achivos creacion de equipos SuperUser
 const createTeamSuperUser = (dataCSV) => {
 	try {
+		//postcreatecampaign
+		//uploadSU
 		return axiosInstance
-			.post(`uploadSU`, {
+			.post(`postcreatecampaign`, {
 				data: dataCSV,
 			})
 			.catch(function (error) {
@@ -33,11 +35,63 @@ const downloadCounts = () => {
 
 /* OPERATION MANAGER */
 
-const createTeamOperationManager = (dataCSV) => {
+const createTeamOperationManager = (context, idLeader, cas) => {
 	try {
 		return axiosInstance
 			.post(`uploadopsm`, {
-				data: dataCSV,
+				context: context,
+				idLeader: idLeader,
+				cas: cas,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+const createLobOperationManager = (context, lobName, idlob, tlIdccms) => {
+	try {
+		return axiosInstance
+			.post(`postcreatelob`, {
+				lobName: lobName,
+				context: context,
+				idlob: idlob,
+				tlIdccms: tlIdccms,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+//trae el RL y el QA de una cuenta
+const getQARLCount = () => {
+	try {
+		return axiosInstance.post(`getrlqacampaignleaders`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+//trae las LOBs de una cuenta
+const getLobs = (context, idLob) => {
+	try {
+		return axiosInstance
+			.post(`getlobsopsm`, {
+				context: context,
+				idLob: idLob,
 			})
 			.catch(function (error) {
 				if (error.response) {
@@ -211,13 +265,14 @@ const getUsersKPI = (idKPI, time, agentIdccms, context) => {
 
 //funcion para Crear Nuevos Challenges
 const createNewChallenge = (data, period) => {
+	console.log(data);
 	try {
 		return axiosInstance
 			.post(`postcreatenewchallengtl`, {
 				action: data.action,
 				kpi: data.kpi.Kpi,
 				quantity: data.quantity,
-				measureUnit: data.measureUnit,
+				measureUnit: data.kpi.unitKpi,
 				initialDate: period[0],
 				finalDate: period[1],
 			})
@@ -551,6 +606,25 @@ const downloadDataAdmin = (caso) => {
 		return Promise.resolve({ data: null, error: error });
 	}
 };
+
+/* Trae info de agente en especifico */
+const getInfoAgent = (idccmsAgent) => {
+	try {
+		return axiosInstance
+			.post(`getmasterinfoagents`, {
+				context: 2,
+				idccmsAgent: idccmsAgent,
+			})
+			.catch(function (error) {
+				if (error.response) {
+					return error.response;
+				}
+			});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
 /* Actividades  no se esta usando*/
 const welcomeToEGP = () => {
 	try {
@@ -599,4 +673,8 @@ export {
 	uploadKPIs,
 	getKPIsCampaign,
 	createNewChallenge,
+	getLobs,
+	getInfoAgent,
+	getQARLCount,
+	createLobOperationManager,
 };

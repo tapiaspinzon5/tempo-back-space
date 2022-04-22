@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 
 exports.transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
+  requireTLS: true, 
   port: 2525,
   auth: {
     user: Buffer.from(process.env.NODEMAILER_USER, 'base64').toString(),

@@ -8,7 +8,7 @@ const url = "http://localhost:4343";
 //const url = "https://gamificationtest.teleperformance.co";
 // Pilot
 //const url = "https://spacegptest.teleperformance.co";
-//const url = "http://10.159.186.47:4343";
+//const url = "http://10.159.186.180:4343";
 
 //datainicial
 const initialData = {
