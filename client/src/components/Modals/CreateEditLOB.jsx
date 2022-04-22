@@ -19,6 +19,7 @@ import {
 import {
 	createTeamLeaderList,
 	filterTeamLeaderList,
+	getLobNameDuplicate,
 	getTLDuplicates,
 } from "../../helpers/helpers";
 import Swal from "sweetalert2";
@@ -143,10 +144,34 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 			idLob, /// id lob seleccionada
 			dataToSend.tlIdccms
 		);
-		if (data && data.status === 200) {
+		/* console.log(data);
+		if (data && data.status === 200 && data.data.length > 0) {
 			return "ok";
 		} else {
 			return "Jodido";
+		} */
+		if (data && data.status === 200 && data.data.length > 0) {
+			MySwal.fire({
+				title: <p>{context === 2 ? "Saved!" : "Created LOB successfully!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
 		}
 	};
 
@@ -164,30 +189,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 					allowOutsideClick: false,
 				}).then((result) => {
 					if (result.isConfirmed) {
-						const res = submit(1, 0);
-						if (res === "ok") {
-							MySwal.fire({
-								title: <p>Created LOB successfully!</p>,
-								icon: "success",
-								confirmButtonText: "Accept",
-								allowOutsideClick: false,
-							}).then((resultado) => {
-								if (resultado.value) {
-									window.location.reload();
-								}
-							});
-						} else {
-							MySwal.fire({
-								title: <p>Send Error!</p>,
-								icon: "error",
-								confirmButtonText: "Accept",
-								allowOutsideClick: false,
-							}).then((resultado) => {
-								if (resultado.value) {
-									window.location.reload();
-								}
-							});
-						}
+						submit(1, 0);
 					} else if (result.isDenied) {
 						Swal.fire("Changes are not saved", "", "info");
 					}
@@ -214,8 +216,8 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 					allowOutsideClick: false,
 				}).then((result) => {
 					if (result.isConfirmed) {
-						const res = submit(2, dataLOB.idLob);
-						if (res === "ok") {
+						submit(2, dataLOB.idLob);
+						/* if (res === "ok") {
 							MySwal.fire({
 								title: <p>Saved!</p>,
 								icon: "success",
@@ -237,7 +239,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 									window.location.reload();
 								}
 							});
-						}
+						} */
 					} else if (result.isDenied) {
 						Swal.fire("Changes are not saved", "", "info");
 					}
@@ -249,6 +251,14 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 		} else {
 			setError(true);
 			setMsgError("No data");
+		}
+	};
+
+	const handleBlur = async () => {
+		const duplicates = await getLobNameDuplicate(allData, nameLOB);
+		if (duplicates) {
+			setError(true);
+			setMsgError("LOB name already exists");
 		}
 	};
 
@@ -277,6 +287,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 				}}
 				value={nameLOB}
 				helperText={error && msgError}
+				onBlur={handleBlur}
 			/>
 			<Box marginY={3}>
 				<Typography variant="body1" gutterBottom color="#3047B0">

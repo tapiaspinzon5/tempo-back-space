@@ -663,3 +663,14 @@ export const getTLDuplicates = (allData, dataList, dataUser) => {
 		return false;
 	}
 };
+
+export const getLobNameDuplicate = (allData, name) => {
+	let duplicates = allData.filter(
+		(tl) => tl.NameLob.toLowerCase() === name.toLowerCase()
+	);
+	if (duplicates.length > 0) {
+		return true;
+	} else {
+		return false;
+	}
+};

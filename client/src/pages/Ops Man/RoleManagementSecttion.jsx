@@ -210,10 +210,33 @@ const RoleManagementSecttion = () => {
 
 	const submit = async (context, acQA, cas) => {
 		const cqa = await createTeamOperationManager(context, acQA.Ident, cas);
-		if (cqa && cqa.status === 200) {
+		/* if (cqa && cqa.status === 200) {
 			return "ok";
 		} else {
 			return "mal";
+		} */
+		if (cqa && cqa.status === 200) {
+			MySwal.fire({
+				title: <p>{cas === 2 ? "Saved!" : "Assigned!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
 		}
 	};
 
@@ -230,8 +253,8 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					const res = submit(1, nQA, 2);
-					if (res === "ok") {
+					submit(1, nQA, 2);
+					/* if (res === "ok") {
 						MySwal.fire({
 							title: <p>Saved!</p>,
 							icon: "success",
@@ -253,7 +276,7 @@ const RoleManagementSecttion = () => {
 								window.location.reload();
 							}
 						});
-					}
+					} */
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -268,8 +291,8 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					const res = submit(1, acQA, 1);
-					if (res === "ok") {
+					submit(1, acQA, 1);
+					/* if (res === "ok") {
 						MySwal.fire({
 							title: <p>Assigned!</p>,
 							icon: "success",
@@ -291,7 +314,7 @@ const RoleManagementSecttion = () => {
 								window.location.reload();
 							}
 						});
-					}
+					} */
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}
@@ -312,8 +335,8 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					const res = submit(2, nRL, 2);
-					if (res === "ok") {
+					submit(2, nRL, 2);
+					/* if (res === "ok") {
 						MySwal.fire({
 							title: <p>Saved!</p>,
 							icon: "success",
@@ -335,7 +358,7 @@ const RoleManagementSecttion = () => {
 								window.location.reload();
 							}
 						});
-					}
+					} */
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -352,8 +375,8 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					const res = submit(2, acRL, 1);
-					if (res === "ok") {
+					submit(2, acRL, 1);
+					/* if (res === "ok") {
 						MySwal.fire({
 							title: <p>Assigned!</p>,
 							icon: "success",
@@ -375,7 +398,7 @@ const RoleManagementSecttion = () => {
 								window.location.reload();
 							}
 						});
-					}
+					} */
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}
