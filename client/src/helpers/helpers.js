@@ -269,6 +269,30 @@ export const validateDataCheckTpvs = (agents, tpv, userName) => {
   return newData;
 };
 
+export const targetKPI = (kpi) => {
+  let target;
+  switch (kpi.Quartile) {
+    case "Q1":
+      target = kpi.TargetQ1;
+      break;
+    case "Q2":
+      target = kpi.TargetQ2;
+      break;
+    case "Q3":
+      target = kpi.TargetQ3;
+      break;
+    case "Q4":
+      target = kpi.TargetQ4;
+      break;
+
+    default:
+      break;
+  }
+
+  console.log(kpi);
+  return target;
+};
+
 export const positionValue = (kpi) => {
   const {
     Actual,
@@ -280,7 +304,7 @@ export const positionValue = (kpi) => {
     TargetQ4,
     OrderKpi,
   } = kpi;
-  console.log(kpi);
+
   const criticalPoint = Target;
   let setArrowPos;
   const red = 16.66666;
