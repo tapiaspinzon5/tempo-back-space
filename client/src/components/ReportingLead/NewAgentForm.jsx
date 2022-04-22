@@ -45,17 +45,11 @@ const NewAgentForm = () => {
 	const [teamLeader, setTeamLeader] = useState("");
 	const [quartile, setQuartile] = useState("");
 
-	const handleSearchAgent = () => {
-		console.log("buscando Agente");
-	};
+	const handleSearchAgent = () => {};
 
 	const handleUserAssign = (e) => {
 		e.preventDefault();
-		console.log("asignado usuarios");
 	};
-
-	console.log(idccms, teamLeader);
-
 	return (
 		<BoxAssignAgent>
 			<Typography

@@ -39,7 +39,7 @@ const TLChallengeCard = ({ challenge, handleChallenge }) => {
 				<Radio
 					checked={challenge?.isChecked || false}
 					onChange={handleChallenge}
-					value={challenge.Description + "-" + challenge.Id}
+					value={challenge.Description + "*" + challenge.Id}
 					name="radio-button"
 					inputProps={{ "aria-label": "A" }}
 				/>

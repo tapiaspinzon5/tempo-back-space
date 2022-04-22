@@ -117,7 +117,7 @@ const ActivitiesView = () => {
 				const quizes = await loadUserActivities(context);
 				if (quizes && quizes.status === 200 && quizes.data.Quices.length > 0) {
 					const cat = await quizCategories(quizes.data.Quices);
-					if (quizes.data.Quices && cat) {
+					if (quizes.data.Quices[0].Quiz !== "0" && cat) {
 						setCategories(cat);
 						setActualCategories(cat);
 						setQuizUser(quizes.data.Quices);

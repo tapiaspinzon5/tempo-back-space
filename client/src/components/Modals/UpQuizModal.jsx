@@ -30,17 +30,23 @@ const MainModal = styled(Box)(() => ({
 const Su = () => {
 	return (
 		<Typography variant="body2" color="initial">
-			Ident: CCMSID del operation Manager (Solo números)
-			<br /> TeamName: Nombre del equipo <br /> KPI: KPI a evaluar (i.e.: %Abs,
-			AHT_In, QACL )<br /> Campaign: Nombre de la campaña
+			IdentPM: CCMSID del operation Manager (Solo números)
+			<br /> Campaign: Nombre de la campaña <br /> KPI: KPI a evaluar (i.e.:
+			%Abs, AHT_In, QACL )
 			<br /> Q1: valores objetivos para agentes Q1 (solo números)
 			<br /> Q2: valores objetivos para agentes Q2 (solo números) <br /> Q3:
 			valores objetivos para agentes Q3 (solo números) <br /> Q4: valores
 			objetivos para agentes Q4 (solo números)
 			<br />
-			Target: valor objetivo para el KPI (solo números)
+			CriticalPoint: valor minimo sobre el que puede llegar el kpi (solo
+			números)
 			<br />
-			Order: "asc"(mas mejor) o "dsc"(menos mejor)
+			OrderKpi: "asc"(mas mejor) o "dsc"(menos mejor)
+			<br /> TypeLoad: se maneja solo dos estados:
+			<br />
+			Estado 0: Carga de KPi Manual
+			<br />
+			Estado 1: Carga de Kpi Automatica (esta en base maestra)
 		</Typography>
 	);
 };

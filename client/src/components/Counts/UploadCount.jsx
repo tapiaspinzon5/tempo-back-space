@@ -69,13 +69,13 @@ export const UploadCount = ({ setLoading }) => {
 							colum[0],
 							colum[1]?.toString(),
 							colum[2]?.toString(),
-							colum[3]?.toString(),
+							colum[3],
 							colum[4],
 							colum[5],
 							colum[6],
 							colum[7],
-							colum[8],
-							colum[9]?.toString(),
+							colum[8]?.toString(),
+							colum[9],
 						];
 					});
 

@@ -141,9 +141,7 @@ const FormCreateNewChallenge = ({
 								label="Measure Unit"
 								placeholder="Unit"
 								value={newChallenge.unitKpi}
-								onChange={(e) =>
-									setNewChallenge({ ...newChallenge, unitKpi: e.target.value })
-								}
+								onChange={(e) => setNewChallenge({ ...newChallenge })}
 							/>
 						</FormControl>
 						<FormControl fullWidth sx={{ marginTop: "1rem" }}>

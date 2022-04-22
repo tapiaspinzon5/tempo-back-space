@@ -89,6 +89,9 @@ module.exports = (router) => {
 
   // Endpoint para consultar agentes creados en la master Data. 
   router.post("/getmasterinfoagents",oauth.oauthOther, routes.getMasterInfoAgents); 
+  
+  // Leaderboard para RL. 
+  router.post("/getinfoleaderboardrl",oauth.oauthOther, routes.getInfoLeaderBoardrl); 
 
 
 

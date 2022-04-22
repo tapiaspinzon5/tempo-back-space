@@ -132,7 +132,10 @@ export const TLChallengeAssignment = ({ count }) => {
 					activities.data[0].Challenges[0].Id
 				);
 				if (user && user.status === 200 && user.data.length > 1) {
-					setUsers(user.data[0].Agents);
+					const fUsers = await user.data[0].Agents.filter(
+						(us) => us.Status === 1
+					);
+					setUsers(fUsers);
 					setLoading(false);
 				} else if (user.data === "UnauthorizedError") {
 					dispatch(logoutAction());
@@ -174,7 +177,7 @@ export const TLChallengeAssignment = ({ count }) => {
 		setLoading(true);
 		const { value, checked } = e.target;
 		let tempChallenge = activity.map((challenge) =>
-			challenge.Description === value.split("-")[0]
+			challenge.Description === value.split("*")[0]
 				? { ...challenge, isChecked: checked }
 				: { ...challenge, isChecked: false }
 		);
@@ -187,9 +190,11 @@ export const TLChallengeAssignment = ({ count }) => {
 					challenge.push(el);
 				}
 			});
-			setActualActivity(challenge[0]);
-			setUsers(user.data[0].Agents);
+			const fUsers = await user.data[0].Agents.filter((us) => us.Status === 1);
+
+			setUsers(fUsers);
 			setLoading(false);
+			setActualActivity(challenge[0]);
 		} else if (user.data === "UnauthorizedError") {
 			dispatch(logoutAction());
 			navigate("/");
@@ -291,13 +296,19 @@ export const TLChallengeAssignment = ({ count }) => {
 							{!loadingC ? (
 								<BoxviewCh>
 									{!error ? (
-										activity?.map((act, index) => (
-											<TLChallengeCard
-												key={index}
-												challenge={act}
-												handleChallenge={handleChallenge}
-											/>
-										))
+										activity.length > 0 ? (
+											activity?.map((act, index) => (
+												<TLChallengeCard
+													key={index}
+													challenge={act}
+													handleChallenge={handleChallenge}
+												/>
+											))
+										) : (
+											<Typography variant="h5" fontWeight={300}>
+												All your teammates have been assigned this challenge
+											</Typography>
+										)
 									) : (
 										<Typography variant="h5" fontWeight={500}>
 											The Game Starts Soon
@@ -339,13 +350,19 @@ export const TLChallengeAssignment = ({ count }) => {
 							{!loading ? (
 								<Boxview>
 									{!error ? (
-										users.map((user, index) => (
-											<ShowUserActivity
-												key={index}
-												user={user}
-												handleUser={handleUser}
-											/>
-										))
+										users.length > 0 ? (
+											users.map((user, index) => (
+												<ShowUserActivity
+													key={index}
+													user={user}
+													handleUser={handleUser}
+												/>
+											))
+										) : (
+											<Typography variant="h5" fontWeight={500}>
+												All your teammates have been assigned this challenge
+											</Typography>
+										)
 									) : (
 										<Typography variant="h5" fontWeight={500}>
 											The Game Starts Soon

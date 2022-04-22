@@ -64,7 +64,7 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
   const { NameActivity, IdActivity, Status, Category } = activity;
   let context;
   if (type === "Activities") {
-    context = Category === "Activity" ? 1 : Category === "Challenge" ? 2 : 3;
+    context = Category === "Activity" ? 1 : Category === "Challenge" ? 1 : 3;
   } else {
     context = 2;
   }
@@ -81,7 +81,6 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
     setIme1(images[index]);
     // eslint-disable-next-line
   }, []);
-
   return (
     <BoxCard
       sx={
@@ -101,14 +100,14 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
       onMouseLeave={handleMouseLeave}
     >
       {showFloat &&
-        (type === "Challenges" ? (
-          <CardFloatChallengesDescription
+        (type === "Activities" ? (
+          <CardFloatDescription
             activity={activity}
             img1={img1}
             mousePos={mousePos}
           />
         ) : (
-          <CardFloatDescription
+          <CardFloatChallengesDescription
             activity={activity}
             img1={img1}
             mousePos={mousePos}
