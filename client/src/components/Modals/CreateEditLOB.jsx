@@ -144,13 +144,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 			idLob, /// id lob seleccionada
 			dataToSend.tlIdccms
 		);
-		/* console.log(data);
-		if (data && data.status === 200 && data.data.length > 0) {
-			return "ok";
-		} else {
-			return "Jodido";
-		} */
-		if (data && data.status === 200 && data.data.length > 0) {
+		if (data && data.status === 200) {
 			MySwal.fire({
 				title: <p>{context === 2 ? "Saved!" : "Created LOB successfully!"}</p>,
 				icon: "success",
@@ -217,29 +211,6 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 				}).then((result) => {
 					if (result.isConfirmed) {
 						submit(2, dataLOB.idLob);
-						/* if (res === "ok") {
-							MySwal.fire({
-								title: <p>Saved!</p>,
-								icon: "success",
-								confirmButtonText: "Accept",
-								allowOutsideClick: false,
-							}).then((resultado) => {
-								if (resultado.value) {
-									window.location.reload();
-								}
-							});
-						} else {
-							MySwal.fire({
-								title: <p>Send Error!</p>,
-								icon: "error",
-								confirmButtonText: "Accept",
-								allowOutsideClick: false,
-							}).then((resultado) => {
-								if (resultado.value) {
-									window.location.reload();
-								}
-							});
-						} */
 					} else if (result.isDenied) {
 						Swal.fire("Changes are not saved", "", "info");
 					}
