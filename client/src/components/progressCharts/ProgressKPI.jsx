@@ -30,8 +30,6 @@ const ProgressKPI = ({ kpi }) => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(arrowPos);
-
   return (
     <Box display="flex" alignItems="center">
       <MainProgress>
