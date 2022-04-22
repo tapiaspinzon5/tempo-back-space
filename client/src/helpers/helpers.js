@@ -288,8 +288,6 @@ export const targetKPI = (kpi) => {
     default:
       break;
   }
-
-  console.log(kpi);
   return target;
 };
 
