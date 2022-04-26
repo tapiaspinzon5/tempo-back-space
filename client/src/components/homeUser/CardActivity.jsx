@@ -7,7 +7,6 @@ const CardCategory = styled(Grid)(({ theme }) => ({
   background: "#f2fafa",
   borderRadius: "12px",
   maxWidth: "391px",
-  //margin: "1rem",
   minHeight: "200px",
   display: "flex",
   flexDirection: "column",

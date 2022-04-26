@@ -7,19 +7,17 @@ import CardFloatChallengesDescription from "./CardFloatChallengesDescription";
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.625rem",
   borderRadius: "10px",
-  //overflowX: "clip",
+
   "&:hover": {
     boxShadow: " 3px 3px 5px #A2A2A2",
     opacity: 1,
   },
 }));
 const CardViewer = styled(Box)(({ theme }) => ({
-  //height: "14rem",
   height: "9rem",
   maxWidth: "19.625rem",
   boxShadow: "1px 1px 5px #A2A2A2",
   borderRadius: "10px 10px 0 0 ",
-  //background: "#F9F9F9 0% 0% no-repeat padding-box",
 
   display: "flex",
   flexDirection: "column",
@@ -76,15 +74,15 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
     setShowFloat(false);
   };
 
-	useEffect(() => {
-		const crypto = window.crypto;
-		var array = new Uint32Array(1);
-		const index = Math.floor(
-			(crypto.getRandomValues(array)[0] / 10000000000) * images.length
-		);
-		setIme1(images[index]);
-		// eslint-disable-next-line
-	}, []);
+  useEffect(() => {
+    const crypto = window.crypto;
+    var array = new Uint32Array(1);
+    const index = Math.floor(
+      (crypto.getRandomValues(array)[0] / 10000000000) * images.length
+    );
+    setIme1(images[index]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <BoxCard

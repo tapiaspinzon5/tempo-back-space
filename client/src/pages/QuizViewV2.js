@@ -46,13 +46,11 @@ export const QuizViewV2 = ({ setNavView }) => {
   const [answer, setAnswer] = useState([]);
   const [next, setNext] = useState(0);
   const theme = useTheme();
-  //const [validation, setValidation] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
       const quiz = await getExam(idquiz);
       setQuiz(quiz.data);
-      //setValidation(quiz.data);
     };
 
     getData();
@@ -126,7 +124,6 @@ export const QuizViewV2 = ({ setNavView }) => {
       });
     }
   };
-  console.log(quiz);
 
   return (
     <ContentBox>

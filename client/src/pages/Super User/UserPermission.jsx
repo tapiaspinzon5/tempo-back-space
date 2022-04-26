@@ -86,8 +86,7 @@ const UserPermission = () => {
         <Grid item xs={12} md={6}>
           <Box display="flex" alignItems="flex-end" height="5rem">
             <ButtonAction onClick={() => handleOpen()}>New User</ButtonAction>
-            {/* <ButtonAction>Select All</ButtonAction>
-            <ButtonAction>Delete User</ButtonAction> */}
+
             <ButtonAction onClick={() => setPermissions(!permissions)}>
               Permissions
             </ButtonAction>

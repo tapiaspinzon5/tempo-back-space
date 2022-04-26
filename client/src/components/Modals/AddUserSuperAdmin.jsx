@@ -46,21 +46,16 @@ const BoxPermissions = styled(Box)(() => ({
 
 const AddUserSuperAdmin = ({ newUser, setNewUser, permissions }) => {
   const [idccms, setIdccms] = useState("");
-  const handleSearchUser = () => {
-    console.log("buscando Agente");
-  };
+  const handleSearchUser = () => {};
 
   const addUser = (e) => {
     e.preventDefault();
-    console.log("agregando suario");
   };
   return (
     <Box>
       <Typography variant="h6">Add New User</Typography>
       <form onSubmit={addUser}>
-        <Box
-        //display="flex" alignItems="center" justifyContent="space-between"
-        >
+        <Box>
           <Box marginBottom="1rem">
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">

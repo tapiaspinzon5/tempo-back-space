@@ -21,9 +21,7 @@ const ButtonCard = styled(Button)(() => ({
 
 const CardButton = ({ title, subtitle, icon }) => {
   return (
-    <ButtonCard
-    //  sx={selected && { boxShadow: "1px 1px 5px #A2A2A2" }}
-    >
+    <ButtonCard>
       <Box>
         <Typography variant="body1">{title}</Typography>
         <Typography variant="body2">{subtitle}</Typography>

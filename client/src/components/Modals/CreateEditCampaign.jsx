@@ -54,7 +54,7 @@ const BoxHead = styled(Box)(() => ({
 
 const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
   const [next, setNext] = useState(false);
-  console.log(dataCampaign);
+
   return (
     <Box>
       <Typography

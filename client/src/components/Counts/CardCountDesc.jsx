@@ -15,7 +15,6 @@ const CardCount = styled(Box)(({ theme }) => ({
   alignItems: "center",
 
   img: {
-    //background: "blue",
     height: "104px",
     width: "104px",
     borderRadius: "50%",

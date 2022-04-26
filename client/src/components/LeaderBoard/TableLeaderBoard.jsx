@@ -5,11 +5,9 @@ import { Avatar, Grid, styled } from "@mui/material";
 import avatar from "../../assets/temp-image/avatar.png";
 
 const BoxTable = styled(Grid)(() => ({
-  //background: "red",
   height: "32rem",
   padding: "1rem",
   "& .super-app-theme--header": {
-    //backgroundColor: "#E8E8E8",
     borderRadius: "3px",
     height: "2rem",
     color: "#3047b0",
@@ -23,7 +21,6 @@ const BoxTable = styled(Grid)(() => ({
 }));
 
 const TableLeaderBoard = ({ width, data, xpOrkpi }) => {
- 
   const columns = [
     {
       field: "rank",

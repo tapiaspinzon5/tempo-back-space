@@ -3,7 +3,6 @@ import { Box, styled } from "@mui/material";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
 
 const BoxPermissions = styled(Box)(() => ({
-  //border: "1px solid #000",
   height: "4rem",
   width: "500px",
   borderRadius: "10px",

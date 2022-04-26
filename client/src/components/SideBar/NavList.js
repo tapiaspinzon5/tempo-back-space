@@ -48,6 +48,7 @@ const ContentList = styled(List)(({ theme }) => ({
 }));
 
 export const NavList = ({ open, match, userData }) => {
+  const linkActive = false;
   const navigate = useNavigate();
 
   return (
@@ -99,28 +100,44 @@ export const NavList = ({ open, match, userData }) => {
                   {open && match && <Typography>Library</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/missionassignment")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/missionassignment")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <SiHtmlacademy size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Mission Assignment</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/leaderboard")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/analytics")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/analytics")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/quiziformation")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/quiziformation")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <BsWindowSidebar size={22} color="#fff" />
                   </LIcon>
@@ -140,13 +157,21 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Agent Upload</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/leaderboard")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/analytics")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/analytics")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
@@ -168,25 +193,41 @@ export const NavList = ({ open, match, userData }) => {
           <>
             {userData === "Super Admin" && (
               <>
-                <LItem button onClick={() => navigate("/accountcreation")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/accountcreation")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <AiOutlineFileAdd size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Account Creation</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/setuserpermissions")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/setuserpermissions")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <FiKey size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>User Permissions</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/leaderboard")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/leaderboard")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/analytics")}>
+                <LItem
+                  button
+                  onClick={() => navigate("/analytics")}
+                  disabled={linkActive}
+                >
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
@@ -253,14 +294,22 @@ export const NavList = ({ open, match, userData }) => {
               {open && match && <Typography>Mission Assignment</Typography>}
             </LItem>
 
-            <LItem button onClick={() => navigate("/leaderboard")}>
+            <LItem
+              button
+              onClick={() => navigate("/leaderboard")}
+              disabled={linkActive}
+            >
               <LIcon>
                 <IoTrendingUpSharp size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>LeaderBoard</Typography>}
             </LItem>
 
-            <LItem button onClick={() => navigate("/analytics")}>
+            <LItem
+              button
+              onClick={() => navigate("/analytics")}
+              disabled={linkActive}
+            >
               <LIcon>
                 <FiPieChart size={25} color="#fff" />
               </LIcon>

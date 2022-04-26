@@ -85,26 +85,7 @@ const ActivitiesView = () => {
 		context: 3,
 	});
 
-	/* useEffect(() => {
-		setLoading(true);
-		const context = activities.context;
-		setNoData("");
-		const getData = async () => {
-			const quizes = await loadUserActivities( context);
-			if (quizes && quizes.status === 200 && quizes.data.Quices.length > 0) {
-				if (quizes.data.Quices) {
-					setQuizUser(quizes.data.Quices);
-					setActualQuizUser(quizes.data.Quices);
-				}
-				setLoading(false);
-			} else if (quizes.data === "UnauthorizedError") {
-				dispatch(logoutAction());
-				navigate("/");
-			}
-		};
-		getData();
-		// eslint-disable-next-line
-	}, []); */
+
 
 	useEffect(() => {
 		setUserActivities([]);

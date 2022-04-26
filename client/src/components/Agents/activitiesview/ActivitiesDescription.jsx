@@ -129,21 +129,6 @@ const ActivitiesDescription = () => {
                 </Typography>
               </Box>
             </BoxRewards>
-
-            {/* <RewardBox>
-            <Box display="flex" alignItems="center">
-              <img src={epicoins} alt="" />
-              <Typography variant="body1" color="initial">
-                {activity.RewardEpicoins ? activity.RewardEpicoins : 0} Epicoin
-              </Typography>
-            </Box>
-            <Box display="flex" alignItems="center">
-              <img src={xpIco} alt="" />
-              <Typography variant="body1" color="initial">
-                {activity.RewardPoints ? activity.RewardPoints : 0} XP
-              </Typography>
-            </Box>
-          </RewardBox> */}
           </GridSection>
         </BoxBody>
         <Footer />
