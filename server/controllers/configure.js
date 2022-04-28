@@ -2,8 +2,7 @@ const redirect = require("../controllers/redirect.controller");
 require("dotenv").config();
 
 async function configure(call) {
-
-  let idKey =  Buffer.from(process.env.IDKEY, 'base64').toString()
+  let idKey = Buffer.from(process.env.IDKEY, "base64").toString();
 
   let body = {
     key: idKey,

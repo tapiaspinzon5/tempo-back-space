@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -6,10 +6,21 @@ import { Box, styled } from "@mui/system";
 import XLSX from "xlsx";
 import { validateFields, validateHeaders } from "../../helpers/helpers";
 import { uploadQuizes } from "../../utils/api";
-import { Button, IconButton, Modal, Typography } from "@mui/material";
-import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from "@mui/material";
+import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
 import { BiTrash } from "react-icons/bi";
 import FormSetupQuiz from "./FormSetupQuiz";
+import MultiOptionQuestion from "./MultiOptionQuestion";
+import TreuFalseQuestion from "./TreuFalseQuestion";
 
 const MySwal = withReactContent(Swal);
 
@@ -79,6 +90,7 @@ const BoxSteeper = styled(Box)(() => ({
     display: "flex",
     listStyle: "none",
     margin: "2rem 0",
+    padding: 0,
     li: {
       height: "5px",
       width: "30%",
@@ -93,6 +105,9 @@ const UploadQuiz = ({ setLoading }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
   const [open, setOpen] = useState(false);
+  const [steep, setSteep] = useState(0);
+  const [categoryStep, setCategoryStep] = useState([]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -114,7 +129,7 @@ const UploadQuiz = ({ setLoading }) => {
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        
+
         const data = XLSX.utils
           .sheet_to_json(ws, { header: 1 })
           .map((colum) => {
@@ -215,6 +230,33 @@ const UploadQuiz = ({ setLoading }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleNext = () => {
+    if (steep < categoryStep.length - 1) {
+      setSteep((prev) => prev + 1);
+    }
+  };
+  const handleBack = () => {
+    if (steep > 0) {
+      setSteep((prev) => prev - 1);
+    }
+  };
+
+  useEffect(() => {
+    const handleSteppep = () => {
+      const range = (start, stop, step) =>
+        Array.from(
+          { length: (stop - start) / step + 1 },
+          (_, i) => start + i * step
+        );
+
+      setCategoryStep(range(0, dataQuiz.quizQuestions, 1));
+    };
+
+    handleSteppep();
+  }, [dataQuiz.quizQuestions]);
+
+  console.log(steep, categoryStep.length);
   return (
     <BoxUpQuiz>
       <Modal
@@ -226,57 +268,108 @@ const UploadQuiz = ({ setLoading }) => {
         <ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
           <BoxSteeper>
             <ul>
-              <li style={{ background: "#3047B0" }}></li>
-              <li></li>
-              <li></li>
+              {categoryStep.map((step) => (
+                <li
+                  style={steep === step ? { background: "#3047B0" } : {}}
+                  key={step}
+                ></li>
+              ))}
             </ul>
           </BoxSteeper>
-          <Box>
-            <Typography variant="h6" color="#3047B0" fontWeight={700}>
-              Upload Quiz
-            </Typography>
-            <BoxUpFile>
-              <form onSubmit={uploadFile}>
-                <label htmlFor="quiz">
-                  {fileName && fileName.name}
-                  {fileName ? (
-                    <Box>
-                      <ButtonActionBlue type="submit">Upload</ButtonActionBlue>
-                      <IconButton onClick={() => setFileName(null)}>
-                        <BiTrash />
-                      </IconButton>
-                    </Box>
-                  ) : (
-                    "Upload Quiz File"
-                  )}
-                </label>
-                <input
-                  type="file"
-                  id="quiz"
-                  name="quiz"
-                  onChange={(e) => setFileName(e.target.files[0])}
-                  // onChange={(e) => uploadFile(e)}
+
+          {steep > 0 ? (
+            <>
+              <Box display="flex" justifyContent="space-between">
+                <FormControl sx={{ width: " 48%" }}>
+                  <InputLabel id="questionType-label">Question Type</InputLabel>
+                  <Select
+                    labelId="questionType-label"
+                    name="questionType"
+                    value={dataQuiz.questionType || ""}
+                    label="Question Type"
+                    onChange={handleQuizSetup}
+                    required
+                  >
+                    <MenuItem value="trueFalse">True or False</MenuItem>
+                    <MenuItem value="multipleChoice">Multiple Choice</MenuItem>
+                  </Select>
+                </FormControl>
+                <InputText
+                  name="quizName"
+                  label="Quiz Name"
+                  variant="outlined"
+                  onChange={handleQuizSetup}
+                  value={dataQuiz.quizName}
+                  sx={{ width: " 48%" }}
                 />
-              </form>
-            </BoxUpFile>
-            <Typography variant="h7" color="#3047B0" fontWeight={700}>
-              Complete the form
-            </Typography>
-          </Box>
-          <FormSetupQuiz
-            handleQuizSetup={handleQuizSetup}
-            fileName={fileName}
-            dataQuiz={dataQuiz}
-          />
+              </Box>
+              {dataQuiz.questionType === "trueFalse" ? (
+                <TreuFalseQuestion steep={steep} />
+              ) : (
+                <MultiOptionQuestion steep={steep} />
+              )}
+            </>
+          ) : (
+            <>
+              <Box>
+                <Typography variant="h6" color="#3047B0" fontWeight={700}>
+                  Upload Quiz
+                </Typography>
+                <BoxUpFile>
+                  <form onSubmit={uploadFile}>
+                    <label htmlFor="quiz">
+                      {fileName && fileName.name}
+                      {fileName ? (
+                        <Box>
+                          <ButtonActionBlue type="submit">
+                            Upload
+                          </ButtonActionBlue>
+                          <IconButton onClick={() => setFileName(null)}>
+                            <BiTrash />
+                          </IconButton>
+                        </Box>
+                      ) : (
+                        "Upload Quiz File"
+                      )}
+                    </label>
+                    <input
+                      type="file"
+                      id="quiz"
+                      name="quiz"
+                      onChange={(e) => setFileName(e.target.files[0])}
+                      // onChange={(e) => uploadFile(e)}
+                    />
+                  </form>
+                </BoxUpFile>
+                <Typography variant="h7" color="#3047B0" fontWeight={700}>
+                  Complete the form
+                </Typography>
+              </Box>
+              <FormSetupQuiz
+                handleQuizSetup={handleQuizSetup}
+                fileName={fileName}
+                dataQuiz={dataQuiz}
+              />
+            </>
+          )}
           <Box display="flex" justifyContent="end" width="100%">
-            {/* <ButtonActionBlue sx={{ marginRight: "2rem" }}>
-              Back
-            </ButtonActionBlue> */}
+            {steep > 0 && (
+              <ButtonActionBlue
+                sx={{ marginRight: "2rem", width: "8rem" }}
+                onClick={handleBack}
+              >
+                Back
+              </ButtonActionBlue>
+            )}
+
             <ButtonActionBlue
               //disabled={fileName ? true : false}
-              disabled
+              sx={{ width: "8rem" }}
+              onClick={() => {
+                handleNext();
+              }}
             >
-              Next
+              {steep < categoryStep.length - 1 ? "Next" : "Send Mission"}
             </ButtonActionBlue>
           </Box>
         </ModalBox>

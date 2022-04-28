@@ -63,32 +63,34 @@ const UpQuiz = () => {
               <UpQuizModal handleClose={handleClose} template={template} />
             </ModalBox>
           </Modal>
-          <Header />
+          <Box>
+            <Header />
 
-          <Box
-            width="100%"
-            background="red"
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h5" fontWeight="bold" mt={4}>
-              Missions Management Section
-            </Typography>
-            <Box display="flex">
-              <Box>
-                <ButtonAction onClick={() => setShowCat(!showCat)} disabled>
-                  Set Categories
+            <Box
+              width="100%"
+              background="red"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Typography variant="h5" fontWeight="bold" mt={4}>
+                Missions Management Section
+              </Typography>
+              <Box display="flex">
+                <Box>
+                  <ButtonAction onClick={() => setShowCat(!showCat)}>
+                    Set Categories
+                  </ButtonAction>
+                  {showCat && <CardCateroriesQuiz />}
+                </Box>
+                <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
+                  Download Quiz Template
                 </ButtonAction>
-                {showCat && <CardCateroriesQuiz />}
               </Box>
-              <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
-                Download Quiz Template
-              </ButtonAction>
             </Box>
           </Box>
 
-          <Grid container spacing={3}>
+          <Grid container spacing={3} sx={{ minHeight: "60vh" }}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <UploadQuiz setLoading={setLoading} />
             </Grid>
