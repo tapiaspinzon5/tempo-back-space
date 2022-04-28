@@ -13,7 +13,7 @@ if (process.env.ENV == "Production" || process.env.ENV == "Development") {
 			driver: process.env.DRIVER,
 			options: {
 				instanceName: Buffer.from(process.env.INSTANCE, "base64").toString(),
-				database: Buffer.from(process.env.DATABASE, "base64").toString(),
+				database: Buffer.from(process.env.DATABASESPACE, "base64").toString(),
 				rowCollectionOnDone: true,
 				rowCollectionOnRequestCompletion: true,
 				connectTimeout: 30000,
