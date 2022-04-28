@@ -104,6 +104,12 @@ module.exports = (router) => {
 
   router.post("/getrlqacampaignleaders",oauth.oauthOther, routes.getrlqaCampaignLeaders);
 
+  router.post("/postcreatecategory",oauth.oauthOther, routes.postCreateCategory);
+  
+  router.post("/postassignmission",oauth.oauthOther, routes.postAssignMission);
+  
+  router.post("/postinactivatemission",oauth.oauthOther, routes.postInactivateMission);
+
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
@@ -133,6 +139,7 @@ module.exports = (router) => {
   MapSpRouter("/sqldelete", "spDeleteCentral");
   MapSpRouter("/sqldelete", "spDeleteCentral");
   MapSpRouter("/sqlgetquiz", "spConsultaDetalleExamen");
+  MapSpRouter("/getmissionscategories", "spQueryExamCategories");
 
   function MapSpRouter(route, spName) {
     // router.post(route,  oauth.oauthOther, (req, res) =>
