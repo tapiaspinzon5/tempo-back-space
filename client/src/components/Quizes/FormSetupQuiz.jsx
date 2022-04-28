@@ -19,7 +19,7 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         variant="outlined"
         onChange={handleQuizSetup}
         value={dataQuiz.quizName}
-        disabled={fileName ? true : false}
+        disabled
         required
       />
       <InputText
@@ -28,7 +28,7 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         variant="outlined"
         onChange={handleQuizSetup}
         value={dataQuiz.quizDescription}
-        disabled={fileName ? true : false}
+        disabled
         required
       />
       <FormControl fullWidth>
@@ -39,7 +39,7 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
           value={dataQuiz.quizCategory || ""}
           label="Category"
           onChange={handleQuizSetup}
-          disabled={fileName ? true : false}
+          disabled
           required
         >
           <MenuItem value={10}>Ten</MenuItem>
@@ -54,7 +54,7 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         type="number"
         onChange={handleQuizSetup}
         value={dataQuiz.quizTarget}
-        disabled={fileName ? true : false}
+        disabled
         required
       />
       <InputText
@@ -64,7 +64,7 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         type="number"
         onChange={handleQuizSetup}
         value={dataQuiz.quizQuestions}
-        disabled={fileName ? true : false}
+        disabled
         required
       />
     </Box>

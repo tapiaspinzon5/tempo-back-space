@@ -16,7 +16,7 @@ const MainHomevideo = styled(Grid)(({ theme }) => ({
   marginTop: "30px",
 }));
 
-export const VideoView = () => {
+export const VideoView = ({ setNavView }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const idccms = userData.Idccms;
   const [next, setNext] = useState(true);
@@ -29,30 +29,32 @@ export const VideoView = () => {
       sessionStorage.setItem("userTP", JSON.stringify(data));
       welcomeToEGP(idccms);
     };
-    await videoOk();
+    videoOk();
     switch (userData.Role) {
       case "Agent":
-        await navigate(`/homeusers`);
+        setNavView(true);
+        navigate(`/homeusers`);
         break;
       case "Team Leader":
-        await navigate(`/hometl`);
+        setNavView(true);
+        navigate(`/hometl`);
         break;
       case "QA Lead":
-        await navigate(`/homeqal`);
+        navigate(`/homeqal`);
         break;
       case "Operation Manager":
-        await navigate(`/homeom`);
+        navigate(`/homeom`);
         break;
       case "Super Admin":
-        await navigate(`/homesa`);
+        navigate(`/homesa`);
         break;
       case "Reporting Lead":
-        await navigate(`/homerl`);
+        navigate(`/homerl`);
         break;
       default:
         break;
     }
-    await window.location.reload();
+    window.location.reload();
   };
   return (
     <MainHomevideo>

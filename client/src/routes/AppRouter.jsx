@@ -98,6 +98,7 @@ const AppRouter = () => {
         </div>
       );
   };
+
   useEffect(() => {
     if (idccms > 0) {
       dispatch(headerDataAction(idccms));
@@ -105,6 +106,17 @@ const AppRouter = () => {
     }
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (
+      (userData?.Role === "Agent" || userData?.Role === "Team Leader") &&
+      userData?.NumberLogins === 1
+    ) {
+      setNavView(false);
+    }
+    // eslint-disable-next-line
+  }, [userData]);
+
   useEffect(() => {
     if (notification?.title) {
       notify();
@@ -127,25 +139,30 @@ const AppRouter = () => {
         pauseOnHover
       />
       <MainApp sx={{ bgcolor: "background.default" }}>
-        {userData?.NumberLogins > 1 && userData?.Role && navView && (
-          <>
-            <Navbar
-              seeProfile={seeProfile}
-              setSeeProfile={setSeeProfile}
-              avatar={headerData?.AvatarProfile}
-              setNavLong={setNavLong}
-            />
-            {seeProfile && (
-              <OptionsProfile
+        {
+          //userData?.NumberLogins > 1 &&
+          userData?.Role && navView && (
+            <>
+              <Navbar
+                seeProfile={seeProfile}
                 setSeeProfile={setSeeProfile}
-                profile={headerData}
-                teamlead={headerDataTl}
-                navLong={navLong}
+                avatar={headerData?.AvatarProfile}
+                setNavLong={setNavLong}
               />
-            )}
-          </>
-        )}
-        {userData?.NumberLogins === 1 && <VideoView />}
+              {seeProfile && (
+                <OptionsProfile
+                  setSeeProfile={setSeeProfile}
+                  profile={headerData}
+                  teamlead={headerDataTl}
+                  navLong={navLong}
+                />
+              )}
+            </>
+          )
+        }
+        {userData?.NumberLogins === 1 &&
+          (userData?.Role === "Agent" || userData?.Role === "Team Leader") &&
+          userData?.Role && <VideoView setNavView={setNavView} />}
 
         <Routes>
           {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
@@ -185,25 +202,21 @@ const AppRouter = () => {
             </>
           )}
 
-          {userData?.NumberLogins > 1 &&
-            userData?.Role === "Operation Manager" && (
-              <>
-                <Route path="/" element={<Navigate to="/homeom" />} />
-                <Route path="/homeom" element={<HomeOM count={count} />} />
-                <Route
-                  path="/rolemanagement"
-                  element={<RoleManagementSecttion />}
-                />
-                <Route
-                  path="/lobmanagement"
-                  element={<LOBManagementSection />}
-                />
-                <Route path="/upcampaign" element={<UpCampaign />} />
-                <Route path="/leaderboard" element={<LeaderBoardRL />} />
-                <Route path="/analytics" element={<AnalyticsRL />} />
-              </>
-            )}
-          {userData?.NumberLogins > 1 && userData?.Role === "QA Lead" && (
+          {userData?.Role === "Operation Manager" && (
+            <>
+              <Route path="/" element={<Navigate to="/homeom" />} />
+              <Route path="/homeom" element={<HomeOM count={count} />} />
+              <Route
+                path="/rolemanagement"
+                element={<RoleManagementSecttion />}
+              />
+              <Route path="/lobmanagement" element={<LOBManagementSection />} />
+              <Route path="/upcampaign" element={<UpCampaign />} />
+              <Route path="/leaderboard" element={<LeaderBoardRL />} />
+              <Route path="/analytics" element={<AnalyticsRL />} />
+            </>
+          )}
+          {userData?.Role === "QA Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homeqal" />} />
               <Route path="/upquiz" element={<UpQuiz />} />
@@ -217,7 +230,7 @@ const AppRouter = () => {
               />
             </>
           )}
-          {userData?.NumberLogins > 1 && userData?.Role === "Reporting Lead" && (
+          {userData?.Role === "Reporting Lead" && (
             <>
               <Route path="/" element={<Navigate to="/homerl" />} />
               <Route path="/homerl" element={<HomeRL count={count} />} />
@@ -228,7 +241,7 @@ const AppRouter = () => {
               <Route path="/analytics" element={<AnalyticsRL />} />
             </>
           )}
-          {userData?.NumberLogins > 1 && userData?.Role === "Super Admin" && (
+          {userData?.Role === "Super Admin" && (
             <>
               <Route path="/" element={<Navigate to="/homesa" />} />
               <Route path="/homesa" element={<HomeSA count={count} />} />

@@ -363,7 +363,7 @@ const UploadQuiz = ({ setLoading }) => {
             )}
 
             <ButtonActionBlue
-              //disabled={fileName ? true : false}
+              disabled
               sx={{ width: "8rem" }}
               onClick={() => {
                 handleNext();
