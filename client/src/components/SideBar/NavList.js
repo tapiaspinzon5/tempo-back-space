@@ -48,7 +48,7 @@ const ContentList = styled(List)(({ theme }) => ({
 }));
 
 export const NavList = ({ open, match, userData }) => {
-  const linkActive = true;
+  const linkActive = false;
   const navigate = useNavigate();
 
   return (

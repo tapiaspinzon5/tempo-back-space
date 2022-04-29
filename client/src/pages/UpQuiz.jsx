@@ -27,7 +27,7 @@ const UpQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [template, setTemplate] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [showCat, setShowCat] = React.useState(false);
+  const [showCat, setShowCat] = React.useState(true);
   const [misQuizes, setMisQuizes] = useState([]);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const UpQuiz = () => {
               </Typography>
               <Box display="flex">
                 <Box>
-                  <ButtonAction onClick={() => setShowCat(!showCat)} disabled>
+                  <ButtonAction onClick={() => setShowCat(!showCat)}>
                     Set Categories
                   </ButtonAction>
                   {showCat && <CardCateroriesQuiz />}
