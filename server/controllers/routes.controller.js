@@ -58,7 +58,6 @@ let responsep = (tipo, req, res, resultado, cookie) => {
     } else if (tipo == 2) {
       console.log("Error at:", new Date(), "res: ", resultado);
       res.status(400).json(resultado);
-      // reject('Paila')
     }
   });
 };
@@ -1023,6 +1022,68 @@ exports.getrlqaCampaignLeaders = async (req, res) => {
     .query(
       "spQueryManagementOP",
       parametros({ idccms: req.query.idccms}, "spQueryManagementOP")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postCreateCategory = async (req, res) => {
+
+  const {nameCategory} = req.body;
+  sql
+    .query(
+      "spInsertExamCategory",
+      parametros({ idccms: req.query.idccms, nameCategory}, "spInsertExamCategory")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postAssignMission = async (req, res) => {
+
+  const {context, idccmsAssigned, idMission} = req.body;
+  let rows = [];
+  let i = 0;
+
+  // Armo tabla para la DB
+  idMission.forEach(mis => {
+    idccmsAssigned.forEach(id => {
+      i = i + 1;
+      rows.push([id,mis,i])
+    })
+  });
+
+  sql
+    .query(
+      "spInsertExamEmployee",
+      parametros({ idccms: req.query.idccms, context, rows}, "spInsertExamEmployee")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postInactivateMission = async (req, res) => {
+
+  const {idMission} = req.body;
+  sql
+    .query(
+      "spInactivateExam",
+      parametros({ idccms: req.query.idccms, idMission}, "spInactivateExam")
     )
     .then((result) => {
       responsep(1, req, res, result);

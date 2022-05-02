@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   IconButton,
   List,
   ListItem,
@@ -11,6 +10,7 @@ import {
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { FiEdit3, FiSave } from "react-icons/fi";
 import { ButtonAction } from "../../assets/styled/muistyled";
+import { addMissionCategories, getMissionsCategories } from "../../utils/api";
 
 const BoxCat = styled(Box)(() => ({
   width: "13rem",
@@ -44,7 +44,7 @@ const Categories = [
 
 const CardCateroriesQuiz = () => {
   const [edit, setEdit] = useState(null);
-  const [categories, setCategories] = useState(Categories);
+  const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState({});
 
   const handleEdit = (data) => {
@@ -54,7 +54,11 @@ const CardCateroriesQuiz = () => {
 
   const addCategory = () => {
     if (categories.length < 10) {
-      const cat = { idCat: Date.now(), NameCategory: "New Category" };
+      const cat = {
+        idCat: Date.now(),
+        NameCategory: "New Category",
+        add: true,
+      };
       setCategories([...categories, cat]);
       setNewCategory(cat);
       setEdit(cat.idCat);
@@ -63,14 +67,38 @@ const CardCateroriesQuiz = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setEdit(null);
-    const saveCategories = categories.map((cat) =>
-      cat.idCat === newCategory.idCat ? newCategory : cat
-    );
-    setCategories(saveCategories);
+    console.log(newCategory);
+    // const saveCategories = categories.map((cat) =>
+    //   cat.idCat === newCategory.idCat ? newCategory : cat
+    // );
+    // setCategories(saveCategories);
+
+    if (newCategory.add) {
+      console.log("agregando Categoria");
+      const postAndSave = await addMissionCategories({
+        nameCategory: newCategory.NameCategory,
+      });
+
+      console.log(postAndSave);
+    } else {
+      console.log("editando categoria");
+    }
+
     setNewCategory({});
   };
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const getData = await getMissionsCategories();
+      if (getData.status === 200) {
+        setCategories(getData.data);
+      }
+      console.log(getData);
+    };
+    getCategories();
+  }, []);
 
   return (
     <BoxCat>
@@ -78,7 +106,7 @@ const CardCateroriesQuiz = () => {
         <ButtonAction
           sx={{ width: "100%" }}
           onClick={addCategory}
-          disabled={categories.length === 10 ? true : false}
+          disabled={categories.length === 100 ? true : false}
         >
           {" "}
           <AiOutlineFileAdd size={25} /> Add Categories
@@ -93,45 +121,49 @@ const CardCateroriesQuiz = () => {
             mt: 2,
           }}
         >
-          {categories.map((value) => (
-            <ListItem
-              key={value.id}
-              disableGutters
-              secondaryAction={
-                value.idCat === edit ? (
-                  <IconButton onClick={handleSave}>
-                    <FiSave size={18} />
-                  </IconButton>
-                ) : (
-                  <IconButton onClick={() => handleEdit(value)}>
-                    <FiEdit3 size={18} />
-                  </IconButton>
-                )
-              }
-            >
-              <ListItemText
-                primary={
-                  <input
-                    type="text"
-                    id={value.idCat}
-                    disabled={value.idCat !== edit}
-                    placeholder="New"
-                    onChange={(e) =>
-                      setNewCategory({
-                        ...newCategory,
-                        NameCategory: e.target.value,
-                      })
-                    }
-                    value={
-                      value.idCat === edit
-                        ? newCategory.NameCategory
-                        : value.NameCategory
-                    }
-                  />
+          {categories.length > 0 ? (
+            categories?.map((value) => (
+              <ListItem
+                key={value.id}
+                disableGutters
+                secondaryAction={
+                  value.idCat === edit ? (
+                    <IconButton onClick={handleSave}>
+                      <FiSave size={18} />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => handleEdit(value)}>
+                      <FiEdit3 size={18} />
+                    </IconButton>
+                  )
                 }
-              />
-            </ListItem>
-          ))}
+              >
+                <ListItemText
+                  primary={
+                    <input
+                      type="text"
+                      id={value.idCat}
+                      disabled={value.idCat !== edit}
+                      placeholder="New"
+                      onChange={(e) =>
+                        setNewCategory({
+                          ...newCategory,
+                          NameCategory: e.target.value,
+                        })
+                      }
+                      value={
+                        value.idCat === edit
+                          ? newCategory.NameCategory
+                          : value.NameCategory
+                      }
+                    />
+                  }
+                />
+              </ListItem>
+            ))
+          ) : (
+            <p>no data</p>
+          )}
         </List>
       </Box>
     </BoxCat>
