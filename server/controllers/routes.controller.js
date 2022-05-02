@@ -1094,6 +1094,21 @@ exports.postInactivateMission = async (req, res) => {
     });
 };
 
+exports.getMissionsCategories = async (req, res) => {
+
+  sql
+    .query(
+      "spQueryExamCategories",
+      parametros({ idccms: req.query.idccms}, "spQueryExamCategories")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
