@@ -152,6 +152,13 @@ let assignActivitiesTLTable = [
 ];
 
 let tlIdccmsArray = [{ name: "identTL", type: TYPES.Int }];
+
+let assignMissionsQATable = [
+	{ name: "Ident", type: TYPES.Int },
+	{ name: "idExamLobTeam", type: TYPES.Int },
+	{ name: "idRegistry", type: TYPES.Int },
+];
+
 exports.parametros = (req, tipo) => {
 	switch (tipo) {
 		case "spInsertCentral":
@@ -386,6 +393,30 @@ exports.parametros = (req, tipo) => {
 
 		case "spQueryManagementOP":
 			return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+		case "spQueryExamCategories":
+			return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+		case "spInsertExamCategory":
+			return parametrizacion([
+				new SpParam("ident", req.idccms, TYPES.Int),
+				new SpParam("Context", req.context, TYPES.Int),
+				new SpParam("idCategory", req.idCategory, TYPES.Int),
+				new SpParam("NameCategory", req.nameCategory, TYPES.VarChar),
+			]);
+
+		case "spInsertExamEmployee":
+			return parametrizacion([
+				new SpParam("ident", req.idccms, TYPES.Int),
+				new SpParam("context", req.context, TYPES.Int),
+				SpParamTable2("table", assignMissionsQATable, req.rows),
+			]);
+
+		case "spInactivateExam":
+			return parametrizacion([
+				new SpParam("ident", req.idccms, TYPES.Int),
+				new SpParam("idExamen", req.idMission, TYPES.Int),
+			]);
 
 		// Casos de Actividades
 		case "spBgWelcomeEGP":

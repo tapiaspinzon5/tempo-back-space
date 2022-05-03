@@ -4,7 +4,7 @@ const config = require('../properties/properties').valor;
 
 exports.jwt = () => {
     const secret  = process.env.SECRET;
-    return expressJwt({ secret })
+    return expressJwt({ secret,  algorithms: ["HS256"], })
     .unless({
         path: [
             '/api/ccmslogin',

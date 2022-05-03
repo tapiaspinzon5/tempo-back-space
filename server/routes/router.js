@@ -104,6 +104,14 @@ module.exports = (router) => {
 
   router.post("/getrlqacampaignleaders",oauth.oauthOther, routes.getrlqaCampaignLeaders);
 
+  router.post("/postcreatecategory",oauth.oauthOther, routes.postCreateCategory);
+  
+  router.post("/postassignmission",oauth.oauthOther, routes.postAssignMission);
+  
+  router.post("/postinactivatemission",oauth.oauthOther, routes.postInactivateMission);
+
+  router.post("/getmissionscategories",oauth.oauthOther, routes.getMissionsCategories);
+
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
