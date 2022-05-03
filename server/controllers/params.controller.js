@@ -525,6 +525,9 @@ exports.parametros = (req, tipo) => {
     case "spQueryExamCategories":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
+    case "spQueryExamCategories":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
     case "spInsertExamCategory":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
