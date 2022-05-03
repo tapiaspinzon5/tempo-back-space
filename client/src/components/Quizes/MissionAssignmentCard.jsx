@@ -1,48 +1,62 @@
 import React from "react";
-import { Box, styled, Typography } from "@mui/material";
+import {
+	Box,
+	styled,
+	Typography,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+} from "@mui/material";
+import { BsClock } from "react-icons/bs";
 
-const CardUser = styled(Box)(() => ({
-  background: "#fff",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "1rem",
-  borderRadius: "20px",
-  marginBottom: "3px",
-  color: "#3047b0",
+const CardMission = styled(Box)(() => ({
+	background: "#fff",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
+	padding: "1rem",
+	borderRadius: "20px",
+	marginBottom: "3px",
+	color: "#3047b0",
 }));
-const MissionAssignmentCard = ({ mission, handleMissions }) => {
-  return (
-    <CardUser>
-      <input
-        type="checkbox"
-        className="checkBox"
-        name={mission?.QuizName}
-        checked={mission?.isChecked || false}
-        onChange={handleMissions}
-      />
-      <Box width="55%">
-        <Typography variant="body1">{mission.QuizName}</Typography>
-        <Typography variant="caption">topic</Typography>
-      </Box>
-      <Box display="flex" alignItems="center" flexDirection="column">
-        <Box display="flex" alignItems="center">
-          <Typography variant="caption" marginRight={1}>
-            5
-          </Typography>
-        </Box>
-        <Typography variant="caption">Level</Typography>
-      </Box>
-      <Box display="flex" alignItems="center" flexDirection="column">
-        <Box display="flex" alignItems="center">
-          <Typography variant="caption" marginRight={1}>
-            algo
-          </Typography>
-        </Box>
-        <Typography variant="caption">Exp</Typography>
-      </Box>
-    </CardUser>
-  );
+const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
+	return (
+		<CardMission>
+			<input
+				type="checkbox"
+				className="checkBox"
+				name={mission?.missionName}
+				checked={mission?.isChecked || false}
+				onChange={handleMissions}
+			/>
+			<Box width="55%">
+				<Typography variant="body1">{mission.missionName}</Typography>
+			</Box>
+			<Box display="flex" alignItems="center">
+				<BsClock size={20} color="#3047B0" />
+			</Box>
+			<Box display="flex" alignItems="center">
+				<Typography variant="caption" marginRight={1}>
+					Time
+				</Typography>
+			</Box>
+			<FormControl sx={{ width: "25%", height: "50%" }}>
+				<InputLabel id="demo-simple-select-label">Time</InputLabel>
+				<Select
+					labelId="demo-simple-select-label"
+					id="demo-simple-select"
+					value={mission.time}
+					label="Assignment Time"
+					onChange={(e) => handleTime(e, mission.missionName)}
+				>
+					<MenuItem value={"daily"}>Daily</MenuItem>
+					<MenuItem value={"monthly"}>Monthly</MenuItem>
+					<MenuItem value={"weekly"}>Weekly</MenuItem>
+				</Select>
+			</FormControl>
+		</CardMission>
+	);
 };
 
 export default MissionAssignmentCard;
