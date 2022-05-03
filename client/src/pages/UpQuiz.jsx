@@ -27,7 +27,7 @@ const UpQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [template, setTemplate] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [showCat, setShowCat] = React.useState(true);
+  const [showCat, setShowCat] = React.useState(false);
   const [misQuizes, setMisQuizes] = useState([]);
 
   useEffect(() => {

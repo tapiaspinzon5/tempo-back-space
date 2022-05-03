@@ -37,13 +37,6 @@ const BoxCat = styled(Box)(() => ({
   },
 }));
 
-//Pasar id, idccms, category
-const Categories = [
-  { idCat: 1, NameCategory: "Test1" },
-  { idCat: 2, NameCategory: "Test2" },
-  { idCat: 3, NameCategory: "Test3" },
-];
-
 const CardCateroriesQuiz = () => {
   const [edit, setEdit] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -92,15 +85,8 @@ const CardCateroriesQuiz = () => {
       const word = exist.includes(newName);
       if (word) {
         setError("There is a category with that name");
-      } else {
-        console.log(exist, "-", newName, "=", word);
+        return;
       }
-      //   // if (exist === newName) {
-      //   //   setEdit(newCategory.idCat);
-      //   //   return;
-      //   // } else {
-      //   //   console.log(exist, "---", newName);
-      //   // }
     });
 
     if (error !== null) {
@@ -110,14 +96,23 @@ const CardCateroriesQuiz = () => {
     }
 
     if (newCategory.add) {
-      // const postAndSave = await addMissionCategories({
-      //   nameCategory: newCategory.NameCategory,
-      // });
-      // console.log(postAndSave);
       console.log("Agregando Categoria");
+      const postAndSave = await addMissionCategories({
+        nameCategory: newCategory.NameCategory,
+        context: 1,
+        idCategory: 654,
+      });
+      console.log(postAndSave);
       getCategories();
     } else {
       console.log("editando categoria");
+      const postAndSave = await addMissionCategories({
+        nameCategory: newCategory.NameCategory,
+        context: 2,
+        idCategory: newCategory.idCat,
+      });
+      console.log(postAndSave);
+      getCategories();
     }
 
     setNewCategory({});
@@ -142,7 +137,7 @@ const CardCateroriesQuiz = () => {
         <ButtonAction
           sx={{ width: "100%" }}
           onClick={addCategory}
-          disabled={categories.length === 100 ? true : false}
+          disabled={categories.length === 10 ? true : false}
         >
           {" "}
           <AiOutlineFileAdd size={25} /> Add Categories
@@ -208,7 +203,10 @@ const CardCateroriesQuiz = () => {
                 </ListItem>
               ))
             ) : (
-              <p>no data</p>
+              <Typography variant="body2" color="#0087FF">
+                {" "}
+                No Categoies
+              </Typography>
             )}
           </List>
         )}

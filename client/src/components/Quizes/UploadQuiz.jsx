@@ -362,13 +362,14 @@ const UploadQuiz = ({ setLoading }) => {
             )}
 
             <ButtonActionBlue
-              disabled
               sx={{ width: "8rem" }}
               onClick={() => {
                 handleNext();
               }}
             >
-              {steep < categoryStep.length - 1 ? "Next" : "Send Mission"}
+              {steep < categoryStep.length - 1 || steep === 0
+                ? "Next"
+                : "Send Mission"}
             </ButtonActionBlue>
           </Box>
         </ModalBox>
