@@ -256,7 +256,6 @@ const UploadQuiz = ({ setLoading }) => {
     handleSteppep();
   }, [dataQuiz.quizQuestions]);
 
-  console.log(steep, categoryStep.length);
   return (
     <BoxUpQuiz>
       <Modal
