@@ -1034,11 +1034,12 @@ exports.getrlqaCampaignLeaders = async (req, res) => {
 
 exports.postCreateCategory = async (req, res) => {
 
-  const {nameCategory} = req.body;
+  const {nameCategory, context, idCategory} = req.body;
   sql
     .query(
       "spInsertExamCategory",
-      parametros({ idccms: req.query.idccms, nameCategory}, "spInsertExamCategory")
+      parametros({ idccms: req.query.idccms, nameCategory, context
+        ,idCategory}, "spInsertExamCategory")
     )
     .then((result) => {
       responsep(1, req, res, result);
