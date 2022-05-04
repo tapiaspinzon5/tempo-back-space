@@ -111,6 +111,9 @@ module.exports = (router) => {
   router.post("/postinactivatemission",oauth.oauthOther, routes.postInactivateMission);
 
   router.post("/getmissionscategories",oauth.oauthOther, routes.getMissionsCategories);
+  
+  router.post("/getmissionsassignmentinfo",oauth.oauthOther, routes.getMissionsAssignmentInfo);
+
 
 
 // RUTAS RELACIONADAS A LAS ACTIVIDADES
