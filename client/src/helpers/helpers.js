@@ -667,11 +667,15 @@ export const teamLeaderList = async (data, firstLob) => {
 };
 export const createTeamLeaderList = (data, name) => {
 	const TLList = data.filter((tl) => tl.checked === true);
-	let list = [];
+	const list = [];
+	const emails = [];
 	TLList.forEach((tl) => {
 		list.push([tl.idccms]);
+		if (tl.Email) {
+			emails.push(tl.Email);
+		}
 	});
-	return { lobName: name, tlIdccms: list };
+	return { lobName: name, tlIdccms: list, emails };
 };
 export const filterTeamLeaderList = (data) => {
 	let list = [];

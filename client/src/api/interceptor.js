@@ -2,9 +2,9 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
 	//Localhost
-	baseURL: "http://localhost:4343/api/",
+	//baseURL: "http://localhost:4343/api/",
 	// Desarrollo - testing
-	//baseURL: "https://gamificationtest.teleperformance.co/api/",
+	baseURL: "https://gamificationtest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
 	//baseURL: "http://10.138.165.165:4343/api/",
