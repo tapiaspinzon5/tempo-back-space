@@ -20,10 +20,7 @@ import {
 } from "../../reducers/missionsAssignmentReducer";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {
-	dataToSendAgents,
-	dataToSendLobsTeams,
-} from "../../helpers/helperMissionAssignment";
+import { dataToSend } from "../../helpers/helperMissionAssignment";
 const MySwal = withReactContent(Swal);
 
 const BoxActivity = styled(Grid)(() => ({
@@ -164,9 +161,7 @@ const MissionsAssignment = () => {
 	const [select, setSelect] = useState("agents");
 	const [error, setError] = useState(false);
 	const [loadingMission, setLoadingMission] = useState(false);
-	const [loadingAgents, setLoadingAgents] = useState(false);
-	const [loadingLobs, setLoadingLobs] = useState(false);
-	const [loadingTeams, setLoadingTeams] = useState(false);
+	const [loadingAssigns, setLoadingAssigns] = useState(false);
 	const [noDataMissions, setNoDataMissions] = useState(false);
 	const [noDataAssigns, setNoDataAssigns] = useState(false);
 	const [state, dispatch] = useReducer(
@@ -178,7 +173,7 @@ const MissionsAssignment = () => {
 	useEffect(
 		() => {
 			const getData = async () => {
-				setLoadingAgents(true);
+				setLoadingAssigns(true);
 				setLoadingMission(true);
 				const allMissions = dataMissions; //await getMissions(1, 1032);
 				if (
@@ -201,26 +196,23 @@ const MissionsAssignment = () => {
 									type: TYPES.GET_DATA,
 									payload: { missions: allMissions.data, groups: alt.data },
 								});
-								setLoadingAgents(false);
+								setLoadingAssigns(false);
 								setLoadingMission(false);
 							} else {
-								setLoadingAgents(false);
+								setLoadingAssigns(false);
 								setLoadingMission(false);
 								setNoDataAssigns(true);
 							}
-						} else if (
-							allMissions &&
-							allMissions.data === "UnauthorizedError"
-						) {
+						} else if (alt && alt.data === "UnauthorizedError") {
 							rxDispatch(logoutAction());
 							navigate("/");
 						} else {
-							setLoadingAgents(false);
+							setLoadingAssigns(false);
 							setLoadingMission(false);
 							setError(true);
 						}
 					} else {
-						setLoadingAgents(false);
+						setLoadingAssigns(false);
 						setLoadingMission(false);
 						setNoDataMissions(true);
 					}
@@ -228,7 +220,7 @@ const MissionsAssignment = () => {
 					rxDispatch(logoutAction());
 					navigate("/");
 				} else {
-					setLoadingAgents(false);
+					setLoadingAssigns(false);
 					setLoadingMission(false);
 					setError(true);
 				}
@@ -279,12 +271,7 @@ const MissionsAssignment = () => {
 			const dataAgents = users.filter((us) => us.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataAgents.length > 0) {
-					const dts = await dataToSendAgents(
-						dataMissions,
-						dataAgents,
-						userName,
-						1
-					);
+					const dts = await dataToSend(dataMissions, dataAgents, userName, 1);
 					console.log(dts);
 					//funcion de envio
 				} else {
@@ -309,12 +296,7 @@ const MissionsAssignment = () => {
 			const dataLobs = lobs.filter((lob) => lob.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataLobs.length > 0) {
-					const dts = await dataToSendLobsTeams(
-						dataMissions,
-						dataLobs,
-						userName,
-						2
-					);
+					const dts = await dataToSend(dataMissions, dataLobs, userName, 2);
 					console.log(dts);
 					//funcion de envio
 				} else {
@@ -339,12 +321,7 @@ const MissionsAssignment = () => {
 			const dataTeams = teams.filter((tm) => tm.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataTeams.length > 0) {
-					const dts = await dataToSendLobsTeams(
-						dataMissions,
-						dataTeams,
-						userName,
-						3
-					);
+					const dts = await dataToSend(dataMissions, dataTeams, userName, 3);
 					console.log(dts);
 					//funcion de envio
 				} else {
@@ -489,7 +466,7 @@ const MissionsAssignment = () => {
 								<Typography variant="body1">Server Problems</Typography>
 							) : noDataAssigns ? (
 								<Typography variant="body1"></Typography>
-							) : loadingAgents ? (
+							) : loadingAssigns ? (
 								<LoadingComponent />
 							) : select === "agents" ? (
 								users.map((user, index) => (

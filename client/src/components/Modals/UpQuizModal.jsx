@@ -29,93 +29,155 @@ const MainModal = styled(Box)(() => ({
 }));
 const Su = () => {
 	return (
-		<Typography variant="body2" color="initial">
-			IdentPM: CCMSID del operation Manager (Solo números)
-			<br /> Campaign: Nombre de la campaña <br /> KPI: KPI a evaluar (i.e.:
-			%Abs, AHT_In, QACL )
-			<br /> Q1: valores objetivos para agentes Q1 (solo números)
-			<br /> Q2: valores objetivos para agentes Q2 (solo números) <br /> Q3:
-			valores objetivos para agentes Q3 (solo números) <br /> Q4: valores
-			objetivos para agentes Q4 (solo números)
-			<br />
-			CriticalPoint: valor minimo sobre el que puede llegar el kpi (solo
-			números)
-			<br />
-			OrderKpi: "asc"(mas mejor) o "dsc"(menos mejor)
-			<br /> TypeLoad: se maneja solo dos estados:
-			<br />
-			Estado 0: Carga de KPi Manual
-			<br />
-			Estado 1: Carga de Kpi Automatica (esta en base maestra)
-		</Typography>
+		<>
+			<Typography variant="h5" color="initial">
+				Instructions to fill out the format for account creation for SUPER ADMIN
+			</Typography>
+			<Typography variant="body1" color="initial">
+				Below you will find the instructions you must follow to complete the
+				upload file for account creation. It is important that in each column
+				you locate the values ​​given below as appropriate.
+			</Typography>
+			<Typography variant="body2" color="initial">
+				<strong>IdentPM:</strong>Operations Manager CCMS ID (only numbers)
+				<br />
+				<strong>Campaign:</strong> Campaign or Account Name
+				<br />
+				<strong>KPI:</strong>acronym of the selected KPI (I.e.: %Abs, AHT, FCR,
+				QACL)
+				<br />
+				<strong>Q1:</strong> Target for agents in quartile 1
+				<br />
+				<strong>Q2:</strong> Target for agents in quartile 2
+				<br />
+				<strong>Q3:</strong> Target for agents in quartile 3
+				<br />
+				<strong>Q4:</strong> Target for agents in quartile 4
+				<br />
+				<strong>CriticalPoint:</strong>minimum or critical value that the kPI
+				can have.
+				<br />
+				<strong>OrderKpi:</strong> put the word "asc" in case higher score is
+				better. or"dsc" in case lower score is better.
+				<br /> <strong>TypeLoad:</strong> put the number "0" if the KPI load is
+				manual or the number "1" if the KPI data comes automatically from Master
+				Data .
+			</Typography>
+		</>
 	);
 };
 const Om = () => {
 	return (
-		<Typography variant="body2" color="initial">
-			Ident: CCMSID del usuario al cual se le va asignar un rol (Solo números)
-			<br />
-			RoleAgent: Rol que va a desempeñar el usuario. (Team Leader, Reporting
-			Lead,QA Lead) <br />
-			Team: Nombre del equipo al cual va a pertenecer
-			<br /> Lob: Nombre de la "line of bussines"
-		</Typography>
+		<>
+			<Typography variant="h5" color="initial">
+				Instructions to fill out the format for account creation for SUPER ADMIN
+			</Typography>
+			<Typography variant="body1" color="initial">
+				Below you will find the instructions you must follow to complete the
+				upload file for account creation. It is important that in each column
+				you locate the values ​​given below as appropriate.
+			</Typography>
+			<Typography variant="body2" color="initial">
+				Ident: CCMSID del usuario al cual se le va asignar un rol (Solo números)
+				<br />
+				RoleAgent: Rol que va a desempeñar el usuario. (Team Leader, Reporting
+				Lead,QA Lead) <br />
+				Team: Nombre del equipo al cual va a pertenecer
+				<br /> Lob: Nombre de la "line of bussines"
+			</Typography>
+		</>
 	);
 };
 const Rep = () => {
 	return (
-		<Typography variant="body2" color="initial">
-			Quartile: Cuartile en que se ubica el agente (Q1, Q2, Q3, Q4). <br />
-			Ident: CCMSID del agente (solo numeros)
-			<br /> Team: Nombre del equipo al que va a pertenecer
-			<br /> RoleAgent: en este campo solo debe ir la palabra "Agent"
-		</Typography>
+		<>
+			<Typography variant="h5" color="initial">
+				Instructions to fill out the Template for Agents Upload for Reporting
+				Lead
+			</Typography>
+			<Typography variant="body1" color="initial">
+				Bellow you Will find the instructions that you must follow to download
+				and fill the Rep Lead Template
+			</Typography>
+			<Typography variant="body2" color="initial">
+				<strong>Quartile:</strong>Agent’s quartile (Q1, Q2, Q3, Q4) <br />
+				<strong>Ident:</strong> Agent’s CCMS ID (# Only)
+				<br /> <strong>Team:</strong>Agent’s Team Name
+				<br />
+				<strong>RoleAgent:</strong> You must write the Word ‘Agent’
+			</Typography>
+		</>
 	);
 };
 
 const Qa = () => {
 	return (
-		<Typography variant="body2" color="initial">
-			Question: campo para ingresar el enunciado de la pregunta
-			<br /> Option1: primera respuesta
-			<br /> Option2: segunda respuesta <br />
-			Option3: Tercera respuesta (dejar en blanco, si la pregunta es verdaro o
-			falso) <br />
-			Option4: Cuarta respuesta (dejar en blanco, si la pregunta es verdaro o
-			falso)
-			<br /> Answer: Respuesta correcta (debe ser el mismo texto de la opcion)
-			<br />
-			Quartile: Cuartil del agente al que va destinada la pregunta
-			<br /> ExamName: Nombre del examen
-			<br /> DescriptionExam: Descripcion del examen
-			<br /> ApprovalExam: Porcentaje con el que se aprueba el examen (solo
-			numeros sin el signo %)
-			<br /> LOB: Nombre de la "line of bussines"
-			<br />
-			Topic: Nombre de la categoria a la que pertenece el quiz
-		</Typography>
+		<>
+			<Typography variant="h5" color="initial">
+				Instructions for Downloading and Filling Out the Quizz Template
+			</Typography>
+			<Typography variant="body1" color="initial">
+				Bellow you Will find the instructions that you must follow to download
+				the Quizz Template
+			</Typography>
+			<Typography variant="body2" color="initial">
+				<strong>Question:</strong> Field for writing the question header
+				<br /> <strong>Option1:</strong> First Answer
+				<br /> <strong>Option2:</strong> Seccond Answer <br />
+				<strong>Option3:</strong> Third Answer (Leave the cell clear if you are
+				using a true/false question) <br />
+				<strong>Option4:</strong> Fourth Answer (Leave the cell clear if you are
+				using a true/false question)
+				<br /> <strong>Answer:</strong> Correct Answer (You must write it
+				exactly like the correct answer)
+				<br />
+				<strong>Quartile:</strong> Agent’s quartile which you want to assign the
+				question
+				<br /> <strong>ExamName:</strong>Quiz Name
+				<br /> <strong>DescriptionExam:</strong>Quiz description
+				<br />
+				<strong>ApprovalExam:</strong> Score for approval (Just # without %)
+				<br />
+				<strong>Topic:</strong> Category Name you want to assign to the quiz
+			</Typography>
+		</>
 	);
 };
 
 const LoadKpis = () => {
 	return (
-		<Typography variant="body2" color="initial">
-			Kpi: campo para ingresar el acronimo del KPI
-			<br /> unitKpi: Unidad de medida del Kpi(Percentage, Seconds, Minutes,
-			Avg)
-			<br /> Type: Tipo de Unidad (1,2,4,5) <br />
-			<br />
-			La relacion entre Type y unitKpi debe ser
-			<br /> 1= Hours
-			<br /> 2 = Seconds
-			<br />4 = Avg
-			<br />5 = Percentage
-			<br />
-			<br /> Idccms:CCMSID del agente (solo numeros)
-			<br /> Date: Fecha de resultado de Kpi (sigue el siguiente formato
-			MM/DD/YYYY)
-			<br /> Score: Valor de resultado Kpi (solo numeros)
-		</Typography>
+		<>
+			<Typography variant="h5" color="initial">
+				Instructions For downloading and fillling out the Load KPI Template
+			</Typography>
+			<Typography variant="body1" color="initial">
+				Bellow you Will find the instructions that you must follow to download
+				the Load KPI Template
+			</Typography>
+
+			<Typography variant="body2" color="initial">
+				<strong>Kpi:</strong> Cell for writing the KPI acronym
+				<br /> <strong>unitKpi:</strong>KPI Measure Unit (Percentage, Seconds,
+				Minutes, Avg)
+				<br /> <strong>Type:</strong>Unit Type (1, 2, 4,5) <br />
+				<br />
+				Bellow you Will find the relationship between type and unitKpi:
+				<br />
+				<strong>1=</strong> Hours
+				<br />
+				<strong>2=</strong> Seconds
+				<br />
+				<strong>4=</strong>Avg
+				<br />
+				<strong>5=</strong>Percentage
+				<br />
+				<br />
+				<strong>Idccms:</strong> Agent’s CCMSID (# Only)
+				<br /> <strong>Date:</strong> Date of KPI score (Please use the format
+				MM/DD/YYYY)
+				<br /> <strong>Score:</strong> KPI SCORE (# Only)
+			</Typography>
+		</>
 	);
 };
 
@@ -158,13 +220,6 @@ const UpQuizModal = ({ handleClose, template }) => {
 		<MainModal>
 			<img src={instructions} alt="instructions" />
 			<Box marginBottom={5}>
-				<Typography variant="h5" color="initial">
-					Instructions for downloading the {template}
-				</Typography>
-				<Typography variant="body1" color="initial">
-					Below you will find the instructions that you must attend and carry
-					out to download the {template}
-				</Typography>
 				{template === "Quiz Template" ? (
 					<Qa />
 				) : template === "OM Template" ? (

@@ -1,4 +1,4 @@
-export const dataToSendAgents = (missions, data, QAname, context) => {
+export const dataToSend = (missions, data, QAname, context) => {
 	const nameMissions = [];
 	const idMissions = [];
 	const idccmsAssigned = [];
@@ -24,7 +24,7 @@ export const dataToSendAgents = (missions, data, QAname, context) => {
 	};
 };
 
-export const dataToSendLobsTeams = (missions, data, QAname) => {
+/* export const dataToSendLobsTeams = (missions, data, QAname) => {
 	const nameMissions = [];
 	const idMissions = [];
 	const idccmsAssigned = [];
@@ -47,3 +47,4 @@ export const dataToSendLobsTeams = (missions, data, QAname) => {
 };
 
 export const dataToSendTeams = (missions, data) => {};
+ */
