@@ -4,12 +4,13 @@ import { FiDownload } from "react-icons/fi";
 import CardQuizDesc from "../components/Quizes/CardQuizDesc";
 import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
-import { loadQuizes } from "../utils/api";
+import { getMissionsCategories, loadQuizes } from "../utils/api";
 import UpQuizModal from "../components/Modals/UpQuizModal";
 import { ModalLoading } from "../components/ModalLoading";
 import { ButtonAction, MainPage } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import CardCateroriesQuiz from "../components/Quizes/CardCateroriesQuiz";
+import { getTopics } from "../helpers/helpers";
 
 const ModalBox = styled(Box)(() => ({
   position: "absolute",
@@ -29,10 +30,14 @@ const UpQuiz = () => {
   const [open, setOpen] = React.useState(false);
   const [showCat, setShowCat] = React.useState(false);
   const [misQuizes, setMisQuizes] = useState([]);
+  const [topics, setTopics] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       const quizes = await loadQuizes();
+      const getCategories = await getMissionsCategories();
+      const topics = getTopics(getCategories.data);
+      setTopics(topics);
       setMisQuizes(quizes.data);
     };
 
@@ -92,7 +97,7 @@ const UpQuiz = () => {
 
           <Grid container spacing={3} sx={{ minHeight: "60vh" }}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <UploadQuiz setLoading={setLoading} />
+              <UploadQuiz setLoading={setLoading} topics={topics} />
             </Grid>
             {misQuizes?.map((quiz, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>

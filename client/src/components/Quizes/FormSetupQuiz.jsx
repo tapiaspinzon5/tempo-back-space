@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { InputText } from "../../assets/styled/muistyled";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
+const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz, topics }) => {
   const disabled = false;
   return (
     <Box
@@ -43,9 +43,11 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
           disabled={disabled}
           required
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {topics.map((cat, index) => (
+            <MenuItem value={cat} key={index}>
+              {cat}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <InputText

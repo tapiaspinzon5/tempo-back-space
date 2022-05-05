@@ -101,12 +101,14 @@ const BoxSteeper = styled(Box)(() => ({
   },
 }));
 
-const UploadQuiz = ({ setLoading }) => {
+const UploadQuiz = ({ setLoading, topics }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
   const [open, setOpen] = useState(false);
   const [steep, setSteep] = useState(0);
   const [categoryStep, setCategoryStep] = useState([]);
+  const [question, setQuestion] = useState([]);
+  const [ask, setAsk] = useState([]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -145,7 +147,6 @@ const UploadQuiz = ({ setLoading }) => {
               colum[8]?.toString(),
               colum[9],
               colum[10]?.toString(),
-              colum[11]?.toString(),
             ];
           });
 
@@ -158,7 +159,8 @@ const UploadQuiz = ({ setLoading }) => {
           }
 
           data.shift();
-          let incorrectValues = validateFields(data);
+          //validacion de campos
+          let incorrectValues = validateFields(data, topics);
 
           if (incorrectValues) {
             reject(" Wrong values!");
@@ -208,6 +210,8 @@ const UploadQuiz = ({ setLoading }) => {
       //setData(data);
       const resp = await uploadQuizes({ data });
 
+      console.log(resp);
+
       if (resp.status === 200) {
         setLoading(false);
         MySwal.fire({
@@ -231,9 +235,14 @@ const UploadQuiz = ({ setLoading }) => {
     });
   };
 
+  // Stepper  Section
   const handleNext = () => {
     if (steep < categoryStep.length - 1) {
       setSteep((prev) => prev + 1);
+    }
+    if (ask.length !== 0) {
+      setQuestion([...question, [ask]]);
+      setAsk([]);
     }
   };
   const handleBack = () => {
@@ -255,6 +264,10 @@ const UploadQuiz = ({ setLoading }) => {
 
     handleSteppep();
   }, [dataQuiz.quizQuestions]);
+
+  console.log(dataQuiz);
+  console.log("Pregunta==", ask);
+  console.log("Quiz==", question);
 
   return (
     <BoxUpQuiz>
@@ -279,7 +292,15 @@ const UploadQuiz = ({ setLoading }) => {
           {steep > 0 ? (
             <>
               <Box display="flex" justifyContent="space-between">
-                <FormControl sx={{ width: " 48%" }}>
+                <InputText
+                  name="quizName"
+                  label="Quiz Name"
+                  variant="outlined"
+                  onChange={handleQuizSetup}
+                  value={dataQuiz.quizName}
+                  sx={{ width: " 42%" }}
+                />
+                <FormControl sx={{ width: " 35%" }}>
                   <InputLabel id="questionType-label">Question Type</InputLabel>
                   <Select
                     labelId="questionType-label"
@@ -293,19 +314,28 @@ const UploadQuiz = ({ setLoading }) => {
                     <MenuItem value="multipleChoice">Multiple Choice</MenuItem>
                   </Select>
                 </FormControl>
-                <InputText
-                  name="quizName"
-                  label="Quiz Name"
-                  variant="outlined"
-                  onChange={handleQuizSetup}
-                  value={dataQuiz.quizName}
-                  sx={{ width: " 48%" }}
-                />
+                <FormControl sx={{ width: " 20%" }}>
+                  <InputLabel id="questionType-label">Quartile</InputLabel>
+                  <Select
+                    labelId="quartile-label"
+                    name="quartile"
+                    value={ask.Q || ""}
+                    label="Quartile"
+                    onChange={(e) => setAsk({ ...ask, Q: e.target.value })}
+                    required
+                  >
+                    {["Q1", "Q2", "Q3", "Q4"].map((q) => (
+                      <MenuItem value={q} key={q}>
+                        {q}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
               {dataQuiz.questionType === "trueFalse" ? (
-                <TreuFalseQuestion steep={steep} />
+                <TreuFalseQuestion steep={steep} ask={ask} setAsk={setAsk} />
               ) : (
-                <MultiOptionQuestion steep={steep} />
+                <MultiOptionQuestion steep={steep} ask={ask} setAsk={setAsk} />
               )}
             </>
           ) : (
@@ -348,6 +378,7 @@ const UploadQuiz = ({ setLoading }) => {
                 handleQuizSetup={handleQuizSetup}
                 fileName={fileName}
                 dataQuiz={dataQuiz}
+                topics={topics}
               />
             </>
           )}

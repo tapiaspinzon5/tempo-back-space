@@ -14,7 +14,6 @@ export const validateHeaders = (headers) => {
 		"ExamName",
 		"DescriptionExam",
 		"ApprovalExam",
-		"LOB",
 		"Topic",
 	];
 
@@ -35,7 +34,7 @@ export const validateHeaders = (headers) => {
 
 //Validacion de campos carga de quiz
 
-export const validateFields = (data) => {
+export const validateFields = (data, topics) => {
 	let errorField = false;
 	let quartiles = ["Q1", "Q2", "Q3", "Q4"];
 
@@ -62,9 +61,7 @@ export const validateFields = (data) => {
 			errorField = true;
 		} else if (isNaN(col[9])) {
 			errorField = true;
-		} else if (col[10] === undefined) {
-			errorField = true;
-		} else if (col[11] === undefined) {
+		} else if (!topics.includes(col[10])) {
 			errorField = true;
 		}
 	});
@@ -670,11 +667,15 @@ export const teamLeaderList = async (data, firstLob) => {
 };
 export const createTeamLeaderList = (data, name) => {
 	const TLList = data.filter((tl) => tl.checked === true);
-	let list = [];
+	const list = [];
+	const emails = [];
 	TLList.forEach((tl) => {
 		list.push([tl.idccms]);
+		if (tl.Email) {
+			emails.push(tl.Email);
+		}
 	});
-	return { lobName: name, tlIdccms: list };
+	return { lobName: name, tlIdccms: list, emails };
 };
 export const filterTeamLeaderList = (data) => {
 	let list = [];
@@ -703,4 +704,10 @@ export const getLobNameDuplicate = (allData, name) => {
 	} else {
 		return false;
 	}
+};
+
+export const getTopics = (topics) => {
+	const arr = [];
+	topics.forEach((t) => arr.push(t.NameCategory));
+	return arr;
 };

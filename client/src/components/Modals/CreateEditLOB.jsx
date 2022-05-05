@@ -100,6 +100,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 							name: info.data[0].FullName,
 							idccms: info.data[0].ident,
 							checked: false,
+							Email: info.data[0].email,
 						},
 					]);
 					setTempCcms("");
@@ -115,6 +116,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 							name: info.data[0].FullName,
 							idccms: info.data[0].ident,
 							checked: false,
+							Email: info.data[0].email,
 						},
 					]);
 					setTempCcms("");
@@ -142,7 +144,8 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 			context,
 			dataToSend.lobName,
 			idLob, /// id lob seleccionada
-			dataToSend.tlIdccms
+			dataToSend.tlIdccms,
+			dataToSend.emails
 		);
 		if (data && data.status === 200) {
 			MySwal.fire({

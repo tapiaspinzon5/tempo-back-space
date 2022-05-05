@@ -2,7 +2,7 @@ import { Box, InputAdornment, Typography } from "@mui/material";
 import React from "react";
 import { InputText } from "../../assets/styled/muistyled";
 
-const TreuFalseQuestion = ({ steep }) => {
+const TreuFalseQuestion = ({ steep, ask, setAsk }) => {
   return (
     <Box marginY={1} color="#3047B0">
       <form>
@@ -12,8 +12,8 @@ const TreuFalseQuestion = ({ steep }) => {
           label="Question"
           variant="outlined"
           fullWidth
-          //onChange={handleQuizSetup}
-          //value={dataQuiz.quizName}
+          onChange={(e) => setAsk({ ...ask, ask: e.target.value })}
+          value={ask.ask || ""}
           required
         />
 
@@ -37,6 +37,10 @@ const TreuFalseQuestion = ({ steep }) => {
                   <input
                     type="radio"
                     style={{ height: "1.5rem", width: "1.5rem" }}
+                    id="answer"
+                    name="answer"
+                    value={q}
+                    onChange={(e) => setAsk({ ...ask, answer: e.target.value })}
                   />
                 </InputAdornment>
               ),

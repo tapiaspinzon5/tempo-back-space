@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { InputAdornment } from "@mui/material";
 import { Box } from "@mui/system";
 
-const MultiOptionQuestion = ({ question, setQuestion, steep }) => {
+const MultiOptionQuestion = ({ ask, setAsk, steep }) => {
   return (
     <Box marginY={1}>
       <form>
@@ -16,8 +16,8 @@ const MultiOptionQuestion = ({ question, setQuestion, steep }) => {
           label="Question"
           variant="outlined"
           fullWidth
-          //onChange={handleQuizSetup}
-          //value={dataQuiz.quizName}
+          onChange={(e) => setAsk({ ...ask, ask: e.target.value })}
+          value={ask.ask}
           required
         />
 
@@ -32,8 +32,8 @@ const MultiOptionQuestion = ({ question, setQuestion, steep }) => {
             name="Answer1"
             label={`Answer ${q}`}
             variant="outlined"
-            //onChange={handleQuizSetup}
-            //value={dataQuiz.quizName}
+            onChange={(e) => setAsk({ ...ask, [q]: e.target.value })}
+            value={ask[q] || ""}
             required
             sx={{ marginTop: ".5rem" }}
             InputProps={{
@@ -42,6 +42,10 @@ const MultiOptionQuestion = ({ question, setQuestion, steep }) => {
                   <input
                     type="radio"
                     style={{ height: "1.5rem", width: "1.5rem" }}
+                    id="answer"
+                    name="answer"
+                    value={ask[q]}
+                    onChange={(e) => setAsk({ ...ask, answer: e.target.value })}
                   />
                 </InputAdornment>
               ),
