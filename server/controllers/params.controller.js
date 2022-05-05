@@ -123,7 +123,6 @@ let quizTable = [
   { name: "ExamName", type: TYPES.VarChar },
   { name: "DescriptionExam", type: TYPES.VarChar },
   { name: "ApprovalExam", type: TYPES.Int },
-  { name: "Lob", type: TYPES.VarChar },
   { name: "Topic", type: TYPES.VarChar },
   { name: "IdPregunta", type: TYPES.Int },
 ];
@@ -525,9 +524,6 @@ exports.parametros = (req, tipo) => {
     case "spQueryExamCategories":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
-    case "spQueryExamCategories":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-
     case "spInsertExamCategory":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
@@ -547,6 +543,13 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idExamen", req.idMission, TYPES.Int),
+      ]);
+
+    case "spQueryMissions":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("case", req.caso, TYPES.Int),
       ]);
 
     // Casos de Actividades

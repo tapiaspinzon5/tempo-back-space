@@ -1111,6 +1111,24 @@ exports.getMissionsCategories = async (req, res) => {
     });
 };
 
+exports.getMissionsAssignmentInfo = async (req, res) => {
+
+  const {context, caso} = req.body;
+
+  sql
+    .query(
+      "spQueryMissions",
+      parametros({ idccms: req.query.idccms, context, caso}, "spQueryMissions")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
 
