@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { InputText } from "../../assets/styled/muistyled";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  ButtonAction,
+  ButtonActionBlue,
+  InputText,
+} from "../../assets/styled/muistyled";
+import {
+  Button,
+  ButtonBase,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
-const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
-  const disabled = false;
+const FormSetupQuiz = ({
+  handleQuizSetup,
+  fileName,
+  dataQuiz,
+  topics,
+  empty,
+}) => {
+  const [disabled, setDisabled] = useState(false);
+  const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
+    dataQuiz;
+  useEffect(() => {
+    if (fileName) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [fileName]);
+
   return (
     <Box
       component="form"
@@ -19,34 +47,43 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         label="Quiz Name"
         variant="outlined"
         onChange={handleQuizSetup}
-        value={dataQuiz.quizName}
+        value={quizName}
         disabled={disabled}
         required
+        error={!quizName && empty}
+        helperText={!quizName && empty ? "Field Requiered" : ""}
       />
       <InputText
         name="quizDescription"
         label="Description"
         variant="outlined"
         onChange={handleQuizSetup}
-        value={dataQuiz.quizDescription}
+        value={quizDescription}
         disabled={disabled}
         required
+        error={!quizDescription && empty}
+        helperText={!quizDescription && empty ? "Field Requiered" : ""}
       />
-      <FormControl fullWidth>
+      <FormControl fullWidth error={!quizCategory && empty}>
         <InputLabel id="quizCategory-label">Category</InputLabel>
         <Select
           labelId="quizCategory-label"
           name="quizCategory"
-          value={dataQuiz.quizCategory || ""}
+          value={quizCategory || ""}
           label="Category"
           onChange={handleQuizSetup}
           disabled={disabled}
           required
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {topics.map((cat, index) => (
+            <MenuItem value={cat} key={index}>
+              {cat}
+            </MenuItem>
+          ))}
         </Select>
+        <FormHelperText color="red">
+          {!quizCategory && empty ? "Field Requiered" : ""}
+        </FormHelperText>
       </FormControl>
       <InputText
         name="quizTarget"
@@ -54,9 +91,11 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         variant="outlined"
         type="number"
         onChange={handleQuizSetup}
-        value={dataQuiz.quizTarget}
+        value={quizTarget}
         disabled={disabled}
         required
+        error={!quizTarget && empty}
+        helperText={!quizTarget && empty ? "Field Requiered" : ""}
       />
       <InputText
         name="quizQuestions"
@@ -64,9 +103,11 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
         variant="outlined"
         type="number"
         onChange={handleQuizSetup}
-        value={dataQuiz.quizQuestions}
+        value={quizQuestions}
         disabled={disabled}
         required
+        error={!quizQuestions && empty}
+        helperText={!quizQuestions && empty ? "Field Requiered" : ""}
       />
     </Box>
   );
