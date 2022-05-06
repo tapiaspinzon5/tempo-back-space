@@ -259,29 +259,6 @@ const RoleManagementSecttion = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					submit(1, nQA, 2);
-					/* if (res === "ok") {
-						MySwal.fire({
-							title: <p>Saved!</p>,
-							icon: "success",
-							confirmButtonText: "Accept",
-							allowOutsideClick: false,
-						}).then((resultado) => {
-							if (resultado.value) {
-								window.location.reload();
-							}
-						});
-					} else {
-						MySwal.fire({
-							title: <p>Send Error!</p>,
-							icon: "error",
-							confirmButtonText: "Accept",
-							allowOutsideClick: false,
-						}).then((resultado) => {
-							if (resultado.value) {
-								window.location.reload();
-							}
-						});
-					} */
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}

@@ -19,12 +19,12 @@ const ButtonCard = styled(Button)(() => ({
 	textAlign: "start",
 }));
 
-const CardButton = ({ title, subtitle, icon }) => {
+const CardButtonTLs = ({ tl, icon, handleAgent }) => {
 	return (
-		<ButtonCard>
+		<ButtonCard onClick={() => handleAgent(tl.idTeam)}>
 			<Box>
-				<Typography variant="body1">{title}</Typography>
-				<Typography variant="body2">{subtitle}</Typography>
+				<Typography variant="body1">{tl.NameTeam}</Typography>
+				<Typography variant="body2">{`Team Leader: ${tl.TeamLeader}`}</Typography>
 			</Box>
 			{icon === "arrow" && <IoIosArrowForward size={30} />}
 			{icon === "trash" && <BiTrash size={20} />}
@@ -32,4 +32,4 @@ const CardButton = ({ title, subtitle, icon }) => {
 	);
 };
 
-export default CardButton;
+export default CardButtonTLs;

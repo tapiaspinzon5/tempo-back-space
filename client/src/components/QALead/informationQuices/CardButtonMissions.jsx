@@ -19,17 +19,20 @@ const ButtonCard = styled(Button)(() => ({
 	textAlign: "start",
 }));
 
-const CardButton = ({ title, subtitle, icon }) => {
+const CardButtonMissions = ({ miss, removeMission }) => {
 	return (
-		<ButtonCard>
+		<ButtonCard
+			onClick={() => removeMission(miss)}
+			disabled={miss.Status !== 1}
+		>
 			<Box>
-				<Typography variant="body1">{title}</Typography>
-				<Typography variant="body2">{subtitle}</Typography>
+				<Typography variant="body1">{miss.NameMission}</Typography>
+				<Typography variant="body2">{miss.Topic}</Typography>
 			</Box>
-			{icon === "arrow" && <IoIosArrowForward size={30} />}
-			{icon === "trash" && <BiTrash size={20} />}
+
+			{miss.Status === 1 && <BiTrash size={20} />}
 		</ButtonCard>
 	);
 };
 
-export default CardButton;
+export default CardButtonMissions;

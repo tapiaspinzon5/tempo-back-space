@@ -19,12 +19,12 @@ const ShowTeamAssign = ({ team, handleTeam }) => {
 				<input
 					type="checkbox"
 					className="checkBox"
-					name={team.teamName}
+					name={team.Team}
 					checked={team?.isChecked || false}
 					onChange={handleTeam}
 				/>
 				<Box width="85%">
-					<Typography variant="body1">{team.teamName}</Typography>
+					<Typography variant="body1">{team.Team}</Typography>
 				</Box>
 			</CardTeam>
 		</>

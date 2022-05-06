@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Typography, Box, styled } from "@mui/material";
 import { MainPage } from "../../assets/styled/muistyled";
-import CardButton from "../../components/cardUser/CardButton";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import { useDispatch } from "react-redux";
@@ -10,6 +9,10 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingComponent from "../../components/LoadingComponent";
+import CardButtonTLs from "../../components/QALead/informationQuices/CardButtonTLs";
+import CardButtonAgets from "../../components/QALead/informationQuices/CardButtonAgents";
+import CardButtonMissions from "../../components/QALead/informationQuices/CardButtonMissions";
+import { requestWithData } from "../../utils/api";
 
 const MySwal = withReactContent(Swal);
 
@@ -46,9 +49,9 @@ const dataAgents = {
 				{ id: 7, Agent: "alguno7", Rol: "Agent", idccms: 123456 },
 				{ id: 8, Agent: "alguno8", Rol: "Agent", idccms: 123456 },
 			],
-			status: 200,
 		},
 	],
+	status: 200,
 };
 const dataTLs = {
 	data: [
@@ -63,9 +66,9 @@ const dataTLs = {
 				{ id: 7, tlName: "alguno7", Rol: "Team Leader", Idccms: 123456 },
 				{ id: 8, tlName: "alguno8", Rol: "Team Leader", Idccms: 123456 },
 			],
-			status: 200,
 		},
 	],
+	status: 200,
 };
 
 const dataMissions = {
@@ -94,97 +97,37 @@ const InformationQuices = () => {
 	const [agents, setAgents] = useState([]);
 	const [teamLs, setTeamLs] = useState([]);
 	const [missions, setMissions] = useState([]);
+	const [dataToSend, setDataToSend] = useState({});
+	const [viewAgents, setViewAgents] = useState(false);
+	const [viewMissions, setViewMissions] = useState(false);
 
 	useEffect(
 		() => {
 			const getData = async () => {
 				setLoadingTLs(true);
-				setLoadingAgents(true);
-				setLoadingMissions(true);
-				const allTLs = dataTLs; //await getMissions(1, 1032);
+				setViewAgents(false);
+				setViewMissions(false);
+				const allTLs = await requestWithData("getmissionsinformation", {
+					idccmsAgent: "",
+					idTeam: 0,
+					context: 1,
+				});
 				if (allTLs && allTLs.status === 200 && allTLs.data.length > 0) {
-					if (allTLs.data[0].id !== "0" && allTLs.data[0].tlName !== "0") {
-						const allAgents = dataAgents; // await  request
-						if (
-							allAgents &&
-							allAgents.status === 200 &&
-							allAgents.data.length > 0
-						) {
-							if (
-								allAgents.data[0].id !== "0" &&
-								allAgents.data[0].Agent !== "0"
-							) {
-								const allMissions = dataMissions; ///await request
-								if (
-									allMissions &&
-									allMissions.status === 200 &&
-									allMissions.data.length > 0
-								) {
-									if (
-										allMissions.data[0].id !== "0" &&
-										allMissions.data[0].Agent !== "0"
-									) {
-										setLoadingTLs(false);
-										setLoadingAgents(false);
-										setLoadingMissions(false);
-										//settear toda la info
-										setTeamLs(allTLs);
-										setAgents(allAgents);
-										setMissions(allMissions);
-									} else {
-										setLoadingTLs(false);
-										setLoadingAgents(false);
-										setLoadingMissions(false);
-										//settear Team Leaders y agentes
-										setTeamLs(allTLs);
-										setAgents(allAgents);
-										setNoDataMissions(true);
-									}
-								} else if (
-									allMissions &&
-									allMissions.data === "UnauthorizedError"
-								) {
-									rxDispatch(logoutAction());
-									navigate("/");
-								} else {
-									setLoadingTLs(false);
-									setLoadingAgents(false);
-									setLoadingMissions(false);
-									setError(true);
-								}
-							} else {
-								setLoadingTLs(false);
-								setLoadingAgents(false);
-								setLoadingMissions(false);
-								/// settear Team leaders
-								setTeamLs(allTLs);
-								setNoDataMissions(true);
-								setNoDataAgents(true);
-							}
-						} else if (allAgents && allAgents.data === "UnauthorizedError") {
-							rxDispatch(logoutAction());
-							navigate("/");
-						} else {
-							setLoadingTLs(false);
-							setLoadingAgents(false);
-							setLoadingMissions(false);
-							setError(true);
-						}
+					if (
+						allTLs.data[0].idTeam !== "0" &&
+						allTLs.data[0].NameTeam !== "0"
+					) {
+						setTeamLs(allTLs.data[0].Teams);
+						setLoadingTLs(false);
 					} else {
 						setLoadingTLs(false);
-						setLoadingAgents(false);
-						setLoadingMissions(false);
 						setNoDataTLs(true);
-						setNoDataAgents(true);
-						setNoDataMissions(true);
 					}
 				} else if (allTLs && allTLs.data === "UnauthorizedError") {
 					rxDispatch(logoutAction());
 					navigate("/");
 				} else {
 					setLoadingTLs(false);
-					setLoadingAgents(false);
-					setLoadingMissions(false);
 					setError(true);
 				}
 			};
@@ -194,9 +137,115 @@ const InformationQuices = () => {
 		[]
 	);
 
-	const handleTL = () => {};
-	const handleAgent = () => {};
-	const removeMission = () => {};
+	const handleTL = async (idTeam) => {
+		setAgents([]);
+		setMissions([]);
+		setLoadingAgents(true);
+		setViewAgents(true);
+		const agents = await requestWithData("getmissionsinformation", {
+			idccmsAgent: "",
+			idTeam,
+			context: 2,
+		});
+		if (agents && agents.status === 200 && agents.data.length > 0) {
+			if (agents.data[0].Ident !== "0" && agents.data[0].Agent !== "0") {
+				setLoadingAgents(false);
+				setAgents(agents.data[0].TeamsMembers);
+			} else {
+				setLoadingAgents(false);
+				setNoDataAgents(true);
+			}
+		} else if (agents && agents.data === "UnauthorizedError") {
+			rxDispatch(logoutAction());
+			navigate("/");
+		} else {
+			setLoadingAgents(false);
+			setViewAgents(false);
+			setViewMissions(false);
+			setError(true);
+		}
+	};
+
+	const handleAgent = async (data) => {
+		setLoadingMissions(true);
+		setViewMissions(true);
+		setDataToSend({ ...dataToSend, name: data.name, idccms: data.idccms });
+		const dbMissions = await requestWithData("getmissionsinformation", {
+			idccmsAgent: data.idccms,
+			idTeam: 0,
+			context: 3,
+		});
+		if (dbMissions && dbMissions.status === 200 && dbMissions.data.length > 0) {
+			if (
+				dbMissions.data[0].MissionAssigned[0].idQuiz !== "0" &&
+				dbMissions.data[0].MissionAssigned[0].Topic !== "0"
+			) {
+				console.log(dbMissions.data[0].MissionAssigned);
+				setLoadingMissions(false);
+				setMissions(dbMissions.data[0].MissionAssigned);
+			} else {
+				setLoadingMissions(false);
+				setNoDataMissions(true);
+			}
+		} else if (dbMissions && dbMissions.data === "UnauthorizedError") {
+			rxDispatch(logoutAction());
+			navigate("/");
+		} else {
+			setLoadingMissions(false);
+			setViewAgents(false);
+			setViewMissions(false);
+			setError(true);
+		}
+	};
+
+	const submit = async (ag, miss) => {
+		const cqa = await await requestWithData("inactivatemission", {
+			idccmsAgent: ag.idccms,
+			idMission: miss.idQuiz,
+		});
+
+		if (cqa && cqa.status === 200) {
+			MySwal.fire({
+				title: <p>{"Removed!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		}
+	};
+
+	const removeMission = (data) => {
+		MySwal.fire({
+			title: (
+				<p>{`Are you sure you want to remove the "examName" mission from the "Agent"?`}</p>
+			),
+			icon: "info",
+			showDenyButton: true,
+			confirmButtonText: "Accept",
+			allowOutsideClick: false,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				submit(dataToSend, data);
+			} else if (result.isDenied) {
+				Swal.fire("Changes are not saved", "", "info");
+			}
+		});
+	};
 
 	return (
 		<MainPage>
@@ -212,73 +261,70 @@ const InformationQuices = () => {
 						{error ? (
 							<Typography variant="body1">Server Problems</Typography>
 						) : noDataTLs ? (
-							<Typography variant="body1">no se han creado equipos</Typography>
+							<Typography variant="body1">Teams are not loaded</Typography>
 						) : loadingTLs ? (
 							<LoadingComponent />
 						) : (
-							//map
 							teamLs?.map((tl) => (
-								<CardButton
+								<CardButtonTLs
 									index={tl.id}
-									title={tl.tlName}
-									subtitle={tl.Rol}
+									tl={tl}
+									handleAgent={handleTL}
 									icon="arrow"
 								/>
 							))
 						)}
 					</BoxContain>
 				</Grid>
-				<Grid item xs={12} md={4}>
-					<Typography variant="h6" textAlign="center" color="#3047B0">
-						Team Members
-					</Typography>
-					<BoxContain mt={1}>
-						{error ? (
-							<Typography variant="body1">Server Problems</Typography>
-						) : noDataAgents ? (
-							<Typography variant="body1">no se han creado equipos</Typography>
-						) : loadingAgents ? (
-							<LoadingComponent />
-						) : (
-							//map
-							agents?.map((ag) => (
-								<CardButton
-									index={ag.id}
-									title={ag.tlName}
-									subtitle={ag.Rol}
-									icon="arrow"
-								/>
-							))
-						)}
-					</BoxContain>
-				</Grid>
-				<Grid item xs={12} md={4}>
-					<Typography variant="h6" textAlign="center" color="#3047B0">
-						Missions Assigned
-					</Typography>
-					<BoxContain mt={1}>
-						{error ? (
-							<Typography variant="body1">Server Problems</Typography>
-						) : noDataMissions ? (
-							<Typography variant="body1">no se han creado equipos</Typography>
-						) : loadingMissions ? (
-							<LoadingComponent />
-						) : (
-							//map
-							missions?.map((miss) => (
-								<CardButton
-									index={miss.id}
-									title={miss.tlName}
-									subtitle={miss.Rol}
-									icon="trash"
-								/>
-							))
-						)}
-						{/* <CardButton title="Quiz1" subtitle="Quiz Topic" icon="trash" /> */}
-					</BoxContain>
-				</Grid>
+				{!error && viewAgents && (
+					<Grid item xs={12} md={4}>
+						<Typography variant="h6" textAlign="center" color="#3047B0">
+							Team Members
+						</Typography>
+						<BoxContain mt={1}>
+							{noDataAgents ? (
+								<Typography variant="body1">Agents are not loaded</Typography>
+							) : loadingAgents ? (
+								<LoadingComponent />
+							) : (
+								agents?.map((ag) => (
+									<CardButtonAgets
+										index={ag.Ident}
+										ag={ag}
+										handleAgent={handleAgent}
+										icon="arrow"
+									/>
+								))
+							)}
+						</BoxContain>
+					</Grid>
+				)}
+				{!error && viewMissions && (
+					<Grid item xs={12} md={4}>
+						<Typography variant="h6" textAlign="center" color="#3047B0">
+							Missions Assigned
+						</Typography>
+						<BoxContain mt={1}>
+							{noDataMissions ? (
+								<Typography variant="body1">
+									This agent has no assigned missions
+								</Typography>
+							) : loadingMissions ? (
+								<LoadingComponent />
+							) : (
+								missions?.map((miss) => (
+									<CardButtonMissions
+										index={miss.idQuiz}
+										miss={miss}
+										removeMission={removeMission}
+										icon="trash"
+									/>
+								))
+							)}
+						</BoxContain>
+					</Grid>
+				)}
 			</Grid>
-
 			<Footer />
 		</MainPage>
 	);

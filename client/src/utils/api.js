@@ -35,13 +35,13 @@ const downloadCounts = () => {
 
 /* OPERATION MANAGER */
 
-const createTeamOperationManager = (context, idLeader, Email, cas) => {
+const createTeamOperationManager = (context, idLeader, email, cas) => {
 	try {
 		return axiosInstance
 			.post(`uploadopsm`, {
 				context: context,
 				idLeader: idLeader,
-				Email,
+				email,
 				cas: cas,
 			})
 			.catch(function (error) {
@@ -667,6 +667,18 @@ const getInfoAgent = (idccmsAgent) => {
 const welcomeToEGP = () => {
 	try {
 		return axiosInstance.post(`welcomeegp`).catch(function (error) {
+			if (error.response) {
+				return error.response;
+			}
+		});
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+export const requestWithData = (endpoint, data) => {
+	try {
+		return axiosInstance.post(endpoint, data).catch(function (error) {
 			if (error.response) {
 				return error.response;
 			}

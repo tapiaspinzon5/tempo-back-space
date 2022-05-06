@@ -27,12 +27,12 @@ const ShowUserActivity = ({ user, handleUser }) => {
 				/>
 				<Box width="55%">
 					<Typography variant="body1">{user.Agent}</Typography>
-					<Typography variant="caption">{user.AgentPosition}</Typography>
+					<Typography variant="caption">Agent</Typography>
 				</Box>
 				<Box display="flex" alignItems="center" flexDirection="column">
 					<Box display="flex" alignItems="center">
 						<Typography variant="caption" marginRight={1}>
-							5
+							{user.Level}
 						</Typography>
 						<img src={level} alt="" height={20} />
 					</Box>
@@ -41,7 +41,7 @@ const ShowUserActivity = ({ user, handleUser }) => {
 				<Box display="flex" alignItems="center" flexDirection="column">
 					<Box display="flex" alignItems="center">
 						<Typography variant="caption" marginRight={1}>
-							{user.Experiences}
+							{user.Expe}
 						</Typography>
 						<img src={start} alt="" height={20} />
 					</Box>

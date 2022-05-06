@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
-import searchIco from "../assets/Icons/search-ico.svg";
+import searchIco from "../../../assets/Icons/search-ico.svg";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-export default function SearchAppBar() {
+export default function SearchMission({ search, handleSearchMissions }) {
 	return (
 		<Toolbar>
 			<Search>
@@ -53,8 +53,10 @@ export default function SearchAppBar() {
 					<img src={searchIco} alt="" />{" "}
 				</SearchIconWrapper>
 				<StyledInputBase
+					value={search}
 					placeholder="Search…"
 					inputProps={{ "aria-label": "search" }}
+					onChange={handleSearchMissions}
 				/>
 			</Search>
 		</Toolbar>

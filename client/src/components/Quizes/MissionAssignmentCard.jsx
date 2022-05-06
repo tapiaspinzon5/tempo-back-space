@@ -26,12 +26,13 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 			<input
 				type="checkbox"
 				className="checkBox"
-				name={mission?.missionName}
+				name={mission?.Name}
 				checked={mission?.isChecked || false}
 				onChange={handleMissions}
 			/>
 			<Box width="55%">
-				<Typography variant="body1">{mission.missionName}</Typography>
+				<Typography variant="body1">{mission.Name}</Typography>
+				<Typography variant="caption">{mission.Topic}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center">
 				<BsClock size={20} color="#3047B0" />
@@ -41,18 +42,18 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 					Time
 				</Typography>
 			</Box>
-			<FormControl sx={{ width: "25%", height: "50%" }}>
+			<FormControl sx={{ width: "25%", height: "50%" }} size="small">
 				<InputLabel id="demo-simple-select-label">Time</InputLabel>
 				<Select
 					labelId="demo-simple-select-label"
 					id="demo-simple-select"
 					value={mission.time}
 					label="Assignment Time"
-					onChange={(e) => handleTime(e, mission.missionName)}
+					onChange={(e) => handleTime(e, mission.Name)}
 				>
 					<MenuItem value={"daily"}>Daily</MenuItem>
-					<MenuItem value={"monthly"}>Monthly</MenuItem>
 					<MenuItem value={"weekly"}>Weekly</MenuItem>
+					<MenuItem value={"monthly"}>Monthly</MenuItem>
 				</Select>
 			</FormControl>
 		</CardMission>

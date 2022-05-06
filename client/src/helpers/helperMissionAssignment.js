@@ -1,50 +1,35 @@
 export const dataToSend = (missions, data, QAname, context) => {
 	const nameMissions = [];
 	const idMissions = [];
-	const idccmsAssigned = [];
+	const idAssigned = [];
 	const fcmTokens = [];
 	const expTime = [];
 	missions.forEach((mission) => {
-		nameMissions.push(mission.missionName);
-		idMissions.push(mission.id);
+		nameMissions.push(mission.Name);
+		idMissions.push(mission.Id);
 		expTime.push(mission.time);
 	});
-	data.forEach((agent) => {
-		idccmsAssigned.push(agent.id);
-		fcmTokens.push(agent.fcmToken);
-	});
+	if (data[0].Ident) {
+		data.forEach((agent) => {
+			idAssigned.push(agent.Ident);
+			fcmTokens.push(agent.Token);
+		});
+	} else if (data[0].idLob) {
+		data.forEach((lob) => {
+			idAssigned.push(lob.idLob);
+		});
+	} else {
+		data.forEach((tm) => {
+			idAssigned.push(tm.idTeam);
+		});
+	}
 	return {
-		userName: QAname,
+		userName: QAname, // usuario logueado notificar quien lo asigno
 		nameMissions,
 		idMissions,
-		idccmsAssigned,
-		fcmTokens,
+		idAssigned,
+		fcmTokens, // vuela para team lob null
 		expTime,
-		context,
+		context, // agent, LOB, Team
 	};
 };
-
-/* export const dataToSendLobsTeams = (missions, data, QAname) => {
-	const nameMissions = [];
-	const idMissions = [];
-	const idccmsAssigned = [];
-	const fcmTokens = [];
-	missions.forEach((mission) => {
-		nameMissions.push(mission.missionName);
-		idMissions.push(mission.id);
-	});
-	data.forEach((agent) => {
-		idccmsAssigned.push(agent.id);
-		fcmTokens.push(agent.fcmToken); //Definir si se recorre el arreglo y se envia uno o si se envia un arreglo de arreglos
-	});
-	return {
-		userName: QAname,
-		nameMissions,
-		idMissions,
-		idccmsAssigned,
-		fcmTokens,
-	};
-};
-
-export const dataToSendTeams = (missions, data) => {};
- */

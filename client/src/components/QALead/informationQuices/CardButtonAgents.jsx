@@ -19,12 +19,14 @@ const ButtonCard = styled(Button)(() => ({
 	textAlign: "start",
 }));
 
-const CardButton = ({ title, subtitle, icon }) => {
+const CardButtonAgets = ({ ag, icon, handleAgent }) => {
 	return (
-		<ButtonCard>
+		<ButtonCard
+			onClick={() => handleAgent({ name: ag.Agent, idccms: ag.Ident })}
+		>
 			<Box>
-				<Typography variant="body1">{title}</Typography>
-				<Typography variant="body2">{subtitle}</Typography>
+				<Typography variant="body1">{ag.Agent}</Typography>
+				<Typography variant="body2">{ag.Cargo}</Typography>
 			</Box>
 			{icon === "arrow" && <IoIosArrowForward size={30} />}
 			{icon === "trash" && <BiTrash size={20} />}
@@ -32,4 +34,4 @@ const CardButton = ({ title, subtitle, icon }) => {
 	);
 };
 
-export default CardButton;
+export default CardButtonAgets;
