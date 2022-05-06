@@ -1,8 +1,30 @@
 import { Box, InputAdornment, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { InputText } from "../../assets/styled/muistyled";
 
-const TreuFalseQuestion = ({ steep, ask, setAsk }) => {
+const TreuFalseQuestion = ({
+  steep,
+  ask,
+  setAsk,
+  empty,
+  question,
+  setEdit,
+}) => {
+  const pregunta = question[steep];
+  useEffect(() => {
+    console.log(pregunta);
+    console.log(steep);
+    console.log(ask);
+    if (pregunta) {
+      console.log("existe pregunta ");
+      setAsk(pregunta[0]);
+      setEdit(true);
+    } else {
+      console.log("preunta nueva");
+      setEdit(false);
+    }
+  }, [steep]);
+
   return (
     <Box marginY={1} color="#3047B0">
       <form>
@@ -13,22 +35,27 @@ const TreuFalseQuestion = ({ steep, ask, setAsk }) => {
           variant="outlined"
           fullWidth
           onChange={(e) => setAsk({ ...ask, ask: e.target.value })}
-          value={ask.ask || ""}
+          value={ask.ask || pregunta?.ask || ""}
           required
+          error={!ask.ask && empty}
+          helperText={!ask.ask && empty ? "Field Requiered" : ""}
         />
 
         <Typography variant="h6">Answer</Typography>
+        {!ask.answer && empty && (
+          <Typography variant="caption" color="red">
+            Choose an answer!
+          </Typography>
+        )}
 
-        {["True", "False"].map((q) => (
+        {["true", "false"].map((q) => (
           <InputText
             key={q}
             fullWidth
-            name={q}
+            name={q.toUpperCase()}
             label={q}
             variant="outlined"
             disabled
-            //onChange={handleQuizSetup}
-            //value={dataQuiz.quizName}
             required
             sx={{ marginTop: ".5rem" }}
             InputProps={{
@@ -39,7 +66,8 @@ const TreuFalseQuestion = ({ steep, ask, setAsk }) => {
                     style={{ height: "1.5rem", width: "1.5rem" }}
                     id="answer"
                     name="answer"
-                    value={q}
+                    value={q || pregunta.answer}
+                    checked={q === ask.answer ? true : false}
                     onChange={(e) => setAsk({ ...ask, answer: e.target.value })}
                   />
                 </InputAdornment>

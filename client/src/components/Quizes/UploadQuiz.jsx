@@ -9,6 +9,7 @@ import { uploadQuizes } from "../../utils/api";
 import {
   Button,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -105,10 +106,14 @@ const UploadQuiz = ({ setLoading, topics }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [empty, setEmpty] = useState(false);
   const [steep, setSteep] = useState(0);
   const [categoryStep, setCategoryStep] = useState([]);
   const [question, setQuestion] = useState([]);
   const [ask, setAsk] = useState([]);
+  const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
+    dataQuiz;
 
   const handleOpen = () => {
     setOpen(true);
@@ -208,7 +213,8 @@ const UploadQuiz = ({ setLoading, topics }) => {
       }
 
       //setData(data);
-      const resp = await uploadQuizes({ data });
+      const context = 1;
+      const resp = await uploadQuizes(data, context);
 
       console.log(resp);
 
@@ -236,19 +242,122 @@ const UploadQuiz = ({ setLoading, topics }) => {
   };
 
   // Stepper  Section
-  const handleNext = () => {
+  const handleNext = async () => {
+    //validaciones//
+    //setup de la mision
+    if (
+      !quizCategory ||
+      !quizDescription ||
+      !quizName ||
+      !quizQuestions ||
+      !quizTarget
+    ) {
+      setEmpty(true);
+      return;
+    } else {
+      setEmpty(false);
+    }
+
+    //validacion por pregunta
+    if (ask.questionType === "multipleChoice") {
+      if (
+        !ask[1] ||
+        !ask[2] ||
+        !ask[3] ||
+        !ask[4] ||
+        !ask.Q ||
+        !ask.answer ||
+        !ask.ask ||
+        !ask.questionType
+      ) {
+        setEmpty(true);
+        return;
+      } else {
+        setEmpty(false);
+      }
+    }
+
+    if (ask.questionType === "trueFalse") {
+      if (!ask.Q || !ask.answer || !ask.ask || !ask.questionType) {
+        setEmpty(true);
+        return;
+      } else {
+        setEmpty(false);
+      }
+    }
+
+    //salto Next depregunta
     if (steep < categoryStep.length - 1) {
       setSteep((prev) => prev + 1);
     }
+
+    // console.log(question[steep]);
+    // if (question[steep]) {
+    //   if (steep > 0) {
+    //     setAsk(question[steep][0]);
+    //     console.log("ya existe ese paso", steep);
+    //     return;
+    //   }
+    // }
+
+    //asignacion al Arreglo para enviar
     if (ask.length !== 0) {
-      setQuestion([...question, [ask]]);
-      setAsk([]);
+      if (!edit) {
+        setQuestion([...question, [ask]]);
+      } else {
+        console.log("editar pregunta");
+        //setQuestion([...question, [steep][0]:ask]);
+      }
+      setAsk({ questionType: "multipleChoice" });
+      if (steep === categoryStep.length - 1) {
+        handleClose();
+        MySwal.fire({
+          title: <p>{`Are you sure you want create the mission?`}</p>,
+          icon: "info",
+          showDenyButton: true,
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleUp([...question, [ask]]);
+          } else if (result.isDenied) {
+            handleOpen();
+          }
+        });
+        //handleUp();
+      }
+    } else {
+      //agrega el setup al arreglo gral
+      setQuestion([...question, [dataQuiz]]);
+      setAsk({ questionType: "multipleChoice" });
     }
   };
+
   const handleBack = () => {
     if (steep > 0) {
       setSteep((prev) => prev - 1);
     }
+    if (question[steep]) {
+      if (steep > 0) {
+        setAsk(question[steep][0]);
+      }
+      //else {
+      //   setDataQuiz(question[steep][0]);
+      // }
+    }
+  };
+
+  const handleUp = async (data) => {
+    const context = 2;
+    //const data = question;
+    const resp = await uploadQuizes(data, context);
+    console.log(resp);
+    console.log("subiendo Mision", "context:", context, "Quiz==", data);
+    setQuestion([]);
+    setDataQuiz([]);
+    setCategoryStep([]);
+    setSteep(0);
+    setAsk([]);
   };
 
   useEffect(() => {
@@ -265,9 +374,10 @@ const UploadQuiz = ({ setLoading, topics }) => {
     handleSteppep();
   }, [dataQuiz.quizQuestions]);
 
-  console.log(dataQuiz);
+  //   console.log(dataQuiz);
   console.log("Pregunta==", ask);
   console.log("Quiz==", question);
+  //console.log(steep, categoryStep.length - 1);
 
   return (
     <BoxUpQuiz>
@@ -305,16 +415,18 @@ const UploadQuiz = ({ setLoading, topics }) => {
                   <Select
                     labelId="questionType-label"
                     name="questionType"
-                    value={dataQuiz.questionType || ""}
+                    value={ask.questionType || ""}
                     label="Question Type"
-                    onChange={handleQuizSetup}
+                    onChange={(e) =>
+                      setAsk({ ...ask, questionType: e.target.value })
+                    }
                     required
                   >
                     <MenuItem value="trueFalse">True or False</MenuItem>
                     <MenuItem value="multipleChoice">Multiple Choice</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl sx={{ width: " 20%" }}>
+                <FormControl sx={{ width: " 20%" }} error={!ask.Q && empty}>
                   <InputLabel id="questionType-label">Quartile</InputLabel>
                   <Select
                     labelId="quartile-label"
@@ -330,12 +442,29 @@ const UploadQuiz = ({ setLoading, topics }) => {
                       </MenuItem>
                     ))}
                   </Select>
+                  <FormHelperText color="red">
+                    {!ask.Q && empty ? "Field Requiered" : ""}
+                  </FormHelperText>
                 </FormControl>
               </Box>
-              {dataQuiz.questionType === "trueFalse" ? (
-                <TreuFalseQuestion steep={steep} ask={ask} setAsk={setAsk} />
+              {ask.questionType === "trueFalse" ? (
+                <TreuFalseQuestion
+                  steep={steep}
+                  ask={ask}
+                  setAsk={setAsk}
+                  empty={empty}
+                  question={question}
+                  setEdit={setEdit}
+                />
               ) : (
-                <MultiOptionQuestion steep={steep} ask={ask} setAsk={setAsk} />
+                <MultiOptionQuestion
+                  steep={steep}
+                  ask={ask}
+                  setAsk={setAsk}
+                  empty={empty}
+                  question={question}
+                  setEdit={setEdit}
+                />
               )}
             </>
           ) : (
@@ -366,7 +495,6 @@ const UploadQuiz = ({ setLoading, topics }) => {
                       id="quiz"
                       name="quiz"
                       onChange={(e) => setFileName(e.target.files[0])}
-                      // onChange={(e) => uploadFile(e)}
                     />
                   </form>
                 </BoxUpFile>
@@ -379,6 +507,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
                 fileName={fileName}
                 dataQuiz={dataQuiz}
                 topics={topics}
+                empty={empty}
               />
             </>
           )}
@@ -394,9 +523,15 @@ const UploadQuiz = ({ setLoading, topics }) => {
 
             <ButtonActionBlue
               sx={{ width: "8rem" }}
+              disabled={fileName}
               onClick={() => {
                 handleNext();
               }}
+              // onClick={() => {
+              //   steep < categoryStep.length - 1 || steep === 0
+              //     ? handleNext()
+              //     : handleUp();
+              // }}
             >
               {steep < categoryStep.length - 1 || steep === 0
                 ? "Next"
