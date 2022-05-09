@@ -154,7 +154,13 @@ let tlIdccmsArray = [{ name: "identTL", type: TYPES.Int }];
 
 let assignMissionsQATable = [
   { name: "Ident", type: TYPES.Int },
-  { name: "idExamLobTeam", type: TYPES.Int },
+  { name: "idMission", type: TYPES.Int },
+  { name: "expTime", type: TYPES.VarChar },
+  { name: "idRegistry", type: TYPES.Int },
+];
+
+let idLobTeamTable = [
+  { name: "idTeamLob", type: TYPES.Int },
   { name: "idRegistry", type: TYPES.Int },
 ];
 
@@ -240,38 +246,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("Context", req.context, TYPES.Int),
       ]);
 
-    case "spQueryTeams":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    case "spQueryDashBoarhAgent":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-    case "spInsertExam":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", quizTable, req.rows),
-      ]);
-    case "spInsertTeam":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", suTable, req.rows),
-      ]);
-    case "spInsertOrganizationalUnit":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", opsmTable, req.rows),
-      ]);
-    case "spInsertEmployee":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", reportLeadTable, req.rows),
-      ]);
-
-    case "spQueryActivities":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("idccms", req.idccmsAssigned, TYPES.Int),
-        new SpParam("Context", req.context, TYPES.Int),
-      ]);
-
     case "spQueryLoadInstructions":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
@@ -324,12 +298,6 @@ exports.parametros = (req, tipo) => {
     case "spAddJumpRegister":
       return SpParamTable("jumpTable", JumpEmployee, req.rows);
 
-    case "spQueryActivitiesAgent":
-      return parametrizacion([
-        new SpParam("case", req.context, TYPES.Int),
-        new SpParam("ident", req.idccms, TYPES.Int),
-      ]);
-
     case "spQueryKpiTeam":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
@@ -341,8 +309,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("idccms", req.agentIdccms, TYPES.Int),
         new SpParam("Case", req.context, TYPES.Int),
       ]);
-
-    //TODO: Borrar para despues
 
     case "spChangeStatusNotifications":
       return parametrizacion([
@@ -363,63 +329,20 @@ exports.parametros = (req, tipo) => {
     case "spProfileAgent":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
-    case "spInactivateAgent":
-      return parametrizacion([
-        new SpParam("ident", req.idccmsAgent, TYPES.Int),
-        new SpParam("identassignement", req.idccms, TYPES.Int),
-      ]);
-
     case "spQueryAgents":
       return parametrizacion([
         new SpParam("ident", req.idccmsAgent, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
       ]);
 
-    case "spInsertLob":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("NameLob", req.lobName, TYPES.VarChar),
-        new SpParam("Context", req.context, TYPES.Int),
-        new SpParam("idlob", req.idlob, TYPES.Int),
-        SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
-      ]);
-
-    case "spInsertCampaign":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.VarChar),
-        SpParamTable2("table", suTable2, req.rows),
-      ]);
-
-    case "spQueryManagementOP":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-
-    case "spQueryExamCategories":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-
-    case "spInsertExamCategory":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("NameCategory", req.nameCategory, TYPES.VarChar),
-        new SpParam("context", req.context, TYPES.Int),
-        new SpParam("idCategory", req.idCategory, TYPES.Int),
-      ]);
-
     case "spInsertExamEmployee":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("context", req.context, TYPES.Int),
-        SpParamTable2("table", assignMissionsQATable, req.rows),
+        new SpParam("context", req.contextLobTeam, TYPES.Int),
+        SpParamTable2("table", assignMissionsQATable, req.rows3),
       ]);
 
-    case "spInactivateExam":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("idExamen", req.idMission, TYPES.Int),
-      ]);
 
-    // Casos de Actividades
-    case "spBgWelcomeEGP":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     case "spQueryLobTeams":
       return parametrizacion([
@@ -428,18 +351,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("Context", req.context, TYPES.Int),
       ]);
 
-    // Casos de Actividades
-    case "spBgWelcomeEGP":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
-
     case "spQueryAnalitycsKpi":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     case "spQueryAnalitycsExp":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
-    case "spQueryDasboardTeamLeader":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
     case "spQueryDasboardTeamLeader":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
@@ -482,12 +399,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("identassignement", req.idccms, TYPES.Int),
       ]);
 
-    case "spQueryAgents":
-      return parametrizacion([
-        new SpParam("ident", req.idccmsAgent, TYPES.Int),
-        new SpParam("context", req.context, TYPES.Int),
-      ]);
-
     case "spQueryLeaderBoardRL":
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
@@ -511,13 +422,6 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
       ]);
 
-    case "spQueryLobTeams":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
-        new SpParam("Context", req.context, TYPES.Int),
-      ]);
-
     case "spQueryManagementOP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
@@ -530,13 +434,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("Context", req.context, TYPES.Int),
         new SpParam("idCategory", req.idCategory, TYPES.Int),
         new SpParam("NameCategory", req.nameCategory, TYPES.VarChar),
-      ]);
-
-    case "spInsertExamEmployee":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("context", req.context, TYPES.Int),
-        SpParamTable2("table", assignMissionsQATable, req.rows),
       ]);
 
     case "spInactivateExam":
@@ -552,6 +449,28 @@ exports.parametros = (req, tipo) => {
         new SpParam("case", req.caso, TYPES.Int),
       ]);
 
+    case "spQueryMissionsDetail":
+    return parametrizacion([
+      new SpParam("ident", req.idccms, TYPES.Int),
+      new SpParam("context", req.contextLobTeam, TYPES.Int),
+      SpParamTable2("table", idLobTeamTable, req.rows),
+    ]);
+
+    case "spQueryMissionsInformation":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idccms", req.idccmsAgent, TYPES.Int),
+        new SpParam("IdTeam", req.idTeam, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
+
+    case "spInactivateMissionAgent":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idccms", req.idccmsAgent, TYPES.Int),
+        new SpParam("idmision", req.idMission, TYPES.Int),
+      ]);
+      
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

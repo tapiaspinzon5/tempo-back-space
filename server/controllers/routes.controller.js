@@ -8,6 +8,7 @@ const path = require('path');
 const {transport} = require("../nodemailerConfig");
 const {sendFCMMessage} = require("../helpers/sendNotification");
 const { randomInt } = require('crypto');
+const axios = require('axios').default;
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -64,27 +65,68 @@ let responsep = (tipo, req, res, resultado, cookie) => {
 
 exports.saveQuiz = async (req, res) => {
   
-  // Funcion para insertar un id a las preguntas
+  const {data, context} = req.body;
+
   let i = 0;
-  let data = req.body.data;
+  let rows = [];
+  let rows2 = [];
 
-  let rows = data.map((quest) => {
-    i = i + 1;
-    return [...quest, i];
-  });
+  if (context == 1) {
 
-  sql
-    .query(
-      "spInsertExam",
-      parametros({ idccms: req.query.idccms, rows }, "spInsertExam")
-    )
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
+    let rows = data.map((quest) => {
+      i = i + 1;
+      return [...quest, i];
     });
+
+    sql
+      .query(
+        "spInsertExam",
+        parametros({ idccms: req.query.idccms, rows }, "spInsertExam")
+      )
+      .then((result) => {
+        responsep(1, req, res, result);
+      })
+      .catch((err) => {
+        console.log(err, "sp");
+        responsep(2, req, res, err);
+      });
+
+  } else {
+
+    for (let i = 1; i < data.length; i++) {
+      rows.push(data[i][0]) 
+    }
+
+    for (let i = 0; i < rows.length; i++) {
+      rows2.push([
+        rows[i].ask, 
+        rows[i].questionType === 'trueFalse' ? 'true' : rows[i][1], 
+        rows[i].questionType === 'trueFalse' ? 'false' : rows[i][2],   
+        rows[i].questionType === 'trueFalse' ? null : rows[i][3],   
+        rows[i].questionType === 'trueFalse' ? null : rows[i][4],
+        rows[i].answer,
+        rows[i].Q,
+        data[0][0].quizName,
+        data[0][0].quizDescription,
+        +data[0][0].quizTarget,
+        data[0][0].quizCategory,
+        i+1
+      ]) 
+    }
+
+    sql
+      .query(
+        "spInsertExam",
+        parametros({ idccms: req.query.idccms, rows:rows2 }, "spInsertExam")
+      )
+      .then((result) => {
+        responsep(1, req, res, result);
+      })
+      .catch((err) => {
+        console.log(err, "sp");
+        responsep(2, req, res, err);
+      });
+  }
 };
 
 exports.uploadSU = async (req, res) => {
@@ -117,7 +159,7 @@ exports.uploadSU = async (req, res) => {
 
 exports.uploadOpsM = async (req, res) => {
 
-  const {context, idLeader, cas} = req.body;
+  const {context, idLeader, cas, email} = req.body;
 
   sql
     .query(
@@ -134,6 +176,26 @@ exports.uploadOpsM = async (req, res) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
+
+  const path = 'https://ApiEmail.teleperformance.co/api/sendEmail';
+
+  // const message = {
+  //   from: 'noresponse@teleperformance.co', // Sender address
+  //   to: email,         // List of recipients
+  //   subject: 'Notifiacion de prueba QA RL, // Subject line',
+  //   text: 'Notification QA RL' // Plain text body
+  // };
+
+  let message = {
+    "emails": `${email},diego.tapiaspinzon@teleperformance.com` ,
+    "subject": "Role assignment",
+    "name": "Notification SpaceGP",
+    "emailSender": "noresponse@teleperformance.com",
+    "HTML": 'Body Notification assigment QA RL' 
+  }
+
+  // let responseEmail = await axios.post(path, message)
+  // console.log(responseEmail);
 };
 
 exports.uploadRepLead = async (req, res) => {
@@ -1052,30 +1114,228 @@ exports.postCreateCategory = async (req, res) => {
 
 exports.postAssignMission = async (req, res) => {
 
-  const {context, idccmsAssigned, idMission} = req.body;
+  const {userName, nameMissions, idMissions, idAssigned, fcmTokens, expTime, context} = req.body;
+
   let rows = [];
+  let rows2 = [];
+  let rows3 = [];
   let i = 0;
+  let i2 = 0;
 
-  // Armo tabla para la DB
-  idMission.forEach(mis => {
-    idccmsAssigned.forEach(id => {
-      i = i + 1;
-      rows.push([id,mis,i])
-    })
-  });
+    
+  // Filtramos las personas que si tienen token para notificarlos
+  let fcmTokensFiltered = fcmTokens.filter(token => token !== "0");
 
-  sql
-    .query(
-      "spInsertExamEmployee",
-      parametros({ idccms: req.query.idccms, context, rows}, "spInsertExamEmployee")
-    )
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
-    });
+  switch (context) {
+    case 1:
+
+      for (let i = 0; i < idMissions.length; i++) {
+        rows2.push([idMissions[i], expTime[i]])
+      }
+
+      rows2.forEach(ele => {
+        idAssigned.forEach(id => {
+          i2 = i2 + 1;
+          rows3.push([id,ele[0],ele[1],i2])
+        })
+      });
+
+      // Armo tabla para la DB
+      // idMissions.forEach(ele => {
+      //   idAssigned.forEach(id => {
+      //     i = i + 1;
+      //     rows.push([id,ele,i])
+      //   })
+      // });
+
+      sql
+        .query(
+          "spInsertExamEmployee",
+          parametros({ idccms: req.query.idccms, contextLobTeam:1, rows3}, "spInsertExamEmployee")
+        )
+        .then((result) => {
+          responsep(1, req, res, result);
+        })
+        .catch((err) => {
+          console.log(err, "sp");
+          responsep(2, req, res, err);
+        });
+
+      // Recorremos cada actividad
+      for (let i = 0; i < nameMissions.length; i++) {
+        try {
+          // enviamos la actividad por c/u  de los tokens
+          fcmTokensFiltered.forEach(async (token) => {
+            // console.log(userName, nameChallenge[i], token);
+            return await sendFCMMessage(userName, nameMissions[i], token)
+          })
+          // res.status(200).json(resp);
+        } catch (error) {
+          res.status(500).json(error);
+        }
+      }
+    
+      break;
+
+    case 2:
+      // POR EQUIPOS
+      idAssigned.forEach(id => {
+        i = i + 1;
+        rows.push([id,i])
+      })
+
+      sql
+        .query(
+          "spQueryMissionsDetail",
+          parametros({ idccms: req.query.idccms, contextLobTeam:1, rows}, "spQueryMissionsDetail")
+        )
+        .then((result) => {
+
+          
+          let i2 = 0;
+
+          let agentsInfo = result[0].Agents;
+
+          for (let i = 0; i < idMissions.length; i++) {
+            rows2.push([idMissions[i], expTime[i]])
+          }
+
+          rows2.forEach(ele => {
+            agentsInfo.forEach(inf => {
+              i2 = i2 + 1;
+              rows3.push([inf.Ident,ele[0],ele[1],i2])
+            })
+          });
+
+          // Filtramos las personas que si tienen token para notificarlos
+          let usersWithFcmTokens = agentsInfo.filter(token => token.Token !== "0");
+
+          sql
+            .query(
+              "spInsertExamEmployee",
+              parametros({ idccms: req.query.idccms, contextLobTeam:2, rows3}, "spInsertExamEmployee")
+            )
+            .then((result) => {
+              responsep(1, req, res, result);
+            })
+            .catch((err) => {
+              console.log(err, "sp");
+              responsep(2, req, res, err);
+            });
+
+          // Recorremos cada actividad
+          for (let i = 0; i < nameMissions.length; i++) {
+            try {
+              // enviamos la actividad por c/u  de los tokens
+              usersWithFcmTokens.forEach(async (user) => {
+                // console.log(userName, nameChallenge[i], token);
+                return await sendFCMMessage(userName, nameMissions[i], user.Token)
+              })
+              // res.status(200).json(resp);
+            } catch (error) {
+              res.status(500).json(error);
+            }
+          }
+          
+        })
+        .catch((err) => {
+          console.log(err, "sp");
+          responsep(2, req, res, err);
+        });
+      break;
+  
+    case 3:
+      // POR LOBS
+      idAssigned.forEach(id => {
+        i = i + 1;
+        rows.push([id,i])
+      })
+
+      sql
+        .query(
+          "spQueryMissionsDetail",
+          parametros({ idccms: req.query.idccms, contextLobTeam:2, rows}, "spQueryMissionsDetail")
+        )
+        .then((result) => {
+
+          let agentsInfo = result[0].Agents;
+
+          for (let i = 0; i < idMissions.length; i++) {
+            rows2.push([idMissions[i], expTime[i]])
+          }
+
+          // Filtramos las personas que si tienen token para notificarlos
+          let usersWithFcmTokens = agentsInfo.filter(token => token.Token !== "0");
+          
+          rows2.forEach(ele => {
+            agentsInfo.forEach(inf => {
+              i2 = i2 + 1;
+              rows3.push([inf.Ident,ele[0],ele[1],i2])
+            })
+          });
+
+          sql
+            .query(
+              "spInsertExamEmployee",
+              parametros({ idccms: req.query.idccms, contextLobTeam:3, rows3}, "spInsertExamEmployee")
+            )
+            .then((result) => {
+              responsep(1, req, res, result);
+            })
+            .catch((err) => {
+              console.log(err, "sp");
+              responsep(2, req, res, err);
+            });
+
+          // Recorremos cada actividad
+          for (let i = 0; i < nameMissions.length; i++) {
+            try {
+              // enviamos la actividad por c/u  de los tokens
+              usersWithFcmTokens.forEach(async (user) => {
+                // console.log(userName, nameChallenge[i], token);
+                return await sendFCMMessage(userName, nameMissions[i], user.Token)
+              })
+              // res.status(200).json(resp);
+            } catch (error) {
+              res.status(500).json(error);
+            }
+          }
+
+        })
+        .catch((err) => {
+          console.log(err, "sp");
+          responsep(2, req, res, err);
+        });
+
+      break;
+
+    default:
+      break;
+  }
+
+  // let rows = [];
+  // let i = 0;
+
+  // // Armo tabla para la DB
+  // idMission.forEach(mis => {
+  //   idccmsAssigned.forEach(id => {
+  //     i = i + 1;
+  //     rows.push([id,mis,i])
+  //   })
+  // });
+
+  // sql
+  //   .query(
+  //     "spInsertExamEmployee",
+  //     parametros({ idccms: req.query.idccms, context, rows}, "spInsertExamEmployee")
+  //   )
+  //   .then((result) => {
+  //     responsep(1, req, res, result);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err, "sp");
+  //     responsep(2, req, res, err);
+  //   });
 };
 
 exports.postInactivateMission = async (req, res) => {
@@ -1119,6 +1379,42 @@ exports.getMissionsAssignmentInfo = async (req, res) => {
     .query(
       "spQueryMissions",
       parametros({ idccms: req.query.idccms, context, caso}, "spQueryMissions")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getMissionsInformation = async (req, res) => {
+
+  const {idccmsAgent, idTeam, context} = req.body;
+
+  sql
+    .query(
+      "spQueryMissionsInformation",
+      parametros({ idccms: req.query.idccms, idccmsAgent, idTeam, context}, "spQueryMissionsInformation")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.inactivateMission = async (req, res) => {
+
+  const {idccmsAgent, idMission} = req.body;
+
+  sql
+    .query(
+      "spInactivateMissionAgent",
+      parametros({ idccms: req.query.idccms, idccmsAgent, idMission}, "spInactivateMissionAgent")
     )
     .then((result) => {
       responsep(1, req, res, result);
