@@ -201,7 +201,7 @@ const InformationQuices = () => {
 	const submit = async (ag, miss) => {
 		const cqa = await await requestWithData("inactivatemission", {
 			idccmsAgent: ag.idccms,
-			idMission: miss.idQuiz,
+			idMission: miss.Id,
 		});
 
 		if (cqa && cqa.status === 200) {
@@ -250,7 +250,7 @@ const InformationQuices = () => {
 	return (
 		<MainPage>
 			<Header />
-			<Typography variant="h5">Information Quizes</Typography>
+			<Typography variant="h5">Mission Information</Typography>
 
 			<Grid container spacing={1}>
 				<Grid item xs={12} md={4}>
