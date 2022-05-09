@@ -471,7 +471,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
             <>
               <Box>
                 <Typography variant="h6" color="#3047B0" fontWeight={700}>
-                  Upload Quiz
+                  Upload Mission
                 </Typography>
                 <BoxUpFile>
                   <form onSubmit={uploadFile}>
