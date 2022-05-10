@@ -6,6 +6,7 @@ import OM_template from "../../assets/filesTemplatesCSV/OpsManagerTemplate.csv";
 import RL_template from "../../assets/filesTemplatesCSV/ReportingTemplate.csv";
 import SU_template from "../../assets/filesTemplatesCSV/SuperUserTemplate.csv";
 import Kpi_template from "../../assets/filesTemplatesCSV/Load_Kpi_Template.csv";
+import ExcelJS from "exceljs";
 
 const MainModal = styled(Box)(() => ({
 	minHeight: "50vh",
@@ -181,7 +182,7 @@ const LoadKpis = () => {
 	);
 };
 
-const UpQuizModal = ({ handleClose, template }) => {
+const UpQuizModal = ({ handleClose, template, teams }) => {
 	let dwounloadTemplate;
 	switch (template) {
 		case "Quiz Template":
@@ -216,6 +217,29 @@ const UpQuizModal = ({ handleClose, template }) => {
 		handleClose();
 	};
 
+	const downloadTeams = async () => {
+		const workbook = new ExcelJS.Workbook();
+		workbook.addWorksheet("Created_Teams");
+		await createdTeamsSheet(workbook);
+		let fecha = new Date().toLocaleDateString();
+		const uint8Array = await workbook.xlsx.writeBuffer();
+		const blob = new Blob([uint8Array], { type: "application/octet-binary" });
+		const url = window.URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `Created_Teams_${fecha}.xlsx`;
+		a.click();
+		a.remove();
+	};
+	const createdTeamsSheet = (workbook) => {
+		const worksheet = workbook.getWorksheet("Created_Teams");
+		worksheet.columns = [
+			{ header: "identTeamLeader", key: "identTeamLeader" },
+			{ header: "NameTeamLeader", key: "NameTeamLeader" },
+			{ header: "TeamName", key: "Team" },
+		];
+		worksheet.addRows(teams);
+	};
 	return (
 		<MainModal>
 			<img src={instructions} alt="instructions" />
@@ -240,7 +264,12 @@ const UpQuizModal = ({ handleClose, template }) => {
 				<Button sx={{ marginRight: "2rem" }} onClick={handleClose}>
 					Return
 				</Button>
-				<Button onClick={() => downloadFile()}>Download</Button>
+				<Button sx={{ marginRight: "2rem" }} onClick={() => downloadFile()}>
+					Download Template
+				</Button>
+				{template === "Rep Lead Template" && (
+					<Button onClick={() => downloadTeams()}>Download Teams Info</Button>
+				)}
 			</Box>
 		</MainModal>
 	);

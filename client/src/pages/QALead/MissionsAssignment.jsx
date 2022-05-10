@@ -233,6 +233,7 @@ const MissionsAssignment = () => {
 						teams: allTeams.data[0].Teams,
 					},
 				});
+				console.log(allTeams.data[0].Teams);
 				setLoadingAssigns(false);
 				setLoadingMission(false);
 			} else {

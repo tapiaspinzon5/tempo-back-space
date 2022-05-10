@@ -15,7 +15,6 @@ axiosInstance.interceptors.request.use((config) => {
 	config.headers.Authorization = "Bearer " + user.Token;
 	config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
 	config.headers["Access-Control-Allow-Origin"] = "*";
-
 	config.params = { idccms: user.Idccms };
 	return config;
 });

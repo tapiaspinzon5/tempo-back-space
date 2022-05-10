@@ -199,7 +199,7 @@ const InformationQuices = () => {
 	};
 
 	const submit = async (ag, miss) => {
-		const cqa = await await requestWithData("inactivatemission", {
+		const cqa = await await requestWithData("inactivatemissionagent", {
 			idccmsAgent: ag.idccms,
 			idMission: miss.Id,
 		});
