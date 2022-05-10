@@ -100,23 +100,31 @@ module.exports = (router) => {
   // Endpoint para crear LOB. 
   router.post("/postcreatelob",oauth.oauthOther, routes.postCreateLOB); 
 
+  // Consulta todas las LOB y los equipos de una campaña.
   router.post("/getlobsopsm",oauth.oauthOther, routes.getLobsOpsm);
 
+  // Consulta el Reporting Lead y el QA Lead de la campaña.
   router.post("/getrlqacampaignleaders",oauth.oauthOther, routes.getrlqaCampaignLeaders);
 
+  // Este endpoint CREA las categorías para las misiones.
   router.post("/postcreatecategory",oauth.oauthOther, routes.postCreateCategory);
   
+  // Este endpoint es utilizado para asignar Misiones a los agentes.
   router.post("/postassignmission",oauth.oauthOther, routes.postAssignMission);
   
+  // Este endpoint se usa para desactivar las misiones.
   router.post("/postinactivatemission",oauth.oauthOther, routes.postInactivateMission);
 
+  // Este endpoint consulta las categorias creadas anteriormente en la DB
   router.post("/getmissionscategories",oauth.oauthOther, routes.getMissionsCategories);
-  
+  // Este endpoint se usa para consultar las misiones creadas, con el fin que sean asignadas a Agente, Lob o Equipo
   router.post("/getmissionsassignmentinfo",oauth.oauthOther, routes.getMissionsAssignmentInfo);
 
+  //Endpoint para consultar equipos, Agentes de los equipos y misiones asignadas a cada Agente
   router.post("/getmissionsinformation",oauth.oauthOther, routes.getMissionsInformation);
 
-  router.post("/inactivatemission",oauth.oauthOther, routes.inactivateMission);
+  // Endpoint para inactivar misiones a agentes
+  router.post("/inactivatemissionagent",oauth.oauthOther, routes.inactivateMissionAgent);
 
 
 
