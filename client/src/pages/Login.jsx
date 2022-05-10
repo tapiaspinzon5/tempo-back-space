@@ -6,7 +6,6 @@ import {
   Button,
   Checkbox,
   styled,
-  //FormGroup,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -62,7 +61,6 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
 }));
 
 const Login = () => {
-  //const userData = useSelector((store) => store.loginUser.userData);
   const dispatch = useDispatch();
 
  const loading = useSelector((store) => store.loginUser.loading);

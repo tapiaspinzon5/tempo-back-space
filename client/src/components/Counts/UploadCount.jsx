@@ -1,5 +1,4 @@
 import React from "react";
-//import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -132,7 +131,6 @@ export const UploadCount = ({ setLoading }) => {
         return;
       }
 
-      //setData(data);
       const resp = await createTeamSuperUser(data);
 
       if (resp.status === 200) {

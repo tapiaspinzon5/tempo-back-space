@@ -90,28 +90,24 @@ const CardCateroriesQuiz = () => {
     });
 
     if (error !== null) {
-      console.log(error);
       setEdit(newCategory.idCat);
       return;
     }
 
     if (newCategory.add) {
-      console.log("Agregando Categoria");
-      const postAndSave = await addMissionCategories({
+      await addMissionCategories({
         nameCategory: newCategory.NameCategory,
         context: 1,
         idCategory: 654,
       });
-      console.log(postAndSave);
       getCategories();
     } else {
-      console.log("editando categoria");
-      const postAndSave = await addMissionCategories({
+      await addMissionCategories({
         nameCategory: newCategory.NameCategory,
         context: 2,
         idCategory: newCategory.idCat,
       });
-      console.log(postAndSave);
+
       getCategories();
     }
 

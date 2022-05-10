@@ -81,7 +81,6 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
               variant="outlined"
               type="text"
               fullWidth
-              //onChange={handleQuizSetup}
               value={dataCampaign?.name}
               required
             />
@@ -96,8 +95,6 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
                 <OutlinedInput
                   id="outlined-adornment-search"
                   type="number"
-                  //value={}
-                  //onChange={}
                   endAdornment={
                     <InputAdornment position="end">
                       <ButtonActionBlue
@@ -165,8 +162,6 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
                 <OutlinedInput
                   id="outlined-adornment-search"
                   type="number"
-                  //value={}
-                  //onChange={}
                   endAdornment={
                     <InputAdornment position="end">
                       <ButtonActionBlue

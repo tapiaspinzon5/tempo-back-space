@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
-//import ProgresBar from "../progressCharts/ProgresBar";
 import { useNavigate } from "react-router-dom";
 import img1 from "../../assets/temp-image/Enmascarargrupo2044.png";
 
@@ -10,12 +9,10 @@ const BoxCard = styled(Box)(() => ({
 }));
 
 const CardViewer = styled(Box)(({ theme }) => ({
-  //height: "14rem",
   height: "9rem",
   maxWidth: "100%",
   boxShadow: "1px 1px 5px #A2A2A2",
   borderRadius: "10px 10px 0 0 ",
-  //background: "#F9F9F9 0% 0% no-repeat padding-box",
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-end",
@@ -61,16 +58,8 @@ const DownSection = styled(Box)(({ theme }) => ({
 const CardActivityManage = ({ quiz }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
-  //const [valueProgress, setValueProgress] = useState(0);
   const [background, setbackground] = useState(false);
-
-  const {
-    EstadoExamen,
-    ExamName,
-    IdExamen,
-    //CantidadPreguntas,
-    PreguntasRespondidas,
-  } = quiz;
+  const { EstadoExamen, ExamName, IdExamen } = quiz;
 
   useEffect(() => {
     switch (EstadoExamen) {

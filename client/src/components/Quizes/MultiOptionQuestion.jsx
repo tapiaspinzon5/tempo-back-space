@@ -14,15 +14,10 @@ const MultiOptionQuestion = ({
 }) => {
   const pregunta = question[steep];
   useEffect(() => {
-    console.log(pregunta);
-    console.log(steep);
-    console.log(ask);
     if (pregunta) {
-      console.log("existe pregunta ");
       setAsk(pregunta[0]);
       setEdit(true);
     } else {
-      console.log("preunta nueva");
       setEdit(false);
     }
   }, [steep]);

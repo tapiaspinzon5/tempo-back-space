@@ -37,7 +37,7 @@ export const BoxContain = styled(Grid)(() => ({
 }));
 
 export const ScrollContainer = styled(Box)(() => ({
-  background: "#f9f9f9",
+  background: "#f2f2f2",
   borderRadius: "10px",
   overflowY: "scroll",
   overflowX: "hidden",

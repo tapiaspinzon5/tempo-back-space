@@ -17,7 +17,6 @@ const ModalBox = styled(Box)(() => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  //width: 400,
   borderRadius: "20px",
   boxShadow: "2px 2px 5px #2f2f2f",
   padding: "1rem",
@@ -53,6 +52,15 @@ const UpQuiz = () => {
     setOpen(false);
   };
 
+  const handleCategory = () => {
+    if (showCat) {
+      setShowCat(!showCat);
+      window.location.reload();
+    } else {
+      setShowCat(!showCat);
+    }
+  };
+
   return (
     <>
       {loading && <ModalLoading />}
@@ -83,7 +91,7 @@ const UpQuiz = () => {
               </Typography>
               <Box display="flex">
                 <Box>
-                  <ButtonAction onClick={() => setShowCat(!showCat)}>
+                  <ButtonAction onClick={handleCategory}>
                     Set Categories
                   </ButtonAction>
                   {showCat && <CardCateroriesQuiz />}

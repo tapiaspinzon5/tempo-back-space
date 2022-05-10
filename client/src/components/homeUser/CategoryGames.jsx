@@ -10,14 +10,7 @@ import "swiper/modules/navigation/navigation.scss"; // Navigation module
 import "swiper/modules/pagination/pagination.scss"; // Pagination module
 
 //Style components
-const MainCategoryGames = styled(Grid)(({ theme }) => ({
-  // marginTop: "1rem",
-  // width: "92vw",
-  // h6: {
-  //   fontWeight: "bold",
-  //   fontSize: "20px",
-  // },
-}));
+const MainCategoryGames = styled(Grid)(({ theme }) => ({}));
 
 const CategoryGames = () => {
   return (
