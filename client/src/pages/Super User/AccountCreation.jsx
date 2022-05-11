@@ -79,7 +79,7 @@ const AccountCreation = () => {
 	const rxDispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const [dataCampaign, setDataCampaign] = useState([]);
-	const [dataInfoCKpis, setDataInfoKpis] = useState([]);
+	const [dataInfoKpis, setDataInfoKpis] = useState([]);
 	const [dataInfoOpsMan, setDataInfoOpsMan] = useState([]);
 	const [loadingCamp, setLoadingCamp] = useState(false);
 	const [loadingInfo, setLoadingInfo] = useState(false);
@@ -129,28 +129,28 @@ const AccountCreation = () => {
 		setInfoView(true);
 		setLoadingInfo(true);
 		setDataInfoKpis([]);
-		console.log(kpis.data[0].Operation);
+		setDataInfoOpsMan({});
 		/* const agents = await requestWithData("getmissionsinformation", {
         idccmsAgent: "",
         idTeam,
         context: 2,
       }); */
 
-		const info = kpis.data[0];
+		const info = kpis;
 		if (info && info.status === 200 && info.data.length > 0) {
 			if (info.data[0].Ident !== "0" && info.data[0].Agent !== "0") {
-				setLoadingInfo(true);
-				setDataInfoKpis(info.kpis);
-				setDataInfoOpsMan(info.Operation);
+				setLoadingInfo(false);
+				setDataInfoKpis(info.data[0].kpis);
+				setDataInfoOpsMan(info.data[0].Operation);
 			} else {
-				setLoadingInfo(true);
+				setLoadingInfo(false);
 				setNoDataInfo(true);
 			}
 		} else if (info && info.data === "UnauthorizedError") {
 			rxDispatch(logoutAction());
 			navigate("/");
 		} else {
-			setLoadingInfo(true);
+			setLoadingInfo(false);
 			setInfoView(false);
 			setError(true);
 		}
@@ -218,9 +218,11 @@ const AccountCreation = () => {
 												sx={{ width: 70, height: 70, marginRight: "1rem" }}
 											/>
 											<Box textAlign="left">
-												<Typography variant="body1">Matilde Puentes</Typography>
+												<Typography variant="body1">
+													{dataInfoOpsMan.Name}
+												</Typography>
 												<Typography variant="body2">
-													Analista desarrollador Senior
+													{dataInfoOpsMan.Rol}
 												</Typography>
 											</Box>
 										</CardUser>
@@ -237,7 +239,7 @@ const AccountCreation = () => {
 									) : loadingInfo ? (
 										<LoadingComponent />
 									) : (
-										kpis.map((kpi, index) => (
+										dataInfoKpis.map((kpi, index) => (
 											<BoxCampaing key={index}>
 												<Typography variant="body1">{kpi.kpi}</Typography>
 												<Box>

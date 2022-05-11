@@ -148,7 +148,10 @@ const InformationQuices = () => {
 			context: 2,
 		});
 		if (agents && agents.status === 200 && agents.data.length > 0) {
-			if (agents.data[0].Ident !== "0" && agents.data[0].Agent !== "0") {
+			if (
+				agents.data[0].TeamsMembers[0].Ident !== "0" &&
+				agents.data[0].TeamsMembers[0].Agent !== "0"
+			) {
 				setLoadingAgents(false);
 				setAgents(agents.data[0].TeamsMembers);
 			} else {
