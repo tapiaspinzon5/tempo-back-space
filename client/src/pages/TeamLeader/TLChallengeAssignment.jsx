@@ -13,8 +13,6 @@ import {
 } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
 import { ModalLoading } from "../../components/ModalLoading";
-// import { UserChallenge } from "../../components/Agents/Challenges/UserChallenge";
-// import { ChallengeCard } from "../../components/Agents/Challenges/ChallengeCard";
 
 import { validateDataCheck } from "../../helpers/helpers";
 import Swal from "sweetalert2";

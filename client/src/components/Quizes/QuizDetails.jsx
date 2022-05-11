@@ -1,11 +1,9 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Grid, Button, Box } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
-import quizdesc from "../../assets/images/quizdesc.png";
+import { styled } from "@mui/material/styles";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
 import SignalCellularAltRoundedIcon from "@mui/icons-material/SignalCellularAltRounded";
 import { indigo } from "@mui/material/colors";
 import Header from "../homeUser/Header";
@@ -13,12 +11,10 @@ import quizDescIMG from "../../assets/temp-image/quizDesc.png";
 import { FaDatabase, FaRegClock } from "react-icons/fa";
 import Footer from "../Footer";
 import { MainPage } from "../../assets/styled/muistyled";
-//import Footer from "../../components/Footer";
 
 const GridContent = styled(Grid)(({ theme }) => ({
   background: "#E8E8E8",
   borderBottomLeftRadius: "20px",
-  // backgroundPosition: "center center",
 
   width: "100%",
   borderRadius: "20px",
@@ -26,9 +22,6 @@ const GridContent = styled(Grid)(({ theme }) => ({
   minHeight: "40vh",
   display: "flex",
   justifyContent: "space-around",
-  // img: {
-  //   height: "90%",
-  // },
 }));
 
 const QuizDetails = () => {
@@ -49,7 +42,6 @@ const QuizDetails = () => {
             justifyContent="flex-end"
             borderRadius={5}
             sx={{
-              //padding: { xs: "0.1rem 3rem", xl: "5rem 0rem" },
               backgroundImage: `url(${quizDescIMG})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",

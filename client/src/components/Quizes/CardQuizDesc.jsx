@@ -101,7 +101,7 @@ const CardQuizDesc = ({ quiz }) => {
         {fecha}
       </Typography>
       <Typography variant="body2" align="center">
-        Preguntas: {CantidadPreguntas}
+        Questions: {CantidadPreguntas}
       </Typography>
     </CardQuiz>
   );

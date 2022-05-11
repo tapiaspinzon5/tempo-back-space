@@ -48,7 +48,7 @@ const ContentList = styled(List)(({ theme }) => ({
 }));
 
 export const NavList = ({ open, match, userData }) => {
-  const linkActive = false;
+  const linkActive = true;
   const navigate = useNavigate();
 
   return (
@@ -74,21 +74,13 @@ export const NavList = ({ open, match, userData }) => {
               </LIcon>
               {open && match && <Typography>Challenges</Typography>}
             </LItem>
-            <LItem
-              button
-              onClick={() => navigate("/leaderboard")}
-              disabled={linkActive}
-            >
+            <LItem button onClick={() => navigate("/leaderboard")}>
               <LIcon>
                 <IoTrendingUpSharp size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>LeaderBoard</Typography>}
             </LItem>
-            <LItem
-              button
-              onClick={() => navigate("/useranalytics")}
-              disabled={linkActive}
-            >
+            <LItem button onClick={() => navigate("/useranalytics")}>
               <LIcon>
                 <FiPieChart size={25} color="#fff" />
               </LIcon>
@@ -108,11 +100,7 @@ export const NavList = ({ open, match, userData }) => {
                   {open && match && <Typography>Library</Typography>}
                 </LItem>
 
-                <LItem
-                  button
-                  onClick={() => navigate("/missionassignment")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/missionassignment")}>
                   <LIcon>
                     <SiHtmlacademy size={25} color="#fff" />
                   </LIcon>
@@ -141,15 +129,13 @@ export const NavList = ({ open, match, userData }) => {
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
 
-                <LItem
-                  button
-                  onClick={() => navigate("/quiziformation")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/quiziformation")}>
                   <LIcon>
                     <BsWindowSidebar size={22} color="#fff" />
                   </LIcon>
-                  {open && match && <Typography>Quiz Information</Typography>}
+                  {open && match && (
+                    <Typography>Mission Information</Typography>
+                  )}
                 </LItem>
               </>
             )}
@@ -262,11 +248,7 @@ export const NavList = ({ open, match, userData }) => {
                     <Typography>Challenge Assignment</Typography>
                   )}
                 </LItem>
-                <LItem
-                  button
-                  onClick={() => navigate("/followingteams")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/followingteams")}>
                   <LIcon>
                     <ImEqualizer2 size={25} color="#fff" />
                   </LIcon>
@@ -282,21 +264,13 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Team Information</Typography>}
                 </LItem>
-                <LItem
-                  button
-                  onClick={() => navigate("/leaderboard")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/leaderboard")}>
                   <LIcon>
                     <IoTrendingUpSharp size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
-                <LItem
-                  button
-                  onClick={() => navigate("/analytics")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/analytics")}>
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>

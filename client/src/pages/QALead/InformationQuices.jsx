@@ -18,7 +18,6 @@ const MySwal = withReactContent(Swal);
 
 export const BoxContain = styled(Box)(() => ({
 	background: "#f9f9f9",
-	//background: "#f1f1f1",
 	height: "65vh",
 	borderRadius: "10px",
 	overflowY: "scroll",
@@ -35,54 +34,6 @@ export const BoxContain = styled(Box)(() => ({
 		borderRadius: "20px",
 	},
 }));
-
-const dataAgents = {
-	data: [
-		{
-			Users: [
-				{ id: 1, Agent: "alguno1", Rol: "Agent", idccms: 123456 },
-				{ id: 2, Agent: "alguno2", Rol: "Agent", idccms: 123456 },
-				{ id: 3, Agent: "alguno3", Rol: "Agent", idccms: 123456 },
-				{ id: 4, Agent: "alguno4", Rol: "Agent", idccms: 123456 },
-				{ id: 5, Agent: "alguno5", Rol: "Agent", idccms: 123456 },
-				{ id: 6, Agent: "alguno6", Rol: "Agent", idccms: 123456 },
-				{ id: 7, Agent: "alguno7", Rol: "Agent", idccms: 123456 },
-				{ id: 8, Agent: "alguno8", Rol: "Agent", idccms: 123456 },
-			],
-		},
-	],
-	status: 200,
-};
-const dataTLs = {
-	data: [
-		{
-			Users: [
-				{ id: 1, tlName: "alguno1", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 2, tlName: "alguno2", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 3, tlName: "alguno3", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 4, tlName: "alguno4", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 5, tlName: "alguno5", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 6, tlName: "alguno6", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 7, tlName: "alguno7", Rol: "Team Leader", Idccms: 123456 },
-				{ id: 8, tlName: "alguno8", Rol: "Team Leader", Idccms: 123456 },
-			],
-		},
-	],
-	status: 200,
-};
-
-const dataMissions = {
-	data: [
-		{ missionName: "miss 1", id: 1, category: "category 1" },
-		{ missionName: "miss 2", id: 2, category: "category 2" },
-		{ missionName: "miss 3", id: 3, category: "category 3" },
-		{ missionName: "miss 4", id: 4, category: "category 4" },
-		{ missionName: "miss 5", id: 5, category: "category 5" },
-		{ missionName: "miss 6", id: 6, category: "category 6" },
-		{ missionName: "miss 7", id: 7, category: "category 7" },
-	],
-	status: 200,
-};
 
 const InformationQuices = () => {
 	const navigate = useNavigate();
@@ -114,8 +65,8 @@ const InformationQuices = () => {
 				});
 				if (allTLs && allTLs.status === 200 && allTLs.data.length > 0) {
 					if (
-						allTLs.data[0].idTeam !== "0" &&
-						allTLs.data[0].NameTeam !== "0"
+						allTLs.data[0].Teams[0].idTeam !== "0" &&
+						allTLs.data[0].Teams[0].NameTeam !== "0"
 					) {
 						setTeamLs(allTLs.data[0].Teams);
 						setLoadingTLs(false);
@@ -183,7 +134,6 @@ const InformationQuices = () => {
 				dbMissions.data[0].MissionAssigned[0].idQuiz !== "0" &&
 				dbMissions.data[0].MissionAssigned[0].Topic !== "0"
 			) {
-				console.log(dbMissions.data[0].MissionAssigned);
 				setLoadingMissions(false);
 				setMissions(dbMissions.data[0].MissionAssigned);
 			} else {

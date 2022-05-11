@@ -44,7 +44,7 @@ const FormSetupQuiz = ({
     >
       <InputText
         name="quizName"
-        label="Quiz Name"
+        label="Mission Name"
         variant="outlined"
         onChange={handleQuizSetup}
         value={quizName}

@@ -1,7 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Grid, Typography, styled, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import { ButtonAction, MainPage } from "../../assets/styled/muistyled";
+import {
+	ButtonAction,
+	MainPage,
+	ScrollContainer,
+} from "../../assets/styled/muistyled";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import SearchAssign from "../../components/QALead/searchMissionAssign/SearchAssign";
@@ -29,11 +33,6 @@ const BoxActivity = styled(Grid)(() => ({
 	background: "#f2f2f2",
 	padding: "1rem",
 	borderRadius: "20px",
-}));
-
-const Boxview = styled(Grid)(() => ({
-	overflowY: "scroll",
-	height: "50vh",
 }));
 
 const active = {
@@ -107,7 +106,10 @@ const MissionsAssignment = () => {
 						allAgents.status === 200 &&
 						allAgents.data.length > 0
 					) {
-						if (allAgents.data[0].Agents.length > 0) {
+						if (
+							allAgents.data[0].Agents[0].Ident !== "0" &&
+							allAgents.data[0].Agents[0].Agent !== "0"
+						) {
 							dispatch({
 								type: TYPES.GET_DATA_AGENTS,
 								payload: {
@@ -161,12 +163,17 @@ const MissionsAssignment = () => {
 
 	const handleSelectAgents = async () => {
 		setSelect("agents");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
 		const allAgents = await requestWithData("getmissionsassignmentinfo", {
 			context: 2,
 			caso: 1,
 		});
 		if (allAgents && allAgents.status === 200 && allAgents.data.length > 0) {
-			if (allAgents.data[0].Agents.length > 0) {
+			if (
+				allAgents.data[0].Agents[0].Ident !== "0" &&
+				allAgents.data[0].Agents[0].Agent !== "0"
+			) {
 				dispatch({
 					type: TYPES.GET_DATA_AGENTS,
 					payload: {
@@ -189,14 +196,20 @@ const MissionsAssignment = () => {
 			setError(true);
 		}
 	};
+
 	const handleSelectLobs = async () => {
 		setSelect("lobs");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
 		const allLobs = await requestWithData("getmissionsassignmentinfo", {
 			context: 2,
 			caso: 3,
 		});
 		if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
-			if (allLobs.data[0].Lobs.length > 0) {
+			if (
+				allLobs.data[0].Lobs[0].idLob !== "0" &&
+				allLobs.data[0].Lobs[0].NameLob !== "0"
+			) {
 				dispatch({
 					type: TYPES.GET_DATA_LOBS,
 					payload: {
@@ -221,19 +234,23 @@ const MissionsAssignment = () => {
 	};
 	const handleSelectTeams = async () => {
 		setSelect("teams");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
 		const allTeams = await requestWithData("getmissionsassignmentinfo", {
 			context: 2,
 			caso: 2,
 		});
 		if (allTeams && allTeams.status === 200 && allTeams.data.length > 0) {
-			if (allTeams.data[0].Teams.length > 0) {
+			if (
+				allTeams.data[0].Teams[0].Id !== "0" &&
+				allTeams.data[0].Teams[0].Team !== "0"
+			) {
 				dispatch({
 					type: TYPES.GET_DATA_TEAMS,
 					payload: {
 						teams: allTeams.data[0].Teams,
 					},
 				});
-				console.log(allTeams.data[0].Teams);
 				setLoadingAssigns(false);
 				setLoadingMission(false);
 			} else {
@@ -439,121 +456,131 @@ const MissionsAssignment = () => {
 					</Box>
 				</Grid>
 				<Grid xs={12} md={6}>
-					<BoxActivity>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							marginBottom={2}
-						>
-							<ButtonAction>
-								<input
-									type="checkbox"
-									name="selecct-all"
-									onChange={handleMissions}
-									checked={
-										dbMissions.filter((mission) => mission?.isChecked !== true)
-											.length < 1
-									}
-								/>
-								Select all
-							</ButtonAction>
-							<SearchMission
-								search={searchM}
-								handleSearchMissions={handleSearchMissions}
-							/>
-						</Box>
-						<Boxview>
-							{error ? (
-								<Typography variant="body1">Server Problems</Typography>
-							) : noDataMissions ? (
-								<Typography variant="body1">Create a new mission</Typography>
-							) : loadingMission ? (
-								<LoadingComponent />
-							) : (
-								missions?.map((mission, index) => (
-									<MissionAssignmentCard
-										key={index + 7}
-										mission={mission}
-										handleMissions={handleMissions}
-										handleTime={handleTime}
+					<Box padding={1}>
+						<BoxActivity>
+							<Box
+								display="flex"
+								alignItems="center"
+								justifyContent="space-between"
+								marginBottom={2}
+							>
+								<ButtonAction>
+									<input
+										type="checkbox"
+										name="selecct-all"
+										onChange={handleMissions}
+										checked={
+											dbMissions.filter(
+												(mission) => mission?.isChecked !== true
+											).length < 1
+										}
 									/>
-								))
-							)}
-						</Boxview>
-					</BoxActivity>
+									Select all
+								</ButtonAction>
+								<SearchMission
+									search={searchM}
+									handleSearchMissions={handleSearchMissions}
+								/>
+							</Box>
+
+							<ScrollContainer sx={{ height: "50vh" }}>
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noDataMissions ? (
+									<Typography variant="body1">Create a new mission</Typography>
+								) : loadingMission ? (
+									<LoadingComponent />
+								) : (
+									missions?.map((mission, index) => (
+										<MissionAssignmentCard
+											key={index + 7}
+											mission={mission}
+											handleMissions={handleMissions}
+											handleTime={handleTime}
+										/>
+									))
+								)}
+							</ScrollContainer>
+						</BoxActivity>
+					</Box>
 				</Grid>
 				<Grid xs={12} md={6}>
-					<BoxActivity>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							marginBottom={2}
-						>
-							<ButtonAction
-							//sx={selectButton}
+					<Box padding={1}>
+						<BoxActivity>
+							<Box
+								display="flex"
+								alignItems="center"
+								justifyContent="space-between"
+								marginBottom={2}
 							>
-								<input
-									type="checkbox"
-									name="selecct-all"
-									onChange={
-										select === "agents"
-											? handleUser
-											: select === "lobs"
-											? handleLob
-											: handleTeam
-									}
-									checked={
-										select === "agents"
-											? dbUsers.filter((user) => user?.isChecked !== true)
-													.length < 1
-											: select === "lobs"
-											? dbLobs.filter((lob) => lob?.isChecked !== true).length <
-											  1
-											: dbTeams.filter((team) => team?.isChecked !== true)
-													.length < 1
-									}
+								<ButtonAction
+								//sx={selectButton}
+								>
+									<input
+										type="checkbox"
+										name="selecct-all"
+										onChange={
+											select === "agents"
+												? handleUser
+												: select === "lobs"
+												? handleLob
+												: handleTeam
+										}
+										checked={
+											select === "agents"
+												? dbUsers.filter((user) => user?.isChecked !== true)
+														.length < 1
+												: select === "lobs"
+												? dbLobs.filter((lob) => lob?.isChecked !== true)
+														.length < 1
+												: dbTeams.filter((team) => team?.isChecked !== true)
+														.length < 1
+										}
+									/>
+									Select all
+								</ButtonAction>
+								<SearchAssign
+									search={searchA}
+									handleSearchAssigns={handleSearchAssigns}
 								/>
-								Select all
-							</ButtonAction>
-							<SearchAssign
-								search={searchA}
-								handleSearchAssigns={handleSearchAssigns}
-							/>
-						</Box>
-						<Boxview>
-							{error ? (
-								<Typography variant="body1">Server Problems</Typography>
-							) : noDataAssigns ? (
-								<Typography variant="body1">Agents are not loaded</Typography>
-							) : loadingAssigns ? (
-								<LoadingComponent />
-							) : select === "agents" ? (
-								users.map((user, index) => (
-									<ShowUserActivity
-										key={index}
-										user={user}
-										handleUser={handleUser}
-									/>
-								))
-							) : select === "lobs" ? (
-								lobs.map((lob, index) => (
-									<ShowLobAssign key={index} lob={lob} handleLob={handleLob} />
-								))
-							) : select === "teams" ? (
-								teams.map((team, index) => (
-									<ShowTeamAssign
-										key={index}
-										team={team}
-										handleTeam={handleTeam}
-									/>
-								))
-							) : (
-								<Typography variant="body1">Server Problems</Typography>
-							)}
-						</Boxview>
-					</BoxActivity>
+							</Box>
+							<ScrollContainer sx={{ height: "50vh" }}>
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noDataAssigns ? (
+									<Typography variant="body1">Agents are not loaded</Typography>
+								) : loadingAssigns ? (
+									<LoadingComponent />
+								) : select === "agents" ? (
+									users.map((user, index) => (
+										<ShowUserActivity
+											key={index}
+											user={user}
+											handleUser={handleUser}
+										/>
+									))
+								) : select === "lobs" ? (
+									lobs.map((lob, index) => (
+										<ShowLobAssign
+											key={index}
+											lob={lob}
+											handleLob={handleLob}
+										/>
+									))
+								) : select === "teams" ? (
+									teams.map((team, index) => (
+										<ShowTeamAssign
+											key={index}
+											team={team}
+											handleTeam={handleTeam}
+										/>
+									))
+								) : (
+									<Typography variant="body1">Server Problems</Typography>
+								)}
+							</ScrollContainer>
+						</BoxActivity>
+					</Box>
 				</Grid>
 			</Grid>
 			<BoxAssingment>

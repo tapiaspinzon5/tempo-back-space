@@ -216,8 +216,6 @@ const UploadQuiz = ({ setLoading, topics }) => {
       const context = 1;
       const resp = await uploadQuizes(data, context);
 
-      console.log(resp);
-
       if (resp.status === 200) {
         setLoading(false);
         MySwal.fire({
@@ -291,21 +289,11 @@ const UploadQuiz = ({ setLoading, topics }) => {
       setSteep((prev) => prev + 1);
     }
 
-    // console.log(question[steep]);
-    // if (question[steep]) {
-    //   if (steep > 0) {
-    //     setAsk(question[steep][0]);
-    //     console.log("ya existe ese paso", steep);
-    //     return;
-    //   }
-    // }
-
     //asignacion al Arreglo para enviar
     if (ask.length !== 0) {
       if (!edit) {
         setQuestion([...question, [ask]]);
       } else {
-        console.log("editar pregunta");
         //setQuestion([...question, [steep][0]:ask]);
       }
       setAsk({ questionType: "multipleChoice" });
@@ -341,18 +329,28 @@ const UploadQuiz = ({ setLoading, topics }) => {
       if (steep > 0) {
         setAsk(question[steep][0]);
       }
-      //else {
-      //   setDataQuiz(question[steep][0]);
-      // }
     }
   };
 
   const handleUp = async (data) => {
     const context = 2;
-    //const data = question;
+
     const resp = await uploadQuizes(data, context);
-    console.log(resp);
-    console.log("subiendo Mision", "context:", context, "Quiz==", data);
+
+    if (resp.status === 200) {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>Mission created</p>,
+        icon: "success",
+        confirmButtonText: "Accept",
+        //allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          window.location.reload();
+        }
+      });
+    }
+
     setQuestion([]);
     setDataQuiz([]);
     setCategoryStep([]);
@@ -373,11 +371,6 @@ const UploadQuiz = ({ setLoading, topics }) => {
 
     handleSteppep();
   }, [dataQuiz.quizQuestions]);
-
-  //   console.log(dataQuiz);
-  console.log("Pregunta==", ask);
-  console.log("Quiz==", question);
-  //console.log(steep, categoryStep.length - 1);
 
   return (
     <BoxUpQuiz>
@@ -471,7 +464,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
             <>
               <Box>
                 <Typography variant="h6" color="#3047B0" fontWeight={700}>
-                  Upload Quiz
+                  Upload Mission
                 </Typography>
                 <BoxUpFile>
                   <form onSubmit={uploadFile}>
@@ -487,7 +480,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
                           </IconButton>
                         </Box>
                       ) : (
-                        "Upload Quiz File"
+                        "Upload Mission File"
                       )}
                     </label>
                     <input
@@ -527,11 +520,6 @@ const UploadQuiz = ({ setLoading, topics }) => {
               onClick={() => {
                 handleNext();
               }}
-              // onClick={() => {
-              //   steep < categoryStep.length - 1 || steep === 0
-              //     ? handleNext()
-              //     : handleUp();
-              // }}
             >
               {steep < categoryStep.length - 1 || steep === 0
                 ? "Next"
