@@ -164,7 +164,6 @@ const AccountCreation = () => {
 	};
 	const handleClose = () => {
 		setOpen(false);
-		setDataCampaign([]);
 	};
 	return (
 		<MainPage>
