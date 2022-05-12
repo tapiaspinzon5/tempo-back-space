@@ -711,3 +711,16 @@ export const getTopics = (topics) => {
   topics.forEach((t) => arr.push(t.NameCategory));
   return arr;
 };
+
+export const wordExist = (categories, newCategory) => {
+  let error = "";
+  categories.forEach((cat) => {
+    const newName = newCategory.NameCategory.toLowerCase();
+    const exist = cat.NameCategory.toLowerCase();
+    const word = exist.includes(newName);
+    if (word === true) {
+      error = "There is a category with that name";
+    }
+  });
+  return error;
+};

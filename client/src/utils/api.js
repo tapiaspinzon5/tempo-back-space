@@ -36,22 +36,22 @@ const downloadCounts = () => {
 /* OPERATION MANAGER */
 
 const createTeamOperationManager = (context, idLeader, email, cas) => {
-	try {
-		return axiosInstance
-			.post(`uploadopsm`, {
-				context: context,
-				idLeader: idLeader,
-				email,
-				cas: cas,
-			})
-			.catch(function (error) {
-				if (error.response) {
-					return error.response;
-				}
-			});
-	} catch (error) {
-		return Promise.resolve({ data: null, error: error });
-	}
+  try {
+    return axiosInstance
+      .post(`uploadopsm`, {
+        context: context,
+        idLeader: idLeader,
+        email,
+        cas: cas,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
 };
 
 const createLobOperationManager = (
@@ -224,7 +224,6 @@ const getMissionsCategories = () => {
 
 // Add Mission Categories
 const addMissionCategories = (data) => {
-  console.log(data);
   try {
     return axiosInstance
       .post(`postcreatecategory`, data)
@@ -680,15 +679,15 @@ const welcomeToEGP = () => {
 };
 
 export const requestWithData = (endpoint, data) => {
-	try {
-		return axiosInstance.post(endpoint, data).catch(function (error) {
-			if (error.response) {
-				return error.response;
-			}
-		});
-	} catch (error) {
-		return Promise.resolve({ data: null, error: error });
-	}
+  try {
+    return axiosInstance.post(endpoint, data).catch(function (error) {
+      if (error.response) {
+        return error.response;
+      }
+    });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
 };
 
 export {

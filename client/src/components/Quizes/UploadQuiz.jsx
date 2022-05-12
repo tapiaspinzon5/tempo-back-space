@@ -120,6 +120,12 @@ const UploadQuiz = ({ setLoading, topics }) => {
   };
   const handleClose = () => {
     setOpen(false);
+    setDataQuiz([]);
+    setCategoryStep([]);
+    setQuestion([]);
+    setEmpty(false);
+    setAsk([]);
+    setSteep(0);
   };
 
   const loadFile = (e) => {
@@ -329,6 +335,9 @@ const UploadQuiz = ({ setLoading, topics }) => {
       if (steep > 0) {
         setAsk(question[steep][0]);
       }
+    }
+    if (steep == 0) {
+      setAsk([]);
     }
   };
 
