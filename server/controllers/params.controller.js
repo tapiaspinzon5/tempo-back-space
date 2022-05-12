@@ -342,8 +342,6 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", assignMissionsQATable, req.rows3),
       ]);
 
-
-
     case "spQueryLobTeams":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
@@ -450,11 +448,11 @@ exports.parametros = (req, tipo) => {
       ]);
 
     case "spQueryMissionsDetail":
-    return parametrizacion([
-      new SpParam("ident", req.idccms, TYPES.Int),
-      new SpParam("context", req.contextLobTeam, TYPES.Int),
-      SpParamTable2("table", idLobTeamTable, req.rows),
-    ]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.contextLobTeam, TYPES.Int),
+        SpParamTable2("table", idLobTeamTable, req.rows),
+      ]);
 
     case "spQueryMissionsInformation":
       return parametrizacion([
@@ -470,7 +468,21 @@ exports.parametros = (req, tipo) => {
         new SpParam("idccms", req.idccmsAgent, TYPES.Int),
         new SpParam("idmision", req.idMission, TYPES.Int),
       ]);
-      
+
+    case "spQueryCampaign":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("idcampaign", req.idcampaign, TYPES.Int),
+      ]);
+
+    case "spUpdateCampaign":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        SpParamTable2("table", suTable2, req.rows),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
