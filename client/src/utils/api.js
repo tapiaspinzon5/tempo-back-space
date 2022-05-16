@@ -236,6 +236,21 @@ const addMissionCategories = (data) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+// Disabled Missions
+const disabledMission = (data) => {
+  console.log(data);
+  try {
+    return axiosInstance
+      .post(`postinactivatemission`, data)
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 //http://localhost:4343/api/postcreatecategory?idccms=4472074
 
@@ -315,6 +330,24 @@ const createNewChallenge = (data, period) => {
         measureUnit: data.kpi.unitKpi,
         initialDate: period[0],
         finalDate: period[1],
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//funcion para Traer los Agentes del equipo y sus Challenges asignados
+const getTeamAgents = (context, idccmsAgent) => {
+  try {
+    return axiosInstance
+      .post(`getteamagentsinformation`, {
+        context: context,
+        idccmsAgent: idccmsAgent,
       })
       .catch(function (error) {
         if (error.response) {
@@ -731,4 +764,6 @@ export {
   createLobOperationManager,
   getMissionsCategories,
   addMissionCategories,
+  disabledMission,
+  getTeamAgents,
 };

@@ -187,15 +187,14 @@ exports.uploadOpsM = async (req, res) => {
   // };
 
   let message = {
-    "emails": `${email},diego.tapiaspinzon@teleperformance.com` ,
+    "emails": `${email}` ,
     "subject": "Role assignment",
     "name": "Notification SpaceGP",
     "emailSender": "noresponse@teleperformance.com",
     "HTML": 'Body Notification assigment QA RL' 
   }
 
-  // let responseEmail = await axios.post(path, message)
-  // console.log(responseEmail);
+  let responseEmail = await axios.post(path, message)
 };
 
 exports.uploadRepLead = async (req, res) => {
@@ -1140,14 +1139,6 @@ exports.postAssignMission = async (req, res) => {
         })
       });
 
-      // Armo tabla para la DB
-      // idMissions.forEach(ele => {
-      //   idAssigned.forEach(id => {
-      //     i = i + 1;
-      //     rows.push([id,ele,i])
-      //   })
-      // });
-
       sql
         .query(
           "spInsertExamEmployee",
@@ -1169,7 +1160,6 @@ exports.postAssignMission = async (req, res) => {
             // console.log(userName, nameChallenge[i], token);
             return await sendFCMMessage(userName, nameMissions[i], token)
           })
-          // res.status(200).json(resp);
         } catch (error) {
           res.status(500).json(error);
         }
@@ -1190,10 +1180,6 @@ exports.postAssignMission = async (req, res) => {
           parametros({ idccms: req.query.idccms, contextLobTeam:1, rows}, "spQueryMissionsDetail")
         )
         .then((result) => {
-
-          
-          let i2 = 0;
-
           let agentsInfo = result[0].Agents;
 
           for (let i = 0; i < idMissions.length; i++) {
@@ -1231,7 +1217,6 @@ exports.postAssignMission = async (req, res) => {
                 // console.log(userName, nameChallenge[i], token);
                 return await sendFCMMessage(userName, nameMissions[i], user.Token)
               })
-              // res.status(200).json(resp);
             } catch (error) {
               res.status(500).json(error);
             }
@@ -1295,7 +1280,6 @@ exports.postAssignMission = async (req, res) => {
                 // console.log(userName, nameChallenge[i], token);
                 return await sendFCMMessage(userName, nameMissions[i], user.Token)
               })
-              // res.status(200).json(resp);
             } catch (error) {
               res.status(500).json(error);
             }
@@ -1312,30 +1296,6 @@ exports.postAssignMission = async (req, res) => {
     default:
       break;
   }
-
-  // let rows = [];
-  // let i = 0;
-
-  // // Armo tabla para la DB
-  // idMission.forEach(mis => {
-  //   idccmsAssigned.forEach(id => {
-  //     i = i + 1;
-  //     rows.push([id,mis,i])
-  //   })
-  // });
-
-  // sql
-  //   .query(
-  //     "spInsertExamEmployee",
-  //     parametros({ idccms: req.query.idccms, context, rows}, "spInsertExamEmployee")
-  //   )
-  //   .then((result) => {
-  //     responsep(1, req, res, result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err, "sp");
-  //     responsep(2, req, res, err);
-  //   });
 };
 
 exports.postInactivateMission = async (req, res) => {
@@ -1407,7 +1367,7 @@ exports.getMissionsInformation = async (req, res) => {
     });
 };
 
-exports.inactivateMission = async (req, res) => {
+exports.inactivateMissionAgent = async (req, res) => {
 
   const {idccmsAgent, idMission} = req.body;
 

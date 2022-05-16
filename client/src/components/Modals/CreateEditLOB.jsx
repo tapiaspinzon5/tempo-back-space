@@ -175,22 +175,28 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const handleCreate = async () => {
 		if (nameLOB) {
 			if (dataTL.length > 0) {
-				setOpen(false);
-				MySwal.fire({
-					title: (
-						<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
-					),
-					icon: "info",
-					showDenyButton: true,
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((result) => {
-					if (result.isConfirmed) {
-						submit(1, 0);
-					} else if (result.isDenied) {
-						Swal.fire("Changes are not saved", "", "info");
-					}
-				});
+				const TLList = dataTL.filter((tl) => tl.checked === true);
+				if (TLList.length > 0) {
+					setOpen(false);
+					MySwal.fire({
+						title: (
+							<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
+						),
+						icon: "info",
+						showDenyButton: true,
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((result) => {
+						if (result.isConfirmed) {
+							submit(1, 0);
+						} else if (result.isDenied) {
+							Swal.fire("Changes are not saved", "", "info");
+						}
+					});
+				} else {
+					setErrorList(true);
+					setMsgErrorList("Check Team Leader is required (min. 1)");
+				}
 			} else {
 				setErrorList(true);
 				setMsgErrorList("No data");
@@ -204,20 +210,26 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const handleEdit = async () => {
 		if (nameLOB) {
 			if (dataTL.length > 0) {
-				setOpen(false);
-				MySwal.fire({
-					title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
-					icon: "info",
-					showDenyButton: true,
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((result) => {
-					if (result.isConfirmed) {
-						submit(2, dataLOB.idLob);
-					} else if (result.isDenied) {
-						Swal.fire("Changes are not saved", "", "info");
-					}
-				});
+				const TLList = dataTL.filter((tl) => tl.checked === true);
+				if (TLList.length > 0) {
+					setOpen(false);
+					MySwal.fire({
+						title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
+						icon: "info",
+						showDenyButton: true,
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((result) => {
+						if (result.isConfirmed) {
+							submit(2, dataLOB.idLob);
+						} else if (result.isDenied) {
+							Swal.fire("Changes are not saved", "", "info");
+						}
+					});
+				} else {
+					setErrorList(true);
+					setMsgErrorList("Check Team Leader is required (min. 1)");
+				}
 			} else {
 				setErrorList(true);
 				setMsgErrorList("No data");
@@ -245,7 +257,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 				marginY={3}
 				fontWeight={700}
 			>
-				{dataLOB.length !== 0 ? "Edit LOB - Name LOB" : "Creation LOB"}
+				{dataLOB.length !== 0 ? `Edit LOB - ${nameLOB}` : "Creation LOB"}
 			</Typography>
 			<InputText
 				error={error}

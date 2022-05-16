@@ -2,6 +2,11 @@ import React from "react";
 import { CgTrash } from "react-icons/cg";
 import { Typography, Box, styled, IconButton } from "@mui/material";
 import imgTP from "../../assets/images/tp_short.png";
+import { disabledMission } from "../../utils/api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const CardQuiz = styled(Box)(({ theme }) => ({
   height: "21.875rem",
@@ -80,11 +85,33 @@ const CardQuizDesc = ({ quiz }) => {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
 
+  const handleDelete = async (idMission, missionName) => {
+    MySwal.fire({
+      title: <p>{`Are you sure you want to delete ${missionName}?`}</p>,
+      icon: "info",
+      showDenyButton: true,
+      confirmButtonText: "Accept",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMission(idMission);
+        window.location.reload();
+      } else if (result.isDenied) {
+        console.log("no se quito nada ");
+      }
+    });
+  };
+
+  const deleteMission = async (idMission) => {
+    const data = await disabledMission({ idMission });
+    console.log(data);
+  };
+
   return (
     <CardQuiz>
       <Box>
         {" "}
-        <IconButton>
+        <IconButton onClick={() => handleDelete(quiz.idexamen, NameExam)}>
           <CgTrash />
         </IconButton>
       </Box>
