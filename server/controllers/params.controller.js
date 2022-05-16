@@ -483,6 +483,26 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", suTable2, req.rows),
       ]);
 
+    case "spUpdateNameTeam":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+        new SpParam("NameTeam", req.newNameTeam, TYPES.VarChar),
+      ]);
+
+    case "spQueryKpiMD":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("kpi", req.kpi, TYPES.VarChar),
+      ]);
+
+    case "spQueryTeamInformation":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.VarChar),
+        new SpParam("idccms", req.idccmsAgent, TYPES.VarChar),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

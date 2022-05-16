@@ -130,6 +130,15 @@ module.exports = (router) => {
   // Endpoint para actualizar las campañas
   router.post("/postupdatecampaigninfo", oauth.oauthOther, routes.postUpdateCampaignInfo);
 
+  // Endpoint para actualizar el nombre del equipo
+  router.post("/postupdateteamname", oauth.oauthOther, routes.postUpdateTeamName);
+
+  //Endpoint para consultar los kpi de la master data.
+  router.post("/getkpisfrommd", oauth.oauthOther, routes.getKpisFromMD);
+
+  // Endpoint para consultar los integrantes de un team o saber que challenges tiene asignado un agente.
+  router.post("/getteamagentsinformation", oauth.oauthOther, routes.getTeamAgentsInformation);
+
   // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación
   router.post("/welcomeegp", oauth.oauthOther, routes.welcomeegp);
