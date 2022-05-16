@@ -1229,6 +1229,53 @@ exports.postUpdateCampaignInfo = async (req, res) => {
     });
 };
 
+exports.postUpdateTeamName = async (req, res) => {
+  const { idTeam, newNameTeam } = req.body;
+
+  sql
+    .query(
+      "spUpdateNameTeam",
+      parametros({ idccms: req.query.idccms, idTeam, newNameTeam }, "spUpdateNameTeam")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getKpisFromMD = async (req, res) => {
+  const { kpi } = req.body;
+
+  sql
+    .query("spQueryKpiMD", parametros({ idccms: req.query.idccms, kpi }, "spQueryKpiMD"))
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getTeamAgentsInformation = async (req, res) => {
+  const { context, idccmsAgent } = req.body;
+
+  sql
+    .query(
+      "spQueryTeamInformation",
+      parametros({ idccms: req.query.idccms, context, idccmsAgent }, "spQueryTeamInformation")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
   sql
