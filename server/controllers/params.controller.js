@@ -38,7 +38,11 @@ let SpParamTable = (nameParam, colums, rows) => {
       columns: colums,
       rows: rows,
     };
-    obj.table.push({ nombre: nameParam, valor: table, tipo: TYPES.TVP });
+    obj.table.push({
+      nombre: nameParam,
+      valor: table,
+      tipo: TYPES.TVP,
+    });
 
     return obj.table;
   } catch (error) {
@@ -58,7 +62,12 @@ let SpParamTable2 = (nameParam, colums, rows) => {
       columns: colums,
       rows: rows,
     };
-    return { name: nameParam, value: table, type: TYPES.TVP, schema: null };
+    return {
+      name: nameParam,
+      value: table,
+      type: TYPES.TVP,
+      schema: null,
+    };
     //  obj.table;
   } catch (error) {
     console.log(error, "Tipo Tabla");
@@ -68,100 +77,282 @@ let SpParamTable2 = (nameParam, colums, rows) => {
 
 // Columnas para armar la tabla del superusuario
 let suTable = [
-  { name: "Ident", type: TYPES.Int },
-  { name: "TeamName", type: TYPES.VarChar },
-  { name: "KPI", type: TYPES.VarChar },
-  { name: "Campaign", type: TYPES.VarChar },
-  { name: "Q1", type: TYPES.Float },
-  { name: "Q2", type: TYPES.Float },
-  { name: "Q3", type: TYPES.Float },
-  { name: "Q4", type: TYPES.Float },
-  { name: "Target", type: TYPES.Float },
-  { name: "OrderKpi", type: TYPES.VarChar },
-  { name: "IdRegistryKpi", type: TYPES.Int },
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "TeamName",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "KPI",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Campaign",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Q1",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q2",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q3",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q4",
+    type: TYPES.Float,
+  },
+  {
+    name: "Target",
+    type: TYPES.Float,
+  },
+  {
+    name: "OrderKpi",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "IdRegistryKpi",
+    type: TYPES.Int,
+  },
 ];
 
 let suTable2 = [
-  { name: "IdentPM", type: TYPES.Int },
-  { name: "Campaign", type: TYPES.VarChar },
-  { name: "KPI", type: TYPES.VarChar },
-  { name: "Q1", type: TYPES.Float },
-  { name: "Q2", type: TYPES.Float },
-  { name: "Q3", type: TYPES.Float },
-  { name: "Q4", type: TYPES.Float },
-  { name: "CriticalPoint", type: TYPES.Float },
-  { name: "OrderKpi", type: TYPES.VarChar },
-  { name: "typeLoad", type: TYPES.Bit },
-  { name: "IdRegistryKpi", type: TYPES.Int },
+  {
+    name: "IdentPM",
+    type: TYPES.Int,
+  },
+  {
+    name: "Campaign",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "KPI",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Q1",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q2",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q3",
+    type: TYPES.Float,
+  },
+  {
+    name: "Q4",
+    type: TYPES.Float,
+  },
+  {
+    name: "CriticalPoint",
+    type: TYPES.Float,
+  },
+  {
+    name: "OrderKpi",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "typeLoad",
+    type: TYPES.Bit,
+  },
+  {
+    name: "IdRegistryKpi",
+    type: TYPES.Int,
+  },
 ];
 
 // Columnas para armar la tabla del operationManager
 let opsmTable = [
-  { name: "Ident", type: TYPES.Int },
-  { name: "RoleAgent", type: TYPES.VarChar },
-  { name: "Team", type: TYPES.VarChar },
-  { name: "Lob", type: TYPES.VarChar },
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "RoleAgent",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Team",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Lob",
+    type: TYPES.VarChar,
+  },
 ];
 
 // Columnas para armar la tabla del reportingLead
 let reportLeadTable = [
-  { name: "Quartile", type: TYPES.VarChar },
-  { name: "Ident", type: TYPES.Int },
-  { name: "Team", type: TYPES.VarChar },
-  { name: "RoleAgent", type: TYPES.VarChar },
+  {
+    name: "Quartile",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "Team",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "RoleAgent",
+    type: TYPES.VarChar,
+  },
 ];
 
 // Columnas para armar la tabla del QAleader (quizes)
 let quizTable = [
-  { name: "Question", type: TYPES.VarChar },
-  { name: "Option1", type: TYPES.VarChar },
-  { name: "Option2", type: TYPES.VarChar },
-  { name: "Option3", type: TYPES.VarChar },
-  { name: "Option4", type: TYPES.VarChar },
-  { name: "Answer", type: TYPES.VarChar },
-  { name: "Quartile", type: TYPES.VarChar },
-  { name: "ExamName", type: TYPES.VarChar },
-  { name: "DescriptionExam", type: TYPES.VarChar },
-  { name: "ApprovalExam", type: TYPES.Int },
-  { name: "Topic", type: TYPES.VarChar },
-  { name: "IdPregunta", type: TYPES.Int },
+  {
+    name: "Question",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Option1",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Option2",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Option3",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Option4",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Answer",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Quartile",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "ExamName",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "DescriptionExam",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "ApprovalExam",
+    type: TYPES.Int,
+  },
+  {
+    name: "Topic",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "IdPregunta",
+    type: TYPES.Int,
+  },
 ];
 
 // Columnas para armar la tabla de respuestas del usuario.
 let quizResults = [
-  { name: "Respuesta", type: TYPES.VarChar },
-  { name: "IdPregunta", type: TYPES.Int },
+  {
+    name: "Respuesta",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "IdPregunta",
+    type: TYPES.Int,
+  },
 ];
 
 // Columnas para armar la tabla de respuestas del usuario.
 let kpiReports = [
-  { name: "Kpi", type: TYPES.VarChar },
-  { name: "unitKpi", type: TYPES.VarChar },
-  { name: "Type", type: TYPES.Int },
-  { name: "Idccms", type: TYPES.Int },
-  { name: "Date", type: TYPES.VarChar },
-  { name: "Score", type: TYPES.Float },
+  {
+    name: "Kpi",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "unitKpi",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Type",
+    type: TYPES.Int,
+  },
+  {
+    name: "Idccms",
+    type: TYPES.Int,
+  },
+  {
+    name: "Date",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "Score",
+    type: TYPES.Float,
+  },
 ];
 
 // Columnas para armar la tabla del reportingLead
 let assignActivitiesTLTable = [
-  { name: "Ident", type: TYPES.Int },
-  { name: "idChallenge", type: TYPES.Int },
-  { name: "idRegistry", type: TYPES.Int },
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "idChallenge",
+    type: TYPES.Int,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
 ];
 
-let tlIdccmsArray = [{ name: "identTL", type: TYPES.Int }];
+let tlIdccmsArray = [
+  {
+    name: "identTL",
+    type: TYPES.Int,
+  },
+];
 
 let assignMissionsQATable = [
-  { name: "Ident", type: TYPES.Int },
-  { name: "idMission", type: TYPES.Int },
-  { name: "expTime", type: TYPES.VarChar },
-  { name: "idRegistry", type: TYPES.Int },
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "idMission",
+    type: TYPES.Int,
+  },
+  {
+    name: "expTime",
+    type: TYPES.VarChar,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
 ];
 
 let idLobTeamTable = [
-  { name: "idTeamLob", type: TYPES.Int },
-  { name: "idRegistry", type: TYPES.Int },
+  {
+    name: "idTeamLob",
+    type: TYPES.Int,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
 ];
 
 exports.parametros = (req, tipo) => {
@@ -462,11 +653,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("Context", req.context, TYPES.Int),
       ]);
 
-    case "spInactivateMissionAgent":
+    case "spInactivateMissionChallengeAgent":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idccms", req.idccmsAgent, TYPES.Int),
-        new SpParam("idmision", req.idMission, TYPES.Int),
+        new SpParam("idmisionChallenge", req.idMissionChallenge, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
       ]);
 
     case "spQueryCampaign":
@@ -487,7 +679,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idTeam", req.idTeam, TYPES.Int),
-        new SpParam("NameTeam", req.newNameTeam, TYPES.VarChar),
+        new SpParam("NameTeam", req.newTeamName, TYPES.VarChar),
       ]);
 
     case "spQueryKpiMD":
@@ -502,6 +694,9 @@ exports.parametros = (req, tipo) => {
         new SpParam("context", req.context, TYPES.VarChar),
         new SpParam("idccms", req.idccmsAgent, TYPES.VarChar),
       ]);
+
+    case "spQueryAgentsCampaign":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     // Casos de Actividades
     case "spBgWelcomeEGP":
@@ -558,24 +753,78 @@ let schemaRows = (schema, valor) => {
   if (schema == "JumpEmployee") {
     table = {
       columns: [
-        { name: "idccms", type: TYPES.Int },
-        { name: "jumpRole", type: TYPES.VarChar },
-        { name: "site", type: TYPES.Int },
-        { name: "market", type: TYPES.Int },
-        { name: "workingDay", type: TYPES.VarChar },
-        { name: "phone", type: TYPES.BigInt },
-        { name: "email", type: TYPES.VarChar },
-        { name: "jumpCertificate", type: TYPES.VarChar },
-        { name: "certificateType", type: TYPES.VarChar },
-        { name: "currentStudy", type: TYPES.VarChar },
-        { name: "studyDay", type: TYPES.VarChar },
-        { name: "notEndedStudies", type: TYPES.VarChar },
-        { name: "semesterEnded", type: TYPES.VarChar },
-        { name: "Endedstudies", type: TYPES.VarChar },
-        { name: "title", type: TYPES.VarChar },
-        { name: "levelEnglish", type: TYPES.Int },
-        { name: "levelSQL", type: TYPES.Int },
-        { name: "levelExcel", type: TYPES.Int },
+        {
+          name: "idccms",
+          type: TYPES.Int,
+        },
+        {
+          name: "jumpRole",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "site",
+          type: TYPES.Int,
+        },
+        {
+          name: "market",
+          type: TYPES.Int,
+        },
+        {
+          name: "workingDay",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "phone",
+          type: TYPES.BigInt,
+        },
+        {
+          name: "email",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "jumpCertificate",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "certificateType",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "currentStudy",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "studyDay",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "notEndedStudies",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "semesterEnded",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "Endedstudies",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "title",
+          type: TYPES.VarChar,
+        },
+        {
+          name: "levelEnglish",
+          type: TYPES.Int,
+        },
+        {
+          name: "levelSQL",
+          type: TYPES.Int,
+        },
+        {
+          name: "levelExcel",
+          type: TYPES.Int,
+        },
       ],
       rows: c,
     };

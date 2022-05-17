@@ -122,7 +122,7 @@ module.exports = (router) => {
   router.post("/getmissionsinformation", oauth.oauthOther, routes.getMissionsInformation);
 
   // Endpoint para inactivar misiones a agentes
-  router.post("/inactivatemissionagent", oauth.oauthOther, routes.inactivateMissionAgent);
+  router.post("/inactivatemissionchallengeagent", oauth.oauthOther, routes.inactivateMissionChallengeAgent);
 
   // Endpoint para obtener informacion de las campañas
   router.post("/getcampaigninfo", oauth.oauthOther, routes.getCampaignInfo);
@@ -138,6 +138,9 @@ module.exports = (router) => {
 
   // Endpoint para consultar los integrantes de un team o saber que challenges tiene asignado un agente.
   router.post("/getteamagentsinformation", oauth.oauthOther, routes.getTeamAgentsInformation);
+
+  // Endpoint para consultar los integrantes de un team o saber que challenges tiene asignado un agente.
+  router.post("/getagentscampaignrl", oauth.oauthOther, routes.getAgentsCampignrl);
 
   // RUTAS RELACIONADAS A LAS ACTIVIDADES
   // Utilizado en el primer logueo del Agente para la visualización del video de inducción, una vez visto marca la actividad como realizada y genera la puntuación

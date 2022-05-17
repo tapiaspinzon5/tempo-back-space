@@ -1172,13 +1172,16 @@ exports.getMissionsInformation = async (req, res) => {
     });
 };
 
-exports.inactivateMissionAgent = async (req, res) => {
-  const { idccmsAgent, idMission } = req.body;
+exports.inactivateMissionChallengeAgent = async (req, res) => {
+  const { idccmsAgent, idMissionChallenge, context } = req.body;
 
   sql
     .query(
-      "spInactivateMissionAgent",
-      parametros({ idccms: req.query.idccms, idccmsAgent, idMission }, "spInactivateMissionAgent")
+      "spInactivateMissionChallengeAgent",
+      parametros(
+        { idccms: req.query.idccms, idccmsAgent, idMissionChallenge, context },
+        "spInactivateMissionChallengeAgent"
+      )
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -1230,12 +1233,12 @@ exports.postUpdateCampaignInfo = async (req, res) => {
 };
 
 exports.postUpdateTeamName = async (req, res) => {
-  const { idTeam, newNameTeam } = req.body;
+  const { idTeam, newTeamName } = req.body;
 
   sql
     .query(
       "spUpdateNameTeam",
-      parametros({ idccms: req.query.idccms, idTeam, newNameTeam }, "spUpdateNameTeam")
+      parametros({ idccms: req.query.idccms, idTeam, newTeamName }, "spUpdateNameTeam")
     )
     .then((result) => {
       responsep(1, req, res, result);
@@ -1259,6 +1262,7 @@ exports.getKpisFromMD = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+
 exports.getTeamAgentsInformation = async (req, res) => {
   const { context, idccmsAgent } = req.body;
 
@@ -1267,6 +1271,18 @@ exports.getTeamAgentsInformation = async (req, res) => {
       "spQueryTeamInformation",
       parametros({ idccms: req.query.idccms, context, idccmsAgent }, "spQueryTeamInformation")
     )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.getAgentsCampignrl = async (req, res) => {
+  sql
+    .query("spQueryAgentsCampaign", parametros({ idccms: req.query.idccms }, "spQueryAgentsCampaign"))
     .then((result) => {
       responsep(1, req, res, result);
     })
