@@ -145,11 +145,7 @@ export const NavList = ({ open, match, userData }) => {
           <>
             {userData === "Reporting Lead" && (
               <>
-                <LItem
-                  button
-                  onClick={() => navigate("/uploadAgent")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/uploadAgent")}>
                   <LIcon>
                     <AiOutlineFileAdd size={25} color="#fff" />
                   </LIcon>
@@ -254,11 +250,7 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Following KPI</Typography>}
                 </LItem>
-                <LItem
-                  button
-                  onClick={() => navigate("/teaminformation")}
-                  disabled={linkActive}
-                >
+                <LItem button onClick={() => navigate("/teaminformation")}>
                   <LIcon>
                     <FiUsers size={25} color="#fff" />
                   </LIcon>

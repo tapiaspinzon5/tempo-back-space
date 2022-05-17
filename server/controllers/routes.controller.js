@@ -1230,12 +1230,12 @@ exports.postUpdateCampaignInfo = async (req, res) => {
 };
 
 exports.postUpdateTeamName = async (req, res) => {
-  const { idTeam, newNameTeam } = req.body;
+  const { idTeam, newTeamName } = req.body;
 
   sql
     .query(
       "spUpdateNameTeam",
-      parametros({ idccms: req.query.idccms, idTeam, newNameTeam }, "spUpdateNameTeam")
+      parametros({ idccms: req.query.idccms, idTeam, newTeamName }, "spUpdateNameTeam")
     )
     .then((result) => {
       responsep(1, req, res, result);

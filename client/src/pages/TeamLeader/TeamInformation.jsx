@@ -7,12 +7,16 @@ import {
   MainPage,
 } from "../../assets/styled/muistyled";
 import { FiEdit3 } from "react-icons/fi";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import ShowUser from "../../components/teamLeader/ShowUser";
-import avatar from "../../assets/temp-image/avatar.png";
 import ChallengeCard from "../../components/teamLeader/ChallengeCard";
-import { getTeamAgents } from "../../utils/api";
+import { changeTeamName, getTeamAgents } from "../../utils/api";
+import avatar from "../../assets/temp-image/avatar.png";
+
+const MySwal = withReactContent(Swal);
 
 const Item = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -57,102 +61,50 @@ const BoxChangeTeamName = styled(Box)(() => ({
   },
 }));
 
-const userData = [
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 4712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 1712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 2712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 3712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 5712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 6712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 7712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 8712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 9712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 712377,
-  },
-  {
-    Agent: "Deiby Niño",
-    Level: 2,
-    Experiences: 123,
-    avatar: avatar,
-    idccms: 2377,
-  },
-];
-
 const TeamInformation = () => {
   const [nameCard, setNameCard] = useState(false);
   const [newName, setNewName] = useState("");
+  const [active, setActive] = useState(0);
+  const [userData, setUserData] = useState([]);
+  const [challengeData, setChallengeData] = useState([]);
 
   useEffect(() => {
     const getAgents = async () => {
-      const getData = await getTeamAgents({ context: 1 });
+      const getData = await getTeamAgents(1, 0);
       console.log(getData.data);
+      setUserData(getData.data[0].Agents);
+      setNewName(getData.data[0].Agents[0].Team);
     };
-
     getAgents();
   }, []);
 
-  const handleUser = (idccms) => {};
-  const handleClick = () => {
+  useEffect(() => {
+    handleUser(userData[0]?.Ident);
+  }, [userData]);
+
+  const handleUser = async (idccms) => {
+    setActive(idccms);
+    const getData = await getTeamAgents(2, idccms);
+    console.log(getData.data);
+    setChallengeData(getData.data[0].ChallengesAgents);
+  };
+  const handleChangeTeamName = async () => {
     console.log("cambiando nombre por:", newName);
+    const change = await changeTeamName(userData[0]?.IdEquipo, newName);
+    console.log(change);
+    setNameCard(false);
+
+    if (change.status === 200) {
+      MySwal.fire({
+        title: <p>Your Team Name has been changed</p>,
+        icon: "success",
+      });
+    } else {
+      MySwal.fire({
+        title: <p></p>,
+        icon: "error",
+      });
+    }
   };
   return (
     <MainPage>
@@ -195,7 +147,10 @@ const TeamInformation = () => {
                     //                    error={!quizName && empty}
                     //                    helperText={!quizName && empty ? "Field Requiered" : ""}
                   />
-                  <ButtonActionBlue onClick={handleClick} disabled={!newName}>
+                  <ButtonActionBlue
+                    onClick={handleChangeTeamName}
+                    disabled={!newName}
+                  >
                     save
                   </ButtonActionBlue>
                 </BoxChangeTeamName>
@@ -208,16 +163,20 @@ const TeamInformation = () => {
         <Grid item xs={12} md={6}>
           <Item>
             {userData.map((user, index) => (
-              <ShowUser user={user} key={index} handleUser={handleUser} />
+              <ShowUser
+                user={user}
+                key={index}
+                handleUser={handleUser}
+                active={active}
+              />
             ))}
           </Item>
         </Grid>
         <Grid item xs={12} md={6}>
           <Item>
-            <ChallengeCard />
-            <ChallengeCard />
-            <ChallengeCard />
-            <ChallengeCard />
+            {challengeData.map((challenge) => (
+              <ChallengeCard challenge={challenge} />
+            ))}
           </Item>
         </Grid>
       </Grid>

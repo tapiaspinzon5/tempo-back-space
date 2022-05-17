@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, styled, IconButton } from "@mui/material";
-import { FiTrash2 } from "react-icons/fi";
+import { Box, Typography, Switch } from "@mui/material";
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import {
   BoxBodyTable,
@@ -73,7 +72,7 @@ const TableAgentUpload = ({ dataAgent }) => {
             )}
           </Typography>
         </Box>
-        <Box sx={{ width: "5%" }}></Box>
+        <Box sx={{ width: "5%" }} />
       </BoxHeaderTable>
       <BoxBodyTable>
         {agents.map((agent, index) => (
@@ -91,9 +90,14 @@ const TableAgentUpload = ({ dataAgent }) => {
               <Typography variant="body2">{agent.lob} </Typography>
             </Box>
             <Box sx={{ width: "5%" }}>
-              <IconButton>
-                <FiTrash2 size={20} color="#3047B0" />
-              </IconButton>
+              {" "}
+              <Switch
+                //checked={}
+                //onChange={handleChange}
+                name="checkedA"
+                size="small"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
             </Box>
           </BoxDataTable>
         ))}

@@ -358,6 +358,24 @@ const getTeamAgents = (context, idccmsAgent) => {
     return Promise.resolve({ data: null, error: error });
   }
 };
+//funcion para Cambiar el Nombre del Equipo
+const changeTeamName = (idTeam, newTeamName) => {
+  console.log(idTeam, newTeamName);
+  try {
+    return axiosInstance
+      .post(`postupdateteamname`, {
+        idTeam: idTeam,
+        newTeamName: newTeamName,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
 
 /* AGENT */
 //trae la data del Home no se esta usando
@@ -766,4 +784,5 @@ export {
   addMissionCategories,
   disabledMission,
   getTeamAgents,
+  changeTeamName,
 };

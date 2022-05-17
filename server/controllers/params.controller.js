@@ -487,7 +487,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idTeam", req.idTeam, TYPES.Int),
-        new SpParam("NameTeam", req.newNameTeam, TYPES.VarChar),
+        new SpParam("NameTeam", req.newTeamName, TYPES.VarChar),
       ]);
 
     case "spQueryKpiMD":
