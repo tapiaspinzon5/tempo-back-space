@@ -180,6 +180,55 @@ const getKPIsCampaign = () => {
   }
 };
 
+//Funcion para traer listado de agentes por campaña
+const getAgentsCampaign = () => {
+  try {
+    return axiosInstance.post(`getagentscampaignrl`).catch(function (error) {
+      if (error.response) {
+        return error.response;
+      }
+    });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//Funcion desactivar agente
+const agentManage = (idccms) => {
+  try {
+    return axiosInstance
+      .post(`postinactiveagent`, {
+        idccmsAgent: idccms,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
+//TRAER LOS TEAM Y TEAM LEADER
+const getTeamsInformation = () => {
+  try {
+    return axiosInstance
+      .post(`getmissionsinformation`, {
+        idccmsAgent: "",
+        idTeam: 0,
+        context: 1,
+      })
+      .catch(function (error) {
+        if (error.response) {
+          return error.response;
+        }
+      });
+  } catch (error) {
+    return Promise.resolve({ data: null, error: error });
+  }
+};
+
 /* QA LEAD */ ///////////////
 
 const loadQuizes = () => {
@@ -785,4 +834,7 @@ export {
   disabledMission,
   getTeamAgents,
   changeTeamName,
+  getAgentsCampaign,
+  agentManage,
+  getTeamsInformation,
 };
