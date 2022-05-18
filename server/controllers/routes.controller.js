@@ -858,7 +858,7 @@ exports.getInfoLeaderBoardrl = async (req, res) => {
 
 exports.postCreateCampaign = async (req, res) => {
   let i = 0;
-  let data = req.body.data;
+  let { data, email } = req.body;
 
   let rows = data.map((quest) => {
     i = i + 1;
@@ -1210,7 +1210,7 @@ exports.getCampaignInfo = async (req, res) => {
 };
 
 exports.postUpdateCampaignInfo = async (req, res) => {
-  const { data, context, idcampaign } = req.body;
+  const { data, idcampaign, email } = req.body;
   let i = 0;
 
   let rows = data.map((quest) => {
@@ -1219,10 +1219,7 @@ exports.postUpdateCampaignInfo = async (req, res) => {
   });
 
   sql
-    .query(
-      "spUpdateCampaign",
-      parametros({ idccms: req.query.idccms, context, idcampaign, rows }, "spUpdateCampaign")
-    )
+    .query("spUpdateCampaign", parametros({ idccms: req.query.idccms, idcampaign, rows }, "spUpdateCampaign"))
     .then((result) => {
       responsep(1, req, res, result);
     })
