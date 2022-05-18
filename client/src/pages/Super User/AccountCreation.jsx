@@ -16,6 +16,7 @@ import {
 	ModalBox,
 	ScrollContainer,
 } from "../../assets/styled/muistyled";
+import imgAvatar from "../../assets/temp-image/avatar.png";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import { FiEdit3 } from "react-icons/fi";
@@ -48,32 +49,6 @@ const BoxCampaing = styled(Button)(() => ({
 	},
 }));
 
-const kpis = {
-	data: [
-		{
-			Operation: { Name: "matilde", Rol: "Operation Manager", id: 123456 },
-			kpis: [
-				{ kpi: "KPI 1 ", Actual: 25, Target: 30, unitKpi: "Percentage" },
-				{ kpi: "kpi 2 ", Actual: 25, Target: 30, unitKpi: "hour" },
-				{ kpi: "kpi  3", Actual: 25, Target: 30, unitKpi: "Percentage" },
-				{ kpi: "kpi  4", Actual: 25, Target: 30, unitKpi: "seconds" },
-				{ kpi: "kpi  5", Actual: 25, Target: 30, unitKpi: "Avg" },
-			],
-		},
-	],
-	status: 200,
-};
-const campaing = {
-	data: [
-		{ name: "campaing 1 ", id: 1 },
-		{ name: "campaing 2 ", id: 2 },
-		{ name: "campaing  3", id: 3 },
-		{ name: "campaing  4", id: 4 },
-		{ name: "campaing  5", id: 5 },
-	],
-	status: 200,
-};
-
 const AccountCreation = () => {
 	const navigate = useNavigate();
 	const rxDispatch = useDispatch();
@@ -81,6 +56,7 @@ const AccountCreation = () => {
 	const [dataCampaign, setDataCampaign] = useState([]);
 	const [dataInfoKpis, setDataInfoKpis] = useState([]);
 	const [dataInfoOpsMan, setDataInfoOpsMan] = useState([]);
+	const [dataToEdit, setDataToEdit] = useState(null);
 	const [loadingCamp, setLoadingCamp] = useState(false);
 	const [loadingInfo, setLoadingInfo] = useState(false);
 	const [infoView, setInfoView] = useState(false);
@@ -93,19 +69,16 @@ const AccountCreation = () => {
 			const getData = async () => {
 				setLoadingCamp(true);
 				setInfoView(false);
-				/* const allCamps = await requestWithData("getmissionsinformation", {
-					idccmsAgent: "",
-					idTeam: 0,
+				const allCamps = await requestWithData("getcampaigninfo", {
+					idcampaign: 0,
 					context: 1,
-				}); */
-				const allCamps = campaing;
+				});
 				if (allCamps && allCamps.status === 200 && allCamps.data.length > 0) {
 					if (
-						allCamps.data[0].idCampaign !== "0" &&
-						allCamps.data[0].NameCampaign !== "0"
+						allCamps.data[0].IdCampaign !== "0" &&
+						allCamps.data[0].nameCampaign !== "0"
 					) {
-						//setDataCampaign(allCamps.data[0].campaigns);
-						setDataCampaign(allCamps.data);
+						setDataCampaign(allCamps.data[0].Result);
 						setLoadingCamp(false);
 					} else {
 						setLoadingCamp(false);
@@ -125,23 +98,23 @@ const AccountCreation = () => {
 		[]
 	);
 
-	const handleCampaign = async () => {
+	const handleCampaign = async (id) => {
 		setInfoView(true);
 		setLoadingInfo(true);
 		setDataInfoKpis([]);
 		setDataInfoOpsMan({});
-		/* const agents = await requestWithData("getmissionsinformation", {
-        idccmsAgent: "",
-        idTeam,
-        context: 2,
-      }); */
-
-		const info = kpis;
+		const info = await requestWithData("getcampaigninfo", {
+			idcampaign: id,
+			context: 2,
+		});
 		if (info && info.status === 200 && info.data.length > 0) {
 			if (info.data[0].Ident !== "0" && info.data[0].Agent !== "0") {
 				setLoadingInfo(false);
-				setDataInfoKpis(info.data[0].kpis);
-				setDataInfoOpsMan(info.data[0].Operation);
+				setDataInfoKpis(info.data[0].Result);
+				setDataInfoOpsMan({
+					name: info.data[0].Result[0].NameOperationManager,
+					rol: "Operation Manager",
+				});
 			} else {
 				setLoadingInfo(false);
 				setNoDataInfo(true);
@@ -156,15 +129,84 @@ const AccountCreation = () => {
 		}
 	};
 
-	const handleOpen = (camp) => {
+	const handleOpen = async (camp) => {
 		if (camp) {
-			setDataCampaign(camp);
+			setDataToEdit(camp.IdCampaign);
 		}
 		setOpen(true);
 	};
 	const handleClose = () => {
 		setOpen(false);
+		setDataToEdit(null);
 	};
+
+	const editSubmit = async (data) => {
+		const cqa = await requestWithData("postupdatecampaigninfo", data);
+
+		if (cqa && cqa.status === 200) {
+			MySwal.fire({
+				title: <p>{"Update Campaign!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload(); //viene los setstate
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "Server Error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload(); //viene los setstate
+				}
+			});
+		}
+	};
+
+	const createSubmit = async (data) => {
+		const cqa = await requestWithData("postcreatecampaign", data);
+
+		if (cqa && cqa.status === 200) {
+			MySwal.fire({
+				title: <p>{"Campaign Created!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload(); //viene los setstate
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "Server Error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload(); //viene los setstate
+				}
+			});
+		}
+	};
+
+	const createCamp = (dts) => {
+		console.log(dts);
+		setOpen(false);
+		setDataToEdit(null);
+	};
+	const editCamp = (dts) => {
+		console.log(dts);
+		setOpen(false);
+		setDataToEdit(null);
+	};
+
 	return (
 		<MainPage>
 			<Box>
@@ -189,9 +231,9 @@ const AccountCreation = () => {
 									<BoxCampaing
 										height="3rem"
 										key={index}
-										onClick={() => handleCampaign(camp)}
+										onClick={() => handleCampaign(camp.IdCampaign)}
 									>
-										<Typography variant="body1">{camp.name}</Typography>
+										<Typography variant="body1">{camp.nameCampaign}</Typography>
 										<ButtonAction onClick={() => handleOpen(camp)}>
 											<FiEdit3 />
 										</ButtonAction>
@@ -213,15 +255,15 @@ const AccountCreation = () => {
 										<CardUser width="92%" marginY={2}>
 											<Avatar
 												alt="user"
-												src="./user.png"
+												src={imgAvatar}
 												sx={{ width: 70, height: 70, marginRight: "1rem" }}
 											/>
 											<Box textAlign="left">
 												<Typography variant="body1">
-													{dataInfoOpsMan.Name}
+													{dataInfoOpsMan.name}
 												</Typography>
 												<Typography variant="body2">
-													{dataInfoOpsMan.Rol}
+													{dataInfoOpsMan.rol}
 												</Typography>
 											</Box>
 										</CardUser>
@@ -240,7 +282,7 @@ const AccountCreation = () => {
 									) : (
 										dataInfoKpis.map((kpi, index) => (
 											<BoxCampaing key={index}>
-												<Typography variant="body1">{kpi.kpi}</Typography>
+												<Typography variant="body1">{kpi.Kpi}</Typography>
 												<Box>
 													<Box width="8rem" display="flex">
 														{kpi.unitKpi === "Percentage" ||
@@ -255,7 +297,7 @@ const AccountCreation = () => {
 															fontSize="12px"
 															marginLeft={2}
 														>
-															{`${kpi.Actual.toFixed(2)} / ${kpi.Target}`}
+															{`${kpi.Q1.toFixed(2)} / ${kpi.CriticalPoint}`}
 														</Typography>
 													</Box>
 												</Box>
@@ -279,6 +321,9 @@ const AccountCreation = () => {
 					<CreateEditCampaign
 						dataCampaign={dataCampaign}
 						handleClose={handleClose}
+						dataToEdit={dataToEdit}
+						createCamp={createCamp}
+						editCamp={editCamp}
 					/>
 				</ModalBox>
 			</Modal>

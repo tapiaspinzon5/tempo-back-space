@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Box,
 	FormControl,
+	FormHelperText,
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
@@ -13,7 +14,23 @@ import {
 	InputText,
 	ScrollBox,
 } from "../../assets/styled/muistyled";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/loginDuck";
+import { useNavigate } from "react-router-dom";
+import LoadingComponent from "../../components/LoadingComponent";
 import KpiSetup from "../SuperAdmin/KpiSetup";
+import { getInfoAgent, requestWithData } from "../../utils/api";
+import {
+	addHelper,
+	createHelper,
+	editHelper,
+	getCampNameDuplicate,
+	getCheckToEdit,
+	getkpisDuplicates,
+	getOMDuplicates,
+	nextHelper,
+} from "../../helpers/helperCreateEditCamp";
 
 const TableCont = styled(Box)(() => ({
 	color: "#3047B0",
@@ -52,8 +69,360 @@ const BoxHead = styled(Box)(() => ({
 	color: "#3047B0",
 }));
 
-const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
+const CreateEditCampaign = ({
+	dataCampaign,
+	dataToEdit,
+	createCamp,
+	editCamp,
+}) => {
+	const navigate = useNavigate();
+	const rxDispatch = useDispatch();
 	const [next, setNext] = useState(false);
+	const [typeLoad, setTypeLoad] = useState(false);
+	const [name, setName] = useState("");
+	const [errorName, setErrorName] = useState(false);
+	const [msgErrorName, setMsgErrorName] = useState("");
+	const [OMList, setOMList] = useState([]);
+	const [errorOMList, setErrorOMList] = useState(false);
+	const [msgErrorOMList, setMsgErrorOMList] = useState("");
+	const [errorOMSearch, setErrorOMSearch] = useState(false);
+	const [msgErrorOMSearch, setMsgErrorOMSearch] = useState("");
+	const [kpisList, setKpisList] = useState([]);
+	const [errorKpisList, setErrorKpisList] = useState(false);
+	const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
+	const [errorKpiSearch, setErrorKpiSearch] = useState(false);
+	const [msgErrorKpiSearch, setMsgErrorKpiSearch] = useState("");
+	const [tempCcms, setTempCcms] = useState("");
+	const [tempKpi, setTempKpi] = useState("");
+	const [add, setAdd] = useState(false);
+	const [addMsg, setAddMsg] = useState("");
+	const [workDataToEdit, setWorkDataToEdit] = useState([]);
+	const [kpiWork, setKpiWork] = useState([]);
+	const [loadingOM, setLoadingOM] = useState(false);
+	const [loadingKpi, setLoadingKpi] = useState(false);
+
+	useEffect(
+		() => {
+			if (dataToEdit) {
+				const getData = async () => {
+					setLoadingKpi(true);
+					setLoadingOM(true);
+					const info = await requestWithData("getcampaigninfo", {
+						idcampaign: dataToEdit,
+						context: 2,
+					});
+					if (info && info.status === 200 && info.data.length > 0) {
+						if (info.data[0].Ident !== "0" && info.data[0].Agent !== "0") {
+							const dataCheck = info.data[0].Result.map((el) =>
+								el.checked ? el : { ...el, checked: true }
+							);
+							const typeLTrue = info.data[0].Result.filter(
+								(el) => el.LoadType === 0
+							);
+							if (typeLTrue.length > 0) {
+								setTypeLoad(true);
+							}
+							setLoadingKpi(false);
+							setLoadingOM(false);
+							setName(info.data[0].Result[0].nameCampaign);
+							setKpisList(dataCheck);
+							setWorkDataToEdit(dataCheck);
+							setOMList([
+								{
+									name: info.data[0].Result[0].NameOperationManager,
+									idccms: info.data[0].Result[0].identOM,
+									checked: true,
+								},
+							]);
+						} else {
+							setLoadingKpi(false);
+							setLoadingOM(false);
+							console.log("no data pensa que hacer");
+						}
+					} else if (info && info.data === "UnauthorizedError") {
+						rxDispatch(logoutAction());
+						navigate("/");
+					} else {
+						setLoadingKpi(false);
+						setLoadingOM(false);
+						console.log("error de server pensar que hacer");
+					}
+				};
+				getData();
+			}
+		},
+		// eslint-disable-next-line
+		[]
+	);
+
+	const handleSearchCCMS = async (ccms) => {
+		if (ccms) {
+			const info = await getInfoAgent(ccms);
+			if (info && info.status === 200 && info.data.length > 0) {
+				const duplicates = await getOMDuplicates(
+					dataCampaign,
+					OMList,
+					info.data[0]
+				);
+				if (OMList.length === 0 && !duplicates) {
+					setErrorOMSearch(false);
+					setMsgErrorOMSearch("");
+					setTempCcms("");
+					setOMList([
+						...OMList,
+						{
+							name: info.data[0].FullName,
+							idccms: info.data[0].ident,
+							checked: false,
+							Email: info.data[0].email,
+						},
+					]);
+				} else if (duplicates) {
+					setErrorOMSearch(true);
+					setMsgErrorOMSearch("The user is in the list or in other Team");
+				} else {
+					setErrorOMSearch(false);
+					setMsgErrorOMSearch("");
+					setTempCcms("");
+					setOMList([
+						...OMList,
+						{
+							name: info.data[0].FullName,
+							idccms: info.data[0].ident,
+							checked: false,
+							Email: info.data[0].email,
+						},
+					]);
+				}
+			} else {
+				setErrorOMSearch(true);
+				setMsgErrorOMSearch("CCMS not exist");
+			}
+		} else {
+			setErrorOMSearch(true);
+			setMsgErrorOMSearch("No data");
+		}
+	};
+
+	const handleSearchKpi = async (kpi) => {
+		if (dataToEdit) {
+			if (kpi) {
+				const info = await requestWithData("getkpisfrommd", { kpi });
+				if (info && info.status === 200) {
+					if (info.data.length > 0) {
+						const duplicates = await getCheckToEdit(
+							workDataToEdit,
+							kpisList,
+							info.data
+						);
+						setErrorKpiSearch(false);
+						setMsgErrorKpiSearch("");
+						setTempKpi("");
+						setKpisList(duplicates);
+					} else if (typeLoad) {
+						setAdd(true);
+						setAddMsg(
+							"No kpi match in master data, if is a manual kpi, click add, otherwise, modify entered kpi."
+						);
+						setErrorKpiSearch(false);
+						setMsgErrorKpiSearch("");
+					} else {
+						setErrorKpiSearch(true);
+						setMsgErrorKpiSearch("Kpi does not exist");
+					}
+				} else {
+					setErrorKpiSearch(true);
+					setMsgErrorKpiSearch("Server Error");
+				}
+			} else {
+				setErrorKpiSearch(true);
+				setMsgErrorKpiSearch("No data");
+			}
+		} else {
+			if (kpi) {
+				const info = await requestWithData("getkpisfrommd", { kpi });
+				if (info && info.status === 200) {
+					if (info.data.length > 0) {
+						const duplicates = await getkpisDuplicates(kpisList, info.data);
+						console.log(duplicates);
+						setErrorKpiSearch(false);
+						setMsgErrorKpiSearch("");
+						setTempKpi("");
+						setKpisList(duplicates);
+					} else if (typeLoad) {
+						setAdd(true);
+						setAddMsg(
+							"No kpi match in master data, if is a manual kpi, click add, otherwise, modify entered kpi."
+						);
+						setErrorKpiSearch(false);
+						setMsgErrorKpiSearch("");
+					} else {
+						setErrorKpiSearch(true);
+						setMsgErrorKpiSearch("Kpi does not exist");
+					}
+				} else {
+					setErrorKpiSearch(true);
+					setMsgErrorKpiSearch("Server Error");
+				}
+			} else {
+				setErrorKpiSearch(true);
+				setMsgErrorKpiSearch("No data");
+			}
+		}
+	};
+
+	const handleAdd = (kpi) => {
+		if (dataToEdit) {
+			if (kpi) {
+				const checkData = addHelper(workDataToEdit, kpisList);
+				setErrorKpiSearch(false);
+				setMsgErrorKpiSearch("");
+				setTempKpi("");
+				setAdd(false);
+				setAddMsg("");
+				setKpisList([
+					...checkData,
+					{
+						Kpi: kpi,
+						checked: false,
+						LoadType: typeLoad,
+						CriticalPoint: "",
+						Q1: "",
+						Q2: "",
+						Q3: "",
+						Q4: "",
+						OrderKpi: "",
+					},
+				]);
+			}
+		} else {
+			if (kpi) {
+				const checkData = kpisList.filter((kpi) => kpi.checked === true);
+				setErrorKpiSearch(false);
+				setMsgErrorKpiSearch("");
+				setTempKpi("");
+				setAdd(false);
+				setAddMsg("");
+				setKpisList([
+					...checkData,
+					{
+						Kpi: kpi,
+						checked: false,
+						LoadType: typeLoad,
+						CriticalPoint: "",
+						Q1: "",
+						Q2: "",
+						Q3: "",
+						Q4: "",
+						OrderKpi: "",
+					},
+				]);
+			}
+		}
+	};
+
+	const handleCheckOM = (info) => {
+		setErrorOMList(false);
+		setMsgErrorOMList("");
+		let tempList = OMList.map((om) =>
+			om.idccms === info.idccms ? { ...om, checked: !om.checked } : om
+		);
+		setOMList(tempList);
+	};
+
+	const handleCheckKpi = (info) => {
+		setErrorKpisList(false);
+		setMsgErrorKpisList("");
+		if (dataToEdit && info.idMD) {
+			let tempList = kpisList.map((kpi) =>
+				kpi.Kpi === info.Kpi
+					? {
+							...kpi,
+							checked: !kpi.checked,
+					  }
+					: kpi
+			);
+			setKpisList(tempList);
+		} else {
+			let tempList = kpisList.map((kpi) =>
+				kpi.Kpi === info.Kpi
+					? {
+							...kpi,
+							checked: !kpi.checked,
+					  }
+					: kpi
+			);
+			setKpisList(tempList);
+		}
+	};
+
+	const handleBlur = async () => {
+		const duplicates = await getCampNameDuplicate(dataCampaign, name);
+		if (duplicates) {
+			setErrorName(true);
+			setMsgErrorName("Campaign name already exists");
+		}
+	};
+
+	const handleNext = (action) => {
+		//console.log(kpisList, OMList, name);
+		setErrorKpisList(false);
+		setMsgErrorKpisList("");
+		setErrorOMList(false);
+		setMsgErrorOMList("");
+		if (action === "Next") {
+			const dtw = nextHelper(workDataToEdit, kpisList, OMList);
+			if (name) {
+				if (dtw.oml.length === 1 && !errorOMList) {
+					//setOMList(dtw.oml);
+					if (dtw.kpi.length > 0 && !errorKpisList) {
+						setKpisList(dtw.kpi);
+						setKpiWork(dtw.kpitw);
+						setNext(!next);
+					} else {
+						setErrorKpisList(true);
+						setMsgErrorKpisList("Check KPIs is required (min. 1)");
+					}
+				} else {
+					setErrorOMList(true);
+					setMsgErrorOMList("Check Operation Manager is required (only 1)");
+				}
+			} else {
+				setErrorName(true);
+				setMsgErrorName("No data");
+			}
+		} else {
+			setNext(!next);
+		}
+	};
+
+	const handleCreate = () => {
+		const dts = createHelper(name, kpisList, OMList);
+		if (dts[0] === "Some field in the kpis is empty") {
+			notifyModalError(dts[0]);
+		} else {
+			createCamp(dts);
+		}
+	};
+
+	const handleUpdate = () => {
+		const dts = editHelper(name, kpisList, OMList);
+		if (dts[0] === "Some field in the kpis is empty") {
+			notifyModalError(dts[0]);
+		} else {
+			editCamp(dts);
+		}
+	};
+
+	const notifyModalError = (msgError) => {
+		toast(
+			<div>
+				<p>
+					<b>{msgError}</b>
+				</p>
+			</div>
+		);
+	};
 
 	return (
 		<Box>
@@ -64,9 +433,7 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 				marginY={3}
 				fontWeight={700}
 			>
-				{dataCampaign?.id
-					? `Edit Campaign - ${dataCampaign.name}`
-					: "Creation Campaign"}
+				{dataToEdit ? `Edit Campaign - ${name}` : "Creation Campaign"}
 			</Typography>
 
 			{!next ? (
@@ -76,33 +443,48 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 							Campaign Name
 						</Typography>
 						<InputText
+							error={errorName}
 							name="campaignName"
 							label="Campaign Name"
 							variant="outlined"
 							type="text"
 							fullWidth
-							//onChange={handleQuizSetup}
-							value={dataCampaign?.name}
-							required
+							onChange={(e) => {
+								setName(e.target.value);
+								setErrorName(false);
+								setMsgErrorName("");
+							}}
+							value={name}
+							helperText={errorName && msgErrorName}
+							onBlur={handleBlur}
 						/>
 						<Box marginY={3}>
 							<Typography variant="body1" gutterBottom color="#3047B0">
 								Assignment Operation Manager
 							</Typography>
 							<FormControl sx={{ width: "100%" }} variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-search">
+								<InputLabel
+									error={errorOMSearch}
+									htmlFor="outlined-adornment-search"
+								>
 									Search CCMS Id
 								</InputLabel>
 								<OutlinedInput
+									error={errorOMSearch}
 									id="outlined-adornment-search"
 									type="number"
-									//value={}
-									//onChange={}
+									value={tempCcms}
+									onChange={(e) => {
+										setTempCcms(e.target.value);
+										setErrorOMSearch(false);
+										setMsgErrorOMSearch("");
+									}}
 									endAdornment={
 										<InputAdornment position="end">
 											<ButtonActionBlue
 												aria-label="toggle search visibility"
 												edge="end"
+												onClick={() => handleSearchCCMS(tempCcms)}
 											>
 												Search
 											</ButtonActionBlue>
@@ -110,10 +492,17 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 									}
 									label="Search CCMS Id"
 								/>
+								{errorOMSearch && (
+									<FormHelperText error>{msgErrorOMSearch}</FormHelperText>
+								)}
 							</FormControl>
 						</Box>
 
-						<BoxTL>
+						<BoxTL
+							sx={{
+								border: errorOMList ? "1px solid red" : "1px solid #3047B0",
+							}}
+						>
 							<Box display="flex" textAlign="center">
 								<Box width="45%" color="#3047B0">
 									<Typography variant="body1" fontWeight={700}>
@@ -128,21 +517,33 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 								<Box width="10%" />
 							</Box>
 							<BoxCeldas>
-								{[1, 2, 3, 4, 5, 6].map((item, index) => (
-									<TableCont display="flex" textAlign="center" key={index}>
-										<Box width="45%">
-											<Typography variant="body2">1234567</Typography>
-										</Box>
-										<Box width="45%">
-											<Typography variant="body2">Deiby Niño Garces</Typography>
-										</Box>
-										<Box width="10%">
-											<input type="checkbox" id="idccms" value="idccms" />
-										</Box>
-									</TableCont>
-								))}
+								{loadingOM ? (
+									<LoadingComponent />
+								) : (
+									OMList.map((item, index) => (
+										<TableCont display="flex" textAlign="center" key={index}>
+											<Box width="45%">
+												<Typography variant="body2">{item.idccms}</Typography>
+											</Box>
+											<Box width="45%">
+												<Typography variant="body2">{item.name}</Typography>
+											</Box>
+											<Box width="10%">
+												<input
+													type="checkbox"
+													id="idccms"
+													checked={item.checked}
+													onChange={() => handleCheckOM(item)}
+												/>
+											</Box>
+										</TableCont>
+									))
+								)}
 							</BoxCeldas>
 						</BoxTL>
+						{errorOMList && (
+							<FormHelperText error>{msgErrorOMList}</FormHelperText>
+						)}
 					</Box>
 					<Box width="40%" paddingLeft={2}>
 						<Box>
@@ -150,7 +551,12 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 								Kpi Upload Reporting Lead
 							</Typography>
 							<label className="check">
-								<input type="checkbox" />
+								<input
+									type="checkbox"
+									value={typeLoad}
+									checked={typeLoad}
+									onChange={() => setTypeLoad(!typeLoad)}
+								/>
 								<span className="check-1"></span>
 							</label>
 						</Box>
@@ -159,29 +565,58 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 								Assignment Kpi
 							</Typography>
 							<FormControl sx={{ width: "100%" }} variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-search">
+								<InputLabel
+									htmlFor="outlined-adornment-search"
+									error={errorKpiSearch}
+								>
 									Search Kpi
 								</InputLabel>
 								<OutlinedInput
+									error={errorKpiSearch}
 									id="outlined-adornment-search"
 									type="text"
-									//value={}
-									//onChange={}
+									value={tempKpi}
+									onChange={(e) => {
+										setTempKpi(e.target.value);
+										setErrorKpiSearch(false);
+										setMsgErrorKpiSearch("");
+										setAdd(false);
+										setAddMsg("");
+									}}
 									endAdornment={
 										<InputAdornment position="end">
-											<ButtonActionBlue
-												aria-label="toggle search visibility"
-												edge="end"
-											>
-												Search
-											</ButtonActionBlue>
+											{add ? (
+												<ButtonActionBlue
+													aria-label="toggle search visibility"
+													edge="end"
+													onClick={() => handleAdd(tempKpi)}
+												>
+													Add
+												</ButtonActionBlue>
+											) : (
+												<ButtonActionBlue
+													aria-label="toggle search visibility"
+													edge="end"
+													onClick={() => handleSearchKpi(tempKpi)}
+												>
+													Search
+												</ButtonActionBlue>
+											)}
 										</InputAdornment>
 									}
 									label="Search Kpi"
 								/>
+								{errorKpiSearch && (
+									<FormHelperText error>{msgErrorKpiSearch}</FormHelperText>
+								)}
+								{add && <FormHelperText>{addMsg}</FormHelperText>}
 							</FormControl>
 						</Box>
-						<BoxTL>
+						<BoxTL
+							sx={{
+								border: errorKpisList ? "1px solid red" : "1px solid #3047B0",
+							}}
+						>
 							<Box display="flex" textAlign="center">
 								<Box width="90%" color="#3047B0">
 									<Typography variant="body1" fontWeight={700}>
@@ -192,19 +627,31 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 								<Box width="10%" />
 							</Box>
 							<BoxCeldas>
-								{[1, 2, 3, 4, 5, 6].map((item, index) => (
-									<TableCont display="flex" textAlign="center" key={index}>
-										<Box width="90%">
-											<Typography variant="body2">Kpi Name</Typography>
-										</Box>
+								{loadingKpi ? (
+									<LoadingComponent />
+								) : (
+									kpisList.map((item, index) => (
+										<TableCont display="flex" textAlign="center" key={index}>
+											<Box width="90%">
+												<Typography variant="body2">{item.Kpi}</Typography>
+											</Box>
 
-										<Box width="10%">
-											<input type="checkbox" id="idccms" value="idccms" />
-										</Box>
-									</TableCont>
-								))}
+											<Box width="10%">
+												<input
+													type="checkbox"
+													id="idccms"
+													checked={item.checked}
+													onChange={() => handleCheckKpi(item)}
+												/>
+											</Box>
+										</TableCont>
+									))
+								)}
 							</BoxCeldas>
 						</BoxTL>
+						{errorKpisList && (
+							<FormHelperText error>{msgErrorKpisList}</FormHelperText>
+						)}
 					</Box>
 				</Box>
 			) : (
@@ -261,8 +708,15 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 						</Box>
 					</BoxHead>
 					<ScrollBox height="18rem">
-						{[1, 2, 3, 4, 5, 6].map((item, index) => (
-							<KpiSetup key={index} />
+						{kpiWork.map((item, index) => (
+							<KpiSetup
+								kpi={item}
+								kpisList={kpisList}
+								setKpisList={setKpisList}
+								kpiWork={kpiWork}
+								setKpiWork={setKpiWork}
+								key={index}
+							/>
 						))}
 					</ScrollBox>
 				</>
@@ -270,18 +724,26 @@ const CreateEditCampaign = ({ dataCampaign, handleClose }) => {
 			<Box display="flex" justifyContent="flex-end" marginY={3}>
 				<ButtonActionBlue
 					sx={{ width: "10rem" }}
-					onClick={() => setNext(!next)}
+					onClick={() => (next ? handleNext("Back") : handleNext("Next"))}
 				>
 					{next ? "Back" : "Next"}
 				</ButtonActionBlue>
-				{next && (
-					<ButtonActionBlue
-						sx={{ width: "10rem", marginLeft: "2rem" }}
-						onClick={handleClose}
-					>
-						{dataCampaign?.id ? "Save" : "Create"}
-					</ButtonActionBlue>
-				)}
+				{next &&
+					(dataToEdit ? (
+						<ButtonActionBlue
+							sx={{ width: "10rem", marginLeft: "2rem" }}
+							onClick={handleUpdate}
+						>
+							Update
+						</ButtonActionBlue>
+					) : (
+						<ButtonActionBlue
+							sx={{ width: "10rem", marginLeft: "2rem" }}
+							onClick={handleCreate}
+						>
+							Create
+						</ButtonActionBlue>
+					))}
 			</Box>
 		</Box>
 	);
