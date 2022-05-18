@@ -516,27 +516,25 @@ export const ConvertMonth = (month) => {
 	return mes;
 };
 
-export const quizFilter = (quices, filter) => {
-	const newData = [];
-	const categories = [];
-	quices.forEach((quiz) => {
-		if (quiz.EstadoExamen === filter.split("-")[0]) {
-			newData.push(quiz);
-			categories.push(quiz.Topic);
-		}
+export const quizFilter = async (quices, filter) => {
+	const newData = quices.filter((Q) => Q.EstadoExamen === filter.split("-")[0]);
+	const hash = {};
+	const categories = newData.map((q) => q.Topic);
+	let catData = await categories.filter(function (current) {
+		let exists = !hash[current];
+		hash[current] = true;
+		return exists;
 	});
-	return { quices: newData, categories: categories };
+	return { quices: newData, categories: catData };
 };
 
 export const challengesFilter = (challenges, filter) => {
-	let newData = [];
-	challenges.forEach((challenge) => {
-		if (challenge.ShowActivity === filter.split("-")[1]) {
-			newData.push(challenge);
-		}
-	});
+	let newData = challenges.filter(
+		(c) => c.Status === parseInt(filter.split("-")[1])
+	);
 	return newData;
 };
+
 export const activitiesFilter = (activities, filter) => {
 	let newData = [];
 	if (filter.split("-")[0] === "Complete") {
