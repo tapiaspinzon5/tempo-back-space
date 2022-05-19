@@ -8,7 +8,7 @@ const path = require("path");
 const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
 const { randomInt } = require("crypto");
-const axios = require("axios").default;
+const { sendEmail } = require("../helpers/sendEmail");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -141,7 +141,10 @@ exports.uploadSU = async (req, res) => {
 };
 
 exports.uploadOpsM = async (req, res) => {
-  const { context, idLeader, cas, email } = req.body;
+  const { context, idLeader, cas, emails } = req.body;
+
+  console.log(req.body);
+  console.log(context, idLeader, cas, emails);
 
   sql
     .query(
@@ -156,24 +159,7 @@ exports.uploadOpsM = async (req, res) => {
       responsep(2, req, res, err);
     });
 
-  const path = "https://ApiEmail.teleperformance.co/api/sendEmail";
-
-  // const message = {
-  //   from: 'noresponse@teleperformance.co', // Sender address
-  //   to: email,         // List of recipients
-  //   subject: 'Notifiacion de prueba QA RL, // Subject line',
-  //   text: 'Notification QA RL' // Plain text body
-  // };
-
-  let message = {
-    emails: `${email}`,
-    subject: "Role assignment",
-    name: "Notification SpaceGP",
-    emailSender: "noresponse@teleperformance.com",
-    HTML: "Body Notification assigment QA RL",
-  };
-
-  let responseEmail = await axios.post(path, message);
+  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
 };
 
 exports.uploadRepLead = async (req, res) => {
@@ -441,7 +427,7 @@ exports.postAssignChallenges = async (req, res) => {
       // enviamos la actividad por c/u  de los tokens
       fcmTokensFiltered.forEach(async (token) => {
         // console.log(userName, nameChallenge[i], token);
-        return await sendFCMMessage(userName, nameChallenge[i], token);
+        return await sendFCMMessage(userName, nameChallenge[i], token, "challenge");
       });
       // res.status(200).json(resp);
     } catch (error) {
@@ -520,10 +506,11 @@ exports.sendFCMNotificacion = async (req, res) => {
 
   try {
     let resp = FCMtoken.map(async (token) => {
-      return await sendFCMMessage(token, msg);
+      return await sendFCMMessage("Enviador", "Nombre mision", token, "challenge");
     });
     res.status(200).json(resp);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -730,7 +717,7 @@ exports.postassigntpv = async (req, res) => {
       // enviamos la actividad por c/u  de los tokens
       fcmTokensFiltered.forEach(async (token) => {
         // console.log(userName, nameTPV[i], token);
-        return await sendFCMMessage(userName, nameTPV[i], token);
+        return await sendFCMMessage(userName, nameTPV[i], token, "TPV");
       });
       // res.status(200).json(resp);
     } catch (error) {
@@ -858,7 +845,7 @@ exports.getInfoLeaderBoardrl = async (req, res) => {
 
 exports.postCreateCampaign = async (req, res) => {
   let i = 0;
-  let { data, email } = req.body;
+  let { data, emails } = req.body;
 
   let rows = data.map((quest) => {
     i = i + 1;
@@ -874,6 +861,8 @@ exports.postCreateCampaign = async (req, res) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
+
+  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
 };
 
 exports.postCreateLOB = async (req, res) => {
@@ -979,7 +968,7 @@ exports.postAssignMission = async (req, res) => {
           // enviamos la actividad por c/u  de los tokens
           fcmTokensFiltered.forEach(async (token) => {
             // console.log(userName, nameChallenge[i], token);
-            return await sendFCMMessage(userName, nameMissions[i], token);
+            return await sendFCMMessage(userName, nameMissions[i], token, "mission");
           });
         } catch (error) {
           res.status(500).json(error);
@@ -1036,7 +1025,7 @@ exports.postAssignMission = async (req, res) => {
               // enviamos la actividad por c/u  de los tokens
               usersWithFcmTokens.forEach(async (user) => {
                 // console.log(userName, nameChallenge[i], token);
-                return await sendFCMMessage(userName, nameMissions[i], user.Token);
+                return await sendFCMMessage(userName, nameMissions[i], user.Token, "mission");
               });
             } catch (error) {
               res.status(500).json(error);
@@ -1097,7 +1086,7 @@ exports.postAssignMission = async (req, res) => {
               // enviamos la actividad por c/u  de los tokens
               usersWithFcmTokens.forEach(async (user) => {
                 // console.log(userName, nameChallenge[i], token);
-                return await sendFCMMessage(userName, nameMissions[i], user.Token);
+                return await sendFCMMessage(userName, nameMissions[i], user.Token, "mission");
               });
             } catch (error) {
               res.status(500).json(error);
@@ -1210,7 +1199,7 @@ exports.getCampaignInfo = async (req, res) => {
 };
 
 exports.postUpdateCampaignInfo = async (req, res) => {
-  const { data, idcampaign, email } = req.body;
+  const { data, idcampaign, emails } = req.body;
   let i = 0;
 
   let rows = data.map((quest) => {
@@ -1227,6 +1216,8 @@ exports.postUpdateCampaignInfo = async (req, res) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
+
+  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
 };
 
 exports.postUpdateTeamName = async (req, res) => {
