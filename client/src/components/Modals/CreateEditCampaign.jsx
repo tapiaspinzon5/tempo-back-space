@@ -112,7 +112,10 @@ const CreateEditCampaign = ({
 						context: 2,
 					});
 					if (info && info.status === 200 && info.data.length > 0) {
-						if (info.data[0].Ident !== "0" && info.data[0].Agent !== "0") {
+						if (
+							info.data[0].Result[0].IdCampaign !== "0" &&
+							info.data[0].Result[0].nameCampaign !== "0"
+						) {
 							const dataCheck = info.data[0].Result.map((el) =>
 								el.checked ? el : { ...el, checked: true }
 							);
@@ -132,12 +135,13 @@ const CreateEditCampaign = ({
 									name: info.data[0].Result[0].NameOperationManager,
 									idccms: info.data[0].Result[0].identOM,
 									checked: true,
+									Email: null,
 								},
 							]);
 						} else {
 							setLoadingKpi(false);
 							setLoadingOM(false);
-							console.log("no data pensa que hacer");
+							notifyModalError("Server Problems");
 						}
 					} else if (info && info.data === "UnauthorizedError") {
 						rxDispatch(logoutAction());
@@ -145,7 +149,7 @@ const CreateEditCampaign = ({
 					} else {
 						setLoadingKpi(false);
 						setLoadingOM(false);
-						console.log("error de server pensar que hacer");
+						notifyModalError("Server Problems");
 					}
 				};
 				getData();
@@ -244,7 +248,6 @@ const CreateEditCampaign = ({
 				if (info && info.status === 200) {
 					if (info.data.length > 0) {
 						const duplicates = await getkpisDuplicates(kpisList, info.data);
-						console.log(duplicates);
 						setErrorKpiSearch(false);
 						setMsgErrorKpiSearch("");
 						setTempKpi("");
@@ -292,6 +295,7 @@ const CreateEditCampaign = ({
 						Q3: "",
 						Q4: "",
 						OrderKpi: "",
+						id: 0,
 					},
 				]);
 			}
@@ -315,6 +319,7 @@ const CreateEditCampaign = ({
 						Q3: "",
 						Q4: "",
 						OrderKpi: "",
+						id: 0,
 					},
 				]);
 			}
@@ -365,7 +370,6 @@ const CreateEditCampaign = ({
 	};
 
 	const handleNext = (action) => {
-		//console.log(kpisList, OMList, name);
 		setErrorKpisList(false);
 		setMsgErrorKpisList("");
 		setErrorOMList(false);
@@ -401,21 +405,23 @@ const CreateEditCampaign = ({
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
 		} else {
-			createCamp(dts);
+			createCamp(dts[0], dts[1]);
 		}
 	};
 
 	const handleUpdate = () => {
-		const dts = editHelper(name, kpisList, OMList);
+		const dts = editHelper(name, kpisList, OMList, workDataToEdit);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
+		} else if (dts[0] === "no hubo edicion") {
+			notifyModalError(dts[0]);
 		} else {
-			editCamp(dts);
+			editCamp(dts[0], dataToEdit, dts[1]);
 		}
 	};
 
 	const notifyModalError = (msgError) => {
-		toast(
+		toast.info(
 			<div>
 				<p>
 					<b>{msgError}</b>

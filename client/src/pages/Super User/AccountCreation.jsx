@@ -140,10 +140,16 @@ const AccountCreation = () => {
 		setDataToEdit(null);
 	};
 
-	const editSubmit = async (data) => {
-		const cqa = await requestWithData("postupdatecampaigninfo", data);
+	const editSubmit = async (data, idcampaign, email) => {
+		const cqa = await requestWithData("postupdatecampaigninfo", {
+			data,
+			idcampaign,
+			email,
+		});
 
 		if (cqa && cqa.status === 200) {
+			setOpen(false);
+			setDataToEdit(null);
 			MySwal.fire({
 				title: <p>{"Update Campaign!"}</p>,
 				icon: "success",
@@ -151,7 +157,8 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					window.location.reload(); //viene los setstate
+					setDataCampaign(cqa.data);
+					setInfoView(false);
 				}
 			});
 		} else {
@@ -162,16 +169,18 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					window.location.reload(); //viene los setstate
+					window.location.reload();
 				}
 			});
 		}
 	};
 
-	const createSubmit = async (data) => {
-		const cqa = await requestWithData("postcreatecampaign", data);
+	const createSubmit = async (data, email) => {
+		const cqa = await requestWithData("postcreatecampaign", { data, email });
 
 		if (cqa && cqa.status === 200) {
+			setOpen(false);
+			setDataToEdit(null);
 			MySwal.fire({
 				title: <p>{"Campaign Created!"}</p>,
 				icon: "success",
@@ -179,7 +188,8 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					window.location.reload(); //viene los setstate
+					setDataCampaign(cqa.data);
+					setInfoView(false);
 				}
 			});
 		} else {
@@ -190,21 +200,10 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					window.location.reload(); //viene los setstate
+					window.location.reload();
 				}
 			});
 		}
-	};
-
-	const createCamp = (dts) => {
-		console.log(dts);
-		setOpen(false);
-		setDataToEdit(null);
-	};
-	const editCamp = (dts) => {
-		console.log(dts);
-		setOpen(false);
-		setDataToEdit(null);
 	};
 
 	return (
@@ -322,8 +321,8 @@ const AccountCreation = () => {
 						dataCampaign={dataCampaign}
 						handleClose={handleClose}
 						dataToEdit={dataToEdit}
-						createCamp={createCamp}
-						editCamp={editCamp}
+						createCamp={createSubmit}
+						editCamp={editSubmit}
 					/>
 				</ModalBox>
 			</Modal>

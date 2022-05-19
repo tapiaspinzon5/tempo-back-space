@@ -129,6 +129,7 @@ export const createHelper = (name, kpiList, OMList) => {
 						el.CriticalPoint,
 						el.OrderKpi,
 						el.LoadType ? 0 : 1,
+						el.id,
 				  ]
 				: "Some field in the kpis is empty"
 		);
@@ -138,13 +139,13 @@ export const createHelper = (name, kpiList, OMList) => {
 		if (verification.length > 0) {
 			return verification;
 		} else {
-			return dts;
+			return [dts, [checkDataOM[0].Email]];
 		}
 	} else {
 		return ["Some field is empty"];
 	}
 };
-export const editHelper = (name, kpiList, OMList) => {
+export const editHelper = (name, kpiList, OMList, wd) => {
 	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
 	const checkDataOM = OMList.filter((OM) => OM.checked === true);
 	if (checkDataKpi.length > 0 && checkDataOM.length > 0) {
@@ -160,17 +161,57 @@ export const editHelper = (name, kpiList, OMList) => {
 						el.Q4,
 						el.CriticalPoint,
 						el.OrderKpi,
-						el.LoadType === 1 ? 1 : el.LoadType ? 0 : 1,
+						el.LoadType === 1 ? 1 : el.LoadType ? 0 : el.LoadType === 0 ? 0 : 1,
+						el.idMD ? el.idMD : el.id ? el.id : 0,
 				  ]
 				: "Some field in the kpis is empty"
 		);
+		const ex = wd.map((el) => [
+			el.identOM,
+			el.nameCampaign,
+			el.Kpi,
+			el.Q1,
+			el.Q2,
+			el.Q3,
+			el.Q4,
+			el.CriticalPoint,
+			el.OrderKpi,
+			el.LoadType,
+			el.idMD,
+		]);
 		const verification = dts.filter(
 			(el) => el === "Some field in the kpis is empty"
 		);
 		if (verification.length > 0) {
 			return verification;
 		} else {
-			return dts;
+			if (wd.length === dts.length) {
+				const verEdit = dts.concat(
+					ex.filter((bo) =>
+						dts.every(
+							(ao) =>
+								ao[0] !== bo[0] ||
+								ao[1] !== bo[1] ||
+								ao[2] !== bo[2] ||
+								ao[3] !== bo[3] ||
+								ao[4] !== bo[4] ||
+								ao[5] !== bo[5] ||
+								ao[6] !== bo[6] ||
+								ao[7] !== bo[7] ||
+								ao[8] !== bo[8] ||
+								ao[9] !== bo[9] ||
+								ao[10] !== bo[10]
+						)
+					)
+				);
+				if (verEdit.length === dts.length) {
+					return ["no hubo edicion"];
+				} else {
+					return [dts, [checkDataOM[0].Email]];
+				}
+			} else {
+				return [dts, [checkDataOM[0].Email]];
+			}
 		}
 	} else {
 		return ["Some field is empty"];

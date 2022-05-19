@@ -165,6 +165,10 @@ let suTable2 = [
     type: TYPES.Bit,
   },
   {
+    name: "idKpiMD",
+    type: TYPES.Int,
+  },
+  {
     name: "IdRegistryKpi",
     type: TYPES.Int,
   },
@@ -671,7 +675,7 @@ exports.parametros = (req, tipo) => {
     case "spUpdateCampaign":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("idcampaign", req.idcampaign, TYPES.Int),
         SpParamTable2("table", suTable2, req.rows),
       ]);
 
