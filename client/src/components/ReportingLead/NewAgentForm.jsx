@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
-  Button,
   FormControl,
   IconButton,
   InputAdornment,
@@ -14,10 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 import searchIco from "../../assets/Icons/search-ico.svg";
-import { getInfoAgent } from "../../utils/api";
+import { createTeamReportingLead, getInfoAgent } from "../../utils/api";
 import avatar from "../../assets/temp-image/avatar.png";
 import { SwapSpinner } from "react-spinners-kit";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const BoxAssignAgent = styled(Box)(() => ({
   padding: "2rem",
@@ -44,44 +47,64 @@ const BoxButton = styled(Box)(() => ({
   },
 }));
 
-const NewAgentForm = ({ dataTeam }) => {
+const NewAgentForm = ({ dataTeam, getData }) => {
   const [idccms, setIdccms] = useState("");
   const [teamLeader, setTeamLeader] = useState("");
   const [quartile, setQuartile] = useState("");
   const [error, setError] = useState(null);
   const [agent, setAgent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newAgent, setNewAgent] = useState(["Agent"]);
+  const [newAgent, setNewAgent] = useState([]);
 
   const getAgentData = async () => {
     setError(null);
     setLoading(true);
     const getData = await getInfoAgent(idccms);
+
     setAgent(getData.data[0]);
     if (getData.data[0]?.StatusGP === "Active") {
-      console.log("esta activo");
       setError("This user is already in a team");
     } else if (getData.data.length === 0) {
       setError("This user does not exist");
+    } else {
+      setNewAgent([quartile, idccms, teamLeader, "Agent"]);
     }
-    console.log(getData);
+
     setLoading(false);
   };
 
-  const addAgent = (e) => {
-    setNewAgent([...newAgent, e.target.value]);
+  const handleUserAssign = async (data) => {
+    setError(false);
+    //e.preventDefault();
+    if (!newAgent[0] || !newAgent[1] || !newAgent[2] || !newAgent[3]) {
+      setError("All fields required!");
+      return;
+    }
+    const resp = await createTeamReportingLead([data]);
+    if (resp.status === 200) {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>File upload</p>,
+        icon: "success",
+        confirmButtonText: "Accept",
+        allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          getData();
+        }
+      });
+    }
+    setNewAgent([]);
+    setAgent([]);
+    setQuartile("");
+    setIdccms("");
+    setTeamLeader("");
   };
-
-  const handleUserAssign = (e) => {
-    e.preventDefault();
-  };
-
-  console.log(agent);
-  console.log(newAgent);
 
   useEffect(() => {
+    setError(false);
     setNewAgent([quartile, idccms, teamLeader, "Agent"]);
-  }, [quartile, idccms, teamLeader]);
+  }, [quartile, teamLeader]);
 
   return (
     <BoxAssignAgent>
@@ -93,7 +116,7 @@ const NewAgentForm = ({ dataTeam }) => {
       >
         New Agent
       </Typography>
-      <form onSubmit={handleUserAssign}>
+      <form onSubmit={() => handleUserAssign(newAgent)}>
         <Box marginBottom="1rem">
           <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">
@@ -105,7 +128,7 @@ const NewAgentForm = ({ dataTeam }) => {
               type={"text"}
               value={idccms}
               onChange={(e) => setIdccms(e.target.value)}
-              error={error ? true : false}
+              error={error && !idccms ? true : false}
               endAdornment={
                 <InputAdornment position="end">
                   {loading ? (
@@ -125,6 +148,7 @@ const NewAgentForm = ({ dataTeam }) => {
               label="Search CCMS Id"
             />
           </FormControl>
+
           <Typography variant="caption" color="red">
             {error}
           </Typography>
@@ -145,13 +169,20 @@ const NewAgentForm = ({ dataTeam }) => {
         )}
 
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Quartile</InputLabel>
+          <InputLabel id="quartile-select-label">Quartile</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="quartile-select-label"
+            id="quartile-select"
             value={quartile}
             label="Quartile"
+            error={error && !quartile ? true : false}
             onChange={(e) => setQuartile(e.target.value)}
+            disabled={
+              error === "This user is already in a team" ||
+              error === "This user does not exist"
+                ? true
+                : false
+            }
           >
             <MenuItem value={"Q1"}>Q1</MenuItem>
             <MenuItem value={"Q2"}>Q2</MenuItem>
@@ -160,21 +191,30 @@ const NewAgentForm = ({ dataTeam }) => {
           </Select>
         </FormControl>
         <FormControl fullWidth sx={{ mt: "10px" }}>
-          <InputLabel id="demo-simple-select-label">
-            Assignment Team Lead
-          </InputLabel>
+          <InputLabel id="team-select-label">Assignment Team Lead</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="team-select-label"
+            id="team-select"
             value={teamLeader}
             label="Assignment Team Lead"
+            error={error && !teamLeader ? true : false}
             onChange={(e) => setTeamLeader(e.target.value)}
+            disabled={
+              error === "This user is already in a team" ||
+              error === "This user does not exist"
+                ? true
+                : false
+            }
           >
-            {dataTeam.map((team) => (
-              <MenuItem value={team.NameTeam} key={team.idTeam}>
-                {team.TeamLeader}
-              </MenuItem>
-            ))}
+            {dataTeam.length > 0 ? (
+              dataTeam.map((team) => (
+                <MenuItem value={team.NameTeam} key={team.idTeam}>
+                  {team.TeamLeader}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem value="">No data Team</MenuItem>
+            )}
           </Select>
         </FormControl>
 

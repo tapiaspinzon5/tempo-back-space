@@ -71,7 +71,7 @@ const TeamInformation = () => {
   useEffect(() => {
     const getAgents = async () => {
       const getData = await getTeamAgents(1, 0);
-      console.log(getData.data);
+
       setUserData(getData.data[0].Agents);
       setNewName(getData.data[0].Agents[0].Team);
     };
@@ -85,13 +85,11 @@ const TeamInformation = () => {
   const handleUser = async (idccms) => {
     setActive(idccms);
     const getData = await getTeamAgents(2, idccms);
-    console.log(getData.data);
+
     setChallengeData(getData.data[0].ChallengesAgents);
   };
   const handleChangeTeamName = async () => {
-    console.log("cambiando nombre por:", newName);
     const change = await changeTeamName(userData[0]?.IdEquipo, newName);
-    console.log(change);
     setNameCard(false);
 
     if (change.status === 200) {

@@ -21,12 +21,13 @@ const BoxChallengeCard = styled(Box)(() => ({
     padding: ".6rem 1.2rem",
     color: "#3047b0",
     background: "#fff",
+    marginLeft: "2rem",
     "&:hover": {
       boxShadow: "0px 3px 6px #3047b0",
       background: "#e8e8e8",
     },
   },
-  h6: {
+  p: {
     color: "white",
   },
 }));
@@ -40,7 +41,7 @@ const ChallengeCard = ({ challenge }) => {
     >
       {challenge.DescriptionChallenge !== "0" ? (
         <>
-          <Typography variant="h6" color="initial">
+          <Typography variant="body1" color="initial">
             {challenge.DescriptionChallenge}
           </Typography>
           <Button>

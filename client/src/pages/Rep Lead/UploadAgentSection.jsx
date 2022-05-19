@@ -23,7 +23,6 @@ import {
   agentManage,
   createTeamReportingLead,
   getAgentsCampaign,
-  getInfoAgent,
   getTeamsInformation,
 } from "../../utils/api";
 
@@ -140,7 +139,6 @@ const UploadAgentSection = () => {
         return;
       }
 
-      console.log(data);
       const resp = await createTeamReportingLead(data);
 
       if (resp.status === 200) {
@@ -160,11 +158,24 @@ const UploadAgentSection = () => {
   };
 
   const handleState = async (idccms) => {
-    const changeState = await agentManage(idccms);
-    if (changeState.status == 200) {
-      notify();
-      getData();
-    }
+    MySwal.fire({
+      title: <p>Do you want to delete this user?</p>,
+      icon: "question",
+      confirmButtonText: "Accept",
+      showDenyButton: true,
+      allowOutsideClick: false,
+    }).then((resultado) => {
+      if (resultado.value) {
+        const req = async () => {
+          const changeState = await agentManage(idccms);
+          if (changeState.status == 200) {
+            notify();
+            getData();
+          }
+        };
+        req();
+      }
+    });
   };
 
   const notify = () => {
@@ -241,7 +252,7 @@ const UploadAgentSection = () => {
         <Grid item xs={12} md={6} lg={4}>
           {newAgent && (
             <Item>
-              <NewAgentForm dataTeam={dataTeam} />
+              <NewAgentForm dataTeam={dataTeam} getData={getData} />
             </Item>
           )}
         </Grid>

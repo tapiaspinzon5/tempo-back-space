@@ -61,7 +61,6 @@ const createLobOperationManager = (
   tlIdccms,
   emails
 ) => {
-  console.log(context, lobName, idlob, tlIdccms, emails);
   try {
     return axiosInstance
       .post(`postcreatelob`, {
@@ -244,7 +243,6 @@ const loadQuizes = () => {
 };
 
 const uploadQuizes = (data, context) => {
-  console.log(context);
   try {
     return axiosInstance
       .post(`uploadquiz`, { data, context })
@@ -287,7 +285,6 @@ const addMissionCategories = (data) => {
 };
 // Disabled Missions
 const disabledMission = (data) => {
-  console.log(data);
   try {
     return axiosInstance
       .post(`postinactivatemission`, data)
@@ -409,7 +406,6 @@ const getTeamAgents = (context, idccmsAgent) => {
 };
 //funcion para Cambiar el Nombre del Equipo
 const changeTeamName = (idTeam, newTeamName) => {
-  console.log(idTeam, newTeamName);
   try {
     return axiosInstance
       .post(`postupdateteamname`, {
