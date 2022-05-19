@@ -22,7 +22,7 @@ import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import search from "../../assets/Icons/search-ico.svg";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { MdCached } from "react-icons/md";
 import {
@@ -50,6 +50,7 @@ const BoxRole = styled(Box)(() => ({
 const RoleManagementSecttion = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [qaLead, setQaLead] = useState({});
 	const [rLead, setRLead] = useState({});
 	const [newQA, setNewQA] = useState({});
@@ -212,14 +213,20 @@ const RoleManagementSecttion = () => {
 		}
 	};
 
-	const submit = async (context, acQA, cas) => {
+	const submit = async (context, info, cas, rol) => {
 		const cqa = await createTeamOperationManager(
 			context,
-			acQA.Ident,
-			acQA.Email,
+			info.Ident,
+			[
+				{
+					email: info.Email,
+					name: info.Name,
+					rol: rol,
+					manager: userData.Nombre,
+				},
+			],
 			cas
 		);
-
 		if (cqa && cqa.status === 200) {
 			MySwal.fire({
 				title: <p>{cas === 2 ? "Saved!" : "Assigned!"}</p>,
@@ -258,7 +265,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(1, nQA, 2);
+					submit(1, nQA, 2, "QA Lead");
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -273,7 +280,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(1, acQA, 1);
+					submit(1, acQA, 1, "QA Lead");
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}
@@ -294,7 +301,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(2, nRL, 2);
+					submit(2, nRL, 2, "Reporting Lead");
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -311,7 +318,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(2, acRL, 1);
+					submit(2, acRL, 1, "Reporting Lead");
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}

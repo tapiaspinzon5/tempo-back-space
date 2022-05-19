@@ -723,14 +723,21 @@ export const teamLeaderList = async (data, firstLob) => {
 	return TLList;
 };
 
-export const createTeamLeaderList = (data, name) => {
+export const createTeamLeaderList = (data, name, userData) => {
 	const TLList = data.filter((tl) => tl.checked === true);
 	const list = [];
 	const emails = [];
 	TLList.forEach((tl) => {
 		list.push([tl.idccms]);
 		if (tl.Email) {
-			emails.push(tl.Email);
+			emails.push([
+				{
+					email: tl.Email,
+					name: tl.Name,
+					rol: "Team Leader",
+					manager: userData,
+				},
+			]);
 		}
 	});
 	return { lobName: name, tlIdccms: list, emails };
@@ -771,14 +778,14 @@ export const getTopics = (topics) => {
 };
 
 export const wordExist = (categories, newCategory) => {
-  let error = "";
-  categories.forEach((cat) => {
-    const newName = newCategory.NameCategory.toLowerCase();
-    const exist = cat.NameCategory.toLowerCase();
-    const word = exist.includes(newName);
-    if (word === true) {
-      error = "There is a category with that name";
-    }
-  });
-  return error;
+	let error = "";
+	categories.forEach((cat) => {
+		const newName = newCategory.NameCategory.toLowerCase();
+		const exist = cat.NameCategory.toLowerCase();
+		const word = exist.includes(newName);
+		if (word === true) {
+			error = "There is a category with that name";
+		}
+	});
+	return error;
 };

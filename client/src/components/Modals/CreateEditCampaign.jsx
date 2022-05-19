@@ -135,7 +135,7 @@ const CreateEditCampaign = ({
 									name: info.data[0].Result[0].NameOperationManager,
 									idccms: info.data[0].Result[0].identOM,
 									checked: true,
-									Email: null,
+									email: null,
 								},
 							]);
 						} else {
@@ -162,13 +162,22 @@ const CreateEditCampaign = ({
 	const handleSearchCCMS = async (ccms) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
-			if (info && info.status === 200 && info.data.length > 0) {
+			if (
+				info &&
+				info.status === 200 &&
+				info.data.length > 0 &&
+				info.data[0].status === "Active"
+			) {
 				const duplicates = await getOMDuplicates(
 					dataCampaign,
 					OMList,
 					info.data[0]
 				);
-				if (OMList.length === 0 && !duplicates) {
+				if (
+					OMList.length === 0 &&
+					!duplicates &&
+					info.data[0].StatusGP !== "Active"
+				) {
 					setErrorOMSearch(false);
 					setMsgErrorOMSearch("");
 					setTempCcms("");
@@ -178,33 +187,40 @@ const CreateEditCampaign = ({
 							name: info.data[0].FullName,
 							idccms: info.data[0].ident,
 							checked: false,
-							Email: info.data[0].email,
+							email: info.data[0].email,
 						},
 					]);
 				} else if (duplicates) {
 					setErrorOMSearch(true);
 					setMsgErrorOMSearch("The user is in the list or in other Team");
 				} else {
-					setErrorOMSearch(false);
-					setMsgErrorOMSearch("");
-					setTempCcms("");
-					setOMList([
-						...OMList,
-						{
-							name: info.data[0].FullName,
-							idccms: info.data[0].ident,
-							checked: false,
-							Email: info.data[0].email,
-						},
-					]);
+					if (info.data[0].StatusGP === "Active") {
+						setErrorOMSearch(true);
+						setMsgErrorOMSearch("The user is in the list or in other Team");
+					} else {
+						setErrorOMSearch(false);
+						setMsgErrorOMSearch("");
+						setTempCcms("");
+						setOMList([
+							...OMList,
+							{
+								name: info.data[0].FullName,
+								idccms: info.data[0].ident,
+								checked: false,
+								email: info.data[0].email,
+							},
+						]);
+					}
 				}
 			} else {
 				setErrorOMSearch(true);
-				setMsgErrorOMSearch("CCMS not exist");
+				setMsgErrorOMSearch(
+					"CCMS does not exist or is not active in the database"
+				);
 			}
 		} else {
 			setErrorOMSearch(true);
-			setMsgErrorOMSearch("No data");
+			setMsgErrorOMSearch("You did not enter any ccms");
 		}
 	};
 
