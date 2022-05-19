@@ -22,7 +22,7 @@ import Header from "../../components/homeUser/Header";
 import { FiEdit3 } from "react-icons/fi";
 import { BsClock, BsPercent } from "react-icons/bs";
 import CreateEditCampaign from "../../components/Modals/CreateEditCampaign";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -52,6 +52,7 @@ const BoxCampaing = styled(Button)(() => ({
 const AccountCreation = () => {
 	const navigate = useNavigate();
 	const rxDispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [open, setOpen] = useState(false);
 	const [dataCampaign, setDataCampaign] = useState([]);
 	const [dataInfoKpis, setDataInfoKpis] = useState([]);
@@ -63,6 +64,7 @@ const AccountCreation = () => {
 	const [error, setError] = useState(false);
 	const [noDataCamp, setNoDataCamp] = useState(false);
 	const [noDataInfo, setNoDataInfo] = useState(false);
+	const [active, setActive] = useState(0);
 
 	useEffect(
 		() => {
@@ -75,8 +77,8 @@ const AccountCreation = () => {
 				});
 				if (allCamps && allCamps.status === 200 && allCamps.data.length > 0) {
 					if (
-						allCamps.data[0].IdCampaign !== "0" &&
-						allCamps.data[0].nameCampaign !== "0"
+						allCamps.data[0].Result[0].IdCampaign !== "0" &&
+						allCamps.data[0].Result[0].nameCampaign !== "0"
 					) {
 						setDataCampaign(allCamps.data[0].Result);
 						setLoadingCamp(false);
@@ -108,9 +110,13 @@ const AccountCreation = () => {
 			context: 2,
 		});
 		if (info && info.status === 200 && info.data.length > 0) {
-			if (info.data[0].Ident !== "0" && info.data[0].Agent !== "0") {
+			if (
+				info.data[0].Result[0].NameOperationManager !== "0" &&
+				info.data[0].Result[0].IdCampaign !== "0"
+			) {
 				setLoadingInfo(false);
 				setDataInfoKpis(info.data[0].Result);
+				setActive(id);
 				setDataInfoOpsMan({
 					name: info.data[0].Result[0].NameOperationManager,
 					rol: "Operation Manager",
@@ -140,11 +146,12 @@ const AccountCreation = () => {
 		setDataToEdit(null);
 	};
 
-	const editSubmit = async (data, idcampaign, email) => {
+	const editSubmit = async (data, idcampaign, emails) => {
+		console.log(data, idcampaign, emails);
 		const cqa = await requestWithData("postupdatecampaigninfo", {
 			data,
 			idcampaign,
-			email,
+			emails: [{ ...emails[0], manager: userData.Nombre }],
 		});
 
 		if (cqa && cqa.status === 200) {
@@ -159,6 +166,8 @@ const AccountCreation = () => {
 				if (resultado.value) {
 					setDataCampaign(cqa.data);
 					setInfoView(false);
+					setLoadingCamp(false);
+					setNoDataCamp(false);
 				}
 			});
 		} else {
@@ -175,8 +184,11 @@ const AccountCreation = () => {
 		}
 	};
 
-	const createSubmit = async (data, email) => {
-		const cqa = await requestWithData("postcreatecampaign", { data, email });
+	const createSubmit = async (data, emails) => {
+		const cqa = await requestWithData("postcreatecampaign", {
+			data,
+			emails: [{ ...emails[0], manager: userData.Nombre }],
+		});
 
 		if (cqa && cqa.status === 200) {
 			setOpen(false);
@@ -190,6 +202,8 @@ const AccountCreation = () => {
 				if (resultado.value) {
 					setDataCampaign(cqa.data);
 					setInfoView(false);
+					setLoadingCamp(false);
+					setNoDataCamp(false);
 				}
 			});
 		} else {
@@ -222,12 +236,17 @@ const AccountCreation = () => {
 							{error ? (
 								<Typography variant="body1">Server Problems</Typography>
 							) : noDataCamp ? (
-								<Typography variant="body1">Teams are not loaded</Typography>
+								<Typography variant="body1">Teams are not created</Typography>
 							) : loadingCamp ? (
 								<LoadingComponent />
 							) : (
 								dataCampaign.map((camp, index) => (
 									<BoxCampaing
+										sx={
+											active === camp.IdCampaign
+												? { boxShadow: "4px 4px 8px #a2a2a2" }
+												: {}
+										}
 										height="3rem"
 										key={index}
 										onClick={() => handleCampaign(camp.IdCampaign)}

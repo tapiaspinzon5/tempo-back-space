@@ -19,7 +19,7 @@ import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
@@ -58,6 +58,7 @@ const ModalBox = styled(Box)(() => ({
 const LOBManagementSection = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [open, setOpen] = useState(false);
 	const [lob, setLob] = useState([]);
 	const [noData, setNoData] = useState(false);
@@ -211,6 +212,7 @@ const LOBManagementSection = () => {
 						allData={allData}
 						setOpen={setOpen}
 						dataLOB={dataLOB}
+						userData={userData.Nombre}
 					/>
 				</ModalBox>
 			</Modal>

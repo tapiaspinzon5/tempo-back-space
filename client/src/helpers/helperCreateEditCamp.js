@@ -139,7 +139,16 @@ export const createHelper = (name, kpiList, OMList) => {
 		if (verification.length > 0) {
 			return verification;
 		} else {
-			return [dts, [checkDataOM[0].Email]];
+			return [
+				dts,
+				[
+					{
+						email: checkDataOM[0].email,
+						name: checkDataOM[0].name,
+						rol: "Operation Manager",
+					},
+				],
+			];
 		}
 	} else {
 		return ["Some field is empty"];
@@ -207,10 +216,28 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 				if (verEdit.length === dts.length) {
 					return ["no hubo edicion"];
 				} else {
-					return [dts, [checkDataOM[0].Email]];
+					return [
+						dts,
+						[
+							{
+								email: checkDataOM[0].email,
+								name: checkDataOM[0].name,
+								rol: "Operation Manager",
+							},
+						],
+					];
 				}
 			} else {
-				return [dts, [checkDataOM[0].Email]];
+				return [
+					dts,
+					[
+						{
+							email: checkDataOM[0].email,
+							name: checkDataOM[0].name,
+							rol: "Operation Manager",
+						},
+					],
+				];
 			}
 		}
 	} else {

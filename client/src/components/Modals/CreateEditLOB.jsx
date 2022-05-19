@@ -56,7 +56,7 @@ const BoxCeldas = styled(Box)(() => ({
 	},
 }));
 
-const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
+const CreateEditLOB = ({ allData, setOpen, dataLOB, userData }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
 	const [error, setError] = useState(false);
@@ -139,7 +139,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	};
 
 	const submit = async (context, idLob) => {
-		const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
+		const dataToSend = await createTeamLeaderList(dataTL, nameLOB, userData);
 		const data = await createLobOperationManager(
 			context,
 			dataToSend.lobName,
