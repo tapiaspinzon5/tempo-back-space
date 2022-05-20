@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, IconButton, Switch } from "@mui/material";
+import { Box, Typography, IconButton, styled } from "@mui/material";
 import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
 import { BsTrash } from "react-icons/bs";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { GiSandsOfTime } from "react-icons/gi";
 import {
   BoxBodyTable,
   BoxDataTable,
   BoxHeaderTable,
 } from "../../assets/styled/muistyled";
+
+const HtmlTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#e8e8e8e1",
+    color: "#46474bfb",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(8),
+    border: "1px solid #dadde9",
+  },
+}));
 
 const TableAgentUpload = ({ dataAgent, handleState }) => {
   const [agents, setAgents] = useState([]);
@@ -29,7 +42,7 @@ const TableAgentUpload = ({ dataAgent, handleState }) => {
   useEffect(() => {
     setAgents(dataAgent);
   }, [dataAgent]);
-
+  console.log(agents);
   return (
     <Box padding="1rem">
       <BoxHeaderTable>
@@ -101,20 +114,24 @@ const TableAgentUpload = ({ dataAgent, handleState }) => {
               <Typography variant="body2"> {agent.Ident}</Typography>
             </Box>
             <Box sx={{ width: "20%" }}>
-              <Typography variant="body2">{agent.NameTeam} </Typography>
+              <HtmlTooltip
+                arrow
+                placement="top"
+                title={
+                  <>
+                    <Typography color="inherit" variant="caption">
+                      Team Leader: {agent.NameTL}
+                    </Typography>
+                  </>
+                }
+              >
+                <Typography variant="body2">{agent.NameTeam} </Typography>
+              </HtmlTooltip>
             </Box>
             <Box sx={{ width: "25%" }}>
               <Typography variant="body2">{agent.Lob} </Typography>
             </Box>
             <Box sx={{ width: "5%" }}>
-              {" "}
-              {/* <Switch
-                checked={agent.Estado === "Active" ? true : false}
-                //  onChange={() => handleState(agent.Ident)}
-                name="checkedA"
-                size="small"
-                inputProps={{ "aria-label": "secondary checkbox" }}
-              /> */}
               <IconButton
                 onClick={() => handleState(agent.Ident)}
                 disabled={agent.Request}

@@ -32,7 +32,7 @@ const BoxChallengeCard = styled(Box)(() => ({
   },
 }));
 
-const ChallengeCard = ({ challenge }) => {
+const ChallengeCard = ({ challenge, handleDisabledChallenge }) => {
   return (
     <BoxChallengeCard
       sx={{
@@ -44,7 +44,12 @@ const ChallengeCard = ({ challenge }) => {
           <Typography variant="body1" color="initial">
             {challenge.DescriptionChallenge}
           </Typography>
-          <Button>
+          <Button
+            disabled={challenge.StatusChallenge !== 0 ? true : false}
+            onClick={() =>
+              handleDisabledChallenge(challenge.ident, challenge.idChallenge)
+            }
+          >
             <FiTrash2 />
           </Button>
         </>
