@@ -730,14 +730,12 @@ export const createTeamLeaderList = (data, name, userData) => {
 	TLList.forEach((tl) => {
 		list.push([tl.idccms]);
 		if (tl.Email) {
-			emails.push([
-				{
-					email: tl.Email,
-					name: tl.Name,
-					rol: "Team Leader",
-					manager: userData,
-				},
-			]);
+			emails.push({
+				email: tl.Email,
+				name: tl.name,
+				rol: "Team Leader",
+				manager: userData,
+			});
 		}
 	});
 	return { lobName: name, tlIdccms: list, emails };

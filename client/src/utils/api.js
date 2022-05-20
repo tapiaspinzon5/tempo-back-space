@@ -64,11 +64,11 @@ const createLobOperationManager = (
 	try {
 		return axiosInstance
 			.post(`postcreatelob`, {
-				lobName: lobName,
-				context: context,
-				idlob: idlob,
-				tlIdccms: tlIdccms,
-				emails: emails ? emails : null,
+				lobName,
+				context,
+				idlob,
+				tlIdccms,
+				emails,
 			})
 			.catch(function (error) {
 				if (error.response) {

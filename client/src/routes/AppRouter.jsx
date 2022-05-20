@@ -79,22 +79,29 @@ const AppRouter = () => {
 		.then((payload) => {
 			setNotification({
 				title: payload?.data?.Title,
-				challenge: payload?.data?.Challenge,
-				challenger: payload?.data?.Challenger,
+				from: payload?.data?.From,
+				description: payload?.data?.Description,
 				url: payload?.data?.Url,
+				type: payload?.data?.type,
 			});
 		})
 		.catch((err) => alert("failed: ", err));
 
 	const notify = () => {
-		notification?.title &&
-			toast(
+		notification?.type &&
+			toast.info(
 				<div>
 					<p>
 						<b>{notification?.title}</b>
 					</p>
-					<p>{"Challenge: " + notification?.challenge}</p>
-					<p>{"Challenger: " + notification?.challenger}</p>
+					<p>
+						{notification?.type === "challenge"
+							? "Challenge: " + notification?.description
+							: notification?.type === "mission"
+							? "Mission: " + notification?.description
+							: "TPV: " + notification?.description}
+					</p>
+					<p>{"Sent by: " + notification?.from}</p>
 				</div>
 			);
 	};

@@ -4,10 +4,10 @@ const axiosInstance = axios.create({
 	//Localhost
 	//baseURL: "http://localhost:4343/api/",
 	// Desarrollo - testing
-	//baseURL: "https://gamificationtest.teleperformance.co/api/",
+	baseURL: "https://gamificationtest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
-	baseURL: "http://10.151.172.90:4343/api/",
+	//baseURL: "http://10.138.165.38:4343/api/",
 });
 
 axiosInstance.interceptors.request.use((config) => {
