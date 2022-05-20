@@ -10,10 +10,11 @@ exports.sendFCMMessage = async (sender, nameActivity, fcmToken, type) => {
       webpush = {
         data: {
           Title: "You have been assigned a challenge!",
-          Challenger: `${sender}`,
-          Challenge: `${nameActivity}`,
+          From: `${sender}`,
+          Description: `${nameActivity}`,
           Image: "https://i.ibb.co/jz3nQ4H/tp-short.png",
           Url: "http://localhost:3000/#/activitiesview",
+          type: "challenge",
         },
       };
       break;
@@ -23,9 +24,10 @@ exports.sendFCMMessage = async (sender, nameActivity, fcmToken, type) => {
         data: {
           Title: "You have been assigned a Mission!",
           From: `${sender}`,
-          Mission: `${nameActivity}`,
+          Description: `${nameActivity}`,
           Image: "https://i.ibb.co/jz3nQ4H/tp-short.png",
           Url: "http://localhost:3000/#/activitiesview",
+          type: "mission",
         },
       };
       break;
@@ -33,11 +35,12 @@ exports.sendFCMMessage = async (sender, nameActivity, fcmToken, type) => {
     case "TPV":
       webpush = {
         data: {
-          Title: "You have been assigned a TPV !",
+          Title: "You have been assigned a TPV!",
           From: `${sender}`,
-          TPV: `${nameActivity}`,
+          Description: `${nameActivity}`,
           Image: "https://i.ibb.co/jz3nQ4H/tp-short.png",
           Url: "http://localhost:3000/#/activitiesview",
+          type: "TPV",
         },
       };
       break;

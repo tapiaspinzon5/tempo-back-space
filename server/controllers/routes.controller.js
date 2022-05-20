@@ -159,7 +159,12 @@ exports.uploadOpsM = async (req, res) => {
       responsep(2, req, res, err);
     });
 
-  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
+  await sendEmail(
+    emails,
+    "SpaceGP role assignment",
+    "Notification SpaceGP",
+    "noresponse@teleperformance.com"
+  );
 };
 
 exports.uploadRepLead = async (req, res) => {
@@ -506,7 +511,7 @@ exports.sendFCMNotificacion = async (req, res) => {
 
   try {
     let resp = FCMtoken.map(async (token) => {
-      return await sendFCMMessage("Enviador", "Nombre mision", token, "challenge");
+      return await sendFCMMessage("Enviador TPV", "Nombre TPV", token, "TPV");
     });
     res.status(200).json(resp);
   } catch (error) {
@@ -862,11 +867,16 @@ exports.postCreateCampaign = async (req, res) => {
       responsep(2, req, res, err);
     });
 
-  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
+  await sendEmail(
+    emails,
+    "SpaceGP role assignment",
+    "Notification SpaceGP",
+    "noresponse@teleperformance.com"
+  );
 };
 
 exports.postCreateLOB = async (req, res) => {
-  const { lobName, tlIdccms, context, idlob } = req.body;
+  const { lobName, tlIdccms, context, idlob, emails } = req.body;
 
   sql
     .query(
@@ -880,6 +890,13 @@ exports.postCreateLOB = async (req, res) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
+
+  await sendEmail(
+    emails,
+    "SpaceGP role assignment",
+    "Notification SpaceGP",
+    "noresponse@teleperformance.com"
+  );
 };
 
 exports.getLobsOpsm = async (req, res) => {
@@ -1217,7 +1234,12 @@ exports.postUpdateCampaignInfo = async (req, res) => {
       responsep(2, req, res, err);
     });
 
-  await sendEmail(emails, "Role assignment", "Notification SpaceGP", "noresponse@teleperformance.com");
+  await sendEmail(
+    emails,
+    "SpaceGP role assignment",
+    "Notification SpaceGP",
+    "noresponse@teleperformance.com"
+  );
 };
 
 exports.postUpdateTeamName = async (req, res) => {
