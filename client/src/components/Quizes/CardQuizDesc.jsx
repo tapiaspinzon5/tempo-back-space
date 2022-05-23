@@ -101,8 +101,7 @@ const CardQuizDesc = ({ quiz }) => {
   };
 
   const deleteMission = async (idMission) => {
-    const data = await disabledMission({ idMission });
-    console.log(data);
+    await disabledMission({ idMission });
   };
 
   return (

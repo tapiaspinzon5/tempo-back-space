@@ -109,20 +109,15 @@ const TeamInformation = () => {
   };
 
   const handleDisabledChallenge = async (idccms, idChallenge) => {
-    console.log(idccms, idChallenge);
-    const desabled = await requestWithData("inactivatemissionchallengeagent", {
+    await requestWithData("inactivatemissionchallengeagent", {
       idccmsAgent: idccms,
       idMissionChallenge: idChallenge,
       context: 2,
     });
 
-    console.log(desabled);
-
     const getData = await getTeamAgents(2, idccms);
     setChallengeData(getData.data[0].ChallengesAgents);
   };
-
-  console.log(challengeData);
 
   return (
     <MainPage>
