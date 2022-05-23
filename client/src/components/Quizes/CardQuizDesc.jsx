@@ -96,8 +96,6 @@ const CardQuizDesc = ({ quiz }) => {
       if (result.isConfirmed) {
         deleteMission(idMission);
         window.location.reload();
-      } else if (result.isDenied) {
-        console.log("no se quito nada ");
       }
     });
   };
@@ -115,9 +113,7 @@ const CardQuizDesc = ({ quiz }) => {
           <CgTrash />
         </IconButton>
       </Box>
-
       <img src={imgTP} alt="" />
-
       <Typography variant="h6" fontWeight="bold" align="center">
         {NameExam}
       </Typography>

@@ -42,7 +42,7 @@ const TableAgentUpload = ({ dataAgent, handleState }) => {
   useEffect(() => {
     setAgents(dataAgent);
   }, [dataAgent]);
-  console.log(agents);
+
   return (
     <Box padding="1rem">
       <BoxHeaderTable>

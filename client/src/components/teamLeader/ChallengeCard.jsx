@@ -54,7 +54,7 @@ const ChallengeCard = ({ challenge, handleDisabledChallenge }) => {
           </Button>
         </>
       ) : (
-        <Typography variant="h6" color="initial">
+        <Typography variant="h6" color="#fff">
           No Challenges assignment
         </Typography>
       )}

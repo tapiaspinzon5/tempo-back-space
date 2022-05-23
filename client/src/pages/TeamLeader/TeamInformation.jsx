@@ -148,11 +148,11 @@ const TeamInformation = () => {
               }}
             >
               <ButtonAction
-                sx={{ width: "12rem" }}
+                sx={{ minWidth: "12rem" }}
                 endIcon={<FiEdit3 />}
                 onClick={() => setNameCard(!nameCard)}
               >
-                Team Name
+                {newName}
               </ButtonAction>
               {nameCard && (
                 <BoxChangeTeamName>

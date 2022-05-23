@@ -24,6 +24,7 @@ import {
   createTeamReportingLead,
   getAgentsCampaign,
   getTeamsInformation,
+  requestWithData,
 } from "../../utils/api";
 
 const MySwal = withReactContent(Swal);
@@ -54,6 +55,7 @@ const UploadAgentSection = () => {
   const [open, setOpen] = React.useState(false);
   const [dataAgent, setDataAgent] = useState([]);
   const [dataTeam, setDataTeam] = useState([]);
+  const [dataTeams, setDataTeams] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -199,6 +201,11 @@ const UploadAgentSection = () => {
     const getTeams = async () => {
       const data = await getTeamsInformation();
       setDataTeam(data.data[0].Teams);
+      const teams = await requestWithData("getmissionsassignmentinfo", {
+        context: 2,
+        caso: 2,
+      });
+      setDataTeams(teams.data[0].Teams);
     };
     getData();
     getTeams();
@@ -214,7 +221,11 @@ const UploadAgentSection = () => {
         aria-describedby="modal-modal-description"
       >
         <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-          <UpQuizModal handleClose={handleClose} template={template} />
+          <UpQuizModal
+            handleClose={handleClose}
+            template={template}
+            teams={dataTeams}
+          />
         </ModalBox>
       </Modal>
       <Typography variant="h5">

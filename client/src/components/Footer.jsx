@@ -27,7 +27,7 @@ const Footer = () => {
         <img src={spaceLogo} alt="TP-MAR" height={39} />
       </Box>
 
-      <Typography variant="body1">COPYRIGHT 2021 - TP MAR </Typography>
+      <Typography variant="body1">COPYRIGHT 2022 - TP MAR </Typography>
     </BoxFooter>
   );
 };

@@ -121,7 +121,7 @@ const Login = () => {
             <img src={spaceLogo} alt="Logo Teleperformance" height={90} />{" "}
           </Box>
           <Typography variant="body1" color="initial">
-            After a successfull sign in we use a cookie in your browser to track
+            After a successful sign in we use a cookie in your browser to track
             your session. You can refer our <b>Cookie Policy</b> for more
             details
           </Typography>
@@ -217,7 +217,7 @@ const Login = () => {
             <img src={tpmar} alt="Logo TP-MAR" height="29" />
           </Box>
           <Typography variant="body2" color="initial" align="center">
-            WSO2 Identity Server | © 2022 Inc. All rights reserver
+            WSO2 Identity Server | © 2022 Inc. All rights reserved
           </Typography>
         </FormBox>
       </Grid>
