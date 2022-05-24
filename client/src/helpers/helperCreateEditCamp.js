@@ -133,11 +133,54 @@ export const createHelper = (name, kpiList, OMList) => {
 				  ]
 				: "Some field in the kpis is empty"
 		);
+		const cp = checkDataKpi.map((el) =>
+			(el.OrderKpi === "asc" &&
+				el.Q1 > el.CriticalPoint &&
+				el.Q2 > el.CriticalPoint &&
+				el.Q3 > el.CriticalPoint &&
+				el.Q4 > el.CriticalPoint &&
+				el.Q1 >= el.Q2 &&
+				el.Q2 >= el.Q3 &&
+				el.Q3 >= el.Q4) ||
+			(el.OrderKpi === "dsc" &&
+				el.Q1 < el.CriticalPoint &&
+				el.Q2 < el.CriticalPoint &&
+				el.Q3 < el.CriticalPoint &&
+				el.Q4 < el.CriticalPoint &&
+				el.Q1 <= el.Q2 &&
+				el.Q2 <= el.Q3 &&
+				el.Q3 <= el.Q4)
+				? [
+						checkDataOM[0].idccms,
+						name,
+						el.Kpi,
+						el.Q1,
+						el.Q2,
+						el.Q3,
+						el.Q4,
+						el.CriticalPoint,
+						el.OrderKpi,
+						el.LoadType ? 0 : 1,
+						el.id,
+				  ]
+				: el.OrderKpi === "asc"
+				? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4."
+				: "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		);
 		const verification = dts.filter(
 			(el) => el === "Some field in the kpis is empty"
 		);
+		const verificationTarget = cp.filter(
+			(el) =>
+				el ===
+					"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+				el ===
+					"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		);
 		if (verification.length > 0) {
 			return verification;
+		} else if (verificationTarget.length > 0) {
+			return verificationTarget;
 		} else {
 			return [
 				dts,
@@ -188,11 +231,55 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 			el.LoadType,
 			el.idMD,
 		]);
+
+		const cp = checkDataKpi.map((el) =>
+			(el.OrderKpi === "asc" &&
+				el.Q1 > el.CriticalPoint &&
+				el.Q2 > el.CriticalPoint &&
+				el.Q3 > el.CriticalPoint &&
+				el.Q4 > el.CriticalPoint &&
+				el.Q1 >= el.Q2 &&
+				el.Q2 >= el.Q3 &&
+				el.Q3 >= el.Q4) ||
+			(el.OrderKpi === "dsc" &&
+				el.Q1 < el.CriticalPoint &&
+				el.Q2 < el.CriticalPoint &&
+				el.Q3 < el.CriticalPoint &&
+				el.Q4 < el.CriticalPoint &&
+				el.Q1 <= el.Q2 &&
+				el.Q2 <= el.Q3 &&
+				el.Q3 <= el.Q4)
+				? [
+						checkDataOM[0].idccms,
+						name,
+						el.Kpi,
+						el.Q1,
+						el.Q2,
+						el.Q3,
+						el.Q4,
+						el.CriticalPoint,
+						el.OrderKpi,
+						el.LoadType ? 0 : 1,
+						el.id,
+				  ]
+				: el.OrderKpi === "asc"
+				? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4."
+				: "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		);
 		const verification = dts.filter(
 			(el) => el === "Some field in the kpis is empty"
 		);
+		const verificationTarget = cp.filter(
+			(el) =>
+				el ===
+					"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+				el ===
+					"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		);
 		if (verification.length > 0) {
 			return verification;
+		} else if (verificationTarget.length > 0) {
+			return verificationTarget;
 		} else {
 			if (wd.length === dts.length) {
 				const verEdit = dts.concat(
@@ -214,7 +301,7 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 					)
 				);
 				if (verEdit.length === dts.length) {
-					return ["no hubo edicion"];
+					return ["You did not edit any field"];
 				} else {
 					return [
 						dts,
@@ -243,4 +330,62 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 	} else {
 		return ["Some field is empty"];
 	}
+};
+
+const dateConfig = (date) => {
+	let fecha;
+	let hora;
+	let fechaBase = new Date(date).toLocaleString([], {
+		timeZone: "Etc/UTC",
+		hourCycle: "h23",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+	});
+
+	let now = new Date().toLocaleString([], {
+		hourCycle: "h23",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+	});
+
+	let fa = new Date(
+		`${now.split("/")[1]}/${now.split("/")[0]}/${now.split("/")[2]}`
+	);
+	let fb = new Date(
+		`${fechaBase.split("/")[1]}/${fechaBase.split("/")[0]}/${
+			fechaBase.split("/")[2]
+		}`
+	);
+	if (
+		now.replace(",", "").split(" ")[0] ===
+		fechaBase.replace(",", "").split(" ")[0]
+	) {
+		hora = Math.trunc((fa - fb) / 60000);
+		if (hora < 31) {
+			fecha = `${hora} minutes ago`;
+		} else {
+			fecha = fechaBase.replace(",", "").split(" ")[1];
+		}
+	} else {
+		fecha = fechaBase.replace(",", "").split(" ")[0];
+	}
+
+	return fecha;
+};
+
+export const campsWithDate = (data) => {
+	const lwd = data.map((camp) => {
+		const fecha = dateConfig(camp.DateRegistry);
+		camp.DateRegistry = fecha;
+		return camp;
+	});
+	return lwd;
 };

@@ -396,9 +396,14 @@ const CreateEditCampaign = ({
 				if (dtw.oml.length === 1 && !errorOMList) {
 					//setOMList(dtw.oml);
 					if (dtw.kpi.length > 0 && !errorKpisList) {
-						setKpisList(dtw.kpi);
-						setKpiWork(dtw.kpitw);
-						setNext(!next);
+						if (dtw.kpi.length <= 5) {
+							setKpisList(dtw.kpi);
+							setKpiWork(dtw.kpitw);
+							setNext(!next);
+						} else {
+							setErrorKpisList(true);
+							setMsgErrorKpisList("Uncheck KPIs (max. 5)");
+						}
 					} else {
 						setErrorKpisList(true);
 						setMsgErrorKpisList("Check KPIs is required (min. 1)");
@@ -420,6 +425,13 @@ const CreateEditCampaign = ({
 		const dts = createHelper(name, kpisList, OMList);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
+		} else if (
+			dts[0] ===
+				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+			dts[0] ===
+				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		) {
+			notifyModalError(dts[0]);
 		} else {
 			createCamp(dts[0], dts[1]);
 		}
@@ -429,7 +441,14 @@ const CreateEditCampaign = ({
 		const dts = editHelper(name, kpisList, OMList, workDataToEdit);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
-		} else if (dts[0] === "no hubo edicion") {
+		} else if (dts[0] === "You did not edit any field") {
+			notifyModalError(dts[0]);
+		} else if (
+			dts[0] ===
+				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+			dts[0] ===
+				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		) {
 			notifyModalError(dts[0]);
 		} else {
 			editCamp(dts[0], dataToEdit, dts[1]);
