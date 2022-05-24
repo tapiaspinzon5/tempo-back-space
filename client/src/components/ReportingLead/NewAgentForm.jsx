@@ -55,6 +55,9 @@ const NewAgentForm = ({ dataTeam, getData }) => {
   const [agent, setAgent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newAgent, setNewAgent] = useState([]);
+  const [emails, setEmails] = useState([]);
+
+  const manager = JSON.parse(sessionStorage.getItem("userTP"));
 
   const getAgentData = async () => {
     setError(null);
@@ -68,6 +71,15 @@ const NewAgentForm = ({ dataTeam, getData }) => {
       setError("This user does not exist");
     } else {
       setNewAgent([quartile, idccms, teamLeader, "Agent"]);
+      setEmails([
+        {
+          email: getData.data[0].email,
+          manager: manager.Nombre,
+          rolManager: "Flight Engineer",
+          name: getData.data[0].FullName,
+          rol: "Cosmonaut",
+        },
+      ]);
     }
 
     setLoading(false);
@@ -75,12 +87,11 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 
   const handleUserAssign = async (data) => {
     setError(false);
-    //e.preventDefault();
     if (!newAgent[0] || !newAgent[1] || !newAgent[2] || !newAgent[3]) {
       setError("All fields required!");
       return;
     }
-    const resp = await createTeamReportingLead([data]);
+    const resp = await createTeamReportingLead([data], emails);
     if (resp.status === 200) {
       setLoading(false);
       MySwal.fire({
@@ -103,6 +114,7 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 
   useEffect(() => {
     setError(false);
+
     setNewAgent([quartile, idccms, teamLeader, "Agent"]);
   }, [quartile, teamLeader]);
 
