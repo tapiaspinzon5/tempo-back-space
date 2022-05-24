@@ -151,20 +151,19 @@ exports.uploadOpsM = async (req, res) => {
       "spInsertOrganizationalUnit",
       parametros({ idccms: req.query.idccms, context, idLeader, cas }, "spInsertOrganizationalUnit")
     )
-    .then((result) => {
+    .then(async (result) => {
+      await sendEmail(
+        emails,
+        "SpaceGP role assignment",
+        "Notification SpaceGP",
+        "noresponse@teleperformance.com"
+      );
       responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
-
-  await sendEmail(
-    emails,
-    "SpaceGP role assignment",
-    "Notification SpaceGP",
-    "noresponse@teleperformance.com"
-  );
 };
 
 exports.uploadRepLead = async (req, res) => {
@@ -173,7 +172,18 @@ exports.uploadRepLead = async (req, res) => {
       "spInsertEmployee",
       parametros({ idccms: req.query.idccms, rows: req.body.data }, "spInsertEmployee")
     )
-    .then((result) => {
+    .then(async (result) => {
+      if (req.body.emails) {
+        await sendEmail(
+          req.body.emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+      } else {
+        console.log(result, "<-------");
+      }
+
       responsep(1, req, res, result);
     })
     .catch((err) => {
@@ -859,20 +869,19 @@ exports.postCreateCampaign = async (req, res) => {
 
   sql
     .query("spInsertCampaign", parametros({ idccms: req.query.idccms, rows }, "spInsertCampaign"))
-    .then((result) => {
+    .then(async (result) => {
+      await sendEmail(
+        emails,
+        "SpaceGP role assignment",
+        "Notification SpaceGP",
+        "noresponse@teleperformance.com"
+      );
       responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
-
-  await sendEmail(
-    emails,
-    "SpaceGP role assignment",
-    "Notification SpaceGP",
-    "noresponse@teleperformance.com"
-  );
 };
 
 exports.postCreateLOB = async (req, res) => {
@@ -883,20 +892,19 @@ exports.postCreateLOB = async (req, res) => {
       "spInsertLob",
       parametros({ idccms: req.query.idccms, lobName, tlIdccms, context, idlob }, "spInsertLob")
     )
-    .then((result) => {
+    .then(async (result) => {
+      await sendEmail(
+        emails,
+        "SpaceGP role assignment",
+        "Notification SpaceGP",
+        "noresponse@teleperformance.com"
+      );
       responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
-
-  await sendEmail(
-    emails,
-    "SpaceGP role assignment",
-    "Notification SpaceGP",
-    "noresponse@teleperformance.com"
-  );
 };
 
 exports.getLobsOpsm = async (req, res) => {
@@ -1226,20 +1234,19 @@ exports.postUpdateCampaignInfo = async (req, res) => {
 
   sql
     .query("spUpdateCampaign", parametros({ idccms: req.query.idccms, idcampaign, rows }, "spUpdateCampaign"))
-    .then((result) => {
+    .then(async (result) => {
+      await sendEmail(
+        emails,
+        "SpaceGP role assignment",
+        "Notification SpaceGP",
+        "noresponse@teleperformance.com"
+      );
       responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");
       responsep(2, req, res, err);
     });
-
-  await sendEmail(
-    emails,
-    "SpaceGP role assignment",
-    "Notification SpaceGP",
-    "noresponse@teleperformance.com"
-  );
 };
 
 exports.postUpdateTeamName = async (req, res) => {

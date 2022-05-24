@@ -2,18 +2,10 @@ const axios = require("axios").default;
 
 const path = "https://ApiEmail.teleperformance.co/api/sendEmail";
 
-// let message = {
-//   emails: `${email}`,
-//   subject: "Role assignment",
-//   name: "Notification SpaceGP",
-//   emailSender: "noresponse@teleperformance.com",
-//   HTML: "Body Notification assigment QA RL",
-// };
-
 exports.sendEmail = async (emails, subject, header, emailSender) => {
   try {
     let responses = emails.map(async (info) => {
-      const { name, email, rol, manager } = info;
+      const { name, email, rol, manager, rolManager } = info;
 
       let emailTemplate = `
         <!DOCTYPE html>
@@ -76,7 +68,7 @@ exports.sendEmail = async (emails, subject, header, emailSender) => {
                       <p>
                       We are very excited to have you and your team on our platform,
                       we hope to achieve many goals together, as well as having fun on
-                      the journey. ${manager} gave you a ticket to
+                      the journey. Your <b>${rolManager}</b> gave you a ticket to
                       this flight on the SPACE GP.
                       </p>
                       <p>
