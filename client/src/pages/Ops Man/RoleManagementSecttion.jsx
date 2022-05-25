@@ -133,83 +133,103 @@ const RoleManagementSecttion = () => {
 				info &&
 				info.status === 200 &&
 				info.data.length > 0 &&
-				Array.isArray(info.data)
+				Array.isArray(info.data) &&
+				info.data[0].status === "Active"
 			) {
-				if (!DBQA) {
-					setQaLead({
-						Name: info.data[0].FullName,
-						RoleAgent: info.data[0].Rol,
-						Ident: info.data[0].ident,
-						Email: info.data[0].email,
-					});
-					setErrorccmsQA(false);
-					setAssignQA(false);
-					setMsgErrorccmsQA("");
-					setTempCcmsQA("");
-					setNoDataQA(false);
-					setLoadingQA(false);
+				if (info.data[0].StatusGP !== "Active") {
+					if (!DBQA) {
+						setQaLead({
+							Name: info.data[0].FullName,
+							RoleAgent: info.data[0].Rol,
+							Ident: info.data[0].ident,
+							Email: info.data[0].email,
+						});
+						setErrorccmsQA(false);
+						setAssignQA(false);
+						setMsgErrorccmsQA("");
+						setTempCcmsQA("");
+						setNoDataQA(false);
+						setLoadingQA(false);
+					} else {
+						setNewQA({
+							Name: info.data[0].FullName,
+							RoleAgent: info.data[0].Rol,
+							Ident: info.data[0].ident,
+							Email: info.data[0].email,
+						});
+						setErrorccmsQA(false);
+						setChangeQA(false);
+						setMsgErrorccmsQA("");
+						setTempCcmsQA("");
+						setNoDataQA(false);
+						setLoadingQA(false);
+					}
 				} else {
-					setNewQA({
-						Name: info.data[0].FullName,
-						RoleAgent: info.data[0].Rol,
-						Ident: info.data[0].ident,
-						Email: info.data[0].email,
-					});
-					setErrorccmsQA(false);
-					setChangeQA(false);
-					setMsgErrorccmsQA("");
-					setTempCcmsQA("");
-					setNoDataQA(false);
-					setLoadingQA(false);
+					setErrorccmsQA(true);
+					setMsgErrorccmsQA("The user is in other Team or Campaign");
 				}
 			} else {
 				setErrorccmsQA(true);
-				setMsgErrorccmsQA("CCMS not exist");
+				setMsgErrorccmsQA(
+					"CCMS does not exist or is not active in the database"
+				);
 			}
 		} else {
 			setErrorccmsQA(true);
-			setMsgErrorccmsQA("No data");
+			setMsgErrorccmsQA("You did not enter any ccms");
 		}
 	};
 
 	const handleSearchRL = async (ccms) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
-			if (info && info.status === 200 && info.data.length > 0) {
-				if (!DBRL) {
-					setRLead({
-						Name: info.data[0].FullName,
-						RoleAgent: info.data[0].Rol,
-						Ident: info.data[0].ident,
-						Email: info.data[0].email,
-					});
-					setErrorccmsRL(false);
-					setAssignRL(false);
-					setMsgErrorccmsRL("");
-					setTempCcmsRL("");
-					setNoDataRL(false);
-					setLoadingRL(false);
+			if (
+				info &&
+				info.status === 200 &&
+				info.data.length > 0 &&
+				info.data[0].status === "Active"
+			) {
+				if (info.data[0].StatusGP !== "Active") {
+					if (!DBRL) {
+						setRLead({
+							Name: info.data[0].FullName,
+							RoleAgent: info.data[0].Rol,
+							Ident: info.data[0].ident,
+							Email: info.data[0].email,
+						});
+						setErrorccmsRL(false);
+						setAssignRL(false);
+						setMsgErrorccmsRL("");
+						setTempCcmsRL("");
+						setNoDataRL(false);
+						setLoadingRL(false);
+					} else {
+						setNewRL({
+							Name: info.data[0].FullName,
+							RoleAgent: info.data[0].Rol,
+							Ident: info.data[0].ident,
+							Email: info.data[0].email,
+						});
+						setErrorccmsRL(false);
+						setChangeRL(false);
+						setMsgErrorccmsRL("");
+						setTempCcmsRL("");
+						setNoDataRL(false);
+						setLoadingRL(false);
+					}
 				} else {
-					setNewRL({
-						Name: info.data[0].FullName,
-						RoleAgent: info.data[0].Rol,
-						Ident: info.data[0].ident,
-						Email: info.data[0].email,
-					});
-					setErrorccmsRL(false);
-					setChangeRL(false);
-					setMsgErrorccmsRL("");
-					setTempCcmsRL("");
-					setNoDataRL(false);
-					setLoadingRL(false);
+					setErrorccmsRL(true);
+					setMsgErrorccmsRL("The user is in other Team or Campaign");
 				}
 			} else {
 				setErrorccmsRL(true);
-				setMsgErrorccmsRL("CCMS not exist");
+				setMsgErrorccmsRL(
+					"CCMS does not exist or is not active in the database"
+				);
 			}
 		} else {
 			setErrorccmsRL(true);
-			setMsgErrorccmsRL("No data");
+			setMsgErrorccmsRL("You did not enter any ccms");
 		}
 	};
 
@@ -223,6 +243,7 @@ const RoleManagementSecttion = () => {
 					name: info.Name,
 					rol: rol,
 					manager: userData.Nombre,
+					rolManager: "Operations Commander",
 				},
 			],
 			cas

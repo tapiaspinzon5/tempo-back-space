@@ -152,7 +152,13 @@ const AccountCreation = () => {
 		const cqa = await requestWithData("postupdatecampaigninfo", {
 			data,
 			idcampaign,
-			emails: [{ ...emails[0], manager: userData.Nombre }],
+			emails: [
+				{
+					...emails[0],
+					rolManager: "Spacecraft Commander",
+					manager: userData.Nombre,
+				},
+			],
 		});
 
 		if (cqa && cqa.status === 200) {
@@ -188,7 +194,13 @@ const AccountCreation = () => {
 	const createSubmit = async (data, emails) => {
 		const cqa = await requestWithData("postcreatecampaign", {
 			data,
-			emails: [{ ...emails[0], manager: userData.Nombre }],
+			emails: [
+				{
+					...emails[0],
+					rolManager: "Spacecraft Commander",
+					manager: userData.Nombre,
+				},
+			],
 		});
 
 		if (cqa && cqa.status === 200) {

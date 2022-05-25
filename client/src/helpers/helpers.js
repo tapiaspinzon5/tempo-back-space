@@ -734,6 +734,7 @@ export const createTeamLeaderList = (data, name, userData) => {
 				email: tl.Email,
 				name: tl.name,
 				rol: "Team Leader",
+				rolManager: "Operations Commander",
 				manager: userData,
 			});
 		}

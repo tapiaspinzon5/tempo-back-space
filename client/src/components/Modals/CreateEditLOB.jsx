@@ -89,9 +89,18 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB, userData }) => {
 	const handleSearch = async (ccms) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
-			if (info && info.status === 200 && info.data.length > 0) {
+			if (
+				info &&
+				info.status === 200 &&
+				info.data.length > 0 &&
+				info.data[0].status === "Active"
+			) {
 				const duplicates = await getTLDuplicates(allData, dataTL, info.data[0]);
-				if (dataTL.length === 0 && !duplicates) {
+				if (
+					dataTL.length === 0 &&
+					!duplicates &&
+					info.data[0].StatusGP !== "Active"
+				) {
 					setErrorList(false);
 					setMsgErrorList("");
 					setDataTL([
@@ -108,26 +117,31 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB, userData }) => {
 					setErrorccms(true);
 					setMsgErrorccms("The user is in the list or in other Team");
 				} else {
-					setErrorList(false);
-					setMsgErrorList("");
-					setDataTL([
-						...dataTL,
-						{
-							name: info.data[0].FullName,
-							idccms: info.data[0].ident,
-							checked: false,
-							Email: info.data[0].email,
-						},
-					]);
-					setTempCcms("");
+					if (info.data[0].StatusGP === "Active") {
+						setErrorccms(true);
+						setMsgErrorccms("The user is in the list or in other Team");
+					} else {
+						setErrorList(false);
+						setMsgErrorList("");
+						setDataTL([
+							...dataTL,
+							{
+								name: info.data[0].FullName,
+								idccms: info.data[0].ident,
+								checked: false,
+								Email: info.data[0].email,
+							},
+						]);
+						setTempCcms("");
+					}
 				}
 			} else {
 				setErrorccms(true);
-				setMsgErrorccms("CCMS not exist");
+				setMsgErrorccms("CCMS does not exist or is not active in the database");
 			}
 		} else {
 			setErrorccms(true);
-			setMsgErrorccms("No data");
+			setMsgErrorccms("You did not enter any ccms");
 		}
 	};
 
