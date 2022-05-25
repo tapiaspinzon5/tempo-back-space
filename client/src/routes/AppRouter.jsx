@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import HomeUser from "../pages/HomeUser";
 import { Navbar } from "../components/SideBar/Navbar";
-import { Grid, styled } from "@mui/material";
+import { Grid, Modal, styled, Box, Typography } from "@mui/material";
 import { QuizViewV2 } from "../pages/QuizViewV2";
 import TeamsProgress from "../pages/TeamsProgress";
 import UpQuiz from "../pages/UpQuiz";
@@ -52,10 +52,24 @@ import RoleManagementSecttion from "../pages/Ops Man/RoleManagementSecttion";
 import LOBManagementSection from "../pages/Ops Man/LOBManagementSection";
 import AccountCreation from "../pages/Super User/AccountCreation";
 import UserPermission from "../pages/Super User/UserPermission";
+import HelpCenter from "../components/HelpCenter";
+
 //import Header from "../components/homeUser/Header";
 
 const MainApp = styled(Grid)(() => ({
   display: "flex",
+}));
+
+const ModalBox = styled(Box)(() => ({
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  //width: 400,
+  borderRadius: "20px",
+  boxShadow: "2px 2px 5px #2f2f2f",
+  padding: "1rem",
+  backgroundColor: "RGBA(255,255,255,0.9)",
 }));
 
 const AppRouter = () => {
@@ -66,6 +80,7 @@ const AppRouter = () => {
   const idccms = userData?.Idccms;
   const [navView, setNavView] = useState(true);
   const [navLong, setNavLong] = useState(false);
+  const [helpCenter, setHelpCenter] = useState(false);
   const [seeProfile, setSeeProfile] = useState(false);
   const [notification, setNotification] = useState({
     title: "",
@@ -162,11 +177,13 @@ const AppRouter = () => {
                   profile={userData}
                   teamlead={headerDataTl}
                   navLong={navLong}
+                  setHelpCenter={setHelpCenter}
                 />
               )}
             </>
           )
         }
+
         {userData?.NumberLogins === 1 &&
           (userData?.Role === "Agent" || userData?.Role === "Team Leader") &&
           userData?.Role && <VideoView setNavView={setNavView} />}
@@ -304,6 +321,17 @@ const AppRouter = () => {
             />
           )}
         </Routes>
+
+        <Modal
+          open={helpCenter}
+          onClose={() => setHelpCenter(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+            <HelpCenter rol={userData?.Role} setHelpCenter={setHelpCenter} />
+          </ModalBox>
+        </Modal>
       </MainApp>
     </Router>
   );

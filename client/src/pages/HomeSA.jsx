@@ -36,7 +36,7 @@ export const HomeSA = ({ count }) => {
         <Grid item xs={12} md={4}>
           <ButtonHome
             onClick={() => {
-              navigate("/upcount");
+              navigate("/accountcreation");
             }}
           >
             <img src={SA_OpenAccount} alt="Open Account" />
