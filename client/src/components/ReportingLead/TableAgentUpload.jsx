@@ -57,7 +57,7 @@ const TableAgentUpload = ({ dataAgent, handleState }) => {
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "NameLob",
+      field: "Lob",
       headerName: "LOB",
       width: width < 250 ? 200 : width * 0.2,
       headerClassName: "super-app-theme--header",
