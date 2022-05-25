@@ -181,7 +181,21 @@ exports.uploadRepLead = async (req, res) => {
           "noresponse@teleperformance.com"
         );
       } else {
-        console.log(result, "<-------");
+        let emails = result.map((user) => {
+          return {
+            email: user.email,
+            rolManager: "Flight Engineer",
+            name: user.Employee,
+            rol: "Cosmonaut",
+          };
+        });
+
+        await sendEmail(
+          emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
       }
 
       responsep(1, req, res, result);
