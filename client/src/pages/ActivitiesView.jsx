@@ -205,7 +205,7 @@ const ActivitiesView = () => {
         <Grid container>
           <BoxSelectBadge item xs={6}>
             <Button
-              sx={activities.type === "Missions" && selectButton}
+              sx={activities.type === "Missions" ? selectButton : {}}
               onClick={() =>
                 setActivities({ type: "Missions", context: 3, menu: true })
               }
@@ -213,7 +213,7 @@ const ActivitiesView = () => {
               Missions
             </Button>
             <Button
-              sx={activities.type === "Challenges" && selectButton}
+              sx={activities.type === "Challenges" ? selectButton : {}}
               onClick={() =>
                 setActivities({ type: "Challenges", context: 2, menu: true })
               }
@@ -223,7 +223,7 @@ const ActivitiesView = () => {
             </Button>
 
             <Button
-              sx={activities.type === "Activities" && selectButton}
+              sx={activities.type === "Activities" ? selectButton : {}}
               onClick={() =>
                 setActivities({ type: "Activities", context: 1, menu: true })
               }

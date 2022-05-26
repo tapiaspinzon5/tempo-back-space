@@ -37,7 +37,7 @@
     "sass": "^1.52.1",
     "sweetalert2": "^11.4.17",
     "sweetalert2-react-content": "^5.0.0",
-    "swiper": "^7.4.1",
+    "swiper": "^8.1.6",
     "web-vitals": "^1.1.2",
     "xlsx": "^0.17.5"
   },
