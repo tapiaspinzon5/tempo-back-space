@@ -15,29 +15,25 @@ const requestIp = require("request-ip");
 const helmet = require("helmet");
 const router = express.Router();
 const routes = require("./routes/router");
-const {
-	logger,
-	middleware,
-	errorHandler,
-} = require("./controllers/err.handler");
+const { logger, middleware, errorHandler } = require("./controllers/err.handler");
 const { exceptionHandler } = require("./controllers/csrf.handler");
 const { jwt } = require("./controllers/jwt.controller");
 const { configure } = require("./controllers/configure");
 const path = require("path");
 const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
-	origin: "*",
-	// origin: 'http://localhost:4343',
-	// origin: 'https://gamificationtest.teleperformance.co',
-	// origin: 'https://spacegptest.teleperformance.co/',
+  origin: "*",
+  // origin: 'http://localhost:4343',
+  // origin: 'https://gamificationtest.teleperformance.co',
+  // origin: 'https://spacegptest.teleperformance.co/',
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
 app.use((req, res, next) => {
-	res.set({
-		"Cache-Control": `no-cache, no-store, must-revalidate`,
-	});
-	next();
+  res.set({
+    "Cache-Control": `no-cache, no-store, must-revalidate`,
+  });
+  next();
 });
 app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy());
@@ -48,7 +44,7 @@ app.disable("x-powered-by");
 app.use(bodyParser.json({ limit: "10mb", type: "application/json" }));
 app.use(requestIp.mw());
 configure((call) => {
-	app.use(jwt());
+  app.use(jwt());
 });
 app.use(logger);
 app.use(express.static(path.join(__dirname, "/dist")));
@@ -65,15 +61,9 @@ init();
 routes(router);
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "dist/index.html"));
+  res.sendFile(path.join(__dirname, "dist/index.html"));
 });
 
 app.listen(port, function () {
-	console.log(
-		properties.ENV,
-		": Listening on port",
-		port,
-		"- start:",
-		Date(Date.now()).toString()
-	);
+  console.log(properties.ENV, ": Listening on port", port, "- start:", Date(Date.now()).toString());
 });
