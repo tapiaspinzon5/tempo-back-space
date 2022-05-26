@@ -733,7 +733,7 @@ export const createTeamLeaderList = (data, name, userData) => {
 			emails.push({
 				email: tl.Email,
 				name: tl.name,
-				rol: "Team Leader",
+				rol: "Pilot",
 				rolManager: "Operations Commander",
 				manager: userData,
 			});

@@ -286,7 +286,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(1, nQA, 2, "QA Lead");
+					submit(1, nQA, 2, "Mission Specialist");
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -301,7 +301,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(1, acQA, 1, "QA Lead");
+					submit(1, acQA, 1, "Mission Specialist");
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}
@@ -322,7 +322,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(2, nRL, 2, "Reporting Lead");
+					submit(2, nRL, 2, "Flight Engineer");
 				} else if (result.isDenied) {
 					Swal.fire("Changes are not saved", "", "info");
 				}
@@ -339,7 +339,7 @@ const RoleManagementSecttion = () => {
 				allowOutsideClick: false,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					submit(2, acRL, 1, "Reporting Lead");
+					submit(2, acRL, 1, "Flight Engineer");
 				} else if (result.isDenied) {
 					Swal.fire("Assignment not saved", "", "info");
 				}
