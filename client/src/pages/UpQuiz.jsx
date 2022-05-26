@@ -97,7 +97,7 @@ const UpQuiz = () => {
                   {showCat && <CardCateroriesQuiz />}
                 </Box>
                 <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
-                  Download Mission Template
+                  Download Mission Template !
                 </ButtonAction>
               </Box>
             </Box>
