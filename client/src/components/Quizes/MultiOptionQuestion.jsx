@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "../../assets/styled/muistyled";
 import Typography from "@mui/material/Typography";
 import { InputAdornment } from "@mui/material";
@@ -13,6 +13,7 @@ const MultiOptionQuestion = ({
   setEdit,
 }) => {
   const pregunta = question[steep];
+  const [msj, setMsj] = useState("");
   useEffect(() => {
     if (pregunta) {
       setAsk(pregunta[0]);
@@ -21,6 +22,16 @@ const MultiOptionQuestion = ({
       setEdit(false);
     }
   }, [steep]);
+
+  const handleQuestion = (e) => {
+    if (e.target.value.length <= 5000) {
+      setAsk({ ...ask, ask: e.target.value });
+      setMsj(`${e.target.value.length} / 5000`);
+    } else {
+      setMsj("Te has pasado ");
+      setMsj(``);
+    }
+  };
 
   return (
     <Box marginY={1}>
@@ -32,12 +43,22 @@ const MultiOptionQuestion = ({
           name="question"
           label="Question"
           variant="outlined"
+          multiline
+          rows={3}
           fullWidth
           value={ask.ask || ""}
-          onChange={(e) => setAsk({ ...ask, ask: e.target.value })}
+          onChange={handleQuestion}
           required
           error={!ask.ask && empty}
-          helperText={!ask.ask && empty ? "Field Requiered" : ""}
+          helperText={
+            !ask.ask && empty ? (
+              "Field Requiered"
+            ) : (
+              <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+                {msj}
+              </p>
+            )
+          }
         />
 
         <Typography variant="h6" color="initial">
@@ -59,6 +80,7 @@ const MultiOptionQuestion = ({
             onChange={(e) => setAsk({ ...ask, [q]: e.target.value })}
             value={ask[q] || ""}
             required
+            size="small"
             sx={{ marginTop: ".5rem" }}
             error={!ask[q] && empty}
             helperText={!ask[q] && empty ? "Field Requiered" : ""}

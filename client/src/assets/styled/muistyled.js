@@ -178,6 +178,20 @@ export const InputText = styled(TextField)(() => ({
       borderColor: "#3047B0",
     },
   },
+
+  "& .MuiInputBase-inputMultiline": {
+    "&::-webkit-scrollbar": {
+      width: "6px",
+    },
+
+    "&::-webkit-scrollbar-track": {
+      background: "white",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#e8e8e8",
+      borderRadius: "20px",
+    },
+  },
 }));
 
 //tarjeta de usuario avataar-nombre y cargo

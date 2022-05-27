@@ -94,10 +94,10 @@ const UpQuiz = () => {
                   <ButtonAction onClick={handleCategory}>
                     Set Categories
                   </ButtonAction>
-                  {showCat && <CardCateroriesQuiz />}
+                  {showCat && <CardCateroriesQuiz setShowCat={setShowCat} />}
                 </Box>
                 <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
-                  Download Mission Template !
+                  Download Mission Template
                 </ButtonAction>
               </Box>
             </Box>
