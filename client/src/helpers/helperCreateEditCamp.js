@@ -188,7 +188,7 @@ export const createHelper = (name, kpiList, OMList) => {
 					{
 						email: checkDataOM[0].email,
 						name: checkDataOM[0].name,
-						rol: "Operation Manager",
+						rol: "Operations Commander",
 					},
 				],
 			];
@@ -321,7 +321,7 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 						{
 							email: checkDataOM[0].email,
 							name: checkDataOM[0].name,
-							rol: "Operation Manager",
+							rol: "Operations Commander",
 						},
 					],
 				];
