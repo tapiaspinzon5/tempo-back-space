@@ -2,14 +2,11 @@ import React from "react";
 import { Grid, Typography, styled } from "@mui/material";
 import CardGame from "./CardGame";
 //importaciones de swiper
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
+import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Keyboard, Navigation, Pagination } from "swiper";
 
 //Styles
-// importacion de los estilos de swiper
-import "swiper/swiper.scss"; // core Swiper
-import "swiper/modules/navigation/navigation.scss"; // Navigation module
-import "swiper/modules/pagination/pagination.scss"; // Pagination module
+import "swiper/css";
 //Style components
 const MainGames = styled(Grid)(({ theme }) => ({
   marginTop: "1rem",

@@ -36,7 +36,7 @@ export const validateHeaders = (headers) => {
 
 export const validateFields = (data, topics) => {
 	let errorField = false;
-	let quartiles = ["Q1", "Q2", "Q3", "Q4"];
+	let quartiles = ["Q1", "Q2", "Q3", "Q4", "All"];
 
 	data.forEach((col) => {
 		let answers = [col[1], col[2], col[3], col[4]];

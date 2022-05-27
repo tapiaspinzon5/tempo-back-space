@@ -115,11 +115,11 @@ const Qa = () => {
   return (
     <>
       <Typography variant="h5" color="initial">
-        Instructions for Downloading and Filling Out the Quizz Template
+        Instructions for Downloading and Filling Out the Mission Template
       </Typography>
       <Typography variant="body1" color="initial">
         Bellow you Will find the instructions that you must follow to download
-        the Quizz Template
+        the Mission Template
       </Typography>
       <Typography variant="body2" color="initial">
         <strong>Question:</strong> Field for writing the question header
@@ -133,7 +133,7 @@ const Qa = () => {
         exactly like the correct answer)
         <br />
         <strong>Quartile:</strong> Agent’s quartile which you want to assign the
-        question
+        question (Q1, Q2, Q3, Q4 or All for all quartiles )
         <br /> <strong>ExamName:</strong>Quiz Name
         <br /> <strong>DescriptionExam:</strong>Quiz description
         <br />
