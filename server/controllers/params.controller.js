@@ -1,5 +1,4 @@
 const TYPES = require("tedious").TYPES;
-const moment = require("moment");
 
 let parametrizacion = (data) => {
   try {

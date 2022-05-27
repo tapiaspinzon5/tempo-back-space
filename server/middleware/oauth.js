@@ -6,7 +6,6 @@ const parametros = require("../controllers/params.controller").parametros;
 const url = "https://oauth.teleperformance.co/api/";
 
 function login(req, res) {
-
   let data = {
     body: req.body.body,
     timeTkn: 540,
@@ -18,7 +17,7 @@ function login(req, res) {
   redirect
     .post(url, "oauthlogin", data, null)
     .then((result) => {
-      res.cookie("token1",req.csrfToken(),{
+      res.cookie("token1", req.csrfToken(), {
         expires: new Date(Date.now() + 900000),
         httpOnly: true,
         path: "/",
@@ -26,17 +25,14 @@ function login(req, res) {
         sameSite: "Strict",
       });
       sql
-        .query(
-          "spQueryRoleEmployee",
-          parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee")
-        )
+        .query("spQueryRoleEmployee", parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee"))
         .then((result2) => {
           responsep(1, req, res, {
-            Nombre:result?.data.data?.nombre,
-            Idccms:result?.data.data?.idccms,
-            UserName:result?.data.data?.username,
-            Token:result?.data.data?.token,
-            RefreshToken:result?.data.data?.refreshToken,
+            Nombre: result?.data.data?.nombre,
+            Idccms: result?.data.data?.idccms,
+            UserName: result?.data.data?.username,
+            Token: result?.data.data?.token,
+            RefreshToken: result?.data.data?.refreshToken,
             Role: result2[0]?.Role,
             Quartile: result2[0]?.Quartile,
             NumberLogins: result2[0]?.NumberLogins,

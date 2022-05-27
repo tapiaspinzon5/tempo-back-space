@@ -3,7 +3,6 @@ const parametros = require("./params.controller").parametros;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
-const multiparty = require("multiparty");
 const path = require("path");
 const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
