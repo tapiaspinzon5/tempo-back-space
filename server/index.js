@@ -23,8 +23,8 @@ const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: "*",
   // origin: 'http://localhost:4343',
-  // origin: 'https://gamificationtest.teleperformance.co',
-  // origin: 'https://spacegptest.teleperformance.co/',
+  // origin: "https://gamificationtest.teleperformance.co",
+  // origin: "https://spacegptest.teleperformance.co/",
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));

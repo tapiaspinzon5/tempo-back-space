@@ -338,8 +338,12 @@ let assignMissionsQATable = [
     type: TYPES.Int,
   },
   {
-    name: "expTime",
-    type: TYPES.VarChar,
+    name: "dateIni",
+    type: TYPES.DateTime,
+  },
+  {
+    name: "dateEnd",
+    type: TYPES.DateTime,
   },
   {
     name: "idRegistry",
