@@ -10,8 +10,10 @@ import {
 	FormControl,
 	OutlinedInput,
 } from "@mui/material";
-import { DateRangePicker, LocalizationProvider } from "@mui/lab";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+//import { DateRangePicker, LocalizationProvider } from "@mui/lab";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
 
 const style = {
@@ -31,7 +33,7 @@ const inicialDataNC = {
 	action: "",
 	kpi: "",
 	unitKpi: "",
-	quantity: "",
+	quantity: 0,
 };
 
 const FormCreateNewChallenge = ({
@@ -40,12 +42,14 @@ const FormCreateNewChallenge = ({
 	handleSubmitNC,
 	kpisInfo,
 }) => {
-	const [date, setDate] = useState([null, null]);
+	const [date1, setDate1] = useState(null);
+	const [date2, setDate2] = useState(null);
 	const [newChallenge, setNewChallenge] = useState(inicialDataNC);
 	const handleClose = () => {
 		setOpenModal(false);
 		setNewChallenge(inicialDataNC);
-		setDate([null, null]);
+		setDate1(null);
+		setDate2(null);
 	};
 	const handleChange = (e) => {
 		setNewChallenge({
@@ -142,7 +146,38 @@ const FormCreateNewChallenge = ({
 								onChange={(e) => setNewChallenge({ ...newChallenge })}
 							/>
 						</FormControl>
-						<FormControl fullWidth sx={{ marginTop: "1rem" }}>
+						<Box sx={{ display: "flex", mt: 2 }}>
+							<LocalizationProvider
+								dateAdapter={AdapterDateFns}
+								sx={{ width: "20rem" }}
+							>
+								<DatePicker
+									label="Start"
+									value={date1}
+									onChange={(newValue) => {
+										setDate1(
+											`${newValue.getFullYear()}-${
+												newValue.getMonth() + 1
+											}-${newValue.getDate()}`
+										);
+									}}
+									renderInput={(params) => <TextField {...params} />}
+								/>
+								<DatePicker
+									label="End"
+									value={date2}
+									onChange={(newValue) => {
+										setDate2(
+											`${newValue.getFullYear()}-${
+												newValue.getMonth() + 1
+											}-${newValue.getDate()}`
+										);
+									}}
+									renderInput={(params) => <TextField {...params} />}
+								/>
+							</LocalizationProvider>
+						</Box>
+						{/* <FormControl fullWidth sx={{ marginTop: "1rem" }}>
 							<LocalizationProvider
 								dateAdapter={AdapterDateFns}
 								sx={{ width: "20rem" }}
@@ -163,18 +198,18 @@ const FormCreateNewChallenge = ({
 									)}
 								/>
 							</LocalizationProvider>
-						</FormControl>
+						</FormControl> */}
 						<Box display="flex" justifyContent="flex-end" marginTop="1rem">
 							<ButtonActionBlue
 								sx={{ fontSize: "20px" }}
-								onClick={() => handleSubmitNC(newChallenge, date)}
+								onClick={() => handleSubmitNC(newChallenge, date1, date2)}
 								disabled={
 									!newChallenge.action ||
 									!newChallenge.kpi ||
 									!newChallenge.quantity ||
 									!newChallenge.unitKpi ||
-									!date[0] ||
-									!date[1]
+									!date1 ||
+									!date2
 								}
 							>
 								Let's do it

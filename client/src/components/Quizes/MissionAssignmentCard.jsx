@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	styled,
 	Typography,
 	FormControl,
+	TextField,
 	InputLabel,
 	MenuItem,
 	Select,
 } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { BsClock } from "react-icons/bs";
 
 const CardMission = styled(Box)(() => ({
@@ -21,6 +25,8 @@ const CardMission = styled(Box)(() => ({
 	color: "#3047b0",
 }));
 const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
+	const [date1, setDate1] = useState(null);
+	const [date2, setDate2] = useState(null);
 	return (
 		<CardMission>
 			<input
@@ -42,7 +48,42 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 					Time
 				</Typography>
 			</Box>
-			<FormControl sx={{ width: "25%", height: "50%" }} size="small">
+			<Box sx={{ display: "flex", mt: "1rem" }}>
+				<LocalizationProvider
+					dateAdapter={AdapterDateFns}
+					sx={{ width: "20rem" }}
+				>
+					<DatePicker
+						label="Start"
+						value={mission.start}
+						onChange={(newValue) => {
+							handleTime(
+								"start",
+								`${newValue.getFullYear()}-${
+									newValue.getMonth() + 1
+								}-${newValue.getDate()}`,
+								mission.Name
+							);
+						}}
+						renderInput={(params) => <TextField {...params} />}
+					/>
+					<DatePicker
+						label="End"
+						value={mission.end}
+						onChange={(newValue) => {
+							handleTime(
+								"end",
+								`${newValue.getFullYear()}-${
+									newValue.getMonth() + 1
+								}-${newValue.getDate()}`,
+								mission.Name
+							);
+						}}
+						renderInput={(params) => <TextField {...params} />}
+					/>
+				</LocalizationProvider>
+			</Box>
+			{/* <FormControl sx={{ width: "25%", height: "50%" }} size="small">
 				<InputLabel id="demo-simple-select-label">Time</InputLabel>
 				<Select
 					labelId="demo-simple-select-label"
@@ -55,7 +96,7 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 					<MenuItem value={"weekly"}>Weekly</MenuItem>
 					<MenuItem value={"monthly"}>Monthly</MenuItem>
 				</Select>
-			</FormControl>
+			</FormControl> */}
 		</CardMission>
 	);
 };

@@ -281,10 +281,10 @@ const MissionsAssignment = () => {
 	};
 
 	//////////////////////////////funcion que  asigna el Tiempo de duraCION
-	const handleTime = (e, name) => {
+	const handleTime = (time, value, name) => {
 		dispatch({
 			type: TYPES.SELECT_TIME,
-			payload: { time: e.target.value, name },
+			payload: { time, value, name },
 		});
 	};
 
@@ -348,7 +348,9 @@ const MissionsAssignment = () => {
 	/////////////////////////funcion de envio de datos
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const dataMissions = missions.filter((miss) => miss.isChecked && miss.time);
+		const dataMissions = missions.filter(
+			(miss) => miss.isChecked && miss.start && miss.end
+		);
 		if (select === "agents") {
 			const dataAgents = users.filter((us) => us.isChecked);
 			if (dataMissions.length > 0) {

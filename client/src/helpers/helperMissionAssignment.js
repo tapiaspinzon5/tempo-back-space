@@ -3,11 +3,13 @@ export const dataToSend = (missions, data, QAname, context) => {
 	const idMissions = [];
 	const idAssigned = [];
 	const fcmTokens = [];
-	const expTime = [];
+	const initDate = [];
+	const endDate = [];
 	missions.forEach((mission) => {
 		nameMissions.push(mission.Name);
 		idMissions.push(mission.Id);
-		expTime.push(mission.time);
+		initDate.push(mission.start);
+		endDate.push(mission.end);
 	});
 	if (data[0].Ident) {
 		data.forEach((agent) => {
@@ -29,7 +31,8 @@ export const dataToSend = (missions, data, QAname, context) => {
 		idMissions,
 		idAssigned,
 		fcmTokens, // vuela para team lob null
-		expTime,
+		initDate,
+		endDate,
 		context, // agent, LOB, Team
 	};
 };

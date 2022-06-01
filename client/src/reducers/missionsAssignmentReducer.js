@@ -37,11 +37,13 @@ export function missionsAssignmentReducer(state, action) {
 			return {
 				...state,
 				missions: action.payload.missions.map((data) => {
-					data.time = "";
+					data.start = null;
+					data.end = null;
 					return data;
 				}),
 				dbMissions: action.payload.missions.map((data) => {
-					data.time = "";
+					data.start = null;
+					data.end = null;
 					return data;
 				}),
 			};
@@ -74,11 +76,21 @@ export function missionsAssignmentReducer(state, action) {
 			if (action.payload.name === "selecct-all") {
 				if (state.searchM) {
 					let tempMission = state.missions.map((mission) => {
-						return { ...mission, isChecked: action.payload.checked, time: "" };
+						return {
+							...mission,
+							isChecked: action.payload.checked,
+							start: null,
+							end: null,
+						};
 					});
 					let tempDBMissions = state.dbMissions.map((mission) =>
 						mission.Name === action.payload.name
-							? { ...mission, isChecked: action.payload.checked, time: "" }
+							? {
+									...mission,
+									isChecked: action.payload.checked,
+									start: null,
+									end: null,
+							  }
 							: mission
 					);
 					return {
@@ -88,10 +100,20 @@ export function missionsAssignmentReducer(state, action) {
 					};
 				} else {
 					let tempMission = state.missions.map((mission) => {
-						return { ...mission, isChecked: action.payload.checked, time: "" };
+						return {
+							...mission,
+							isChecked: action.payload.checked,
+							start: "",
+							end: "",
+						};
 					});
 					let tempDBMissions = state.dbMissions.map((mission) => {
-						return { ...mission, isChecked: action.payload.checked, time: "" };
+						return {
+							...mission,
+							isChecked: action.payload.checked,
+							start: null,
+							end: null,
+						};
 					});
 					return {
 						...state,
@@ -102,29 +124,53 @@ export function missionsAssignmentReducer(state, action) {
 			} else {
 				let tempMission = state.missions.map((mission) =>
 					mission.Name === action.payload.name
-						? { ...mission, isChecked: action.payload.checked, time: "" }
+						? {
+								...mission,
+								isChecked: action.payload.checked,
+								start: null,
+								end: null,
+						  }
 						: mission
 				);
 				let tempDBMissions = state.dbMissions.map((mission) =>
 					mission.Name === action.payload.name
-						? { ...mission, isChecked: action.payload.checked, time: "" }
+						? {
+								...mission,
+								isChecked: action.payload.checked,
+								start: null,
+								end: null,
+						  }
 						: mission
 				);
 				return { ...state, missions: tempMission, dbMissions: tempDBMissions };
 			}
 		}
 		case TYPES.SELECT_TIME: {
-			let tempMission = state.missions.map((mission) =>
-				mission.Name === action.payload.name && mission.isChecked === true
-					? { ...mission, time: action.payload.time }
-					: mission
-			);
-			let tempDBMissions = state.dbMissions.map((mission) =>
-				mission.Name === action.payload.name && mission.isChecked === true
-					? { ...mission, time: action.payload.time }
-					: mission
-			);
-			return { ...state, missions: tempMission, dbMissions: tempDBMissions };
+			if (action.payload.time === "start") {
+				let tempMission = state.missions.map((mission) =>
+					mission.Name === action.payload.name && mission.isChecked === true
+						? { ...mission, start: action.payload.value }
+						: mission
+				);
+				let tempDBMissions = state.dbMissions.map((mission) =>
+					mission.Name === action.payload.name && mission.isChecked === true
+						? { ...mission, start: action.payload.value }
+						: mission
+				);
+				return { ...state, missions: tempMission, dbMissions: tempDBMissions };
+			} else {
+				let tempMission = state.missions.map((mission) =>
+					mission.Name === action.payload.name && mission.isChecked === true
+						? { ...mission, end: action.payload.value }
+						: mission
+				);
+				let tempDBMissions = state.dbMissions.map((mission) =>
+					mission.Name === action.payload.name && mission.isChecked === true
+						? { ...mission, end: action.payload.value }
+						: mission
+				);
+				return { ...state, missions: tempMission, dbMissions: tempDBMissions };
+			}
 		}
 		case TYPES.SELECT_AGENTS: {
 			if (action.payload.name === "selecct-all") {
