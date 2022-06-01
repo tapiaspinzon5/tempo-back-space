@@ -3,7 +3,6 @@ const parametros = require("./params.controller").parametros;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
-const multiparty = require("multiparty");
 const path = require("path");
 const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
@@ -964,7 +963,7 @@ exports.postCreateCategory = async (req, res) => {
 };
 
 exports.postAssignMission = async (req, res) => {
-  const { userName, nameMissions, idMissions, idAssigned, fcmTokens, expTime, context } = req.body;
+  const { userName, nameMissions, idMissions, idAssigned, fcmTokens, initDate, endDate, context } = req.body;
 
   let rows = [];
   let rows2 = [];
@@ -978,13 +977,13 @@ exports.postAssignMission = async (req, res) => {
   switch (context) {
     case 1:
       for (let i = 0; i < idMissions.length; i++) {
-        rows2.push([idMissions[i], expTime[i]]);
+        rows2.push([idMissions[i], initDate[i], endDate[i]]);
       }
 
       rows2.forEach((ele) => {
         idAssigned.forEach((id) => {
           i2 = i2 + 1;
-          rows3.push([id, ele[0], ele[1], i2]);
+          rows3.push([id, ele[0], ele[1], ele[2], i2]);
         });
       });
 
@@ -1032,13 +1031,13 @@ exports.postAssignMission = async (req, res) => {
           let agentsInfo = result[0].Agents;
 
           for (let i = 0; i < idMissions.length; i++) {
-            rows2.push([idMissions[i], expTime[i]]);
+            rows2.push([idMissions[i], initDate[i], endDate[i]]);
           }
 
           rows2.forEach((ele) => {
             agentsInfo.forEach((inf) => {
               i2 = i2 + 1;
-              rows3.push([inf.Ident, ele[0], ele[1], i2]);
+              rows3.push([inf.Ident, ele[0], ele[1], ele[2], i2]);
             });
           });
 
@@ -1093,7 +1092,7 @@ exports.postAssignMission = async (req, res) => {
           let agentsInfo = result[0].Agents;
 
           for (let i = 0; i < idMissions.length; i++) {
-            rows2.push([idMissions[i], expTime[i]]);
+            rows2.push([idMissions[i], initDate[i], endDate[i]]);
           }
 
           // Filtramos las personas que si tienen token para notificarlos
@@ -1102,7 +1101,7 @@ exports.postAssignMission = async (req, res) => {
           rows2.forEach((ele) => {
             agentsInfo.forEach((inf) => {
               i2 = i2 + 1;
-              rows3.push([inf.Ident, ele[0], ele[1], i2]);
+              rows3.push([inf.Ident, ele[0], ele[1], ele[2], i2]);
             });
           });
 

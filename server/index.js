@@ -5,7 +5,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const properties = require("./properties/properties");
 const csrf = require("csurf");
 // const csrfProtection = csrf({cookie: true});
@@ -24,8 +23,8 @@ const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: "*",
   // origin: 'http://localhost:4343',
-  // origin: 'https://gamificationtest.teleperformance.co',
-  // origin: 'https://spacegptest.teleperformance.co/',
+  // origin: "https://gamificationtest.teleperformance.co",
+  // origin: "https://spacegptest.teleperformance.co/",
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
@@ -38,10 +37,10 @@ app.use((req, res, next) => {
 app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.permittedCrossDomainPolicies());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 // app.use(csrfProtection);
 app.disable("x-powered-by");
-app.use(bodyParser.json({ limit: "10mb", type: "application/json" }));
+app.use(express.json({ limit: "10mb", type: "application/json" }));
 app.use(requestIp.mw());
 configure((call) => {
   app.use(jwt());
