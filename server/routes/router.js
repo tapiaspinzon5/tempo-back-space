@@ -158,6 +158,15 @@ module.exports = (router) => {
 
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.
+
+  // Endpoints para Consulta Analytics
+  router.post("/getusersconnections", oauth.oauthOther, routes.getUsersConnections);
+  router.post("/getusersteamchanges", oauth.oauthOther, routes.getUsersTeamChanges);
+  router.post("/getuserstimecompletechallenges", oauth.oauthOther, routes.getUsersTimeCompleteChallenges);
+  router.post("/getmoreinteractiveusers", oauth.oauthOther, routes.getMoreInteractiveUsers);
+  router.post("/gettopuploaders", oauth.oauthOther, routes.getTopUploaders);
+  router.post("/getrolesinfo", oauth.oauthOther, routes.getRolesInfo);
+
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
   MapSpRouter("/sqlupdate", "spUpdateCentral");
