@@ -68,15 +68,28 @@ exports.saveQuiz = async (req, res) => {
   let i = 0;
   let rows = [];
   let rows2 = [];
+  let rows3 = [];
+  const quartiles = ["Q1", "Q2", "Q3", "Q4"];
 
   if (context == 1) {
-    let rows = data.map((quest) => {
+    data.forEach((quest) => {
+      if (quest[6] === "All") {
+        quartiles.forEach((q) => {
+          quest[6] = q;
+          rows.push([...quest]);
+        });
+      } else {
+        rows.push([...quest]);
+      }
+    });
+
+    let rows2 = rows.map((quest) => {
       i = i + 1;
       return [...quest, i];
     });
 
     sql
-      .query("spInsertExam", parametros({ idccms: req.query.idccms, rows }, "spInsertExam"))
+      .query("spInsertExam", parametros({ idccms: req.query.idccms, rows: rows2 }, "spInsertExam"))
       .then((result) => {
         responsep(1, req, res, result);
       })
@@ -102,12 +115,27 @@ exports.saveQuiz = async (req, res) => {
         data[0][0].quizDescription,
         +data[0][0].quizTarget,
         data[0][0].quizCategory,
-        i + 1,
       ]);
     }
 
+    rows2.forEach((quest) => {
+      if (quest[6] === "All") {
+        quartiles.forEach((q) => {
+          quest[6] = q;
+          rows3.push([...quest]);
+        });
+      } else {
+        rows3.push([...quest]);
+      }
+    });
+
+    let rows4 = rows3.map((quest) => {
+      i = i + 1;
+      return [...quest, i];
+    });
+
     sql
-      .query("spInsertExam", parametros({ idccms: req.query.idccms, rows: rows2 }, "spInsertExam"))
+      .query("spInsertExam", parametros({ idccms: req.query.idccms, rows: rows4 }, "spInsertExam"))
       .then((result) => {
         responsep(1, req, res, result);
       })
