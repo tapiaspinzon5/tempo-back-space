@@ -751,6 +751,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
+        new SpParam("Kpi", req.kpi, TYPES.VarChar),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":

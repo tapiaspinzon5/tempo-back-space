@@ -1445,12 +1445,12 @@ exports.getRolesInfo = async (req, res) => {
     });
 };
 exports.getPlatformAnalytics = async (req, res) => {
-  const { initDate, endDate, context } = req.body;
+  const { initDate, endDate, context, kpi } = req.body;
 
   sql
     .query(
       "spQueryAnalitycs",
-      parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spQueryAnalitycs")
+      parametros({ idccms: req.query.idccms, initDate, endDate, context, kpi }, "spQueryAnalitycs")
     )
     .then((result) => {
       responsep(1, req, res, result);
