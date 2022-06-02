@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { Box, InputAdornment, Typography } from "@mui/material";
-import React, { useEffect } from "react";
 import { InputText } from "../../assets/styled/muistyled";
 
 const TreuFalseQuestion = ({
@@ -10,6 +10,7 @@ const TreuFalseQuestion = ({
   question,
   setEdit,
 }) => {
+  const [msj, setMsj] = useState("");
   const pregunta = question[steep];
   useEffect(() => {
     if (pregunta) {
@@ -20,6 +21,16 @@ const TreuFalseQuestion = ({
     }
   }, [steep]);
 
+  const handleQuestion = (e) => {
+    if (e.target.value.length <= 5000) {
+      setAsk({ ...ask, ask: e.target.value });
+
+      setMsj(`${e.target.value.length} / 5000`);
+    } else {
+      setMsj("Te has pasado ");
+    }
+  };
+
   return (
     <Box marginY={1} color="#3047B0">
       <form>
@@ -29,11 +40,21 @@ const TreuFalseQuestion = ({
           label="Question"
           variant="outlined"
           fullWidth
-          onChange={(e) => setAsk({ ...ask, ask: e.target.value })}
+          multiline
+          rows={3}
+          onChange={handleQuestion}
           value={ask.ask || pregunta?.ask || ""}
           required
           error={!ask.ask && empty}
-          helperText={!ask.ask && empty ? "Field Requiered" : ""}
+          helperText={
+            !ask.ask && empty ? (
+              "Field Requiered"
+            ) : (
+              <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+                {msj}
+              </p>
+            )
+          }
         />
 
         <Typography variant="h6">Answer</Typography>

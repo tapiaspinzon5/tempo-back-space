@@ -23,6 +23,7 @@ const FormSetupQuiz = ({
   empty,
 }) => {
   const [disabled, setDisabled] = useState(false);
+  const [errorMSJ, setErrorMsj] = useState({ target: "", question: "" });
   const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
     dataQuiz;
   useEffect(() => {
@@ -32,6 +33,64 @@ const FormSetupQuiz = ({
       setDisabled(false);
     }
   }, [fileName]);
+
+  const handleTarget = (e) => {
+    if (e.target.value >= 0 && e.target.value <= 100) {
+      setErrorMsj({
+        ...errorMSJ,
+        target: "",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        target: "The target must contain a value between 0 and 100",
+      });
+    }
+  };
+
+  const handleQuestion = (e) => {
+    if (e.target.value >= 0 && e.target.value <= 10) {
+      setErrorMsj({
+        ...errorMSJ,
+        question: "",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        question: "Max 10 questions",
+      });
+    }
+  };
+  const handleName = (e) => {
+    if (e.target.value.length <= 50) {
+      setErrorMsj({
+        ...errorMSJ,
+        name: e.target.value.length + " / 50",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        name: "The name must have max 50 characters",
+      });
+    }
+  };
+  const handleDesc = (e) => {
+    if (e.target.value.length <= 300) {
+      setErrorMsj({
+        ...errorMSJ,
+        desc: e.target.value.length + " / 300",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        desc: "The description must have max 300 characters",
+      });
+    }
+  };
 
   return (
     <Box
@@ -45,24 +104,43 @@ const FormSetupQuiz = ({
       <InputText
         name="quizName"
         label="Mission Name"
+        maxLength={10}
         variant="outlined"
-        onChange={handleQuizSetup}
+        onChange={handleName}
         value={quizName}
         disabled={disabled}
         required
+        size="small"
         error={!quizName && empty}
-        helperText={!quizName && empty ? "Field Requiered" : ""}
+        helperText={
+          !quizName && empty ? (
+            "Field Requiered"
+          ) : (
+            <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+              {errorMSJ.name}
+            </p>
+          )
+        }
       />
       <InputText
         name="quizDescription"
         label="Description"
         variant="outlined"
-        onChange={handleQuizSetup}
+        onChange={handleDesc}
         value={quizDescription}
         disabled={disabled}
+        size="small"
         required
         error={!quizDescription && empty}
-        helperText={!quizDescription && empty ? "Field Requiered" : ""}
+        helperText={
+          !quizDescription && empty ? (
+            "Field Requiered"
+          ) : (
+            <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+              {errorMSJ.desc}
+            </p>
+          )
+        }
       />
       <FormControl fullWidth error={!quizCategory && empty}>
         <InputLabel id="quizCategory-label">Category</InputLabel>
@@ -90,24 +168,28 @@ const FormSetupQuiz = ({
         label="Target"
         variant="outlined"
         type="number"
-        onChange={handleQuizSetup}
+        onChange={handleTarget}
         value={quizTarget}
         disabled={disabled}
+        size="small"
         required
         error={!quizTarget && empty}
-        helperText={!quizTarget && empty ? "Field Requiered" : ""}
+        helperText={!quizTarget && empty ? "Field Requiered" : errorMSJ.target}
       />
       <InputText
         name="quizQuestions"
         label="Number of Questions"
         variant="outlined"
         type="number"
-        onChange={handleQuizSetup}
+        onChange={handleQuestion}
         value={quizQuestions}
+        size="small"
         disabled={disabled}
         required
         error={!quizQuestions && empty}
-        helperText={!quizQuestions && empty ? "Field Requiered" : ""}
+        helperText={
+          !quizQuestions && empty ? "Field Requiered" : errorMSJ.question
+        }
       />
     </Box>
   );

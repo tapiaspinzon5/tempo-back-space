@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
   IconButton,
@@ -38,7 +38,8 @@ const BoxCat = styled(Box)(() => ({
   },
 }));
 
-const CardCateroriesQuiz = () => {
+const CardCateroriesQuiz = ({ setShowCat }) => {
+  const refCategory = useRef();
   const [edit, setEdit] = useState(null);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
@@ -134,8 +135,33 @@ const CardCateroriesQuiz = () => {
     }
   };
 
+  //funcion para cerrar componente al dar click a fuera (clickoutside)
+  function useOnClickOutside(ref, handler) {
+    useEffect(() => {
+      const listener = (event) => {
+        // Do nothing if clicking ref's element or descendent elements
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+      document.addEventListener("mousedown", listener);
+      document.addEventListener("touchstart", listener);
+      return () => {
+        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("touchstart", listener);
+      };
+    }, [ref, handler]);
+  }
+
+  //clickoutside
+  useOnClickOutside(refCategory, () => {
+    setShowCat(false);
+    //window.location.reload();
+  });
+
   return (
-    <BoxCat>
+    <BoxCat ref={refCategory}>
       <Box display="flex">
         <ButtonAction
           sx={{ width: "100%" }}
@@ -166,9 +192,9 @@ const CardCateroriesQuiz = () => {
             }}
           >
             {categories.length > 0 ? (
-              categories?.map((value) => (
+              categories?.map((value, index) => (
                 <ListItem
-                  key={value.id}
+                  key={index}
                   disableGutters
                   secondaryAction={
                     value.idCat === edit ? (

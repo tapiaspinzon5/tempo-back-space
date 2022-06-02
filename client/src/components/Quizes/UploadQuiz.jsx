@@ -271,10 +271,10 @@ const UploadQuiz = ({ setLoading, topics }) => {
         !ask[4] ||
         !ask.Q ||
         !ask.answer ||
-        !ask.ask ||
-        !ask.questionType
+        !ask.ask
       ) {
         setEmpty(true);
+
         return;
       } else {
         setEmpty(false);
@@ -282,8 +282,9 @@ const UploadQuiz = ({ setLoading, topics }) => {
     }
 
     if (ask.questionType === "trueFalse") {
-      if (!ask.Q || !ask.answer || !ask.ask || !ask.questionType) {
+      if (!ask.Q || !ask.answer || !ask.ask) {
         setEmpty(true);
+
         return;
       } else {
         setEmpty(false);
@@ -330,13 +331,17 @@ const UploadQuiz = ({ setLoading, topics }) => {
   const handleBack = () => {
     if (steep > 0) {
       setSteep((prev) => prev - 1);
+
+      // if (!question[1]) {
+      //   setAsk([]);
+      // }
     }
     if (question[steep]) {
       if (steep > 0) {
         setAsk(question[steep][0]);
       }
     }
-    if (steep == 0) {
+    if (steep === 0) {
       setAsk([]);
     }
   };
@@ -438,7 +443,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
                     onChange={(e) => setAsk({ ...ask, Q: e.target.value })}
                     required
                   >
-                    {["Q1", "Q2", "Q3", "Q4"].map((q) => (
+                    {["All", "Q1", "Q2", "Q3", "Q4"].map((q) => (
                       <MenuItem value={q} key={q}>
                         {q}
                       </MenuItem>
