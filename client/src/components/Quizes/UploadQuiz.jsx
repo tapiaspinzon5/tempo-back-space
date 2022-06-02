@@ -443,7 +443,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
                     onChange={(e) => setAsk({ ...ask, Q: e.target.value })}
                     required
                   >
-                    {["Q1", "Q2", "Q3", "Q4"].map((q) => (
+                    {["All", "Q1", "Q2", "Q3", "Q4"].map((q) => (
                       <MenuItem value={q} key={q}>
                         {q}
                       </MenuItem>

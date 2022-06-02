@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -33,6 +33,7 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
 }));
 
 const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
+  const ref = useRef();
   const userData = useSelector((store) => store.loginUser.userData.Role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,8 +42,33 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
     navigate("/");
   };
 
+  //funcion para cerrar componente al dar click a fuera (clickoutside)
+  function useOnClickOutside(ref, handler) {
+    useEffect(() => {
+      const listener = (event) => {
+        // Do nothing if clicking ref's element or descendent elements
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+      document.addEventListener("mousedown", listener);
+      document.addEventListener("touchstart", listener);
+      return () => {
+        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("touchstart", listener);
+      };
+    }, [ref, handler]);
+  }
+
+  //clickoutside
+  useOnClickOutside(ref, () => {
+    setSeeProfile(false);
+  });
+
   return (
     <BoxVinetas
+      ref={ref}
       onClick={() => {
         setSeeProfile(false);
       }}
@@ -73,7 +99,7 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
                     <ListItemText primary="Profile" />
                   </ListItemButton>
                 </ListItem>
-                {/* <ListItem disablePadding>
+                <ListItem disablePadding>
                   <ListItemButton
                     component="button"
                     onClick={() => setHelpCenter(true)}
@@ -81,7 +107,7 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
                   >
                     <ListItemText primary="Help Center" />
                   </ListItemButton>
-                </ListItem> */}
+                </ListItem>
               </>
             )}
             <ListItem disablePadding>

@@ -188,7 +188,7 @@ export const InputText = styled(TextField)(() => ({
       background: "white",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#e8e8e8",
+      backgroundColor: "#C8C8C8",
       borderRadius: "20px",
     },
   },
