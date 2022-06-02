@@ -20,7 +20,7 @@ const BoxTable = styled(Grid)(() => ({
 	},
 }));
 
-const TableAnalytics = ({ width, data }) => {
+const TableAnalyticsRL = ({ width, data }) => {
 	const columns = [
 		{
 			field: "rank",
@@ -50,6 +50,13 @@ const TableAnalytics = ({ width, data }) => {
 		{
 			field: "user",
 			headerName: "User",
+			width: (2 * width) / 10 < 250 ? 200 : (2 * width) / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
+			field: "role",
+			headerName: "Role",
 			width: (2 * width) / 10 < 250 ? 200 : (2 * width) / 10,
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
@@ -137,4 +144,4 @@ const TableAnalytics = ({ width, data }) => {
 	);
 };
 
-export default TableAnalytics;
+export default TableAnalyticsRL;

@@ -262,7 +262,11 @@ export const NavList = ({ open, match, userData }) => {
 									</LIcon>
 									{open && match && <Typography>LeaderBoard</Typography>}
 								</LItem>
-								<LItem button onClick={() => navigate("/analytics")}>
+								<LItem
+									disabled={linkActive}
+									button
+									onClick={() => navigate("/analytics")}
+								>
 									<LIcon>
 										<FiPieChart size={25} color="#fff" />
 									</LIcon>

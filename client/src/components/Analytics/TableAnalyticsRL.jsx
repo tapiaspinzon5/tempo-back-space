@@ -20,7 +20,7 @@ const BoxTable = styled(Grid)(() => ({
 	},
 }));
 
-const TableAnalytics = ({ width, data }) => {
+const TableAnalyticsRL = ({ width, data }) => {
 	const columns = [
 		{
 			field: "rank",
@@ -50,6 +50,13 @@ const TableAnalytics = ({ width, data }) => {
 		{
 			field: "user",
 			headerName: "User",
+			width: (2 * width) / 10 < 250 ? 200 : (2 * width) / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
+			field: "role",
+			headerName: "Role",
 			width: (2 * width) / 10 < 250 ? 200 : (2 * width) / 10,
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
@@ -104,6 +111,34 @@ const TableAnalytics = ({ width, data }) => {
 			cellClassName: "super-app-theme--cell",
 		},
 		{
+			field: "missionsF",
+			headerName: "Missions F",
+			width: width / 10 < 90 ? 100 : width / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
+			field: "missionsS",
+			headerName: "Missions Score",
+			width: width / 10 < 90 ? 150 : width / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
+			field: "questionsA",
+			headerName: "Questions Approved",
+			width: width / 10 < 90 ? 150 : width / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
+			field: "questionsF",
+			headerName: "Questions Failed",
+			width: width / 10 < 90 ? 150 : width / 10,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
 			field: "challengesA",
 			headerName: "Challenges A",
 			width: width / 10 < 100 ? 120 : width / 10,
@@ -137,4 +172,4 @@ const TableAnalytics = ({ width, data }) => {
 	);
 };
 
-export default TableAnalytics;
+export default TableAnalyticsRL;
