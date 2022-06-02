@@ -705,6 +705,53 @@ exports.parametros = (req, tipo) => {
     case "spQueryAgentsCampaign":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
+    //Consultas para analytics
+    case "spConnectionsPlayer":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
+    case "spUserChangeTeam":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+      ]);
+    case "spTimeCompleteChallenges":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+      ]);
+    case "spUsersMostInteract":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
+    case "spUserUploadsFiles":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+      ]);
+    case "spUsersRole":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
+    case "spQueryAnalitycs":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

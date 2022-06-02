@@ -1350,6 +1350,116 @@ exports.getAgentsCampignrl = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+exports.getUsersConnections = async (req, res) => {
+  // const { ident, DateIni, DateEnd, Context } = req.body;
+  const { initDate, endDate, context } = req.body;
+
+  sql
+    .query(
+      "spConnectionsPlayer",
+      parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spConnectionsPlayer")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getUsersTeamChanges = async (req, res) => {
+  const { initDate, endDate } = req.body;
+
+  sql
+    .query(
+      "spUserChangeTeam",
+      parametros({ idccms: req.query.idccms, initDate, endDate }, "spUserChangeTeam")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getUsersTimeCompleteChallenges = async (req, res) => {
+  const { initDate, endDate } = req.body;
+
+  sql
+    .query(
+      "spTimeCompleteChallenges",
+      parametros({ idccms: req.query.idccms, initDate, endDate }, "spTimeCompleteChallenges")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getMoreInteractiveUsers = async (req, res) => {
+  const { initDate, endDate, context } = req.body;
+
+  sql
+    .query(
+      "spUsersMostInteract",
+      parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spUsersMostInteract")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getTopUploaders = async (req, res) => {
+  const { initDate, endDate } = req.body;
+
+  sql
+    .query(
+      "spUserUploadsFiles",
+      parametros({ idccms: req.query.idccms, initDate, endDate }, "spUserUploadsFiles")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getRolesInfo = async (req, res) => {
+  const { initDate, endDate, context } = req.body;
+
+  sql
+    .query("spUsersRole", parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spUsersRole"))
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+exports.getPlatformAnalytics = async (req, res) => {
+  const { initDate, endDate, context } = req.body;
+
+  sql
+    .query(
+      "spQueryAnalitycs",
+      parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spQueryAnalitycs")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
