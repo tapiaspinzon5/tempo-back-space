@@ -1443,6 +1443,22 @@ exports.getRolesInfo = async (req, res) => {
       responsep(2, req, res, err);
     });
 };
+exports.getPlatformAnalytics = async (req, res) => {
+  const { initDate, endDate, context } = req.body;
+
+  sql
+    .query(
+      "spQueryAnalitycs",
+      parametros({ idccms: req.query.idccms, initDate, endDate, context }, "spQueryAnalitycs")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {

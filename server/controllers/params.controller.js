@@ -745,6 +745,13 @@ exports.parametros = (req, tipo) => {
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
       ]);
+    case "spQueryAnalitycs":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Context", req.context, TYPES.Int),
+      ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
