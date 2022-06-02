@@ -25,8 +25,6 @@ const CardMission = styled(Box)(() => ({
 	color: "#3047b0",
 }));
 const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
-	const [date1, setDate1] = useState(null);
-	const [date2, setDate2] = useState(null);
 	return (
 		<CardMission>
 			<input

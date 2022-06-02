@@ -991,6 +991,7 @@ exports.postCreateCategory = async (req, res) => {
 };
 
 exports.postAssignMission = async (req, res) => {
+  console.log(req.body);
   const { userName, nameMissions, idMissions, idAssigned, fcmTokens, initDate, endDate, context } = req.body;
 
   let rows = [];

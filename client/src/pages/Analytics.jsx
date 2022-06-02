@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Typography, Grid, Box } from "@mui/material";
+import { Typography, Grid, Box, Modal, styled } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { MainPage, BoxContain } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
@@ -14,6 +14,19 @@ import {
 } from "../helpers/helpers";
 import { logoutAction } from "../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
+import { DownLoadReportTL } from "../components/Modals/DownLoadReportTL";
+
+const ModalBox = styled(Box)(() => ({
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	//width: 400,
+	borderRadius: "20px",
+	boxShadow: "2px 2px 5px #2f2f2f",
+	padding: "1rem",
+	backgroundColor: "RGBA(255,255,255,0.9)",
+}));
 
 const Analytics = ({ count }) => {
 	const navigate = useNavigate();
@@ -21,6 +34,7 @@ const Analytics = ({ count }) => {
 	const ref = useRef();
 	const [data, setData] = useState([]);
 	const [kpis, setKpis] = useState([]);
+	const [modal, setModal] = useState(false);
 	const [width, setWidth] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [filters, setFilters] = useState({
@@ -111,6 +125,17 @@ const Analytics = ({ count }) => {
 	}, [ancho]);
 	return (
 		<MainPage>
+			<Modal
+				open={modal}
+				onClose={() => setModal(false)}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+					<DownLoadReportTL setModal={setModal} />
+				</ModalBox>
+			</Modal>
+
 			<Grid marginTop={2}>
 				<Header count={count} />
 			</Grid>
@@ -122,7 +147,11 @@ const Analytics = ({ count }) => {
 			<Grid container columnSpacing={3}>
 				<Grid item xs={12}>
 					<Box>
-						<LeaderRankBoard kpis={kpis} setFilters={setFilters} />
+						<LeaderRankBoard
+							kpis={kpis}
+							setFilters={setFilters}
+							setModal={setModal}
+						/>
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
