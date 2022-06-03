@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import useClickOutside from "../../Hooks/useClickOutside";
 import { Grid, Typography, styled, Box } from "@mui/material";
 import {
   ButtonAction,
@@ -66,6 +67,7 @@ const BoxChangeTeamName = styled(Box)(() => ({
 }));
 
 const TeamInformation = () => {
+  const refNameCard = useRef();
   const [nameCard, setNameCard] = useState(false);
   const [newName, setNewName] = useState("");
   const [active, setActive] = useState(0);
@@ -119,6 +121,11 @@ const TeamInformation = () => {
     setChallengeData(getData.data[0].ChallengesAgents);
   };
 
+  //clickoutside
+  useClickOutside(refNameCard, () => {
+    setNameCard(false);
+  });
+
   return (
     <MainPage>
       <Grid>
@@ -150,15 +157,13 @@ const TeamInformation = () => {
                 {newName}
               </ButtonAction>
               {nameCard && (
-                <BoxChangeTeamName>
+                <BoxChangeTeamName ref={refNameCard}>
                   <InputText
                     name="TeamName"
                     variant="outlined"
                     label="New Team Name"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
-                    //                    error={!quizName && empty}
-                    //                    helperText={!quizName && empty ? "Field Requiered" : ""}
                   />
                   <ButtonActionBlue
                     onClick={handleChangeTeamName}

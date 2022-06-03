@@ -61,6 +61,7 @@ const Header = ({ count }) => {
   //controles Dark mode
   const theme = useTheme();
   const [showNotification, setShowNotification] = useState(false);
+
   const handleNotification = () => {
     setShowNotification(!showNotification);
   };
@@ -177,7 +178,10 @@ const Header = ({ count }) => {
                 </Box>
 
                 {showNotification && (
-                  <Notifications notifications={notifications} />
+                  <Notifications
+                    notifications={notifications}
+                    setShowNotification={setShowNotification}
+                  />
                 )}
 
                 <IconButton

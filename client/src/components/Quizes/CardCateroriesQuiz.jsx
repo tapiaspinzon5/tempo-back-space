@@ -14,6 +14,7 @@ import { ButtonAction } from "../../assets/styled/muistyled";
 import { addMissionCategories, getMissionsCategories } from "../../utils/api";
 import { SwapSpinner } from "react-spinners-kit";
 import { wordExist } from "../../helpers/helpers";
+import useClickOutside from "../../Hooks/useClickOutside";
 
 const BoxCat = styled(Box)(() => ({
   width: "13rem",
@@ -135,27 +136,8 @@ const CardCateroriesQuiz = ({ setShowCat }) => {
     }
   };
 
-  //funcion para cerrar componente al dar click a fuera (clickoutside)
-  function useOnClickOutside(ref, handler) {
-    useEffect(() => {
-      const listener = (event) => {
-        // Do nothing if clicking ref's element or descendent elements
-        if (!ref.current || ref.current.contains(event.target)) {
-          return;
-        }
-        handler(event);
-      };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
-      return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
-      };
-    }, [ref, handler]);
-  }
-
   //clickoutside
-  useOnClickOutside(refCategory, () => {
+  useClickOutside(refCategory, () => {
     setShowCat(false);
     //window.location.reload();
   });
