@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Button, Box, styled } from "@mui/material";
 import NotificationCard from "./NotificationCard";
+import useClickOutside from "../../Hooks/useClickOutside";
 
 const BoxTitle = styled(Box)(() => ({
   height: "4rem",
@@ -16,10 +17,17 @@ const BoxTitle = styled(Box)(() => ({
   },
 }));
 
-const Notifications = ({ notifications }) => {
+const Notifications = ({ notifications, setShowNotification }) => {
+  const refNav = useRef();
   const navigate = useNavigate();
+
+  //clickoutside
+  useClickOutside(refNav, () => {
+    setShowNotification(false);
+  });
+
   return (
-    <div className="notifications">
+    <div className="notifications" ref={refNav}>
       <BoxTitle>
         <Typography variant="h6" align="center">
           Notifications{" "}
