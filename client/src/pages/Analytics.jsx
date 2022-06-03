@@ -10,7 +10,6 @@ import LoadingComponent from "../components/LoadingComponent";
 import { deleteDuplicatesScore } from "../helpers/helpers";
 import { logoutAction } from "../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
-import { DownLoadReportSA } from "../components/Modals/DownLoadReportSA";
 import TableAnalytics from "../components/Analytics/TableAnalytics";
 import { DownLoadReportTL } from "../components/Modals/DownLoadReportTL";
 
@@ -78,53 +77,55 @@ const Analytics = ({ count }) => {
 	}, []);
 
 	useEffect(() => {
-		if (filters.kpi !== "" && filters.start && filters.end) {
-			setLoading(true);
-			const getData = async () => {
-				const initialData = await requestWithData("getplatformanalytics", {
-					initDate: filters.start,
-					endDate: filters.end,
-					kpi: filters.kpi,
-					context: 1,
-				});
-				if (
-					initialData &&
-					initialData.status === 200 &&
-					initialData.data.length > 0
-				) {
-					const dataOrder = await deleteDuplicatesScore(
-						initialData.data[0].Analitycs
-					);
-					setData(dataOrder);
-					setLoading(false);
-				}
-			};
-			getData();
-		} /* else {
-			const getData = async () => {
-				const filterData = await getDataLeaderboard(
-					2,
-					filters.kpi,
-					filters.time,
-					filters.group
-				);
-				if (
-					filterData &&
-					filterData.status === 200 &&
-					filterData.data.length > 1
-				) {
-					const dataOrder = await deleteDuplicatesKpis(
-						filterData.data[2].ScoreResultKpi,
-						filters.time
-					);
-
-					setKpis(filterData.data[1].ListKpi);
-					setData(dataOrder);
-					setLoading(false);
-				}
-			};
-			getData();
-		} */
+		if (filters.group === "My Team") {
+			if (filters.kpi !== "" && filters.start && filters.end) {
+				setLoading(true);
+				const getData = async () => {
+					const initialData = await requestWithData("getplatformanalytics", {
+						initDate: filters.start,
+						endDate: filters.end,
+						kpi: filters.kpi,
+						context: 1,
+					});
+					if (
+						initialData &&
+						initialData.status === 200 &&
+						initialData.data.length > 0
+					) {
+						const dataOrder = await deleteDuplicatesScore(
+							initialData.data[0].Analitycs
+						);
+						setData(dataOrder);
+						setLoading(false);
+					}
+				};
+				getData();
+			}
+		} else {
+			if (filters.kpi !== "" && filters.start && filters.end) {
+				setLoading(true);
+				const getData = async () => {
+					const initialData = await requestWithData("getplatformanalytics", {
+						initDate: filters.start,
+						endDate: filters.end,
+						kpi: filters.kpi,
+						context: 2,
+					});
+					if (
+						initialData &&
+						initialData.status === 200 &&
+						initialData.data.length > 0
+					) {
+						const dataOrder = await deleteDuplicatesScore(
+							initialData.data[0].Analitycs
+						);
+						setData(dataOrder);
+						setLoading(false);
+					}
+				};
+				getData();
+			}
+		}
 
 		// eslint-disable-next-line
 	}, [filters]);
