@@ -1461,6 +1461,23 @@ exports.getPlatformAnalytics = async (req, res) => {
     });
 };
 
+exports.getGeneralAnalytics = async (req, res) => {
+  const { initDate, endDate } = req.body;
+
+  sql
+    .query(
+      "spQueryAnalitycsGeneral",
+      parametros({ idccms: req.query.idccms, initDate, endDate }, "spQueryAnalitycsGeneral")
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 /****************** SPs actividades ******************/
 exports.welcomeegp = async (req, res) => {
   sql

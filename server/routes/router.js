@@ -167,6 +167,8 @@ module.exports = (router) => {
   router.post("/gettopuploaders", oauth.oauthOther, routes.getTopUploaders);
   router.post("/getrolesinfo", oauth.oauthOther, routes.getRolesInfo);
   router.post("/getplatformanalytics", oauth.oauthOther, routes.getPlatformAnalytics);
+  router.post("/getplatformanalytics", oauth.oauthOther, routes.getPlatformAnalytics);
+  router.post("/getgeneralanalytics", oauth.oauthOther, routes.getGeneralAnalytics);
 
   //CRUD
   MapSpRouter("/sqlget", "spGetCentral");
