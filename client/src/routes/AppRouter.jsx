@@ -54,6 +54,8 @@ import AccountCreation from "../pages/Super User/AccountCreation";
 import UserPermission from "../pages/Super User/UserPermission";
 import HelpCenter from "../components/HelpCenter";
 import AnalyticsSA from "../pages/Super User/AnalyticsSA";
+import AnalyticsOM from "../pages/Ops Man/AnalyticsOM";
+import AnalyticsQA from "../pages/QALead/AnalyticsQA";
 
 //import Header from "../components/homeUser/Header";
 
@@ -238,7 +240,7 @@ const AppRouter = () => {
 							<Route path="/lobmanagement" element={<LOBManagementSection />} />
 							<Route path="/upcampaign" element={<UpCampaign />} />
 							<Route path="/leaderboard" element={<LeaderBoardRL />} />
-							<Route path="/analytics" element={<AnalyticsRL />} />
+							<Route path="/analytics" element={<AnalyticsOM />} />
 						</>
 					)}
 					{userData?.Role === "QA Lead" && (
@@ -248,7 +250,7 @@ const AppRouter = () => {
 							<Route path="/homeqal" element={<HomeQAL count={count} />} />
 							<Route path="/quiziformation" element={<InformationQuices />} />
 							<Route path="/leaderboard" element={<LeaderBoardRL />} />
-							<Route path="/analytics" element={<AnalyticsRL />} />
+							<Route path="/analytics" element={<AnalyticsQA />} />
 							<Route
 								path="/missionassignment"
 								element={<MissionsAssignment />}

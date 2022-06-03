@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Typography, Grid, Box, Modal, styled } from "@mui/material";
+import { Typography, Box, Modal, styled } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { MainPage, BoxContain } from "../../assets/styled/muistyled";
 import Header from "../../components/homeUser/Header";
-import { getDataLeaderboard } from "../../utils/api";
+import { requestWithData } from "../../utils/api";
 import LeaderRankBoard from "../../components/LeaderBoard/LeaderRankBoard";
 import Footer from "../../components/Footer";
 import LoadingComponent from "../../components/LoadingComponent";
-import {
-	deleteDuplicatesKpis,
-	deleteDuplicatesScore,
-} from "../../helpers/helpers";
+import { deleteDuplicatesScore } from "../../helpers/helpers";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import { DownLoadReportSA } from "../../components/Modals/DownLoadReportSA";
@@ -40,22 +37,35 @@ const AnalyticsSA = ({ count }) => {
 	const [filters, setFilters] = useState({
 		time: "Day",
 		group: "My Team",
+		start: null,
+		end: null,
 	});
+
+	let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
+	useEffect(() => {
+		setWidth(ancho);
+	}, [ancho]);
 
 	useEffect(() => {
 		setLoading(true);
 		const getData = async () => {
-			const initialData = await getDataLeaderboard(1, "", "day", "My Team");
+			const initialData = await requestWithData("getplatformanalytics", {
+				initDate: 0,
+				endDate: 0,
+				kpi: "0",
+				context: 4,
+			});
 			if (
 				initialData &&
 				initialData.status === 200 &&
-				initialData.data.length === 4
+				initialData.data.length > 0
 			) {
-				const dataOrder = await deleteDuplicatesScore(
+				/* const dataOrder = await deleteDuplicatesScore(
 					initialData.data[0].ScoreExp
-				);
-				setKpis(initialData.data[1].ListKpi);
-				setData(dataOrder);
+				); */
+				//console.log(initialData.data[0].Kpis);
+				setKpis(initialData.data[0].Kpis);
+				//setData(dataOrder);
 				setLoading(false);
 			} else if (initialData.data === "UnauthorizedError") {
 				dispatch(logoutAction());
@@ -67,30 +77,29 @@ const AnalyticsSA = ({ count }) => {
 	}, []);
 
 	useEffect(() => {
-		setLoading(true);
-		if (filters.kpi === "") {
+		if (filters.kpi !== "" && filters.start && filters.end) {
+			setLoading(true);
 			const getData = async () => {
-				const initialData = await getDataLeaderboard(
-					1,
-					"",
-					filters.time,
-					filters.group
-				);
+				const initialData = await requestWithData("getplatformanalytics", {
+					initDate: filters.start,
+					endDate: filters.end,
+					kpi: filters.kpi,
+					context: 3,
+				});
 				if (
 					initialData &&
 					initialData.status === 200 &&
-					initialData.data.length === 4
+					initialData.data.length > 0
 				) {
 					const dataOrder = await deleteDuplicatesScore(
-						initialData.data[0].ScoreExp
+						initialData.data[0].Analitycs
 					);
-					setKpis(initialData.data[1].ListKpi);
 					setData(dataOrder);
 					setLoading(false);
 				}
 			};
 			getData();
-		} else {
+		} /* else {
 			const getData = async () => {
 				const filterData = await getDataLeaderboard(
 					2,
@@ -114,15 +123,11 @@ const AnalyticsSA = ({ count }) => {
 				}
 			};
 			getData();
-		}
+		} */
 
 		// eslint-disable-next-line
 	}, [filters]);
 
-	let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
-	useEffect(() => {
-		setWidth(ancho);
-	}, [ancho]);
 	return (
 		<MainPage>
 			<Modal

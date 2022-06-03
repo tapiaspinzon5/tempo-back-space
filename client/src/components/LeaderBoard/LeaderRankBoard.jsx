@@ -50,6 +50,8 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 								kpi: e.target.value,
 								time: timeFilter,
 								group: groupFilter,
+								start: date1,
+								end: date2,
 							});
 						}}
 					>
@@ -74,6 +76,8 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 									kpi: kpiFilter,
 									time: e.target.value,
 									group: groupFilter,
+									start: date1,
+									end: date2,
 								});
 							}}
 						>
@@ -96,6 +100,8 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 									kpi: kpiFilter,
 									time: timeFilter,
 									group: e.target.value,
+									start: date1,
+									end: date2,
 								});
 							}}
 						>
@@ -124,6 +130,15 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 											newValue.getMonth() + 1
 										}-${newValue.getDate()}`
 									);
+									setFilters({
+										kpi: kpiFilter,
+										time: timeFilter,
+										group: groupFilter,
+										start: `${newValue.getFullYear()}-${
+											newValue.getMonth() + 1
+										}-${newValue.getDate()}`,
+										end: date2,
+									});
 								}}
 								renderInput={(params) => (
 									<TextField {...params} sx={{ width: "8rem" }} />
@@ -138,6 +153,15 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 											newValue.getMonth() + 1
 										}-${newValue.getDate()}`
 									);
+									setFilters({
+										kpi: kpiFilter,
+										time: timeFilter,
+										group: groupFilter,
+										start: date1,
+										end: `${newValue.getFullYear()}-${
+											newValue.getMonth() + 1
+										}-${newValue.getDate()}`,
+									});
 								}}
 								renderInput={(params) => (
 									<TextField {...params} sx={{ width: "8rem", m: "0 2rem" }} />

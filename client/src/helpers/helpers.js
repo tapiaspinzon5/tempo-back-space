@@ -390,16 +390,17 @@ export const dataGraphics = (data) => {
 export const deleteDuplicatesScore = async (data) => {
 	const hash = {};
 	let printData = await data.filter(function (current) {
-		let exists = !hash[current.id];
-		hash[current.id] = true;
+		let exists = !hash[current.ccmsid];
+		hash[current.ccmsid] = true;
 		return exists;
 	});
 
-	const dataOrder = printData.sort((a, b) => b.score - a.score);
+	const dataOrder = printData.sort((a, b) => b.KpiScore - a.KpiScore);
 	let cont = 1;
 	dataOrder.forEach((el) => {
-		if (el.score) {
+		if (el.KpiScore) {
 			el.rank = cont;
+			el.id = cont;
 			cont += 1;
 		} else {
 			el.rank = dataOrder.length;

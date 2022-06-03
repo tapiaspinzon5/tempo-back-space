@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Typography, Box, Modal, styled } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { MainPage, BoxContain } from "../assets/styled/muistyled";
-import Header from "../components/homeUser/Header";
-import { requestWithData } from "../utils/api";
-import LeaderRankBoard from "../components/LeaderBoard/LeaderRankBoard";
-import Footer from "../components/Footer";
-import LoadingComponent from "../components/LoadingComponent";
-import { deleteDuplicatesScore } from "../helpers/helpers";
-import { logoutAction } from "../redux/loginDuck";
+import { MainPage, BoxContain } from "../../assets/styled/muistyled";
+import Header from "../../components/homeUser/Header";
+import { requestWithData } from "../../utils/api";
+import LeaderRankBoard from "../../components/LeaderBoard/LeaderRankBoard";
+import Footer from "../../components/Footer";
+import LoadingComponent from "../../components/LoadingComponent";
+import { deleteDuplicatesScore } from "../../helpers/helpers";
+import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
-import { DownLoadReportSA } from "../components/Modals/DownLoadReportSA";
-import TableAnalytics from "../components/Analytics/TableAnalytics";
-import { DownLoadReportTL } from "../components/Modals/DownLoadReportTL";
+import { DownLoadReportSA } from "../../components/Modals/DownLoadReportSA";
+import TableAnalyticsOM from "../../components/Analytics/TableAnalyticsOM";
+import { DownLoadReportOM } from "../../components/Modals/DownLoadReportOM";
 
 const ModalBox = styled(Box)(() => ({
 	position: "absolute",
@@ -26,7 +26,7 @@ const ModalBox = styled(Box)(() => ({
 	backgroundColor: "RGBA(255,255,255,0.9)",
 }));
 
-const Analytics = ({ count }) => {
+const AnalyticsOM = ({ count }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const ref = useRef();
@@ -85,7 +85,7 @@ const Analytics = ({ count }) => {
 					initDate: filters.start,
 					endDate: filters.end,
 					kpi: filters.kpi,
-					context: 1,
+					context: 2,
 				});
 				if (
 					initialData &&
@@ -138,7 +138,7 @@ const Analytics = ({ count }) => {
 				aria-describedby="modal-modal-description"
 			>
 				<ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-					<DownLoadReportTL setModal={setModal} />
+					<DownLoadReportOM setModal={setModal} />
 				</ModalBox>
 			</Modal>
 			<Header count={count} />
@@ -155,7 +155,7 @@ const Analytics = ({ count }) => {
 
 			<BoxContain ref={ref}>
 				{!loading ? (
-					<TableAnalytics width={width} data={data} />
+					<TableAnalyticsOM width={width} data={data} />
 				) : (
 					<LoadingComponent />
 				)}
@@ -166,4 +166,4 @@ const Analytics = ({ count }) => {
 	);
 };
 
-export default Analytics;
+export default AnalyticsOM;

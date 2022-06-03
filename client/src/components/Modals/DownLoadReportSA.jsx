@@ -53,6 +53,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 	const [chargeData, setChargeData] = useState([]);
 	const [rolesQ, setrolesQ] = useState([]);
 	const [rolesD, setrolesD] = useState([]);
+	const [genInfo, setGenInfo] = useState([]);
 
 	const topcxSheet = (workbook) => {
 		const worksheet = workbook.getWorksheet("Top_Users_Connection");
@@ -195,6 +196,42 @@ export const DownLoadReportSA = ({ setModal }) => {
 		worksheet.addRows(rolesD);
 	};
 
+	const generalInfoSheet = (workbook) => {
+		const worksheet = workbook.getWorksheet("General Information");
+		worksheet.columns = [
+			{ header: "Campaign", key: "Campaign" },
+			{ header: "LOB", key: "LOB" },
+			{ header: "Team Name", key: "Team" },
+			{ header: "CCMS ID", key: "ccmsid" },
+			{ header: "User", key: "Name" },
+			{ header: "Role", key: "Role" },
+			{ header: "EXP Points", key: "ExpPoint" },
+			{ header: "Badges Earned", key: "BadgesEarned" },
+			{ header: "Missions Assigned", key: "Missions Assigned" },
+			{ header: "Missions Approved", key: "MissionsApproved" },
+			{ header: "Missions Failed", key: "MissionsFailed" },
+			{ header: "Missions Score", key: "MissionsScore" },
+			{
+				header: "Missions Questions Approved",
+				key: "MissionsQuestionsApproved",
+			},
+			{ header: "Missions Questions Failed", key: "MissionsQuestionsFailed" },
+			{ header: "Challenges Assigned", key: "ChallengesAssigned" },
+			{ header: "Challenges Won", key: "ChallengesWon" },
+			{ header: "Kpi 1", key: "Kpi1" },
+			{ header: "Score Kpi 1", key: "ScoreKpi1" },
+			{ header: "Kpi 2", key: "Kpi2" },
+			{ header: "Score Kpi 2", key: "ScoreKpi2" },
+			{ header: "Kpi 3", key: "Kpi3" },
+			{ header: "Score Kpi 3", key: "ScoreKpi3" },
+			{ header: "Kpi 4", key: "Kpi4" },
+			{ header: "Score Kpi 4", key: "ScoreKpi4" },
+			{ header: "Kpi 5", key: "Kpi5" },
+			{ header: "Score Kpi 5", key: "ScoreKpi5" },
+		];
+		worksheet.addRows(genInfo);
+	};
+
 	const handleReport = async () => {
 		setLoading(true);
 		const data1 = await requestWithData("getusersconnections", {
@@ -272,14 +309,12 @@ export const DownLoadReportSA = ({ setModal }) => {
 													});
 													if (data11) {
 														const data12 = await requestWithData(
-															"getplatformanalytics",
+															"getgeneralanalytics",
 															{
 																initDate: date1,
 																endDate: date2,
-																context: 4,
 															}
 														);
-														console.log(data12);
 														setTopUsersConexion(data1.data);
 														setMonthConexion(data2.data);
 														setDailyConexion(data3.data);
@@ -293,6 +328,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 														setrolesD(data11.data);
 														setReport(true);
 														setLoading(false);
+														setGenInfo(data12.data[0].Analitycs);
 													} else {
 														setLoading(false);
 														setNoData(true);
@@ -349,6 +385,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 	const handleDownload = async (e) => {
 		e.preventDefault();
 		const workbook = new ExcelJS.Workbook();
+		workbook.addWorksheet("General Information");
 		workbook.addWorksheet("Top_Users_Connection");
 		workbook.addWorksheet("Month Connection");
 		workbook.addWorksheet("daily Connection");
@@ -360,6 +397,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 		workbook.addWorksheet("Those who upload the most files");
 		workbook.addWorksheet("Users by role");
 		workbook.addWorksheet("Role users");
+		generalInfoSheet(workbook);
 		topcxSheet(workbook);
 		monthcxSheet(workbook);
 		daycxSheet(workbook);
@@ -453,39 +491,3 @@ export const DownLoadReportSA = ({ setModal }) => {
 		</MainModal>
 	);
 };
-
-/* [
-    {
-        "Analitycs": [
-            {
-                "ccmsid": 4468566,
-                "Name": "Daniel Moreno Salas",
-                "Role": "Super Admin",
-                "Team": "Team Matilde Puentes Gutierrez LOB Lob prueba 1 ",
-                "LOB": "Lob prueba 1 ",
-                "Campaign": "campaing pruebas",
-                "ExpPoint": 20,
-                "BadgesEarned": 0,
-                "MissionsAssigned": 0,
-                "MissionsApproved": 0,
-                "MissionsFailed": 0,
-                "MissionsScore": 0,
-                "MissionsQuestionsApproved": 2,
-                "MissionsQuestionsFailed": 1,
-                "ChallengesAssigned": 1,
-                "ChallengesWon": 0,
-                "KpiScore": ""
-            }
-        ]
-    },
-    {
-        "Kpis": [
-            {
-                "Kpi": "%Abs"
-            },
-            {
-                "Kpi": "AHT"
-            }
-        ]
-    }
-] */
