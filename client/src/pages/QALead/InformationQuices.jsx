@@ -89,23 +89,30 @@ const InformationQuices = () => {
 	);
 
 	const handleTL = async (idTeam) => {
-		setAgents([]);
-		setMissions([]);
 		setLoadingAgents(true);
 		setViewAgents(true);
+		setNoDataAgents(false);
+		setNoDataMissions(false);
+		setViewMissions(false);
+		setAgents([]);
+		setMissions([]);
 		const agents = await requestWithData("getmissionsinformation", {
 			idccmsAgent: "",
 			idTeam,
 			context: 2,
 		});
 		if (agents && agents.status === 200 && agents.data.length > 0) {
+			console.log("first");
 			if (
 				agents.data[0].TeamsMembers[0].Ident !== "0" &&
 				agents.data[0].TeamsMembers[0].Agent !== "0"
 			) {
+				console.log(" 2");
+				setNoDataAgents(false);
 				setLoadingAgents(false);
 				setAgents(agents.data[0].TeamsMembers);
 			} else {
+				console.log("3");
 				setLoadingAgents(false);
 				setNoDataAgents(true);
 			}
@@ -121,6 +128,7 @@ const InformationQuices = () => {
 	};
 
 	const handleAgent = async (data) => {
+		setNoDataMissions(false);
 		setLoadingMissions(true);
 		setViewMissions(true);
 		setDataToSend({ ...dataToSend, name: data.name, idccms: data.idccms });

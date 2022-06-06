@@ -100,6 +100,7 @@ const CreateEditCampaign = ({
 	const [kpiWork, setKpiWork] = useState([]);
 	const [loadingOM, setLoadingOM] = useState(false);
 	const [loadingKpi, setLoadingKpi] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 
 	useEffect(
 		() => {
@@ -422,15 +423,18 @@ const CreateEditCampaign = ({
 	};
 
 	const handleCreate = () => {
+		setDisabled(true);
 		const dts = createHelper(name, kpisList, OMList);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
+			setDisabled(false);
 		} else if (
 			dts[0] ===
 				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
 			dts[0] ===
 				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
 		) {
+			setDisabled(false);
 			notifyModalError(dts[0]);
 		} else {
 			createCamp(dts[0], dts[1]);
@@ -773,6 +777,7 @@ const CreateEditCampaign = ({
 					(dataToEdit ? (
 						<ButtonActionBlue
 							sx={{ width: "10rem", marginLeft: "2rem" }}
+							disabled={disabled}
 							onClick={handleUpdate}
 						>
 							Update
@@ -780,6 +785,7 @@ const CreateEditCampaign = ({
 					) : (
 						<ButtonActionBlue
 							sx={{ width: "10rem", marginLeft: "2rem" }}
+							disabled={disabled}
 							onClick={handleCreate}
 						>
 							Create
