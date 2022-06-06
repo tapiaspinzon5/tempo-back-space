@@ -112,6 +112,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
   const [categoryStep, setCategoryStep] = useState([]);
   const [question, setQuestion] = useState([]);
   const [ask, setAsk] = useState([]);
+  const [back, setBack] = useState(false);
   const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
     dataQuiz;
 
@@ -124,6 +125,7 @@ const UploadQuiz = ({ setLoading, topics }) => {
     setCategoryStep([]);
     setQuestion([]);
     setEmpty(false);
+    setBack(false);
     setAsk([]);
     setSteep(0);
   };
@@ -264,30 +266,38 @@ const UploadQuiz = ({ setLoading, topics }) => {
 
     //validacion por pregunta
     if (ask.questionType === "multipleChoice") {
-      if (
-        !ask[1] ||
-        !ask[2] ||
-        !ask[3] ||
-        !ask[4] ||
-        !ask.Q ||
-        !ask.answer ||
-        !ask.ask
-      ) {
-        setEmpty(true);
-
-        return;
+      if (back === true) {
+        setBack(false);
       } else {
-        setEmpty(false);
+        if (
+          !ask[1] ||
+          !ask[2] ||
+          !ask[3] ||
+          !ask[4] ||
+          !ask.Q ||
+          !ask.answer ||
+          !ask.ask
+        ) {
+          setEmpty(true);
+
+          return;
+        } else {
+          setEmpty(false);
+        }
       }
     }
 
     if (ask.questionType === "trueFalse") {
-      if (!ask.Q || !ask.answer || !ask.ask) {
-        setEmpty(true);
-
-        return;
+      if (back === true) {
+        setBack(false);
       } else {
-        setEmpty(false);
+        if (!ask.Q || !ask.answer || !ask.ask) {
+          setEmpty(true);
+
+          return;
+        } else {
+          setEmpty(false);
+        }
       }
     }
 
@@ -328,10 +338,10 @@ const UploadQuiz = ({ setLoading, topics }) => {
     }
   };
 
+  //inicio Handle Back
   const handleBack = () => {
     if (steep > 0) {
       setSteep((prev) => prev - 1);
-
       // if (!question[1]) {
       //   setAsk([]);
       // }
@@ -339,12 +349,16 @@ const UploadQuiz = ({ setLoading, topics }) => {
     if (question[steep]) {
       if (steep > 0) {
         setAsk(question[steep][0]);
+      } else if (steep === 1) {
+        setBack(true);
       }
     }
     if (steep === 0) {
       setAsk([]);
     }
   };
+
+  //End HandleBack
 
   const handleUp = async (data) => {
     const context = 2;
