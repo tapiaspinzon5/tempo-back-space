@@ -698,8 +698,8 @@ exports.parametros = (req, tipo) => {
     case "spQueryTeamInformation":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("context", req.context, TYPES.VarChar),
-        new SpParam("idccms", req.idccmsAgent, TYPES.VarChar),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("idccms", req.idccmsAgent, TYPES.Int),
       ]);
 
     case "spQueryAgentsCampaign":
