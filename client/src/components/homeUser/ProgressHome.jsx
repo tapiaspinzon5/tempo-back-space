@@ -126,7 +126,7 @@ const ProgressHome = ({ dataKPI }) => {
                       fontSize="12px"
                     >
                       
-                      {`${kpi.Actual.toFixed(2)} / ${targetKPI(kpi)}`}
+                      {`${kpi.Actual?.toFixed(2)} / ${targetKPI(kpi)}`}
                     </Typography>
                     <Typography
                       variant="body1"

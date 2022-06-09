@@ -381,7 +381,7 @@ export const dataGraphics = (data) => {
 	const series = [];
 	const date = [];
 	data.forEach((dato) => {
-		series.push(dato.actual.toFixed(2));
+		series.push(dato.actual?.toFixed(2));
 		date.push(dato.Date.split("T")[0]);
 	});
 	return [{ name: data[0].Kpi, data: series }, date];
@@ -395,16 +395,16 @@ export const deleteDuplicatesScore = async (data) => {
 		return exists;
 	});
 
-	const dataOrder = printData.sort((a, b) => b.KpiScore - a.KpiScore);
+	const dataOrder =
+		printData[0].OrderKpi === "asc"
+			? printData.sort((a, b) => b.KpiScore - a.KpiScore)
+			: printData.sort((a, b) => a.KpiScore - b.KpiScore);
 	let cont = 1;
 	dataOrder.forEach((el) => {
-		if (el.KpiScore) {
-			el.rank = cont;
-			el.id = cont;
-			cont += 1;
-		} else {
-			el.rank = dataOrder.length;
-		}
+		el.rank = cont;
+		el.id = cont;
+		el.KpiScore = el.KpiScore?.toFixed(2);
+		cont += 1;
 	});
 
 	return dataOrder;
@@ -427,11 +427,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.KPIR) {
 				el.rank = cont;
-				el.KPIR = el.KPIR.toFixed(2);
+				el.KPIR = el.KPIR?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.KPIR.toFixed(2);
+				el.KPIR = el.KPIR?.toFixed(2);
 			}
 		});
 		return dataOrder;
@@ -444,11 +444,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.AverageWeek) {
 				el.rank = cont;
-				el.KPIR = el.AverageWeek.toFixed(2);
+				el.KPIR = el.AverageWeek?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.AverageWeek.toFixed(2);
+				el.KPIR = el.AverageWeek?.toFixed(2);
 			}
 		});
 		return dataOrder;
@@ -461,11 +461,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.AverageMonth) {
 				el.rank = cont;
-				el.KPIR = el.AverageMonth.toFixed(2);
+				el.KPIR = el.AverageMonth?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.AverageMonth.toFixed(2);
+				el.KPIR = el.AverageMonth?.toFixed(2);
 			}
 		});
 		return dataOrder;

@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-	Box,
-	styled,
-	Typography,
-	FormControl,
-	TextField,
-	InputLabel,
-	MenuItem,
-	Select,
-} from "@mui/material";
+import React from "react";
+import { Box, styled, Typography, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -52,6 +43,8 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 					sx={{ width: "20rem" }}
 				>
 					<DatePicker
+						disabled={!mission?.isChecked}
+						disablePast
 						label="Start"
 						value={mission.start}
 						onChange={(newValue) => {
@@ -66,6 +59,9 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 						renderInput={(params) => <TextField {...params} />}
 					/>
 					<DatePicker
+						disabled={!mission.start}
+						disablePast
+						minDate={new Date(mission.start)}
 						label="End"
 						value={mission.end}
 						onChange={(newValue) => {

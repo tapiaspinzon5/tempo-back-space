@@ -12,7 +12,7 @@ import LoadingComponent from "../../components/LoadingComponent";
 import {
 	deleteDuplicatesKpis,
 	deleteDuplicatesScore,
-} from "../../helpers/helpers";
+} from "../../helpers/helperLeaderBoard";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 

@@ -149,12 +149,12 @@ export function missionsAssignmentReducer(state, action) {
 			if (action.payload.time === "start") {
 				let tempMission = state.missions.map((mission) =>
 					mission.Name === action.payload.name && mission.isChecked === true
-						? { ...mission, start: action.payload.value }
+						? { ...mission, start: action.payload.value, end: null }
 						: mission
 				);
 				let tempDBMissions = state.dbMissions.map((mission) =>
 					mission.Name === action.payload.name && mission.isChecked === true
-						? { ...mission, start: action.payload.value }
+						? { ...mission, start: action.payload.value, end: null }
 						: mission
 				);
 				return { ...state, missions: tempMission, dbMissions: tempDBMissions };
