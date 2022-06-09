@@ -56,6 +56,7 @@ const UploadAgentSection = () => {
   const [dataAgent, setDataAgent] = useState([]);
   const [dataTeam, setDataTeam] = useState([]);
   const [dataTeams, setDataTeams] = useState(true);
+  const [existTeams, setExistTeams] = useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -89,6 +90,8 @@ const UploadAgentSection = () => {
               colum[3]?.toString(),
             ];
           });
+
+        teamValidate(data);
 
         if (data.length > 1) {
           // Update state
@@ -152,11 +155,12 @@ const UploadAgentSection = () => {
           allowOutsideClick: false,
         }).then((resultado) => {
           if (resultado.value) {
-            window.location.reload();
+            //window.location.reload();
           }
         });
       }
     }
+    setExistTeams(null);
   };
 
   const handleState = async (idccms) => {
@@ -211,6 +215,24 @@ const UploadAgentSection = () => {
     getTeams();
   }, []);
 
+  const teamValidate = (dataFile) => {
+    console.log(dataFile);
+
+    dataTeam.map((team) => {
+      const teamName = team.NameTeam;
+      console.log(teamName);
+      dataFile.map((agent) => {
+        if (agent[2].includes(teamName)) {
+          setExistTeams(agent[2].includes(teamName));
+          console.log("SI existe ese equipo");
+        } else {
+          console.log("no existe ese equipo");
+        }
+      });
+    });
+  };
+  //console.log(dataTeam);
+  console.log(existTeams);
   return (
     <MainPage>
       <Header />
