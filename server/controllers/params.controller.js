@@ -572,7 +572,7 @@ exports.parametros = (req, tipo) => {
     case "spInsertKpi":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", kpiReports, req.rows),
+        SpParamTable2("table", kpiReports, req.data),
       ]);
 
     case "spQueryListKpi":
