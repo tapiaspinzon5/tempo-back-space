@@ -228,7 +228,7 @@ module.exports = (router) => {
   MapSpRouter("/getplatformanalytics", "spQueryAnalitycs");
   MapSpRouter("/getgeneralanalytics", "spQueryAnalitycsGeneral");
 
-  MapSpRouter("/getquizqa", "spConsultaDetalleExamen");
+  MapSpRouter("/getquizqa", "spLoadExamQA");
 
   // function MapSpRouter(route, spName) {
   //   router.post(route,  oauth.oauthOther, (req, res) =>

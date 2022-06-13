@@ -402,7 +402,7 @@ exports.parametros = (req, tipo) => {
     case "spInsertExamResult":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("Examen", req.idQuiz, TYPES.Int),
+        new SpParam("Examen", req.idMission, TYPES.Int),
         SpParamTable2("table", quizResults, req.rows),
       ]);
 
@@ -581,12 +581,12 @@ exports.parametros = (req, tipo) => {
     case "spInsertChallenge":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("action", req.body.action, TYPES.VarChar),
-        new SpParam("kpi", req.body.kpi, TYPES.VarChar),
-        new SpParam("quantity", req.body.quantity, TYPES.Int),
-        new SpParam("measureUnit", req.body.measureUnit, TYPES.VarChar),
-        new SpParam("initialDate", req.body.initialDate, TYPES.Date),
-        new SpParam("finalDate", req.body.finalDate, TYPES.Date),
+        new SpParam("action", req.action, TYPES.VarChar),
+        new SpParam("kpi", req.kpi, TYPES.VarChar),
+        new SpParam("quantity", req.quantity, TYPES.Int),
+        new SpParam("measureUnit", req.measureUnit, TYPES.VarChar),
+        new SpParam("initialDate", req.initialDate, TYPES.Date),
+        new SpParam("finalDate", req.finalDate, TYPES.Date),
       ]);
 
     case "spInactivateAgent":
@@ -605,7 +605,7 @@ exports.parametros = (req, tipo) => {
 
     case "spInsertCampaign":
       return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.VarChar),
+        new SpParam("ident", req.idccms, TYPES.Int),
         SpParamTable2("table", suTable2, req.rows),
       ]);
 

@@ -194,7 +194,7 @@ exports.uploadRepLead = async (req, res) => {
   const { data, idccms } = req.body;
 
   sql
-    .query("spInsertEmployee", parametros({ idccms: idccms, rows: data }, "spInsertEmployee"))
+    .query("spInsertEmployee", parametros({ idccms, rows: data }, "spInsertEmployee"))
     .then(async (result) => {
       if (req.body.emails) {
         await sendEmail(
@@ -255,29 +255,30 @@ exports.uploadRepLead = async (req, res) => {
 //     });
 // };
 
-exports.getResultQuiz = async (req, res) => {
-  let { quizResolved } = req.body;
+// exports.getResultQuiz = async (req, res) => {
+//   let { quizResolved } = req.body;
 
-  sql
-    .query("spInsertExamResult", parametros({ idccms: req.query.idccms, quizResolved }, "spInsertExamResult"))
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
-    });
-};
+//   sql
+//     .query("spInsertExamResult", parametros({ idccms: req.query.idccms, quizResolved }, "spInsertExamResult"))
+//     .then((result) => {
+//       responsep(1, req, res, result);
+//     })
+//     .catch((err) => {
+//       console.log(err, "sp");
+//       responsep(2, req, res, err);
+//     });
+// };
 
 exports.getResultQuiz = async (req, res) => {
+  const { idccms, idMission, data } = req.body;
   sql
     .query(
       "spInsertExamResult",
       parametros(
         {
-          idccms: req.query.idccms,
-          idQuiz: req.query.idExam,
-          rows: req.body.data,
+          idccms,
+          idMission,
+          rows: data,
         },
         "spInsertExamResult"
       )
