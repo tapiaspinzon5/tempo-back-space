@@ -135,7 +135,7 @@ exports.saveQuiz = async (req, res) => {
     });
 
     sql
-      .query("spInsertExam", parametros({ idccms: req.query.idccms, rows: rows4 }, "spInsertExam"))
+      .query("spInsertExam", parametros({ idccms, rows: rows4 }, "spInsertExam"))
       .then((result) => {
         responsep(1, req, res, result);
       })
