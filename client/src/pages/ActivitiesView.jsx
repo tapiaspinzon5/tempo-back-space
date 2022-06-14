@@ -81,11 +81,9 @@ const ActivitiesView = () => {
 	const [categories, setCategories] = useState([]);
 	const [actualCategories, setActualCategories] = useState([]);
 	const [activities, setActivities] = useState({
-		type: "Quizes",
+		type: "Missions",
 		context: 3,
 	});
-
-
 
 	useEffect(() => {
 		setUserActivities([]);
@@ -151,16 +149,15 @@ const ActivitiesView = () => {
 		setFilter(statusfilter);
 		setLoading(true);
 		if (statusfilter !== "All") {
-			if (activities.type === "Quizes") {
+			if (activities.type === "Missions") {
 				setNoData("");
-				//const newData = await quizByCategory(actualQuizUser, statusfilter);
 				const newOrder = await quizFilter(actualQuizUser, statusfilter);
 				if (newOrder.quices.length > 0) {
 					setCategories(newOrder.categories);
 					setQuizUser(newOrder.quices);
 					setLoading(false);
 				} else {
-					setNoData("No Quices " + statusfilter.split("-")[0]);
+					setNoData("No Mission " + statusfilter.split("-")[0]);
 					setLoading(false);
 				}
 			} else if (activities.type === "Challenges") {
@@ -190,7 +187,7 @@ const ActivitiesView = () => {
 					setLoading(false);
 				}
 			}
-		} else if (activities.type === "Quizes") {
+		} else if (activities.type === "Missions") {
 			setNoData("");
 			setCategories(actualCategories);
 			setQuizUser(actualQuizUser);
@@ -201,22 +198,21 @@ const ActivitiesView = () => {
 			setLoading(false);
 		}
 	};
-
 	return (
 		<Grid width="100%">
 			<MainViewver>
 				<Grid container>
 					<BoxSelectBadge item xs={6}>
 						<Button
-							sx={activities.type === "Quizes" && selectButton}
+							sx={activities.type === "Missions" ? selectButton : {}}
 							onClick={() =>
-								setActivities({ type: "Quizes", context: 3, menu: true })
+								setActivities({ type: "Missions", context: 3, menu: true })
 							}
 						>
 							Missions
 						</Button>
 						<Button
-							sx={activities.type === "Challenges" && selectButton}
+							sx={activities.type === "Challenges" ? selectButton : {}}
 							onClick={() =>
 								setActivities({ type: "Challenges", context: 2, menu: true })
 							}
@@ -226,7 +222,7 @@ const ActivitiesView = () => {
 						</Button>
 
 						<Button
-							sx={activities.type === "Activities" && selectButton}
+							sx={activities.type === "Activities" ? selectButton : {}}
 							onClick={() =>
 								setActivities({ type: "Activities", context: 1, menu: true })
 							}
@@ -252,17 +248,17 @@ const ActivitiesView = () => {
 								{activities.type === "Challenges" && (
 									<MenuItem value="assign-0">Assign</MenuItem>
 								)}
-								{activities.type === "Quizes" && (
+								{activities.type === "Missions" && (
 									<MenuItem value="Start-4">Start</MenuItem>
 								)}
-								{activities.type === "Quizes" && (
+								{activities.type === "Missions" && (
 									<MenuItem value="Approved-4">Approved</MenuItem>
 								)}
 								{(activities.type === "Activities" ||
 									activities.type === "Challenges") && (
 									<MenuItem value="Complete-2">Complete</MenuItem>
 								)}
-								{(activities.type === "Quizes" ||
+								{(activities.type === "Missions" ||
 									activities.type === "Challenges") && (
 									<MenuItem value="Failed-3">Failed</MenuItem>
 								)}
@@ -303,25 +299,31 @@ const ActivitiesView = () => {
 						)}
 						<Grid container spacing={3}>
 							{!noData &&
-								activities.type !== "Quizes" &&
-								userActivities?.map((activity, index) => (
-									<Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
-										<ActivitiesViewComponent
-											activity={activity}
-											type={activities.type}
-											images={images}
-											mousePos={mousePos}
-										/>
-									</Grid>
+								activities.type !== "Missions" &&
+								(userActivities ? (
+									userActivities?.map((activity, index) => (
+										<Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
+											<ActivitiesViewComponent
+												activity={activity}
+												type={activities.type}
+												images={images}
+												mousePos={mousePos}
+											/>
+										</Grid>
+									))
+								) : (
+									<Typography variant="h6" sx={{ color: "#3047B0", mt: 3 }}>
+										You don´ t have Challenges assingned
+									</Typography>
 								))}
 						</Grid>
-						{!noData && activities.type === "Quizes" && (
+						{!noData && activities.type === "Missions" && (
 							<Box mt={3}>
 								<Grid>
 									{quizUser.length > 0 ? (
-										activities.type === "Quizes" &&
+										activities.type === "Missions" &&
 										categories.map((cat, index) => (
-											<Grid sx={{ mt: 3 }}>
+											<Grid sx={{ mt: 3 }} key={index}>
 												<Typography
 													variant="h5"
 													sx={{ color: "#3047B0" }}
@@ -344,7 +346,7 @@ const ActivitiesView = () => {
 										))
 									) : (
 										<Typography variant="h6" sx={{ color: "#3047B0", mt: 3 }}>
-											You don´ t have Quices assingned
+											You don´ t have Missions assingned
 										</Typography>
 									)}
 								</Grid>

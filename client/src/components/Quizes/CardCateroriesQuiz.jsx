@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
   IconButton,
@@ -13,6 +13,8 @@ import { FiEdit3, FiSave } from "react-icons/fi";
 import { ButtonAction } from "../../assets/styled/muistyled";
 import { addMissionCategories, getMissionsCategories } from "../../utils/api";
 import { SwapSpinner } from "react-spinners-kit";
+import { wordExist } from "../../helpers/helpers";
+import useClickOutside from "../../Hooks/useClickOutside";
 
 const BoxCat = styled(Box)(() => ({
   width: "13rem",
@@ -37,10 +39,11 @@ const BoxCat = styled(Box)(() => ({
   },
 }));
 
-const CardCateroriesQuiz = () => {
+const CardCateroriesQuiz = ({ setShowCat }) => {
+  const refCategory = useRef();
   const [edit, setEdit] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [newCategory, setNewCategory] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -79,39 +82,41 @@ const CardCateroriesQuiz = () => {
       setEdit(newCategory.idCat);
       return;
     }
-    categories.map((cat) => {
-      const newName = newCategory.NameCategory.toLowerCase();
-      const exist = cat.NameCategory.toLowerCase();
-      const word = exist.includes(newName);
-      if (word) {
-        setError("There is a category with that name");
-        return;
-      }
-    });
+    // categories.forEach((cat) => {
+    //   const newName = newCategory.NameCategory.toLowerCase();
+    //   const exist = cat.NameCategory.toLowerCase();
 
-    if (error !== null) {
-      console.log(error);
+    //   const word = exist.includes(newName);
+
+    //   console.log(word, newName, exist);
+    //   if (word === true) {
+    //     setError(() => "There is a category with that name");
+    //     return;
+    //   }
+    // });
+
+    const existe = wordExist(categories, newCategory);
+    setError(existe);
+
+    if (existe !== "") {
       setEdit(newCategory.idCat);
       return;
     }
 
     if (newCategory.add) {
-      console.log("Agregando Categoria");
-      const postAndSave = await addMissionCategories({
+      await addMissionCategories({
         nameCategory: newCategory.NameCategory,
         context: 1,
         idCategory: 654,
       });
-      console.log(postAndSave);
       getCategories();
     } else {
-      console.log("editando categoria");
-      const postAndSave = await addMissionCategories({
+      await addMissionCategories({
         nameCategory: newCategory.NameCategory,
         context: 2,
         idCategory: newCategory.idCat,
       });
-      console.log(postAndSave);
+
       getCategories();
     }
 
@@ -131,8 +136,14 @@ const CardCateroriesQuiz = () => {
     }
   };
 
+  //clickoutside
+  useClickOutside(refCategory, () => {
+    setShowCat(false);
+    //window.location.reload();
+  });
+
   return (
-    <BoxCat>
+    <BoxCat ref={refCategory}>
       <Box display="flex">
         <ButtonAction
           sx={{ width: "100%" }}
@@ -163,9 +174,9 @@ const CardCateroriesQuiz = () => {
             }}
           >
             {categories.length > 0 ? (
-              categories?.map((value) => (
+              categories?.map((value, index) => (
                 <ListItem
-                  key={value.id}
+                  key={index}
                   disableGutters
                   secondaryAction={
                     value.idCat === edit ? (
@@ -205,7 +216,7 @@ const CardCateroriesQuiz = () => {
             ) : (
               <Typography variant="body2" color="#0087FF">
                 {" "}
-                No Categoies
+                No Categories
               </Typography>
             )}
           </List>

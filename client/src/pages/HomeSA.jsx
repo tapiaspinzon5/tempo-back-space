@@ -12,48 +12,47 @@ import { ButtonHome, MainPage } from "../assets/styled/muistyled";
 import { Box } from "@mui/system";
 
 export const HomeSA = ({ count }) => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  return (
-    <MainPage>
-      <Box>
-        <Header count={count} />
+	return (
+		<MainPage>
+			<Box>
+				<Header count={count} />
 
-        <Typography variant="h5"> Welcome to Space GP - Super Admin</Typography>
-      </Box>
+				<Typography variant="h5"> Welcome to Space GP - Super Admin</Typography>
+			</Box>
 
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={4}>
-          <ButtonHome
-            onClick={() => {
-              navigate("/usermanage");
-            }}
-            disabled
-          >
-            <img src={SA_OpenUser} alt="Open User" />
-          </ButtonHome>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <ButtonHome
-            onClick={() => {
-              navigate("/upcount");
-            }}
-          >
-            <img src={SA_OpenAccount} alt="Open Account" />
-          </ButtonHome>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <ButtonHome
-            onClick={() => {
-              navigate("/analitycs-su");
-            }}
-            disabled
-          >
-            <img src={Analytics} alt="Analytics" />
-          </ButtonHome>
-        </Grid>
-      </Grid>
-      <Footer />
-    </MainPage>
-  );
+			<Grid container spacing={1}>
+				<Grid item xs={12} md={4}>
+					<ButtonHome
+						onClick={() => {
+							navigate("/usermanage");
+						}}
+						disabled
+					>
+						<img src={SA_OpenUser} alt="Open User" />
+					</ButtonHome>
+				</Grid>
+				<Grid item xs={12} md={4}>
+					<ButtonHome
+						onClick={() => {
+							navigate("/accountcreation");
+						}}
+					>
+						<img src={SA_OpenAccount} alt="Open Account" />
+					</ButtonHome>
+				</Grid>
+				<Grid item xs={12} md={4}>
+					<ButtonHome
+						onClick={() => {
+							navigate("/analytics");
+						}}
+					>
+						<img src={Analytics} alt="Analytics" />
+					</ButtonHome>
+				</Grid>
+			</Grid>
+			<Footer />
+		</MainPage>
+	);
 };

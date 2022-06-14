@@ -51,7 +51,6 @@ export const VideoIntro = ({ setNext, rol }) => {
           width="100%"
           height="100%"
           controls
-          //url="https://www.youtube.com/watch?v=JfIxOMbA30Y"
           url={video}
           onEnded={() => setNext(false)}
         />

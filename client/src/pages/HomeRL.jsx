@@ -23,7 +23,7 @@ export const HomeRL = ({ count }) => {
 				<Grid item xs={12} md={6}>
 					<ButtonHome
 						onClick={() => {
-							navigate("/upagents");
+							navigate("/uploadAgent");
 						}}
 					>
 						<img src={RL_AgentUP} alt="RL_AgentUP" />
@@ -31,9 +31,8 @@ export const HomeRL = ({ count }) => {
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<ButtonHome
-						disabled
 						onClick={() => {
-							navigate("/upagents");
+							navigate("/analytics");
 						}}
 						//disabled
 					>

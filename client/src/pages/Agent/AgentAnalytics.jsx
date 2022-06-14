@@ -119,7 +119,7 @@ const AgentAnalytics = ({ count }) => {
 					let targetData = [];
 
 					listAndGraph.data[0].GraphicAverage.forEach((dato) => {
-						seriesData.push(dato.Actual.toFixed(2));
+						seriesData.push(dato.Actual?.toFixed(2));
 						targetData.push(data.data[0].KPI[0].Target);
 						categoriesData.push(dato.Date.split("T")[0]);
 					});
@@ -156,7 +156,7 @@ const AgentAnalytics = ({ count }) => {
 			let targetData = [];
 			if (timeView === "Day") {
 				graph.forEach((dato) => {
-					seriesData.push(dato.Actual.toFixed(2));
+					seriesData.push(dato.Actual?.toFixed(2));
 					targetData.push(actualKpi.Target);
 					categoriesData.push(dato.Date.split("T")[0]);
 				});
@@ -173,7 +173,7 @@ const AgentAnalytics = ({ count }) => {
 					return exists;
 				});
 				filterData.forEach((dato) => {
-					seriesData.push(dato.AverageWeekAgent.toFixed(2));
+					seriesData.push(dato.AverageWeekAgent?.toFixed(2));
 					targetData.push(actualKpi.Target);
 					categoriesData.push(dato.Week.split("T")[0]);
 				});
@@ -190,7 +190,7 @@ const AgentAnalytics = ({ count }) => {
 					return exists;
 				});
 				filterData.forEach((dato) => {
-					seriesData.push(dato.AverageMonthAgent.toFixed(2));
+					seriesData.push(dato.AverageMonthAgent?.toFixed(2));
 					targetData.push(actualKpi.Target);
 					categoriesData.push(ConvertMonth(dato.Month));
 				});

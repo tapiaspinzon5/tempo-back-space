@@ -1,10 +1,15 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Grid, Typography, styled, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import { ButtonAction, MainPage } from "../../assets/styled/muistyled";
+import {
+	ButtonAction,
+	MainPage,
+	ScrollContainer,
+} from "../../assets/styled/muistyled";
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
-import SearchAppBar from "../../components/Search";
+import SearchAssign from "../../components/QALead/searchMissionAssign/SearchAssign";
+import SearchMission from "../../components/QALead/searchMissionAssign/SearchMission";
 import ShowUserActivity from "../../components/teamLeader/ShowUserActivity";
 import MissionAssignmentCard from "../../components/Quizes/MissionAssignmentCard";
 import LoadingComponent from "../../components/LoadingComponent";
@@ -20,21 +25,14 @@ import {
 } from "../../reducers/missionsAssignmentReducer";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {
-	dataToSendAgents,
-	dataToSendLobsTeams,
-} from "../../helpers/helperMissionAssignment";
+import { dataToSend } from "../../helpers/helperMissionAssignment";
+import { requestWithData } from "../../utils/api";
 const MySwal = withReactContent(Swal);
 
 const BoxActivity = styled(Grid)(() => ({
 	background: "#f2f2f2",
 	padding: "1rem",
 	borderRadius: "20px",
-}));
-
-const Boxview = styled(Grid)(() => ({
-	overflowY: "scroll",
-	height: "50vh",
 }));
 
 const active = {
@@ -57,105 +55,6 @@ const BoxAssingment = styled(Box)(() => ({
 	},
 }));
 
-const dataMissions = {
-	data: [
-		{ missionName: "miss 1", id: 1 },
-		{ missionName: "miss 2", id: 2 },
-		{ missionName: "miss 3", id: 3 },
-		{ missionName: "miss 4", id: 4 },
-		{ missionName: "miss 5", id: 5 },
-		{ missionName: "miss 6", id: 6 },
-		{ missionName: "miss 7", id: 7 },
-	],
-	status: 200,
-};
-const data = {
-	data: [
-		{
-			Users: [
-				{ id: 1, Agent: "alguno1", Experiences: 231, fcmToken: "token 1" },
-				{ id: 2, Agent: "alguno2", Experiences: 231, fcmToken: "token 2" },
-				{ id: 3, Agent: "alguno3", Experiences: 231, fcmToken: "token 3" },
-				{ id: 4, Agent: "alguno4", Experiences: 231, fcmToken: "token 4" },
-				{ id: 5, Agent: "alguno5", Experiences: 231, fcmToken: "token 5" },
-				{ id: 6, Agent: "alguno6", Experiences: 231, fcmToken: "token 6" },
-				{ id: 7, Agent: "alguno7", Experiences: 231, fcmToken: "token 7" },
-				{ id: 8, Agent: "alguno8", Experiences: 231, fcmToken: "token 8" },
-			],
-			Lobs: [
-				{
-					lobName: "Lob1",
-					idLob: 1,
-					fcmToken: ["lob1 token 1", "lob1 token 2"],
-				},
-				{
-					lobName: "Lob2",
-					idLob: 2,
-					fcmToken: ["lob2 token 1", "lob2 token 2"],
-				},
-				{
-					lobName: "Lob3",
-					idLob: 3,
-					fcmToken: ["lob3 token 1", "lob3 token 2"],
-				},
-				{
-					lobName: "Lob4",
-					idLob: 4,
-					fcmToken: ["lob4 token 1", "lob4 token 2"],
-				},
-				{
-					lobName: "Lob5",
-					idLob: 5,
-					fcmToken: ["lob5 token 1", "lob5 token 2"],
-				},
-				{
-					lobName: "Lob6",
-					idLob: 6,
-					fcmToken: ["lob6 token 1", "lob6 token 2"],
-				},
-			],
-			Teams: [
-				{
-					teamName: "Team 1",
-					idTeam: 1,
-					fcmToken: ["Team1 token 1", "Team1 token 2"],
-				},
-				{
-					teamName: "Team 2",
-					idTeam: 2,
-					fcmToken: ["Team2 token 1", "Team2 token 2"],
-				},
-				{
-					teamName: "Team 3",
-					idTeam: 3,
-					fcmToken: ["Team3 token 1", "Team3 token 2"],
-				},
-				{
-					teamName: "Team 4",
-					idTeam: 4,
-					fcmToken: ["Team4 token 1", "Team4 token 2"],
-				},
-				{
-					teamName: "Team 5",
-					idTeam: 5,
-					fcmToken: ["Team5 token 1", "Team5 token 2"],
-				},
-				{
-					teamName: "Team 6",
-					idTeam: 6,
-					fcmToken: ["Team6 token 1", "Team6 token 2"],
-				},
-				{
-					teamName: "Team 7",
-					idTeam: 7,
-					fcmToken: ["Team7 token 1", "Team7 token 2"],
-				},
-			],
-		},
-	],
-	status: 200,
-};
-
 const MissionsAssignment = () => {
 	const navigate = useNavigate();
 	const rxDispatch = useDispatch();
@@ -164,63 +63,86 @@ const MissionsAssignment = () => {
 	const [select, setSelect] = useState("agents");
 	const [error, setError] = useState(false);
 	const [loadingMission, setLoadingMission] = useState(false);
-	const [loadingAgents, setLoadingAgents] = useState(false);
-	const [loadingLobs, setLoadingLobs] = useState(false);
-	const [loadingTeams, setLoadingTeams] = useState(false);
+	const [loadingAssigns, setLoadingAssigns] = useState(false);
 	const [noDataMissions, setNoDataMissions] = useState(false);
 	const [noDataAssigns, setNoDataAssigns] = useState(false);
 	const [state, dispatch] = useReducer(
 		missionsAssignmentReducer,
 		missionsAssignmentInitialState
 	);
-	const { missions, users, lobs, teams } = state;
+	const {
+		missions,
+		dbMissions,
+		users,
+		dbUsers,
+		lobs,
+		dbLobs,
+		teams,
+		dbTeams,
+		searchM,
+		searchA,
+	} = state;
 
 	useEffect(
 		() => {
 			const getData = async () => {
-				setLoadingAgents(true);
+				setLoadingAssigns(true);
 				setLoadingMission(true);
-				const allMissions = dataMissions; //await getMissions(1, 1032);
+				const allMissions = await requestWithData("getmissionsassignmentinfo", {
+					context: 1,
+					caso: 1,
+				});
 				if (
 					allMissions &&
 					allMissions.status === 200 &&
 					allMissions.data.length > 0
 				) {
+					const allAgents = await requestWithData("getmissionsassignmentinfo", {
+						context: 2,
+						caso: 1,
+					});
 					if (
-						allMissions.data[0].id !== "0" &&
-						allMissions.data[0].missionName !== "0"
+						allAgents &&
+						allAgents.status === 200 &&
+						allAgents.data.length > 0
 					) {
-						const alt = data; // await  request
-						if (alt && alt.status === 200 && alt.data.length > 0) {
-							if (
-								alt.data[0].Users.length > 0 &&
-								alt.data[0].Lobs.length > 0 &&
-								alt.data[0].Teams.length > 0
-							) {
-								dispatch({
-									type: TYPES.GET_DATA,
-									payload: { missions: allMissions.data, groups: alt.data },
-								});
-								setLoadingAgents(false);
-								setLoadingMission(false);
-							} else {
-								setLoadingAgents(false);
-								setLoadingMission(false);
-								setNoDataAssigns(true);
-							}
-						} else if (
-							allMissions &&
-							allMissions.data === "UnauthorizedError"
+						if (
+							allAgents.data[0].Agents[0].Ident !== "0" &&
+							allAgents.data[0].Agents[0].Agent !== "0"
 						) {
-							rxDispatch(logoutAction());
-							navigate("/");
-						} else {
-							setLoadingAgents(false);
+							dispatch({
+								type: TYPES.GET_DATA_AGENTS,
+								payload: {
+									agents: allAgents.data[0].Agents,
+								},
+							});
+							setLoadingAssigns(false);
 							setLoadingMission(false);
-							setError(true);
+						} else {
+							setLoadingAssigns(false);
+							setLoadingMission(false);
+							setNoDataAssigns(true);
 						}
+					} else if (allAgents && allAgents.data === "UnauthorizedError") {
+						rxDispatch(logoutAction());
+						navigate("/");
 					} else {
-						setLoadingAgents(false);
+						setLoadingAssigns(false);
+						setLoadingMission(false);
+						setError(true);
+					}
+					if (
+						allMissions.data[0].Missions[0].Id !== "0" &&
+						allMissions.data[0].Missions[0].Topic !== "0"
+					) {
+						dispatch({
+							type: TYPES.GET_DATA_MISSIONS,
+							payload: {
+								missions: allMissions.data[0].Missions,
+							},
+						});
+					} else {
+						setLoadingAssigns(false);
 						setLoadingMission(false);
 						setNoDataMissions(true);
 					}
@@ -228,7 +150,7 @@ const MissionsAssignment = () => {
 					rxDispatch(logoutAction());
 					navigate("/");
 				} else {
-					setLoadingAgents(false);
+					setLoadingAssigns(false);
 					setLoadingMission(false);
 					setError(true);
 				}
@@ -238,6 +160,113 @@ const MissionsAssignment = () => {
 		// eslint-disable-next-line
 		[]
 	);
+
+	const handleSelectAgents = async () => {
+		setSelect("agents");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
+		const allAgents = await requestWithData("getmissionsassignmentinfo", {
+			context: 2,
+			caso: 1,
+		});
+		if (allAgents && allAgents.status === 200 && allAgents.data.length > 0) {
+			if (
+				allAgents.data[0].Agents[0].Ident !== "0" &&
+				allAgents.data[0].Agents[0].Agent !== "0"
+			) {
+				dispatch({
+					type: TYPES.GET_DATA_AGENTS,
+					payload: {
+						agents: allAgents.data[0].Agents,
+					},
+				});
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+			} else {
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+				setNoDataAssigns(true);
+			}
+		} else if (allAgents && allAgents.data === "UnauthorizedError") {
+			rxDispatch(logoutAction());
+			navigate("/");
+		} else {
+			setLoadingAssigns(false);
+			setLoadingMission(false);
+			setError(true);
+		}
+	};
+
+	const handleSelectLobs = async () => {
+		setSelect("lobs");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
+		const allLobs = await requestWithData("getmissionsassignmentinfo", {
+			context: 2,
+			caso: 3,
+		});
+		if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
+			if (
+				allLobs.data[0].Lobs[0].idLob !== "0" &&
+				allLobs.data[0].Lobs[0].NameLob !== "0"
+			) {
+				dispatch({
+					type: TYPES.GET_DATA_LOBS,
+					payload: {
+						lobs: allLobs.data[0].Lobs,
+					},
+				});
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+			} else {
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+				setNoDataAssigns(true);
+			}
+		} else if (allLobs && allLobs.data === "UnauthorizedError") {
+			rxDispatch(logoutAction());
+			navigate("/");
+		} else {
+			setLoadingAssigns(false);
+			setLoadingMission(false);
+			//setError(true);
+		}
+	};
+	const handleSelectTeams = async () => {
+		setSelect("teams");
+		setNoDataAssigns(false);
+		setLoadingAssigns(true);
+		const allTeams = await requestWithData("getmissionsassignmentinfo", {
+			context: 2,
+			caso: 2,
+		});
+		if (allTeams && allTeams.status === 200 && allTeams.data.length > 0) {
+			if (
+				allTeams.data[0].Teams[0].Id !== "0" &&
+				allTeams.data[0].Teams[0].Team !== "0"
+			) {
+				dispatch({
+					type: TYPES.GET_DATA_TEAMS,
+					payload: {
+						teams: allTeams.data[0].Teams,
+					},
+				});
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+			} else {
+				setLoadingAssigns(false);
+				setLoadingMission(false);
+				setNoDataAssigns(true);
+			}
+		} else if (allTeams && allTeams.data === "UnauthorizedError") {
+			rxDispatch(logoutAction());
+			navigate("/");
+		} else {
+			setLoadingAssigns(false);
+			setLoadingMission(false);
+			setError(true);
+		}
+	};
 
 	//funcion de asingacion de usuarios
 	const handleUser = (e) => {
@@ -252,10 +281,10 @@ const MissionsAssignment = () => {
 	};
 
 	//////////////////////////////funcion que  asigna el Tiempo de duraCION
-	const handleTime = (e, name) => {
+	const handleTime = (time, value, name) => {
 		dispatch({
 			type: TYPES.SELECT_TIME,
-			payload: { time: e.target.value, name },
+			payload: { time, value, name },
 		});
 	};
 
@@ -271,22 +300,63 @@ const MissionsAssignment = () => {
 		dispatch({ type: TYPES.SELECT_TEAMS, payload: { name, checked } });
 	};
 
+	////////
+	const handleSearchMissions = (e) => {
+		let word = e.target.value;
+		dispatch({
+			type: TYPES.SEARCH_MISSION,
+			payload: word,
+		});
+	};
+	const handleSearchAssigns = (e) => {
+		let word = e.target.value;
+		dispatch({
+			type: TYPES.SEARCH_ASSIGN,
+			payload: { word, select },
+		});
+	};
+
+	///// funcion de envio de asignación
+	const submit = async (data) => {
+		const cqa = await requestWithData("postassignmission", data);
+
+		if (cqa && cqa.status === 200) {
+			MySwal.fire({
+				title: <p>{"Mission Assigned!"}</p>,
+				icon: "success",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		} else {
+			MySwal.fire({
+				title: <p>Send Error!</p>,
+				icon: "error",
+				confirmButtonText: "Accept",
+				allowOutsideClick: false,
+			}).then((resultado) => {
+				if (resultado.value) {
+					window.location.reload();
+				}
+			});
+		}
+	};
+
 	/////////////////////////funcion de envio de datos
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const dataMissions = missions.filter((miss) => miss.isChecked && miss.time);
+		const dataMissions = missions.filter(
+			(miss) => miss.isChecked && miss.start && miss.end
+		);
 		if (select === "agents") {
 			const dataAgents = users.filter((us) => us.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataAgents.length > 0) {
-					const dts = await dataToSendAgents(
-						dataMissions,
-						dataAgents,
-						userName,
-						1
-					);
-					console.log(dts);
-					//funcion de envio
+					const dts = await dataToSend(dataMissions, dataAgents, userName, 1);
+					await submit(dts); //funcion de envio
 				} else {
 					MySwal.fire({
 						title: <p>{"Check your Agents selection"}</p>,
@@ -305,17 +375,12 @@ const MissionsAssignment = () => {
 					allowOutsideClick: false,
 				});
 			}
-		} else if (select === "lob") {
+		} else if (select === "lobs") {
 			const dataLobs = lobs.filter((lob) => lob.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataLobs.length > 0) {
-					const dts = await dataToSendLobsTeams(
-						dataMissions,
-						dataLobs,
-						userName,
-						2
-					);
-					console.log(dts);
+					const dts = await dataToSend(dataMissions, dataLobs, userName, 3);
+					await submit(dts);
 					//funcion de envio
 				} else {
 					MySwal.fire({
@@ -339,14 +404,8 @@ const MissionsAssignment = () => {
 			const dataTeams = teams.filter((tm) => tm.isChecked);
 			if (dataMissions.length > 0) {
 				if (dataTeams.length > 0) {
-					const dts = await dataToSendLobsTeams(
-						dataMissions,
-						dataTeams,
-						userName,
-						3
-					);
-					console.log(dts);
-					//funcion de envio
+					const dts = await dataToSend(dataMissions, dataTeams, userName, 2);
+					await submit(dts); //funcion de envio
 				} else {
 					MySwal.fire({
 						title: <p>{"Check your Teams selection"}</p>,
@@ -379,28 +438,19 @@ const MissionsAssignment = () => {
 				<Grid xs={12} md={6}>
 					<Box margin="2rem 0">
 						<ButtonAction
-							onClick={() => {
-								setSelect("agents");
-								dispatch({ type: TYPES.ORIGINAL_DB_DATA });
-							}}
+							onClick={handleSelectAgents}
 							sx={select === "agents" && active}
 						>
 							Agents
 						</ButtonAction>
 						<ButtonAction
-							onClick={() => {
-								setSelect("lob");
-								dispatch({ type: TYPES.ORIGINAL_DB_DATA });
-							}}
-							sx={select === "lob" && active}
+							onClick={handleSelectLobs}
+							sx={select === "lobs" && active}
 						>
 							LOB's
 						</ButtonAction>
 						<ButtonAction
-							onClick={() => {
-								setSelect("teams");
-								dispatch({ type: TYPES.ORIGINAL_DB_DATA });
-							}}
+							onClick={handleSelectTeams}
 							sx={select === "teams" && active}
 						>
 							Teams
@@ -408,114 +458,131 @@ const MissionsAssignment = () => {
 					</Box>
 				</Grid>
 				<Grid xs={12} md={6}>
-					<BoxActivity>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							marginBottom={2}
-						>
-							<ButtonAction>
-								<input
-									type="checkbox"
-									name="selecct-all"
-									onChange={handleMissions}
-									checked={
-										missions.filter((mission) => mission?.isChecked !== true)
-											.length < 1
-									}
-								/>
-								Select all
-							</ButtonAction>
-							<SearchAppBar />
-						</Box>
-						<Boxview>
-							{error ? (
-								<Typography variant="body1">Server Problems</Typography>
-							) : noDataMissions ? (
-								<Typography variant="body1"></Typography>
-							) : loadingMission ? (
-								<LoadingComponent />
-							) : (
-								missions?.map((mission, index) => (
-									<MissionAssignmentCard
-										key={index}
-										mission={mission}
-										handleMissions={handleMissions}
-										handleTime={handleTime}
+					<Box padding={1}>
+						<BoxActivity>
+							<Box
+								display="flex"
+								alignItems="center"
+								justifyContent="space-between"
+								marginBottom={2}
+							>
+								<ButtonAction>
+									<input
+										type="checkbox"
+										name="selecct-all"
+										onChange={handleMissions}
+										checked={
+											dbMissions.filter(
+												(mission) => mission?.isChecked !== true
+											).length < 1
+										}
 									/>
-								))
-							)}
-						</Boxview>
-					</BoxActivity>
+									Select all
+								</ButtonAction>
+								<SearchMission
+									search={searchM}
+									handleSearchMissions={handleSearchMissions}
+								/>
+							</Box>
+
+							<ScrollContainer sx={{ height: "50vh" }}>
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noDataMissions ? (
+									<Typography variant="body1">Create a new mission</Typography>
+								) : loadingMission ? (
+									<LoadingComponent />
+								) : (
+									missions?.map((mission, index) => (
+										<MissionAssignmentCard
+											key={index + 7}
+											mission={mission}
+											handleMissions={handleMissions}
+											handleTime={handleTime}
+										/>
+									))
+								)}
+							</ScrollContainer>
+						</BoxActivity>
+					</Box>
 				</Grid>
 				<Grid xs={12} md={6}>
-					<BoxActivity>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							marginBottom={2}
-						>
-							<ButtonAction
-							//sx={selectButton}
+					<Box padding={1}>
+						<BoxActivity>
+							<Box
+								display="flex"
+								alignItems="center"
+								justifyContent="space-between"
+								marginBottom={2}
 							>
-								<input
-									type="checkbox"
-									name="selecct-all"
-									onChange={
-										select === "agents"
-											? handleUser
-											: select === "lob"
-											? handleLob
-											: handleTeam
-									}
-									checked={
-										select === "agents"
-											? users.filter((user) => user?.isChecked !== true)
-													.length < 1
-											: select === "lob"
-											? lobs.filter((lob) => lob?.isChecked !== true).length < 1
-											: teams.filter((team) => team?.isChecked !== true)
-													.length < 1
-									}
+								<ButtonAction
+								//sx={selectButton}
+								>
+									<input
+										type="checkbox"
+										name="selecct-all"
+										onChange={
+											select === "agents"
+												? handleUser
+												: select === "lobs"
+												? handleLob
+												: handleTeam
+										}
+										checked={
+											select === "agents"
+												? dbUsers.filter((user) => user?.isChecked !== true)
+														.length < 1
+												: select === "lobs"
+												? dbLobs.filter((lob) => lob?.isChecked !== true)
+														.length < 1
+												: dbTeams.filter((team) => team?.isChecked !== true)
+														.length < 1
+										}
+									/>
+									Select all
+								</ButtonAction>
+								<SearchAssign
+									search={searchA}
+									handleSearchAssigns={handleSearchAssigns}
 								/>
-								Select all
-							</ButtonAction>
-							<SearchAppBar />
-						</Box>
-						<Boxview>
-							{error ? (
-								<Typography variant="body1">Server Problems</Typography>
-							) : noDataAssigns ? (
-								<Typography variant="body1"></Typography>
-							) : loadingAgents ? (
-								<LoadingComponent />
-							) : select === "agents" ? (
-								users.map((user, index) => (
-									<ShowUserActivity
-										key={index}
-										user={user}
-										handleUser={handleUser}
-									/>
-								))
-							) : select === "lob" ? (
-								lobs.map((lob, index) => (
-									<ShowLobAssign key={index} lob={lob} handleLob={handleLob} />
-								))
-							) : select === "teams" ? (
-								teams.map((team, index) => (
-									<ShowTeamAssign
-										key={index}
-										team={team}
-										handleTeam={handleTeam}
-									/>
-								))
-							) : (
-								<Typography variant="body1">Server Problems</Typography>
-							)}
-						</Boxview>
-					</BoxActivity>
+							</Box>
+							<ScrollContainer sx={{ height: "50vh" }}>
+								{error ? (
+									<Typography variant="body1">Server Problems</Typography>
+								) : noDataAssigns ? (
+									<Typography variant="body1">Agents are not loaded</Typography>
+								) : loadingAssigns ? (
+									<LoadingComponent />
+								) : select === "agents" ? (
+									users.map((user, index) => (
+										<ShowUserActivity
+											key={index}
+											user={user}
+											handleUser={handleUser}
+										/>
+									))
+								) : select === "lobs" ? (
+									lobs.map((lob, index) => (
+										<ShowLobAssign
+											key={index}
+											lob={lob}
+											handleLob={handleLob}
+										/>
+									))
+								) : select === "teams" ? (
+									teams.map((team, index) => (
+										<ShowTeamAssign
+											key={index}
+											team={team}
+											handleTeam={handleTeam}
+										/>
+									))
+								) : (
+									<Typography variant="body1">Server Problems</Typography>
+								)}
+							</ScrollContainer>
+						</BoxActivity>
+					</Box>
 				</Grid>
 			</Grid>
 			<BoxAssingment>

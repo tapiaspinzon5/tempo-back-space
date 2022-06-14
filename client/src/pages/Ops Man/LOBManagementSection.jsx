@@ -19,7 +19,7 @@ import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import CreateEditLOB from "../../components/Modals/CreateEditLOB";
@@ -30,7 +30,7 @@ import imgAvatar from "../../assets/temp-image/avatar.png";
 const CardLOB = styled(Button)(() => ({
 	background: "#fff",
 	display: "flex",
-	width: "92%",
+	width: "95%",
 	border: "1px solid #f9f9f9",
 	alignItems: "center",
 	justifyContent: "space-between",
@@ -58,6 +58,7 @@ const ModalBox = styled(Box)(() => ({
 const LOBManagementSection = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [open, setOpen] = useState(false);
 	const [lob, setLob] = useState([]);
 	const [noData, setNoData] = useState(false);
@@ -109,7 +110,6 @@ const LOBManagementSection = () => {
 	const handleOpen = async (item, name) => {
 		setOpen(true);
 		if (item) {
-			//const TLList = await editTeamLeaderList(tls);
 			setDataLOB({ idLob: item, name });
 		}
 	};
@@ -147,7 +147,12 @@ const LOBManagementSection = () => {
 							) : (
 								lob.map((item) => (
 									<CardLOB index={item.idLob} onClick={() => handleLob(item)}>
-										<Typography variant="body1"> {item.NameLob}</Typography>
+										<Box textAlign="left">
+											<Typography variant="body1"> {item.NameLob}</Typography>
+											<Typography variant="caption">
+												{`Created: ${item.DateRegistry}`}
+											</Typography>
+										</Box>
 										<ButtonAction
 											onClick={() => handleOpen(item.idLob, item.NameLob)}
 										>
@@ -207,6 +212,7 @@ const LOBManagementSection = () => {
 						allData={allData}
 						setOpen={setOpen}
 						dataLOB={dataLOB}
+						userData={userData.Nombre}
 					/>
 				</ModalBox>
 			</Modal>

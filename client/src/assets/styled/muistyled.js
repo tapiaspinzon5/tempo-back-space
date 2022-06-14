@@ -37,7 +37,7 @@ export const BoxContain = styled(Grid)(() => ({
 }));
 
 export const ScrollContainer = styled(Box)(() => ({
-  background: "#f9f9f9",
+  background: "#f2f2f2",
   borderRadius: "10px",
   overflowY: "scroll",
   overflowX: "hidden",
@@ -176,6 +176,20 @@ export const InputText = styled(TextField)(() => ({
     },
     "&:hover fieldset": {
       borderColor: "#3047B0",
+    },
+  },
+
+  "& .MuiInputBase-inputMultiline": {
+    "&::-webkit-scrollbar": {
+      width: "6px",
+    },
+
+    "&::-webkit-scrollbar-track": {
+      background: "white",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#C8C8C8",
+      borderRadius: "20px",
     },
   },
 }));

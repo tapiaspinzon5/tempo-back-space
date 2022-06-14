@@ -6,7 +6,6 @@ import {
   Button,
   Checkbox,
   styled,
-  //FormGroup,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -21,9 +20,9 @@ import Swal from "sweetalert2";
 import imgLogin from "../assets/images/login.svg";
 import tpLogo from "../assets/images/logo-tp-blue.svg";
 import tpmar from "../assets/images/tp-mar-blue.svg";
+import spaceLogo from "../assets/images/logoSpace.png";
 import { useSelector, useDispatch } from "react-redux";
 import { loginSubmit } from "../redux/loginDuck";
-
 
 const ImageLogin = styled(Box)(() => ({
   img: {
@@ -62,10 +61,9 @@ const ButtonLogin = styled(Button)(({ theme }) => ({
 }));
 
 const Login = () => {
-  //const userData = useSelector((store) => store.loginUser.userData);
   const dispatch = useDispatch();
 
- const loading = useSelector((store) => store.loginUser.loading);
+  const loading = useSelector((store) => store.loginUser.loading);
 
   const [values, setValues] = useState({
     account: "",
@@ -105,7 +103,6 @@ const Login = () => {
     dispatch(loginSubmit(bdata));
   };
 
-
   return (
     <Grid container>
       <Grid item xs={12} md={6}>
@@ -120,11 +117,11 @@ const Login = () => {
         sx={{ display: "flex", justifyContent: "center" }}
       >
         <FormBox>
-          <Box>
-            <img src={tpLogo} alt="Logo Teleperformance" />{" "}
+          <Box textAlign="center">
+            <img src={spaceLogo} alt="Logo Teleperformance" height={90} />{" "}
           </Box>
           <Typography variant="body1" color="initial">
-            After a successfull sign in we use a cookie in your browser to track
+            After a successful sign in we use a cookie in your browser to track
             your session. You can refer our <b>Cookie Policy</b> for more
             details
           </Typography>
@@ -220,7 +217,7 @@ const Login = () => {
             <img src={tpmar} alt="Logo TP-MAR" height="29" />
           </Box>
           <Typography variant="body2" color="initial" align="center">
-            WSO2 Identity Server | © 2021 Inc. All rights reserver
+            WSO2 Identity Server | © 2022 Inc. All rights reserved
           </Typography>
         </FormBox>
       </Grid>

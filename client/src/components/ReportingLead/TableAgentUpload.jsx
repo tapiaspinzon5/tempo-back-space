@@ -1,104 +1,102 @@
-import React, { useState } from "react";
-import { Box, Typography, styled, IconButton } from "@mui/material";
-import { FiTrash2 } from "react-icons/fi";
-import { RiArrowUpSFill, RiArrowDownSFill } from "react-icons/ri";
-import {
-  BoxBodyTable,
-  BoxDataTable,
-  BoxHeaderTable,
-} from "../../assets/styled/muistyled";
+import React, { useState, useEffect, useRef } from "react";
+import { IconButton, styled, Grid } from "@mui/material";
 
-const TableAgentUpload = ({ dataAgent }) => {
-  const [agents, setAgents] = useState(dataAgent);
-  const [order, setOrder] = useState("ASC");
-  const [column, setColumn] = useState("");
+import { BsTrash } from "react-icons/bs";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { GiSandsOfTime } from "react-icons/gi";
 
-  const handleOrder = (col) => {
-    if (order === "ASC") {
-      const sorted = [...agents].sort((a, b) => (a[col] > b[col] ? 1 : -1));
-      setAgents(sorted);
-      setOrder("DSC");
-    } else if (order === "DSC") {
-      const sorted = [...agents].sort((a, b) => (a[col] < b[col] ? 1 : -1));
-      setAgents(sorted);
-      setOrder("ASC");
-    }
-    setColumn(col);
-  };
+import { DataGrid } from "@mui/x-data-grid";
+
+const BoxTable = styled(Grid)(() => ({
+  height: "32rem",
+  padding: "1rem",
+  "& .super-app-theme--header": {
+    borderRadius: "3px",
+    height: "2rem",
+    color: "#3047b0",
+    fontSize: "18px",
+    fontWeight: "900",
+  },
+  "& .super-app-theme--cell": {
+    backgroundColor: "#fff",
+    color: "#3047b0",
+  },
+}));
+
+const TableAgentUpload = ({ dataAgent, handleState }) => {
+  const ref = useRef();
+  const [width, setWidth] = useState(0);
+
+  let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
+
+  useEffect(() => {
+    setWidth(ancho);
+  }, [ancho]);
+
+  const columns = [
+    {
+      field: "Agent",
+      headerName: "Agents",
+      width: width < 250 ? 200 : width * 0.25,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "Ident",
+      headerName: "CCMS",
+      width: width < 250 ? 200 : width * 0.15,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "NameTeam",
+      editable: true,
+      headerName: "Team",
+      width: width < 250 ? 200 : width * 0.25,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "Lob",
+      headerName: "LOB",
+      width: width < 250 ? 200 : width * 0.2,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+    {
+      field: "Estado",
+      headerName: "",
+      width: width < 250 ? 200 : width * 0.1,
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => handleState(params.row.Ident)}
+          disabled={params.row.Request}
+        >
+          {params.row.Request ? (
+            <GiSandsOfTime color="#3047B0" size={18} />
+          ) : (
+            <BsTrash color="#3047B0" size={18} />
+          )}
+        </IconButton>
+      ),
+    },
+  ];
 
   return (
-    <Box padding="1rem">
-      <BoxHeaderTable>
-        <Box sx={{ width: "25%" }} onClick={() => handleOrder("agent")}>
-          <Typography variant="body1">
-            {" "}
-            Agents
-            {order === "ASC" && column === "agent" ? (
-              <RiArrowDownSFill />
-            ) : (
-              <RiArrowUpSFill />
-            )}
-          </Typography>
-        </Box>
-        <Box sx={{ width: "20%" }} onClick={() => handleOrder("ccmsid")}>
-          <Typography variant="body1">
-            {" "}
-            CCMS
-            {order === "ASC" && column === "ccmsid" ? (
-              <RiArrowDownSFill />
-            ) : (
-              <RiArrowUpSFill />
-            )}
-          </Typography>
-        </Box>
-        <Box sx={{ width: "20%" }} onClick={() => handleOrder("teamLead")}>
-          <Typography variant="body1">
-            {" "}
-            Team Lead
-            {order === "ASC" && column === "teamLead" ? (
-              <RiArrowDownSFill />
-            ) : (
-              <RiArrowUpSFill />
-            )}
-          </Typography>
-        </Box>
-        <Box sx={{ width: "25%" }}>
-          <Typography variant="body1" onClick={() => handleOrder("lob")}>
-            {" "}
-            LOB
-            {order === "ASC" && column === "lob" ? (
-              <RiArrowDownSFill />
-            ) : (
-              <RiArrowUpSFill />
-            )}
-          </Typography>
-        </Box>
-        <Box sx={{ width: "5%" }}></Box>
-      </BoxHeaderTable>
-      <BoxBodyTable>
-        {agents.map((agent, index) => (
-          <BoxDataTable key={index}>
-            <Box sx={{ width: "25%" }}>
-              <Typography variant="body2"> {agent.agent}</Typography>
-            </Box>
-            <Box sx={{ width: "20%" }}>
-              <Typography variant="body2"> {agent.ccmsid}</Typography>
-            </Box>
-            <Box sx={{ width: "20%" }}>
-              <Typography variant="body2">{agent.teamLead} </Typography>
-            </Box>
-            <Box sx={{ width: "25%" }}>
-              <Typography variant="body2">{agent.lob} </Typography>
-            </Box>
-            <Box sx={{ width: "5%" }}>
-              <IconButton>
-                <FiTrash2 size={20} color="#3047B0" />
-              </IconButton>
-            </Box>
-          </BoxDataTable>
-        ))}
-      </BoxBodyTable>
-    </Box>
+    <>
+      <BoxTable ref={ref}>
+        <DataGrid
+          key={(row) => row.Ident}
+          rows={dataAgent}
+          columns={columns}
+          getRowId={(row) => row.Ident}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+        />
+      </BoxTable>
+    </>
   );
 };
 

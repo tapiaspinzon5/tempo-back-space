@@ -56,7 +56,7 @@ const BoxCeldas = styled(Box)(() => ({
 	},
 }));
 
-const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
+const CreateEditLOB = ({ allData, setOpen, dataLOB, userData }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
 	const [error, setError] = useState(false);
@@ -89,9 +89,18 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const handleSearch = async (ccms) => {
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
-			if (info && info.status === 200 && info.data.length > 0) {
+			if (
+				info &&
+				info.status === 200 &&
+				info.data.length > 0 &&
+				info.data[0].status === "Active"
+			) {
 				const duplicates = await getTLDuplicates(allData, dataTL, info.data[0]);
-				if (dataTL.length === 0 && !duplicates) {
+				if (
+					dataTL.length === 0 &&
+					!duplicates &&
+					info.data[0].StatusGP !== "Active"
+				) {
 					setErrorList(false);
 					setMsgErrorList("");
 					setDataTL([
@@ -100,6 +109,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 							name: info.data[0].FullName,
 							idccms: info.data[0].ident,
 							checked: false,
+							Email: info.data[0].email,
 						},
 					]);
 					setTempCcms("");
@@ -107,25 +117,31 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 					setErrorccms(true);
 					setMsgErrorccms("The user is in the list or in other Team");
 				} else {
-					setErrorList(false);
-					setMsgErrorList("");
-					setDataTL([
-						...dataTL,
-						{
-							name: info.data[0].FullName,
-							idccms: info.data[0].ident,
-							checked: false,
-						},
-					]);
-					setTempCcms("");
+					if (info.data[0].StatusGP === "Active") {
+						setErrorccms(true);
+						setMsgErrorccms("The user is in the list or in other Team");
+					} else {
+						setErrorList(false);
+						setMsgErrorList("");
+						setDataTL([
+							...dataTL,
+							{
+								name: info.data[0].FullName,
+								idccms: info.data[0].ident,
+								checked: false,
+								Email: info.data[0].email,
+							},
+						]);
+						setTempCcms("");
+					}
 				}
 			} else {
 				setErrorccms(true);
-				setMsgErrorccms("CCMS not exist");
+				setMsgErrorccms("CCMS does not exist or is not active in the database");
 			}
 		} else {
 			setErrorccms(true);
-			setMsgErrorccms("No data");
+			setMsgErrorccms("You did not enter any ccms");
 		}
 	};
 
@@ -137,12 +153,13 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	};
 
 	const submit = async (context, idLob) => {
-		const dataToSend = await createTeamLeaderList(dataTL, nameLOB);
+		const dataToSend = await createTeamLeaderList(dataTL, nameLOB, userData);
 		const data = await createLobOperationManager(
 			context,
 			dataToSend.lobName,
 			idLob, /// id lob seleccionada
-			dataToSend.tlIdccms
+			dataToSend.tlIdccms,
+			dataToSend.emails
 		);
 		if (data && data.status === 200) {
 			MySwal.fire({
@@ -172,22 +189,28 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const handleCreate = async () => {
 		if (nameLOB) {
 			if (dataTL.length > 0) {
-				setOpen(false);
-				MySwal.fire({
-					title: (
-						<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
-					),
-					icon: "info",
-					showDenyButton: true,
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((result) => {
-					if (result.isConfirmed) {
-						submit(1, 0);
-					} else if (result.isDenied) {
-						Swal.fire("Changes are not saved", "", "info");
-					}
-				});
+				const TLList = dataTL.filter((tl) => tl.checked === true);
+				if (TLList.length > 0) {
+					setOpen(false);
+					MySwal.fire({
+						title: (
+							<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
+						),
+						icon: "info",
+						showDenyButton: true,
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((result) => {
+						if (result.isConfirmed) {
+							submit(1, 0);
+						} else if (result.isDenied) {
+							Swal.fire("Changes are not saved", "", "info");
+						}
+					});
+				} else {
+					setErrorList(true);
+					setMsgErrorList("Check Team Leader is required (min. 1)");
+				}
 			} else {
 				setErrorList(true);
 				setMsgErrorList("No data");
@@ -201,20 +224,26 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 	const handleEdit = async () => {
 		if (nameLOB) {
 			if (dataTL.length > 0) {
-				setOpen(false);
-				MySwal.fire({
-					title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
-					icon: "info",
-					showDenyButton: true,
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((result) => {
-					if (result.isConfirmed) {
-						submit(2, dataLOB.idLob);
-					} else if (result.isDenied) {
-						Swal.fire("Changes are not saved", "", "info");
-					}
-				});
+				const TLList = dataTL.filter((tl) => tl.checked === true);
+				if (TLList.length > 0) {
+					setOpen(false);
+					MySwal.fire({
+						title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
+						icon: "info",
+						showDenyButton: true,
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((result) => {
+						if (result.isConfirmed) {
+							submit(2, dataLOB.idLob);
+						} else if (result.isDenied) {
+							Swal.fire("Changes are not saved", "", "info");
+						}
+					});
+				} else {
+					setErrorList(true);
+					setMsgErrorList("Check Team Leader is required (min. 1)");
+				}
 			} else {
 				setErrorList(true);
 				setMsgErrorList("No data");
@@ -242,7 +271,7 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB }) => {
 				marginY={3}
 				fontWeight={700}
 			>
-				{dataLOB.length !== 0 ? "Edit LOB - Name LOB" : "Creation LOB"}
+				{dataLOB.length !== 0 ? `Edit LOB - ${nameLOB}` : "Creation LOB"}
 			</Typography>
 			<InputText
 				error={error}

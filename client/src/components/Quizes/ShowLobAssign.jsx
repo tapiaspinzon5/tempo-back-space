@@ -19,12 +19,12 @@ const ShowLobAssign = ({ lob, handleLob }) => {
 				<input
 					type="checkbox"
 					className="checkBox"
-					name={lob.lobName}
+					name={lob.NameLob}
 					checked={lob?.isChecked || false}
 					onChange={handleLob}
 				/>
 				<Box width="85%">
-					<Typography variant="body1">{lob.lobName}</Typography>
+					<Typography variant="body1">{lob.NameLob}</Typography>
 				</Box>
 			</CardLob>
 		</>

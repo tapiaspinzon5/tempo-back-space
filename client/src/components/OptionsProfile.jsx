@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import useClickOutside from "../Hooks/useClickOutside";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,6 +12,7 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
+  Modal,
 } from "@mui/material";
 import { FiPower } from "react-icons/fi";
 import { logoutAction } from "../redux/loginDuck";
@@ -20,7 +22,7 @@ import { useSelector } from "react-redux";
 const BoxVinetas = styled(Box)(({ theme }) => ({
   width: "20rem",
   background: "#f8f8f8",
-  height: "12rem",
+  minHeight: "12rem",
   marginTop: "1rem",
   borderRadius: "10px",
   position: "fixed",
@@ -31,7 +33,8 @@ const BoxVinetas = styled(Box)(({ theme }) => ({
   color: "#3047B0",
 }));
 
-const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
+const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
+  const ref = useRef();
   const userData = useSelector((store) => store.loginUser.userData.Role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,8 +42,15 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
     dispatch(logoutAction());
     navigate("/");
   };
+
+  //clickoutside
+  useClickOutside(ref, () => {
+    setSeeProfile(false);
+  });
+
   return (
     <BoxVinetas
+      ref={ref}
       onClick={() => {
         setSeeProfile(false);
       }}
@@ -48,7 +58,7 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box>
-          <Typography variant="h6">{profile?.Agent}</Typography>
+          <Typography variant="h6">{profile?.Nombre}</Typography>
           <Typography variant="body1">{profile?.Role}</Typography>
         </Box>
         <Avatar
@@ -61,15 +71,26 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong }) => {
         <nav aria-label="secondary mailbox folders">
           <List>
             {(userData === "Agent" || userData === "Team Leader") && (
-              <ListItem disablePadding>
-                <ListItemButton
-                  component="a"
-                  href="#/profile"
-                  sx={{ paddingLeft: 0 }}
-                >
-                  <ListItemText primary="Profile" />
-                </ListItemButton>
-              </ListItem>
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component="a"
+                    href="#/profile"
+                    sx={{ paddingLeft: 0 }}
+                  >
+                    <ListItemText primary="Profile" />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component="button"
+                    onClick={() => setHelpCenter(true)}
+                    sx={{ paddingLeft: 0 }}
+                  >
+                    <ListItemText primary="Help Center" />
+                  </ListItemButton>
+                </ListItem>
+              </>
             )}
             <ListItem disablePadding>
               <ListItemButton sx={{ paddingLeft: 0 }} onClick={logOut}>

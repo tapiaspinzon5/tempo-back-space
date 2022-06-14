@@ -14,7 +14,6 @@ export const validateHeaders = (headers) => {
 		"ExamName",
 		"DescriptionExam",
 		"ApprovalExam",
-		"LOB",
 		"Topic",
 	];
 
@@ -35,9 +34,9 @@ export const validateHeaders = (headers) => {
 
 //Validacion de campos carga de quiz
 
-export const validateFields = (data) => {
+export const validateFields = (data, topics) => {
 	let errorField = false;
-	let quartiles = ["Q1", "Q2", "Q3", "Q4"];
+	let quartiles = ["Q1", "Q2", "Q3", "Q4", "All"];
 
 	data.forEach((col) => {
 		let answers = [col[1], col[2], col[3], col[4]];
@@ -62,9 +61,7 @@ export const validateFields = (data) => {
 			errorField = true;
 		} else if (isNaN(col[9])) {
 			errorField = true;
-		} else if (col[10] === undefined) {
-			errorField = true;
-		} else if (col[11] === undefined) {
+		} else if (!topics.includes(col[10])) {
 			errorField = true;
 		}
 	});
@@ -384,7 +381,7 @@ export const dataGraphics = (data) => {
 	const series = [];
 	const date = [];
 	data.forEach((dato) => {
-		series.push(dato.actual.toFixed(2));
+		series.push(dato.actual?.toFixed(2));
 		date.push(dato.Date.split("T")[0]);
 	});
 	return [{ name: data[0].Kpi, data: series }, date];
@@ -393,20 +390,21 @@ export const dataGraphics = (data) => {
 export const deleteDuplicatesScore = async (data) => {
 	const hash = {};
 	let printData = await data.filter(function (current) {
-		let exists = !hash[current.id];
-		hash[current.id] = true;
+		let exists = !hash[current.ccmsid];
+		hash[current.ccmsid] = true;
 		return exists;
 	});
 
-	const dataOrder = printData.sort((a, b) => b.score - a.score);
+	const dataOrder =
+		printData[0].OrderKpi === "asc"
+			? printData.sort((a, b) => b.KpiScore - a.KpiScore)
+			: printData.sort((a, b) => a.KpiScore - b.KpiScore);
 	let cont = 1;
 	dataOrder.forEach((el) => {
-		if (el.score) {
-			el.rank = cont;
-			cont += 1;
-		} else {
-			el.rank = dataOrder.length;
-		}
+		el.rank = cont;
+		el.id = cont;
+		el.KpiScore = el.KpiScore?.toFixed(2);
+		cont += 1;
 	});
 
 	return dataOrder;
@@ -429,11 +427,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.KPIR) {
 				el.rank = cont;
-				el.KPIR = el.KPIR.toFixed(2);
+				el.KPIR = el.KPIR?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.KPIR.toFixed(2);
+				el.KPIR = el.KPIR?.toFixed(2);
 			}
 		});
 		return dataOrder;
@@ -446,11 +444,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.AverageWeek) {
 				el.rank = cont;
-				el.KPIR = el.AverageWeek.toFixed(2);
+				el.KPIR = el.AverageWeek?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.AverageWeek.toFixed(2);
+				el.KPIR = el.AverageWeek?.toFixed(2);
 			}
 		});
 		return dataOrder;
@@ -463,11 +461,11 @@ export const deleteDuplicatesKpis = async (data, time) => {
 		dataOrder.forEach((el) => {
 			if (el.AverageMonth) {
 				el.rank = cont;
-				el.KPIR = el.AverageMonth.toFixed(2);
+				el.KPIR = el.AverageMonth?.toFixed(2);
 				cont += 1;
 			} else {
 				el.rank = dataOrder.length;
-				el.KPIR = el.AverageMonth.toFixed(2);
+				el.KPIR = el.AverageMonth?.toFixed(2);
 			}
 		});
 		return dataOrder;
@@ -519,27 +517,25 @@ export const ConvertMonth = (month) => {
 	return mes;
 };
 
-export const quizFilter = (quices, filter) => {
-	const newData = [];
-	const categories = [];
-	quices.forEach((quiz) => {
-		if (quiz.EstadoExamen === filter.split("-")[0]) {
-			newData.push(quiz);
-			categories.push(quiz.Topic);
-		}
+export const quizFilter = async (quices, filter) => {
+	const newData = quices.filter((Q) => Q.EstadoExamen === filter.split("-")[0]);
+	const hash = {};
+	const categories = newData.map((q) => q.Topic);
+	let catData = await categories.filter(function (current) {
+		let exists = !hash[current];
+		hash[current] = true;
+		return exists;
 	});
-	return { quices: newData, categories: categories };
+	return { quices: newData, categories: catData };
 };
 
 export const challengesFilter = (challenges, filter) => {
-	let newData = [];
-	challenges.forEach((challenge) => {
-		if (challenge.ShowActivity === filter.split("-")[1]) {
-			newData.push(challenge);
-		}
-	});
+	let newData = challenges.filter(
+		(c) => c.Status === parseInt(filter.split("-")[1])
+	);
 	return newData;
 };
+
 export const activitiesFilter = (activities, filter) => {
 	let newData = [];
 	if (filter.split("-")[0] === "Complete") {
@@ -660,21 +656,91 @@ export const filterLobList = async (data) => {
 		hash[current.NameLob] = true;
 		return exists;
 	});
-	return lobData;
+	//return lobData;
+	const lwd = await lobsWithDate(lobData);
+	return lwd;
 };
 
+const dateConfig = (date) => {
+	let fecha;
+	let hora;
+	let fechaBase = new Date(date).toLocaleString([], {
+		timeZone: "Etc/UTC",
+		hourCycle: "h23",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+	});
+
+	let now = new Date().toLocaleString([], {
+		hourCycle: "h23",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+	});
+
+	let fa = new Date(
+		`${now.split("/")[1]}/${now.split("/")[0]}/${now.split("/")[2]}`
+	);
+	let fb = new Date(
+		`${fechaBase.split("/")[1]}/${fechaBase.split("/")[0]}/${
+			fechaBase.split("/")[2]
+		}`
+	);
+	if (
+		now.replace(",", "").split(" ")[0] ===
+		fechaBase.replace(",", "").split(" ")[0]
+	) {
+		hora = Math.trunc((fa - fb) / 60000);
+		if (hora < 31) {
+			fecha = `${hora} minutes ago`;
+		} else {
+			fecha = fechaBase.replace(",", "").split(" ")[1];
+		}
+	} else {
+		fecha = fechaBase.replace(",", "").split(" ")[0];
+	}
+
+	return fecha;
+};
+
+const lobsWithDate = (data) => {
+	const lwd = data.map((lob) => {
+		const fecha = dateConfig(lob.DateRegistry);
+		lob.DateRegistry = fecha;
+		return lob;
+	});
+	return lwd;
+};
 //filtra los team leaders de cada LOB
 export const teamLeaderList = async (data, firstLob) => {
 	const TLList = data.filter((lob) => lob.NameLob === firstLob.NameLob);
 	return TLList;
 };
-export const createTeamLeaderList = (data, name) => {
+
+export const createTeamLeaderList = (data, name, userData) => {
 	const TLList = data.filter((tl) => tl.checked === true);
-	let list = [];
+	const list = [];
+	const emails = [];
 	TLList.forEach((tl) => {
 		list.push([tl.idccms]);
+		if (tl.Email) {
+			emails.push({
+				email: tl.Email,
+				name: tl.name,
+				rol: "Pilot",
+				rolManager: "Operations Commander",
+				manager: userData,
+			});
+		}
 	});
-	return { lobName: name, tlIdccms: list };
+	return { lobName: name, tlIdccms: list, emails };
 };
 export const filterTeamLeaderList = (data) => {
 	let list = [];
@@ -703,4 +769,23 @@ export const getLobNameDuplicate = (allData, name) => {
 	} else {
 		return false;
 	}
+};
+
+export const getTopics = (topics) => {
+	const arr = [];
+	topics.forEach((t) => arr.push(t.NameCategory));
+	return arr;
+};
+
+export const wordExist = (categories, newCategory) => {
+	let error = "";
+	categories.forEach((cat) => {
+		const newName = newCategory.NameCategory.toLowerCase();
+		const exist = cat.NameCategory.toLowerCase();
+		const word = exist.includes(newName);
+		if (word === true) {
+			error = "There is a category with that name";
+		}
+	});
+	return error;
 };

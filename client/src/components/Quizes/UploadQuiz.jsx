@@ -9,6 +9,7 @@ import { uploadQuizes } from "../../utils/api";
 import {
   Button,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -101,18 +102,32 @@ const BoxSteeper = styled(Box)(() => ({
   },
 }));
 
-const UploadQuiz = ({ setLoading }) => {
+const UploadQuiz = ({ setLoading, topics }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [empty, setEmpty] = useState(false);
   const [steep, setSteep] = useState(0);
   const [categoryStep, setCategoryStep] = useState([]);
+  const [question, setQuestion] = useState([]);
+  const [ask, setAsk] = useState([]);
+  const [back, setBack] = useState(false);
+  const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
+    dataQuiz;
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setDataQuiz([]);
+    setCategoryStep([]);
+    setQuestion([]);
+    setEmpty(false);
+    setBack(false);
+    setAsk([]);
+    setSteep(0);
   };
 
   const loadFile = (e) => {
@@ -145,7 +160,6 @@ const UploadQuiz = ({ setLoading }) => {
               colum[8]?.toString(),
               colum[9],
               colum[10]?.toString(),
-              colum[11]?.toString(),
             ];
           });
 
@@ -158,7 +172,8 @@ const UploadQuiz = ({ setLoading }) => {
           }
 
           data.shift();
-          let incorrectValues = validateFields(data);
+          //validacion de campos
+          let incorrectValues = validateFields(data, topics);
 
           if (incorrectValues) {
             reject(" Wrong values!");
@@ -206,7 +221,8 @@ const UploadQuiz = ({ setLoading }) => {
       }
 
       //setData(data);
-      const resp = await uploadQuizes({ data });
+      const context = 1;
+      const resp = await uploadQuizes(data, context);
 
       if (resp.status === 200) {
         setLoading(false);
@@ -231,15 +247,143 @@ const UploadQuiz = ({ setLoading }) => {
     });
   };
 
-  const handleNext = () => {
+  // Stepper  Section
+  const handleNext = async () => {
+    //validaciones//
+    //setup de la mision
+    if (
+      !quizCategory ||
+      !quizDescription ||
+      !quizName ||
+      !quizQuestions ||
+      !quizTarget
+    ) {
+      setEmpty(true);
+      return;
+    } else {
+      setEmpty(false);
+    }
+
+    //validacion por pregunta
+    if (ask.questionType === "multipleChoice") {
+      if (back === true) {
+        setBack(false);
+      } else {
+        if (
+          !ask[1] ||
+          !ask[2] ||
+          !ask[3] ||
+          !ask[4] ||
+          !ask.Q ||
+          !ask.answer ||
+          !ask.ask
+        ) {
+          setEmpty(true);
+
+          return;
+        } else {
+          setEmpty(false);
+        }
+      }
+    }
+
+    if (ask.questionType === "trueFalse") {
+      if (back === true) {
+        setBack(false);
+      } else {
+        if (!ask.Q || !ask.answer || !ask.ask) {
+          setEmpty(true);
+
+          return;
+        } else {
+          setEmpty(false);
+        }
+      }
+    }
+
+    //salto Next depregunta
     if (steep < categoryStep.length - 1) {
       setSteep((prev) => prev + 1);
     }
+
+    //asignacion al Arreglo para enviar
+    if (ask.length !== 0) {
+      if (!edit) {
+        setQuestion([...question, [ask]]);
+      } else {
+        //setQuestion([...question, [steep][0]:ask]);
+      }
+      setAsk({ questionType: "multipleChoice" });
+      if (steep === categoryStep.length - 1) {
+        handleClose();
+        MySwal.fire({
+          title: <p>{`Are you sure you want create the mission?`}</p>,
+          icon: "info",
+          showDenyButton: true,
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleUp([...question, [ask]]);
+          } else if (result.isDenied) {
+            handleOpen();
+          }
+        });
+        //handleUp();
+      }
+    } else {
+      //agrega el setup al arreglo gral
+      setQuestion([...question, [dataQuiz]]);
+      setAsk({ questionType: "multipleChoice" });
+    }
   };
+
+  //inicio Handle Back
   const handleBack = () => {
     if (steep > 0) {
       setSteep((prev) => prev - 1);
+      // if (!question[1]) {
+      //   setAsk([]);
+      // }
     }
+    if (question[steep]) {
+      if (steep > 0) {
+        setAsk(question[steep][0]);
+      } else if (steep === 1) {
+        setBack(true);
+      }
+    }
+    if (steep === 0) {
+      setAsk([]);
+    }
+  };
+
+  //End HandleBack
+
+  const handleUp = async (data) => {
+    const context = 2;
+
+    const resp = await uploadQuizes(data, context);
+
+    if (resp.status === 200) {
+      setLoading(false);
+      MySwal.fire({
+        title: <p>Mission created</p>,
+        icon: "success",
+        confirmButtonText: "Accept",
+        //allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          window.location.reload();
+        }
+      });
+    }
+
+    setQuestion([]);
+    setDataQuiz([]);
+    setCategoryStep([]);
+    setSteep(0);
+    setAsk([]);
   };
 
   useEffect(() => {
@@ -279,40 +423,76 @@ const UploadQuiz = ({ setLoading }) => {
           {steep > 0 ? (
             <>
               <Box display="flex" justifyContent="space-between">
-                <FormControl sx={{ width: " 48%" }}>
-                  <InputLabel id="questionType-label">Question Type</InputLabel>
-                  <Select
-                    labelId="questionType-label"
-                    name="questionType"
-                    value={dataQuiz.questionType || ""}
-                    label="Question Type"
-                    onChange={handleQuizSetup}
-                    required
-                  >
-                    <MenuItem value="trueFalse">True or False</MenuItem>
-                    <MenuItem value="multipleChoice">Multiple Choice</MenuItem>
-                  </Select>
-                </FormControl>
                 <InputText
                   name="quizName"
                   label="Quiz Name"
                   variant="outlined"
                   onChange={handleQuizSetup}
                   value={dataQuiz.quizName}
-                  sx={{ width: " 48%" }}
+                  sx={{ width: " 42%" }}
                 />
+                <FormControl sx={{ width: " 35%" }}>
+                  <InputLabel id="questionType-label">Question Type</InputLabel>
+                  <Select
+                    labelId="questionType-label"
+                    name="questionType"
+                    value={ask.questionType || ""}
+                    label="Question Type"
+                    onChange={(e) =>
+                      setAsk({ ...ask, questionType: e.target.value })
+                    }
+                    required
+                  >
+                    <MenuItem value="trueFalse">True or False</MenuItem>
+                    <MenuItem value="multipleChoice">Multiple Choice</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ width: " 20%" }} error={!ask.Q && empty}>
+                  <InputLabel id="questionType-label">Quartile</InputLabel>
+                  <Select
+                    labelId="quartile-label"
+                    name="quartile"
+                    value={ask.Q || ""}
+                    label="Quartile"
+                    onChange={(e) => setAsk({ ...ask, Q: e.target.value })}
+                    required
+                  >
+                    {["All", "Q1", "Q2", "Q3", "Q4"].map((q) => (
+                      <MenuItem value={q} key={q}>
+                        {q}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText color="red">
+                    {!ask.Q && empty ? "Field Requiered" : ""}
+                  </FormHelperText>
+                </FormControl>
               </Box>
-              {dataQuiz.questionType === "trueFalse" ? (
-                <TreuFalseQuestion steep={steep} />
+              {ask.questionType === "trueFalse" ? (
+                <TreuFalseQuestion
+                  steep={steep}
+                  ask={ask}
+                  setAsk={setAsk}
+                  empty={empty}
+                  question={question}
+                  setEdit={setEdit}
+                />
               ) : (
-                <MultiOptionQuestion steep={steep} />
+                <MultiOptionQuestion
+                  steep={steep}
+                  ask={ask}
+                  setAsk={setAsk}
+                  empty={empty}
+                  question={question}
+                  setEdit={setEdit}
+                />
               )}
             </>
           ) : (
             <>
               <Box>
                 <Typography variant="h6" color="#3047B0" fontWeight={700}>
-                  Upload Quiz
+                  Upload Mission
                 </Typography>
                 <BoxUpFile>
                   <form onSubmit={uploadFile}>
@@ -328,7 +508,7 @@ const UploadQuiz = ({ setLoading }) => {
                           </IconButton>
                         </Box>
                       ) : (
-                        "Upload Quiz File"
+                        "Upload Mission File"
                       )}
                     </label>
                     <input
@@ -336,7 +516,6 @@ const UploadQuiz = ({ setLoading }) => {
                       id="quiz"
                       name="quiz"
                       onChange={(e) => setFileName(e.target.files[0])}
-                      // onChange={(e) => uploadFile(e)}
                     />
                   </form>
                 </BoxUpFile>
@@ -348,6 +527,8 @@ const UploadQuiz = ({ setLoading }) => {
                 handleQuizSetup={handleQuizSetup}
                 fileName={fileName}
                 dataQuiz={dataQuiz}
+                topics={topics}
+                empty={empty}
               />
             </>
           )}
@@ -363,6 +544,7 @@ const UploadQuiz = ({ setLoading }) => {
 
             <ButtonActionBlue
               sx={{ width: "8rem" }}
+              disabled={fileName}
               onClick={() => {
                 handleNext();
               }}

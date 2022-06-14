@@ -1,10 +1,97 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
-import { InputText } from "../../assets/styled/muistyled";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  ButtonAction,
+  ButtonActionBlue,
+  InputText,
+} from "../../assets/styled/muistyled";
+import {
+  Button,
+  ButtonBase,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
-const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
-  const disabled = false;
+const FormSetupQuiz = ({
+  handleQuizSetup,
+  fileName,
+  dataQuiz,
+  topics,
+  empty,
+}) => {
+  const [disabled, setDisabled] = useState(false);
+  const [errorMSJ, setErrorMsj] = useState({ target: "", question: "" });
+  const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
+    dataQuiz;
+  useEffect(() => {
+    if (fileName) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [fileName]);
+
+  const handleTarget = (e) => {
+    if (e.target.value >= 0 && e.target.value <= 100) {
+      setErrorMsj({
+        ...errorMSJ,
+        target: "",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        target: "The target must contain a value between 0 and 100",
+      });
+    }
+  };
+
+  const handleQuestion = (e) => {
+    if (e.target.value >= 0 && e.target.value <= 10) {
+      setErrorMsj({
+        ...errorMSJ,
+        question: "",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        question: "Max 10 questions",
+      });
+    }
+  };
+  const handleName = (e) => {
+    if (e.target.value.length <= 50) {
+      setErrorMsj({
+        ...errorMSJ,
+        name: e.target.value.length + " / 50",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        name: "The name must have max 50 characters",
+      });
+    }
+  };
+  const handleDesc = (e) => {
+    if (e.target.value.length <= 300) {
+      setErrorMsj({
+        ...errorMSJ,
+        desc: e.target.value.length + " / 300",
+      });
+      handleQuizSetup(e);
+    } else {
+      setErrorMsj({
+        ...errorMSJ,
+        desc: "The description must have max 300 characters",
+      });
+    }
+  };
+
   return (
     <Box
       component="form"
@@ -16,57 +103,93 @@ const FormSetupQuiz = ({ handleQuizSetup, fileName, dataQuiz }) => {
     >
       <InputText
         name="quizName"
-        label="Quiz Name"
+        label="Mission Name"
+        maxLength={10}
         variant="outlined"
-        onChange={handleQuizSetup}
-        value={dataQuiz.quizName}
+        onChange={handleName}
+        value={quizName}
         disabled={disabled}
         required
+        size="small"
+        error={!quizName && empty}
+        helperText={
+          !quizName && empty ? (
+            "Field Requiered"
+          ) : (
+            <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+              {errorMSJ.name}
+            </p>
+          )
+        }
       />
       <InputText
         name="quizDescription"
         label="Description"
         variant="outlined"
-        onChange={handleQuizSetup}
-        value={dataQuiz.quizDescription}
+        onChange={handleDesc}
+        value={quizDescription}
         disabled={disabled}
+        size="small"
         required
+        error={!quizDescription && empty}
+        helperText={
+          !quizDescription && empty ? (
+            "Field Requiered"
+          ) : (
+            <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
+              {errorMSJ.desc}
+            </p>
+          )
+        }
       />
-      <FormControl fullWidth>
+      <FormControl fullWidth error={!quizCategory && empty}>
         <InputLabel id="quizCategory-label">Category</InputLabel>
         <Select
           labelId="quizCategory-label"
           name="quizCategory"
-          value={dataQuiz.quizCategory || ""}
+          value={quizCategory || ""}
           label="Category"
           onChange={handleQuizSetup}
           disabled={disabled}
           required
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {topics.map((cat, index) => (
+            <MenuItem value={cat} key={index}>
+              {cat}
+            </MenuItem>
+          ))}
         </Select>
+        <FormHelperText color="red">
+          {!quizCategory && empty ? "Field Requiered" : ""}
+        </FormHelperText>
       </FormControl>
       <InputText
         name="quizTarget"
         label="Target"
         variant="outlined"
         type="number"
-        onChange={handleQuizSetup}
-        value={dataQuiz.quizTarget}
+        onChange={handleTarget}
+        value={quizTarget}
         disabled={disabled}
+        size="small"
         required
+        error={!quizTarget && empty}
+        helperText={!quizTarget && empty ? "Field Requiered" : errorMSJ.target}
       />
       <InputText
         name="quizQuestions"
         label="Number of Questions"
         variant="outlined"
         type="number"
-        onChange={handleQuizSetup}
-        value={dataQuiz.quizQuestions}
+        onChange={handleQuestion}
+        value={quizQuestions}
+        size="small"
         disabled={disabled}
         required
+        error={!quizQuestions && empty}
+        helperText={
+          !quizQuestions && empty ? "Field Requiered" : errorMSJ.question
+        }
       />
     </Box>
   );

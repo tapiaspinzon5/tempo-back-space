@@ -43,7 +43,6 @@ const ModalBox = styled(Box)(() => ({
 	top: "50%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
-	//width: 400,
 	borderRadius: "20px",
 	boxShadow: "2px 2px 5px #2f2f2f",
 	padding: "1rem",

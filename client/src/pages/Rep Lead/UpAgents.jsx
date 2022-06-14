@@ -14,13 +14,13 @@ import {
 	Box,
 	Button,
 } from "@mui/material";
-//import Header from "../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiDownload } from "react-icons/fi";
 import {
 	downloadDataAdmin,
 	downloadReportExp,
 	downloadReportKpi,
+	requestWithData,
 } from "../../utils/api";
 import { UploadAgents } from "../../components/Agents/UploadAgents";
 import { ModalLoading } from "../../components/ModalLoading";
@@ -58,11 +58,16 @@ export const UpAgents = () => {
 	const [repKpi, setRepKpi] = useState([]);
 	const [repExp, setRepExp] = useState([]);
 	const [download, setDownload] = useState(true);
-
+	const [dataTeams, setDataTeams] = useState(true);
 	useEffect(() => {
 		const getData = async () => {
 			const agents = await downloadDataAdmin(3);
+			const teams = await requestWithData("getmissionsassignmentinfo", {
+				context: 2,
+				caso: 2,
+			});
 			setMyAgents(agents.data);
+			setDataTeams(teams.data[0].Teams);
 		};
 
 		getData();
@@ -100,6 +105,7 @@ export const UpAgents = () => {
 	const handleClose = () => {
 		setOpen(false);
 	};
+
 	const kpiSheet = (workbook) => {
 		const worksheet = workbook.getWorksheet("KPI´s");
 		worksheet.columns = [
@@ -161,8 +167,8 @@ QuizGrading: 0
 		const workbook = new ExcelJS.Workbook();
 		workbook.addWorksheet("KPI´s");
 		workbook.addWorksheet("EXP Points");
-		await kpiSheet(workbook);
-		await expSheet(workbook);
+		kpiSheet(workbook);
+		expSheet(workbook);
 		let fecha = new Date().toLocaleDateString();
 		const uint8Array = await workbook.xlsx.writeBuffer();
 		const blob = new Blob([uint8Array], { type: "application/octet-binary" });
@@ -186,7 +192,11 @@ QuizGrading: 0
 						aria-describedby="modal-modal-description"
 					>
 						<ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-							<UpQuizModal handleClose={handleClose} template={template} />
+							<UpQuizModal
+								handleClose={handleClose}
+								template={template}
+								teams={dataTeams}
+							/>
 						</ModalBox>
 					</Modal>
 					<Grid container>

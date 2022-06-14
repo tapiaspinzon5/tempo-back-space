@@ -40,7 +40,7 @@ const KpiCardUserAnalytics = ({ kpi, setActualKpi, handleKPI }) => {
 					<BsClock />
 				)}
 				<Typography variant="body1" fontWeight="bold" fontSize="12px">
-					{`${kpi.Actual.toFixed(2)} / ${kpi.Target}`}
+					{`${kpi.Actual?.toFixed(2)} / ${kpi.Target}`}
 				</Typography>
 				<Typography variant="body1" fontWeight="bold" fontSize="10px">
 					{`${kpi.unitKpi}`}

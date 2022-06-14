@@ -4,19 +4,19 @@ import { FiDownload } from "react-icons/fi";
 import CardQuizDesc from "../components/Quizes/CardQuizDesc";
 import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
-import { loadQuizes } from "../utils/api";
+import { getMissionsCategories, loadQuizes } from "../utils/api";
 import UpQuizModal from "../components/Modals/UpQuizModal";
 import { ModalLoading } from "../components/ModalLoading";
 import { ButtonAction, MainPage } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import CardCateroriesQuiz from "../components/Quizes/CardCateroriesQuiz";
+import { getTopics } from "../helpers/helpers";
 
 const ModalBox = styled(Box)(() => ({
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  //width: 400,
   borderRadius: "20px",
   boxShadow: "2px 2px 5px #2f2f2f",
   padding: "1rem",
@@ -29,10 +29,14 @@ const UpQuiz = () => {
   const [open, setOpen] = React.useState(false);
   const [showCat, setShowCat] = React.useState(false);
   const [misQuizes, setMisQuizes] = useState([]);
+  const [topics, setTopics] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       const quizes = await loadQuizes();
+      const getCategories = await getMissionsCategories();
+      const topics = getTopics(getCategories.data);
+      setTopics(topics);
       setMisQuizes(quizes.data);
     };
 
@@ -46,6 +50,15 @@ const UpQuiz = () => {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCategory = () => {
+    if (showCat) {
+      setShowCat(!showCat);
+      window.location.reload();
+    } else {
+      setShowCat(!showCat);
+    }
   };
 
   return (
@@ -78,13 +91,13 @@ const UpQuiz = () => {
               </Typography>
               <Box display="flex">
                 <Box>
-                  <ButtonAction onClick={() => setShowCat(!showCat)}>
+                  <ButtonAction onClick={handleCategory}>
                     Set Categories
                   </ButtonAction>
-                  {showCat && <CardCateroriesQuiz />}
+                  {showCat && <CardCateroriesQuiz setShowCat={setShowCat} />}
                 </Box>
                 <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
-                  Download Quiz Template
+                  Download Mission Template
                 </ButtonAction>
               </Box>
             </Box>
@@ -92,7 +105,7 @@ const UpQuiz = () => {
 
           <Grid container spacing={3} sx={{ minHeight: "60vh" }}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <UploadQuiz setLoading={setLoading} />
+              <UploadQuiz setLoading={setLoading} topics={topics} />
             </Grid>
             {misQuizes?.map((quiz, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
