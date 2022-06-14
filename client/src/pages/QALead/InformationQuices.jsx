@@ -102,17 +102,14 @@ const InformationQuices = () => {
 			context: 2,
 		});
 		if (agents && agents.status === 200 && agents.data.length > 0) {
-			console.log("first");
 			if (
 				agents.data[0].TeamsMembers[0].Ident !== "0" &&
 				agents.data[0].TeamsMembers[0].Agent !== "0"
 			) {
-				console.log(" 2");
 				setNoDataAgents(false);
 				setLoadingAgents(false);
 				setAgents(agents.data[0].TeamsMembers);
 			} else {
-				console.log("3");
 				setLoadingAgents(false);
 				setNoDataAgents(true);
 			}
@@ -194,7 +191,7 @@ const InformationQuices = () => {
 	const removeMission = (data) => {
 		MySwal.fire({
 			title: (
-				<p>{`Are you sure you want to remove the "examName" mission from the "Agent"?`}</p>
+				<p>{`Are you sure you want to remove the "${data.NameMission}" mission from agent "${dataToSend.name}"?`}</p>
 			),
 			icon: "info",
 			showDenyButton: true,

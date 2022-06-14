@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { IconButton, styled, Grid } from "@mui/material";
+import { Button, styled, Grid } from "@mui/material";
 
-import { BsTrash } from "react-icons/bs";
-
-import { GiSandsOfTime } from "react-icons/gi";
+import { BiCheckCircle, BiXCircle } from "react-icons/bi";
 
 import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/system";
+import { ButtonAction } from "../../assets/styled/muistyled";
 
 const BoxTable = styled(Grid)(() => ({
   height: "32rem",
@@ -23,7 +23,7 @@ const BoxTable = styled(Grid)(() => ({
   },
 }));
 
-const TableAgentUpload = ({ dataAgent, handleState }) => {
+const TableAgentUpload = ({ dataAgent, handleAction }) => {
   const ref = useRef();
   const [width, setWidth] = useState(0);
 
@@ -37,49 +37,48 @@ const TableAgentUpload = ({ dataAgent, handleState }) => {
     {
       field: "Agent",
       headerName: "Agents",
-      width: width < 250 ? 200 : width * 0.25,
+      width: width < 250 ? 200 : width * 0.3,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "Ident",
       headerName: "CCMS",
-      width: width < 250 ? 200 : width * 0.15,
+      width: width < 250 ? 200 : width * 0.18,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
-      field: "NameTeam",
+      field: "date",
       editable: true,
-      headerName: "Team",
-      width: width < 250 ? 200 : width * 0.25,
-      headerClassName: "super-app-theme--header",
-      cellClassName: "super-app-theme--cell",
-    },
-    {
-      field: "Lob",
-      headerName: "LOB",
-      width: width < 250 ? 200 : width * 0.2,
+      headerName: "Request Date",
+      width: width < 250 ? 200 : width * 0.28,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
     {
       field: "Estado",
-      headerName: "",
-      width: width < 250 ? 200 : width * 0.1,
+      headerName: "Aprove/Deny",
+      width: width < 250 ? 200 : width * 0.2,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
       renderCell: (params) => (
-        <IconButton
-          onClick={() => handleState(params.row.Ident)}
-          disabled={params.row.Request}
-        >
-          {params.row.Request ? (
-            <GiSandsOfTime color="#3047B0" size={18} />
-          ) : (
-            <BsTrash color="#3047B0" size={18} />
-          )}
-        </IconButton>
+        <Box width=" 100%" display="flex" justifyContent="center">
+          <ButtonAction
+            onClick={() => handleAction(params.row.Ident, "approved")}
+            disabled={params.row.Request}
+            sx={{ marginRight: "5px" }}
+          >
+            <BiCheckCircle color="#3047B0" size={25} />
+          </ButtonAction>
+          <ButtonAction
+            onClick={() => handleAction(params.row.Ident, "cancelled")}
+            disabled={params.row.Request}
+            sx={{ marginRight: "5px" }}
+          >
+            <BiXCircle color="#f00" size={25} />
+          </ButtonAction>
+        </Box>
       ),
     },
   ];

@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { List, ListItem, ListItemIcon, Typography } from "@mui/material";
+import { List, ListItem, ListItemIcon, Typography, Badge } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import homeIcon from "../../assets/Icons/home.svg";
 import gridIcon from "../../assets/Icons/grid.svg";
+import desactIco from "../../assets/Icons/desactivation-ico.svg";
 import { FiKey, FiPieChart, FiUploadCloud, FiUsers } from "react-icons/fi";
 import { SiHtmlacademy } from "react-icons/si";
 import { VscDiffAdded } from "react-icons/vsc";
@@ -12,10 +13,11 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { BsWindowSidebar } from "react-icons/bs";
+import { BiUserX } from "react-icons/bi";
 
 const LItem = styled(ListItem)(({ theme }) => ({
   justifyContent: "flex-start",
-  marginBottom: "20px",
+  marginBottom: "10px",
   padding: "10px",
   [theme.breakpoints.down("md")]: {
     marginBottom: "0px",
@@ -256,6 +258,21 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
+                <LItem button onClick={() => navigate("/desactivation")}>
+                  <LIcon>
+                    <Badge
+                      color="error"
+                      variant="dot"
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                      }}
+                    >
+                      <img src={desactIco} alt="Grid" />
+                    </Badge>
+                  </LIcon>
+                  {open && match && <Typography>Desactivation</Typography>}
+                </LItem>
               </>
             )}
           </>
@@ -292,6 +309,21 @@ export const NavList = ({ open, match, userData }) => {
                 <FiPieChart size={25} color="#fff" />
               </LIcon>
               {open && match && <Typography>Analytics</Typography>}
+            </LItem>
+            <LItem button onClick={() => navigate("/desactivation")}>
+              <LIcon>
+                <Badge
+                  color="error"
+                  variant="dot"
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                >
+                  <img src={desactIco} alt="Grid" />
+                </Badge>
+              </LIcon>
+              {open && match && <Typography>Desactivation</Typography>}
             </LItem>
           </>
         )}

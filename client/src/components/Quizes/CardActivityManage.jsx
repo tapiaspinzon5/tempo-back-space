@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import img1 from "../../assets/temp-image/Enmascarargrupo2044.png";
+import { useCountdown } from "../../Hooks/useCountdown";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.6rem",
@@ -39,7 +40,7 @@ const DownSection = styled(Box)(({ theme }) => ({
   background: "red",
   borderRadius: "0 0  10px 10px",
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "space-around",
   alignItems: "center",
   button: {
     color: "#000",
@@ -53,15 +54,24 @@ const DownSection = styled(Box)(({ theme }) => ({
       background: "#e6e6e6e0",
     },
   },
+  span: {
+    color: "#fff",
+  },
 }));
 
+// const dateIni2 = "2022-06-13T16:27:00";
+// const DateEnd2 = "2022-06-13T16:29:00";
+
 const CardActivityManage = ({ quiz }) => {
+  const { EstadoExamen, ExamName, IdExamen, dateIni, DateEnd } = quiz;
+  const [days, hours, minutes, seconds, start] = useCountdown(dateIni, DateEnd);
+
   const navigate = useNavigate();
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState();
   const [background, setbackground] = useState(false);
-  const { EstadoExamen, ExamName, IdExamen, expTime, CantidadPreguntas } = quiz;
 
   useEffect(() => {
+    console.log(start);
     switch (EstadoExamen) {
       case "Failed":
         setbackground("rgba(255, 0, 0, 0.616) 0% 0% no-repeat padding-box");
@@ -95,17 +105,18 @@ const CardActivityManage = ({ quiz }) => {
       >
         <CardViewer>
           <Typography variant="body1">{ExamName}</Typography>
-          <Typography variant="body2">
-            # Questions: {CantidadPreguntas}
-          </Typography>
-          <Typography variant="body2">Exp. Time: {expTime}</Typography>
         </CardViewer>
         <DownSection sx={{ background }}>
+          {EstadoExamen === "Start" && (
+            <Typography variant="caption" color="initial">
+              {days}D-{hours}h:{minutes}m:{seconds}s
+            </Typography>
+          )}
           <Button
             onClick={() =>
               navigate(`/quizdetails/${IdExamen}/${EstadoExamen}/${ExamName}`)
             }
-            disabled={active}
+            disabled={active || start}
           >
             {EstadoExamen}
           </Button>

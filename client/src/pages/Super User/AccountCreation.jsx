@@ -335,7 +335,7 @@ const AccountCreation = () => {
 															fontSize="12px"
 															marginLeft={2}
 														>
-															{`${kpi.Q1.toFixed(2)} / ${kpi.CriticalPoint}`}
+															{`${kpi.Q1?.toFixed(2)} / ${kpi.CriticalPoint}`}
 														</Typography>
 													</Box>
 												</Box>
