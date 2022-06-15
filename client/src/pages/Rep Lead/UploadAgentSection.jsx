@@ -16,6 +16,7 @@ import withReactContent from "sweetalert2-react-content";
 import { toast } from "react-toastify";
 import XLSX from "xlsx";
 import {
+	teamValidation,
 	validateFieldsProvideUsersRL,
 	validateHeadersProvideUsersRL,
 } from "../../helpers/helpers";
@@ -56,6 +57,8 @@ const UploadAgentSection = () => {
 	const [dataAgent, setDataAgent] = useState([]);
 	const [dataTeam, setDataTeam] = useState([]);
 	const [dataTeams, setDataTeams] = useState(true);
+	const [existTeams, setExistTeams] = useState(true);
+	const [existTeamsMSJ, setExistTeamsMSJ] = useState("");
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -96,6 +99,8 @@ const UploadAgentSection = () => {
 					data.shift();
 					let incorrectValues = validateFieldsProvideUsersRL(data);
 
+					let exist = teamValidation(data, dataTeam);
+
 					if (differentsHeaders) {
 						reject("Headers no coinciden");
 						return;
@@ -105,6 +110,13 @@ const UploadAgentSection = () => {
 						reject("Existen campos incorrectos");
 						return;
 					}
+					if (exist) {
+						reject(
+							`The team ${exist} does not exist or is misspelled, check and try again.`
+						);
+						return;
+					}
+
 					resolve(data);
 				} else {
 					reject("El archivo no contiene información.");
@@ -152,11 +164,14 @@ const UploadAgentSection = () => {
 					allowOutsideClick: false,
 				}).then((resultado) => {
 					if (resultado.value) {
-						window.location.reload();
+						// window.location.reload();
+						getData();
+						getTeams();
 					}
 				});
 			}
 		}
+		setExistTeams(null);
 	};
 
 	const handleState = async (idccms) => {
@@ -196,17 +211,16 @@ const UploadAgentSection = () => {
 		const getAgents = await getAgentsCampaign();
 		setDataAgent(getAgents.data);
 	};
-
+	const getTeams = async () => {
+		const data = await getTeamsInformation();
+		setDataTeam(data.data[0].Teams);
+		const teams = await requestWithData("getmissionsassignmentinfo", {
+			context: 2,
+			caso: 2,
+		});
+		setDataTeams(teams.data[0].Teams);
+	};
 	useEffect(() => {
-		const getTeams = async () => {
-			const data = await getTeamsInformation();
-			setDataTeam(data.data[0].Teams);
-			const teams = await requestWithData("getmissionsassignmentinfo", {
-				context: 2,
-				caso: 2,
-			});
-			setDataTeams(teams.data[0].Teams);
-		};
 		getData();
 		getTeams();
 	}, []);

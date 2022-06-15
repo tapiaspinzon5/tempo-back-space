@@ -45,7 +45,6 @@ export const QuizViewV2 = ({ setNavView }) => {
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);
   const [next, setNext] = useState(0);
-  const theme = useTheme();
 
   useEffect(() => {
     const getData = async () => {
@@ -124,6 +123,27 @@ export const QuizViewV2 = ({ setNavView }) => {
       });
     }
   };
+
+  console.log(quiz[0]?.examStarted);
+
+  useEffect(() => {
+    if (quiz[0]?.examStarted > 2) {
+      MySwal.fire({
+        title: <p>UPss!</p>,
+        icon: "warning",
+        html: `<p>You have exceeded the number of entries allowed for this mission.</p>`,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Accept and go Spacelab",
+        backdrop: `url(${bgmodal}) center center`,
+        allowOutsideClick: false,
+      }).then((resultado) => {
+        if (resultado.value) {
+          setNavView(true);
+          navigate("/activitiesview", { replace: true });
+        }
+      });
+    }
+  }, [quiz]);
 
   return (
     <ContentBox>

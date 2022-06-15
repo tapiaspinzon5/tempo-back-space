@@ -39,7 +39,7 @@ const BoxCat = styled(Box)(() => ({
   },
 }));
 
-const CardCateroriesQuiz = ({ setShowCat }) => {
+const CardCateroriesQuiz = ({ setShowCat, getData }) => {
   const refCategory = useRef();
   const [edit, setEdit] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -82,18 +82,6 @@ const CardCateroriesQuiz = ({ setShowCat }) => {
       setEdit(newCategory.idCat);
       return;
     }
-    // categories.forEach((cat) => {
-    //   const newName = newCategory.NameCategory.toLowerCase();
-    //   const exist = cat.NameCategory.toLowerCase();
-
-    //   const word = exist.includes(newName);
-
-    //   console.log(word, newName, exist);
-    //   if (word === true) {
-    //     setError(() => "There is a category with that name");
-    //     return;
-    //   }
-    // });
 
     const existe = wordExist(categories, newCategory);
     setError(existe);
@@ -139,7 +127,7 @@ const CardCateroriesQuiz = ({ setShowCat }) => {
   //clickoutside
   useClickOutside(refCategory, () => {
     setShowCat(false);
-    //window.location.reload();
+    getData();
   });
 
   return (

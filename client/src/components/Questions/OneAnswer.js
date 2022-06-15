@@ -94,10 +94,10 @@ export const OneAnswer = ({ question, answer, setAnswer }) => {
         }}
       >
         <CardContent>
-          <Typography variant="h4">
+          <Typography variant="h5" fontWeight={500}>
             Quiz {question.IdExamen} - {question.NombreExamen}
           </Typography>
-          <Typography variant="body1" fontSize={20} mt={3}>
+          <Typography variant="body1" fontSize={20} mt={2}>
             {question.title}
           </Typography>
           <br />
