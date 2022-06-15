@@ -1,13 +1,15 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import CryptoJS from "crypto-js";
 
 //url de apuntamiento
 //Localhost
-const url = "http://localhost:4343";
+//const url = "http://localhost:4343";
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
 // Pilot
 //const url = "https://spacegptest.teleperformance.co";
+const url = "http://10.138.143.203:4343";
 
 //datainicial
 const initialData = {
@@ -102,11 +104,21 @@ export const loginSubmit = (data) => async (dispatch) => {
 		dispatch({
 			type: INICIO_SESION_EXITO,
 			payload: {
-				data: requestData.data,
+				/* JSON.parse(
+					CryptoJS.AES.decrypt(
+						JSON.parse(requestData.data),
+						"secret key 123"
+					).toString(CryptoJS.enc.Utf8)
+				) */
+				data: JSON.parse(
+					CryptoJS.AES.decrypt(
+						requestData.data.replace(/['"]+/g, ""),
+						"secret key 123"
+					).toString(CryptoJS.enc.Utf8)
+				),
 			},
 		});
-
-		sessionStorage.setItem(
+		/* sessionStorage.setItem(
 			"userTP",
 			JSON.stringify({
 				Token: requestData.data.Token,
@@ -118,6 +130,23 @@ export const loginSubmit = (data) => async (dispatch) => {
 				Quartile: requestData.data.Quartile,
 				Nombre: requestData.data.Nombre,
 			})
+		); */
+		sessionStorage.setItem(
+			"userTP",
+			requestData.data.replace(/['"]+/g, "")
+			/* 	CryptoJS.AES.encrypt(
+				JSON.stringify({
+					Token: requestData.data.Token,
+					RefreshToken: requestData.data.RefreshToken,
+					NumberLogins: requestData.data.NumberLogins,
+					Role: requestData.data.Role,
+					UserName: requestData.data.UserName,
+					Idccms: requestData.data.Idccms,
+					Quartile: requestData.data.Quartile,
+					Nombre: requestData.data.Nombre,
+				}),
+				"secret key 123"
+			).toString() */
 		);
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
@@ -129,7 +158,14 @@ export const readUserActiveAction = () => (dispatch) => {
 	if (sessionStorage.getItem("userTP")) {
 		dispatch({
 			type: INICIO_SESION_EXITO,
-			payload: { data: JSON.parse(sessionStorage.getItem("userTP")) },
+			payload: {
+				data: JSON.parse(
+					CryptoJS.AES.decrypt(
+						sessionStorage.getItem("userTP"),
+						"secret key 123"
+					).toString(CryptoJS.enc.Utf8)
+				),
+			},
 		});
 	}
 };
