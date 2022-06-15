@@ -8,6 +8,7 @@ const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
 const { randomInt } = require("crypto");
 const { sendEmail } = require("../helpers/sendEmail");
+const CryptoJS = require("crypto-js");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -53,7 +54,8 @@ let responsep = (tipo, req, res, resultado, cookie) => {
         secure: process.env.NODE_ENV !== "development",
         sameSite: "Strict",
       });
-      res.status(200).json(resultado);
+      console.log(resultado);
+      res.status(200).json(CryptoJS.AES.encrypt(JSON.stringify(resultado), `secret key 123`).toString());
       resolve("Enviado");
     } else if (tipo == 2) {
       console.log("Error at:", new Date(), "res: ", resultado);

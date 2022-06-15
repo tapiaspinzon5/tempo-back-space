@@ -1,5 +1,6 @@
 const routes = require("../controllers/routes.controller");
 const { checkIdccms } = require("../middleware/checkIdccms");
+const { decryptBody } = require("../middleware/decrypt");
 const oauth = require("../middleware/oauth");
 
 module.exports = (router) => {
@@ -15,12 +16,12 @@ module.exports = (router) => {
 
   // METODOS PERSONALIZADOS
   // Rutas para la carga de plantillas
-  router.post("/uploadquiz", oauth.oauthOther, routes.saveQuiz); // Endpoint para la carga de la plantilla del QALeader.
+  router.post("/uploadquiz", oauth.oauthOther, decryptBody, routes.saveQuiz); // Endpoint para la carga de la plantilla del QALeader.
   // router.post("/getquizqa", oauth.oauthOther, routes.getQuizQA); // Este enpoint trae todos los quizes que el QALeader haya cargado.
-  router.post("/uploadsu", oauth.oauthOther, routes.uploadSU); // Endpoint para la carga de la plantilla del SuperUsuario.
-  router.post("/getteamsbysu", oauth.oauthOther, routes.getTeamsSU); // Retorna los equipos creados por el superuser.
-  router.post("/uploadopsm", oauth.oauthOther, routes.uploadOpsM); // Endpoint para la carga de la plantilla del operation manager.
-  router.post("/uploadrepl", oauth.oauthOther, routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
+  router.post("/uploadsu", oauth.oauthOther, decryptBody, routes.uploadSU); // Endpoint para la carga de la plantilla del SuperUsuario.
+  router.post("/getteamsbysu", oauth.oauthOther, decryptBody, routes.getTeamsSU); // Retorna los equipos creados por el superuser.
+  router.post("/uploadopsm", oauth.oauthOther, decryptBody, routes.uploadOpsM); // Endpoint para la carga de la plantilla del operation manager.
+  router.post("/uploadrepl", oauth.oauthOther, decryptBody, routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
 
   // Rutas para visualizar informacion.
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
@@ -35,11 +36,11 @@ module.exports = (router) => {
   // router.post("/getQuizDetail", oauth.oauthOther, routes.getQuizDetail);
   // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
   // TODO: PENDIENTE
-  router.post("/getresultquiz", oauth.oauthOther, routes.getResultQuiz);
+  router.post("/getresultquiz", oauth.oauthOther, decryptBody, routes.getResultQuiz);
   // Retorna los retos tanto para el TL (para asiganarlo a un agente) como para los agentes(cuando se retan entre ellos)
-  router.post("/getchanllenges", oauth.oauthOther, routes.getChanllenges);
+  router.post("/getchanllenges", oauth.oauthOther, decryptBody, routes.getChanllenges);
   // Retorna la cantidad de registros cargados en cada plantilla.
-  router.post("/gettemplatesloaded", oauth.oauthOther, routes.getTemplatesLoaded);
+  router.post("/gettemplatesloaded", oauth.oauthOther, decryptBody, routes.getTemplatesLoaded);
   // Retorna las instrucciones para el cargue de plantillas.
   // router.post("/getloadinstructions", oauth.oauthOther, routes.getLoadInstructions);
   // Retorna la lista de agentes para asiganar un reto por parte del TL.
@@ -49,7 +50,7 @@ module.exports = (router) => {
   // Retorna la descripcion de una actividad para el agente.
   // router.post("/getactivitiesdescriptionagent", oauth.oauthOther, routes.getActivitiesDescriptionAgent);
   // Asignar challenges desde TL y agentes.
-  router.post("/postassignchallenges", oauth.oauthOther, routes.postAssignChallenges);
+  router.post("/postassignchallenges", oauth.oauthOther, decryptBody, routes.postAssignChallenges);
   // Retorna los kpi de la campaña para la vista de KPI del Team leader
   // router.post("/getkpiteamtl", oauth.oauthOther, routes.getkpiteamTL);
   // Retorna los agentes por kpi seleccionado en la vista KPI TL.
@@ -71,9 +72,9 @@ module.exports = (router) => {
   // Trae toda la informacion del home del agente (podio, kpis, estadisticas, futuramente notificaciones).
   // router.post("/getdashboardtl", oauth.oauthOther, routes.getDashboardTL);
   // Endpoint para asignar TPV
-  router.post("/postassigntpv", oauth.oauthOther, routes.postassigntpv);
+  router.post("/postassigntpv", oauth.oauthOther, decryptBody, routes.postassigntpv);
 
-  router.post("/getkpiagentkpiteam", oauth.oauthOther, routes.getKpiAgentKpiTeam);
+  router.post("/getkpiagentkpiteam", oauth.oauthOther, decryptBody, routes.getKpiAgentKpiTeam);
 
   // Carga el seguimiento de los kpi de forma manual.
   // router.post("/uploadkpirl", oauth.oauthOther, routes.uploadKpirl);
@@ -95,10 +96,10 @@ module.exports = (router) => {
   // router.post("/getinfoleaderboardrl", oauth.oauthOther, routes.getInfoLeaderBoardrl);
 
   // Endpoint para crear campañas.
-  router.post("/postcreatecampaign", oauth.oauthOther, routes.postCreateCampaign);
+  router.post("/postcreatecampaign", oauth.oauthOther, decryptBody, routes.postCreateCampaign);
 
   // Endpoint para crear LOB.
-  router.post("/postcreatelob", oauth.oauthOther, routes.postCreateLOB);
+  router.post("/postcreatelob", oauth.oauthOther, decryptBody, routes.postCreateLOB);
 
   // Consulta todas las LOB y los equipos de una campaña.
   // router.post("/getlobsopsm", oauth.oauthOther, routes.getLobsOpsm);
@@ -110,7 +111,7 @@ module.exports = (router) => {
   // router.post("/postcreatecategory", oauth.oauthOther, routes.postCreateCategory);
 
   // Este endpoint es utilizado para asignar Misiones a los agentes.
-  router.post("/postassignmission", oauth.oauthOther, routes.postAssignMission);
+  router.post("/postassignmission", oauth.oauthOther, decryptBody, routes.postAssignMission);
 
   // Este endpoint se usa para desactivar las misiones.
   // router.post("/postinactivatemission", oauth.oauthOther, routes.postInactivateMission);
@@ -130,7 +131,7 @@ module.exports = (router) => {
   // router.post("/getcampaigninfo", oauth.oauthOther, routes.getCampaignInfo);
 
   // Endpoint para actualizar las campañas
-  router.post("/postupdatecampaigninfo", oauth.oauthOther, routes.postUpdateCampaignInfo);
+  router.post("/postupdatecampaigninfo", oauth.oauthOther, decryptBody, routes.postUpdateCampaignInfo);
 
   // Endpoint para actualizar el nombre del equipo
   // router.post("/postupdateteamname", oauth.oauthOther, routes.postUpdateTeamName);
@@ -150,13 +151,13 @@ module.exports = (router) => {
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
-  router.get("/gettemplate/:name", oauth.oauthOther, routes.getTemplate); // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
+  router.get("/gettemplate/:name", oauth.oauthOther, decryptBody, routes.getTemplate); // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
 
   // Prueba para enviar correos
-  router.post("/sendemailnotification", oauth.oauthOther, routes.sendEmailNotification);
+  router.post("/sendemailnotification", oauth.oauthOther, decryptBody, routes.sendEmailNotification);
 
   // Ruta de prueba para enviar notificaciones.
-  router.post("/sendfcmnotification", oauth.oauthOther, routes.sendFCMNotificacion);
+  router.post("/sendfcmnotification", oauth.oauthOther, decryptBody, routes.sendFCMNotificacion);
 
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.
@@ -235,6 +236,6 @@ module.exports = (router) => {
   //   router.post(route, (req, res) => routes.CallSp(spName, req, res));
   // }
   function MapSpRouter(route, spName) {
-    router.post(route, oauth.oauthOther, (req, res) => routes.CallSp(spName, req, res));
+    router.post(route, oauth.oauthOther, decryptBody, (req, res) => routes.CallSp(spName, req, res));
   }
 };
