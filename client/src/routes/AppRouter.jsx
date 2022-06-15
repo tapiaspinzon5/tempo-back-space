@@ -242,6 +242,7 @@ const AppRouter = () => {
               <Route path="/upcampaign" element={<UpCampaign />} />
               <Route path="/leaderboard" element={<LeaderBoardRL />} />
               <Route path="/analytics" element={<AnalyticsOM />} />
+              <Route path="/desactivation" element={<DesactivationSection />} />
             </>
           )}
           {userData?.Role === "QA Lead" && (

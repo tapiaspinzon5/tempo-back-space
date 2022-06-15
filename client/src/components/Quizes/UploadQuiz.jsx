@@ -102,7 +102,7 @@ const BoxSteeper = styled(Box)(() => ({
   },
 }));
 
-const UploadQuiz = ({ setLoading, topics }) => {
+const UploadQuiz = ({ setLoading, topics, getData }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
   const [open, setOpen] = useState(false);
@@ -233,7 +233,8 @@ const UploadQuiz = ({ setLoading, topics }) => {
           allowOutsideClick: false,
         }).then((resultado) => {
           if (resultado.value) {
-            window.location.reload();
+            // //window.location.reload();
+            getData();
           }
         });
       }
@@ -374,7 +375,8 @@ const UploadQuiz = ({ setLoading, topics }) => {
         //allowOutsideClick: false,
       }).then((resultado) => {
         if (resultado.value) {
-          window.location.reload();
+          // window.location.reload();
+          getData();
         }
       });
     }

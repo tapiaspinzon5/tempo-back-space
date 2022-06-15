@@ -32,17 +32,17 @@ const UpQuiz = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      const quizes = await loadQuizes();
-      const getCategories = await getMissionsCategories();
-      const topics = getTopics(getCategories.data);
-      setTopics(topics);
-      setMisQuizes(quizes.data);
-    };
-
     getData();
     // eslint-disable-next-line
   }, []);
+
+  const getData = async () => {
+    const quizes = await loadQuizes();
+    const getCategories = await getMissionsCategories();
+    const topics = getTopics(getCategories.data);
+    setTopics(topics);
+    setMisQuizes(quizes.data);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -55,7 +55,8 @@ const UpQuiz = () => {
   const handleCategory = () => {
     if (showCat) {
       setShowCat(!showCat);
-      window.location.reload();
+      //window.location.reload();
+      getData();
     } else {
       setShowCat(!showCat);
     }
@@ -94,7 +95,12 @@ const UpQuiz = () => {
                   <ButtonAction onClick={handleCategory}>
                     Set Categories
                   </ButtonAction>
-                  {showCat && <CardCateroriesQuiz setShowCat={setShowCat} />}
+                  {showCat && (
+                    <CardCateroriesQuiz
+                      setShowCat={setShowCat}
+                      getData={getData}
+                    />
+                  )}
                 </Box>
                 <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
                   Download Mission Template
@@ -105,7 +111,11 @@ const UpQuiz = () => {
 
           <Grid container spacing={3} sx={{ minHeight: "60vh" }}>
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <UploadQuiz setLoading={setLoading} topics={topics} />
+              <UploadQuiz
+                setLoading={setLoading}
+                topics={topics}
+                getData={getData}
+              />
             </Grid>
             {misQuizes?.map((quiz, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
