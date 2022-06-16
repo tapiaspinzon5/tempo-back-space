@@ -318,7 +318,7 @@ exports.getResultQuiz = async (req, res) => {
 
 exports.getTeamsSU = async (req, res) => {
   sql
-    .query("spQueryTeams", parametros({ idccms: req.query.idccms }, "spQueryTeams"))
+    .query("spQueryTeams", parametros({ idccms }, "spQueryTeams"))
     .then((result) => {
       responsep(1, req, res, result);
     })

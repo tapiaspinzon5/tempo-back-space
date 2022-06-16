@@ -4,6 +4,7 @@ import { VideoIntro } from "../components/VideoIntro";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { welcomeToEGP } from "../utils/api";
+import CryptoJS from "crypto-js";
 
 const MainHomevideo = styled(Grid)(({ theme }) => ({
 	display: "flex",
@@ -22,10 +23,20 @@ export const VideoView = ({ setNavView }) => {
 	//const theme = useTheme();
 	const navigate = useNavigate();
 	const handleView = async () => {
-		let data = JSON.parse(sessionStorage.getItem("userTP"));
+		let data = JSON.parse(
+			JSON.parse(
+				CryptoJS.AES.decrypt(
+					sessionStorage.getItem("userTP"),
+					"secret key 123"
+				).toString(CryptoJS.enc.Utf8)
+			)
+		);
 		const videoOk = () => {
 			data.NumberLogins = 2;
-			sessionStorage.setItem("userTP", JSON.stringify(data));
+			sessionStorage.setItem(
+				"userTP",
+				CryptoJS.AES.encrypt(JSON.stringify(data), "secret key 123").toString()
+			);
 			welcomeToEGP(idccms);
 		};
 		videoOk();
