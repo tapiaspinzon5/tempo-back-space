@@ -40,6 +40,7 @@ function login(req, res) {
           };
 
           const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
+          // responsep(1, req, res, data);
           responsep(1, req, res, ciphertext);
         })
         .catch((err) => {
