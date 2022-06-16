@@ -22,7 +22,7 @@ const userPermissions = [
   { rol: "SU", tag: "Super Admin" },
 ];
 
-const dataAgent = [
+const data = [
   {
     idccms: 123456,
     name: "Deiby Niño Garces",
@@ -61,9 +61,11 @@ const UserPermission = () => {
   const [permissions, setPermissions] = useState(false);
   const [role, setRole] = React.useState("");
   const [dataCampaign, setDataCampaign] = React.useState([]);
+  const [dataAgent, setDataAgent] = React.useState(data);
   const [newUser, setNewUser] = useState([]);
   const [searchCampaign, setSearchCampaign] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [checkUser, setCheckUser] = React.useState();
 
   const handleOpen = (camp) => {
     if (camp) {
@@ -74,6 +76,10 @@ const UserPermission = () => {
   const handleClose = () => {
     setOpen(false);
     setDataCampaign([]);
+  };
+
+  const handleDeleteUser = () => {
+    console.log("Delete user...");
   };
 
   return (
@@ -87,6 +93,9 @@ const UserPermission = () => {
           <Box display="flex" alignItems="flex-end" height="5rem">
             <ButtonAction onClick={() => handleOpen()}>New User</ButtonAction>
 
+            <ButtonAction onClick={() => handleDeleteUser()}>
+              Delete User
+            </ButtonAction>
             <ButtonAction onClick={() => setPermissions(!permissions)}>
               Permissions
             </ButtonAction>
@@ -105,7 +114,10 @@ const UserPermission = () => {
       </Grid>
       <Grid item xs={12}>
         <BoxData mt={2}>
-          <UserTablePermissions dataAgent={dataAgent} />
+          <UserTablePermissions
+            dataAgent={dataAgent}
+            setCheckUser={setCheckUser}
+          />
         </BoxData>
       </Grid>
       <Footer />

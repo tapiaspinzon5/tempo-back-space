@@ -7,7 +7,7 @@ import {
 } from "../../assets/styled/muistyled";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
 
-const UserTablePermissions = ({ dataAgent }) => {
+const UserTablePermissions = ({ dataAgent, setCheckUser }) => {
   const [agents, setAgents] = useState(dataAgent);
   const [order, setOrder] = useState("ASC");
   const [column, setColumn] = useState("");
@@ -105,6 +105,7 @@ const UserTablePermissions = ({ dataAgent }) => {
                 id="user"
                 name="user"
                 value={agent.idccms}
+                onChange={(e) => setCheckUser(e.target.value)}
                 style={{ height: "1.2rem", width: "1.2rem" }}
               />
             </Box>
