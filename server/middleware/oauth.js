@@ -2,6 +2,7 @@ require("dotenv").config();
 const redirect = require("../controllers/redirect.controller");
 const sql = require("../controllers/sql.controller");
 const parametros = require("../controllers/params.controller").parametros;
+const CryptoJS = require("crypto-js");
 
 const url = "https://oauth.teleperformance.co/api/";
 
@@ -27,7 +28,7 @@ function login(req, res) {
       sql
         .query("spQueryRoleEmployee", parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee"))
         .then((result2) => {
-          responsep(1, req, res, {
+          let data = {
             Nombre: result?.data.data?.nombre,
             Idccms: result?.data.data?.idccms,
             UserName: result?.data.data?.username,
@@ -36,7 +37,11 @@ function login(req, res) {
             Role: result2[0]?.Role,
             Quartile: result2[0]?.Quartile,
             NumberLogins: result2[0]?.NumberLogins,
-          });
+          };
+
+          const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
+          // responsep(1, req, res, data);
+          responsep(1, req, res, ciphertext);
         })
         .catch((err) => {
           console.log(err, "sp");
