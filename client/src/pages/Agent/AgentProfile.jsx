@@ -18,6 +18,7 @@ const BoxSection = styled(Grid)(() => ({
 const AgentProfile = ({ profile }) => {
 	const [tpvs, setTpvs] = useState([]);
 	const [badges, setBadges] = useState([]);
+	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		const getData = async () => {
@@ -25,6 +26,7 @@ const AgentProfile = ({ profile }) => {
 			const userData = await downloadProfile();
 			if (userData && userData.status === 200 && userData.data.length > 1) {
 				setLoading(false);
+				setData(userData.data[0].Profile[0]);
 				setTpvs(userData.data[1].Tpv);
 				setBadges(userData.data[2].Badges);
 			} else {
@@ -43,7 +45,7 @@ const AgentProfile = ({ profile }) => {
 				<Grid item xs={12} md={4}>
 					<BoxSection>
 						{!loading ? (
-							<ProfileSection profile={profile} />
+							<ProfileSection profile={profile} data={data} />
 						) : (
 							<LoadingComponent />
 						)}

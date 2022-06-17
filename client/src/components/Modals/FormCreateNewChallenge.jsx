@@ -152,6 +152,7 @@ const FormCreateNewChallenge = ({
 								sx={{ width: "20rem" }}
 							>
 								<DatePicker
+									disablePast
 									label="Start"
 									value={date1}
 									onChange={(newValue) => {
@@ -164,6 +165,8 @@ const FormCreateNewChallenge = ({
 									renderInput={(params) => <TextField {...params} />}
 								/>
 								<DatePicker
+									disablePast
+									minDate={new Date(date1)}
 									label="End"
 									value={date2}
 									onChange={(newValue) => {

@@ -24,22 +24,21 @@ export const VideoView = ({ setNavView }) => {
 	const navigate = useNavigate();
 	const handleView = async () => {
 		let data = JSON.parse(
-			JSON.parse(
-				CryptoJS.AES.decrypt(
-					sessionStorage.getItem("userTP"),
-					"secret key 123"
-				).toString(CryptoJS.enc.Utf8)
-			)
+			CryptoJS.AES.decrypt(
+				sessionStorage.getItem("userTP"),
+				"secret key 123"
+			).toString(CryptoJS.enc.Utf8)
 		);
-		const videoOk = () => {
+
+		const videoOk = async () => {
 			data.NumberLogins = 2;
 			sessionStorage.setItem(
 				"userTP",
 				CryptoJS.AES.encrypt(JSON.stringify(data), "secret key 123").toString()
 			);
-			welcomeToEGP(idccms);
+			await welcomeToEGP(idccms);
 		};
-		videoOk();
+		await videoOk();
 		switch (userData.Role) {
 			case "Agent":
 				setNavView(true);
