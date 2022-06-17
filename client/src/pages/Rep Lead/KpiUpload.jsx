@@ -14,6 +14,7 @@ import XLSX from "xlsx";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {
+  teamValidationKPI,
   validateFieldsUploadKPIs,
   validateHeadersUploadKPIs,
 } from "../../helpers/helpers";
@@ -179,7 +180,11 @@ const KpiUpload = () => {
         return;
       }
 
-      //setData(data);
+      console.log(data);
+      const exist = teamValidationKPI(data, dataKpi);
+
+      console.log(exist);
+
       const resp = await uploadKPIs(data);
 
       if (resp.status === 200) {
@@ -191,7 +196,7 @@ const KpiUpload = () => {
           allowOutsideClick: false,
         }).then((resultado) => {
           if (resultado.value) {
-            window.location.reload();
+            // window.location.reload();
             getdata();
           }
         });
