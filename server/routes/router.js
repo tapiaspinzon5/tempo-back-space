@@ -228,8 +228,9 @@ module.exports = (router) => {
   MapSpRouter("/getrolesinfo", "spUsersRole");
   MapSpRouter("/getplatformanalytics", "spQueryAnalitycs");
   MapSpRouter("/getgeneralanalytics", "spQueryAnalitycsGeneral");
-
   MapSpRouter("/getquizqa", "spLoadExamQA");
+
+  MapSpRouter("/getmissionsanswers", "spAnswerMissions");
 
   // function MapSpRouter(route, spName) {
   //   router.post(route,  oauth.oauthOther, (req, res) =>
