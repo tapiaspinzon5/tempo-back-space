@@ -145,6 +145,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 								)}
 							/>
 							<DatePicker
+								minDate={new Date(date1)}
 								label="End"
 								value={date2}
 								onChange={(newValue) => {

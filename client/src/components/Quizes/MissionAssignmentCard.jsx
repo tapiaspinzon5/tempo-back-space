@@ -77,20 +77,6 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
 					/>
 				</LocalizationProvider>
 			</Box>
-			{/* <FormControl sx={{ width: "25%", height: "50%" }} size="small">
-				<InputLabel id="demo-simple-select-label">Time</InputLabel>
-				<Select
-					labelId="demo-simple-select-label"
-					id="demo-simple-select"
-					value={mission.time}
-					label="Assignment Time"
-					onChange={(e) => handleTime(e, mission.Name)}
-				>
-					<MenuItem value={"daily"}>Daily</MenuItem>
-					<MenuItem value={"weekly"}>Weekly</MenuItem>
-					<MenuItem value={"monthly"}>Monthly</MenuItem>
-				</Select>
-			</FormControl> */}
 		</CardMission>
 	);
 };

@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
   transformRequest: [
     function (data, headers) {
       // Do whatever you want to transform the data
+      console.log("se envia", data);
       let encrypted = CryptoJS.AES.encrypt(
         JSON.stringify(data),
         "secret key 123"
@@ -31,7 +32,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      //console.log(data);
+      console.log("llega   ", decryptedData);
       return data;
     },
   ],
@@ -48,8 +49,7 @@ axiosInstance.interceptors.request.use((config) => {
   config.headers.responseEncoding = "utf8";
   config.headers.Authorization = "Bearer " + user.Token;
   config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
-  config.headers["Access-Control-Allow-Origin"] =
-    "https://spacegptest.teleperformance.co/api/";
+  config.headers["Access-Control-Allow-Origin"] = "*";
   //config.params = { idccms: user.Idccms };
   config.data = { ...config.data, idccms: user.Idccms };
   return config;
