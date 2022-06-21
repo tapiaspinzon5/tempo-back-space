@@ -39,8 +39,9 @@ function login(req, res) {
             NumberLogins: result2[0]?.NumberLogins,
           };
 
-          const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
-          responsep(1, req, res, ciphertext);
+          const dataEncrypted = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
+          // responsep(1, req, res, data);
+          responsep(1, req, res, dataEncrypted);
         })
         .catch((err) => {
           console.log(err, "sp");

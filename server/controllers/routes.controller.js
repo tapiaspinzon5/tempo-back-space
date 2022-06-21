@@ -54,12 +54,13 @@ let responsep = (tipo, req, res, resultado, cookie) => {
         secure: process.env.NODE_ENV !== "development",
         sameSite: "Strict",
       });
-      console.log(resultado);
+      // res.status(200).json({ resultado });
       res.status(200).json(CryptoJS.AES.encrypt(JSON.stringify(resultado), `secret key 123`).toString());
       resolve("Enviado");
     } else if (tipo == 2) {
       console.log("Error at:", new Date(), "res: ", resultado);
-      res.status(400).json(resultado);
+      // res.status(400).json(resultado);
+      res.status(400).json(CryptoJS.AES.encrypt(JSON.stringify(resultado), `secret key 123`).toString());
     }
   });
 };
@@ -194,36 +195,66 @@ exports.uploadOpsM = async (req, res) => {
 
 exports.uploadRepLead = async (req, res) => {
   const { data, idccms } = req.body;
+  let i = 0;
+
+  let newData = data.map((ele) => {
+    i = i + 1;
+
+    return [ele[1], i];
+  });
 
   sql
-    .query("spInsertEmployee", parametros({ idccms, rows: data }, "spInsertEmployee"))
-    .then(async (result) => {
-      if (req.body.emails) {
-        await sendEmail(
-          req.body.emails,
-          "SpaceGP role assignment",
-          "Notification SpaceGP",
-          "noresponse@teleperformance.com"
-        );
-      } else {
-        let emails = result.map((user) => {
-          return {
-            email: user.email,
-            rolManager: "Flight Engineer",
-            name: user.Employee,
-            rol: "Cosmonaut",
-          };
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData }, "spQueryAgentsMD"))
+    .then((result) => {
+      let problemStatus = [
+        "Unknown",
+        "Terminated",
+        "",
+        "No Hire",
+        "Leave of Absence",
+        "Candidate",
+        "Not exist",
+      ];
+
+      let usersWithProblems = result.filter((user) => problemStatus.includes(user.status));
+
+      if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
+
+      sql
+        .query("spInsertEmployee", parametros({ idccms, rows: data }, "spInsertEmployee"))
+        .then(async (result) => {
+          // Esta condicion se hace debido a que si se carga el user por fomulario, este campo me lo envian, en caso contrario (carga por plantilla) lo debo tomar desde la respuesta una vez los agentes han sido cargados
+          if (req.body.emails) {
+            await sendEmail(
+              req.body.emails,
+              "SpaceGP role assignment",
+              "Notification SpaceGP",
+              "noresponse@teleperformance.com"
+            );
+          } else {
+            let emails = result.map((user) => {
+              return {
+                email: user.email,
+                rolManager: "Flight Engineer",
+                name: user.Employee,
+                rol: "Cosmonaut",
+              };
+            });
+
+            await sendEmail(
+              emails,
+              "SpaceGP role assignment",
+              "Notification SpaceGP",
+              "noresponse@teleperformance.com"
+            );
+          }
+
+          responsep(1, req, res, result);
+        })
+        .catch((err) => {
+          console.log(err, "sp");
+          responsep(2, req, res, err);
         });
-
-        await sendEmail(
-          emails,
-          "SpaceGP role assignment",
-          "Notification SpaceGP",
-          "noresponse@teleperformance.com"
-        );
-      }
-
-      responsep(1, req, res, result);
     })
     .catch((err) => {
       console.log(err, "sp");

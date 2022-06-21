@@ -194,6 +194,18 @@ let opsmTable = [
 ];
 
 // Columnas para armar la tabla del reportingLead
+
+let rlValidationTable = [
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
+];
+
 let reportLeadTable = [
   {
     name: "Quartile",
@@ -431,6 +443,13 @@ exports.parametros = (req, tipo) => {
         new SpParam("case", req.cas, TYPES.Int),
         // SpParamTable2("table", opsmTable, req.rows),
       ]);
+
+    case "spQueryAgentsMD":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        SpParamTable2("table", rlValidationTable, req.rows),
+      ]);
+
     case "spInsertEmployee":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
@@ -754,6 +773,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("Kpi", req.kpi, TYPES.VarChar),
       ]);
     case "spQueryAnalitycsGeneral":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+      ]);
+    case "spAnswerMissions":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
