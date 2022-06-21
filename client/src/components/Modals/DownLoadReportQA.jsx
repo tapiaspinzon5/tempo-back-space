@@ -43,6 +43,7 @@ export const DownLoadReportQA = ({ setModal }) => {
 	const [noData, setNoData] = useState(false);
 	const [report, setReport] = useState(false);
 	const [genInfo, setGenInfo] = useState([]);
+	const [genMissInfo, setGenMissInfo] = useState([]);
 
 	const generalInfoSheet = (workbook) => {
 		const worksheet = workbook.getWorksheet("General Information");
@@ -76,9 +77,38 @@ export const DownLoadReportQA = ({ setModal }) => {
 		worksheet.addRows(genInfo);
 	};
 
+	const missionsInfoSheet = (workbook) => {
+		const worksheet = workbook.getWorksheet("Missions Information");
+		worksheet.columns = [
+			{ header: "Campaign", key: "nameCampaign" },
+			{ header: "NameLob", key: "NameLob" },
+			{ header: "Team", key: "NameTeam" },
+			{ header: "CCMS ID", key: "idccms" },
+			{ header: "User", key: "Agent" },
+			{ header: "Id Examen", key: "IdExamen" },
+			{ header: "Exam Name", key: "ExamName" },
+			{ header: "Question", key: "Pregunta" },
+			{ header: "Answer", key: "Respuesta" },
+			{ header: "Correct Answer", key: "RespuestaCorrecta" },
+			{
+				header: "Approval Exam",
+				key: "ApprovalExam",
+			},
+			{ header: "Result", key: "ResObtenido" },
+			{ header: "Date", key: "FechaRegistro" },
+			{ header: "id Campaign", key: "idCampaign" },
+			{ header: "idLob", key: "idLob" },
+		];
+		worksheet.addRows(genMissInfo);
+	};
+
 	const handleReport = async () => {
 		setLoading(true);
 		const data1 = await requestWithData("getgeneralanalytics", {
+			initDate: date1,
+			endDate: date2,
+		});
+		const data2 = await requestWithData("getmissionsanswers", {
 			initDate: date1,
 			endDate: date2,
 		});
@@ -88,6 +118,7 @@ export const DownLoadReportQA = ({ setModal }) => {
 				setReport(true);
 				setLoading(false);
 				setGenInfo(data1.data[0].Analitycs);
+				setGenMissInfo(data2.data);
 			} else {
 				setLoading(false);
 				setNoData(true);
@@ -105,8 +136,10 @@ export const DownLoadReportQA = ({ setModal }) => {
 		e.preventDefault();
 		const workbook = new ExcelJS.Workbook();
 		workbook.addWorksheet("General Information");
+		workbook.addWorksheet("Missions Information");
 
 		generalInfoSheet(workbook);
+		missionsInfoSheet(workbook);
 
 		let fecha = new Date().toLocaleDateString();
 		const uint8Array = await workbook.xlsx.writeBuffer();
