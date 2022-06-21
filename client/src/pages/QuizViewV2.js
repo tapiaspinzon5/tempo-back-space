@@ -124,8 +124,6 @@ export const QuizViewV2 = ({ setNavView }) => {
     }
   };
 
-  console.log(quiz[0]?.examStarted);
-
   useEffect(() => {
     if (quiz[0]?.examStarted > 2) {
       MySwal.fire({

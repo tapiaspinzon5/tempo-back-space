@@ -190,13 +190,10 @@ export const teamValidation = (dataFile, dataTeam) => {
 export const teamValidationKPI = (dataFile, dataKpi) => {
   let errorKPI = "";
   let date = Date.now();
-  console.log(dataFile);
-  console.log(dataKpi);
-  console.log(date);
 
   dataFile.map((kpi) => {
     const dateKPI = new Date(kpi[4]);
-    console.log("KPI: ", dateKPI.getTime());
+
     //   const teamName = agent[2];
     //   const exist = dataKpi.find((team) => {
     //     return team.NameTeam === teamName;

@@ -6,6 +6,8 @@ const BoxLoading = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
   h6: {
     color: "#0087FF",
   },

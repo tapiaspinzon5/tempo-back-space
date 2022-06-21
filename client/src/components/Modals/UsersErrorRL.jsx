@@ -7,7 +7,6 @@ import {
 } from "../../assets/styled/muistyled";
 
 const UsersErrorRL = ({ usersError }) => {
-  console.log(usersError);
   return (
     <div>
       <Typography variant="h4" color="#3047B0" textAlign="center" marginY={2}>

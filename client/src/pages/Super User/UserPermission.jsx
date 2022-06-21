@@ -78,9 +78,7 @@ const UserPermission = () => {
     setDataCampaign([]);
   };
 
-  const handleDeleteUser = () => {
-    console.log("Delete user...");
-  };
+  const handleDeleteUser = () => {};
 
   return (
     <MainPage>

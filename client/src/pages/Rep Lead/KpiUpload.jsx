@@ -180,10 +180,7 @@ const KpiUpload = () => {
         return;
       }
 
-      console.log(data);
       const exist = teamValidationKPI(data, dataKpi);
-
-      console.log(exist);
 
       const resp = await uploadKPIs(data);
 

@@ -71,7 +71,6 @@ const CardActivityManage = ({ quiz }) => {
   const [background, setbackground] = useState(false);
 
   useEffect(() => {
-    console.log(start);
     switch (EstadoExamen) {
       case "Failed":
         setbackground("rgba(255, 0, 0, 0.616) 0% 0% no-repeat padding-box");
