@@ -38,7 +38,7 @@ const CardQuiz = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CardQuizDesc = ({ quiz }) => {
+const CardQuizDesc = ({ quiz, getData }) => {
   const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
   let fecha;
   let hora;
@@ -95,13 +95,28 @@ const CardQuizDesc = ({ quiz }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteMission(idMission);
-        window.location.reload();
+        //window.location.reload();
       }
     });
   };
 
   const deleteMission = async (idMission) => {
-    await disabledMission({ idMission });
+    const respDelete = await disabledMission({ idMission });
+
+    if (respDelete.data[0]) {
+      MySwal.fire({
+        title: <p>{`${respDelete.data[0].Result}`}</p>,
+        icon: "info",
+        showDenyButton: true,
+        confirmButtonText: "Accept",
+        allowOutsideClick: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+        }
+      });
+    } else {
+      getData();
+    }
   };
 
   return (

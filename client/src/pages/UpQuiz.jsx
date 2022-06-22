@@ -37,6 +37,7 @@ const UpQuiz = () => {
   }, []);
 
   const getData = async () => {
+    console.log("lanzando getData ");
     const quizes = await loadQuizes();
     const getCategories = await getMissionsCategories();
     const topics = getTopics(getCategories.data);
@@ -119,7 +120,7 @@ const UpQuiz = () => {
             </Grid>
             {misQuizes?.map((quiz, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
-                <CardQuizDesc quiz={quiz} />
+                <CardQuizDesc quiz={quiz} getData={getData} />
               </Grid>
             ))}
           </Grid>

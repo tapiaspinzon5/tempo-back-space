@@ -3,12 +3,12 @@ import CryptoJS from "crypto-js";
 
 const axiosInstance = axios.create({
   //Localhost
-  baseURL: "http://localhost:4343/api/",
+  //baseURL: "http://localhost:4343/api/",
   // Desarrollo - testing
   //baseURL: "https://gamificationtest.teleperformance.co/api/",
   // Pilot
   //baseURL: "https://spacegptest.teleperformance.co/api/",
-  //baseURL: "http://10.138.143.224:4343/api/",
+  baseURL: "http://10.138.143.93:4343/api/",
   transformRequest: [
     function (data, headers) {
       // Do whatever you want to transform the data
@@ -32,7 +32,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      console.log("llega   ", decryptedData);
+      // console.log("llega   ", decryptedData);
       return data;
     },
   ],

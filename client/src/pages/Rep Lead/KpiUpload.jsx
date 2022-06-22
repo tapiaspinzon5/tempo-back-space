@@ -184,6 +184,8 @@ const KpiUpload = () => {
 
       const resp = await uploadKPIs(data);
 
+      console.log(resp);
+
       if (resp.status === 200) {
         setLoading(false);
         MySwal.fire({
@@ -193,7 +195,19 @@ const KpiUpload = () => {
           allowOutsideClick: false,
         }).then((resultado) => {
           if (resultado.value) {
-            // window.location.reload();
+            getdata();
+          }
+        });
+      }
+      if (resp.status === 400) {
+        setLoading(false);
+        MySwal.fire({
+          title: <p>Server error</p>,
+          icon: "error",
+          confirmButtonText: "Accept",
+          allowOutsideClick: false,
+        }).then((resultado) => {
+          if (resultado.value) {
             getdata();
           }
         });

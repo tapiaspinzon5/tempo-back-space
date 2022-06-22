@@ -125,9 +125,9 @@ export const QuizViewV2 = ({ setNavView }) => {
   };
 
   useEffect(() => {
-    if (quiz[0]?.examStarted > 2) {
+    if (quiz[0]?.examStarted > 1) {
       MySwal.fire({
-        title: <p>UPss!</p>,
+        title: <p>Upss!</p>,
         icon: "warning",
         html: `<p>You have exceeded the number of entries allowed for this mission.</p>`,
         confirmButtonColor: "#d33",

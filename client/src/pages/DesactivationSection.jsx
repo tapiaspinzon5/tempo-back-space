@@ -11,7 +11,7 @@ const dataAgent = [
 ];
 
 const handleAction = (idccms, context) => {
-  console.log(idccms, context);
+  //console.log(idccms, context);
 };
 
 const DesactivationSection = () => {
