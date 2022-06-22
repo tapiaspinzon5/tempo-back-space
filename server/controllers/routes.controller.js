@@ -833,17 +833,48 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
   }
 };
 
-// exports.uploadKpirl = async (req, res) => {
-//   sql
-//     .query("spInsertKpi", parametros({ idccms: req.body.idccms, rows: req.body.data }, "spInsertKpi"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+exports.uploadKpirl = async (req, res) => {
+  const { data, idccms } = req.body;
+  let i = 0;
+
+  let newData = data.map((ele) => {
+    i = i + 1;
+
+    return [ele[3], i];
+  });
+
+  sql
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData }, "spQueryAgentsMD"))
+    .then((result) => {
+      let problemStatus = [
+        "Unknown",
+        "Terminated",
+        "",
+        "No Hire",
+        "Leave of Absence",
+        "Candidate",
+        "Not exist",
+      ];
+
+      let usersWithProblems = result.filter((user) => problemStatus.includes(user.status));
+
+      if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
+
+      // sql
+      //   .query("spInsertKpi", parametros({ idccms: req.body.idccms, rows: req.body.data }, "spInsertKpi"))
+      //   .then((result) => {
+      //     responsep(1, req, res, result);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err, "sp");
+      //     responsep(2, req, res, err);
+      //   });
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 // exports.getKpisCampaign = async (req, res) => {
 //   sql
