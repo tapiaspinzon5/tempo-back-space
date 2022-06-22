@@ -77,7 +77,7 @@ module.exports = (router) => {
   router.post("/getkpiagentkpiteam", oauth.oauthOther, decryptBody, routes.getKpiAgentKpiTeam);
 
   // Carga el seguimiento de los kpi de forma manual.
-  // router.post("/uploadkpirl", oauth.oauthOther, routes.uploadKpirl);
+  router.post("/uploadkpirl", oauth.oauthOther, decryptBody, routes.uploadKpirl);
 
   // Entrega los kpis de la campaña.
   // router.post("/getkpiscampaign", oauth.oauthOther, routes.getKpisCampaign);
@@ -198,7 +198,7 @@ module.exports = (router) => {
   MapSpRouter("/getanalyticskpirl", "spQueryAnalitycsKpi");
   MapSpRouter("/getanalyticsexprl", "spQueryAnalitycsExp");
   MapSpRouter("/getdashboardtl", "spQueryDasboardTeamLeader");
-  MapSpRouter("/uploadkpirl", "spInsertKpi");
+  // MapSpRouter("/uploadkpirl", "spInsertKpi");
   MapSpRouter("/getkpiscampaign", "spQueryListKpi");
   MapSpRouter("/postcreatenewchallengtl", "spInsertChallenge");
   MapSpRouter("/postinactiveagent", "spInactivateAgent");
@@ -228,8 +228,9 @@ module.exports = (router) => {
   MapSpRouter("/getrolesinfo", "spUsersRole");
   MapSpRouter("/getplatformanalytics", "spQueryAnalitycs");
   MapSpRouter("/getgeneralanalytics", "spQueryAnalitycsGeneral");
-
   MapSpRouter("/getquizqa", "spLoadExamQA");
+
+  MapSpRouter("/getmissionsanswers", "spAnswerMissions");
 
   // function MapSpRouter(route, spName) {
   //   router.post(route,  oauth.oauthOther, (req, res) =>
