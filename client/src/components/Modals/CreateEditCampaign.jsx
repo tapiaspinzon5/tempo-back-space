@@ -355,27 +355,15 @@ const CreateEditCampaign = ({
 	const handleCheckKpi = (info) => {
 		setErrorKpisList(false);
 		setMsgErrorKpisList("");
-		if (dataToEdit && info.idMD) {
-			let tempList = kpisList.map((kpi) =>
-				kpi.Kpi === info.Kpi
-					? {
-							...kpi,
-							checked: !kpi.checked,
-					  }
-					: kpi
-			);
-			setKpisList(tempList);
-		} else {
-			let tempList = kpisList.map((kpi) =>
-				kpi.Kpi === info.Kpi
-					? {
-							...kpi,
-							checked: !kpi.checked,
-					  }
-					: kpi
-			);
-			setKpisList(tempList);
-		}
+		let tempList = kpisList.map((kpi) =>
+			kpi.Kpi === info.Kpi
+				? {
+						...kpi,
+						checked: !kpi.checked,
+				  }
+				: kpi
+		);
+		setKpisList(tempList);
 	};
 
 	const handleBlur = async () => {

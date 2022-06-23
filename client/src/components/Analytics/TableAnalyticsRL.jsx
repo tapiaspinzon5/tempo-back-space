@@ -75,13 +75,13 @@ const TableAnalyticsRL = ({ width, data }) => {
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
 		},
-		/* {
-			field: "level",
+		{
+			field: "Level",
 			headerName: "Level",
 			width: width / 10 < 90 ? 100 : width / 13,
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
-		}, */
+		},
 		{
 			field: "ExpPoint",
 			headerName: "XP Score",
@@ -89,13 +89,13 @@ const TableAnalyticsRL = ({ width, data }) => {
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
 		},
-		/* {
-			field: "quartile",
+		{
+			field: "Quartile",
 			headerName: "Quartile",
 			width: width / 10 < 90 ? 100 : width / 12,
 			headerClassName: "super-app-theme--header",
 			cellClassName: "super-app-theme--cell",
-		}, */
+		},
 		{
 			field: "BadgesEarned",
 			headerName: "Badges Earned",
