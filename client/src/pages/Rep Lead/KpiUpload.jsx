@@ -23,6 +23,7 @@ import UpQuizModal from "../../components/Modals/UpQuizModal";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import UsersErrorRL from "../../components/Modals/UsersErrorRL";
 
 const MySwal = withReactContent(Swal);
 
@@ -57,6 +58,7 @@ const KpiUpload = () => {
   const [error, setError] = useState(false);
   const [tableLoading, setTableLoading] = useState(false);
   const [dataKpi, setDataKpi] = useState([]);
+  const [usersError, setUsersError] = useState([]);
   const [template, setTemplate] = useState("");
   const [open, setOpen] = React.useState(false);
 
@@ -143,6 +145,16 @@ const KpiUpload = () => {
             reject(" Wrong values!");
             return;
           }
+
+          //const exist = teamValidationKPI(data, dataKpi);
+
+          //console.log(exist);
+
+          if (exist) {
+            reject("algo en la fecha");
+            return;
+          }
+
           resolve(data);
         } else {
           reject("No data!");
@@ -180,8 +192,6 @@ const KpiUpload = () => {
         return;
       }
 
-      const exist = teamValidationKPI(data, dataKpi);
-
       const resp = await uploadKPIs(data);
 
       console.log(resp);
@@ -201,17 +211,22 @@ const KpiUpload = () => {
       }
       if (resp.status === 400) {
         setLoading(false);
-        MySwal.fire({
-          title: <p>Server error</p>,
-          icon: "error",
-          confirmButtonText: "Accept",
-          allowOutsideClick: false,
-        }).then((resultado) => {
-          if (resultado.value) {
-            getdata();
-          }
-        });
+        setUsersError(resp.data);
+        handleOpen();
       }
+      // if (resp.status === 400) {
+      //   setLoading(false);
+      //   MySwal.fire({
+      //     title: <p>Server error</p>,
+      //     icon: "error",
+      //     confirmButtonText: "Accept",
+      //     allowOutsideClick: false,
+      //   }).then((resultado) => {
+      //     if (resultado.value) {
+      //       getdata();
+      //     }
+      //   });
+      // }
     }
   };
 
@@ -226,7 +241,11 @@ const KpiUpload = () => {
         aria-describedby="modal-modal-description"
       >
         <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-          <UpQuizModal handleClose={handleClose} template={template} />
+          {usersError ? (
+            <UsersErrorRL usersError={usersError} />
+          ) : (
+            <UpQuizModal handleClose={handleClose} template={template} />
+          )}
         </ModalBox>
       </Modal>
       <Typography variant="h5">Kpi's Upload Section</Typography>

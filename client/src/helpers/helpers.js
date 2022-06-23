@@ -188,14 +188,20 @@ export const teamValidation = (dataFile, dataTeam) => {
   return errorTeam;
 };
 export const teamValidationKPI = (dataFile, dataKpi) => {
-  let errorKPI = "";
+  let errorKPI = "data inicial";
   let date = Date.now();
 
   dataFile.map((kpi) => {
-    const dateKPI = new Date(kpi[4]);
+    const dateKPI = new Date(kpi[4]).getTime();
 
-    console.log(dateKPI);
-    console.log(date);
+    // console.log(date);
+    // console.log(dateKPI);
+    if (date - dataKpi < 0) {
+      //console.log(date - dateKPI);
+      errorKPI = `La fecha  no corresponde es menor a la fecha actual`;
+    } else {
+      errorKPI = `todo bien`;
+    }
 
     //   const teamName = agent[2];
     //   const exist = dataKpi.find((team) => {
