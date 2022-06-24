@@ -188,29 +188,38 @@ export const teamValidation = (dataFile, dataTeam) => {
   return errorTeam;
 };
 export const teamValidationKPI = (dataFile, dataKpi) => {
-  let errorKPI = "data inicial";
+  let errorKPI;
   let date = Date.now();
+  let validate = 0;
 
   dataFile.map((kpi) => {
     const dateKPI = new Date(kpi[4]).getTime();
 
-    // console.log(date);
-    // console.log(dateKPI);
-    if (date - dataKpi < 0) {
-      //console.log(date - dateKPI);
-      errorKPI = `La fecha  no corresponde es menor a la fecha actual`;
-    } else {
-      errorKPI = `todo bien`;
+    validate = date - dateKPI;
+    if (validate < 0) {
+      errorKPI = `Wrong date (${kpi[4]}), It's not possible to store a date greater than today `;
+    }
+    // Validacion del kpi
+    const kpiD = kpi[0];
+    const kpiUnit = kpi[1];
+    const exist = dataKpi.find((data) => {
+      return data.Kpi === kpiD;
+    });
+    if (!exist) {
+      errorKPI = `The KPI (${kpiD}) does not exist or is badly written, correct it and re-upload the file`;
+      return;
     }
 
-    //   const teamName = agent[2];
-    //   const exist = dataKpi.find((team) => {
-    //     return team.NameTeam === teamName;
-    //   });
-    //   if (!exist) {
-    //     errorKPI = teamName;
-    //     return;
-    //   }
+    // Validacion de la unidad de medida del kpi
+
+    // if(kpiUnit !== 'Undefined'){}
+    // const exist2 = dataKpi.find((data) => {
+    //   return data.unitKpi === kpiUnit;
+    // });
+    // if (!exist2) {
+    //   errorKPI = `The unit of measurre  (${kpiUnit}) of the KPI (${kpiD}) does not exist or is badly written, correct it and re-upload the file`;
+    //   return;
+    // }
   });
   return errorKPI;
 };

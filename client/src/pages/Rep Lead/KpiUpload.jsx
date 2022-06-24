@@ -87,6 +87,7 @@ const KpiUpload = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setUsersError([]);
   };
 
   const loadFile = (e) => {
@@ -146,12 +147,12 @@ const KpiUpload = () => {
             return;
           }
 
-          //const exist = teamValidationKPI(data, dataKpi);
+          const exist = teamValidationKPI(data, dataKpi);
 
-          //console.log(exist);
+          console.log(exist);
 
           if (exist) {
-            reject("algo en la fecha");
+            reject(exist);
             return;
           }
 
@@ -214,19 +215,6 @@ const KpiUpload = () => {
         setUsersError(resp.data);
         handleOpen();
       }
-      // if (resp.status === 400) {
-      //   setLoading(false);
-      //   MySwal.fire({
-      //     title: <p>Server error</p>,
-      //     icon: "error",
-      //     confirmButtonText: "Accept",
-      //     allowOutsideClick: false,
-      //   }).then((resultado) => {
-      //     if (resultado.value) {
-      //       getdata();
-      //     }
-      //   });
-      // }
     }
   };
 
@@ -241,7 +229,7 @@ const KpiUpload = () => {
         aria-describedby="modal-modal-description"
       >
         <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-          {usersError ? (
+          {usersError.length > 0 ? (
             <UsersErrorRL usersError={usersError} />
           ) : (
             <UpQuizModal handleClose={handleClose} template={template} />
