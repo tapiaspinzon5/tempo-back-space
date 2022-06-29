@@ -860,15 +860,15 @@ exports.uploadKpirl = async (req, res) => {
 
       if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
 
-      // sql
-      //   .query("spInsertKpi", parametros({ idccms: req.body.idccms, rows: req.body.data }, "spInsertKpi"))
-      //   .then((result) => {
-      //     responsep(1, req, res, result);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err, "sp");
-      //     responsep(2, req, res, err);
-      //   });
+      sql
+        .query("spInsertKpi", parametros({ idccms, rows: data }, "spInsertKpi"))
+        .then((result) => {
+          responsep(1, req, res, result);
+        })
+        .catch((err) => {
+          console.log(err, "sp");
+          responsep(2, req, res, err);
+        });
     })
     .catch((err) => {
       console.log(err, "sp");

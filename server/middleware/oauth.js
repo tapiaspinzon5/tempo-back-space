@@ -37,6 +37,7 @@ function login(req, res) {
             Role: result2[0]?.Role,
             Quartile: result2[0]?.Quartile,
             NumberLogins: result2[0]?.NumberLogins,
+            KpiManual: result2[0].KpiManual ? result2[0].KpiManual : null,
           };
 
           const dataEncrypted = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
