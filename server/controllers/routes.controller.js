@@ -861,7 +861,7 @@ exports.uploadKpirl = async (req, res) => {
       if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
 
       sql
-        .query("spInsertKpi", parametros({ idccms, rows: data }, "spInsertKpi"))
+        .query("spInsertKpi", parametros({ idccms, data }, "spInsertKpi"))
         .then((result) => {
           responsep(1, req, res, result);
         })
