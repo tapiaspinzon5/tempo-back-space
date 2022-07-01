@@ -4,7 +4,7 @@ import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import { Grid, Typography, Box, styled, Avatar, Button } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { display } from "@mui/system";
+
 import {
   MdOutlineFontDownload,
   MdArrowForward,
