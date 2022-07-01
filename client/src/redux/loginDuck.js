@@ -156,6 +156,15 @@ export const loginSubmit = (data) => async (dispatch) => {
 //action de verificacion de  usuario activo
 export const readUserActiveAction = () => (dispatch) => {
   if (sessionStorage.getItem("userTP")) {
+    console.log(
+      JSON.parse(
+        CryptoJS.AES.decrypt(
+          sessionStorage.getItem("userTP"),
+          "secret key 123"
+        ).toString(CryptoJS.enc.Utf8)
+      )
+    );
+
     dispatch({
       type: INICIO_SESION_EXITO,
       payload: {

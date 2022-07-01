@@ -29,7 +29,10 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingComponent from "../../components/LoadingComponent";
 import { requestWithData } from "../../utils/api";
-import { campsWithDate } from "../../helpers/helperCreateEditCamp";
+import {
+	campsWithDate,
+	refreshCampsWithDate,
+} from "../../helpers/helperCreateEditCamp";
 
 const MySwal = withReactContent(Swal);
 
@@ -82,7 +85,6 @@ const AccountCreation = () => {
 						allCamps.data[0].Result[0].nameCampaign !== "0"
 					) {
 						const data = campsWithDate(allCamps.data[0].Result);
-
 						setDataCampaign(data);
 						setLoadingCamp(false);
 					} else {
@@ -215,7 +217,9 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					setDataCampaign(cqa.data);
+					const data = refreshCampsWithDate(cqa.data);
+					setDataCampaign(data);
+					//setDataCampaign(cqa.data);
 					setInfoView(false);
 					setLoadingCamp(false);
 					setNoDataCamp(false);

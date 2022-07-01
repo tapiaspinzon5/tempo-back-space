@@ -98,7 +98,7 @@ export const TrueFalse = ({ question, answer, setAnswer }) => {
             {question.NombreExamen}
           </Typography>
           <br />
-          <Typography variant="p" fontSize="20px" whiteSpace="pre">
+          <Typography variant="p" fontSize="20px" whiteSpace="pre-line">
             {question.Pregunta}
           </Typography>
         </CardContent>

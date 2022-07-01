@@ -65,7 +65,7 @@ const KpiUpload = () => {
   const getdata = async () => {
     setTableLoading(true);
     const kpis = await getKPIsCampaign();
-    if (kpis && kpis.status === 200 && kpis.data.length > 1) {
+    if (kpis && kpis.status === 200 && kpis.data.length > 0) {
       setTableLoading(false);
       setDataKpi(kpis.data);
     } else if (kpis.data === "UnauthorizedError") {
@@ -131,7 +131,7 @@ const KpiUpload = () => {
             ];
           });
 
-        if (data.length > 1) {
+        if (data.length > 0) {
           let differentsHeaders = validateHeadersUploadKPIs(data[0]);
 
           if (differentsHeaders) {
@@ -193,7 +193,7 @@ const KpiUpload = () => {
 
       const resp = await uploadKPIs(data);
 
-      console.log(resp);
+      //console.log(resp);
 
       if (resp.status === 200) {
         setLoading(false);

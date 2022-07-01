@@ -50,7 +50,7 @@ const ContentList = styled(List)(({ theme }) => ({
   },
 }));
 
-export const NavList = ({ open, match, userData }) => {
+export const NavList = ({ open, match, userData, chargeKpi }) => {
   const linkActive = true;
   const navigate = useNavigate();
 
@@ -167,12 +167,14 @@ export const NavList = ({ open, match, userData }) => {
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
 
-                <LItem button onClick={() => navigate("/upkpi")}>
-                  <LIcon>
-                    <FiUploadCloud size={25} color="#fff" />
-                  </LIcon>
-                  {open && match && <Typography>KPI Upload</Typography>}
-                </LItem>
+                {chargeKpi === "YES" && (
+                  <LItem button onClick={() => navigate("/upkpi")}>
+                    <LIcon>
+                      <FiUploadCloud size={25} color="#fff" />
+                    </LIcon>
+                    {open && match && <Typography>KPI Upload</Typography>}
+                  </LItem>
+                )}
               </>
             )}
           </>
@@ -271,7 +273,11 @@ export const NavList = ({ open, match, userData }) => {
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
                 </LItem>
-                <LItem button onClick={() => navigate("/desactivation")}>
+                <LItem
+                  disabled={linkActive}
+                  button
+                  onClick={() => navigate("/desactivation")}
+                >
                   <LIcon>
                     <Badge
                       color="error"
@@ -323,7 +329,11 @@ export const NavList = ({ open, match, userData }) => {
               </LIcon>
               {open && match && <Typography>Analytics</Typography>}
             </LItem>
-            <LItem button onClick={() => navigate("/desactivation")}>
+            <LItem
+              disabled={linkActive}
+              button
+              onClick={() => navigate("/desactivation")}
+            >
               <LIcon>
                 <Badge
                   color="error"
