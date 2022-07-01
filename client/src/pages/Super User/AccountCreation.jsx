@@ -217,9 +217,9 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					/* const data = refreshCampsWithDate(cqa.data);
-					setDataCampaign(data); */
-					setDataCampaign(cqa.data);
+					const data = refreshCampsWithDate(cqa.data);
+					setDataCampaign(data);
+					//setDataCampaign(cqa.data);
 					setInfoView(false);
 					setLoadingCamp(false);
 					setNoDataCamp(false);

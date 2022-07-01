@@ -69,7 +69,7 @@ export const Navbar = ({ seeProfile, setSeeProfile, avatar, setNavLong }) => {
 							open={open}
 							match={match}
 							userData={userData.Role}
-							chargeKpi={userData.kpiManual}
+							chargeKpi={userData.KpiManual}
 						/>
 
 						<Box sx={{ flexGrow: 1 }}>

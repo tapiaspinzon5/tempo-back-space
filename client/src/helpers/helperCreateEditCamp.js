@@ -337,7 +337,6 @@ const dateConfig = (date) => {
 	let hora;
 	let fechaBase = new Date(date).toLocaleString([], {
 		//timeZone: "Etc/UTC",
-		timeZone: "Etc/UTC",
 		hourCycle: "h23",
 		year: "numeric",
 		month: "2-digit",

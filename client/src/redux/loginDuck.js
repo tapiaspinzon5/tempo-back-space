@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 
 //url de apuntamiento
 //Localhost
-//const url = "http://localhost:4343";
+const url = "http://localhost:4343";
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
 // Pilot
@@ -100,6 +100,7 @@ export const loginSubmit = (data) => async (dispatch) => {
 					return;
 				}
 			});
+
 		dispatch({
 			type: INICIO_SESION_EXITO,
 			payload: {

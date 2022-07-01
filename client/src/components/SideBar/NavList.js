@@ -166,7 +166,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 									{open && match && <Typography>Analytics</Typography>}
 								</LItem>
 
-								{!chargeKpi && (
+								{chargeKpi === "YES" && (
 									<LItem button onClick={() => navigate("/upkpi")}>
 										<LIcon>
 											<FiUploadCloud size={25} color="#fff" />
@@ -260,7 +260,11 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 									</LIcon>
 									{open && match && <Typography>Analytics</Typography>}
 								</LItem>
-								<LItem button onClick={() => navigate("/desactivation")}>
+								<LItem
+									disabled={linkActive}
+									button
+									onClick={() => navigate("/desactivation")}
+								>
 									<LIcon>
 										<Badge
 											color="error"
@@ -312,7 +316,11 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 							</LIcon>
 							{open && match && <Typography>Analytics</Typography>}
 						</LItem>
-						<LItem button onClick={() => navigate("/desactivation")}>
+						<LItem
+							disabled={linkActive}
+							button
+							onClick={() => navigate("/desactivation")}
+						>
 							<LIcon>
 								<Badge
 									color="error"
