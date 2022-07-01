@@ -3,6 +3,7 @@ const redirect = require("../controllers/redirect.controller");
 const sql = require("../controllers/sql.controller");
 const parametros = require("../controllers/params.controller").parametros;
 const CryptoJS = require("crypto-js");
+const { getNumberOfDays } = require("../helpers/daysDifference");
 
 const url = "https://oauth.teleperformance.co/api/";
 
@@ -28,6 +29,26 @@ function login(req, res) {
       sql
         .query("spQueryRoleEmployee", parametros({ idccms: result.data.data.idccms }, "spQueryRoleEmployee"))
         .then((result2) => {
+          let newQuartile = getNumberOfDays(result2[0].dateStart);
+
+          if (newQuartile) {
+            if (newQuartile !== result2[0]?.Quartile && result2[0]?.Role === "Agent") {
+              sql
+                .query(
+                  "spUpdateQuartileAgent",
+                  parametros(
+                    { idccms: result?.data.data?.idccms, quartile: newQuartile },
+                    "spUpdateQuartileAgent"
+                  )
+                )
+                .then((result) => {})
+                .catch((err) => {
+                  console.log(err, "sp");
+                  responsep(2, req, res, err);
+                });
+            }
+          }
+
           let data = {
             Nombre: result?.data.data?.nombre,
             Idccms: result?.data.data?.idccms,
@@ -35,7 +56,7 @@ function login(req, res) {
             Token: result?.data.data?.token,
             RefreshToken: result?.data.data?.refreshToken,
             Role: result2[0]?.Role,
-            Quartile: result2[0]?.Quartile,
+            Quartile: newQuartile !== result2[0]?.Quartile ? newQuartile : result2[0]?.Quartile,
             NumberLogins: result2[0]?.NumberLogins,
             KpiManual: result2[0].KpiManual ? result2[0].KpiManual : null,
           };

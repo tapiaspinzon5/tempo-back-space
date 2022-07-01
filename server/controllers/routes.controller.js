@@ -9,6 +9,7 @@ const { sendFCMMessage } = require("../helpers/sendNotification");
 const { randomInt } = require("crypto");
 const { sendEmail } = require("../helpers/sendEmail");
 const CryptoJS = require("crypto-js");
+const { getNumberOfDays } = require("../helpers/daysDifference");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -199,7 +200,6 @@ exports.uploadRepLead = async (req, res) => {
 
   let newData = data.map((ele) => {
     i = i + 1;
-
     return [ele[1], i];
   });
 
@@ -214,11 +214,16 @@ exports.uploadRepLead = async (req, res) => {
         "Leave of Absence",
         "Candidate",
         "Not exist",
+        "Exists in another campaign",
       ];
 
       let usersWithProblems = result.filter((user) => problemStatus.includes(user.status));
 
       if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
+
+      result.forEach((el, idx) => {
+        data[idx][0] = getNumberOfDays(el.DateCampaign);
+      });
 
       sql
         .query("spInsertEmployee", parametros({ idccms, rows: data }, "spInsertEmployee"))
@@ -382,7 +387,6 @@ exports.getChanllenges = async (req, res) => {
     idccmsAssigned = idccms;
   }
 
-  console.log(idccmsAssigned);
   sql
     .query("spQueryActivities", parametros({ idccms, context, idccmsAssigned }, "spQueryActivities"))
     .then((result) => {
@@ -861,7 +865,7 @@ exports.uploadKpirl = async (req, res) => {
       if (usersWithProblems.length > 0) return responsep(2, req, res, usersWithProblems);
 
       sql
-        .query("spInsertKpi", parametros({ idccms, rows: data }, "spInsertKpi"))
+        .query("spInsertKpi", parametros({ idccms, data }, "spInsertKpi"))
         .then((result) => {
           responsep(1, req, res, result);
         })
