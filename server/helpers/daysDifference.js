@@ -11,8 +11,8 @@ exports.getNumberOfDays = (start) => {
   // Calculating the no. of days between two dates
   const diffInDays = Math.round(diffInTime / oneDay);
 
-  if (diffInDays < 90) return "Q1";
-  else if (diffInDays >= 90 && diffInDays < 180) return "Q2";
-  else if (diffInDays >= 180 && diffInDays < 270) return "Q3";
-  else if (diffInDays >= 270) return "Q4";
+  if (diffInDays < 90) return "Q4";
+  else if (diffInDays >= 90 && diffInDays < 180) return "Q3";
+  else if (diffInDays >= 180 && diffInDays < 270) return "Q2";
+  else if (diffInDays >= 270) return "Q1";
 };
