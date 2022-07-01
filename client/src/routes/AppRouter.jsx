@@ -57,6 +57,7 @@ import AnalyticsSA from "../pages/Super User/AnalyticsSA";
 import AnalyticsOM from "../pages/Ops Man/AnalyticsOM";
 import AnalyticsQA from "../pages/QALead/AnalyticsQA";
 import DesactivationSection from "../pages/DesactivationSection";
+import Organigrama from "../pages/Super User/Organigrama";
 
 //import Header from "../components/homeUser/Header";
 
@@ -279,6 +280,7 @@ const AppRouter = () => {
               <Route path="/setuserpermissions" element={<UserPermission />} />
               <Route path="/leaderboard" element={<LeaderBoardRL />} />
               <Route path="/analytics" element={<AnalyticsSA />} />
+              <Route path="/organizationchart" element={<Organigrama />} />
             </>
           )}
           {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (

@@ -13,6 +13,7 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { BsWindowSidebar } from "react-icons/bs";
+import { HiCollection } from "react-icons/hi";
 import { BiUserX } from "react-icons/bi";
 
 const LItem = styled(ListItem)(({ theme }) => ({
@@ -216,6 +217,18 @@ export const NavList = ({ open, match, userData }) => {
                     <FiPieChart size={25} color="#fff" />
                   </LIcon>
                   {open && match && <Typography>Analytics</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/organizationchart")}>
+                  <LIcon>
+                    <HiCollection
+                      size={25}
+                      color="#fff"
+                      style={{
+                        transform: `rotate(270deg)`,
+                      }}
+                    />
+                  </LIcon>
+                  {open && match && <Typography>Organization Units</Typography>}
                 </LItem>
               </>
             )}

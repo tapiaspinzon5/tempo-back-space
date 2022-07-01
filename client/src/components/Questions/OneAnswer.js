@@ -101,7 +101,7 @@ export const OneAnswer = ({ question, answer, setAnswer }) => {
             {question.title}
           </Typography>
           <br />
-          <Typography variant="body1" fontSize={20}>
+          <Typography variant="body1" fontSize={20} whiteSpace="pre">
             {question.Pregunta}
           </Typography>
         </CardContent>

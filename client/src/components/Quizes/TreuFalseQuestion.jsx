@@ -36,6 +36,9 @@ const TreuFalseQuestion = ({
       <form>
         <Typography variant="h6">{steep}. Question</Typography>
         <InputText
+          sx={{
+            whiteSpace: "pre-line",
+          }}
           name="question"
           label="Question"
           variant="outlined"

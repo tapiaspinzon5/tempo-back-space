@@ -24,12 +24,15 @@ const KPISetup = ({ kpiWork, setKpiWork, kpisList, setKpisList }) => {
           KPI's Set up
         </Typography>
         <BoxHead>
+          <Box width="10%">
+            <Typography variant="body1" fontWeight={700}></Typography>
+          </Box>
           <Box width="20%">
             <Typography variant="body1" fontWeight={700}>
               KPI
             </Typography>
           </Box>
-          <Box width="20%">
+          <Box width="10%">
             <Typography variant="body1" fontWeight={700}>
               Critical
             </Typography>

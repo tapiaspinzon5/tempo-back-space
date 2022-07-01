@@ -149,8 +149,6 @@ const KpiUpload = () => {
 
           const exist = teamValidationKPI(data, dataKpi);
 
-          console.log(exist);
-
           if (exist) {
             reject(exist);
             return;

@@ -26,7 +26,6 @@ import {
   getOMDuplicates,
   nextHelper,
 } from "../../helpers/helperCreateEditCamp";
-import KPISetup from "../OpsManager/KPISetup";
 
 const TableCont = styled(Box)(() => ({
   color: "#3047B0",
@@ -76,7 +75,6 @@ const CreateEditCampaign = ({
   const [msgErrorOMList, setMsgErrorOMList] = useState("");
   const [errorOMSearch, setErrorOMSearch] = useState(false);
   const [msgErrorOMSearch, setMsgErrorOMSearch] = useState("");
-  const [kpisList, setKpisList] = useState([]);
   const [errorKpisList, setErrorKpisList] = useState(false);
   const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
   const [errorKpiSearch, setErrorKpiSearch] = useState(false);
@@ -86,6 +84,7 @@ const CreateEditCampaign = ({
   const [add, setAdd] = useState(false);
   const [addMsg, setAddMsg] = useState("");
   const [workDataToEdit, setWorkDataToEdit] = useState([]);
+  const [kpisList, setKpisList] = useState([]);
   const [kpiWork, setKpiWork] = useState([]);
   const [loadingOM, setLoadingOM] = useState(false);
   const [loadingKpi, setLoadingKpi] = useState(false);
@@ -458,257 +457,242 @@ const CreateEditCampaign = ({
         {dataToEdit ? `Edit Campaign - ${name}` : "Creation Campaign"}
       </Typography>
 
-      {!next ? (
-        <Box display="flex">
-          <Box width="60%">
+      <Box display="flex">
+        <Box width="60%">
+          <Typography variant="body1" gutterBottom color="#3047B0">
+            Campaign Name
+          </Typography>
+          <InputText
+            error={errorName}
+            name="campaignName"
+            label="Campaign Name"
+            variant="outlined"
+            type="text"
+            fullWidth
+            onChange={(e) => {
+              setName(e.target.value);
+              setErrorName(false);
+              setMsgErrorName("");
+            }}
+            value={name}
+            helperText={errorName && msgErrorName}
+            onBlur={handleBlur}
+          />
+          <Box marginY={3}>
             <Typography variant="body1" gutterBottom color="#3047B0">
-              Campaign Name
+              Assignment Operation Manager
             </Typography>
-            <InputText
-              error={errorName}
-              name="campaignName"
-              label="Campaign Name"
-              variant="outlined"
-              type="text"
-              fullWidth
-              onChange={(e) => {
-                setName(e.target.value);
-                setErrorName(false);
-                setMsgErrorName("");
-              }}
-              value={name}
-              helperText={errorName && msgErrorName}
-              onBlur={handleBlur}
-            />
-            <Box marginY={3}>
-              <Typography variant="body1" gutterBottom color="#3047B0">
-                Assignment Operation Manager
-              </Typography>
-              <FormControl sx={{ width: "100%" }} variant="outlined">
-                <InputLabel
-                  error={errorOMSearch}
-                  htmlFor="outlined-adornment-search"
-                >
-                  Search CCMS Id
-                </InputLabel>
-                <OutlinedInput
-                  error={errorOMSearch}
-                  id="outlined-adornment-search"
-                  type="number"
-                  value={tempCcms}
-                  onChange={(e) => {
-                    setTempCcms(e.target.value);
-                    setErrorOMSearch(false);
-                    setMsgErrorOMSearch("");
-                  }}
-                  endAdornment={
-                    <InputAdornment position="end">
+            <FormControl sx={{ width: "100%" }} variant="outlined">
+              <InputLabel
+                error={errorOMSearch}
+                htmlFor="outlined-adornment-search"
+              >
+                Search CCMS Id
+              </InputLabel>
+              <OutlinedInput
+                error={errorOMSearch}
+                id="outlined-adornment-search"
+                type="number"
+                value={tempCcms}
+                onChange={(e) => {
+                  setTempCcms(e.target.value);
+                  setErrorOMSearch(false);
+                  setMsgErrorOMSearch("");
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <ButtonActionBlue
+                      aria-label="toggle search visibility"
+                      edge="end"
+                      onClick={() => handleSearchCCMS(tempCcms)}
+                    >
+                      Search
+                    </ButtonActionBlue>
+                  </InputAdornment>
+                }
+                label="Search CCMS Id"
+              />
+              {errorOMSearch && (
+                <FormHelperText error>{msgErrorOMSearch}</FormHelperText>
+              )}
+            </FormControl>
+          </Box>
+
+          <BoxTL
+            sx={{
+              border: errorOMList ? "1px solid red" : "1px solid #3047B0",
+            }}
+          >
+            <Box display="flex" textAlign="center">
+              <Box width="45%" color="#3047B0">
+                <Typography variant="body1" fontWeight={700}>
+                  CCMS ID
+                </Typography>
+              </Box>
+              <Box width="45%" color="#3047B0">
+                <Typography variant="body1" fontWeight={700}>
+                  Operation Manager
+                </Typography>
+              </Box>
+              <Box width="10%" />
+            </Box>
+            <BoxCeldas>
+              {loadingOM ? (
+                <LoadingComponent />
+              ) : (
+                OMList.map((item, index) => (
+                  <TableCont display="flex" textAlign="center" key={index}>
+                    <Box width="45%">
+                      <Typography variant="body2">{item.idccms}</Typography>
+                    </Box>
+                    <Box width="45%">
+                      <Typography variant="body2">{item.name}</Typography>
+                    </Box>
+                    <Box width="10%">
+                      <input
+                        type="checkbox"
+                        id="idccms"
+                        checked={item.checked}
+                        onChange={() => handleCheckOM(item)}
+                      />
+                    </Box>
+                  </TableCont>
+                ))
+              )}
+            </BoxCeldas>
+          </BoxTL>
+          {errorOMList && (
+            <FormHelperText error>{msgErrorOMList}</FormHelperText>
+          )}
+        </Box>
+        <Box width="40%" paddingLeft={2}>
+          <Box>
+            <Typography variant="body1" gutterBottom color="#3047B0">
+              Kpi Upload Reporting Lead
+            </Typography>
+            <label className="check">
+              <input
+                type="checkbox"
+                value={typeLoad}
+                checked={typeLoad}
+                onChange={() => setTypeLoad(!typeLoad)}
+              />
+              <span className="check-1"></span>
+            </label>
+          </Box>
+          <Box marginY={3}>
+            <Typography variant="body1" gutterBottom color="#3047B0">
+              Assignment Kpi
+            </Typography>
+            <FormControl sx={{ width: "100%" }} variant="outlined">
+              <InputLabel
+                htmlFor="outlined-adornment-search"
+                error={errorKpiSearch}
+              >
+                Search Kpi
+              </InputLabel>
+              <OutlinedInput
+                error={errorKpiSearch}
+                id="outlined-adornment-search"
+                type="text"
+                value={tempKpi}
+                onChange={(e) => {
+                  setTempKpi(e.target.value);
+                  setErrorKpiSearch(false);
+                  setMsgErrorKpiSearch("");
+                  setAdd(false);
+                  setAddMsg("");
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    {add ? (
                       <ButtonActionBlue
                         aria-label="toggle search visibility"
                         edge="end"
-                        onClick={() => handleSearchCCMS(tempCcms)}
+                        onClick={() => handleAdd(tempKpi)}
+                      >
+                        Add
+                      </ButtonActionBlue>
+                    ) : (
+                      <ButtonActionBlue
+                        aria-label="toggle search visibility"
+                        edge="end"
+                        onClick={() => handleSearchKpi(tempKpi)}
                       >
                         Search
                       </ButtonActionBlue>
-                    </InputAdornment>
-                  }
-                  label="Search CCMS Id"
-                />
-                {errorOMSearch && (
-                  <FormHelperText error>{msgErrorOMSearch}</FormHelperText>
-                )}
-              </FormControl>
-            </Box>
-
-            <BoxTL
-              sx={{
-                border: errorOMList ? "1px solid red" : "1px solid #3047B0",
-              }}
-            >
-              <Box display="flex" textAlign="center">
-                <Box width="45%" color="#3047B0">
-                  <Typography variant="body1" fontWeight={700}>
-                    CCMS ID
-                  </Typography>
-                </Box>
-                <Box width="45%" color="#3047B0">
-                  <Typography variant="body1" fontWeight={700}>
-                    Operation Manager
-                  </Typography>
-                </Box>
-                <Box width="10%" />
-              </Box>
-              <BoxCeldas>
-                {loadingOM ? (
-                  <LoadingComponent />
-                ) : (
-                  OMList.map((item, index) => (
-                    <TableCont display="flex" textAlign="center" key={index}>
-                      <Box width="45%">
-                        <Typography variant="body2">{item.idccms}</Typography>
-                      </Box>
-                      <Box width="45%">
-                        <Typography variant="body2">{item.name}</Typography>
-                      </Box>
-                      <Box width="10%">
-                        <input
-                          type="checkbox"
-                          id="idccms"
-                          checked={item.checked}
-                          onChange={() => handleCheckOM(item)}
-                        />
-                      </Box>
-                    </TableCont>
-                  ))
-                )}
-              </BoxCeldas>
-            </BoxTL>
-            {errorOMList && (
-              <FormHelperText error>{msgErrorOMList}</FormHelperText>
-            )}
+                    )}
+                  </InputAdornment>
+                }
+                label="Search Kpi"
+              />
+              {errorKpiSearch && (
+                <FormHelperText error>{msgErrorKpiSearch}</FormHelperText>
+              )}
+              {add && <FormHelperText>{addMsg}</FormHelperText>}
+            </FormControl>
           </Box>
-          <Box width="40%" paddingLeft={2}>
-            <Box>
-              <Typography variant="body1" gutterBottom color="#3047B0">
-                Kpi Upload Reporting Lead
-              </Typography>
-              <label className="check">
-                <input
-                  type="checkbox"
-                  value={typeLoad}
-                  checked={typeLoad}
-                  onChange={() => setTypeLoad(!typeLoad)}
-                />
-                <span className="check-1"></span>
-              </label>
-            </Box>
-            <Box marginY={3}>
-              <Typography variant="body1" gutterBottom color="#3047B0">
-                Assignment Kpi
-              </Typography>
-              <FormControl sx={{ width: "100%" }} variant="outlined">
-                <InputLabel
-                  htmlFor="outlined-adornment-search"
-                  error={errorKpiSearch}
-                >
-                  Search Kpi
-                </InputLabel>
-                <OutlinedInput
-                  error={errorKpiSearch}
-                  id="outlined-adornment-search"
-                  type="text"
-                  value={tempKpi}
-                  onChange={(e) => {
-                    setTempKpi(e.target.value);
-                    setErrorKpiSearch(false);
-                    setMsgErrorKpiSearch("");
-                    setAdd(false);
-                    setAddMsg("");
-                  }}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      {add ? (
-                        <ButtonActionBlue
-                          aria-label="toggle search visibility"
-                          edge="end"
-                          onClick={() => handleAdd(tempKpi)}
-                        >
-                          Add
-                        </ButtonActionBlue>
-                      ) : (
-                        <ButtonActionBlue
-                          aria-label="toggle search visibility"
-                          edge="end"
-                          onClick={() => handleSearchKpi(tempKpi)}
-                        >
-                          Search
-                        </ButtonActionBlue>
-                      )}
-                    </InputAdornment>
-                  }
-                  label="Search Kpi"
-                />
-                {errorKpiSearch && (
-                  <FormHelperText error>{msgErrorKpiSearch}</FormHelperText>
-                )}
-                {add && <FormHelperText>{addMsg}</FormHelperText>}
-              </FormControl>
-            </Box>
-            <BoxTL
-              sx={{
-                border: errorKpisList ? "1px solid red" : "1px solid #3047B0",
-              }}
-            >
-              <Box display="flex" textAlign="center">
-                <Box width="90%" color="#3047B0">
-                  <Typography variant="body1" fontWeight={700}>
-                    KPI
-                  </Typography>
-                </Box>
-
-                <Box width="10%" />
+          <BoxTL
+            sx={{
+              border: errorKpisList ? "1px solid red" : "1px solid #3047B0",
+            }}
+          >
+            <Box display="flex" textAlign="center">
+              <Box width="90%" color="#3047B0">
+                <Typography variant="body1" fontWeight={700}>
+                  KPI
+                </Typography>
               </Box>
-              <BoxCeldas>
-                {loadingKpi ? (
-                  <LoadingComponent />
-                ) : (
-                  kpisList.map((item, index) => (
-                    <TableCont display="flex" textAlign="center" key={index}>
-                      <Box width="90%">
-                        <Typography variant="body2">{item.Kpi}</Typography>
-                      </Box>
 
-                      <Box width="10%">
-                        <input
-                          type="checkbox"
-                          id="idccms"
-                          checked={item.checked}
-                          onChange={() => handleCheckKpi(item)}
-                        />
-                      </Box>
-                    </TableCont>
-                  ))
-                )}
-              </BoxCeldas>
-            </BoxTL>
-            {errorKpisList && (
-              <FormHelperText error>{msgErrorKpisList}</FormHelperText>
-            )}
-          </Box>
+              <Box width="10%" />
+            </Box>
+            <BoxCeldas>
+              {loadingKpi ? (
+                <LoadingComponent />
+              ) : (
+                kpisList.map((item, index) => (
+                  <TableCont display="flex" textAlign="center" key={index}>
+                    <Box width="90%">
+                      <Typography variant="body2">{item.Kpi}</Typography>
+                    </Box>
+
+                    <Box width="10%">
+                      <input
+                        type="checkbox"
+                        id="idccms"
+                        checked={item.checked}
+                        onChange={() => handleCheckKpi(item)}
+                      />
+                    </Box>
+                  </TableCont>
+                ))
+              )}
+            </BoxCeldas>
+          </BoxTL>
+          {errorKpisList && (
+            <FormHelperText error>{msgErrorKpisList}</FormHelperText>
+          )}
         </Box>
-      ) : (
-        <KPISetup
-          kpiWork={kpiWork}
-          setKpiWork={setKpiWork}
-          kpisList={kpisList}
-          setKpisList={setKpisList}
-        />
-      )}
+      </Box>
+
       <Box display="flex" justifyContent="flex-end" marginY={3}>
-        <ButtonActionBlue
-          sx={{ width: "10rem" }}
-          onClick={() => (next ? handleNext("Back") : handleNext("Next"))}
-        >
-          {next ? "Back" : "Next"}
-        </ButtonActionBlue>
-        {next &&
-          (dataToEdit ? (
-            <ButtonActionBlue
-              sx={{ width: "10rem", marginLeft: "2rem" }}
-              disabled={disabled}
-              onClick={handleUpdate}
-            >
-              Update
-            </ButtonActionBlue>
-          ) : (
-            <ButtonActionBlue
-              sx={{ width: "10rem", marginLeft: "2rem" }}
-              disabled={disabled}
-              onClick={handleCreate}
-            >
-              Create
-            </ButtonActionBlue>
-          ))}
+        {dataToEdit ? (
+          <ButtonActionBlue
+            sx={{ width: "10rem", marginLeft: "2rem" }}
+            disabled={disabled}
+            onClick={handleUpdate}
+          >
+            Update
+          </ButtonActionBlue>
+        ) : (
+          <ButtonActionBlue
+            sx={{ width: "10rem", marginLeft: "2rem" }}
+            disabled={disabled}
+            onClick={handleCreate}
+          >
+            Create
+          </ButtonActionBlue>
+        )}
       </Box>
     </Box>
   );
