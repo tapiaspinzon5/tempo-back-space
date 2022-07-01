@@ -223,6 +223,7 @@ exports.uploadRepLead = async (req, res) => {
 
       result.forEach((el, idx) => {
         data[idx][0] = getNumberOfDays(el.DateCampaign);
+        data[idx].pop();
       });
 
       sql
