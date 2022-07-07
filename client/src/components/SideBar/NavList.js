@@ -197,7 +197,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
                 <LItem
                   button
                   onClick={() => navigate("/setuserpermissions")}
-                  disabled={linkActive}
+                  disabled={!linkActive}
                 >
                   <LIcon>
                     <FiKey size={25} color="#fff" />
@@ -214,6 +214,33 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
                   </LIcon>
                   {open && match && <Typography>LeaderBoard</Typography>}
                 </LItem>
+                <LItem button onClick={() => navigate("/analytics")}>
+                  <LIcon>
+                    <FiPieChart size={25} color="#fff" />
+                  </LIcon>
+                  {open && match && <Typography>Analytics</Typography>}
+                </LItem>
+                <LItem button onClick={() => navigate("/organizationchart")}>
+                  <LIcon>
+                    <HiCollection
+                      size={25}
+                      color="#fff"
+                      style={{
+                        transform: `rotate(270deg)`,
+                      }}
+                    />
+                  </LIcon>
+                  {open && match && <Typography>Organization Units</Typography>}
+                </LItem>
+              </>
+            )}
+          </>
+        }
+
+        {
+          <>
+            {userData === "Cluster Director" && (
+              <>
                 <LItem button onClick={() => navigate("/analytics")}>
                   <LIcon>
                     <FiPieChart size={25} color="#fff" />

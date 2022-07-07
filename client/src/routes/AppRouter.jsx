@@ -58,6 +58,8 @@ import AnalyticsOM from "../pages/Ops Man/AnalyticsOM";
 import AnalyticsQA from "../pages/QALead/AnalyticsQA";
 import DesactivationSection from "../pages/DesactivationSection";
 import Organigrama from "../pages/Super User/Organigrama";
+import HomeCD from "../pages/HomeCD";
+import AnalyticsCD from "../pages/ClusterDirector/AnalyticsCD";
 
 //import Header from "../components/homeUser/Header";
 
@@ -327,6 +329,15 @@ const AppRouter = () => {
                 </main>
               }
             />
+          )}
+
+          {userData?.Role === "Cluster Director" && (
+            <>
+              <Route path="/" element={<Navigate to="/homecd" />} />
+              <Route path="/homecd" element={<HomeCD count={count} />} />
+              <Route path="/organizationchart" element={<Organigrama />} />
+              <Route path="/analytics" element={<AnalyticsCD />} />
+            </>
           )}
         </Routes>
 

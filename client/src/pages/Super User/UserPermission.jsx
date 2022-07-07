@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Box, Grid, Modal, Typography } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 import {
   BoxData,
   ButtonAction,
+  InputText,
   MainPage,
   ModalBox,
 } from "../../assets/styled/muistyled";
@@ -12,6 +14,7 @@ import CardPermissions from "../../components/SuperAdmin/CardPermissions";
 import UserTablePermissions from "../../components/SuperAdmin/UserTablePermissions";
 import AddUserSuperAdmin from "../../components/Modals/AddUserSuperAdmin";
 import SearchCampaign from "../../components/SuperAdmin/SearchCampaign";
+import SearchDirCampaign from "../../components/SuperAdmin/SearchDirCampaign";
 
 const userPermissions = [
   { rol: "OPM", tag: "Operation Manager" },
@@ -20,6 +23,7 @@ const userPermissions = [
   { rol: "AG", tag: "Agent" },
   { rol: "RPL", tag: "Reporting Lead" },
   { rol: "SU", tag: "Super Admin" },
+  { rol: "DIR", tag: "Cluster Director" },
 ];
 
 const data = [
@@ -57,8 +61,19 @@ const data = [
   },
 ];
 
+const datosCampaign = [
+  { campaign: "Bavaria", idCampaign: 1994 },
+  { campaign: "Netflix", idCampaign: 1972 },
+  { campaign: "Microsoft", idCampaign: 1974 },
+  { campaign: "P&G", idCampaign: 2008 },
+  { campaign: "Disney", idCampaign: 1957 },
+  { campaign: "Lenovo", idCampaign: 1993 },
+  { campaign: "HP", idCampaign: 1994 },
+];
+
 const UserPermission = () => {
   const [permissions, setPermissions] = useState(false);
+  const [showAccounts, setShowAccounts] = useState(true);
   const [role, setRole] = React.useState("");
   const [dataCampaign, setDataCampaign] = React.useState([]);
   const [dataAgent, setDataAgent] = React.useState(data);
@@ -79,6 +94,7 @@ const UserPermission = () => {
   };
 
   const handleDeleteUser = () => {};
+  const handleDirCapaign = () => {};
 
   return (
     <MainPage>
@@ -101,7 +117,28 @@ const UserPermission = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           {permissions ? (
-            <CardPermissions setRole={setRole} permissions={userPermissions} />
+            <Box>
+              <CardPermissions
+                setRole={setRole}
+                permissions={userPermissions}
+              />
+              {role === "Cluster Director" && showAccounts && (
+                <Box
+                  sx={{
+                    width: 250,
+                    marginTop: "1rem",
+                    marginLeft: "10.5rem",
+                    position: "absolute",
+                    background: "#fff",
+                  }}
+                >
+                  <SearchDirCampaign
+                    dataCampaign={datosCampaign}
+                    setShowAccounts={setShowAccounts}
+                  />
+                </Box>
+              )}
+            </Box>
           ) : (
             <SearchCampaign
               searchCampaign={searchCampaign}
