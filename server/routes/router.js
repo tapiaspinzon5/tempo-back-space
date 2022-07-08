@@ -100,6 +100,8 @@ module.exports = (router) => {
 
   // Endpoint para crear LOB.
   router.post("/postcreatelob", oauth.oauthOther, decryptBody, routes.postCreateLOB);
+  // Endpoint para crear LOB.
+  router.post("/postsetlobskpis", oauth.oauthOther, decryptBody, routes.postSetLobsKpis);
 
   // Consulta todas las LOB y los equipos de una campaña.
   // router.post("/getlobsopsm", oauth.oauthOther, routes.getLobsOpsm);

@@ -135,6 +135,49 @@ let suTable2 = [
     name: "KPI",
     type: TYPES.VarChar,
   },
+  // {
+  //   name: "Q1",
+  //   type: TYPES.Float,
+  // },
+  // {
+  //   name: "Q2",
+  //   type: TYPES.Float,
+  // },
+  // {
+  //   name: "Q3",
+  //   type: TYPES.Float,
+  // },
+  // {
+  //   name: "Q4",
+  //   type: TYPES.Float,
+  // },
+  // {
+  //   name: "CriticalPoint",
+  //   type: TYPES.Float,
+  // },
+  {
+    name: "idKpiMD",
+    type: TYPES.Int,
+  },
+  {
+    name: "typeLoad",
+    type: TYPES.Int,
+  },
+  // {
+  //   name: "OrderKpi",
+  //   type: TYPES.VarChar,
+  // },
+  {
+    name: "IdRegistryKpi",
+    type: TYPES.Int,
+  },
+];
+
+let omKpiTable = [
+  {
+    name: "KPI",
+    type: TYPES.VarChar,
+  },
   {
     name: "Q1",
     type: TYPES.Float,
@@ -625,7 +668,10 @@ exports.parametros = (req, tipo) => {
     case "spInsertCampaign":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", suTable2, req.rows),
+        new SpParam("Context", req.context, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
+        SpParamTable2("tableEnc", suTable2, req.rowsSU),
+        SpParamTable2("tableDet", omKpiTable, req.rowsOM),
       ]);
 
     case "spInsertLob":
