@@ -205,7 +205,12 @@ const LOBManagementSection = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <ModalBox sx={{ width: { xs: "390px", md: "500px", lg: "500px" } }}>
+        <ModalBox
+          sx={{
+            //minWidth: { xs: "390px", md: "400px", lg: "400px" },
+            minWidth: { xs: "390px", md: "650px", lg: "650px" },
+          }}
+        >
           <CreateEditLOB
             allData={allData}
             setOpen={setOpen}

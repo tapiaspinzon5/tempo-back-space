@@ -88,7 +88,7 @@ export const TrueFalse = ({ question, answer, setAnswer }) => {
           padding: "1rem 2rem 0 2rem",
           borderTopLeftRadius: "10px",
           borderTopRightRadius: "10px",
-          height: "50vh",
+          minHeight: "50vh",
           backgroundColor: "#E8E8E8",
         }}
       >
@@ -98,7 +98,7 @@ export const TrueFalse = ({ question, answer, setAnswer }) => {
             {question.NombreExamen}
           </Typography>
           <br />
-          <Typography variant="p" fontSize="20px">
+          <Typography variant="p" fontSize="20px" whiteSpace="pre-line">
             {question.Pregunta}
           </Typography>
         </CardContent>

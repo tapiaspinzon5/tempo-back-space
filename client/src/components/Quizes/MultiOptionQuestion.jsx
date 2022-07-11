@@ -40,6 +40,9 @@ const MultiOptionQuestion = ({
           {steep}. Question
         </Typography>
         <InputText
+          sx={{
+            whiteSpace: "pre-line",
+          }}
           name="question"
           label="Question"
           variant="outlined"

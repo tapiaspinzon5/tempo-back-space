@@ -24,6 +24,8 @@ import {
 } from "../../helpers/helpers";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import LoadingComponent from "../LoadingComponent";
+import KPISetup from "../OpsManager/KPISetup";
 const MySwal = withReactContent(Swal);
 
 const TableCont = styled(Box)(() => ({
@@ -56,6 +58,49 @@ const BoxCeldas = styled(Box)(() => ({
   },
 }));
 
+const kpiDataTemp = [
+  [
+    {
+      id: 184,
+      Kpi: "%XSell ADSL",
+      type: 5,
+      unitKpi: "Percentage",
+      checked: true,
+      CriticalPoint: "",
+      Q1: "",
+      Q2: "",
+      Q3: "",
+      Q4: "",
+      OrderKpi: "",
+    },
+    {
+      id: 57,
+      Kpi: "AHT",
+      type: 2,
+      unitKpi: "Seconds",
+      checked: true,
+      CriticalPoint: "",
+      Q1: "",
+      Q2: "",
+      Q3: "",
+      Q4: "",
+      OrderKpi: "",
+    },
+    {
+      Kpi: "dng",
+      checked: true,
+      LoadType: true,
+      CriticalPoint: "",
+      Q1: "",
+      Q2: "",
+      Q3: "",
+      Q4: "",
+      OrderKpi: "",
+      id: 0,
+    },
+  ],
+];
+
 const CreateEditLOB = ({ allData, setOpen, dataLOB, userData, getData }) => {
   const [dataTL, setDataTL] = useState([]);
   const [nameLOB, setNameLOB] = useState("");
@@ -66,6 +111,13 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB, userData, getData }) => {
   const [errorccms, setErrorccms] = useState(false);
   const [msgErrorccms, setMsgErrorccms] = useState("");
   const [tempCcms, setTempCcms] = useState("");
+  const [errorKpisList, setErrorKpisList] = useState(false);
+  const [loadingKpi, setLoadingKpi] = useState(false);
+  const [kpisList, setKpisList] = useState(kpiDataTemp);
+  const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
+  const [next, setNext] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [kpiWork, setKpiWork] = useState(kpiDataTemp);
 
   useEffect(
     () => {
@@ -264,6 +316,28 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB, userData, getData }) => {
     }
   };
 
+  const handleCheckKpi = (info) => {
+    setErrorKpisList(false);
+    setMsgErrorKpisList("");
+    let tempList = kpisList.map((kpi) =>
+      kpi.Kpi === info.Kpi
+        ? {
+            ...kpi,
+            checked: !kpi.checked,
+          }
+        : kpi
+    );
+    setKpisList(tempList);
+  };
+
+  const handleNext = (action) => {
+    if (action === "Next") {
+      setNext(true);
+    } else {
+      setNext(false);
+    }
+  };
+
   return (
     <Box>
       <Typography
@@ -275,108 +349,160 @@ const CreateEditLOB = ({ allData, setOpen, dataLOB, userData, getData }) => {
       >
         {dataLOB.length !== 0 ? `Edit LOB - ${nameLOB}` : "Creation LOB"}
       </Typography>
-      <InputText
-        error={error}
-        name="lobName"
-        label="Name LOB"
-        variant="outlined"
-        type="text"
-        fullWidth
-        onChange={(e) => {
-          setNameLOB(e.target.value);
-          setError(false);
-          setMsgError("");
-        }}
-        value={nameLOB}
-        helperText={error && msgError}
-        onBlur={handleBlur}
-      />
-      <Box marginY={3}>
-        <Typography variant="body1" gutterBottom color="#3047B0">
-          Assignment Team Leader
-        </Typography>
-        <FormControl sx={{ width: "100%" }} variant="outlined">
-          <InputLabel error={errorccms} htmlFor="outlined-adornment-search">
-            Search CCMS Id
-          </InputLabel>
-          <OutlinedInput
-            error={errorccms}
-            id="outlined-adornment-search"
-            type="number"
-            value={tempCcms}
+
+      {!next ? (
+        <>
+          <InputText
+            error={error}
+            name="lobName"
+            label="Name LOB"
+            variant="outlined"
+            type="text"
+            fullWidth
             onChange={(e) => {
-              setTempCcms(e.target.value);
-              setErrorccms(false);
+              setNameLOB(e.target.value);
+              setError(false);
               setMsgError("");
             }}
-            endAdornment={
-              <InputAdornment position="end">
-                <ButtonActionBlue
-                  aria-label="toggle search visibility"
-                  edge="end"
-                  onClick={() => handleSearch(tempCcms)}
-                >
-                  Search
-                </ButtonActionBlue>
-              </InputAdornment>
-            }
-            label="Search CCMS Id"
+            value={nameLOB}
+            helperText={error && msgError}
+            onBlur={handleBlur}
           />
-          {errorccms && <FormHelperText error>{msgErrorccms}</FormHelperText>}
-        </FormControl>
-      </Box>
 
-      {dataLOB.length !== 0 ? (
-        <Typography variant="body1" gutterBottom color="#3047B0">
-          Edit Team Leader Assignment
-        </Typography>
+          {/*ASIGNACION DE TEAM LEADER */}
+          <Box marginY={3}>
+            <Typography variant="body1" gutterBottom color="#3047B0">
+              Assignment Team Leader
+            </Typography>
+            <FormControl sx={{ width: "100%" }} variant="outlined">
+              <InputLabel error={errorccms} htmlFor="outlined-adornment-search">
+                Search CCMS Id
+              </InputLabel>
+              <OutlinedInput
+                error={errorccms}
+                id="outlined-adornment-search"
+                type="number"
+                value={tempCcms}
+                onChange={(e) => {
+                  setTempCcms(e.target.value);
+                  setErrorccms(false);
+                  setMsgError("");
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <ButtonActionBlue
+                      aria-label="toggle search visibility"
+                      edge="end"
+                      onClick={() => handleSearch(tempCcms)}
+                    >
+                      Search
+                    </ButtonActionBlue>
+                  </InputAdornment>
+                }
+                label="Search CCMS Id"
+              />
+              {errorccms && (
+                <FormHelperText error>{msgErrorccms}</FormHelperText>
+              )}
+            </FormControl>
+
+            <Box sx={{ width: "100%" }}>
+              {dataLOB.length !== 0 ? (
+                <Typography variant="body1" gutterBottom color="#3047B0">
+                  Edit Team Leader Assignment
+                </Typography>
+              ) : (
+                <Typography variant="body1" gutterBottom color="#3047B0">
+                  Team Leader List
+                </Typography>
+              )}
+              <BoxTL
+                sx={{
+                  border: errorList ? "1px solid red" : "1px solid #3047B0",
+                }}
+              >
+                <Box display="flex" textAlign="center">
+                  <Box width="45%" color="#3047B0">
+                    <Typography variant="body1" fontWeight={700}>
+                      CCMS ID
+                    </Typography>
+                  </Box>
+                  <Box width="45%" color="#3047B0">
+                    <Typography variant="body1" fontWeight={700}>
+                      Team Leader
+                    </Typography>
+                  </Box>
+                  <Box width="10%" />
+                </Box>
+                <BoxCeldas>
+                  {dataTL.map((item, index) => (
+                    <TableCont display="flex" textAlign="center" key={index}>
+                      <Box width="45%">
+                        <Typography variant="body2">{item.idccms}</Typography>
+                      </Box>
+                      <Box width="45%">
+                        <Typography variant="body2">{item.name}</Typography>
+                      </Box>
+                      <Box width="10%">
+                        <input
+                          type="checkbox"
+                          id="isChecked"
+                          checked={item.checked}
+                          onChange={() => handleCheck(item)}
+                        />
+                      </Box>
+                    </TableCont>
+                  ))}
+                </BoxCeldas>
+              </BoxTL>
+            </Box>
+          </Box>
+          {/*END ASIGNACION DE TEAM LEADER */}
+
+          {errorList && <FormHelperText error>{msgErrorList}</FormHelperText>}
+        </>
       ) : (
-        <Typography variant="body1" gutterBottom color="#3047B0">
-          Team Leader List
-        </Typography>
+        <KPISetup
+          kpiWork={kpiWork}
+          setKpiWork={setKpiWork}
+          kpisList={kpisList}
+          setKpisList={setKpisList}
+        />
       )}
-      <BoxTL sx={{ border: errorList ? "1px solid red" : "1px solid #3047B0" }}>
-        <Box display="flex" textAlign="center">
-          <Box width="45%" color="#3047B0">
-            <Typography variant="body1" fontWeight={700}>
-              CCMS ID
-            </Typography>
-          </Box>
-          <Box width="45%" color="#3047B0">
-            <Typography variant="body1" fontWeight={700}>
-              Team Leader
-            </Typography>
-          </Box>
-          <Box width="10%" />
-        </Box>
-        <BoxCeldas>
-          {dataTL.map((item, index) => (
-            <TableCont display="flex" textAlign="center" key={index}>
-              <Box width="45%">
-                <Typography variant="body2">{item.idccms}</Typography>
-              </Box>
-              <Box width="45%">
-                <Typography variant="body2">{item.name}</Typography>
-              </Box>
-              <Box width="10%">
-                <input
-                  type="checkbox"
-                  id="isChecked"
-                  checked={item.checked}
-                  onChange={() => handleCheck(item)}
-                />
-              </Box>
-            </TableCont>
-          ))}
-        </BoxCeldas>
-      </BoxTL>
-      {errorList && <FormHelperText error>{msgErrorList}</FormHelperText>}
-      <Box display="flex" justifyContent="flex-end" marginY={3}>
+
+      {/* <Box display="flex" justifyContent="flex-end" marginY={3}>
         <ButtonActionBlue
           onClick={dataLOB.length !== 0 ? handleEdit : handleCreate}
         >
           Save
         </ButtonActionBlue>
+      </Box> */}
+
+      <Box display="flex" justifyContent="flex-end" marginY={3}>
+        <ButtonActionBlue
+          sx={{ width: "10rem" }}
+          onClick={() => (next ? handleNext("Back") : handleNext("Next"))}
+        >
+          {next ? "Back" : "Next"}
+        </ButtonActionBlue>
+        {next &&
+          (dataLOB.length === 0 ? (
+            <ButtonActionBlue
+              sx={{ width: "10rem", marginLeft: "2rem" }}
+              disabled={disabled}
+              onClick={handleCreate}
+            >
+              Create
+            </ButtonActionBlue>
+          ) : (
+            <ButtonActionBlue
+              sx={{ width: "10rem", marginLeft: "2rem" }}
+              disabled={disabled}
+              onClick={handleEdit}
+            >
+              Update
+            </ButtonActionBlue>
+          ))}
       </Box>
     </Box>
   );

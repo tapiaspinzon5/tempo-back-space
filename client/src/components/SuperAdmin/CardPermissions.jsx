@@ -38,6 +38,7 @@ const CardPermissions = ({ setRole, permissions }) => {
           <label htmlFor="role">{role.rol}</label>
         </Box>
       ))}
+
       <ButtonActionBlue>Assignment</ButtonActionBlue>
     </BoxPermissions>
   );
