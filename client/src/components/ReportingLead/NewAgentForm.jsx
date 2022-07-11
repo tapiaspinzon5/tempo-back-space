@@ -51,7 +51,6 @@ const BoxButton = styled(Box)(() => ({
 const NewAgentForm = ({ dataTeam, getData }) => {
 	const [idccms, setIdccms] = useState("");
 	const [teamLeader, setTeamLeader] = useState("");
-	const [quartile, setQuartile] = useState("");
 	const [error, setError] = useState(null);
 	const [agent, setAgent] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -76,7 +75,7 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 		} else if (getData.data.length === 0) {
 			setError("This user does not exist");
 		} else {
-			setNewAgent([quartile, idccms, teamLeader, "Agent"]);
+			setNewAgent([idccms, teamLeader]);
 			setEmails([
 				{
 					email: getData.data[0].email,
@@ -93,7 +92,7 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 
 	const handleUserAssign = async (data) => {
 		setError(false);
-		if (!newAgent[0] || !newAgent[1] || !newAgent[2] || !newAgent[3]) {
+		if (!newAgent[0] || !newAgent[1]) {
 			setError("All fields required!");
 			return;
 		}
@@ -113,7 +112,6 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 		}
 		setNewAgent([]);
 		setAgent([]);
-		setQuartile("");
 		setIdccms("");
 		setTeamLeader("");
 	};
@@ -121,8 +119,8 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 	useEffect(() => {
 		setError(false);
 
-		setNewAgent([quartile, idccms, teamLeader, "Agent"]);
-	}, [quartile, teamLeader]);
+		setNewAgent([idccms, teamLeader]);
+	}, [idccms, teamLeader]); //revisar esto
 
 	return (
 		<BoxAssignAgent>
@@ -186,28 +184,6 @@ const NewAgentForm = ({ dataTeam, getData }) => {
 					</BoxUser>
 				)}
 
-				<FormControl fullWidth>
-					<InputLabel id="quartile-select-label">Quartile</InputLabel>
-					<Select
-						labelId="quartile-select-label"
-						id="quartile-select"
-						value={quartile}
-						label="Quartile"
-						error={error && !quartile ? true : false}
-						onChange={(e) => setQuartile(e.target.value)}
-						disabled={
-							error === "This user is already in a team" ||
-							error === "This user does not exist"
-								? true
-								: false
-						}
-					>
-						<MenuItem value={"Q1"}>Q1</MenuItem>
-						<MenuItem value={"Q2"}>Q2</MenuItem>
-						<MenuItem value={"Q3"}>Q3</MenuItem>
-						<MenuItem value={"Q4"}>Q4</MenuItem>
-					</Select>
-				</FormControl>
 				<FormControl fullWidth sx={{ mt: "10px" }}>
 					<InputLabel id="team-select-label">Assignment Team Lead</InputLabel>
 					<Select
