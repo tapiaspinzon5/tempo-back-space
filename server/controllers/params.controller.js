@@ -175,6 +175,10 @@ let suTable2 = [
 
 let omKpiTable = [
   {
+    name: "Campaign",
+    type: TYPES.VarChar,
+  },
+  {
     name: "KPI",
     type: TYPES.VarChar,
   },
