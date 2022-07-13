@@ -23,6 +23,9 @@ const GridHead = styled(Grid)({
   backgroundColor: "#e8e8e8",
   margin: "2rem 1rem",
   borderRadius: "10px",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
 });
 
 const MySwal = withReactContent(Swal);
@@ -44,12 +47,14 @@ export const QuizViewV2 = ({ setNavView }) => {
   const { idquiz } = paramsQuiz;
   const [quiz, setQuiz] = useState([]);
   const [answer, setAnswer] = useState([]);
+  const [badgeImg, setBadgeImg] = useState(null);
   const [next, setNext] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
       const quiz = await getExam(idquiz);
       setQuiz(quiz.data);
+      setBadgeImg(quiz.data[0].UrlBadge);
     };
 
     getData();
@@ -124,34 +129,39 @@ export const QuizViewV2 = ({ setNavView }) => {
     }
   };
 
-  useEffect(() => {
-    if (quiz[0]?.examStarted > 1) {
-      MySwal.fire({
-        title: <p>Upss!</p>,
-        icon: "warning",
-        html: `<p>You have exceeded the number of entries allowed for this mission.</p>`,
-        confirmButtonColor: "#d33",
-        confirmButtonText: "Accept and go Spacelab",
-        backdrop: `url(${bgmodal}) center center`,
-        allowOutsideClick: false,
-      }).then((resultado) => {
-        if (resultado.value) {
-          setNavView(true);
-          navigate("/activitiesview", { replace: true });
-        }
-      });
-    }
-  }, [quiz]);
+  // useEffect(() => {
+  //   if (quiz[0]?.examStarted > 1) {
+  //     MySwal.fire({
+  //       title: <p>Upss!</p>,
+  //       icon: "warning",
+  //       html: `<p>You have exceeded the number of entries allowed for this mission.</p>`,
+  //       confirmButtonColor: "#d33",
+  //       confirmButtonText: "Accept and go Spacelab",
+  //       backdrop: `url(${bgmodal}) center center`,
+  //       allowOutsideClick: false,
+  //     }).then((resultado) => {
+  //       if (resultado.value) {
+  //         setNavView(true);
+  //         navigate("/activitiesview", { replace: true });
+  //       }
+  //     });
+  //   }
+  // }, [quiz]);
 
   return (
     <ContentBox>
       <GridHead sx={{ padding: "1rem" }}>
-        <Typography variant="h4" fontWeight={700}>
-          {quiz[0]?.NombreExamen || <Skeleton animation="wave" />}
-        </Typography>
-        <Typography>
-          {quiz[0]?.DescriptionExam || <Skeleton animation="wave" />}
-        </Typography>
+        <Box>
+          <Typography variant="h5" fontWeight={700}>
+            {quiz[0]?.NombreExamen || <Skeleton animation="wave" />}
+          </Typography>
+          <Typography variant="body1" color="initial">
+            {quiz[0]?.DescriptionExam || <Skeleton animation="wave" />}
+          </Typography>
+        </Box>
+        <Box>
+          <img src={badgeImg || ""} alt="" height={100} />
+        </Box>
       </GridHead>
 
       {quiz.length > 0 &&

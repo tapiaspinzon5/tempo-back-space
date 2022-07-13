@@ -128,13 +128,17 @@ const CardFloatChallengesDescription = ({ activity, img1, mousePos }) => {
             <br />
             <span style={{ fontSize: "12px" }}>{activity.AssignementUser}</span>
           </Typography>
-          <Typography variant="body2" align="left" marginBottom=".5rem">
+          <Typography variant="body2" textAlign="left" marginBottom=".5rem">
             <b>Due date:</b>
             <br />
-            <span style={{ fontSize: "12px" }}>
-              {activity.InitialDate.substr(0, 10)} to{" "}
-              {activity.Finaldate.substr(0, 10)}
-            </span>
+            {activity.InitialDate === "1900-01-01" ? (
+              <span>Unlimited</span>
+            ) : (
+              <span style={{ fontSize: "12px" }}>
+                {activity.InitialDate.substr(0, 10)} to{" "}
+                {activity.Finaldate.substr(0, 10)}
+              </span>
+            )}
           </Typography>
         </BoxRight>
       </BoxConatiner>
