@@ -18,7 +18,7 @@ export const getCampNameDuplicate = (allData, name) => {
 		return false;
 	}
 };
-
+/* 
 export const getkpisDuplicates = (kpiList, kpiData) => {
 	const dwc = kpiData.map((el) =>
 		el.checked
@@ -57,9 +57,37 @@ export const getkpisDuplicates = (kpiList, kpiData) => {
 		);
 		return dwc;
 	}
+}; */
+
+export const getkpisDuplicates = (kpiList, kpiData) => {
+	const dwc = kpiData.map((el) =>
+		el.checked
+			? el
+			: {
+					...el,
+					checked: false,
+			  }
+	);
+	const kpiCheck = kpiList.filter((kpi) => kpi.checked === true);
+	if (kpiCheck.length > 0) {
+		const duplicates = kpiCheck.concat(
+			dwc.filter((bo) => kpiCheck.every((ao) => ao.id !== bo.id))
+		);
+		return duplicates;
+	} else {
+		const dwc = kpiData.map((el) =>
+			el.checked
+				? el
+				: {
+						...el,
+						checked: false,
+				  }
+		);
+		return dwc;
+	}
 };
 
-export const getCheckToEdit = (dte, kpiList, kpiData) => {
+/* export const getCheckToEdit = (dte, kpiList, kpiData) => {
 	const dwc = kpiData.map((el) =>
 		el.checked
 			? el
@@ -72,6 +100,28 @@ export const getCheckToEdit = (dte, kpiList, kpiData) => {
 					Q3: "",
 					Q4: "",
 					OrderKpi: "",
+			  }
+	);
+	const kpiCheck = kpiList.filter((kpi) => kpi.checked === true);
+	const kpiDB = kpiList.filter((item1) =>
+		dte.some((item2) => item1.idMD === item2.idMD)
+	);
+	const kpiEdit = kpiDB.concat(
+		kpiCheck.filter((bo) => kpiDB.every((ao) => ao.idMD !== bo.idMD))
+	);
+	const listView = kpiEdit.concat(
+		dwc.filter((bo) => kpiEdit.every((ao) => ao.idMD !== bo.id))
+	);
+
+	return listView;
+}; */
+export const getCheckToEdit = (dte, kpiList, kpiData) => {
+	const dwc = kpiData.map((el) =>
+		el.checked
+			? el
+			: {
+					...el,
+					checked: false,
 			  }
 	);
 	const kpiCheck = kpiList.filter((kpi) => kpi.checked === true);
@@ -112,7 +162,7 @@ export const nextHelper = (dte, kpiList, OMList) => {
 	return { oml: checkDataOM, kpitw: checkDataKpi, kpi: kpiEdit };
 };
 
-export const createHelper = (name, kpiList, OMList) => {
+/* export const createHelper = (name, kpiList, OMList) => {
 	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
 	const checkDataOM = OMList.filter((OM) => OM.checked === true);
 	if (checkDataKpi.length > 0 && checkDataOM.length > 0) {
@@ -196,8 +246,35 @@ export const createHelper = (name, kpiList, OMList) => {
 	} else {
 		return ["Some field is empty"];
 	}
+}; */
+export const createHelper = (name, kpiList, OMList) => {
+	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
+	const checkDataOM = OMList.filter((OM) => OM.checked === true);
+	if (checkDataKpi.length > 0 && checkDataOM.length > 0 && name) {
+		const dts = checkDataKpi.map((el) => [
+			checkDataOM[0].idccms,
+			name,
+			el.Kpi,
+			el.id,
+			el.LoadType ? 0 : 1,
+		]);
+
+		return [
+			dts,
+			[
+				{
+					email: checkDataOM[0].email,
+					name: checkDataOM[0].name,
+					rol: "Operations Commander",
+				},
+			],
+		];
+	} else {
+		return ["Some field is empty"];
+	}
 };
-export const editHelper = (name, kpiList, OMList, wd) => {
+
+/* export const editHelper = (name, kpiList, OMList, wd) => {
 	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
 	const checkDataOM = OMList.filter((OM) => OM.checked === true);
 	if (checkDataKpi.length > 0 && checkDataOM.length > 0) {
@@ -326,6 +403,68 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 					],
 				];
 			}
+		}
+	} else {
+		return ["Some field is empty"];
+	}
+}; */
+export const editHelper = (name, kpiList, OMList, wd) => {
+	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
+	const checkDataOM = OMList.filter((OM) => OM.checked === true);
+	if (checkDataKpi.length > 0 && checkDataOM.length > 0) {
+		const dts = checkDataKpi.map((el) => [
+			checkDataOM[0].idccms,
+			name,
+			el.Kpi,
+			el.idMD ? el.idMD : el.id ? el.id : 0,
+			el.LoadType === 1 ? 1 : el.LoadType ? 0 : el.LoadType === 0 ? 0 : 1,
+		]);
+		const ex = wd.map((el) => [
+			el.identOM,
+			el.nameCampaign,
+			el.Kpi,
+			el.idMD,
+			el.LoadType,
+		]);
+
+		if (wd.length === dts.length) {
+			const verEdit = dts.concat(
+				ex.filter((bo) =>
+					dts.every(
+						(ao) =>
+							ao[0] !== bo[0] ||
+							ao[1] !== bo[1] ||
+							ao[2] !== bo[2] ||
+							ao[3] !== bo[3] ||
+							ao[4] !== bo[4]
+					)
+				)
+			);
+			if (verEdit.length === dts.length) {
+				return ["You did not edit any field"];
+			} else {
+				return [
+					dts,
+					[
+						{
+							email: checkDataOM[0].email,
+							name: checkDataOM[0].name,
+							rol: "Operation Manager",
+						},
+					],
+				];
+			}
+		} else {
+			return [
+				dts,
+				[
+					{
+						email: checkDataOM[0].email,
+						name: checkDataOM[0].name,
+						rol: "Operations Commander",
+					},
+				],
+			];
 		}
 	} else {
 		return ["Some field is empty"];

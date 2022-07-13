@@ -108,6 +108,7 @@ const AccountCreation = () => {
 	const handleCampaign = async (id) => {
 		setInfoView(true);
 		setLoadingInfo(true);
+		setNoDataInfo(false);
 		setDataInfoKpis([]);
 		setDataInfoOpsMan({});
 		const info = await requestWithData("getcampaigninfo", {
@@ -205,6 +206,7 @@ const AccountCreation = () => {
 					manager: userData.Nombre,
 				},
 			],
+			context: 1,
 		});
 
 		if (cqa && cqa.status === 200) {
@@ -320,7 +322,7 @@ const AccountCreation = () => {
 
 									{noDataInfo ? (
 										<Typography variant="body1">
-											Agents are not loaded
+											Operation Manager have not assign KPI´s
 										</Typography>
 									) : loadingInfo ? (
 										<LoadingComponent />

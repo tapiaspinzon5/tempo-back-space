@@ -770,53 +770,6 @@ export const teamLeaderList = async (data, firstLob) => {
 	return TLList;
 };
 
-export const createTeamLeaderList = (data, name, userData) => {
-	const TLList = data.filter((tl) => tl.checked === true);
-	const list = [];
-	const emails = [];
-	TLList.forEach((tl) => {
-		list.push([tl.idccms]);
-		if (tl.Email) {
-			emails.push({
-				email: tl.Email,
-				name: tl.name,
-				rol: "Pilot",
-				rolManager: "Operations Commander",
-				manager: userData,
-			});
-		}
-	});
-	return { lobName: name, tlIdccms: list, emails };
-};
-export const filterTeamLeaderList = (data) => {
-	let list = [];
-	data.forEach((tl) => {
-		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: true });
-	});
-	return list;
-};
-
-export const getTLDuplicates = (allData, dataList, dataUser) => {
-	let duplicatesList = dataList.filter((tl) => tl.idccms === dataUser.ident);
-	let duplicatesLobs = allData.filter((tl) => tl.identTL === dataUser.ident);
-	if (duplicatesList.length > 0 || duplicatesLobs.length > 0) {
-		return true;
-	} else {
-		return false;
-	}
-};
-
-export const getLobNameDuplicate = (allData, name) => {
-	let duplicates = allData.filter(
-		(tl) => tl.NameLob.toLowerCase() === name.toLowerCase()
-	);
-	if (duplicates.length > 0) {
-		return true;
-	} else {
-		return false;
-	}
-};
-
 export const getTopics = (topics) => {
 	const arr = [];
 	topics.forEach((t) => arr.push(t.NameCategory));
