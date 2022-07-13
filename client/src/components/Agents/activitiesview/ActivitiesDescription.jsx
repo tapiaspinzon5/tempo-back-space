@@ -8,6 +8,7 @@ import epicoins from "../../../assets/Icons/epicoin-ico.svg";
 import xpIco from "../../../assets/Icons/start-icon.svg";
 import Header from "../../homeUser/Header";
 import { MainPage } from "../../../assets/styled/muistyled";
+import { useCountdown } from "../../../Hooks/useCountdown";
 
 const MainDesc = styled(Grid)(() => ({
   width: "100%",
@@ -59,8 +60,13 @@ const BoxRewards = styled(Box)(() => ({
 
 const ActivitiesDescription = () => {
   const params = useParams();
+
   const { idActivity, context } = params;
   const [activity, setActivity] = useState([]);
+  const [days, hours, minutes, seconds] = useCountdown(
+    activity.initialDate,
+    activity.finalDate
+  );
 
   useEffect(() => {
     const getData = async () => {
@@ -80,7 +86,7 @@ const ActivitiesDescription = () => {
           sx={{ backgroundImage: `url(${activity?.descriptionImage || img4})` }}
         >
           <Typography variant="h4" color="initial">
-            {activity?.Category}
+            {activity?.Badge}
           </Typography>
         </BoxHead>
         <BoxBody container>
@@ -91,10 +97,28 @@ const ActivitiesDescription = () => {
               height={200}
             />
           </GridSection>
-          <GridSection item xs={12} md={4}>
+          <GridSection
+            item
+            sx={{ flexDirection: "column", alignItems: "flex-start" }}
+            xs={12}
+            md={4}
+          >
             <Typography variant="h6" color="initial">
               {activity?.Description}
             </Typography>
+
+            {new Date(activity.initialDate).getTime() - new Date().getTime() >
+            0 ? (
+              <Typography variant="body1" color="#3047b0" mt={3}>
+                <b>Time to start:</b> <br />
+                {days}D-{hours}h:{minutes}m:{seconds}s
+              </Typography>
+            ) : (
+              <Typography variant="body1" color="#3047b0" mt={3}>
+                <b>Remaining Time:</b> <br />
+                {days}D-{hours}h:{minutes}m:{seconds}s
+              </Typography>
+            )}
           </GridSection>
           <GridSection item xs={12} md={4}>
             <BoxRewards>

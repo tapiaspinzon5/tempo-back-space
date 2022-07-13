@@ -20,7 +20,7 @@ const SliderQuizCategory = ({ quizUser, category }) => {
         slidesPerView={3}
         modules={[Navigation, Pagination, A11y]}
         navigation
-        pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
         breakpoints={{
           // when window width is >= 320px
           320: {

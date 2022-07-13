@@ -3,6 +3,7 @@ import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CardFloatDescription from "./CardFloatDescription";
 import CardFloatChallengesDescription from "./CardFloatChallengesDescription";
+import { useCountdown } from "../../../Hooks/useCountdown";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.625rem",
@@ -37,9 +38,10 @@ const DownSection = styled(Box)(({ theme }) => ({
   boxShadow: "1px 1px 5px #A2A2A2",
   maxWidth: "20rem",
   height: "4rem",
+  background: "red",
   borderRadius: "0 0  10px 10px",
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "space-around",
   alignItems: "center",
   button: {
     color: "#000",
@@ -53,13 +55,18 @@ const DownSection = styled(Box)(({ theme }) => ({
       background: "#e6e6e6e0",
     },
   },
+  span: {
+    color: "#fff",
+  },
 }));
 
 const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
   const navigate = useNavigate();
   const [showFloat, setShowFloat] = useState(false);
   const [img1, setIme1] = useState(null);
-  const { NameActivity, IdActivity, Status, Category } = activity;
+  const { NameActivity, IdActivity, Status, Category, InitialDate, Finaldate } =
+    activity;
+  const [days, hours, minutes, seconds] = useCountdown(InitialDate, Finaldate);
   let context;
   if (type === "Activities") {
     context = Category === "Activity" ? 1 : Category === "Challenge" ? 1 : 3;
@@ -151,6 +158,9 @@ const ActivitiesViewComponent = ({ activity, images, type, mousePos }) => {
               : { background: "rgba(255, 0,0, 0.616)" }
           }
         >
+          <Typography variant="caption" color="initial">
+            {days}D-{hours}h:{minutes}m:{seconds}s
+          </Typography>
           <Button
             onClick={() => navigate(`/activitiesview/${IdActivity}/${context}`)}
           >
