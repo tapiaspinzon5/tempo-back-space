@@ -955,7 +955,7 @@ exports.postCreateCampaign = async (req, res) => {
   let i = 0;
   let { idccms, data, emails, context, idLob = 0 } = req.body;
 
-  let rowsOM = [[null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
+  let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
 
   let rows = data.map((quest) => {
     i = i + 1;

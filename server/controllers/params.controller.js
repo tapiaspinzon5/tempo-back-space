@@ -175,6 +175,10 @@ let suTable2 = [
 
 let omKpiTable = [
   {
+    name: "Campaign",
+    type: TYPES.VarChar,
+  },
+  {
     name: "KPI",
     type: TYPES.VarChar,
   },
@@ -839,6 +843,11 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idcampaign", req.idcampaign, TYPES.Int),
+      ]);
+    case "spQueryKpiCampaignLob":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idlob", req.idLob, TYPES.Int),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":

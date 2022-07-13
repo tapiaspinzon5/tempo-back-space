@@ -220,6 +220,7 @@ module.exports = (router) => {
   MapSpRouter("/getteamagentsinformation", "spQueryTeamInformation");
   MapSpRouter("/getagentscampaignrl", "spQueryAgentsCampaign");
   MapSpRouter("/getorganizationalunit", "spQueryOrganizationalUnits");
+  MapSpRouter("/getLobsKpis", "spQueryKpiCampaignLob");
 
   MapSpRouter("/welcomeegp", "spBgWelcomeEGP");
 
