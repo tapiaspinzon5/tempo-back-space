@@ -151,7 +151,6 @@ exports.saveQuiz = async (req, res) => {
 };
 
 exports.uploadSU = async (req, res) => {
-  // Funcion para insertar un id a las preguntas
   let i = 0;
   const { data, idccms } = req.body;
 
@@ -197,6 +196,12 @@ exports.uploadOpsM = async (req, res) => {
 exports.uploadRepLead = async (req, res) => {
   const { data, idccms } = req.body;
   let i = 0;
+
+  // Esto se hace para no tener que modificar el sp de incersion
+  data.forEach((el) => {
+    el.unshift("Q4");
+    el.push("Agent");
+  });
 
   let newData = data.map((ele) => {
     i = i + 1;
@@ -948,7 +953,9 @@ exports.uploadKpirl = async (req, res) => {
 
 exports.postCreateCampaign = async (req, res) => {
   let i = 0;
-  let { idccms, data, emails } = req.body;
+  let { idccms, data, emails, context, idLob = 0 } = req.body;
+
+  let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
 
   let rows = data.map((quest) => {
     i = i + 1;
@@ -956,7 +963,10 @@ exports.postCreateCampaign = async (req, res) => {
   });
 
   sql
-    .query("spInsertCampaign", parametros({ idccms, rows }, "spInsertCampaign"))
+    .query(
+      "spInsertCampaign",
+      parametros({ idccms, rowsSU: rows, rowsOM, context, idLob }, "spInsertCampaign")
+    )
     .then(async (result) => {
       await sendEmail(
         emails,
@@ -984,6 +994,31 @@ exports.postCreateLOB = async (req, res) => {
         "Notification SpaceGP",
         "noresponse@teleperformance.com"
       );
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
+exports.postSetLobsKpis = async (req, res) => {
+  let i = 0;
+  let { idccms, data, context, idLob } = req.body;
+
+  let rowsSU = [[idccms, "null", "null", 0, 0, 0]];
+
+  let rows = data.map((quest) => {
+    i = i + 1;
+    return [...quest, i];
+  });
+
+  sql
+    .query(
+      "spInsertCampaign",
+      parametros({ idccms, rowsSU, rowsOM: rows, context, idLob }, "spInsertCampaign")
+    )
+    .then(async (result) => {
       responsep(1, req, res, result);
     })
     .catch((err) => {
