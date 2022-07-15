@@ -1342,31 +1342,59 @@ exports.postUpdateCampaignInfo = async (req, res) => {
   const { idccms, data, idcampaign, emails, context, idLob = 0 } = req.body;
   let i = 0;
 
-  let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
+  if (context == 1) {
+    let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
 
-  let rows = data.map((quest) => {
-    i = i + 1;
-    return [...quest, i];
-  });
-
-  sql
-    .query(
-      "spUpdateCampaign",
-      parametros({ idccms, idcampaign, context, idLob, rowsSU: rows, rowsOM }, "spUpdateCampaign")
-    )
-    .then(async (result) => {
-      await sendEmail(
-        emails,
-        "SpaceGP role assignment",
-        "Notification SpaceGP",
-        "noresponse@teleperformance.com"
-      );
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
+    let rows = data.map((quest) => {
+      i = i + 1;
+      return [...quest, i];
     });
+
+    sql
+      .query(
+        "spUpdateCampaign",
+        parametros({ idccms, idcampaign, context, idLob: 0, rowsSU: rows, rowsOM }, "spUpdateCampaign")
+      )
+      .then(async (result) => {
+        await sendEmail(
+          emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+        responsep(1, req, res, result);
+      })
+      .catch((err) => {
+        console.log(err, "sp");
+        responsep(2, req, res, err);
+      });
+  } else if (context == 2) {
+    let rowsSU = [[idccms, "null", "null", 0, 0, 0]];
+
+    let rows = data.map((quest) => {
+      i = i + 1;
+      return [...quest, i];
+    });
+
+    sql
+      .query(
+        "spUpdateCampaign",
+        parametros({ idccms, idcampaign, context, idLob, rowsSU, rowsOM: rows }, "spUpdateCampaign")
+      )
+      .then(async (result) => {
+        await sendEmail(
+          emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+        responsep(1, req, res, result);
+      })
+      .catch((err) => {
+        console.log(err, "sp");
+        responsep(2, req, res, err);
+      });
+  }
 };
 
 // exports.postUpdateTeamName = async (req, res) => {
