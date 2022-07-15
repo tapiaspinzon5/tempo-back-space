@@ -78,6 +78,8 @@ const ActivitiesDescription = () => {
     // eslint-disable-next-line
   }, []);
 
+  console.log(activity);
+
   return (
     <MainPage>
       <Header />
@@ -106,18 +108,22 @@ const ActivitiesDescription = () => {
             <Typography variant="h6" color="initial">
               {activity?.Description}
             </Typography>
-
-            {new Date(activity.initialDate).getTime() - new Date().getTime() >
-            0 ? (
-              <Typography variant="body1" color="#3047b0" mt={3}>
-                <b>Time to start:</b> <br />
-                {days}D-{hours}h:{minutes}m:{seconds}s
-              </Typography>
-            ) : (
-              <Typography variant="body1" color="#3047b0" mt={3}>
-                <b>Remaining Time:</b> <br />
-                {days}D-{hours}h:{minutes}m:{seconds}s
-              </Typography>
+            {activity.Category !== "Activity" && (
+              <>
+                {new Date(activity.initialDate).getTime() -
+                  new Date().getTime() >
+                0 ? (
+                  <Typography variant="body1" color="#3047b0" mt={3}>
+                    <b>Time to start:</b> <br />
+                    {days}D-{hours}h:{minutes}m:{seconds}s
+                  </Typography>
+                ) : (
+                  <Typography variant="body1" color="#3047b0" mt={3}>
+                    <b>Remaining Time:</b> <br />
+                    {days}D-{hours}h:{minutes}m:{seconds}s
+                  </Typography>
+                )}
+              </>
             )}
           </GridSection>
           <GridSection item xs={12} md={4}>

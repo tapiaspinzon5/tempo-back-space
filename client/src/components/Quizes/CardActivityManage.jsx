@@ -3,6 +3,7 @@ import { Typography, Box, Button, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import img1 from "../../assets/temp-image/Enmascarargrupo2044.png";
 import { useCountdown } from "../../Hooks/useCountdown";
+import { postMissionExpired } from "../../utils/api";
 
 const BoxCard = styled(Box)(() => ({
   maxWidth: "19.6rem",
@@ -69,9 +70,13 @@ const CardActivityManage = ({ quiz }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState();
   const [background, setbackground] = useState(false);
+  const [state, setState] = useState(EstadoExamen);
+  const dateNow = new Date().getTime();
+  const dueDate = new Date(DateEnd).getTime();
+  // const dueDate = new Date("2022-07-13T16:29:00").getTime();
 
   useEffect(() => {
-    switch (EstadoExamen) {
+    switch (state) {
       case "Failed":
         setbackground("rgba(255, 0, 0, 0.616) 0% 0% no-repeat padding-box");
         setActive(true);
@@ -93,7 +98,24 @@ const CardActivityManage = ({ quiz }) => {
         break;
     }
     //eslint-disable-next-line
-  }, [EstadoExamen]);
+  }, [state]);
+
+  useEffect(() => {
+    let limit = dueDate - dateNow;
+
+    if (limit < 0 && state === "Start") {
+      misionExpired();
+    }
+  }, [dateNow]);
+
+  const misionExpired = async () => {
+    const expired = await postMissionExpired(IdExamen);
+    if (expired.status === 200) {
+      setState("Failed");
+    } else {
+      alert("server error");
+    }
+  };
 
   return (
     <>
@@ -106,18 +128,18 @@ const CardActivityManage = ({ quiz }) => {
           <Typography variant="body1">{ExamName}</Typography>
         </CardViewer>
         <DownSection sx={{ background }}>
-          {EstadoExamen === "Start" && (
+          {state === "Start" && (
             <Typography variant="caption" color="initial">
               {days}D-{hours}h:{minutes}m:{seconds}s
             </Typography>
           )}
           <Button
             onClick={() =>
-              navigate(`/quizdetails/${IdExamen}/${EstadoExamen}/${ExamName}`)
+              navigate(`/quizdetails/${IdExamen}/${state}/${ExamName}`)
             }
             disabled={active || start}
           >
-            {EstadoExamen}
+            {state}
           </Button>
         </DownSection>
       </BoxCard>
