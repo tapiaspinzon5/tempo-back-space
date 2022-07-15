@@ -68,6 +68,7 @@ const CreateEditCampaign = ({
 	const [next, setNext] = useState(true);
 	const [typeLoad, setTypeLoad] = useState(false);
 	const [name, setName] = useState("");
+	const [Orname, setOrName] = useState("");
 	const [errorName, setErrorName] = useState(false);
 	const [msgErrorName, setMsgErrorName] = useState("");
 	const [OMList, setOMList] = useState([]);
@@ -117,12 +118,13 @@ const CreateEditCampaign = ({
 							setLoadingKpi(false);
 							setLoadingOM(false);
 							setName(info.data[0].Result[0].nameCampaign);
+							setOrName(info.data[0].Result[0].nameCampaign);
 							setKpisList(dataCheck);
 							setWorkDataToEdit(dataCheck);
 							setOMList([
 								{
 									name: info.data[0].Result[0].NameOperationManager,
-									idccms: info.data[0].Result[0].identOM,
+									idccms: info.data[0].Result[0].IdentOM,
 									checked: true,
 									email: null,
 								},
@@ -359,8 +361,18 @@ const CreateEditCampaign = ({
 	const handleBlur = async () => {
 		const duplicates = await getCampNameDuplicate(dataCampaign, name);
 		if (duplicates) {
-			setErrorName(true);
-			setMsgErrorName("Campaign name already exists");
+			if (dataToEdit) {
+				if (Orname === name) {
+					setErrorName(false);
+					setMsgErrorName("");
+				} else {
+					setErrorName(true);
+					setMsgErrorName("Campaign name already exists");
+				}
+			} else {
+				setErrorName(true);
+				setMsgErrorName("Campaign name already exists");
+			}
 		}
 	};
 	/* 
@@ -401,41 +413,56 @@ const CreateEditCampaign = ({
   }; */
 
 	const handleCreate = () => {
-		setDisabled(true);
-		const dts = createHelper(name, kpisList, OMList);
-		if (dts[0] === "Some field is empty") {
-			notifyModalError(dts[0]);
-			setDisabled(false);
-		} /* if (
-			dts[0] ===
-				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
-			dts[0] ===
-				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
-		) {
-			setDisabled(false);
-			notifyModalError(dts[0]);
-		} else  */ else {
-			createCamp(dts[0], dts[1]);
-			console.log(dts[0], dts[1]);
+		if (name && setErrorName) {
+			const dtw = nextHelper(workDataToEdit, kpisList, OMList);
+			if (dtw.oml.length === 1 && !errorOMList) {
+				if (dtw.kpi.length > 0 && !errorKpisList) {
+					setDisabled(true);
+					const dts = createHelper(name, kpisList, OMList);
+					if (dts[0] === "Some field is empty") {
+						notifyModalError(dts[0]);
+						setDisabled(false);
+					} else {
+						createCamp(dts[0], dts[1]);
+					}
+				} else {
+					setErrorKpisList(true);
+					setMsgErrorKpisList("Check KPIs is required (min. 1)");
+				}
+			} else {
+				setErrorOMList(true);
+				setMsgErrorOMList("Check Operation Manager is required (only 1)");
+			}
+		} else {
+			setErrorName(true);
+			setMsgErrorName("No data");
 		}
 	};
 
 	const handleUpdate = () => {
-		const dts = editHelper(name, kpisList, OMList, workDataToEdit);
-		if (dts[0] === "Some field is empty") {
-			notifyModalError(dts[0]);
-		} /* if (dts[0] === "You did not edit any field") {
-			notifyModalError(dts[0]);
-		} else if (
-			dts[0] ===
-				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
-			dts[0] ===
-				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
-		) {
-			notifyModalError(dts[0]);
-		} else */ else {
-			console.log(dts[0], dataToEdit, dts[1]);
-			//editCamp(dts[0], dataToEdit, dts[1]);
+		if (name && setErrorName) {
+			const dtw = nextHelper(workDataToEdit, kpisList, OMList);
+			if (dtw.oml.length === 1 && !errorOMList) {
+				if (dtw.kpitw.length > 0 && !errorKpisList) {
+					const dts = editHelper(name, kpisList, OMList, workDataToEdit);
+					if (dts[0] === "Some field is empty") {
+						notifyModalError(dts[0]);
+					} else if (dts[0] === "You did not edit any field") {
+						notifyModalError(dts[0]);
+					} else {
+						editCamp(dts[0], dataToEdit, dts[1]);
+					}
+				} else {
+					setErrorKpisList(true);
+					setMsgErrorKpisList("Check KPIs is required (min. 1)");
+				}
+			} else {
+				setErrorOMList(true);
+				setMsgErrorOMList("Check Operation Manager is required (only 1)");
+			}
+		} else {
+			setErrorName(true);
+			setMsgErrorName("No data");
 		}
 	};
 

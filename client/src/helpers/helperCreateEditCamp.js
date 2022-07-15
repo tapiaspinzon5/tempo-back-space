@@ -411,7 +411,7 @@ export const createHelper = (name, kpiList, OMList) => {
 export const editHelper = (name, kpiList, OMList, wd) => {
 	const checkDataKpi = kpiList.filter((kpi) => kpi.checked === true);
 	const checkDataOM = OMList.filter((OM) => OM.checked === true);
-	if (checkDataKpi.length > 0 && checkDataOM.length > 0) {
+	if (checkDataKpi.length > 0 && checkDataOM.length > 0 && name) {
 		const dts = checkDataKpi.map((el) => [
 			checkDataOM[0].idccms,
 			name,
@@ -420,11 +420,11 @@ export const editHelper = (name, kpiList, OMList, wd) => {
 			el.LoadType === 1 ? 1 : el.LoadType ? 0 : el.LoadType === 0 ? 0 : 1,
 		]);
 		const ex = wd.map((el) => [
-			el.identOM,
+			el.IdentOM,
 			el.nameCampaign,
 			el.Kpi,
 			el.idMD,
-			el.LoadType,
+			el.LoadType ? el.LoadType : 1,
 		]);
 
 		if (wd.length === dts.length) {

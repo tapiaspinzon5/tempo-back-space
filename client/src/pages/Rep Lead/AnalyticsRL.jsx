@@ -55,6 +55,7 @@ const AnalyticsRL = ({ count }) => {
 				kpi: "0",
 				context: 4,
 			});
+			//console.log("este es el console", initialData.data[0].Kpis);
 			if (
 				initialData &&
 				initialData.status === 200 &&
@@ -63,7 +64,6 @@ const AnalyticsRL = ({ count }) => {
 				/* const dataOrder = await deleteDuplicatesScore(
 					initialData.data[0].ScoreExp
 				); */
-				//console.log(initialData.data[0].Kpis);
 				setKpis(initialData.data[0].Kpis);
 				//setData(dataOrder);
 				setLoading(false);

@@ -163,6 +163,7 @@ const AccountCreation = () => {
 					manager: userData.Nombre,
 				},
 			],
+			context: 1,
 		});
 
 		if (cqa && cqa.status === 200) {
@@ -175,7 +176,8 @@ const AccountCreation = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					setDataCampaign(cqa.data);
+					const data = refreshCampsWithDate(cqa.data);
+					setDataCampaign(data);
 					setInfoView(false);
 					setLoadingCamp(false);
 					setNoDataCamp(false);
@@ -185,7 +187,7 @@ const AccountCreation = () => {
 			setOpen(false);
 			MySwal.fire({
 				title: <p>Send Error!</p>,
-				icon: "Server Error",
+				icon: "error",
 				confirmButtonText: "Accept",
 				allowOutsideClick: false,
 			}).then((resultado) => {
@@ -231,7 +233,7 @@ const AccountCreation = () => {
 			setOpen(false);
 			MySwal.fire({
 				title: <p>Send Error!</p>,
-				icon: "Server Error",
+				icon: "error",
 				confirmButtonText: "Accept",
 				allowOutsideClick: false,
 			}).then((resultado) => {
@@ -344,7 +346,7 @@ const AccountCreation = () => {
 															fontSize="12px"
 															marginLeft={2}
 														>
-															{`${kpi.Q1?.toFixed(2)} / ${kpi.CriticalPoint}`}
+															{`${kpi.unitKpi} `}
 														</Typography>
 													</Box>
 												</Box>
