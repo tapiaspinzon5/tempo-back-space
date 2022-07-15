@@ -14,7 +14,6 @@ const HomeCD = ({ count }) => {
       <Box>
         <Header count={count} />
         <Typography variant="h5">
-          {" "}
           Welcome to Space GP - Cluster Director
         </Typography>
       </Box>
