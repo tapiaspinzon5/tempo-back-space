@@ -17,12 +17,10 @@ export const createTeamLeaderList = (data, name, userData) => {
 	return { lobName: name, tlIdccms: list, emails };
 };
 export const filterTeamLeaderList = (data) => {
-	console.log(data);
 	let list = [];
 	data.forEach((tl) => {
 		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: true });
 	});
-	console.log(list);
 	return list;
 };
 
@@ -227,6 +225,7 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 	let idLob = dataLobs[0].IdLob;
 	let idcampaign = dataLobs[0].IdCampaign;
 	const data = dataLobs.filter((lob) => lob.checked);
+	const wd = dbkpidata.filter((lob) => lob.checked);
 	if (data.length > 0) {
 		const dts = data.map((lob) =>
 			lob.CriticalPoint && lob.Q1 && lob.Q2 && lob.Q3 && lob.Q4 && lob.OrderKpi
@@ -244,7 +243,18 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 				  ]
 				: "Some field in the kpis is empty"
 		);
-
+		const ex = wd.map((el) => [
+			el.Campaign,
+			el.Kpi,
+			el.Q1,
+			el.Q2,
+			el.Q3,
+			el.Q4,
+			el.CriticalPoint,
+			el.OrderKpi,
+			el.LoadType,
+			el.idKpiMD,
+		]);
 		const cp = data.map((el) =>
 			(el.OrderKpi === "asc" &&
 				el.Q1 > el.CriticalPoint &&
@@ -293,32 +303,32 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 		} else if (verificationTarget.length > 0) {
 			return verificationTarget;
 		} else {
-			/* 	if (dbkpidata.length === dts.length) { */
-			const verEdit = dts.concat(
-				cp.filter((bo) =>
-					dts.every(
-						(ao) =>
-							ao[0] !== bo[0] ||
-							ao[1] !== bo[1] ||
-							ao[2] !== bo[2] ||
-							ao[3] !== bo[3] ||
-							ao[4] !== bo[4] ||
-							ao[5] !== bo[5] ||
-							ao[6] !== bo[6] ||
-							ao[7] !== bo[7] ||
-							ao[8] !== bo[8] ||
-							ao[9] !== bo[9]
+			if (wd.length === dts.length) {
+				const verEdit = dts.concat(
+					ex.filter((bo) =>
+						dts.every(
+							(ao) =>
+								ao[0] !== bo[0] ||
+								ao[1] !== bo[1] ||
+								ao[2] !== bo[2] ||
+								ao[3] !== bo[3] ||
+								ao[4] !== bo[4] ||
+								ao[5] !== bo[5] ||
+								ao[6] !== bo[6] ||
+								ao[7] !== bo[7] ||
+								ao[8] !== bo[8] ||
+								ao[9] !== bo[9]
+						)
 					)
-				)
-			);
+				);
 
-			return { context, idLob, data: dts, idcampaign };
-			/* if (verEdit.length === dts.length) {
+				//return { context, idLob, data: dts, idcampaign };
+				if (verEdit.length === dts.length) {
 					return ["You did not edit any field"];
 				} else {
-					return { context, idLob, data: dts, idcampaign, verEdit };
-				} */
-			/* 	} */
+					return { context, idLob, data: dts, idcampaign };
+				}
+			}
 		}
 	} else {
 		return ["Some field is empty"];

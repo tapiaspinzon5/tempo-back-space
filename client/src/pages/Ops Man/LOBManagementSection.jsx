@@ -213,6 +213,7 @@ const LOBManagementSection = () => {
 				>
 					<CreateEditLOB
 						allData={allData}
+						setAllData={setAllData}
 						setOpen={setOpen}
 						dataLOB={dataLOB}
 						setLob={setLob}

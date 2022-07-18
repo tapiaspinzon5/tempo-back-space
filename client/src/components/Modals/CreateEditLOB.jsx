@@ -72,6 +72,7 @@ const CreateEditLOB = ({
 	userData,
 	getData,
 	setLob,
+	setAllData,
 }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
@@ -234,10 +235,10 @@ const CreateEditLOB = ({
 			if (sendDataLob.status === 200) {
 				const TLList = await filterLobList(sendDataLob.data);
 				setLob(TLList);
+				setAllData(sendDataLob.data);
 				setNext(false);
 				setOpen(false);
 				setDisabled(false);
-				//console.log(sendDataLob.data);
 			} else {
 				setNext(false);
 				setOpen(false);
@@ -289,61 +290,50 @@ const CreateEditLOB = ({
 	};
 
 	const handleEdit = async () => {
-		//setDisabled(true);
+		setDisabled(true);
 		const dts = editLobsToSend(kpiWork, dbKpiWork);
-		console.log("data to send", dts);
-		const editDataLob = await requestWithData("postupdatecampaigninfo", dts);
-		if (editDataLob.status === 200) {
-			const TLList = await filterLobList(editDataLob.data);
-			setLob(TLList);
-			setNext(false);
-			setOpen(false);
+		if (dts[0] === "Some field in the kpis is empty") {
+			notifyModalError(dts[0]);
+			setDisabled(false);
+		} else if (dts[0] === "You did not edit any field") {
+			notifyModalError(dts[0]);
+			setDisabled(false);
+		} else if (dts[0] === "Some field is empty") {
+			notifyModalError(dts[0]);
+			setDisabled(false);
+		} else if (
+			dts[0] ===
+				"If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+			dts[0] ===
+				"If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+		) {
+			notifyModalError(dts[0]);
 			setDisabled(false);
 		} else {
-			setNext(false);
-			setOpen(false);
-			setDisabled(false);
-			MySwal.fire({
-				title: <p>Send Error!</p>,
-				icon: "error",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					window.location.reload();
-				}
-			});
-		}
-		/* if (nameLOB) {
-			if (dataTL.length > 0) {
-				const TLList = dataTL.filter((tl) => tl.checked === true);
-				if (TLList.length > 0) {
-					setOpen(false);
-					MySwal.fire({
-						title: <p>{`Are you sure you want edit the LOB as ${nameLOB}?`}</p>,
-						icon: "info",
-						showDenyButton: true,
-						confirmButtonText: "Accept",
-						allowOutsideClick: false,
-					}).then((result) => {
-						if (result.isConfirmed) {
-							submit(2, dataLOB.idLob);
-						} else if (result.isDenied) {
-							Swal.fire("Changes are not saved", "", "info");
-						}
-					});
-				} else {
-					setErrorList(true);
-					setMsgErrorList("Check Team Leader is required (min. 1)");
-				}
+			const editDataLob = await requestWithData("postupdatecampaigninfo", dts);
+			if (editDataLob.status === 200) {
+				const TLList = await filterLobList(editDataLob.data);
+				setAllData(editDataLob.data);
+				setLob(TLList);
+				setNext(false);
+				setOpen(false);
+				setDisabled(false);
 			} else {
-				setErrorList(true);
-				setMsgErrorList("No data");
+				setNext(false);
+				setOpen(false);
+				setDisabled(false);
+				MySwal.fire({
+					title: <p>Send Error!</p>,
+					icon: "error",
+					confirmButtonText: "Accept",
+					allowOutsideClick: false,
+				}).then((resultado) => {
+					if (resultado.value) {
+						window.location.reload();
+					}
+				});
 			}
-		} else {
-			setError(true);
-			setMsgError("No data");
-		} */
+		}
 	};
 
 	const handleBlur = async () => {
