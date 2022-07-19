@@ -97,9 +97,11 @@ export const DownLoadReportQA = ({ setModal }) => {
 				key: "ApprovalExam",
 			},
 			{ header: "Result", key: "ResObtenido" },
+			{ header: "Aprove?", key: "Aprobo" },
 			{ header: "Date", key: "FechaRegistro" },
 			{ header: "id Campaign", key: "idCampaign" },
 			{ header: "idLob", key: "idLob" },
+			{ header: "idQuestion", key: "IdPregunta" },
 		];
 		worksheet.addRows(genMissInfo);
 	};
