@@ -219,6 +219,7 @@ const LOBManagementSection = () => {
 						setLob={setLob}
 						userData={userData.Nombre}
 						getData={getData}
+						setNoData={setNoData}
 					/>
 				</ModalBox>
 			</Modal>

@@ -73,6 +73,7 @@ const CreateEditLOB = ({
 	getData,
 	setLob,
 	setAllData,
+	setNoData,
 }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
@@ -236,6 +237,7 @@ const CreateEditLOB = ({
 				const TLList = await filterLobList(sendDataLob.data);
 				setLob(TLList);
 				setAllData(sendDataLob.data);
+				setNoData(false);
 				setNext(false);
 				setOpen(false);
 				setDisabled(false);
