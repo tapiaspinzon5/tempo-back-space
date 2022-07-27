@@ -134,6 +134,7 @@ module.exports = (router) => {
 
   // Endpoint para actualizar las campañas
   router.post("/postupdatecampaigninfo", oauth.oauthOther, decryptBody, routes.postUpdateCampaignInfo);
+  router.post("/postinsertrolecampaign", oauth.oauthOther, decryptBody, routes.postInsertRoleCampaign);
 
   // Endpoint para actualizar el nombre del equipo
   // router.post("/postupdateteamname", oauth.oauthOther, routes.postUpdateTeamName);

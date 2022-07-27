@@ -253,6 +253,17 @@ let rlValidationTable = [
   },
 ];
 
+let tableInsertRol = [
+  {
+    name: "idCampaign",
+    type: TYPES.Int,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
+];
+
 let reportLeadTable = [
   {
     name: "Quartile",
@@ -859,6 +870,17 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idMission", req.idMission, TYPES.Int),
+      ]);
+    case "spInsertRoleCampaign":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("iduser", req.idUser, TYPES.Int),
+        new SpParam("role", req.role, TYPES.VarChar),
+        new SpParam("idcampaign", req.idCampaign, TYPES.Int),
+        new SpParam("idLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
+        SpParamTable2("tableInsertRol", tableInsertRol, req.rows),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":
