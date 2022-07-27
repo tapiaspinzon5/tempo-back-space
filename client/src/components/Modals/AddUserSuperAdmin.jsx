@@ -13,7 +13,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import searchIco from "../../assets/Icons/search-ico.svg";
+import avatar from "../../assets/temp-image/avatar.png";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import { requestWithData } from "../../utils/api";
 
 const BoxUser = styled(Box)(() => ({
   backgroundColor: "white",
@@ -24,7 +26,7 @@ const BoxUser = styled(Box)(() => ({
 }));
 
 const BoxPermissions = styled(Box)(() => ({
-  marginTop: "2rem",
+  margin: "2rem 0",
   height: "4rem",
   borderRadius: "10px",
   boxShadow: "3px 3px 8px #A2A2A2",
@@ -44,16 +46,73 @@ const BoxPermissions = styled(Box)(() => ({
   },
 }));
 
-const AddUserSuperAdmin = ({ newUser, setNewUser, permissions }) => {
+const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
   const [idccms, setIdccms] = useState("");
-  const handleSearchUser = () => {};
+  const [error, setError] = useState("");
+  const [agent, setAgent] = useState([]);
+  const [lobs, setLobs] = useState([]);
+  const [teams, setTeams] = useState([]);
+
+  const handleSearchUser = async () => {
+    setError("");
+    const getData = await requestWithData("getmasterinfoagents", {
+      context: 2,
+      idccmsAgent: idccms,
+    });
+
+    if (getData.data[0]?.StatusGP === "Active") {
+      setError("This user is already in a team");
+    } else if (getData.data.length === 0) {
+      setError("This user does not exist");
+    } else {
+      setNewUser({ ...newUser, user: getData.data[0].ident, context: 1 });
+      setAgent(getData.data[0]);
+    }
+  };
+
+  const handleAccount = async (e) => {
+    setNewUser({ ...newUser, campaign: e.target.value });
+
+    const data = await requestWithData("getorganizationalunit", {
+      context: 2,
+      idcampaign: e.target.value,
+    });
+
+    setLobs(data.data[1].Lobs);
+    setTeams(data.data[2].Teams);
+  };
 
   const addUser = (e) => {
     e.preventDefault();
   };
+  console.log(newUser);
+  console.log(agent);
+
   return (
     <Box>
-      <Typography variant="h6">Add New User</Typography>
+      <Typography
+        variant="h6"
+        color="#3047B0"
+        textAlign="center"
+        fontWeight={700}
+      >
+        Add New User
+      </Typography>
+      <BoxPermissions>
+        {permissions.map((role, index) => (
+          <Box key={index}>
+            <input
+              type="radio"
+              id="role"
+              name="role"
+              value={role.tag}
+              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+            />
+            <br />
+            <label htmlFor="role">{role.rol}</label>
+          </Box>
+        ))}
+      </BoxPermissions>
       <form onSubmit={addUser}>
         <Box>
           <Box marginBottom="1rem">
@@ -72,6 +131,7 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions }) => {
                       aria-label="toggle password visibility"
                       onClick={handleSearchUser}
                       edge="end"
+                      disabled={idccms ? false : true}
                     >
                       <img src={searchIco} alt="" />
                     </IconButton>
@@ -81,16 +141,30 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions }) => {
               />
             </FormControl>
           </Box>
+
           <BoxUser display="flex" alignItems="center">
-            <Avatar
-              alt="User"
-              src="1.jpg"
-              sx={{ width: 50, height: 50, marginRight: "2rem" }}
-            />
-            <Box>
-              <Typography variant="body1">Agent Name</Typography>
-              <Typography variant="body2">Agent Cargo</Typography>
-            </Box>
+            {!error && agent.length !== 0 ? (
+              <>
+                <Avatar
+                  alt="User"
+                  src={avatar}
+                  sx={{ width: 50, height: 50, marginRight: "2rem" }}
+                />
+                <Box>
+                  <Typography variant="body1">{agent.FullName}</Typography>
+                  <Typography variant="body2">{agent.Rol}</Typography>
+                </Box>
+              </>
+            ) : (
+              <Typography
+                variant="caption"
+                color="#f00"
+                width="100%"
+                textAlign="center"
+              >
+                {error}
+              </Typography>
+            )}
           </BoxUser>
           <FormControl fullWidth>
             <InputLabel id="campaign-select-label">Select Campaign</InputLabel>
@@ -99,68 +173,65 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions }) => {
               id="campaign-simple-select"
               value={newUser.campaign}
               label="Select Campaign"
-              onChange={(e) =>
-                setNewUser({ ...newUser, campaign: e.target.value })
-              }
+              onChange={(e) => handleAccount(e)}
+              disabled={!error && agent.length !== 0 ? false : true}
             >
-              <MenuItem value={"Campaña1"}>Campaña1</MenuItem>
-              <MenuItem value={"Campaña2"}>Campaña2</MenuItem>
-              <MenuItem value={"Campaña3"}>Campaña3</MenuItem>
-              <MenuItem value={"Campaña4"}>Campaña4</MenuItem>
+              {campaign.map((account) => (
+                <MenuItem value={account.IdCampaign} key={account.IdCampaign}>
+                  {account.nameCampaign}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-          <Box marginY={2}>
+
+          {newUser.role === "Agent" || newUser.role === "Team Leader" ? (
+            <Box marginY={2}>
+              <FormControl fullWidth>
+                <InputLabel id="lob-select-label">Select LOB</InputLabel>
+                <Select
+                  labelId="lob-select-label"
+                  id="lob-simple-select"
+                  value={newUser.lob}
+                  label="Select LOB"
+                  disabled={!error && agent.length !== 0 ? false : true}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, lob: e.target.value })
+                  }
+                >
+                  {lobs.map((lob) => (
+                    <MenuItem value={lob.idLob} key={lob.idLob}>
+                      {lob.NameLob}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            <></>
+          )}
+          {newUser.role === "Agent" && (
             <FormControl fullWidth>
-              <InputLabel id="lob-select-label">Select LOB</InputLabel>
+              <InputLabel id="team-select-label">Select Team</InputLabel>
               <Select
-                labelId="lob-select-label"
-                id="lob-simple-select"
-                value={newUser.lob}
-                label="Select LOB"
+                labelId="team-select-label"
+                id="team-simple-select"
+                value={newUser.team}
+                label="Select Team"
+                disabled={!error && agent.length !== 0 ? false : true}
                 onChange={(e) =>
-                  setNewUser({ ...newUser, lob: e.target.value })
+                  setNewUser({ ...newUser, team: e.target.value })
                 }
               >
-                <MenuItem value={"lob1"}>lob1</MenuItem>
-                <MenuItem value={"lob2"}>lob2</MenuItem>
-                <MenuItem value={"lob3"}>lob3</MenuItem>
-                <MenuItem value={"lob4"}>lob4</MenuItem>
+                {teams.map((team) => (
+                  <MenuItem value={team.idTeam} key={team.idTeam}>
+                    {team.NameTeam}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
-          </Box>
-          <FormControl fullWidth>
-            <InputLabel id="team-select-label">Select Team</InputLabel>
-            <Select
-              labelId="team-select-label"
-              id="team-simple-select"
-              value={newUser.team}
-              label="Select Team"
-              onChange={(e) => setNewUser({ ...newUser, team: e.target.value })}
-            >
-              <MenuItem value={"team1"}>team1</MenuItem>
-              <MenuItem value={"team2"}>team2</MenuItem>
-              <MenuItem value={"team3"}>team3</MenuItem>
-              <MenuItem value={"team4"}>team4</MenuItem>
-            </Select>
-          </FormControl>
+          )}
         </Box>
-        <BoxPermissions>
-          {permissions.map((role, index) => (
-            <Box key={index}>
-              <input
-                type="radio"
-                id="role"
-                name="role"
-                value={role.tag}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, role: e.target.value })
-                }
-              />
-              <br />
-              <label htmlFor="role">{role.rol}</label>
-            </Box>
-          ))}
-        </BoxPermissions>
+
         <Box textAlign="end" marginY={2}>
           <ButtonActionBlue type="submit" sx={{ width: "10rem" }}>
             Add User

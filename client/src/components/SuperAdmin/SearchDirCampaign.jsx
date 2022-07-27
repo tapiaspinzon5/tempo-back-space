@@ -19,9 +19,10 @@ const BoxSearch = styled(Box)(() => ({
   },
 }));
 const BoxAccounts = styled(Box)(() => ({
-  height: "100px",
+  height: "200px",
+  width: "220px",
   marginBottom: "1rem",
-  overflowY: "scroll",
+  overflow: "scroll",
   "&::-webkit-scrollbar": {
     width: "6px",
   },
@@ -34,11 +35,6 @@ const BoxAccounts = styled(Box)(() => ({
     borderRadius: "20px",
   },
 
-  input: {
-    height: "20px",
-    width: "20px",
-    border: "1px solid #0087FF",
-  },
   label: {
     color: "#3047B0",
   },
@@ -52,7 +48,7 @@ const SearchDirCampaign = ({ dataCampaign, setShowAccounts }) => {
     setSearch(e.target.value);
     let accountIn = e.target.value;
     const dataFilter = dataCampaign.filter((account) =>
-      account.campaign.toLowerCase().includes(accountIn.toLowerCase())
+      account.nameCampaign.toLowerCase().includes(accountIn.toLowerCase())
     );
     setDataAccount(dataFilter);
   };
@@ -60,6 +56,8 @@ const SearchDirCampaign = ({ dataCampaign, setShowAccounts }) => {
   const handleSetAccount = () => {
     setShowAccounts(false);
   };
+
+  console.log(dataAccount);
   return (
     <BoxMain>
       <BoxSearch>
@@ -72,7 +70,7 @@ const SearchDirCampaign = ({ dataCampaign, setShowAccounts }) => {
       </BoxSearch>
       <BoxAccounts>
         {dataAccount.map((camp) => (
-          <Box height="25px" display="flex" alignItems="center">
+          <Box height="25px" display="flex" alignItems="center" marginTop={2}>
             {" "}
             <input
               type="checkbox"
@@ -80,8 +78,13 @@ const SearchDirCampaign = ({ dataCampaign, setShowAccounts }) => {
               name="role"
               // value={role.tag}
               // onChange={(e) => setRole(e.target.value)}
+              style={{
+                height: "20px",
+
+                marginRight: ".5rem",
+              }}
             />
-            <label htmlFor="role">{camp.campaign}</label>
+            <label htmlFor="role">{camp.nameCampaign}</label>
           </Box>
         ))}
       </BoxAccounts>

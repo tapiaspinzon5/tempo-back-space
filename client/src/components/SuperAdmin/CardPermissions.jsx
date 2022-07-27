@@ -22,7 +22,7 @@ const BoxPermissions = styled(Box)(() => ({
   },
 }));
 
-const CardPermissions = ({ setRole, permissions }) => {
+const CardPermissions = ({ setRole, permissions, checkUser }) => {
   return (
     <BoxPermissions>
       {permissions.map((role, index) => (
@@ -33,6 +33,7 @@ const CardPermissions = ({ setRole, permissions }) => {
             name="role"
             value={role.tag}
             onChange={(e) => setRole(e.target.value)}
+            disabled={checkUser.length > 1 ? true : false}
           />
           <br />
           <label htmlFor="role">{role.rol}</label>
