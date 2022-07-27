@@ -880,7 +880,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("idLob", req.idLob, TYPES.Int),
         new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("Context", req.context, TYPES.Int),
-        SpParamTable2("tableInsertRol", tableInsertRol, req.rows),
+        SpParamTable2("table", tableInsertRol, req.rows),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":

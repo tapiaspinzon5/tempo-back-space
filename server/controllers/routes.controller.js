@@ -292,11 +292,11 @@ exports.postInsertRoleCampaign = async (req, res) => {
           idccms,
           idUser,
           role,
-          idCampaign: idCampaign[0] ?? null,
+          idCampaign: idCampaign[0] ?? 0,
           idLob,
           idTeam,
           context,
-          rows: role !== "Cluster Director" ? [0, 0] : campaignTable,
+          rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable,
         },
         "spInsertRoleCampaign"
       )
