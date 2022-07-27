@@ -48,8 +48,7 @@ axiosInstance.interceptors.request.use((config) => {
   config.headers.responseEncoding = "utf8";
   config.headers.Authorization = "Bearer " + user.Token;
   config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
-  config.headers["Access-Control-Allow-Origin"] =
-    "https://spacegptest.teleperformance.co";
+  config.headers["Access-Control-Allow-Origin"] = "http://localhost:4343";
   config.data = { ...config.data, idccms: user.Idccms };
   return config;
 });

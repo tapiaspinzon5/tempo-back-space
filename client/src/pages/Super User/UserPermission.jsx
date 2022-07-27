@@ -45,9 +45,11 @@ const UserPermission = () => {
   useEffect(() => {
     getData();
   }, []);
+
   useEffect(() => {
     getData2();
   }, [searchCampaign]);
+
   let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
   useEffect(() => {
     setWidth(ancho);

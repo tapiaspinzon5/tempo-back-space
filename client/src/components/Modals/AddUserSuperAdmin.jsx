@@ -65,26 +65,29 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
     } else if (getData.data.length === 0) {
       setError("This user does not exist");
     } else {
-      setNewUser({ ...newUser, user: getData.data[0].ident, context: 1 });
+      setNewUser({ ...newUser, idUser: getData.data[0].ident, context: 1 });
       setAgent(getData.data[0]);
     }
   };
 
   const handleAccount = async (e) => {
-    setNewUser({ ...newUser, campaign: e.target.value });
+    setNewUser({ ...newUser, idCampaign: [e.target.value] });
 
     const data = await requestWithData("getorganizationalunit", {
       context: 2,
       idcampaign: e.target.value,
     });
-
+    console.log(data);
     setLobs(data.data[1].Lobs);
     setTeams(data.data[2].Teams);
   };
 
-  const addUser = (e) => {
+  const addUser = async (e) => {
     e.preventDefault();
+    const createUser = await requestWithData("postinsertrolecampaign", newUser);
+    console.log(createUser);
   };
+
   console.log(newUser);
   console.log(agent);
 
@@ -171,7 +174,7 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
             <Select
               labelId="campaign-select-label"
               id="campaign-simple-select"
-              value={newUser.campaign}
+              value={newUser.idCampaign || ""}
               label="Select Campaign"
               onChange={(e) => handleAccount(e)}
               disabled={!error && agent.length !== 0 ? false : true}
@@ -191,11 +194,11 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
                 <Select
                   labelId="lob-select-label"
                   id="lob-simple-select"
-                  value={newUser.lob}
+                  value={newUser.idLob || ""}
                   label="Select LOB"
                   disabled={!error && agent.length !== 0 ? false : true}
                   onChange={(e) =>
-                    setNewUser({ ...newUser, lob: e.target.value })
+                    setNewUser({ ...newUser, idLob: e.target.value })
                   }
                 >
                   {lobs.map((lob) => (
@@ -215,11 +218,11 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
               <Select
                 labelId="team-select-label"
                 id="team-simple-select"
-                value={newUser.team}
+                value={newUser.idTeam || ""}
                 label="Select Team"
                 disabled={!error && agent.length !== 0 ? false : true}
                 onChange={(e) =>
-                  setNewUser({ ...newUser, team: e.target.value })
+                  setNewUser({ ...newUser, idTeam: e.target.value })
                 }
               >
                 {teams.map((team) => (

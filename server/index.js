@@ -20,12 +20,13 @@ const { jwt } = require("./controllers/jwt.controller");
 const { configure } = require("./controllers/configure");
 const path = require("path");
 const { init } = require("./firebaseConfig/firebaseConfig");
-const corsOptions = {origin: 
-  [
-  'http://localhost:4343',
-  "https://gamificationtest.teleperformance.co",
-  "https://spacegptest.teleperformance.co",
-  "https://gptest.teleperformance.co"]
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "https://gamificationtest.teleperformance.co",
+    "https://spacegptest.teleperformance.co",
+    "https://gptest.teleperformance.co",
+  ],
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
