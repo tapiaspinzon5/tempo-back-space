@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   FormControl,
@@ -12,10 +12,17 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { SwapSpinner } from "react-spinners-kit";
 import searchIco from "../../assets/Icons/search-ico.svg";
 import avatar from "../../assets/temp-image/avatar.png";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
 import { requestWithData } from "../../utils/api";
+import SearchDirCampaign from "../SuperAdmin/SearchDirCampaign";
+import LoadingComponent from "../LoadingComponent";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const BoxUser = styled(Box)(() => ({
   backgroundColor: "white",
@@ -46,14 +53,33 @@ const BoxPermissions = styled(Box)(() => ({
   },
 }));
 
-const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
+const AddUserSuperAdmin = ({
+  newUser,
+  setNewUser,
+  permissions,
+  campaign,
+  handleClose,
+  setShowAccounts,
+}) => {
   const [idccms, setIdccms] = useState("");
+  const [search, setSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [agent, setAgent] = useState([]);
   const [lobs, setLobs] = useState([]);
   const [teams, setTeams] = useState([]);
 
+  useEffect(() => {
+    if (newUser.role === "Super Admin") {
+      setNewUser({
+        ...newUser,
+        idCampaign: [campaign[0].IdCampaign],
+      });
+    }
+  }, [newUser.role]);
+
   const handleSearchUser = async () => {
+    setSearch(true);
     setError("");
     const getData = await requestWithData("getmasterinfoagents", {
       context: 2,
@@ -65,9 +91,23 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
     } else if (getData.data.length === 0) {
       setError("This user does not exist");
     } else {
-      setNewUser({ ...newUser, idUser: getData.data[0].ident, context: 1 });
+      if (newUser.role === "Super Admin") {
+        setNewUser({
+          ...newUser,
+          idUser: getData.data[0].ident,
+          context: 1,
+          idCampaign: [campaign[0].IdCampaign],
+        });
+      } else {
+        setNewUser({
+          ...newUser,
+          idUser: getData.data[0].ident,
+          context: 1,
+        });
+      }
       setAgent(getData.data[0]);
     }
+    setSearch(false);
   };
 
   const handleAccount = async (e) => {
@@ -84,8 +124,26 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
 
   const addUser = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const createUser = await requestWithData("postinsertrolecampaign", newUser);
     console.log(createUser);
+    if (createUser.status == 200) {
+      handleClose();
+      setNewUser([]);
+      setIdccms("");
+      setError("");
+      MySwal.fire({
+        title: <p>User added succesfully</p>,
+        icon: "success",
+      });
+    } else {
+      MySwal.fire({
+        title: <p>Houston, we have a problem! </p>,
+        icon: "error",
+      });
+      setLoading(false);
+    }
+    setLoading(false);
   };
 
   console.log(newUser);
@@ -93,6 +151,23 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
 
   return (
     <Box>
+      {loading && (
+        <Box
+          sx={{
+            width: "92%",
+            height: "92%",
+            background: "#e8e8e8a8",
+            position: "absolute",
+            zIndex: "10000",
+            borderRadius: "10px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <LoadingComponent />
+        </Box>
+      )}
       <Typography
         variant="h6"
         color="#3047B0"
@@ -109,6 +184,7 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
               id="role"
               name="role"
               value={role.tag}
+              checked={newUser.role === role.tag ? true : false}
               onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
             />
             <br />
@@ -134,7 +210,7 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
                       aria-label="toggle password visibility"
                       onClick={handleSearchUser}
                       edge="end"
-                      disabled={idccms ? false : true}
+                      disabled={search || !idccms ? true : false}
                     >
                       <img src={searchIco} alt="" />
                     </IconButton>
@@ -145,7 +221,14 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
             </FormControl>
           </Box>
 
-          <BoxUser display="flex" alignItems="center">
+          <BoxUser
+            sx={{
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+          >
+            {search && <SwapSpinner color="#3047B0" />}
             {!error && agent.length !== 0 ? (
               <>
                 <Avatar
@@ -159,33 +242,42 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
                 </Box>
               </>
             ) : (
-              <Typography
-                variant="caption"
-                color="#f00"
-                width="100%"
-                textAlign="center"
-              >
-                {error}
-              </Typography>
+              error && (
+                <Typography
+                  variant="body1"
+                  color="#f00"
+                  width="100%"
+                  textAlign="center"
+                >
+                  {error}
+                </Typography>
+              )
             )}
           </BoxUser>
-          <FormControl fullWidth>
-            <InputLabel id="campaign-select-label">Select Campaign</InputLabel>
-            <Select
-              labelId="campaign-select-label"
-              id="campaign-simple-select"
-              value={newUser.idCampaign || ""}
-              label="Select Campaign"
-              onChange={(e) => handleAccount(e)}
-              disabled={!error && agent.length !== 0 ? false : true}
-            >
-              {campaign.map((account) => (
-                <MenuItem value={account.IdCampaign} key={account.IdCampaign}>
-                  {account.nameCampaign}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {newUser.role !== "Cluster Director" &&
+          newUser.role !== "Super Admin" ? (
+            <FormControl fullWidth>
+              <InputLabel id="campaign-select-label">
+                Select Campaign
+              </InputLabel>
+              <Select
+                labelId="campaign-select-label"
+                id="campaign-simple-select"
+                value={newUser.idCampaign || ""}
+                label="Select Campaign"
+                onChange={(e) => handleAccount(e)}
+                disabled={!error && agent.length !== 0 ? false : true}
+              >
+                {campaign.map((account) => (
+                  <MenuItem value={account.IdCampaign} key={account.IdCampaign}>
+                    {account.nameCampaign}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ) : (
+            ""
+          )}
 
           {newUser.role === "Agent" || newUser.role === "Team Leader" ? (
             <Box marginY={2}>
@@ -235,8 +327,35 @@ const AddUserSuperAdmin = ({ newUser, setNewUser, permissions, campaign }) => {
           )}
         </Box>
 
+        {newUser.role === "Cluster Director" && (
+          <Box
+            sx={{
+              width: "100%",
+              marginTop: "1rem",
+              borderRadius: "10px",
+              background: "#fff",
+              zIndex: 1100,
+            }}
+          >
+            <SearchDirCampaign
+              dataCampaign={campaign}
+              setShowAccounts={setShowAccounts}
+              newUser={newUser}
+              setNewUser={setNewUser}
+            />
+          </Box>
+        )}
+
         <Box textAlign="end" marginY={2}>
-          <ButtonActionBlue type="submit" sx={{ width: "10rem" }}>
+          <ButtonActionBlue
+            type="submit"
+            sx={{ width: "10rem" }}
+            disabled={
+              newUser.idUser && idccms && newUser.role && newUser.idCampaign
+                ? false
+                : true
+            }
+          >
             Add User
           </ButtonActionBlue>
         </Box>

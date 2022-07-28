@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { Avatar, Grid, styled } from "@mui/material";
+import { GiSandsOfTime } from "react-icons/gi";
 
 const BoxTable = styled(Grid)(() => ({
   height: "32rem",
@@ -22,19 +23,41 @@ const BoxTable = styled(Grid)(() => ({
 const DataGridUserPermissions = ({ dataAgent, width, setCheckUser }) => {
   const columns = [
     {
+      field: "Request",
+      headerName: "",
+      width: 20,
+      renderCell: (params) => (
+        <div
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        >
+          {/* {console.log(params.row)} */}
+          {params.value}
+          {params.row.Request ? (
+            <GiSandsOfTime color="#3047B0" size={18} />
+          ) : (
+            <input
+              type="radio"
+              id={params.id}
+              name="users"
+              value={params.row.Ident}
+              onChange={(e) => setCheckUser(e.target.value)}
+              style={{
+                height: "1.5rem",
+                width: "1.5rem",
+              }}
+            />
+          )}
+        </div>
+      ),
+      headerClassName: "super-app-theme--header",
+      cellClassName: "super-app-theme--cell",
+    },
+
+    {
       field: "Ident",
       headerName: "CCMS",
       width: width / 10 < 100 ? 100 : width / 13,
-      //renderCell: (params) => console.log(params),
-      //   <>
-      //     {params.value}
-      //     <Avatar
-      //       alt="Remy Sharp"
-      //       src={avatar}
-      //       sx={{ width: 40, height: 40 }}
-      //       style={{ marginLeft: 16 }}
-      //     />
-      //   </>
+
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
     },
@@ -83,10 +106,10 @@ const DataGridUserPermissions = ({ dataAgent, width, setCheckUser }) => {
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
-        checkboxSelection
-        onSelectionModelChange={(e) => {
-          setCheckUser(e);
-        }}
+        // checkboxSelection
+        // onSelectionModelChange={(e) => {
+        //   setCheckUser(e);
+        // }}
       />
     </BoxTable>
   );

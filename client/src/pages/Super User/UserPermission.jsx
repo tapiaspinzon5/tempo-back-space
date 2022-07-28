@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Grid, Modal, Typography } from "@mui/material";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Autocomplete from "@mui/material/Autocomplete";
 import {
   BoxData,
@@ -15,8 +17,10 @@ import CardPermissions from "../../components/SuperAdmin/CardPermissions";
 import AddUserSuperAdmin from "../../components/Modals/AddUserSuperAdmin";
 import SearchCampaign from "../../components/SuperAdmin/SearchCampaign";
 import SearchDirCampaign from "../../components/SuperAdmin/SearchDirCampaign";
-import { requestWithData } from "../../utils/api";
+import { agentManage, requestWithData } from "../../utils/api";
 import DataGridUserPermissions from "../../components/SuperAdmin/DataGridUserPermissions";
+
+const MySwal = withReactContent(Swal);
 
 const userPermissions = [
   { rol: "OPM", tag: "Operation Manager" },
@@ -40,7 +44,7 @@ const UserPermission = () => {
   const [newUser, setNewUser] = useState([]);
   const [searchCampaign, setSearchCampaign] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [checkUser, setCheckUser] = React.useState([]);
+  const [checkUser, setCheckUser] = React.useState("");
 
   useEffect(() => {
     getData();
@@ -84,11 +88,48 @@ const UserPermission = () => {
   const handleClose = () => {
     setOpen(false);
     setDataCampaign([]);
+    setShowAccounts(false);
   };
 
-  const handleDeleteUser = () => {};
+  const handleDeleteUser = () => {
+    MySwal.fire({
+      title: <p>Only files in .csv format</p>,
+      icon: "error",
+    });
+  };
+
+  const handleState = async () => {
+    MySwal.fire({
+      title: <p>Do you want to delete this user?</p>,
+      icon: "question",
+      confirmButtonText: "Accept",
+      showDenyButton: true,
+      allowOutsideClick: false,
+    }).then((resultado) => {
+      if (resultado.value) {
+        const req = async () => {
+          const changeState = await agentManage(checkUser);
+          if (changeState.status === 200) {
+            getData2();
+            MySwal.fire({
+              title: <p>Request Sent!</p>,
+              icon: "success",
+            });
+          } else {
+            MySwal.fire({
+              title: <p>Houston, we have a problem! </p>,
+              icon: "error",
+            });
+          }
+        };
+        req();
+      }
+    });
+  };
 
   const handleDirCapaign = () => {};
+
+  console.log(checkUser);
 
   return (
     <MainPage>
@@ -101,7 +142,7 @@ const UserPermission = () => {
           <Box display="flex" alignItems="flex-end" height="5rem">
             <ButtonAction onClick={() => handleOpen()}>New User</ButtonAction>
 
-            <ButtonAction onClick={() => handleDeleteUser()}>
+            <ButtonAction onClick={() => handleState()}>
               Delete User
             </ButtonAction>
             <ButtonAction onClick={() => setPermissions(!permissions)}>
@@ -172,6 +213,8 @@ const UserPermission = () => {
             setNewUser={setNewUser}
             permissions={userPermissions}
             campaign={campaign.Campaign}
+            handleClose={handleClose}
+            setShowAccounts={setShowAccounts}
           />
         </ModalBox>
       </Modal>
