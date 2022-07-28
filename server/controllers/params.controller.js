@@ -666,11 +666,11 @@ exports.parametros = (req, tipo) => {
         new SpParam("finalDate", req.finalDate, TYPES.Date),
       ]);
 
-    case "spInactivateAgent":
-      return parametrizacion([
-        new SpParam("ident", req.idccmsAgent, TYPES.Int),
-        new SpParam("identassignement", req.idccms, TYPES.Int),
-      ]);
+    // case "spInactivateAgent":
+    //   return parametrizacion([
+    //     new SpParam("ident", req.idccmsAgent, TYPES.Int),
+    //     new SpParam("identassignement", req.idccms, TYPES.Int),
+    //   ]);
 
     case "spQueryLeaderBoardRL":
       return parametrizacion([
@@ -881,6 +881,15 @@ exports.parametros = (req, tipo) => {
         new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("Context", req.context, TYPES.Int),
         SpParamTable2("table", tableInsertRol, req.rows),
+      ]);
+    case "spQueryUsrInactivation":
+      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+
+    case "spInactivateAgent":
+      return parametrizacion([
+        new SpParam("ident", req.idccmsUser, TYPES.Int),
+        new SpParam("identassignement", req.idccms, TYPES.Int),
+        new SpParam("Appoved", req.inactivate, TYPES.Int),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":

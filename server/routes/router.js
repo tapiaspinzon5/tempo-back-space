@@ -204,7 +204,7 @@ module.exports = (router) => {
   // MapSpRouter("/uploadkpirl", "spInsertKpi");
   MapSpRouter("/getkpiscampaign", "spQueryListKpi");
   MapSpRouter("/postcreatenewchallengtl", "spInsertChallenge");
-  MapSpRouter("/postinactiveagent", "spInactivateAgent");
+  // MapSpRouter("/postinactiveagent", "spInactivateAgent");
   MapSpRouter("/getmasterinfoagents", "spQueryAgents");
   MapSpRouter("/getinfoleaderboardrl", "spQueryLeaderBoardRL");
   MapSpRouter("/getlobsopsm", "spQueryLobTeams");
@@ -223,6 +223,8 @@ module.exports = (router) => {
   MapSpRouter("/getorganizationalunit", "spQueryOrganizationalUnits");
   MapSpRouter("/getLobsKpis", "spQueryKpiCampaignLob");
   MapSpRouter("/postupdatemissionstatusexpired", "spUpdateStatusMission");
+  MapSpRouter("/getinactiveusersapplications", "spQueryUsrInactivation");
+  MapSpRouter("/postinactivateuser", "spInactivateAgent");
 
   MapSpRouter("/welcomeegp", "spBgWelcomeEGP");
 
