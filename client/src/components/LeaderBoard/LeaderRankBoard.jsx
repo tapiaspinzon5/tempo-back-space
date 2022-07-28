@@ -41,7 +41,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 	return (
 		<>
 			<BoxSelect>
-				{userRol === "Cluster Director" && (
+				{/* {userRol === "Cluster Director" && (
 					<>
 						<BoxFormControl>
 							<InputLabel id="campaign-label">Capaign</InputLabel>
@@ -121,7 +121,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 							</Select>
 						</BoxFormControl>
 					</>
-				)}
+				)} */}
 				<BoxFormControl>
 					<InputLabel id="kpi-label">Kpi</InputLabel>
 					<Select
@@ -210,17 +210,21 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 								value={date1}
 								onChange={(newValue) => {
 									setDate1(
-										`${newValue.getFullYear()}-${
-											newValue.getMonth() + 1
-										}-${newValue.getDate()}`
+										newValue
+											? `${newValue.getFullYear()}-${
+													newValue.getMonth() + 1
+											  }-${newValue.getDate()}`
+											: null
 									);
 									setFilters({
 										kpi: kpiFilter,
 										time: timeFilter,
 										group: groupFilter,
-										start: `${newValue.getFullYear()}-${
-											newValue.getMonth() + 1
-										}-${newValue.getDate()}`,
+										start: newValue
+											? `${newValue.getFullYear()}-${
+													newValue.getMonth() + 1
+											  }-${newValue.getDate()}`
+											: null,
 										end: date2,
 									});
 								}}
@@ -234,18 +238,22 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 								value={date2}
 								onChange={(newValue) => {
 									setDate2(
-										`${newValue.getFullYear()}-${
-											newValue.getMonth() + 1
-										}-${newValue.getDate()}`
+										newValue
+											? `${newValue.getFullYear()}-${
+													newValue.getMonth() + 1
+											  }-${newValue.getDate()}`
+											: null
 									);
 									setFilters({
 										kpi: kpiFilter,
 										time: timeFilter,
 										group: groupFilter,
 										start: date1,
-										end: `${newValue.getFullYear()}-${
-											newValue.getMonth() + 1
-										}-${newValue.getDate()}`,
+										end: newValue
+											? `${newValue.getFullYear()}-${
+													newValue.getMonth() + 1
+											  }-${newValue.getDate()}`
+											: null,
 									});
 								}}
 								renderInput={(params) => (

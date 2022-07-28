@@ -111,9 +111,11 @@ const LOBManagementSection = () => {
 			setDataLOB({ idLob: item, name });
 		}
 	};
-	const handleClose = () => {
-		setOpen(false);
-		setDataLOB([]);
+	const handleClose = (event, reason) => {
+		if (reason && reason !== "backdropClick") {
+			setOpen(false);
+			setDataLOB([]);
+		}
 	};
 	const handleLob = async (datalob) => {
 		setLoadingTl(true);
@@ -204,6 +206,7 @@ const LOBManagementSection = () => {
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
+				disableEscapeKeyDown
 			>
 				<ModalBox
 					sx={{

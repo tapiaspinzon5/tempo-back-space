@@ -4,9 +4,11 @@ import CryptoJS from "crypto-js";
 
 //url de apuntamiento
 //Localhost
-const url = "http://localhost:4343";
+//const url = "http://localhost:4343";
+
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
+const url = "https://gptest.teleperformance.co";
 // Pilot
 //const url = "https://spacegptest.teleperformance.co";
 //const url = "http://10.138.143.224:4343";

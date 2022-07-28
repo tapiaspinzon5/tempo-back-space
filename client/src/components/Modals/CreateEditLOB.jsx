@@ -232,29 +232,34 @@ const CreateEditLOB = ({
 			setDisabled(false);
 			notifyModalError(dts[0]);
 		} else {
-			const sendDataLob = await requestWithData("postsetlobskpis", dts);
-			if (sendDataLob.status === 200) {
-				const TLList = await filterLobList(sendDataLob.data);
-				setLob(TLList);
-				setAllData(sendDataLob.data);
-				setNoData(false);
-				setNext(false);
-				setOpen(false);
+			if (dts.length > 5) {
+				notifyModalError("Max. Five KPI´s");
 				setDisabled(false);
 			} else {
-				setNext(false);
-				setOpen(false);
-				setDisabled(false);
-				MySwal.fire({
-					title: <p>Send Error!</p>,
-					icon: "error",
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((resultado) => {
-					if (resultado.value) {
-						window.location.reload();
-					}
-				});
+				const sendDataLob = await requestWithData("postsetlobskpis", dts);
+				if (sendDataLob.status === 200) {
+					const TLList = await filterLobList(sendDataLob.data);
+					setLob(TLList);
+					setAllData(sendDataLob.data);
+					setNoData(false);
+					setNext(false);
+					setOpen(false);
+					setDisabled(false);
+				} else {
+					setNext(false);
+					setOpen(false);
+					setDisabled(false);
+					MySwal.fire({
+						title: <p>Send Error!</p>,
+						icon: "error",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							window.location.reload();
+						}
+					});
+				}
 			}
 		}
 		/* if (nameLOB) {
@@ -312,28 +317,36 @@ const CreateEditLOB = ({
 			notifyModalError(dts[0]);
 			setDisabled(false);
 		} else {
-			const editDataLob = await requestWithData("postupdatecampaigninfo", dts);
-			if (editDataLob.status === 200) {
-				const TLList = await filterLobList(editDataLob.data);
-				setAllData(editDataLob.data);
-				setLob(TLList);
-				setNext(false);
-				setOpen(false);
+			if (dts.length > 5) {
+				notifyModalError("Max. Five KPI´s");
 				setDisabled(false);
 			} else {
-				setNext(false);
-				setOpen(false);
-				setDisabled(false);
-				MySwal.fire({
-					title: <p>Send Error!</p>,
-					icon: "error",
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((resultado) => {
-					if (resultado.value) {
-						window.location.reload();
-					}
-				});
+				const editDataLob = await requestWithData(
+					"postupdatecampaigninfo",
+					dts
+				);
+				if (editDataLob.status === 200) {
+					const TLList = await filterLobList(editDataLob.data);
+					setAllData(editDataLob.data);
+					setLob(TLList);
+					setNext(false);
+					setOpen(false);
+					setDisabled(false);
+				} else {
+					setNext(false);
+					setOpen(false);
+					setDisabled(false);
+					MySwal.fire({
+						title: <p>Send Error!</p>,
+						icon: "error",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							window.location.reload();
+						}
+					});
+				}
 			}
 		}
 	};
