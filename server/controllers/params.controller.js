@@ -893,8 +893,8 @@ exports.parametros = (req, tipo) => {
       ]);
     case "spUpdateRoleUser":
       return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("UsrChange", req.idccmsUser, TYPES.Int),
+        new SpParam("ident", req.idccmsUser, TYPES.Int),
+        new SpParam("UsrChange", req.idccms, TYPES.Int),
         new SpParam("Role", req.role, TYPES.VarChar),
       ]);
     // Casos de Actividades
