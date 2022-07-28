@@ -91,13 +91,6 @@ const UserPermission = () => {
     setShowAccounts(false);
   };
 
-  const handleDeleteUser = () => {
-    MySwal.fire({
-      title: <p>Only files in .csv format</p>,
-      icon: "error",
-    });
-  };
-
   const handleState = async () => {
     MySwal.fire({
       title: <p>Do you want to delete this user?</p>,
@@ -108,7 +101,11 @@ const UserPermission = () => {
     }).then((resultado) => {
       if (resultado.value) {
         const req = async () => {
-          const changeState = await agentManage(checkUser);
+          const changeState = await requestWithData("postinactivateuser", {
+            idccmsUser: checkUser,
+            inactivate: 1,
+          });
+
           if (changeState.status === 200) {
             getData2();
             MySwal.fire({
@@ -127,9 +124,42 @@ const UserPermission = () => {
     });
   };
 
-  const handleDirCapaign = () => {};
+  const handleChangeRol = () => {
+    MySwal.fire({
+      title: <p>Do you want to change this user role?</p>,
+      icon: "question",
+      confirmButtonText: "Accept",
+      showDenyButton: true,
+      allowOutsideClick: false,
+    }).then((resultado) => {
+      if (resultado.value) {
+        const req = async () => {
+          const changeState = await requestWithData("postchangeuserrole", {
+            idccmsUser: +checkUser,
+            role: role,
+          });
 
-  console.log(checkUser);
+          if (changeState.status === 200) {
+            getData2();
+            MySwal.fire({
+              title: <p>Change successfully!!</p>,
+              icon: "success",
+            });
+          } else {
+            MySwal.fire({
+              title: <p>Houston, we have a problem! </p>,
+              icon: "error",
+            });
+          }
+        };
+        req();
+
+        console.log("rol cambiado ");
+      }
+    });
+  };
+
+  console.log(checkUser, role);
 
   return (
     <MainPage>
@@ -157,6 +187,7 @@ const UserPermission = () => {
                 setRole={setRole}
                 permissions={userPermissions}
                 checkUser={checkUser}
+                handleChangeRol={handleChangeRol}
               />
               {role === "Cluster Director" && showAccounts && (
                 <Box
