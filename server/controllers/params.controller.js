@@ -895,7 +895,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("UsrChange", req.idccmsUser, TYPES.Int),
-        new SpParam("Role", req.role, TYPES.Int),
+        new SpParam("Role", req.role, TYPES.VarChar),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":
