@@ -21,10 +21,12 @@ const { configure } = require("./controllers/configure");
 const path = require("path");
 const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
-  origin: "*",
-  // origin: 'http://localhost:4343',
-  // origin: "https://gamificationtest.teleperformance.co",
-  // origin: "https://spacegptest.teleperformance.co/",
+  origin: [
+    "http://localhost:3000",
+    "https://gamificationtest.teleperformance.co",
+    "https://spacegptest.teleperformance.co",
+    "https://gptest.teleperformance.co",
+  ],
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));

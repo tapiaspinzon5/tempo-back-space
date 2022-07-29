@@ -272,17 +272,43 @@ exports.uploadRepLead = async (req, res) => {
     });
 };
 
-// exports.getQuizByAgent = async (req, res) => {
-//   sql
-//     .query("spQueryExamEmployee", parametros({ idccms: req.query.idccms }, "spQueryExamEmployee"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+exports.postInsertRoleCampaign = async (req, res) => {
+  let i = 0;
+  let campaignTable = [];
+  const { idccms, idUser, role, idCampaign, idLob, idTeam, context } = req.body;
+
+  if (role === "Cluster Director") {
+    campaignTable = idCampaign.map((el) => {
+      i = i + 1;
+      return [el, i];
+    });
+  }
+
+  sql
+    .query(
+      "spInsertRoleCampaign",
+      parametros(
+        {
+          idccms,
+          idUser,
+          role,
+          idCampaign: idCampaign[0] ?? 0,
+          idLob,
+          idTeam,
+          context,
+          rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable,
+        },
+        "spInsertRoleCampaign"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 // exports.getQuizDetail = async (req, res) => {
 //   let { idQuiz } = req.body;

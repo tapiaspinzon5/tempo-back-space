@@ -134,6 +134,7 @@ module.exports = (router) => {
 
   // Endpoint para actualizar las campañas
   router.post("/postupdatecampaigninfo", oauth.oauthOther, decryptBody, routes.postUpdateCampaignInfo);
+  router.post("/postinsertrolecampaign", oauth.oauthOther, decryptBody, routes.postInsertRoleCampaign);
 
   // Endpoint para actualizar el nombre del equipo
   // router.post("/postupdateteamname", oauth.oauthOther, routes.postUpdateTeamName);
@@ -203,7 +204,7 @@ module.exports = (router) => {
   // MapSpRouter("/uploadkpirl", "spInsertKpi");
   MapSpRouter("/getkpiscampaign", "spQueryListKpi");
   MapSpRouter("/postcreatenewchallengtl", "spInsertChallenge");
-  MapSpRouter("/postinactiveagent", "spInactivateAgent");
+  // MapSpRouter("/postinactiveagent", "spInactivateAgent");
   MapSpRouter("/getmasterinfoagents", "spQueryAgents");
   MapSpRouter("/getinfoleaderboardrl", "spQueryLeaderBoardRL");
   MapSpRouter("/getlobsopsm", "spQueryLobTeams");
@@ -222,6 +223,9 @@ module.exports = (router) => {
   MapSpRouter("/getorganizationalunit", "spQueryOrganizationalUnits");
   MapSpRouter("/getLobsKpis", "spQueryKpiCampaignLob");
   MapSpRouter("/postupdatemissionstatusexpired", "spUpdateStatusMission");
+  MapSpRouter("/getinactiveusersapplications", "spQueryUsrInactivation");
+  MapSpRouter("/postinactivateuser", "spInactivateAgent");
+  MapSpRouter("/postchangeuserrole", "spUpdateRoleUser");
 
   MapSpRouter("/welcomeegp", "spBgWelcomeEGP");
 
