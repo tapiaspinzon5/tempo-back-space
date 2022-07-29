@@ -7,7 +7,7 @@ exports.sendEmail = async (emails, subject, header, emailSender) => {
     let responses = emails.map(async (info) => {
       const { name, email, rol, manager, rolManager } = info;
 
-      let emailTemplate = `
+      let welcomeEmailTemplate = `
         <!DOCTYPE html>
         <html lang="en"   >
           <head>
@@ -130,7 +130,7 @@ exports.sendEmail = async (emails, subject, header, emailSender) => {
         subject,
         name: header,
         emailSender,
-        HTML: emailTemplate,
+        HTML: welcomeEmailTemplate,
       };
 
       return await axios.post(path, message);

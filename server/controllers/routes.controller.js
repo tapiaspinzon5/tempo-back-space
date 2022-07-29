@@ -1423,33 +1423,47 @@ exports.postUpdateCampaignInfo = async (req, res) => {
   }
 };
 
-// exports.postUpdateTeamName = async (req, res) => {
-//   const { idccms, idTeam, newTeamName } = req.body;
+exports.postInactivateUser = async (req, res) => {
+  const { idccms, idccmsUser, roleUser, nameUser, inactivate, status, rolRequester, emailRequester } =
+    req.body;
 
-//   sql
-//     .query("spUpdateNameTeam", parametros({ idccms, idTeam, newTeamName }, "spUpdateNameTeam"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+  sql
+    .query("spInactivateAgent", parametros({ idccms, idccmsUser, inactivate }, "spInactivateAgent"))
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
-// exports.getKpisFromMD = async (req, res) => {
-//   const { idccms, kpi } = req.body;
+exports.postChangeUserRole = async (req, res) => {
+  const { idccmsUser, idccms, role, idCampaign } = req.body;
 
-//   sql
-//     .query("spQueryKpiMD", parametros({ idccms, kpi }, "spQueryKpiMD"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+  if (role === "Cluster Director") {
+    campaignTable = idCampaign.map((el) => {
+      i = i + 1;
+      return [el, i];
+    });
+  }
+
+  sql
+    .query(
+      "spUpdateRoleUser",
+      parametros(
+        { idccmsUser, idccms, role, rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable },
+        "spUpdateRoleUser"
+      )
+    )
+    .then((result) => {
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 // exports.getTeamAgentsInformation = async (req, res) => {
 //   const { idccms, context, idccmsAgent } = req.body;
