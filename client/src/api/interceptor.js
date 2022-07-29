@@ -39,20 +39,19 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-	const user = JSON.parse(
-		CryptoJS.AES.decrypt(
-			sessionStorage.getItem("userTP"),
-			"secret key 123"
-		).toString(CryptoJS.enc.Utf8)
-	);
-	config.headers["Content-Type"] = "application/json; charset=ISO-8859-1";
-	config.headers.responseEncoding = "utf8";
-	config.headers.Authorization = "Bearer " + user.Token;
-	config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
-	config.headers["Access-Control-Allow-Origin"] =
-		"https://spacegptest.teleperformance.co";
-	config.data = { ...config.data, idccms: user.Idccms };
-	return config;
+  const user = JSON.parse(
+    CryptoJS.AES.decrypt(
+      sessionStorage.getItem("userTP"),
+      "secret key 123"
+    ).toString(CryptoJS.enc.Utf8)
+  );
+  config.headers["Content-Type"] = "application/json; charset=ISO-8859-1";
+  config.headers.responseEncoding = "utf8";
+  config.headers.Authorization = "Bearer " + user.Token;
+  config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
+  config.headers["Access-Control-Allow-Origin"] = "http://localhost:4343";
+  config.data = { ...config.data, idccms: user.Idccms };
+  return config;
 });
 
 export { axiosInstance };

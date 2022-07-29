@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Grid, Modal, Typography } from "@mui/material";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Autocomplete from "@mui/material/Autocomplete";
 import {
   BoxData,
@@ -11,10 +13,14 @@ import {
 import Footer from "../../components/Footer";
 import Header from "../../components/homeUser/Header";
 import CardPermissions from "../../components/SuperAdmin/CardPermissions";
-import UserTablePermissions from "../../components/SuperAdmin/UserTablePermissions";
+
 import AddUserSuperAdmin from "../../components/Modals/AddUserSuperAdmin";
 import SearchCampaign from "../../components/SuperAdmin/SearchCampaign";
 import SearchDirCampaign from "../../components/SuperAdmin/SearchDirCampaign";
+import { agentManage, requestWithData } from "../../utils/api";
+import DataGridUserPermissions from "../../components/SuperAdmin/DataGridUserPermissions";
+
+const MySwal = withReactContent(Swal);
 
 const userPermissions = [
   { rol: "OPM", tag: "Operation Manager" },
@@ -26,61 +32,51 @@ const userPermissions = [
   { rol: "DIR", tag: "Cluster Director" },
 ];
 
-const data = [
-  {
-    idccms: 123456,
-    name: "Deiby Niño Garces",
-    team: "GP Devs",
-    lob: "FrontEnd",
-    campaign: "SpaceGP",
-    rol: "Frontend",
-  },
-  {
-    idccms: 365478,
-    name: "Daniel Moreno",
-    team: "GP Devs",
-    lob: "Full Stack",
-    campaign: "SpaceGP",
-    rol: "Full Stack",
-  },
-  {
-    idccms: 563214,
-    name: "Diego Tapias",
-    team: "GP Devs",
-    lob: "Backend",
-    campaign: "SpaceGP",
-    rol: "BackEnd",
-  },
-  {
-    idccms: 893215,
-    name: "Matilde Puentes",
-    team: "GP Devs",
-    lob: "DDBB",
-    campaign: "SpaceGP",
-    rol: "DDBB",
-  },
-];
-
-const datosCampaign = [
-  { campaign: "Bavaria", idCampaign: 1994 },
-  { campaign: "Netflix", idCampaign: 1972 },
-  { campaign: "Microsoft", idCampaign: 1974 },
-  { campaign: "P&G", idCampaign: 2008 },
-  { campaign: "Disney", idCampaign: 1957 },
-  { campaign: "Lenovo", idCampaign: 1993 },
-  { campaign: "HP", idCampaign: 1994 },
-];
-
 const UserPermission = () => {
+  const ref = useRef();
   const [permissions, setPermissions] = useState(false);
   const [showAccounts, setShowAccounts] = useState(true);
+  const [width, setWidth] = useState(0);
   const [role, setRole] = React.useState("");
+  const [campaign, setCampaign] = useState([]);
   const [dataCampaign, setDataCampaign] = React.useState([]);
-  const [dataAgent, setDataAgent] = React.useState(data);
+  const [dataAgent, setDataAgent] = React.useState([]);
   const [newUser, setNewUser] = useState([]);
   const [searchCampaign, setSearchCampaign] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [checkUser, setCheckUser] = React.useState();
+  const [checkUser, setCheckUser] = React.useState("");
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    getData2();
+  }, [searchCampaign]);
+
+  let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
+  useEffect(() => {
+    setWidth(ancho);
+  }, [ancho]);
+
+  const getData = async () => {
+    const data = await requestWithData("getorganizationalunit", {
+      context: 1,
+    });
+    console.log(data.data[0]);
+    setCampaign(data.data[0]);
+    setSearchCampaign(data.data[0].Campaign[0].IdCampaign);
+  };
+
+  const getData2 = async () => {
+    const data = await requestWithData("getorganizationalunit", {
+      context: 5,
+      idcampaign: searchCampaign,
+    });
+
+    console.log(data.data[0].AgentsCampaign);
+    setDataAgent(data.data[0].AgentsCampaign);
+  };
 
   const handleOpen = (camp) => {
     if (camp) {
@@ -88,13 +84,82 @@ const UserPermission = () => {
     }
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setDataCampaign([]);
+    setShowAccounts(false);
   };
 
-  const handleDeleteUser = () => {};
-  const handleDirCapaign = () => {};
+  const handleState = async () => {
+    MySwal.fire({
+      title: <p>Do you want to delete this user?</p>,
+      icon: "question",
+      confirmButtonText: "Accept",
+      showDenyButton: true,
+      allowOutsideClick: false,
+    }).then((resultado) => {
+      if (resultado.value) {
+        const req = async () => {
+          const changeState = await requestWithData("postinactivateuser", {
+            idccmsUser: checkUser,
+            inactivate: 1,
+          });
+
+          if (changeState.status === 200) {
+            getData2();
+            MySwal.fire({
+              title: <p>Request Sent!</p>,
+              icon: "success",
+            });
+          } else {
+            MySwal.fire({
+              title: <p>Houston, we have a problem! </p>,
+              icon: "error",
+            });
+          }
+        };
+        req();
+      }
+    });
+  };
+
+  const handleChangeRol = () => {
+    MySwal.fire({
+      title: <p>Do you want to change this user role?</p>,
+      icon: "question",
+      confirmButtonText: "Accept",
+      showDenyButton: true,
+      allowOutsideClick: false,
+    }).then((resultado) => {
+      if (resultado.value) {
+        const req = async () => {
+          const changeState = await requestWithData("postchangeuserrole", {
+            idccmsUser: +checkUser,
+            role: role,
+          });
+
+          if (changeState.status === 200) {
+            getData2();
+            MySwal.fire({
+              title: <p>Change successfully!!</p>,
+              icon: "success",
+            });
+          } else {
+            MySwal.fire({
+              title: <p>Houston, we have a problem! </p>,
+              icon: "error",
+            });
+          }
+        };
+        req();
+
+        console.log("rol cambiado ");
+      }
+    });
+  };
+
+  console.log(checkUser, role);
 
   return (
     <MainPage>
@@ -107,7 +172,7 @@ const UserPermission = () => {
           <Box display="flex" alignItems="flex-end" height="5rem">
             <ButtonAction onClick={() => handleOpen()}>New User</ButtonAction>
 
-            <ButtonAction onClick={() => handleDeleteUser()}>
+            <ButtonAction onClick={() => handleState()}>
               Delete User
             </ButtonAction>
             <ButtonAction onClick={() => setPermissions(!permissions)}>
@@ -121,19 +186,22 @@ const UserPermission = () => {
               <CardPermissions
                 setRole={setRole}
                 permissions={userPermissions}
+                checkUser={checkUser}
+                handleChangeRol={handleChangeRol}
               />
               {role === "Cluster Director" && showAccounts && (
                 <Box
                   sx={{
-                    width: 250,
+                    width: "250px",
                     marginTop: "1rem",
                     marginLeft: "10.5rem",
                     position: "absolute",
                     background: "#fff",
+                    zIndex: 1100,
                   }}
                 >
                   <SearchDirCampaign
-                    dataCampaign={datosCampaign}
+                    dataCampaign={campaign.Campaign}
                     setShowAccounts={setShowAccounts}
                   />
                 </Box>
@@ -141,6 +209,7 @@ const UserPermission = () => {
             </Box>
           ) : (
             <SearchCampaign
+              campaign={campaign}
               searchCampaign={searchCampaign}
               setSearchCampaign={setSearchCampaign}
             />
@@ -149,10 +218,17 @@ const UserPermission = () => {
       </Grid>
       <Grid item xs={12}>
         <BoxData mt={2}>
-          <UserTablePermissions
-            dataAgent={dataAgent}
-            setCheckUser={setCheckUser}
-          />
+          {dataAgent.length > 0 ? (
+            <>
+              <DataGridUserPermissions
+                dataAgent={dataAgent}
+                width={width}
+                setCheckUser={setCheckUser}
+              />
+            </>
+          ) : (
+            "No Data"
+          )}
         </BoxData>
       </Grid>
       <Footer />
@@ -167,6 +243,9 @@ const UserPermission = () => {
             newUser={newUser}
             setNewUser={setNewUser}
             permissions={userPermissions}
+            campaign={campaign.Campaign}
+            handleClose={handleClose}
+            setShowAccounts={setShowAccounts}
           />
         </ModalBox>
       </Modal>

@@ -30,27 +30,34 @@ const BoxCampaign = styled(Box)(() => ({
   },
 }));
 
-const SearchCampaign = ({ searchCampaign, setSearchCampaign }) => {
+const SearchCampaign = ({ searchCampaign, setSearchCampaign, campaign }) => {
   return (
     <BoxCampaign>
       <FormControl fullWidth>
-        <InputLabel id="campaign-select-label">Select Campaign</InputLabel>
-        <Select
-          labelId="campaign-select-label"
-          id="campaign-simple-select"
-          value={searchCampaign}
-          label="Select Campaign "
-          onChange={(e) => setSearchCampaign(e.target.value)}
-        >
-          <MenuItem value={"Campaña1"}>Campaña1</MenuItem>
-          <MenuItem value={"Campaña2"}>Campaña2</MenuItem>
-          <MenuItem value={"Campaña3"}>Campaña3</MenuItem>
-          <MenuItem value={"Campaña4"}>Campaña4</MenuItem>
-        </Select>
+        {campaign.Campaign && (
+          <>
+            <InputLabel id="campaign-select-label">Select Campaign</InputLabel>
+            <Select
+              labelId="campaign-select-label"
+              id="campaign-simple-select"
+              value={searchCampaign}
+              label="Select Campaign "
+              onChange={(e) => setSearchCampaign(e.target.value)}
+            >
+              {campaign.Campaign.map((account) => (
+                <MenuItem value={account.IdCampaign} key={account.IdCampaign}>
+                  {account.nameCampaign}
+                </MenuItem>
+              ))}
+            </Select>
+          </>
+        )}
       </FormControl>
+      {/* 
       <Box marginX={2}>
         <ButtonActionBlue sx={{ width: "8rem" }}>Search</ButtonActionBlue>
       </Box>
+       */}
     </BoxCampaign>
   );
 };
