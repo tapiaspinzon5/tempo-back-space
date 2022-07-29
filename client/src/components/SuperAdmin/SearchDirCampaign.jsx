@@ -43,10 +43,12 @@ const SearchDirCampaign = ({
   setShowAccounts,
   newUser,
   setNewUser,
+  check,
+  setCheck,
 }) => {
   const [search, setSearch] = useState("");
   const [dataAccount, setDataAccount] = useState(dataCampaign);
-  const [check, setCheck] = useState(newUser?.idCampaign || []);
+  // const [check, setCheck] = useState(newUser?.idCampaign || []);
 
   const handleFilter = (e) => {
     setSearch(e.target.value);
@@ -58,19 +60,26 @@ const SearchDirCampaign = ({
   };
 
   const handleSelectAccount = (e) => {
+    // let tempList = dataAccount.map((acc) =>
+    //   acc.IdAccount === e.target.value ? { ...acc, checked: !acc.checked } : acc
+    // );
+    //console.log(tempList);
+
     setCheck([...check, e.target.value]);
+    // const accountCheck = dataAccount.map((account) => {
+    //   if (e.target.value === dataAccount.IdCampaign) {
+    //     account.check;
+    //   }
+    // });
+
     setNewUser({
       ...newUser,
       idCampaign: [...check, e.target.value],
     });
   };
-  const handleSetAccount = () => {
+  const handleSetAccount = (e) => {
     setShowAccounts(false);
   };
-
-  //console.log(newUser);
-  console.log(dataAccount);
-  console.log(check);
 
   return (
     <BoxMain>
@@ -106,7 +115,6 @@ const SearchDirCampaign = ({
               onChange={(e) => handleSelectAccount(e)}
               style={{
                 height: "20px",
-
                 marginRight: ".5rem",
               }}
             />

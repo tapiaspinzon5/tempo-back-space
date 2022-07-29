@@ -35,7 +35,7 @@ const userPermissions = [
 const UserPermission = () => {
   const ref = useRef();
   const [permissions, setPermissions] = useState(false);
-  const [showAccounts, setShowAccounts] = useState(true);
+  const [showAccounts, setShowAccounts] = useState(false);
   const [width, setWidth] = useState(0);
   const [role, setRole] = React.useState("");
   const [campaign, setCampaign] = useState([]);
@@ -45,6 +45,7 @@ const UserPermission = () => {
   const [searchCampaign, setSearchCampaign] = useState("");
   const [open, setOpen] = React.useState(false);
   const [checkUser, setCheckUser] = React.useState("");
+  const [check, setCheck] = useState(newUser?.idCampaign || []);
 
   useEffect(() => {
     getData();
@@ -89,6 +90,7 @@ const UserPermission = () => {
     setOpen(false);
     setDataCampaign([]);
     setShowAccounts(false);
+    setNewUser([]);
   };
 
   const handleState = async () => {
@@ -159,7 +161,8 @@ const UserPermission = () => {
     });
   };
 
-  console.log(checkUser, role);
+  console.log(newUser);
+  console.log(check);
 
   return (
     <MainPage>
@@ -176,7 +179,7 @@ const UserPermission = () => {
               Delete User
             </ButtonAction>
             <ButtonAction onClick={() => setPermissions(!permissions)}>
-              Permissions
+              {!permissions ? "Permissions" : "Accounts"}
             </ButtonAction>
           </Box>
         </Grid>
@@ -188,8 +191,9 @@ const UserPermission = () => {
                 permissions={userPermissions}
                 checkUser={checkUser}
                 handleChangeRol={handleChangeRol}
+                setShowAccounts={setShowAccounts}
               />
-              {role === "Cluster Director" && showAccounts && (
+              {role === "Cluster Director" && showAccounts ? (
                 <Box
                   sx={{
                     width: "250px",
@@ -203,8 +207,12 @@ const UserPermission = () => {
                   <SearchDirCampaign
                     dataCampaign={campaign.Campaign}
                     setShowAccounts={setShowAccounts}
+                    check={check}
+                    setCheck={setCheck}
                   />
                 </Box>
+              ) : (
+                <></>
               )}
             </Box>
           ) : (
@@ -246,6 +254,8 @@ const UserPermission = () => {
             campaign={campaign.Campaign}
             handleClose={handleClose}
             setShowAccounts={setShowAccounts}
+            setSearchCampaign={setSearchCampaign}
+            getData2={getData2}
           />
         </ModalBox>
       </Modal>
