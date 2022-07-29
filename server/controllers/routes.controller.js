@@ -1439,6 +1439,7 @@ exports.postInactivateUser = async (req, res) => {
 };
 
 exports.postChangeUserRole = async (req, res) => {
+  let i = 0;
   const { idccmsUser, idccms, role, idCampaign } = req.body;
 
   if (role === "Cluster Director") {
