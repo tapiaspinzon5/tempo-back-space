@@ -15,10 +15,10 @@ import {
 	MainPage,
 	BoxData,
 } from "../../assets/styled/muistyled";
-import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
+import LoadingComponent from "../../components/LoadingComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
