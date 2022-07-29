@@ -139,6 +139,7 @@ const UserPermission = () => {
           const changeState = await requestWithData("postchangeuserrole", {
             idccmsUser: +checkUser,
             role: role,
+            idCampaign: check,
           });
 
           if (changeState.status === 200) {
