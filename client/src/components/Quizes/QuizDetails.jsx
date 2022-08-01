@@ -48,7 +48,7 @@ const QuizDetails = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(mission);
+ 
   return (
     <MainPage>
       <Box>

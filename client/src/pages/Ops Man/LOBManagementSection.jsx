@@ -15,10 +15,10 @@ import {
 	MainPage,
 	BoxData,
 } from "../../assets/styled/muistyled";
-import LoadingComponent from "../../components/LoadingComponent";
 import Header from "../../components/homeUser/Header";
 import Footer from "../../components/Footer";
 import { FiEdit3 } from "react-icons/fi";
+import LoadingComponent from "../../components/LoadingComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
@@ -111,9 +111,11 @@ const LOBManagementSection = () => {
 			setDataLOB({ idLob: item, name });
 		}
 	};
-	const handleClose = () => {
-		setOpen(false);
-		setDataLOB([]);
+	const handleClose = (event, reason) => {
+		if (reason && reason !== "backdropClick") {
+			setOpen(false);
+			setDataLOB([]);
+		}
 	};
 	const handleLob = async (datalob) => {
 		setLoadingTl(true);
@@ -204,6 +206,7 @@ const LOBManagementSection = () => {
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
+				disableEscapeKeyDown
 			>
 				<ModalBox
 					sx={{
