@@ -187,6 +187,7 @@ export const teamValidation = (dataFile, dataTeam) => {
 	});
 	return errorTeam;
 };
+
 export const teamValidationKPI = (dataFile, dataKpi) => {
 	let errorKPI;
 	let date = Date.now();

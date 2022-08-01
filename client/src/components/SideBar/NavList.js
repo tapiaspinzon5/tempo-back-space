@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemIcon, Typography, Badge } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -15,6 +15,7 @@ import { AiOutlineFileAdd } from "react-icons/ai";
 import { BsWindowSidebar } from "react-icons/bs";
 import { HiCollection } from "react-icons/hi";
 import { BiUserX } from "react-icons/bi";
+import { requestWithData } from "../../utils/api";
 
 const LItem = styled(ListItem)(({ theme }) => ({
 	justifyContent: "flex-start",
@@ -53,6 +54,20 @@ const ContentList = styled(List)(({ theme }) => ({
 export const NavList = ({ open, match, userData, chargeKpi }) => {
 	const linkActive = true;
 	const navigate = useNavigate();
+	const [count, setCount] = useState(0);
+	const numberDisabed = async () => {
+		const req = await requestWithData("getinactiveusersapplications");
+		setCount(req.data.length);
+	};
+	useEffect(
+		() => {
+			if (userData === "Team Leader" || userData === "Operation Manager") {
+				numberDisabed();
+			}
+		},
+		// eslint-disable-next-line
+		[]
+	);
 
 	return (
 		<>
@@ -223,7 +238,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 								<LItem
 									button
 									onClick={() => navigate("/organizationchart")}
-									disabled={linkActive}
+									//disabled={linkActive}
 								>
 									<LIcon>
 										<HiCollection
@@ -248,7 +263,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 								<LItem
 									button
 									onClick={() => navigate("/analytics")}
-									disabled={linkActive}
+									//disabled={linkActive}
 								>
 									<LIcon>
 										<FiPieChart size={25} color="#fff" />
@@ -258,7 +273,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 								<LItem
 									button
 									onClick={() => navigate("/organizationchart")}
-									disabled={linkActive}
+									//disabled={linkActive}
 								>
 									<LIcon>
 										<HiCollection
@@ -320,7 +335,8 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 									<LIcon>
 										<Badge
 											color="error"
-											variant="dot"
+											badgeContent={count}
+											max={9}
 											anchorOrigin={{
 												vertical: "bottom",
 												horizontal: "right",
@@ -369,14 +385,15 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 							{open && match && <Typography>Analytics</Typography>}
 						</LItem>
 						<LItem
-							disabled={linkActive}
+							//disabled={linkActive}
 							button
 							onClick={() => navigate("/desactivation")}
 						>
 							<LIcon>
 								<Badge
+									badgeContent={count}
+									max={9}
 									color="error"
-									variant="dot"
 									anchorOrigin={{
 										vertical: "bottom",
 										horizontal: "right",

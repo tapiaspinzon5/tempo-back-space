@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import { MainPage } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
+import Footer from "../components/Footer";
 import TableDesactivation from "../components/Tables/TableDesactivation";
 import { requestWithData } from "../utils/api";
 import LoadingComponent from "../components/LoadingComponent";
@@ -17,7 +18,7 @@ const dateConfig = (date) => {
 	let fecha;
 	let hora;
 	let fechaBase = new Date(date).toLocaleString([], {
-		//timeZone: "Etc/UTC",
+		timeZone: "Etc/UTC",
 		hourCycle: "h23",
 		year: "numeric",
 		month: "2-digit",
@@ -73,7 +74,6 @@ const DesactivationSection = () => {
 	const getData = async () => {
 		setLoading(true);
 		const usersList = await requestWithData("getinactiveusersapplications");
-
 		if (usersList && usersList.status === 200 && usersList.data.length > 0) {
 			if (usersList.data[0].Agent !== "0" && usersList.data[0].ident !== "0") {
 				//falta tratar la fecha antes de settear la variable
@@ -104,26 +104,50 @@ const DesactivationSection = () => {
 		// eslint-disable-next-line
 		[]
 	);
-
+	/* Agent: "Diego Tapias Pinzon"
+UsrRequest: "Matilde Puentes Gutierrez"
+dateRequest: "2022-07-27T09:30:12.420Z"
+ident: 4462685
+identUsrRequest: 4492826
+usrAuthorization: "Daniel Moreno Salas"
+usrDenied: null */
 	const handleAction = async (idccms, context) => {
 		setFullLoading(true);
 		const sendResponse = await requestWithData("postinactivateuser", {
 			idccmsUser: idccms,
 			inactivate: context === "approved" ? 1 : 0,
+			idccmsReq: 4468566,
 		});
 		if (sendResponse && sendResponse.status === 200) {
-			setFullLoading(false);
-			MySwal.fire({
-				title: <p>{context === 2 ? "Saved!" : "Created LOB successfully!"}</p>,
-				icon: "success",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					//window.location.reload();
-					getData();
-				}
-			});
+			if (context === "approved") {
+				setFullLoading(false);
+				MySwal.fire({
+					title: (
+						<p>{context === 2 ? "Saved!" : "User Disabled successfully!"}</p>
+					),
+					icon: "success",
+					confirmButtonText: "Accept",
+					allowOutsideClick: false,
+				}).then((resultado) => {
+					if (resultado.value) {
+						getData();
+					}
+				});
+			} else {
+				setFullLoading(false);
+				MySwal.fire({
+					title: (
+						<p>{context === 2 ? "Saved!" : "Request successfully rejected!"}</p>
+					),
+					icon: "success",
+					confirmButtonText: "Accept",
+					allowOutsideClick: false,
+				}).then((resultado) => {
+					if (resultado.value) {
+						getData();
+					}
+				});
+			}
 		} else {
 			setFullLoading(false);
 			MySwal.fire({
@@ -133,7 +157,6 @@ const DesactivationSection = () => {
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					//window.location.reload();
 					getData();
 				}
 			});
@@ -146,7 +169,7 @@ const DesactivationSection = () => {
 				<Grid>
 					<Header />
 					<Typography variant="h5" fontWeight="500">
-						Desactivation Request
+						Deactivation Request
 					</Typography>
 				</Grid>
 				<Grid container>
@@ -154,7 +177,9 @@ const DesactivationSection = () => {
 						{error ? (
 							<Typography variant="body1">Server Problems</Typography>
 						) : noData ? (
-							<Typography variant="body1">no hay a quien desactivar</Typography>
+							<Typography variant="h5" textAlign="center">
+								No Requests Pending
+							</Typography>
 						) : loading ? (
 							<LoadingComponent />
 						) : (
@@ -165,6 +190,7 @@ const DesactivationSection = () => {
 						)}
 					</Grid>
 				</Grid>
+				<Footer />
 			</MainPage>
 		</>
 	);

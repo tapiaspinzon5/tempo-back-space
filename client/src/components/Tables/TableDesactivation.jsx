@@ -32,13 +32,7 @@ const TableAgentUpload = ({ dataAgent, handleAction }) => {
 	useEffect(() => {
 		setWidth(ancho);
 	}, [ancho]);
-	/* Agent: "Diego Tapias Pinzon"
-UsrRequest: "Matilde Puentes Gutierrez"
-dateRequest: "2022-07-27T09:30:12.420Z"
-ident: 4462685
-identUsrRequest: 4492826
-usrAuthorization: "Daniel Moreno Salas"
-usrDenied: null */
+
 	const columns = [
 		{
 			field: "Agent",
