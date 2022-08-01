@@ -160,9 +160,10 @@ const UserPermission = () => {
         console.log("rol cambiado ");
       }
     });
+
+    setCheck([]);
   };
 
-  console.log(newUser);
   console.log(check);
 
   return (

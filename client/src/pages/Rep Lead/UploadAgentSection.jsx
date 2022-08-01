@@ -223,6 +223,7 @@ const UploadAgentSection = () => {
       caso: 2,
     });
     setDataTeams(teams.data[0].Teams);
+    console.log(teams.data[0]);
   };
   useEffect(() => {
     getData();
