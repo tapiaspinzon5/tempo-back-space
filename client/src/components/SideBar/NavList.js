@@ -76,7 +76,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 					<LIcon>
 						<img src={homeIcon} alt="Home" />
 					</LIcon>
-					{open && match && <Typography>Dasboard</Typography>}
+					{open && match && <Typography>Dashboard</Typography>}
 				</LItem>
 				{userData === "Agent" && (
 					<>
@@ -330,7 +330,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 								<LItem
 									//disabled={linkActive}
 									button
-									onClick={() => navigate("/desactivation")}
+									onClick={() => navigate("/deactivation")}
 								>
 									<LIcon>
 										<Badge
@@ -345,7 +345,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 											<img src={desactIco} alt="Grid" />
 										</Badge>
 									</LIcon>
-									{open && match && <Typography>Desactivation</Typography>}
+									{open && match && <Typography>Deactivation</Typography>}
 								</LItem>
 							</>
 						)}
@@ -387,7 +387,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 						<LItem
 							//disabled={linkActive}
 							button
-							onClick={() => navigate("/desactivation")}
+							onClick={() => navigate("/deactivation")}
 						>
 							<LIcon>
 								<Badge
@@ -402,7 +402,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 									<img src={desactIco} alt="Grid" />
 								</Badge>
 							</LIcon>
-							{open && match && <Typography>Desactivation</Typography>}
+							{open && match && <Typography>Deactivation</Typography>}
 						</LItem>
 					</>
 				)}

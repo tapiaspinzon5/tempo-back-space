@@ -82,6 +82,7 @@ const DesactivationSection = () => {
 					user.dateRequest = fecha;
 					return user;
 				});
+				console.log(uwd);
 				setLoading(false);
 				setUsers(uwd);
 			} else {
