@@ -7,7 +7,7 @@ const path = require("path");
 const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
 const { randomInt } = require("crypto");
-const { sendEmail } = require("../helpers/sendEmail");
+const { sendEmail, sendConfirmInactivationEmail } = require("../helpers/sendEmail");
 const CryptoJS = require("crypto-js");
 const { getNumberOfDays } = require("../helpers/daysDifference");
 
@@ -1424,12 +1424,56 @@ exports.postUpdateCampaignInfo = async (req, res) => {
 };
 
 exports.postInactivateUser = async (req, res) => {
-  const { idccms, idccmsUser, roleUser, nameUser, inactivate, status, rolRequester, emailRequester } =
-    req.body;
+  const {
+    idccms, //idccms del segundo aprobador
+    name, //nombre del segundo aprobador,
+    role, //role del segundo aprobador
+    idccmsUser, //usuario a desactivar
+    roleUser, //Rol del usuario a desactivar
+    nameUser, //Nombre del usuario a desactivar
+    inactivate, //Estado de inactivacion
+    nameRequester, //Nombre 1er aprobador
+    roleRequester, //Rol 1er aprobador
+    emailRequester, //Correo 1er aprobador
+    fcmToken, //Token para notificar al segundo aprobador
+  } = req.body;
+
+  let fcmTokens = [fcmToken];
+
+  let dataApprover = {
+    name,
+    role,
+    inactivate,
+  };
+
+  let dataUser = {
+    nameUser,
+    roleUser,
+  };
+
+  let emails = [{ emailRequester, dataApprover, dataUser }];
+
+  let fcmTokensFiltered = fcmTokens.filter((token) => token);
 
   sql
     .query("spInactivateAgent", parametros({ idccms, idccmsUser, inactivate }, "spInactivateAgent"))
-    .then((result) => {
+    .then(async (result) => {
+      if (!nameRequester) {
+        await sendConfirmInactivationEmail(
+          emails,
+          "SpaceGP email",
+          "Deactivation Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+      } else {
+        try {
+          fcmTokensFiltered.forEach(async (token) => {
+            return await sendFCMMessage(nameRequester, "Deactivation request", token, "Deactivation");
+          });
+        } catch (error) {
+          res.status(500).json(error);
+        }
+      }
       responsep(1, req, res, result);
     })
     .catch((err) => {
