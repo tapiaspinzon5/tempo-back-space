@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, styled } from "@mui/material";
 import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
 
@@ -43,10 +43,27 @@ const SearchDirCampaign = ({
   setShowAccounts,
   newUser,
   setNewUser,
+  check,
+  setCheck,
 }) => {
   const [search, setSearch] = useState("");
-  const [dataAccount, setDataAccount] = useState(dataCampaign);
-  const [check, setCheck] = useState(newUser?.idCampaign || []);
+  const [dataAccount, setDataAccount] = useState(
+    dataCampaign.map((camp) => ({ ...camp, checked: false }))
+  );
+
+  useEffect(() => {
+    const arrayCampaig = dataAccount
+      .filter((acc) => acc.checked === true)
+      .map((acc) => acc.IdCampaign);
+    if (newUser) {
+      setNewUser({
+        ...newUser,
+        idCampaign: arrayCampaig,
+      });
+    } else {
+      setCheck(arrayCampaig);
+    }
+  }, [dataAccount]);
 
   const handleFilter = (e) => {
     setSearch(e.target.value);
@@ -57,20 +74,18 @@ const SearchDirCampaign = ({
     setDataAccount(dataFilter);
   };
 
-  const handleSelectAccount = (e) => {
-    setCheck([...check, e.target.value]);
-    setNewUser({
-      ...newUser,
-      idCampaign: [...check, e.target.value],
-    });
-  };
-  const handleSetAccount = () => {
-    setShowAccounts(false);
+  const handleCheck = async (info) => {
+    let tempList = await dataAccount.map((acc) =>
+      acc.IdCampaign === info.IdCampaign
+        ? { ...acc, checked: !acc.checked }
+        : acc
+    );
+    setDataAccount(tempList);
   };
 
-  //console.log(newUser);
-  console.log(dataAccount);
-  console.log(check);
+  const handleSetAccount = (e) => {
+    setShowAccounts(false);
+  };
 
   return (
     <BoxMain>
@@ -101,12 +116,14 @@ const SearchDirCampaign = ({
               type="checkbox"
               id="account"
               name="account"
-              //checked={check.includes(camp.IdCampaign) ? true : false}
+              checked={camp.checked}
               value={camp.IdCampaign}
-              onChange={(e) => handleSelectAccount(e)}
+              //onChange={(e) => handleSelectAccount(e)}
+              onChange={() => {
+                handleCheck(camp);
+              }}
               style={{
                 height: "20px",
-
                 marginRight: ".5rem",
               }}
             />

@@ -60,6 +60,8 @@ const AddUserSuperAdmin = ({
   campaign,
   handleClose,
   setShowAccounts,
+  setSearchCampaign,
+  getData2,
 }) => {
   const [idccms, setIdccms] = useState("");
   const [search, setSearch] = useState(false);
@@ -98,6 +100,7 @@ const AddUserSuperAdmin = ({
           context: 1,
           idCampaign: [campaign[0].IdCampaign],
         });
+        setSearchCampaign(campaign[0].IdCampaign);
       } else {
         setNewUser({
           ...newUser,
@@ -112,12 +115,12 @@ const AddUserSuperAdmin = ({
 
   const handleAccount = async (e) => {
     setNewUser({ ...newUser, idCampaign: [e.target.value] });
-
+    setSearchCampaign(e.target.value);
     const data = await requestWithData("getorganizationalunit", {
       context: 2,
       idcampaign: e.target.value,
     });
-    console.log(data);
+
     setLobs(data.data[1].Lobs);
     setTeams(data.data[2].Teams);
   };
@@ -126,12 +129,13 @@ const AddUserSuperAdmin = ({
     e.preventDefault();
     setLoading(true);
     const createUser = await requestWithData("postinsertrolecampaign", newUser);
-    console.log(createUser);
+
     if (createUser.status == 200) {
       handleClose();
       setNewUser([]);
       setIdccms("");
       setError("");
+      getData2();
       MySwal.fire({
         title: <p>User added succesfully</p>,
         icon: "success",
@@ -145,9 +149,6 @@ const AddUserSuperAdmin = ({
     }
     setLoading(false);
   };
-
-  console.log(newUser);
-  console.log(agent);
 
   return (
     <Box>

@@ -896,6 +896,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccmsUser, TYPES.Int),
         new SpParam("UsrChange", req.idccms, TYPES.Int),
         new SpParam("Role", req.role, TYPES.VarChar),
+        SpParamTable2("table", tableInsertRol, req.rows),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":

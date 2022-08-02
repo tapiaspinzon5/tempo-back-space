@@ -27,7 +27,14 @@ const CardPermissions = ({
   permissions,
   checkUser,
   handleChangeRol,
+  setShowAccounts,
 }) => {
+  const handleRole = (e) => {
+    setRole(e.target.value);
+    if (e.target.value === "Cluster Director") {
+      setShowAccounts(true);
+    }
+  };
   return (
     <BoxPermissions>
       {permissions.map((role, index) => (
@@ -37,7 +44,7 @@ const CardPermissions = ({
             id="role"
             name="role"
             value={role.tag}
-            onChange={(e) => setRole(e.target.value)}
+            onChange={(e) => handleRole(e)}
             disabled={!checkUser ? true : false}
           />
           <br />
