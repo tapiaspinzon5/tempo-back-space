@@ -45,6 +45,19 @@ exports.sendFCMMessage = async (sender, nameActivity, fcmToken, type) => {
       };
       break;
 
+    case "Deactivation":
+      webpush = {
+        data: {
+          Title: "A deactivation request is awaiting approval",
+          From: `${sender}`,
+          Description: `${nameActivity}`,
+          Image: "https://i.ibb.co/jz3nQ4H/tp-short.png",
+          Url: "http://localhost:3000/#/activitiesview",
+          type: "deactivation",
+        },
+      };
+      break;
+
     default:
       break;
   }
