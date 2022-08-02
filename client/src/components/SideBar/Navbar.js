@@ -26,7 +26,13 @@ const SideBar = styled(AppBar)(({ theme }) => ({
 	},
 }));
 
-export const Navbar = ({ seeProfile, setSeeProfile, avatar, setNavLong }) => {
+export const Navbar = ({
+	seeProfile,
+	setSeeProfile,
+	avatar,
+	setNavLong,
+	count2,
+}) => {
 	const userData = useSelector((store) => store.loginUser.userData);
 	const [open, setOpen] = useState(false);
 	const theme = useTheme();
@@ -104,7 +110,7 @@ export const Navbar = ({ seeProfile, setSeeProfile, avatar, setNavLong }) => {
 						{open && <ArrowDropDownIcon />}
 					</IconButton>
 
-					<NavList />
+					<NavList count2={count2} />
 				</SideBar>
 			)}
 		</>

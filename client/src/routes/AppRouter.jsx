@@ -95,6 +95,7 @@ const AppRouter = () => {
 		url: "",
 	});
 	const [count, setCount] = useState(0);
+	const [count2, setCount2] = useState(0);
 
 	// Esta funcion esta pendiente de las nuevas notifiaciones
 	onMessageListener()
@@ -177,6 +178,7 @@ const AppRouter = () => {
 								setSeeProfile={setSeeProfile}
 								avatar={headerData?.AvatarProfile}
 								setNavLong={setNavLong}
+								count2={count2}
 							/>
 							{seeProfile && (
 								<OptionsProfile
@@ -245,7 +247,10 @@ const AppRouter = () => {
 							<Route path="/upcampaign" element={<UpCampaign />} />
 							<Route path="/leaderboard" element={<LeaderBoardRL />} />
 							<Route path="/analytics" element={<AnalyticsOM />} />
-							<Route path="/deactivation" element={<DesactivationSection />} />
+							<Route
+								path="/deactivation"
+								element={<DesactivationSection setCount2={setCount2} />}
+							/>
 						</>
 					)}
 					{userData?.Role === "QA Lead" && (
@@ -313,7 +318,10 @@ const AppRouter = () => {
 							<Route path="/teaminformation" element={<TeamInformation />} />
 							<Route path="/teamprogress" element={<TeamsProgress />} />
 							<Route path="/analytics" element={<Analytics count={count} />} />
-							<Route path="/deactivation" element={<DesactivationSection />} />
+							<Route
+								path="/deactivation"
+								element={<DesactivationSection setCount2={setCount2} />}
+							/>
 						</>
 					)}
 

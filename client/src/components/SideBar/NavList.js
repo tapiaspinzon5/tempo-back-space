@@ -51,23 +51,9 @@ const ContentList = styled(List)(({ theme }) => ({
 	},
 }));
 
-export const NavList = ({ open, match, userData, chargeKpi }) => {
+export const NavList = ({ open, match, userData, chargeKpi, count2 }) => {
 	const linkActive = true;
 	const navigate = useNavigate();
-	const [count, setCount] = useState(0);
-	const numberDisabed = async () => {
-		const req = await requestWithData("getinactiveusersapplications");
-		setCount(req.data.length);
-	};
-	useEffect(
-		() => {
-			if (userData === "Team Leader" || userData === "Operation Manager") {
-				numberDisabed();
-			}
-		},
-		// eslint-disable-next-line
-		[]
-	);
 
 	return (
 		<>
@@ -335,7 +321,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 									<LIcon>
 										<Badge
 											color="error"
-											badgeContent={count}
+											badgeContent={count2}
 											max={9}
 											anchorOrigin={{
 												vertical: "bottom",
@@ -391,7 +377,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
 						>
 							<LIcon>
 								<Badge
-									badgeContent={count}
+									badgeContent={count2}
 									max={9}
 									color="error"
 									anchorOrigin={{
