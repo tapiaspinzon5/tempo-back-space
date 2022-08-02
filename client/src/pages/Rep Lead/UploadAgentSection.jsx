@@ -14,6 +14,7 @@ import UpQuizModal from "../../components/Modals/UpQuizModal";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { toast } from "react-toastify";
+import { SwapSpinner } from "react-spinners-kit";
 import XLSX from "xlsx";
 import {
   teamValidation,
@@ -27,6 +28,7 @@ import {
   requestWithData,
 } from "../../utils/api";
 import UsersErrorRL from "../../components/Modals/UsersErrorRL";
+import { ModalLoading } from "../../components/ModalLoading";
 
 const MySwal = withReactContent(Swal);
 
@@ -121,6 +123,7 @@ const UploadAgentSection = () => {
       };
       reader.readAsArrayBuffer(file);
     });
+    setLoading(false);
   };
 
   const uploadFile = async (e) => {
@@ -155,6 +158,7 @@ const UploadAgentSection = () => {
       if (resp.status === 400) {
         setUsersError(resp.data);
         handleOpen();
+        setLoading(false);
       }
       if (resp.status === 200) {
         setLoading(false);
@@ -251,6 +255,20 @@ const UploadAgentSection = () => {
           )}
         </ModalBox>
       </Modal>
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            zIndex: 100000,
+            height: "100vh",
+            width: "100vw",
+            left: "0%",
+            top: 0,
+          }}
+        >
+          <ModalLoading />
+        </Box>
+      )}
       <Typography variant="h5">
         Agent Upload Section (Crew Assignment)
       </Typography>
