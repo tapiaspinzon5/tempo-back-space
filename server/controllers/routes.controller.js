@@ -150,26 +150,6 @@ exports.saveQuiz = async (req, res) => {
   }
 };
 
-exports.uploadSU = async (req, res) => {
-  let i = 0;
-  const { data, idccms } = req.body;
-
-  let rows = data.map((quest) => {
-    i = i + 1;
-    return [...quest, i];
-  });
-
-  sql
-    .query("spInsertTeam", parametros({ idccms, rows }, "spInsertTeam"))
-    .then((result) => {
-      responsep(1, req, res, result);
-    })
-    .catch((err) => {
-      console.log(err, "sp");
-      responsep(2, req, res, err);
-    });
-};
-
 exports.uploadOpsM = async (req, res) => {
   const { idccms, context, idLeader, cas, emails } = req.body;
 
