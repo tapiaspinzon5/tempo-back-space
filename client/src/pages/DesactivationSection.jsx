@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import TableDesactivation from "../components/Tables/TableDesactivation";
 import { requestWithData } from "../utils/api";
 import LoadingComponent from "../components/LoadingComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -62,9 +62,10 @@ const dateConfig = (date) => {
 
 	return fecha;
 };
-const DesactivationSection = () => {
+const DesactivationSection = (setCount2) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [users, setUsers] = useState([]);
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -104,17 +105,44 @@ const DesactivationSection = () => {
 		// eslint-disable-next-line
 		[]
 	);
-	/* Agent: "Diego Tapias Pinzon"
-UsrRequest: "Matilde Puentes Gutierrez"
-dateRequest: "2022-07-27T09:30:12.420Z"
-ident: 4462685
-identUsrRequest: 4492826
-usrAuthorization: "Daniel Moreno Salas"
+	/* Agent: "Maria Lopez Avila"
+RoleAgent: "Agent"
+RoleUsrAuthorization: null
+RoleUsrDenied: null
+RoleUsrRequest: "Super Admin"
+UsrRequest: "Deiby Nino Garces"
+dateRequest: "29/07/2022"
+emailUsr: null
+emailUsrAuthorization: null
+emailUsrDenied: null
+emailUsrRequest: "Deiby.NinoGarces@teleperformance.com"
+ident: 621789
+identUsrRequest: 4472074
+usrAuthorization: null
 usrDenied: null */
-	const handleAction = async (idccms, context) => {
+	const handleAction = async (params, context) => {
 		setFullLoading(true);
+		let rol;
+		if (userData.Role === "Team Leader") {
+			params[2] = "Cosmonaut";
+		} else {
+			params[2] === "Agent"
+				? (rol = "Cosmonaut")
+				: params[2] === "Team Leader"
+				? (rol = "Pilot")
+				: params[2] === "QA Lead"
+				? (rol = "Mission Specialist")
+				: params[2] === "Reporting Lead"
+				? (rol = "Flight Engineer")
+				: (rol = params[2]);
+		}
 		const sendResponse = await requestWithData("postinactivateuser", {
-			idccmsUser: idccms,
+			idccmsUser: params[0],
+			name: userData.Nombre,
+			role: userData.Role === "Team Leader" ? "Pilot" : "Operations Commander",
+			nameUser: params[1],
+			roleUser: rol,
+			emailRequester: params[3],
 			inactivate: context === "approved" ? 1 : 0,
 			idccmsReq: 4468566,
 		});

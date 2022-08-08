@@ -51,23 +51,9 @@ const ContentList = styled(List)(({ theme }) => ({
   },
 }));
 
-export const NavList = ({ open, match, userData, chargeKpi }) => {
+export const NavList = ({ open, match, userData, chargeKpi, count2 }) => {
   const linkActive = true;
   const navigate = useNavigate();
-  const [count, setCount] = useState(0);
-  const numberDisabed = async () => {
-    const req = await requestWithData("getinactiveusersapplications");
-    setCount(req.data.length);
-  };
-  useEffect(
-    () => {
-      if (userData === "Team Leader" || userData === "Operation Manager") {
-        numberDisabed();
-      }
-    },
-    // eslint-disable-next-line
-    []
-  );
 
   return (
     <>
@@ -76,7 +62,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
           <LIcon>
             <img src={homeIcon} alt="Home" />
           </LIcon>
-          {open && match && <Typography>Dasboard</Typography>}
+          {open && match && <Typography>Dashboard</Typography>}
         </LItem>
         {userData === "Agent" && (
           <>
@@ -330,12 +316,12 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
                 <LItem
                   //disabled={linkActive}
                   button
-                  onClick={() => navigate("/desactivation")}
+                  onClick={() => navigate("/deactivation")}
                 >
                   <LIcon>
                     <Badge
                       color="error"
-                      badgeContent={count}
+                      badgeContent={count2}
                       max={9}
                       anchorOrigin={{
                         vertical: "bottom",
@@ -345,7 +331,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
                       <img src={desactIco} alt="Grid" />
                     </Badge>
                   </LIcon>
-                  {open && match && <Typography>Desactivation</Typography>}
+                  {open && match && <Typography>Deactivation</Typography>}
                 </LItem>
               </>
             )}
@@ -387,11 +373,11 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
             <LItem
               //disabled={linkActive}
               button
-              onClick={() => navigate("/desactivation")}
+              onClick={() => navigate("/deactivation")}
             >
               <LIcon>
                 <Badge
-                  badgeContent={count}
+                  badgeContent={count2}
                   max={9}
                   color="error"
                   anchorOrigin={{
@@ -402,7 +388,7 @@ export const NavList = ({ open, match, userData, chargeKpi }) => {
                   <img src={desactIco} alt="Grid" />
                 </Badge>
               </LIcon>
-              {open && match && <Typography>Desactivation</Typography>}
+              {open && match && <Typography>Deactivation</Typography>}
             </LItem>
           </>
         )}

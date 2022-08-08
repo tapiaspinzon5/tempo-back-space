@@ -62,6 +62,7 @@ const AddUserSuperAdmin = ({
   setShowAccounts,
   setSearchCampaign,
   getData2,
+  dataAgent,
 }) => {
   const [idccms, setIdccms] = useState("");
   const [search, setSearch] = useState(false);
@@ -70,6 +71,7 @@ const AddUserSuperAdmin = ({
   const [agent, setAgent] = useState([]);
   const [lobs, setLobs] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [roleExist, setRoleExist] = useState([]);
 
   useEffect(() => {
     if (newUser.role === "Super Admin") {
@@ -78,7 +80,20 @@ const AddUserSuperAdmin = ({
         idCampaign: [campaign[0].IdCampaign],
       });
     }
-  }, [newUser.role]);
+
+    if (
+      newUser.role === "Operation Manager" ||
+      newUser.role === "QA Lead" ||
+      newUser.role === "Reporting Lead"
+    ) {
+      const existeRol = dataAgent.filter(
+        (user) => user.RoleAgent === newUser.role
+      );
+      setRoleExist(existeRol);
+    } else {
+      setRoleExist([]);
+    }
+  }, [newUser.role, newUser.idCampaign]);
 
   const handleSearchUser = async () => {
     setSearch(true);
@@ -99,6 +114,14 @@ const AddUserSuperAdmin = ({
           idUser: getData.data[0].ident,
           context: 1,
           idCampaign: [campaign[0].IdCampaign],
+          emails: [
+            {
+              email: getData.data[0].email,
+              name: getData.data[0].FullName,
+              rol: newUser.emails[0].rol,
+              rolManager: "Spacecraft Commander",
+            },
+          ],
         });
         setSearchCampaign(campaign[0].IdCampaign);
       } else {
@@ -106,6 +129,14 @@ const AddUserSuperAdmin = ({
           ...newUser,
           idUser: getData.data[0].ident,
           context: 1,
+          emails: [
+            {
+              email: getData.data[0].email,
+              name: getData.data[0].FullName,
+              rol: newUser.emails[0].rol,
+              rolManager: "Spacecraft Commander",
+            },
+          ],
         });
       }
       setAgent(getData.data[0]);
@@ -120,7 +151,7 @@ const AddUserSuperAdmin = ({
       context: 2,
       idcampaign: e.target.value,
     });
-
+    console.log(data.data);
     setLobs(data.data[1].Lobs);
     setTeams(data.data[2].Teams);
   };
@@ -149,6 +180,36 @@ const AddUserSuperAdmin = ({
     }
     setLoading(false);
   };
+
+  const handleRolAssignment = (e, role) => {
+    console.log(newUser.idUser);
+    if (newUser.idUser) {
+      setNewUser({
+        ...newUser,
+        role: e.target.value,
+        emails: [
+          {
+            rol: role.roleSpace,
+            email: newUser.emails[0].email,
+            name: newUser.emails[0].name,
+            rolManager: "Spacecraft Commander",
+          },
+        ],
+      });
+    } else {
+      setNewUser({
+        ...newUser,
+        role: e.target.value,
+        emails: [
+          {
+            rol: role.roleSpace,
+          },
+        ],
+      });
+    }
+  };
+
+  console.log(newUser);
 
   return (
     <Box>
@@ -186,7 +247,7 @@ const AddUserSuperAdmin = ({
               name="role"
               value={role.tag}
               checked={newUser.role === role.tag ? true : false}
-              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+              onChange={(e) => handleRolAssignment(e, role)}
             />
             <br />
             <label htmlFor="role">{role.rol}</label>
@@ -204,6 +265,7 @@ const AddUserSuperAdmin = ({
                 id="outlined-adornment-password"
                 type="number"
                 value={idccms}
+                disabled={newUser.role ? false : true}
                 onChange={(e) => setIdccms(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
@@ -255,6 +317,7 @@ const AddUserSuperAdmin = ({
               )
             )}
           </BoxUser>
+
           {newUser.role !== "Cluster Director" &&
           newUser.role !== "Super Admin" ? (
             <FormControl fullWidth>
@@ -276,6 +339,43 @@ const AddUserSuperAdmin = ({
                 ))}
               </Select>
             </FormControl>
+          ) : (
+            ""
+          )}
+
+          {roleExist.length !== 0 && newUser.idCampaign ? (
+            <>
+              <BoxUser
+                marginTop={1}
+                sx={{
+                  display: "flex",
+                  textAlign: "center",
+                  justifyContent: "center",
+                  marginBottom: "1px",
+                }}
+              >
+                <Avatar
+                  alt="User"
+                  src={avatar}
+                  sx={{ width: 50, height: 50, marginRight: "2rem" }}
+                />
+                <Box>
+                  <Typography variant="body1">{roleExist[0].Agent}</Typography>
+                  <Typography variant="body2">
+                    {roleExist[0].RoleAgent}{" "}
+                    <span style={{ color: "#f00" }}>Actual</span>
+                  </Typography>
+                </Box>
+              </BoxUser>
+              <Typography
+                variant="body2"
+                color="red"
+                textAlign="center"
+                fontSize={12}
+              >
+                Do you want to change this user?
+              </Typography>
+            </>
           ) : (
             ""
           )}

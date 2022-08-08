@@ -20,7 +20,12 @@ const BoxTable = styled(Grid)(() => ({
   },
 }));
 
-const DataGridUserPermissions = ({ dataAgent, width, setCheckUser }) => {
+const DataGridUserPermissions = ({
+  dataAgent,
+  width,
+  setCheckUser,
+  setToken,
+}) => {
   const columns = [
     {
       field: "Request",
@@ -40,7 +45,10 @@ const DataGridUserPermissions = ({ dataAgent, width, setCheckUser }) => {
               id={params.id}
               name="users"
               value={params.row.Ident}
-              onChange={(e) => setCheckUser(e.target.value)}
+              onChange={() => {
+                setCheckUser(params.row);
+                setToken(params.row.TokenOP);
+              }}
               style={{
                 height: "1.5rem",
                 width: "1.5rem",

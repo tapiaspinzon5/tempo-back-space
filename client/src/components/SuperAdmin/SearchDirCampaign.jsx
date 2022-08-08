@@ -110,7 +110,13 @@ const SearchDirCampaign = ({
         }
       >
         {dataAccount.map((camp) => (
-          <Box height="25px" display="flex" alignItems="center" marginTop={2}>
+          <Box
+            height="25px"
+            display="flex"
+            alignItems="center"
+            marginTop={2}
+            key={camp.IdCampaign}
+          >
             {" "}
             <input
               type="checkbox"

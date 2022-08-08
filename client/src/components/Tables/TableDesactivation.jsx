@@ -65,14 +65,34 @@ const TableAgentUpload = ({ dataAgent, handleAction }) => {
 			renderCell: (params) => (
 				<Box width=" 100%" display="flex" justifyContent="center">
 					<ButtonAction
-						onClick={() => handleAction(params.row.ident, "approved")}
+						onClick={() =>
+							handleAction(
+								[
+									params.row.ident,
+									params.row.Agent,
+									params.row.RoleAgent,
+									params.row.emailUsrRequest,
+								],
+								"approved"
+							)
+						}
 						disabled={params.row.Request}
 						sx={{ marginRight: "5px" }}
 					>
 						<BiCheckCircle color="#3047B0" size={25} />
 					</ButtonAction>
 					<ButtonAction
-						onClick={() => handleAction(params.row.ident, "cancelled")}
+						onClick={() =>
+							handleAction(
+								[
+									params.row.ident,
+									params.row.Agent,
+									params.row.RoleAgent,
+									params.row.emailUsrRequest,
+								],
+								"cancelled"
+							)
+						}
 						disabled={params.row.Request}
 						sx={{ marginRight: "5px" }}
 					>
@@ -82,7 +102,6 @@ const TableAgentUpload = ({ dataAgent, handleAction }) => {
 			),
 		},
 	];
-
 	return (
 		<>
 			<BoxTable ref={ref}>

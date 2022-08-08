@@ -887,8 +887,8 @@ exports.parametros = (req, tipo) => {
 
     case "spInactivateAgent":
       return parametrizacion([
-        new SpParam("ident", req.idccmsUser, TYPES.Int),
         new SpParam("identassignement", req.idccms, TYPES.Int),
+        new SpParam("ident", req.idccmsUser, TYPES.Int),
         new SpParam("Appoved", req.inactivate, TYPES.Int),
       ]);
     case "spUpdateRoleUser":

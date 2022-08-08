@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, Grid, Modal, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import Autocomplete from "@mui/material/Autocomplete";
+import { useSelector } from "react-redux";
 import {
   BoxData,
   ButtonAction,
-  InputText,
   MainPage,
   ModalBox,
 } from "../../assets/styled/muistyled";
@@ -17,23 +16,25 @@ import CardPermissions from "../../components/SuperAdmin/CardPermissions";
 import AddUserSuperAdmin from "../../components/Modals/AddUserSuperAdmin";
 import SearchCampaign from "../../components/SuperAdmin/SearchCampaign";
 import SearchDirCampaign from "../../components/SuperAdmin/SearchDirCampaign";
-import { agentManage, requestWithData } from "../../utils/api";
+import { requestWithData } from "../../utils/api";
 import DataGridUserPermissions from "../../components/SuperAdmin/DataGridUserPermissions";
 
 const MySwal = withReactContent(Swal);
 
 const userPermissions = [
-  { rol: "OPM", tag: "Operation Manager" },
-  { rol: "QAL", tag: "QA Lead" },
-  { rol: "TL", tag: "Team Leader" },
-  { rol: "AG", tag: "Agent" },
-  { rol: "RPL", tag: "Reporting Lead" },
-  { rol: "SU", tag: "Super Admin" },
-  { rol: "DIR", tag: "Cluster Director" },
+  { roleSpace: "Operations Commander", rol: "OPM", tag: "Operation Manager" },
+  { roleSpace: "Mission Specialist ", rol: "QAL", tag: "QA Lead" },
+  { roleSpace: "Pilot", rol: "TL", tag: "Team Leader" },
+  { roleSpace: "Cosmonaut", rol: "AG", tag: "Agent" },
+  { roleSpace: "Flight Engineer", rol: "RPL", tag: "Reporting Lead" },
+  { roleSpace: "Spacecraft Commander", rol: "SU", tag: "Super Admin" },
+  { roleSpace: "Cluster Director", rol: "DIR", tag: "Cluster Director" },
 ];
 
 const UserPermission = () => {
   const ref = useRef();
+  // const dispatch = useDispatch();
+  const userData = useSelector((store) => store.loginUser.userData);
   const [permissions, setPermissions] = useState(false);
   const [showAccounts, setShowAccounts] = useState(false);
   const [width, setWidth] = useState(0);
@@ -44,7 +45,8 @@ const UserPermission = () => {
   const [newUser, setNewUser] = useState([]);
   const [searchCampaign, setSearchCampaign] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [checkUser, setCheckUser] = React.useState("");
+  const [checkUser, setCheckUser] = React.useState([]);
+  const [token, setToken] = React.useState("");
   const [check, setCheck] = useState(newUser?.idCampaign || []);
 
   useEffect(() => {
@@ -104,8 +106,10 @@ const UserPermission = () => {
       if (resultado.value) {
         const req = async () => {
           const changeState = await requestWithData("postinactivateuser", {
-            idccmsUser: checkUser,
+            idccmsUser: checkUser.Ident,
+            fcmToken: token,
             inactivate: 1,
+            nameRequester: userData.Nombre,
           });
 
           if (changeState.status === 200) {
@@ -127,8 +131,18 @@ const UserPermission = () => {
   };
 
   const handleChangeRol = () => {
+    let msj;
+    if (
+      role === "Operation Manager" ||
+      role === "QA Lead" ||
+      role === "Reporting Lead"
+    ) {
+      msj = `Do you want to change this user role? By accepting, the current ${role} will be replaced`;
+    } else {
+      msj = `Do you want to change this user role to ${role}?`;
+    }
     MySwal.fire({
-      title: <p>Do you want to change this user role?</p>,
+      title: <p>{msj}</p>,
       icon: "question",
       confirmButtonText: "Accept",
       showDenyButton: true,
@@ -137,7 +151,7 @@ const UserPermission = () => {
       if (resultado.value) {
         const req = async () => {
           const changeState = await requestWithData("postchangeuserrole", {
-            idccmsUser: +checkUser,
+            idccmsUser: +checkUser.Ident,
             role: role,
             idCampaign: check,
           });
@@ -164,7 +178,7 @@ const UserPermission = () => {
     setCheck([]);
   };
 
-  console.log(check);
+  //console.log(checkUser);
 
   return (
     <MainPage>
@@ -190,10 +204,12 @@ const UserPermission = () => {
             <Box>
               <CardPermissions
                 setRole={setRole}
+                role={role}
                 permissions={userPermissions}
                 checkUser={checkUser}
                 handleChangeRol={handleChangeRol}
                 setShowAccounts={setShowAccounts}
+                dataAgent={dataAgent}
               />
               {role === "Cluster Director" && showAccounts ? (
                 <Box
@@ -234,6 +250,7 @@ const UserPermission = () => {
                 dataAgent={dataAgent}
                 width={width}
                 setCheckUser={setCheckUser}
+                setToken={setToken}
               />
             </>
           ) : (
@@ -254,6 +271,7 @@ const UserPermission = () => {
             setNewUser={setNewUser}
             permissions={userPermissions}
             campaign={campaign.Campaign}
+            dataAgent={dataAgent}
             handleClose={handleClose}
             setShowAccounts={setShowAccounts}
             setSearchCampaign={setSearchCampaign}
