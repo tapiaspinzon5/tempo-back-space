@@ -255,7 +255,7 @@ exports.uploadRepLead = async (req, res) => {
 exports.postInsertRoleCampaign = async (req, res) => {
   let i = 0;
   let campaignTable = [];
-  const { idccms, idUser, role, idCampaign, idLob, idTeam, context } = req.body;
+  const { idccms, idUser, role, idCampaign, idLob, idTeam, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -281,7 +281,16 @@ exports.postInsertRoleCampaign = async (req, res) => {
         "spInsertRoleCampaign"
       )
     )
-    .then((result) => {
+    .then(async (result) => {
+      if (context == 1) {
+        await sendEmail(
+          emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+      }
+
       responsep(1, req, res, result);
     })
     .catch((err) => {
