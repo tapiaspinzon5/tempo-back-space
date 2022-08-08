@@ -488,11 +488,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         SpParamTable2("table", quizTable, req.rows),
       ]);
-    case "spInsertTeam":
-      return parametrizacion([
-        new SpParam("ident", req.idccms, TYPES.Int),
-        SpParamTable2("table", suTable, req.rows),
-      ]);
     case "spInsertOrganizationalUnit":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),

@@ -199,8 +199,8 @@ exports.sendConfirmInactivationEmail = async (emails, subject, header, emailSend
               <img src="https://firebasestorage.googleapis.com/v0/b/storage-296723/o/Gamification%2FemailResources%2Femail%20badgeImage?alt=media&token=b2d68ff4-980d-40c1-ae46-b38f34d3acbd" alt="banner" />
               <p>Hi there!</p>
               <p>
-                The deactivation of the ${roleUser}, ${nameUser}, has been
-                ${inactivate == 1 ? "approved" : "disapproved"} by your ${role} - ${name}
+                The deactivation of the <b>${roleUser}, ${nameUser},</b> has been
+                <b>${inactivate == 1 ? "approved" : "disapproved"}</b> by your <b>${role} - ${name}</b>
               </p>
               <p>
                 Kind regards, <br />
