@@ -56,7 +56,7 @@ const UserPermission = () => {
   const [open, setOpen] = React.useState(false);
   const [checkUser, setCheckUser] = React.useState([]);
   const [token, setToken] = React.useState("");
-  const [check, setCheck] = useState(newUser?.idCampaign || []);
+  const [check, setCheck] = useState([]);
 
   useEffect(() => {
     getData();
@@ -77,6 +77,10 @@ const UserPermission = () => {
     });
     //console.log(data.data[0]);
     setCampaign(data.data[0]);
+    setNewUser({
+      ...newUser,
+      idCampaign: [data.data[0].Campaign[0].IdCampaign],
+    });
     setSearchCampaign(data.data[0].Campaign[0].IdCampaign);
   };
 
@@ -163,6 +167,7 @@ const UserPermission = () => {
           const changeState = await requestWithData("postchangeuserrole", {
             idccmsUser: +checkUser.Ident,
             role: role,
+            context: 1,
             idLob: teamLeader.idLob,
             idTeam: teamLeader.idTeam,
             idCampaign: check,
@@ -195,6 +200,8 @@ const UserPermission = () => {
 
     setCheck([]);
   };
+
+  console.log(newUser);
 
   return (
     <MainPage>
