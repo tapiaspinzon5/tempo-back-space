@@ -1479,7 +1479,7 @@ exports.postChangeUserRole = async (req, res) => {
   let i = 0;
   let campaignTable = [];
   let loadAgentTable = [];
-  const { idccms, idUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
+  const { idccms, idccmsUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -1496,7 +1496,7 @@ exports.postChangeUserRole = async (req, res) => {
       parametros(
         {
           idccms,
-          idUser,
+          idccmsUser,
           role,
           idTeam,
           context,
