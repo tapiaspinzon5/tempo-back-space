@@ -876,6 +876,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("Context", req.context, TYPES.Int),
         SpParamTable2("table", tableInsertRol, req.rows),
+        SpParamTable2("tableAgent", tableInsertRol, req.rows2),
       ]);
     case "spQueryUsrInactivation":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
