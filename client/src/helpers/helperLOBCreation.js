@@ -1,3 +1,5 @@
+import { requestWithData } from "../utils/api";
+
 export const createTeamLeaderList = (data, name, userData) => {
 	const TLList = data.filter((tl) => tl.checked === true);
 	const list = [];
@@ -16,10 +18,19 @@ export const createTeamLeaderList = (data, name, userData) => {
 	});
 	return { lobName: name, tlIdccms: list, emails };
 };
+
 export const filterTeamLeaderList = (data) => {
 	let list = [];
 	data.forEach((tl) => {
-		list.push({ idccms: tl.identTL, name: tl.NameTL, checked: true });
+		list.push({
+			idccms: tl.identTL,
+			name: tl.NameTL,
+			checked: true,
+			idTeam: tl.idTeam,
+			action: "",
+			replacement: [],
+			redistribute: [],
+		});
 	});
 	return list;
 };

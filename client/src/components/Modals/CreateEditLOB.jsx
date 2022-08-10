@@ -33,6 +33,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingComponent from "../LoadingComponent";
 import KPISetup from "../OpsManager/KPISetup";
+import DeleteTL from "../OpsManager/DeleteTL";
 const MySwal = withReactContent(Swal);
 
 const TableCont = styled(Box)(() => ({
@@ -86,12 +87,15 @@ const CreateEditLOB = ({
 	const [tempCcms, setTempCcms] = useState("");
 	const [errorKpisList, setErrorKpisList] = useState(false);
 	const [loadingKpi, setLoadingKpi] = useState(false);
+	const [change, setChange] = useState(false);
 	const [kpisList, setKpisList] = useState([]);
 	const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
 	const [next, setNext] = useState(false);
+	const [del, setDel] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const [kpiWork, setKpiWork] = useState([]);
 	const [dbKpiWork, setDbKpiWork] = useState([]);
+	const [tlListDel, setTlListDel] = useState([]);
 
 	useEffect(
 		() => {
@@ -113,6 +117,7 @@ const CreateEditLOB = ({
 	);
 
 	const handleSearch = async (ccms) => {
+		setChange(false);
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
 			if (
@@ -374,13 +379,28 @@ const CreateEditLOB = ({
 					if (dataTL.length > 0) {
 						const TLList = dataTL.filter((tl) => tl.checked === true);
 						if (TLList.length > 0) {
-							//acciones
-							const dataToSend = createTeamLeaderList(
+							const TLDelList = dataTL.filter((tl) => tl.checked === false);
+							if (TLDelList.length > 0) {
+								//interseccion
+								const delList = TLDelList.filter((item1) =>
+									allData.some((item2) => item1.idccms === item2.identTL)
+								);
+								if (delList.length > 0) {
+									setTlListDel(delList);
+									setNext(true);
+									setDel(true);
+								} else {
+									//no se elimina ningun TL pasas a targets
+								}
+							} else {
+								//no se elimina ningun TL pasa a targets
+							}
+							/* const dataToSend = createTeamLeaderList(
 								dataTL,
 								nameLOB,
 								userData
-							);
-							const data = await createLobOperationManager(
+							); */
+							/* const data = await createLobOperationManager(
 								2,
 								dataToSend.lobName,
 								dataLOB.idLob,
@@ -426,7 +446,7 @@ const CreateEditLOB = ({
 								setNext(false);
 								setOpen(false);
 								setDisabled(false);
-							}
+							} */
 						} else {
 							setErrorList(true);
 							setMsgErrorList("Check Team Leader is required (min. 1)");
@@ -452,7 +472,8 @@ const CreateEditLOB = ({
 								nameLOB,
 								userData
 							);
-							const data = await createLobOperationManager(
+							//trae targets kpis (nuevo endpoint)
+							/* const data = await createLobOperationManager(
 								1,
 								dataToSend.lobName,
 								0,
@@ -491,7 +512,7 @@ const CreateEditLOB = ({
 								setDisabled(false);
 								setNext(false);
 								setOpen(false);
-							}
+							} */
 						} else {
 							setErrorList(true);
 							setMsgErrorList("Check Team Leader is required (min. 1)");
@@ -513,6 +534,8 @@ const CreateEditLOB = ({
 			setDisabled(false);
 		}
 	};
+
+	const handleNextDelete = () => {};
 
 	const notifyModalError = (msgError) => {
 		toast.info(
@@ -575,11 +598,12 @@ const CreateEditLOB = ({
 									setMsgError("");
 								}}
 								endAdornment={
-									<InputAdornment position="end">
+									<InputAdornment position="end" sx={{ mr: "1rem" }}>
 										<ButtonActionBlue
 											aria-label="toggle search visibility"
 											edge="end"
 											onClick={() => handleSearch(tempCcms)}
+											sx={{ mr: "1rem" }}
 										>
 											Search
 										</ButtonActionBlue>
@@ -608,7 +632,7 @@ const CreateEditLOB = ({
 								}}
 							>
 								<Box display="flex" textAlign="center">
-									<Box width="45%" color="#3047B0">
+									<Box width="50%" color="#3047B0">
 										<Typography variant="body1" fontWeight={700}>
 											CCMS ID
 										</Typography>
@@ -622,20 +646,27 @@ const CreateEditLOB = ({
 								</Box>
 								<BoxCeldas>
 									{dataTL.map((item, index) => (
-										<TableCont display="flex" textAlign="center" key={index}>
-											<Box width="45%">
-												<Typography variant="body2">{item.idccms}</Typography>
-											</Box>
-											<Box width="45%">
-												<Typography variant="body2">{item.name}</Typography>
-											</Box>
-											<Box width="10%">
-												<input
-													type="checkbox"
-													id="isChecked"
-													checked={item.checked}
-													onChange={() => handleCheck(item)}
-												/>
+										<TableCont
+											display="flex"
+											textAlign="center"
+											key={index}
+											flexDirection="column"
+										>
+											<Box display="flex" textAlign="center">
+												<Box width="40%">
+													<Typography variant="body2">{item.idccms}</Typography>
+												</Box>
+												<Box width="40%">
+													<Typography variant="body2">{item.name}</Typography>
+												</Box>
+												<Box width="10%">
+													<input
+														type="checkbox"
+														id="isChecked"
+														checked={item.checked}
+														onChange={() => handleCheck(item)}
+													/>
+												</Box>
 											</Box>
 										</TableCont>
 									))}
@@ -647,6 +678,12 @@ const CreateEditLOB = ({
 
 					{errorList && <FormHelperText error>{msgErrorList}</FormHelperText>}
 				</>
+			) : del ? (
+				<DeleteTL
+					tlListDel={tlListDel}
+					setTlListDel={setTlListDel}
+					allData={allData}
+				/>
 			) : (
 				<KPISetup
 					kpiWork={kpiWork}
@@ -655,26 +692,35 @@ const CreateEditLOB = ({
 					setKpisList={setKpisList}
 				/>
 			)}
-
-			{/* <Box display="flex" justifyContent="flex-end" marginY={3}>
-        <ButtonActionBlue
-          onClick={dataLOB.length !== 0 ? handleEdit : handleCreate}
-        >
-          Save
-        </ButtonActionBlue>
-      </Box> */}
-
 			<Box display="flex" justifyContent="flex-end" marginY={3}>
-				{!next && (
+				{next ? (
+					<>
+						<ButtonActionBlue
+							sx={{ width: "10rem" }}
+							//disabled={disabled}
+							onClick={() => handleNext("Back")}
+						>
+							{"Back"}
+						</ButtonActionBlue>
+						<ButtonActionBlue
+							sx={{ width: "10rem" }}
+							//disabled={disabled}
+							onClick={() => handleNextDelete()}
+						>
+							{"Next to set KPIs"}
+						</ButtonActionBlue>
+					</>
+				) : (
 					<ButtonActionBlue
 						sx={{ width: "10rem" }}
-						disabled={disabled}
+						//disabled={disabled}
 						onClick={() => handleNext("Next")}
 					>
 						{"Next"}
 					</ButtonActionBlue>
 				)}
 				{next &&
+					!del &&
 					(dataLOB.length === 0 ? (
 						<ButtonActionBlue
 							sx={{ width: "10rem", marginLeft: "2rem" }}

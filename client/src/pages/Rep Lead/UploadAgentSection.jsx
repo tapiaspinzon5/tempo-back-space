@@ -16,6 +16,7 @@ import withReactContent from "sweetalert2-react-content";
 import { toast } from "react-toastify";
 import { SwapSpinner } from "react-spinners-kit";
 import XLSX from "xlsx";
+import { useSelector } from "react-redux";
 import {
 	teamValidation,
 	validateFieldsProvideUsersRL,
@@ -52,6 +53,7 @@ const ModalBox = styled(Box)(() => ({
 }));
 
 const UploadAgentSection = () => {
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [loading, setLoading] = useState(false);
 	const [newAgent, setNewAgent] = useState(false);
 	const [template, setTemplate] = useState("");
@@ -190,8 +192,9 @@ const UploadAgentSection = () => {
 				const req = async () => {
 					const changeState = await requestWithData("postinactivateuser", {
 						idccmsUser: idccms,
-						token,
+						fcmToken: token,
 						inactivate: 1,
+						nameRequester: userData.Nombre,
 					});
 
 					if (changeState.status === 200) {

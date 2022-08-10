@@ -62,7 +62,7 @@ const dateConfig = (date) => {
 
 	return fecha;
 };
-const DesactivationSection = (setCount2) => {
+const DesactivationSection = ({ setCount2, count2 }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const userData = useSelector((store) => store.loginUser.userData);
@@ -85,7 +85,9 @@ const DesactivationSection = (setCount2) => {
 				});
 				setLoading(false);
 				setUsers(uwd);
+				setCount2(usersList.data.length);
 			} else {
+				setCount2(0);
 				setLoading(false);
 				setNoData(true);
 			}

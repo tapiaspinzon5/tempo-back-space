@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavList } from "./NavList";
 import { useSelector } from "react-redux";
 import { Box, AppBar, Divider, IconButton, Avatar } from "@mui/material";
@@ -8,6 +8,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import shortTP from "../../assets/Icons/tp_short_white.png";
 import avatarLocal from "../../assets/temp-image/avatar.png";
+import { requestWithData } from "../../utils/api";
 
 const SideBar = styled(AppBar)(({ theme }) => ({
 	position: "sticky",
@@ -32,6 +33,7 @@ export const Navbar = ({
 	avatar,
 	setNavLong,
 	count2,
+	setCount2,
 }) => {
 	const userData = useSelector((store) => store.loginUser.userData);
 	const [open, setOpen] = useState(false);
@@ -41,6 +43,24 @@ export const Navbar = ({
 		setOpen(!open);
 		setNavLong(!open);
 	};
+	const count2Req = async () => {
+		const usersList = await requestWithData("getinactiveusersapplications");
+		if (usersList.data[0].Agent !== "0") {
+			setCount2(usersList.data.length);
+		}
+	};
+	useEffect(
+		() => {
+			if (
+				userData?.Role === "Team Leader" ||
+				userData?.Role === "Operation Manager"
+			) {
+				count2Req();
+			}
+		},
+		// eslint-disable-next-line
+		[]
+	);
 	return (
 		<>
 			{match && (
@@ -76,6 +96,7 @@ export const Navbar = ({
 							match={match}
 							userData={userData.Role}
 							chargeKpi={userData.KpiManual}
+							count2={count2}
 						/>
 
 						<Box sx={{ flexGrow: 1 }}>

@@ -18,6 +18,8 @@ import {
 	MdArrowForward,
 	MdArrowForwardIos,
 } from "react-icons/md";
+import { RiMarkdownLine } from "react-icons/ri";
+
 import bgNoData from "../../assets/images/bg2.png";
 import { requestWithData } from "../../utils/api";
 
@@ -99,6 +101,11 @@ const Organigrama = () => {
 	const [error, setError] = useState(false);
 	const [errorDB, setErrorDB] = useState(false);
 	const [adminLoading, setAdminLoading] = useState(false);
+	const [noDataAdmins, setNoDataAdmins] = useState(false);
+	const [noDataKPIs, setNoDataKPIs] = useState(false);
+	const [noDataLobs, setNoDataLobs] = useState(false);
+	const [noDataTeams, setNoDataTeams] = useState(false);
+	const [noDataAgents, setNoDataAgents] = useState(false);
 	const [showAgents, setsShowAgents] = useState(false);
 	const [kpisLoading, setKpisLoading] = useState(false);
 	const [lobsLoading, setLobsLoading] = useState(false);
@@ -112,6 +119,7 @@ const Organigrama = () => {
 		getOptionLabel: (option) => option.label,
 	};
 	const getData = async () => {
+		setError(false);
 		const allCampaigns = await requestWithData("getorganizationalunit", {
 			context: 1,
 			idcampaign: 0,
@@ -143,6 +151,10 @@ const Organigrama = () => {
 	}, []);
 
 	const handleInput = async (newValue) => {
+		setError(false);
+		setNoDataAdmins(false);
+		setNoDataKPIs(false);
+		setNoDataLobs(false);
 		setAdminLoading(true);
 		setLobsLoading(true);
 		setKpisLoading(true);
@@ -166,6 +178,13 @@ const Organigrama = () => {
 			dataCampaignSel.data.length > 0
 		) {
 			if (!dataCampaignSel.data[0].Result) {
+				if (dataCampaignSel.data[0].RoleAdm[0].NameOP === "0") {
+					setNoDataAdmins(true);
+				} else if (dataCampaignSel.data[1].Lobs[0].NameLob === "0") {
+					setNoDataLobs(true);
+				} else if (dataCampaignSel.data[3].kpi[0].Kpi === "0") {
+					setNoDataKPIs(true);
+				} /* else { */
 				dispatch({
 					type: TYPES.SHOW_DATA_CAMPAIGN,
 					payload: {
@@ -174,6 +193,7 @@ const Organigrama = () => {
 						kpis: dataCampaignSel.data[3].kpi,
 					},
 				});
+				/* } */
 				setAdminLoading(false);
 				setLobsLoading(false);
 				setKpisLoading(false);
@@ -197,7 +217,10 @@ const Organigrama = () => {
 			setError(true);
 		}
 	};
+
 	const handleLob = async (idLob) => {
+		setError(false);
+		setNoDataTeams(false);
 		setTeamsLoading(true);
 		setsShowAgents(false);
 		setErrorDB(false);
@@ -213,13 +236,19 @@ const Organigrama = () => {
 			dataLobSel.data.length > 0
 		) {
 			if (!dataLobSel.data[0].Result) {
-				dispatch({
-					type: TYPES.SHOW_DATA_LOB,
-					payload: {
-						teams: dataLobSel.data[0].Teams,
-					},
-				});
-				setTeamsLoading(false);
+				if (dataLobSel.data[0].Teams[0].NameTeam === "0") {
+					setTeamsLoading(false);
+					setNoDataTeams(true);
+				} else {
+					dispatch({
+						type: TYPES.SHOW_DATA_LOB,
+						payload: {
+							teams: dataLobSel.data[0].Teams,
+						},
+					});
+					setTeamsLoading(false);
+					setNoDataTeams(false);
+				}
 			} else {
 				setTeamsLoading(false);
 				setErrorDB(true);
@@ -235,6 +264,8 @@ const Organigrama = () => {
 	};
 
 	const handleTeam = async (idTeam) => {
+		setError(false);
+		setNoDataAgents(false);
 		setAgentsLoading(true);
 		setsShowAgents(true);
 		setErrorDB(false);
@@ -250,13 +281,19 @@ const Organigrama = () => {
 			dataTeamSel.data.length > 0
 		) {
 			if (!dataTeamSel.data[0].Result) {
-				dispatch({
-					type: TYPES.SHOW_DATA_TEAM,
-					payload: {
-						agents: dataTeamSel.data[0].Agents,
-					},
-				});
-				setAgentsLoading(false);
+				if (dataTeamSel.data[0].Agents[0].Agent === "0") {
+					setAgentsLoading(false);
+					setNoDataAgents(true);
+				} else {
+					dispatch({
+						type: TYPES.SHOW_DATA_TEAM,
+						payload: {
+							agents: dataTeamSel.data[0].Agents,
+						},
+					});
+					setAgentsLoading(false);
+					setNoDataAgents(false);
+				}
 			} else {
 				setAgentsLoading(false);
 				setErrorDB(true);
@@ -270,7 +307,6 @@ const Organigrama = () => {
 			setError(true);
 		}
 	};
-
 	return (
 		<MainPage
 			sx={{
@@ -329,6 +365,10 @@ const Organigrama = () => {
 									<Typography variant="body1">Server Problems</Typography>
 								) : adminLoading ? (
 									<LoadingComponent />
+								) : noDataAdmins ? (
+									<Typography variant="body1">
+										Have not been assigned
+									</Typography>
 								) : errorDB ? (
 									<Typography variant="body1">Database Problems</Typography>
 								) : (
@@ -383,6 +423,10 @@ const Organigrama = () => {
 										<Typography variant="body1">Server Problems</Typography>
 									) : kpisLoading ? (
 										<LoadingComponent />
+									) : noDataKPIs ? (
+										<Typography variant="body1">
+											KPIs have not been assigned
+										</Typography>
 									) : errorDB ? (
 										<Typography variant="body1">Database Problems</Typography>
 									) : (
@@ -398,7 +442,11 @@ const Organigrama = () => {
 													<Typography variant="body1" marginLeft={3}>
 														{kpi.unitKpi}
 													</Typography>
-													<MdOutlineFontDownload size={25} color="3047B0" />
+													{kpi.LoadType === 1 ? (
+														<MdOutlineFontDownload size={25} color="3047B0" />
+													) : (
+														<RiMarkdownLine size={25} color="3047B0" />
+													)}
 												</Box>
 											</BoxCard>
 										))
@@ -416,6 +464,10 @@ const Organigrama = () => {
 										<Typography variant="body1">Server Problems</Typography>
 									) : lobsLoading ? (
 										<LoadingComponent />
+									) : noDataLobs ? (
+										<Typography variant="body1">
+											Have not been created Lob´s
+										</Typography>
 									) : errorDB ? (
 										<Typography variant="body1">Database Problems</Typography>
 									) : (
@@ -448,6 +500,10 @@ const Organigrama = () => {
 										<Typography variant="body1">Server Problems</Typography>
 									) : teamsLoading ? (
 										<LoadingComponent />
+									) : noDataTeams ? (
+										<Typography variant="body1">
+											Have not been created Teams
+										</Typography>
 									) : errorDB ? (
 										<Typography variant="body1">Database Problems</Typography>
 									) : teams.length > 0 ? (
@@ -486,6 +542,10 @@ const Organigrama = () => {
 											<Typography variant="body1">Server Problems</Typography>
 										) : agentsLoading ? (
 											<LoadingComponent />
+										) : noDataAgents ? (
+											<Typography variant="body1">
+												No agents have been assigned to this team
+											</Typography>
 										) : errorDB ? (
 											<Typography variant="body1">Database Problems</Typography>
 										) : (

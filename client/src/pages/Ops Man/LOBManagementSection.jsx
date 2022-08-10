@@ -73,6 +73,7 @@ const LOBManagementSection = () => {
 		setLoadingLob(true);
 		setLoadingTl(true);
 		const allLobs = await getLobs(1, 1032);
+		console.log(allLobs);
 		if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
 			if (
 				allLobs.data[0].idCampaign !== "0" &&
@@ -137,7 +138,7 @@ const LOBManagementSection = () => {
 								Create New LOB
 							</ButtonAction>
 						</Box>
-						<BoxContain>
+						<BoxContain sx={{ height: "60vh" }}>
 							{error ? (
 								<Typography variant="body1">Server Problems</Typography>
 							) : noData ? (
@@ -171,7 +172,7 @@ const LOBManagementSection = () => {
 								Team Lead's
 							</Typography>
 						</Box>
-						<BoxContain>
+						<BoxContain sx={{ height: "60vh" }}>
 							{error ? (
 								<Typography variant="body1">Server Problems</Typography>
 							) : noData ? (
@@ -206,7 +207,7 @@ const LOBManagementSection = () => {
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
-				disableEscapeKeyDown
+				//disableEscapeKeyDown
 			>
 				<ModalBox
 					sx={{
