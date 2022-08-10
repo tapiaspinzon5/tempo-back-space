@@ -75,7 +75,7 @@ const AddUserSuperAdmin = ({
   const [teams, setTeams] = useState([]);
   const [roleExist, setRoleExist] = useState([]);
   const [newTL, setnewTL] = useState(null);
-  const [contextTL, setContextTL] = useState(1);
+  //const [contextTL, setContextTL] = useState(111111);
 
   useEffect(() => {
     if (newUser.role === "Super Admin") {
@@ -133,7 +133,7 @@ const AddUserSuperAdmin = ({
         setNewUser({
           ...newUser,
           idUser: getData.data[0].ident,
-          context: contextTL,
+          context: 1,
           idTeam: "",
           emails: [
             {
@@ -150,7 +150,7 @@ const AddUserSuperAdmin = ({
     setSearch(false);
   };
 
-  console.log(contextTL);
+  //console.log(contextTL);
   const handleAccount = async (e) => {
     setNewUser({ ...newUser, idCampaign: [e.target.value] });
     setSearchCampaign(e.target.value);
@@ -189,12 +189,12 @@ const AddUserSuperAdmin = ({
   };
 
   const handleRolAssignment = (e, role) => {
-    console.log(newUser.idUser);
-    setContextTL(1);
+    setnewTL(null);
     if (newUser.idUser) {
       setNewUser({
         ...newUser,
         role: e.target.value,
+        context: 1,
         emails: [
           {
             rol: role.roleSpace,
@@ -418,7 +418,11 @@ const AddUserSuperAdmin = ({
                 }
                 onClick={() => {
                   setnewTL(true);
-                  setContextTL(1);
+                  setNewUser({
+                    ...newUser,
+                    context: 1,
+                  });
+                  //setContextTL(1);
                 }}
               >
                 New Team
@@ -436,7 +440,11 @@ const AddUserSuperAdmin = ({
                 }
                 onClick={() => {
                   setnewTL(false);
-                  setContextTL(2);
+                  // setContextTL(2);
+                  setNewUser({
+                    ...newUser,
+                    context: 2,
+                  });
                 }}
               >
                 Change TL
