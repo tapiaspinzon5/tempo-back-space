@@ -18,7 +18,6 @@ module.exports = (router) => {
   // Rutas para la carga de plantillas
   router.post("/uploadquiz", oauth.oauthOther, decryptBody, routes.saveQuiz); // Endpoint para la carga de la plantilla del QALeader.
   // router.post("/getquizqa", oauth.oauthOther, routes.getQuizQA); // Este enpoint trae todos los quizes que el QALeader haya cargado.
-  router.post("/uploadsu", oauth.oauthOther, decryptBody, routes.uploadSU); // Endpoint para la carga de la plantilla del SuperUsuario.
   router.post("/getteamsbysu", oauth.oauthOther, decryptBody, routes.getTeamsSU); // Retorna los equipos creados por el superuser.
   router.post("/uploadopsm", oauth.oauthOther, decryptBody, routes.uploadOpsM); // Endpoint para la carga de la plantilla del operation manager.
   router.post("/uploadrepl", oauth.oauthOther, decryptBody, routes.uploadRepLead); // Endpoint para la carga de la plantilla del reporting lead.
