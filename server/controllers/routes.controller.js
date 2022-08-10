@@ -265,7 +265,7 @@ exports.postInsertRoleCampaign = async (req, res) => {
     });
   }
 
-  if (role === "Agent") loadAgentTable = ["Q4", idUser, nameTeam, "Agent"];
+  if (role === "Agent") loadAgentTable = [["Q4", idUser, nameTeam, "Agent"]];
 
   sql
     .query(
@@ -280,7 +280,7 @@ exports.postInsertRoleCampaign = async (req, res) => {
           idTeam,
           context,
           rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable,
-          rows2: role !== "Agent" ? [["Q4", 0, 0, "Agent"]] : loadAgentTable,
+          rows2: role !== "Agent" ? [["Q4", 0, "0", "Agent"]] : loadAgentTable,
         },
         "spInsertRoleCampaign"
       )
