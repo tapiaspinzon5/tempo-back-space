@@ -891,13 +891,25 @@ exports.parametros = (req, tipo) => {
     case "spUpdateRoleUser":
       return parametrizacion([
         new SpParam("UsrChange", req.idccms, TYPES.Int),
-        new SpParam("ident", req.idUser, TYPES.Int),
+        new SpParam("ident", req.idccmsUser, TYPES.Int),
         new SpParam("role", req.role, TYPES.VarChar),
         new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("Context", req.context, TYPES.Int),
         SpParamTable2("table", tableInsertRol, req.rows),
         SpParamTable2("tableAgent", reportLeadTable, req.rows2),
       ]);
+    case "spQueryAnalitycsDirector":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
+        new SpParam("idLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+        new SpParam("DateIni", req.initDate, TYPES.Date),
+        new SpParam("DateEnd", req.endDate, TYPES.Date),
+        new SpParam("Kpi", req.endDate, TYPES.VarChar),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

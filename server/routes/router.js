@@ -225,7 +225,7 @@ module.exports = (router) => {
   MapSpRouter("/getLobsKpis", "spQueryKpiCampaignLob");
   MapSpRouter("/postupdatemissionstatusexpired", "spUpdateStatusMission");
   MapSpRouter("/getinactiveusersapplications", "spQueryUsrInactivation");
-  // MapSpRouter("/postinactivateuser", "spInactivateAgent");
+  MapSpRouter("/getAnalyticsClusterDirector", "spQueryAnalitycsDirector");
   // MapSpRouter("/postchangeuserrole", "spUpdateRoleUser");
 
   MapSpRouter("/welcomeegp", "spBgWelcomeEGP");
