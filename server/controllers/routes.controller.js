@@ -1477,7 +1477,9 @@ exports.postInactivateUser = async (req, res) => {
 
 exports.postChangeUserRole = async (req, res) => {
   let i = 0;
-  const { idccmsUser, idccms, role, idCampaign } = req.body;
+  let campaignTable = [];
+  let loadAgentTable = [];
+  const { idccms, idUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -1486,15 +1488,33 @@ exports.postChangeUserRole = async (req, res) => {
     });
   }
 
+  if (role === "Agent") loadAgentTable = [["Q4", idUser, nameTeam, "Agent"]];
+
   sql
     .query(
       "spUpdateRoleUser",
       parametros(
-        { idccmsUser, idccms, role, rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable },
+        {
+          idccms,
+          idUser,
+          role,
+          idTeam,
+          context,
+          rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable,
+          rows2: role !== "Agent" ? [["Q4", 0, "0", "Agent"]] : loadAgentTable,
+        },
         "spUpdateRoleUser"
       )
     )
-    .then((result) => {
+    .then(async (result) => {
+      if (context == 1) {
+        await sendEmail(
+          emails,
+          "SpaceGP role assignment",
+          "Notification SpaceGP",
+          "noresponse@teleperformance.com"
+        );
+      }
       responsep(1, req, res, result);
     })
     .catch((err) => {

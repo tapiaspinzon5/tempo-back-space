@@ -860,6 +860,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idlob", req.idLob, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
       ]);
     case "spUpdateStatusMission":
       return parametrizacion([
@@ -889,10 +890,13 @@ exports.parametros = (req, tipo) => {
       ]);
     case "spUpdateRoleUser":
       return parametrizacion([
-        new SpParam("ident", req.idccmsUser, TYPES.Int),
         new SpParam("UsrChange", req.idccms, TYPES.Int),
-        new SpParam("Role", req.role, TYPES.VarChar),
+        new SpParam("ident", req.idUser, TYPES.Int),
+        new SpParam("role", req.role, TYPES.VarChar),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+        new SpParam("Context", req.context, TYPES.Int),
         SpParamTable2("table", tableInsertRol, req.rows),
+        SpParamTable2("tableAgent", reportLeadTable, req.rows2),
       ]);
     // Casos de Actividades
     case "spBgWelcomeEGP":
