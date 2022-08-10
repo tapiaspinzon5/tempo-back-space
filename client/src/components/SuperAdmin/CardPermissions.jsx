@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { Avatar, Box, styled, Typography } from "@mui/material";
-import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import {
+  Avatar,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
+  Typography,
+} from "@mui/material";
+import { ButtonAction, ButtonActionBlue } from "../../assets/styled/muistyled";
 import avatarIMG from "../../assets/temp-image/avatar.png";
+import { requestWithData } from "../../utils/api";
+import AvatarIMG from "../../assets/temp-image/avatar.png";
 
 const BoxPermissions = styled(Box)(() => ({
   position: "relative",
@@ -26,7 +37,7 @@ const BoxPermissions = styled(Box)(() => ({
 
 const BoxExist = styled(Box)(() => ({
   position: "absolute",
-  top: "-4.3rem",
+  top: "4.5rem",
   minHeight: "4rem",
   minWidth: "15rem",
   borderRadius: "10px",
@@ -34,6 +45,22 @@ const BoxExist = styled(Box)(() => ({
   background: "#f2f2f2de",
   padding: "5px",
   color: "#3047b0",
+  zIndex: 1000,
+}));
+
+const BoxTL = styled(Box)(() => ({
+  position: "absolute",
+  background: "#f2f2f2de",
+  color: "#3047b0",
+  top: "4.5rem",
+  zIndex: 1000,
+  width: "300px",
+  borderRadius: "10px",
+  boxShadow: "3px 3px 8px #A2A2A2",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "1rem",
 }));
 
 const CardPermissions = ({
@@ -44,12 +71,18 @@ const CardPermissions = ({
   handleChangeRol,
   setShowAccounts,
   dataAgent,
+  searchCampaign,
+  setRoleSpace,
 }) => {
   const [roleExist, setRoleExist] = useState([]);
+  const [newTL, setnewTL] = useState(true);
+  const [teams, setTeams] = useState([]);
+  const [lobs, setLobs] = useState([]);
 
-  const handleRole = (e) => {
+  const handleRole = (e, roleSpace) => {
     const role = e.target.value;
     setRole(role);
+    setRoleSpace(roleSpace);
     if (role === "Cluster Director") {
       setShowAccounts(true);
     }
@@ -65,6 +98,19 @@ const CardPermissions = ({
     }
   };
 
+  const handleAccount = async (tl) => {
+    setnewTL(tl);
+
+    const data = await requestWithData("getorganizationalunit", {
+      context: 2,
+      idcampaign: searchCampaign,
+    });
+    setLobs(data.data[1].Lobs);
+    setTeams(data.data[2].Teams);
+  };
+
+  console.log(lobs);
+
   return (
     <BoxPermissions>
       {permissions.map((role, index) => (
@@ -74,7 +120,7 @@ const CardPermissions = ({
             id="role"
             name="role"
             value={role.tag}
-            onChange={(e) => handleRole(e)}
+            onChange={(e) => handleRole(e, role.roleSpace)}
             disabled={
               !checkUser.Ident || role.tag === checkUser.RoleAgent
                 ? true
@@ -104,6 +150,103 @@ const CardPermissions = ({
             </Typography>
           </Box>
         </BoxExist>
+      )}
+      {role === "Team Leader" && (
+        <BoxTL>
+          <Box
+            marginY={1}
+            display="flex"
+            justifyContent="space-evenly"
+            width={1}
+          >
+            <ButtonAction
+              sx={
+                newTL
+                  ? {
+                      background: "#fff",
+                      margin: "0px",
+                      height: "2rem",
+                      boxShadow: "1px 1px 5px #3047b0",
+                    }
+                  : { margin: "0px", height: "2rem" }
+              }
+              onClick={() => handleAccount(true)}
+            >
+              New Team
+            </ButtonAction>
+            <ButtonAction
+              sx={
+                !newTL
+                  ? {
+                      background: "#fff",
+                      margin: "0px",
+                      height: "2rem",
+                      boxShadow: "1px 1px 5px #3047b0",
+                    }
+                  : { margin: "0px", height: "2rem" }
+              }
+              onClick={() => handleAccount(false)}
+            >
+              Change TL
+            </ButtonAction>
+          </Box>
+
+          {!newTL && teams.length > 0 ? (
+            <Box width={1} margin={2}>
+              <FormControl fullWidth>
+                <InputLabel id="team-select-label">Select Team</InputLabel>
+                <Select
+                  labelId="team-select-label"
+                  id="team-simple-select"
+                  //value={newUser.idTeam || ""}
+                  label="Select Team"
+
+                  // onChange={(e) =>
+                  //   setNewUser({ ...newUser, idTeam: e.target.value })
+                  // }
+                >
+                  {teams.map((team) => (
+                    <MenuItem value={team.idTeam} key={team.idTeam}>
+                      <Box display="flex">
+                        <Avatar src={AvatarIMG} />
+                        <Box textAlign="left" marginLeft="8px" color="#3047b0">
+                          <Typography variant="body2" fontWeight={700}>
+                            {team.NameTL}
+                          </Typography>
+                          <Typography variant="caption">
+                            {team.NameTeam}
+                          </Typography>
+                        </Box>
+                      </Box>{" "}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            <Box width={1} marginY={2}>
+              <FormControl fullWidth>
+                <InputLabel id="lob-select-label">Select LOB</InputLabel>
+                <Select
+                  labelId="lob-select-label"
+                  id="lob-simple-select"
+                  // value={newUser.idLob || ""}
+                  label="Select LOB"
+                  // disabled={!error && agent.length !== 0 ? false : true}
+                  // onChange={(e) =>
+                  //   setNewUser({ ...newUser, idLob: e.target.value })
+                  // }
+                >
+                  {lobs.map((lob) => (
+                    <MenuItem value={lob.idLob} key={lob.idLob}>
+                      {lob.NameLob}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          )}
+        </BoxTL>
       )}
     </BoxPermissions>
   );

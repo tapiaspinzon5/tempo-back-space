@@ -126,7 +126,7 @@ exports.sendEmail = async (emails, subject, header, emailSender) => {
         </html> `;
 
       let message = {
-        emails: `deiby.ninogarces@teleperformance.com`,
+        emails: `matilde.puentesgutierrez@teleperformance.com`,
         subject,
         name: header,
         emailSender,

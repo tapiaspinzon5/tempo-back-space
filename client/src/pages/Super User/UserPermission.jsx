@@ -22,7 +22,11 @@ import DataGridUserPermissions from "../../components/SuperAdmin/DataGridUserPer
 const MySwal = withReactContent(Swal);
 
 const userPermissions = [
-  { roleSpace: "Operations Commander", rol: "OPM", tag: "Operation Manager" },
+  {
+    roleSpace: "SPACE Project Commander",
+    rol: "OPM",
+    tag: "Operation Manager",
+  },
   { roleSpace: "Mission Specialist ", rol: "QAL", tag: "QA Lead" },
   { roleSpace: "Pilot", rol: "TL", tag: "Team Leader" },
   { roleSpace: "Cosmonaut", rol: "AG", tag: "Agent" },
@@ -39,6 +43,7 @@ const UserPermission = () => {
   const [showAccounts, setShowAccounts] = useState(false);
   const [width, setWidth] = useState(0);
   const [role, setRole] = React.useState("");
+  const [roleSpace, setRoleSpace] = React.useState("");
   const [campaign, setCampaign] = useState([]);
   const [dataCampaign, setDataCampaign] = React.useState([]);
   const [dataAgent, setDataAgent] = React.useState([]);
@@ -48,6 +53,8 @@ const UserPermission = () => {
   const [checkUser, setCheckUser] = React.useState([]);
   const [token, setToken] = React.useState("");
   const [check, setCheck] = useState(newUser?.idCampaign || []);
+
+  console.log(roleSpace);
 
   useEffect(() => {
     getData();
@@ -66,7 +73,7 @@ const UserPermission = () => {
     const data = await requestWithData("getorganizationalunit", {
       context: 1,
     });
-    console.log(data.data[0]);
+    //console.log(data.data[0]);
     setCampaign(data.data[0]);
     setSearchCampaign(data.data[0].Campaign[0].IdCampaign);
   };
@@ -77,7 +84,7 @@ const UserPermission = () => {
       idcampaign: searchCampaign,
     });
 
-    console.log(data.data[0].AgentsCampaign);
+    //console.log(data.data[0].AgentsCampaign);
     setDataAgent(data.data[0].AgentsCampaign);
   };
 
@@ -130,6 +137,7 @@ const UserPermission = () => {
     });
   };
 
+  //cambio de Rol de un Agente
   const handleChangeRol = () => {
     let msj;
     if (
@@ -154,6 +162,14 @@ const UserPermission = () => {
             idccmsUser: +checkUser.Ident,
             role: role,
             idCampaign: check,
+            emails: [
+              {
+                email: "",
+                name: checkUser.Agent,
+                rol: roleSpace,
+                rolManager: "Spacecraft Commander",
+              },
+            ],
           });
 
           if (changeState.status === 200) {
@@ -178,7 +194,7 @@ const UserPermission = () => {
     setCheck([]);
   };
 
-  //console.log(checkUser);
+  console.log(check);
 
   return (
     <MainPage>
@@ -210,6 +226,8 @@ const UserPermission = () => {
                 handleChangeRol={handleChangeRol}
                 setShowAccounts={setShowAccounts}
                 dataAgent={dataAgent}
+                searchCampaign={searchCampaign}
+                setRoleSpace={setRoleSpace}
               />
               {role === "Cluster Director" && showAccounts ? (
                 <Box

@@ -15,7 +15,7 @@ import {
 import { SwapSpinner } from "react-spinners-kit";
 import searchIco from "../../assets/Icons/search-ico.svg";
 import avatar from "../../assets/temp-image/avatar.png";
-import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import { ButtonAction, ButtonActionBlue } from "../../assets/styled/muistyled";
 import { requestWithData } from "../../utils/api";
 import SearchDirCampaign from "../SuperAdmin/SearchDirCampaign";
 import LoadingComponent from "../LoadingComponent";
@@ -72,6 +72,7 @@ const AddUserSuperAdmin = ({
   const [lobs, setLobs] = useState([]);
   const [teams, setTeams] = useState([]);
   const [roleExist, setRoleExist] = useState([]);
+  const [newTL, setnewTL] = useState(true);
 
   useEffect(() => {
     if (newUser.role === "Super Admin") {
@@ -89,11 +90,12 @@ const AddUserSuperAdmin = ({
       const existeRol = dataAgent.filter(
         (user) => user.RoleAgent === newUser.role
       );
+      console.log(existeRol);
       setRoleExist(existeRol);
     } else {
       setRoleExist([]);
     }
-  }, [newUser.role, newUser.idCampaign]);
+  }, [newUser.role, dataAgent]);
 
   const handleSearchUser = async () => {
     setSearch(true);
@@ -379,8 +381,86 @@ const AddUserSuperAdmin = ({
           ) : (
             ""
           )}
+          {newUser.role === "Team Leader" && newUser.idCampaign ? (
+            <Box
+              marginY={1}
+              display="flex"
+              justifyContent="space-evenly"
+              // width={1}
+            >
+              <ButtonAction
+                sx={
+                  newTL
+                    ? {
+                        background: "#fff",
+                        margin: "0px",
+                        height: "2rem",
+                        boxShadow: "1px 1px 5px #3047b0",
+                      }
+                    : { margin: "0px", height: "2rem" }
+                }
+                onClick={() => setnewTL(true)}
+              >
+                New Team
+              </ButtonAction>
+              <ButtonAction
+                sx={
+                  !newTL
+                    ? {
+                        background: "#fff",
+                        margin: "0px",
+                        height: "2rem",
+                        boxShadow: "1px 1px 5px #3047b0",
+                      }
+                    : { margin: "0px", height: "2rem" }
+                }
+                onClick={() => setnewTL(false)}
+              >
+                Change TL
+              </ButtonAction>
+            </Box>
+          ) : (
+            ""
+          )}
 
-          {newUser.role === "Agent" || newUser.role === "Team Leader" ? (
+          {!newTL && newUser.role === "Team Leader" ? (
+            <Box width={1} marginY={2}>
+              <FormControl fullWidth>
+                <InputLabel id="team-select-label">Select Team</InputLabel>
+                <Select
+                  labelId="team-select-label"
+                  id="team-simple-select"
+                  //value={newUser.idTeam || ""}
+                  label="Select Team"
+
+                  // onChange={(e) =>
+                  //   setNewUser({ ...newUser, idTeam: e.target.value })
+                  // }
+                >
+                  {teams.map((team) => (
+                    <MenuItem value={team.idTeam} key={team.idTeam}>
+                      <Box display="flex">
+                        <Avatar src={avatar} />
+                        <Box textAlign="left" marginLeft="8px" color="#3047b0">
+                          <Typography variant="body2" fontWeight={700}>
+                            {team.NameTL}
+                          </Typography>
+                          <Typography variant="caption">
+                            {team.NameTeam}
+                          </Typography>
+                        </Box>
+                      </Box>{" "}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            ""
+          )}
+
+          {newUser.role === "Agent" ||
+          (newUser.role === "Team Leader" && newTL) ? (
             <Box marginY={2}>
               <FormControl fullWidth>
                 <InputLabel id="lob-select-label">Select LOB</InputLabel>
