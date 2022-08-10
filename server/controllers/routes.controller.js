@@ -255,7 +255,8 @@ exports.uploadRepLead = async (req, res) => {
 exports.postInsertRoleCampaign = async (req, res) => {
   let i = 0;
   let campaignTable = [];
-  const { idccms, idUser, role, idCampaign, idLob, idTeam, context, emails } = req.body;
+  let loadAgentTable = [];
+  const { idccms, idUser, role, idCampaign, idLob, idTeam, nameTeam, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -263,6 +264,8 @@ exports.postInsertRoleCampaign = async (req, res) => {
       return [el, i];
     });
   }
+
+  if (role === "Agent") loadAgentTable = ["Q4", idUser, nameTeam, "Agent"];
 
   sql
     .query(
@@ -277,6 +280,7 @@ exports.postInsertRoleCampaign = async (req, res) => {
           idTeam,
           context,
           rows: role !== "Cluster Director" ? [[0, 0]] : campaignTable,
+          rows2: role !== "Agent" ? [["Q4", 0, 0, "Agent"]] : loadAgentTable,
         },
         "spInsertRoleCampaign"
       )
