@@ -73,13 +73,19 @@ const CardPermissions = ({
   dataAgent,
   searchCampaign,
   setRoleSpace,
+  teamLeader,
+  setTeamLeader,
 }) => {
   const [roleExist, setRoleExist] = useState([]);
-  const [newTL, setnewTL] = useState(true);
+  const [newTL, setnewTL] = useState(null);
   const [teams, setTeams] = useState([]);
   const [lobs, setLobs] = useState([]);
 
   const handleRole = (e, roleSpace) => {
+    setTeamLeader({});
+    setnewTL(null);
+    setTeams([]);
+    setLobs([]);
     const role = e.target.value;
     setRole(role);
     setRoleSpace(roleSpace);
@@ -108,27 +114,23 @@ const CardPermissions = ({
     setLobs(data.data[1].Lobs);
     setTeams(data.data[2].Teams);
   };
-
-  console.log(lobs);
-
   return (
     <BoxPermissions>
-      {permissions.map((role, index) => (
+      {permissions.map((rol, index) => (
         <Box key={index}>
           <input
             type="radio"
             id="role"
             name="role"
-            value={role.tag}
-            onChange={(e) => handleRole(e, role.roleSpace)}
+            checked={role === rol.tag ? true : false}
+            value={rol.tag}
+            onChange={(e) => handleRole(e, rol.roleSpace)}
             disabled={
-              !checkUser.Ident || role.tag === checkUser.RoleAgent
-                ? true
-                : false
+              !checkUser.Ident || rol.tag === checkUser.RoleAgent ? true : false
             }
           />
           <br />
-          <label htmlFor="role">{role.rol}</label>
+          <label htmlFor="role">{rol.rol}</label>
         </Box>
       ))}
 
@@ -176,7 +178,7 @@ const CardPermissions = ({
             </ButtonAction>
             <ButtonAction
               sx={
-                !newTL
+                newTL === false
                   ? {
                       background: "#fff",
                       margin: "0px",
@@ -191,6 +193,29 @@ const CardPermissions = ({
             </ButtonAction>
           </Box>
 
+          {newTL && lobs.length > 0 ? (
+            <Box width={1} marginY={2}>
+              <FormControl fullWidth>
+                <InputLabel id="lob-select-label">Select LOB</InputLabel>
+                <Select
+                  labelId="lob-select-label"
+                  id="lob-simple-select"
+                  value={teamLeader.idLob || ""}
+                  label="Select LOB"
+                  // disabled={!error && agent.length !== 0 ? false : true}
+                  onChange={(e) => setTeamLeader({ idLob: e.target.value })}
+                >
+                  {lobs.map((lob) => (
+                    <MenuItem value={lob.idLob} key={lob.idLob}>
+                      {lob.NameLob}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          ) : (
+            ""
+          )}
           {!newTL && teams.length > 0 ? (
             <Box width={1} margin={2}>
               <FormControl fullWidth>
@@ -198,12 +223,9 @@ const CardPermissions = ({
                 <Select
                   labelId="team-select-label"
                   id="team-simple-select"
-                  //value={newUser.idTeam || ""}
+                  value={teamLeader.idTeam || ""}
                   label="Select Team"
-
-                  // onChange={(e) =>
-                  //   setNewUser({ ...newUser, idTeam: e.target.value })
-                  // }
+                  onChange={(e) => setTeamLeader({ idTeam: e.target.value })}
                 >
                   {teams.map((team) => (
                     <MenuItem value={team.idTeam} key={team.idTeam}>
@@ -224,27 +246,7 @@ const CardPermissions = ({
               </FormControl>
             </Box>
           ) : (
-            <Box width={1} marginY={2}>
-              <FormControl fullWidth>
-                <InputLabel id="lob-select-label">Select LOB</InputLabel>
-                <Select
-                  labelId="lob-select-label"
-                  id="lob-simple-select"
-                  // value={newUser.idLob || ""}
-                  label="Select LOB"
-                  // disabled={!error && agent.length !== 0 ? false : true}
-                  // onChange={(e) =>
-                  //   setNewUser({ ...newUser, idLob: e.target.value })
-                  // }
-                >
-                  {lobs.map((lob) => (
-                    <MenuItem value={lob.idLob} key={lob.idLob}>
-                      {lob.NameLob}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+            ""
           )}
         </BoxTL>
       )}

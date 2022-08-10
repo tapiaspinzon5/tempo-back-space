@@ -46,6 +46,10 @@ const UserPermission = () => {
   const [roleSpace, setRoleSpace] = React.useState("");
   const [campaign, setCampaign] = useState([]);
   const [dataCampaign, setDataCampaign] = React.useState([]);
+  const [teamLeader, setTeamLeader] = useState({
+    idLob: "",
+    idTeam: "",
+  });
   const [dataAgent, setDataAgent] = React.useState([]);
   const [newUser, setNewUser] = useState([]);
   const [searchCampaign, setSearchCampaign] = useState("");
@@ -53,8 +57,6 @@ const UserPermission = () => {
   const [checkUser, setCheckUser] = React.useState([]);
   const [token, setToken] = React.useState("");
   const [check, setCheck] = useState(newUser?.idCampaign || []);
-
-  console.log(roleSpace);
 
   useEffect(() => {
     getData();
@@ -161,10 +163,12 @@ const UserPermission = () => {
           const changeState = await requestWithData("postchangeuserrole", {
             idccmsUser: +checkUser.Ident,
             role: role,
+            idLob: teamLeader.idLob,
+            idTeam: teamLeader.idTeam,
             idCampaign: check,
             emails: [
               {
-                email: "",
+                email: checkUser.email,
                 name: checkUser.Agent,
                 rol: roleSpace,
                 rolManager: "Spacecraft Commander",
@@ -186,15 +190,11 @@ const UserPermission = () => {
           }
         };
         req();
-
-        console.log("rol cambiado ");
       }
     });
 
     setCheck([]);
   };
-
-  console.log(check);
 
   return (
     <MainPage>
@@ -228,6 +228,8 @@ const UserPermission = () => {
                 dataAgent={dataAgent}
                 searchCampaign={searchCampaign}
                 setRoleSpace={setRoleSpace}
+                teamLeader={teamLeader}
+                setTeamLeader={setTeamLeader}
               />
               {role === "Cluster Director" && showAccounts ? (
                 <Box
@@ -294,6 +296,8 @@ const UserPermission = () => {
             setShowAccounts={setShowAccounts}
             setSearchCampaign={setSearchCampaign}
             getData2={getData2}
+            teamLeader={teamLeader}
+            setTeamLeader={setTeamLeader}
           />
         </ModalBox>
       </Modal>

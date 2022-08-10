@@ -63,6 +63,8 @@ const AddUserSuperAdmin = ({
   setSearchCampaign,
   getData2,
   dataAgent,
+  teamLeader,
+  setTeamLeader,
 }) => {
   const [idccms, setIdccms] = useState("");
   const [search, setSearch] = useState(false);
@@ -72,7 +74,8 @@ const AddUserSuperAdmin = ({
   const [lobs, setLobs] = useState([]);
   const [teams, setTeams] = useState([]);
   const [roleExist, setRoleExist] = useState([]);
-  const [newTL, setnewTL] = useState(true);
+  const [newTL, setnewTL] = useState(null);
+  const [contextTL, setContextTL] = useState(1);
 
   useEffect(() => {
     if (newUser.role === "Super Admin") {
@@ -130,7 +133,8 @@ const AddUserSuperAdmin = ({
         setNewUser({
           ...newUser,
           idUser: getData.data[0].ident,
-          context: 1,
+          context: contextTL,
+          idTeam: "",
           emails: [
             {
               email: getData.data[0].email,
@@ -146,6 +150,7 @@ const AddUserSuperAdmin = ({
     setSearch(false);
   };
 
+  console.log(contextTL);
   const handleAccount = async (e) => {
     setNewUser({ ...newUser, idCampaign: [e.target.value] });
     setSearchCampaign(e.target.value);
@@ -185,6 +190,7 @@ const AddUserSuperAdmin = ({
 
   const handleRolAssignment = (e, role) => {
     console.log(newUser.idUser);
+    setContextTL(1);
     if (newUser.idUser) {
       setNewUser({
         ...newUser,
@@ -211,8 +217,19 @@ const AddUserSuperAdmin = ({
     }
   };
 
+  const handleTeam = (e) => {
+    console.log(e);
+    const tn = teams.filter((team) => team.idTeam === e.target.value);
+    console.log(tn);
+    {
+      setNewUser({
+        ...newUser,
+        idTeam: e.target.value,
+        nameTeam: tn[0].NameTeam,
+      });
+    }
+  };
   console.log(newUser);
-
   return (
     <Box>
       {loading && (
@@ -399,13 +416,16 @@ const AddUserSuperAdmin = ({
                       }
                     : { margin: "0px", height: "2rem" }
                 }
-                onClick={() => setnewTL(true)}
+                onClick={() => {
+                  setnewTL(true);
+                  setContextTL(1);
+                }}
               >
                 New Team
               </ButtonAction>
               <ButtonAction
                 sx={
-                  !newTL
+                  newTL === false
                     ? {
                         background: "#fff",
                         margin: "0px",
@@ -414,7 +434,10 @@ const AddUserSuperAdmin = ({
                       }
                     : { margin: "0px", height: "2rem" }
                 }
-                onClick={() => setnewTL(false)}
+                onClick={() => {
+                  setnewTL(false);
+                  setContextTL(2);
+                }}
               >
                 Change TL
               </ButtonAction>
@@ -423,7 +446,7 @@ const AddUserSuperAdmin = ({
             ""
           )}
 
-          {!newTL && newUser.role === "Team Leader" ? (
+          {/* {newTL === false && newUser.role === "Team Leader" ? (
             <Box width={1} marginY={2}>
               <FormControl fullWidth>
                 <InputLabel id="team-select-label">Select Team</InputLabel>
@@ -457,7 +480,7 @@ const AddUserSuperAdmin = ({
             </Box>
           ) : (
             ""
-          )}
+          )} */}
 
           {newUser.role === "Agent" ||
           (newUser.role === "Team Leader" && newTL) ? (
@@ -485,7 +508,8 @@ const AddUserSuperAdmin = ({
           ) : (
             <></>
           )}
-          {newUser.role === "Agent" && (
+          {newUser.role === "Agent" ||
+          (newUser.role === "Team Leader" && newTL === false) ? (
             <FormControl fullWidth>
               <InputLabel id="team-select-label">Select Team</InputLabel>
               <Select
@@ -494,17 +518,31 @@ const AddUserSuperAdmin = ({
                 value={newUser.idTeam || ""}
                 label="Select Team"
                 disabled={!error && agent.length !== 0 ? false : true}
-                onChange={(e) =>
-                  setNewUser({ ...newUser, idTeam: e.target.value })
-                }
+                onChange={(e) => handleTeam(e)}
               >
                 {teams.map((team) => (
-                  <MenuItem value={team.idTeam} key={team.idTeam}>
-                    {team.NameTeam}
+                  <MenuItem
+                    value={team.idTeam}
+                    key={team.idTeam}
+                    name="meltrozin"
+                  >
+                    <Box display="flex">
+                      <Avatar src={avatar} />
+                      <Box textAlign="left" marginLeft="8px" color="#3047b0">
+                        <Typography variant="body2" fontWeight={700}>
+                          {team.NameTL}
+                        </Typography>
+                        <Typography variant="caption">
+                          {team.NameTeam}
+                        </Typography>
+                      </Box>
+                    </Box>{" "}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
+          ) : (
+            ""
           )}
         </Box>
 
