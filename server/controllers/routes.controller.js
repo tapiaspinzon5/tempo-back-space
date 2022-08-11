@@ -1043,8 +1043,8 @@ exports.postCreateLOB = async (req, res) => {
           lobName,
           context,
           idLob,
-          tlIdccms: (context = 1 ? createNewTL : [[0]]),
-          tableEdition: (context = 2 ? context2table : [[0, 1, 0, 0, 1]]),
+          tlIdccms: context == 1 ? createNewTL : [[0]],
+          tableEdition: context == 2 ? context2table : [[0, 1, 0, 0, 1]],
         },
         "spInsertLob"
       )
