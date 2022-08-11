@@ -48,6 +48,8 @@ const NavChartsAnalytics = ({
   date2,
   setDate2,
   agents,
+  setAgent,
+  setSelectKpi,
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
@@ -178,8 +180,18 @@ const NavChartsAnalytics = ({
       <Box>
         {motherDropDown === "KPIS" && (
           <>
-            <SearchComponent label="Agents" dataSearch={agents} />
-            <SearchComponent label="KPI" />
+            <SearchComponent
+              label="Agents"
+              dataSearch={agents}
+              context="agents"
+              setAgent={setAgent}
+            />
+            <SearchComponent
+              label="KPI"
+              dataSearch={kpiData}
+              context="kpi"
+              setSelectKpi={setSelectKpi}
+            />
           </>
         )}
         {motherDropDown === "Challenges" && (

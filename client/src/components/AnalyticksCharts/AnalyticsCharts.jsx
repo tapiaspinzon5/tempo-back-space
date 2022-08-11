@@ -14,25 +14,29 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [LOBs, setLOBs] = useState([]);
   const [teams, setTeams] = useState([]);
   const [agents, setAgents] = useState([]);
+  const [agent, setAgent] = useState([]);
   const [idcampaign, setIdcampaign] = useState("");
   const [idLob, setIdLob] = useState("");
   const [idTeam, setIdTeam] = useState("");
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
+  const [selectKpi, setSelectKpi] = useState([]);
 
   const handleCharts = () => {
     setShowCharts(false);
   };
 
   useEffect(() => {
-    getDataKPI();
+    //getDataKPI();
     getDataAccounts();
   }, []);
+
   useEffect(() => {
     getDataLOB();
   }, [idcampaign]);
   useEffect(() => {
     getDataTeams();
+    getDataKPI();
   }, [idLob]);
   useEffect(() => {
     getDataAgents();
@@ -76,22 +80,29 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   };
   //Trae la lista de KPI de una campaña
   const getDataKPI = async () => {
-    const initialData = await requestWithData("getplatformanalytics", {
-      initDate: 0,
-      endDate: 0,
-      kpi: "0",
-      context: 4,
+    // const initialData = await requestWithData("getplatformanalytics", {
+    //   initDate: 0,
+    //   endDate: 0,
+    //   kpi: "0",
+    //   context: 4,
+    // });
+    //setKpiData(initialData.data[0].Kpis);
+    const dataKPI = await requestWithData("getLobsKpis", {
+      context: 2,
+      idLob: idLob,
+      idccms: 2631283,
     });
-    setKpiData(initialData.data[0].Kpis);
+    // console.log(dataKPI);
+    setKpiData(dataKPI.data);
   };
 
   // console.log(accounts);
-  // console.log(kpiData);
+  //console.log(kpiData);
   // console.log(LOBs);
   // console.log(idcampaign);
   // console.log(idLob);
-  // console.log(teams);
-  console.log(agents);
+  console.log(selectKpi);
+  console.log(agent);
   return (
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>
@@ -116,6 +127,8 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             date2={date2}
             setDate2={setDate2}
             agents={agents}
+            setAgent={setAgent}
+            setSelectKpi={setSelectKpi}
           />
         </Box>
       </Grid>

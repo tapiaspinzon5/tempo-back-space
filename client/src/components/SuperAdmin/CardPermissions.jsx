@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   styled,
+  Collapse,
   Typography,
 } from "@mui/material";
 import { ButtonAction, ButtonActionBlue } from "../../assets/styled/muistyled";
@@ -37,12 +38,12 @@ const BoxPermissions = styled(Box)(() => ({
 
 const BoxExist = styled(Box)(() => ({
   position: "absolute",
-  top: "4.5rem",
+  top: "6rem",
   minHeight: "4rem",
   minWidth: "15rem",
   borderRadius: "10px",
   boxShadow: "1px 1px 5px #A2A2A2",
-  background: "#f2f2f2de",
+  background: "#ffffffde",
   padding: "5px",
   color: "#3047b0",
   zIndex: 1000,
@@ -50,7 +51,7 @@ const BoxExist = styled(Box)(() => ({
 
 const BoxTL = styled(Box)(() => ({
   position: "absolute",
-  background: "#f2f2f2de",
+  background: "#ffffffde",
   color: "#3047b0",
   top: "4.5rem",
   zIndex: 1000,
@@ -126,7 +127,11 @@ const CardPermissions = ({
             value={rol.tag}
             onChange={(e) => handleRole(e, rol.roleSpace)}
             disabled={
-              !checkUser.Ident || rol.tag === checkUser.RoleAgent ? true : false
+              !checkUser.Ident ||
+              rol.tag === checkUser.RoleAgent ||
+              rol.tag === "Agent"
+                ? true
+                : false
             }
           />
           <br />
@@ -144,13 +149,19 @@ const CardPermissions = ({
       </ButtonActionBlue>
       {roleExist.length > 0 && (
         <BoxExist>
-          <Typography variant="body1">Actual {role}</Typography>
-          <Box display="flex" alignItems="center" justifyContent="space-around">
-            <Avatar src={avatarIMG} />
-            <Typography variant="body2" fontWeight={700}>
-              {roleExist[0].Agent}
-            </Typography>
-          </Box>
+          <Collapse in={roleExist.length > 0} orientation="vertical">
+            <Typography variant="body1">Actual {role}</Typography>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-around"
+            >
+              <Avatar src={avatarIMG} />
+              <Typography variant="body2" fontWeight={700}>
+                {roleExist[0].Agent}
+              </Typography>
+            </Box>
+          </Collapse>
         </BoxExist>
       )}
       {role === "Team Leader" && (
@@ -203,7 +214,9 @@ const CardPermissions = ({
                   value={teamLeader.idLob || ""}
                   label="Select LOB"
                   // disabled={!error && agent.length !== 0 ? false : true}
-                  onChange={(e) => setTeamLeader({ idLob: e.target.value })}
+                  onChange={(e) =>
+                    setTeamLeader({ idLob: e.target.value, context: 1 })
+                  }
                 >
                   {lobs.map((lob) => (
                     <MenuItem value={lob.idLob} key={lob.idLob}>
@@ -225,7 +238,9 @@ const CardPermissions = ({
                   id="team-simple-select"
                   value={teamLeader.idTeam || ""}
                   label="Select Team"
-                  onChange={(e) => setTeamLeader({ idTeam: e.target.value })}
+                  onChange={(e) =>
+                    setTeamLeader({ idTeam: e.target.value, context: 2 })
+                  }
                 >
                   {teams.map((team) => (
                     <MenuItem value={team.idTeam} key={team.idTeam}>

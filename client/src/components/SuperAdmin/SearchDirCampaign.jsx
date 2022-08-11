@@ -5,7 +5,7 @@ import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
 const BoxMain = styled(Box)(() => ({
   padding: "1rem",
   borderRadius: "10px",
-  boxShadow: "1px 1px 5px #e9e9e9",
+  boxShadow: "1px 1px 5px #A2A2A2",
 }));
 const BoxSearch = styled(Box)(() => ({
   // marginBottom: "1rem",

@@ -141,6 +141,7 @@ const UserPermission = () => {
         req();
       }
     });
+    setCheck([]);
   };
 
   //cambio de Rol de un Agente
@@ -167,7 +168,7 @@ const UserPermission = () => {
           const changeState = await requestWithData("postchangeuserrole", {
             idccmsUser: +checkUser.Ident,
             role: role,
-            context: 1,
+            context: teamLeader.context,
             idLob: teamLeader.idLob,
             idTeam: teamLeader.idTeam,
             idCampaign: check,
@@ -199,9 +200,12 @@ const UserPermission = () => {
     });
 
     setCheck([]);
+    setTeamLeader({});
+    setRole("");
+    setCheckUser([]);
   };
 
-  console.log(newUser);
+  console.log(teamLeader);
 
   return (
     <MainPage>
