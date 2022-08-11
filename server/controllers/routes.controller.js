@@ -1002,10 +1002,53 @@ exports.postCreateCampaign = async (req, res) => {
 };
 
 exports.postCreateLOB = async (req, res) => {
-  const { idccms, lobName, tlIdccms, context, idlob, emails } = req.body;
+  // const { idccms, lobName, tlIdccms, context, idlob, emails } = req.body;
+
+  let i = 0;
+  let context2table = [];
+
+  const { idccms, lobName, context, idLob, createNewTL, changeTL, reassingTeam, inactivateTeam } = req.body;
+
+  if (createNewTL.length > 0) {
+    createNewTL.forEach((idccms) => {
+      context2table.push([idccms, 1, null, null, i]);
+      i = i + 1;
+    });
+  }
+  if (changeTL.length > 0) {
+    changeTL.forEach((el) => {
+      context2table.push([el[1], 2, el[0], null, i]);
+      i = i + 1;
+    });
+  }
+  if (reassingTeam.length > 0) {
+    reassingTeam.forEach((el) => {
+      context2table.push([el[1], 3, null, el[0], i]);
+      i = i + 1;
+    });
+  }
+  if (inactivateTeam.length > 0) {
+    inactivateTeam.forEach((id) => {
+      context2table.push([id, 4, null, null, i]);
+      i = i + 1;
+    });
+  }
 
   sql
-    .query("spInsertLob", parametros({ idccms, lobName, tlIdccms, context, idlob }, "spInsertLob"))
+    .query(
+      "spInsertLob",
+      parametros(
+        {
+          idccms,
+          lobName,
+          context,
+          idLob,
+          tlIdccms: (context = 1 ? createNewTL : [[0]]),
+          tableEdition: (context = 2 ? context2table : [[0, 1, 0, 0, 1]]),
+        },
+        "spInsertLob"
+      )
+    )
     .then(async (result) => {
       await sendEmail(
         emails,
@@ -1479,7 +1522,7 @@ exports.postChangeUserRole = async (req, res) => {
   let i = 0;
   let campaignTable = [];
   let loadAgentTable = [];
-  const { idccms, idUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
+  const { idccms, idccmsUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -1496,7 +1539,7 @@ exports.postChangeUserRole = async (req, res) => {
       parametros(
         {
           idccms,
-          idUser,
+          idccmsUser,
           role,
           idTeam,
           context,
