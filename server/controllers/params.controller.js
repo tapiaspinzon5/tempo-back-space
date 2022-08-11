@@ -714,7 +714,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("Context", req.context, TYPES.Int),
         new SpParam("idlob", req.idlob, TYPES.Int),
         SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
-        SpParamTable2("tableLobEdition", insertLobTable, req.tableEdition),
+        SpParamTable2("tableEdition", insertLobTable, req.tableEdition),
       ]);
 
     case "spQueryManagementOP":
