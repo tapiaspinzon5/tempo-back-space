@@ -24,12 +24,17 @@ export const filterTeamLeaderList = (data) => {
 	data.forEach((tl) => {
 		list.push({
 			idccms: tl.identTL,
+			idLob: tl.idLob,
 			name: tl.NameTL,
 			checked: true,
 			idTeam: tl.idTeam,
 			action: "",
 			replacement: [],
 			redistribute: [],
+			msgDel:
+				"Are you sure? By Deleting the team you will be deactivating the agents on the platform.",
+			error: false,
+			msgError: "",
 		});
 	});
 	return list;
@@ -216,7 +221,7 @@ const lobsWithDate = (data) => {
 	return lwd;
 };
 
-export const editLobsToSend = (dataLobs, dbkpidata) => {
+export const editLobsToSend = (dataLobs, dbkpidata, tlListDel) => {
 	let context = 2;
 	let idLob = dataLobs[0].IdLob;
 	let idcampaign = dataLobs[0].IdCampaign;
@@ -329,4 +334,19 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 	} else {
 		return ["Some field is empty"];
 	}
+};
+
+export const redistributeValidate = (dataTL) => {
+	const filterTL = dataTL.filter((tl) => tl.action === "Redistribute");
+	const filterNewTL = filterTL.filter((tl) =>
+		tl.redistribute.filter((ag) => ag.newTeam === "").length > 0 ? true : false
+	);
+	return filterNewTL;
+};
+
+export const shortName = (word) => {
+	let p = word.indexOf(" ");
+	const newName = word.substring(0, p + 2);
+
+	return newName;
 };

@@ -29,7 +29,13 @@ const BoxSelect = styled(Box)(() => ({
 	color: "red",
 }));
 
-const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
+const LeaderRankBoard = ({
+	kpis,
+	setFilters,
+	leaderBoard,
+	leaderBoardRL,
+	setModal,
+}) => {
 	const userData = useSelector((store) => store.loginUser.userData);
 	const userRol = userData.Role;
 	const [date1, setDate1] = useState(null);
@@ -263,7 +269,7 @@ const LeaderRankBoard = ({ kpis, setFilters, leaderBoard, setModal }) => {
 						</LocalizationProvider>
 					</Box>
 				)}
-				{!leaderBoard && (
+				{!leaderBoard && !leaderBoardRL && (
 					<Grid
 						item
 						mt={4}

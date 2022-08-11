@@ -114,7 +114,7 @@ export const NavList = ({ open, match, userData, chargeKpi, count2 }) => {
 								<LItem
 									button
 									onClick={() => navigate("/leaderboard")}
-									disabled={linkActive}
+									//disabled={linkActive}
 								>
 									<LIcon>
 										<IoTrendingUpSharp size={25} color="#fff" />
@@ -154,7 +154,7 @@ export const NavList = ({ open, match, userData, chargeKpi, count2 }) => {
 								<LItem
 									button
 									onClick={() => navigate("/leaderboard")}
-									disabled={linkActive}
+									//disabled={linkActive}
 								>
 									<LIcon>
 										<IoTrendingUpSharp size={25} color="#fff" />
@@ -208,7 +208,7 @@ export const NavList = ({ open, match, userData, chargeKpi, count2 }) => {
 								<LItem
 									button
 									onClick={() => navigate("/leaderboard")}
-									//disabled={linkActive}
+									disabled={linkActive}
 								>
 									<LIcon>
 										<IoTrendingUpSharp size={25} color="#fff" />

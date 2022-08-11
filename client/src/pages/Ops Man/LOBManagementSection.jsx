@@ -113,10 +113,10 @@ const LOBManagementSection = () => {
 		}
 	};
 	const handleClose = (event, reason) => {
-		if (reason && reason !== "backdropClick") {
-			setOpen(false);
-			setDataLOB([]);
-		}
+		//if (reason && reason !== "backdropClick") {
+		setOpen(false);
+		setDataLOB([]);
+		//}
 	};
 	const handleLob = async (datalob) => {
 		setLoadingTl(true);

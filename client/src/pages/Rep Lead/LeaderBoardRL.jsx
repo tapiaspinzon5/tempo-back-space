@@ -48,12 +48,24 @@ const LeaderBoardRL = () => {
 				initialData.status === 200 &&
 				initialData.data.length > 0
 			) {
-				/* const dataOrder = await deleteDuplicatesScore(
-					initialData.data[0].ScoreExp
-				); */
-				//console.log(initialData.data[0].Kpis);
+				const initialData2 = await requestWithData("getplatformanalytics", {
+					initDate: filters.start,
+					endDate: filters.end,
+					kpi: filters.kpi,
+					context: 2,
+				});
+				if (
+					initialData2 &&
+					initialData2.status === 200 &&
+					initialData2.data.length > 0
+				) {
+					const dataOrder = await deleteDuplicatesScore(
+						initialData2.data[0].Analitycs
+					);
+					setPodium(dataOrder.podium);
+					setLoading(false);
+				}
 				setKpis(initialData.data[0].Kpis);
-				//setData(dataOrder);
 				setLoading(false);
 			} else if (initialData.data === "UnauthorizedError") {
 				dispatch(logoutAction());
@@ -73,7 +85,6 @@ const LeaderBoardRL = () => {
 					kpi: filters.kpi,
 					context: 2,
 				});
-				console.log(initialData.data);
 				if (
 					initialData &&
 					initialData.status === 200 &&
@@ -82,7 +93,8 @@ const LeaderBoardRL = () => {
 					const dataOrder = await deleteDuplicatesScore(
 						initialData.data[0].Analitycs
 					);
-					setData(dataOrder);
+					setData(dataOrder.dataOrder);
+					setPodium(dataOrder.podium);
 					setLoading(false);
 				}
 			};
@@ -126,6 +138,7 @@ const LeaderBoardRL = () => {
 							kpis={kpis}
 							setFilters={setFilters}
 							leaderBoard={false}
+							leaderBoardRL={true}
 						/>
 					</Box>
 				</Grid>

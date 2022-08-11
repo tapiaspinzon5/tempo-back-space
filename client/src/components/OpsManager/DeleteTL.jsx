@@ -25,7 +25,8 @@ import {
 } from "../../assets/styled/muistyled";
 import KpiSetup from "../SuperAdmin/KpiSetup";
 import { getInfoAgent, requestWithData } from "../../utils/api";
-import { getTLDuplicates } from "../../helpers/helperLOBCreation";
+import { getTLDuplicates, shortName } from "../../helpers/helperLOBCreation";
+import { useEffect } from "react";
 
 const BoxHead = styled(Box)(() => ({
 	display: "flex",
@@ -100,6 +101,40 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 	const [tempCcms, setTempCcms] = useState("");
 	const [msgErrorList, setMsgErrorList] = useState("");
 	const [msgErrorccms, setMsgErrorccms] = useState("");
+	const [tepmUsersChanges, settepmUsersChanges] = useState([]);
+
+	useEffect(
+		() => {
+			const getTeams = async () => {
+				const teams = await requestWithData("getmissionsassignmentinfo", {
+					context: 2,
+					caso: 2,
+				});
+				//verificar que los equipos no esten en la lista de eliminacion y en la misma lob
+				if (teams.data && teams.data.length > 0) {
+					//diferencia
+					const activeTeams = teams.data[0].Teams.filter(
+						(item1) =>
+							!tlListDel.some(
+								(item2) =>
+									item1.idTeam === item2.idTeam || item1.idLob !== item2.idLob
+							)
+					);
+					if (activeTeams.length > 0) {
+						setTempTeams(activeTeams);
+					} else {
+						//disabled radiobutton Redistribute no se puede presentar el caso
+						//sin embargo se deja la posibilidad por si se solicita mas adelante
+					}
+				} else {
+					//modal de error en base de datos
+				}
+			};
+			getTeams();
+		},
+		// eslint-disable-next-line
+		[]
+	);
 
 	const getAgents = async (user) => {
 		const agents = await requestWithData("getmissionsinformation", {
@@ -107,36 +142,39 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 			idTeam: user.idTeam,
 			context: 2,
 		});
-		if (agents.data && agents.data.length > 0) {
-			const ag = agents.data[0].TeamsMembers.map((agt) => {
-				return { ...agt, newTeam: "", idNewTeam: 0, idTL: user.idccms };
-			});
-			const agts = tlListDel.map((tl) =>
-				tl.idccms === user.idccms
-					? { ...tl, redistribute: ag, action: "Redistribute" }
-					: tl
-			);
-			setTlListDel(agts);
-			setTempAgents(ag);
-			const teams = await requestWithData("getmissionsassignmentinfo", {
-				context: 2,
-				caso: 2,
-			});
-			//verificar que los equipos no esten en la lista de eliminacion
-			if (teams.data && teams.data.length > 0) {
-				//diferencia
-				const activeTeams = teams.data[0].Teams.filter(
-					(item1) => !tlListDel.some((item2) => item1.idTeam === item2.idTeam)
+		if (agents.data && agents.data.length > 0 && agents.status === 200) {
+			if (agents.data[0].TeamsMembers[0].Agent !== "0") {
+				const ag = agents.data[0].TeamsMembers.map((agt) => {
+					return { ...agt, newTeam: "", idNewTeam: 0, idTL: user.idccms };
+				});
+				const agts = tlListDel.map((tl) =>
+					tl.idccms === user.idccms
+						? {
+								...tl,
+								redistribute: ag,
+								action: "Redistribute",
+								error: false,
+								msgError: "",
+						  }
+						: tl
 				);
-				if (activeTeams.length > 0) {
-					setTempTeams(activeTeams);
-					setReorderAgents(true);
-				} else {
-					//TOAST no hay equipos disponibles para redistribuir los agentes, estas
-					//eliminando todos los equipos edita uno primero o algo asi
-				}
+				setTlListDel(agts);
+				setTempAgents(ag);
+				setReorderAgents(true);
 			} else {
-				//modal de error en base de datos
+				//no tiene equipo cargado
+				const agts = tlListDel.map((tl) =>
+					tl.idccms === user.idccms
+						? {
+								...tl,
+								action: "Redistribute",
+								error: true,
+								msgError:
+									"The selected Team Leader has no agents loaded in his team.",
+						  }
+						: tl
+				);
+				setTlListDel(agts);
 			}
 		} else {
 			//modal de error en base de datos
@@ -167,8 +205,20 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 		}
 	};
 
-	//crear helper que settee en estado inicial cada tl segun el caso
 	const handleChange = (e, user) => {
+		const chanAct = tlListDel.map((tl) =>
+			tl.idccms === user.idccms
+				? {
+						...tl,
+						action: e.target.value,
+						redistribute: [],
+						replacement: [],
+						error: false,
+						msgError: "",
+				  }
+				: tl
+		);
+		setTlListDel(chanAct);
 		if (e.target.value === "Change") {
 			setChange(true);
 			setReorderAgents(false);
@@ -185,12 +235,6 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 			setChange(false);
 			setReorderAgents(false);
 			setDeleteTeam(user.idccms);
-			const deltl = tlListDel.map((tl) =>
-				tl.idccms === user.idccms
-					? { ...tl, action: "Delete", redistribute: [], replacement: [] }
-					: tl
-			);
-			setTlListDel(deltl);
 		}
 	};
 
@@ -216,30 +260,90 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 						setErrorccms(true);
 						setMsgErrorccms("The user is in the list or in other Team");
 					} else {
-						setErrorList(false);
-						setMsgErrorList("");
-						setTempNewUserChange({
-							name: info.data[0].FullName,
-							idccms: info.data[0].ident,
-							checked: false,
-							Email: info.data[0].email,
-						});
-						//hacer la busqueda del usuario en tldellist, actualizar replacement y setear la variable
-						const atdl = tlListDel.map((tl) =>
-							tl.idccms === tempUserChange.idccms
-								? {
-										...tempUserChange,
-										replacement: {
-											name: info.data[0].FullName,
-											idccms: info.data[0].ident,
-											checked: false,
-											Email: info.data[0].email,
-										},
-								  }
-								: tl
-						);
-						setTlListDel(atdl);
-						setTempCcms("");
+						//settepmUsersChanges
+						if (tepmUsersChanges.length === 0) {
+							setErrorList(false);
+							setMsgErrorList("");
+							setTempNewUserChange({
+								name: info.data[0].FullName,
+								idccms: info.data[0].ident,
+								checked: false,
+								Email: info.data[0].email,
+							});
+							settepmUsersChanges([
+								...tepmUsersChanges,
+								{
+									name: info.data[0].FullName,
+									idccms: info.data[0].ident,
+									checked: false,
+									Email: info.data[0].email,
+								},
+							]);
+							//hacer la busqueda del usuario en tldellist, actualizar replacement y setear la variable
+							const atdl = tlListDel.map((tl) =>
+								tl.idccms === tempUserChange.idccms
+									? {
+											...tempUserChange,
+											replacement: {
+												name: info.data[0].FullName,
+												idccms: info.data[0].ident,
+												checked: false,
+												Email: info.data[0].email,
+												error: false,
+												msgError: "",
+											},
+									  }
+									: tl
+							);
+							setTlListDel(atdl);
+							setTempCcms("");
+						} else {
+							const validate = tepmUsersChanges.filter(
+								(u) => u.idccms === info.data[0].ident
+							);
+							if (validate.length === 0) {
+								setErrorList(false);
+								setMsgErrorList("");
+								setTempNewUserChange({
+									name: info.data[0].FullName,
+									idccms: info.data[0].ident,
+									checked: false,
+									Email: info.data[0].email,
+								});
+								settepmUsersChanges([
+									...tepmUsersChanges,
+									{
+										name: info.data[0].FullName,
+										idccms: info.data[0].ident,
+										checked: false,
+										Email: info.data[0].email,
+									},
+								]);
+								//hacer la busqueda del usuario en tldellist, actualizar replacement y setear la variable
+								const atdl = tlListDel.map((tl) =>
+									tl.idccms === tempUserChange.idccms
+										? {
+												...tempUserChange,
+												replacement: {
+													name: info.data[0].FullName,
+													idccms: info.data[0].ident,
+													checked: false,
+													Email: info.data[0].email,
+													error: false,
+													msgError: "",
+												},
+										  }
+										: tl
+								);
+								setTlListDel(atdl);
+								setTempCcms("");
+							} else {
+								setErrorccms(true);
+								setMsgErrorccms(
+									"The user is already in exchange for another team leader."
+								);
+							}
+						}
 					}
 				}
 			} else {
@@ -254,20 +358,26 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 
 	const handleChangeTeam = (e, agent) => {
 		//const { idTeam, Team } = e.target.value;
-		const Team = e.target.value.split("-")[0];
-		const idTeam = e.target.value.split("-")[1];
+		const idTeam = parseInt(e.target.value.split("-")[1], 10);
 		const asgtm = tlListDel.map((tl) => {
 			if (tl.idccms === agent.idTL) {
 				const n = tl.redistribute.map((ag) =>
 					ag.Ident === agent.Ident
-						? { ...ag, newTeam: Team, idNewTeam: idTeam }
+						? {
+								...ag,
+								newTeam: e.target.value,
+								idNewTeam: idTeam,
+						  }
 						: ag
 				);
+				setTempAgents(n);
 				return {
 					...tl,
 					redistribute: n,
 					action: "Redistribute",
 					replacement: [],
+					error: false,
+					msgError: "",
 				};
 			} else {
 				return tl;
@@ -280,7 +390,7 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 		<div>
 			<>
 				<Typography variant="body1" gutterBottom color="#3047B0">
-					Team Leader Delete List
+					Team Leader Remove List
 				</Typography>
 				<BoxTL
 					sx={{
@@ -305,7 +415,7 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 						</Box>
 						<Box width="15%" color="#3047B0" marginRight={"0.5rem"}>
 							<Typography variant="body1" fontWeight={700}>
-								Delete Team
+								Remove Team
 							</Typography>
 						</Box>
 						<Box width="15%" color="#3047B0">
@@ -326,6 +436,8 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 										border:
 											item.action === "Delete"
 												? "1px solid #FFAB32"
+												: item.error
+												? "1px solid red"
 												: "1px solid #3047B0",
 									}}
 								>
@@ -347,23 +459,28 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 														row
 														aria-labelledby="demo-radio-buttons-group-label"
 														name="radio-buttons-group"
+														value={item.action}
 													>
 														<FormControlLabel
 															value="Change"
 															control={<Radio />}
-															label="Change"
+															label={
+																<Typography marginRight={"4rem"}></Typography>
+															}
 														/>
-
 														<FormControlLabel
 															value="Delete"
 															control={<Radio />}
-															label="Del."
+															label={
+																<Typography marginRight={"3rem"}></Typography>
+															}
 														/>
-
 														<FormControlLabel
 															value="Redistribute"
 															control={<Radio />}
-															label="Redist."
+															label={
+																<Typography marginLeft={"-2rem"}></Typography>
+															}
 														/>
 													</RadioGroup>
 												</FormControl>
@@ -371,11 +488,14 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 										</Box>
 									</CardTL>
 								</TableCont>
-								{item.action === "Delete" && (
+								{item.action === "Delete" && !item.error && (
 									<FormHelperText sx={{ color: "#FFD61D" }}>
-										{
-											"Are you sure? By Deleting the team you will be deactivating the agents on the platform."
-										}
+										{item.msgDel}
+									</FormHelperText>
+								)}
+								{item.error && (
+									<FormHelperText sx={{ color: "red" }}>
+										{item.msgError}
 									</FormHelperText>
 								)}
 							</>
@@ -501,6 +621,7 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 											textAlign="center"
 											key={index}
 											flexDirection="column"
+											//sx={{ background: "blue" }}
 										>
 											<Box display="flex" alignItems="center">
 												<Box width="20%">
@@ -517,7 +638,6 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 														<Select
 															labelid="newTeam-select-label"
 															id="newTeam-select"
-															defaultValue={""}
 															value={item.newTeam} //este debe ir en cada agente
 															label="New Team"
 															onChange={(e) => handleChangeTeam(e, item)}
@@ -525,10 +645,10 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 															{tempTeams.map((team, index) => (
 																<MenuItem
 																	key={index + team.idTeam}
-																	//value={team}
-																	value={`${team.Team} + "-" + ${team.idTeam}`}
+																	//value={team.NameTeamLeader}
+																	value={`${team.NameTeamLeader}-${team.idTeam}`}
 																>
-																	{team.Team}
+																	{team.NameTeamLeader}
 																</MenuItem>
 															))}
 															{/* <MenuItem value="Keep over">Keep over</MenuItem> */}

@@ -30,6 +30,7 @@ import {
 	createTeamOperationManager,
 	getInfoAgent,
 	getQARLCount,
+	requestWithData,
 } from "../../utils/api";
 import LoadingComponent from "../../components/LoadingComponent";
 import Swal from "sweetalert2";
@@ -150,38 +151,40 @@ const AutogestionModule = () => {
 		}
 	};
 
-	const submit = async (context, info, cas, rol) => {
-		const cqa = await createTeamOperationManager(
-			context,
-			info.Ident,
-			[
+	const submit = async (info, rol) => {
+		const com = await requestWithData("postchangeuserrole", {
+			idccmsUser: info.Ident,
+			role: rol,
+			context: 1,
+			idLob: 0,
+			idTeam: 0,
+			idCampaign: [0],
+			emails: [
 				{
 					email: info.Email,
 					name: info.Name,
-					rol: rol,
+					rol: "Operations Commander",
 					manager: userData.Nombre,
 					rolManager: "Operations Commander",
 				},
 			],
-			cas
-		);
-		if (cqa && cqa.status === 200) {
+		});
+		console.log(com);
+		if (com && com.status === 200) {
 			MySwal.fire({
-				title: <p>{cas === 2 ? "Saved!" : "Assigned!"}</p>,
+				title: <p>{"Assigned!"}</p>,
 				icon: "success",
 				confirmButtonText: "Accept",
 				allowOutsideClick: false,
 			}).then((resultado) => {
 				if (resultado.value) {
-					//					window.location.reload();
-					getData();
-					setNewOM({});
+					dispatch(logoutAction());
 					setLoadingfull(false);
 				}
 			});
 		} else {
 			MySwal.fire({
-				title: <p>Send Error!</p>,
+				title: <p>Internal Error Server!</p>,
 				icon: "error",
 				confirmButtonText: "Accept",
 				allowOutsideClick: false,
@@ -197,12 +200,12 @@ const AutogestionModule = () => {
 	};
 
 	const handleSubmitOM = async (acQA, nQA) => {
-		/* if (!changeOM) {
-			//editar Qa */
+		//editar OM */
 		MySwal.fire({
 			title: (
 				/// se cambia este modal por seguro quiere dejar de ser el om de la campaña
-				<p>{`Are you sure you want to swap ${acQA.Name} for ${nQA.Name} as QA Lead?`}</p>
+				//<p>{"Are you sure?"}</p>
+				<p>{`If you click on continue, you will release your role of Operation Manager to ${nQA.Name} and you will lose your access to the platform`}</p>
 			),
 			icon: "info",
 			showDenyButton: true,
@@ -211,28 +214,11 @@ const AutogestionModule = () => {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				setLoadingfull(true);
-				submit(1, nQA, 2, "Mission Specialist");
+				submit(nQA, "Operation Manager");
 			} else if (result.isDenied) {
 				Swal.fire("Changes are not saved", "", "info");
 			}
 		});
-		/* } else {
-			//Crear o asignar QA
-			MySwal.fire({
-				title: <p>{`Are you sure to assign ${acQA.Name} as QA lead?`}</p>,
-				icon: "info",
-				showDenyButton: true,
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((result) => {
-				if (result.isConfirmed) {
-					setLoadingfull(true);
-					submit(1, acQA, 1, "Mission Specialist");
-				} else if (result.isDenied) {
-					Swal.fire("Assignment not saved", "", "info");
-				}
-			});
-		} */
 	};
 
 	return (

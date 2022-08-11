@@ -1,12 +1,12 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-let d =
-	"U2FsdGVkX19qxHEgT03Cxe4IN8woGdYW6ReU+KbE+F3r5glxtOATCtEDLE3yi/iFdXk0EaWa4p4iTzTtvpNTOfUPYbu0kAiaHw9CMN2+s0pcb0UKzyqJ+640ns+p2GZ/Zu+6u4AaVOB/jop5QVfylNJcsgEuXx+9blWUofXwTAQL6n3KUmhpm1w25wLFXWilmW0Mc1qEv41gYhfOay2BofyVk5SaXuahDHnrrIhjSuFItzlIm8biGjR+MCZ5rRySdVjyo9PatD+ldJhJXDinJlPvp0t/Za0U7CnmC9sz8F8ir8pk1ENGhauiQJFiK+LxTZwsbXNyl4REs6hfjJ+sVAZopPWPnq6k3wz311zpMH4Fi4ZXBc8yhw6FpGv0lPhD";
+/* let d =
+	"U2FsdGVkX1/6dpcGdv9ce3mx/MZt4TfjcQSwVr3VDsJcPqCeGas+6bN6QdPmaPrxoTY9dtlqB/IGhRmefOClYsdKW8WX62sddglWnjV/EFkrxxdGf74mE/cGvO+OHHL7lD4LDoQXzUYOmAAVTbcBby1rOSFRR8/zzjZgdvPc+PJ9dfRcVZRxbpeCamb5GicU9BWPpPkf+3WUPVQ+k/dYYBQUoL+e1DnKBsvfI9Zyhfut9bIrO9yydtql+81fCof20Xt1nS2WBDZycTYphCkl7f8yTBzY7ErYB42+iHSbk/f844/myM/9or7ztjrpLH8bFD0ss5h2ZIfhgQTuyZVDQD28t02PNiNvjW1pO1f8bETcC8bDYE4uBNhIBzVQKkzgxnoKv3tO3cWgGR2Itum12JqpyCCZTCJkfVfBuivZ4yxyiWWI8SdkpkGshHga9ubM";
 
 let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
 let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));
-console.log(decryptedData);
+console.log(decryptedData); */
 
 const axiosInstance = axios.create({
 	//Localhost
