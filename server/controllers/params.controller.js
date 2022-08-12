@@ -443,11 +443,11 @@ let insertLobTable = [
   },
   {
     name: "newTL",
-    type: TYPES.DateTime,
+    type: TYPES.Int,
   },
   {
     name: "newIdTeam",
-    type: TYPES.DateTime,
+    type: TYPES.Int,
   },
   {
     name: "idRegistry",
@@ -708,6 +708,7 @@ exports.parametros = (req, tipo) => {
       ]);
 
     case "spInsertLob":
+      console.log(req);
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("NameLob", req.lobName, TYPES.VarChar),
