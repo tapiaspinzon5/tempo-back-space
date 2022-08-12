@@ -68,6 +68,7 @@ const LOBManagementSection = () => {
 	const [loadingLob, setLoadingLob] = useState(false);
 	const [loadingTl, setLoadingTl] = useState(false);
 	const [error, setError] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 
 	const getData = async () => {
 		setLoadingLob(true);
@@ -113,10 +114,15 @@ const LOBManagementSection = () => {
 	};
 	const handleClose = (event, reason) => {
 		//disabled no se pueda cerra facilmente el modal
-		//if (reason && reason !== "backdropClick") {
-		setOpen(false);
-		setDataLOB([]);
-		//}
+		if (disabled) {
+			if (reason && reason !== "backdropClick") {
+				setOpen(false);
+				setDataLOB([]);
+			}
+		} else {
+			setOpen(false);
+			setDataLOB([]);
+		}
 	};
 	const handleLob = async (datalob) => {
 		setLoadingTl(true);
@@ -207,7 +213,7 @@ const LOBManagementSection = () => {
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
-				//disableEscapeKeyDown
+				disableEscapeKeyDown
 			>
 				<ModalBox
 					sx={{
@@ -224,6 +230,8 @@ const LOBManagementSection = () => {
 						userData={userData.Nombre}
 						getData={getData}
 						setNoData={setNoData}
+						disabled={disabled}
+						setDisabled={setDisabled}
 					/>
 				</ModalBox>
 			</Modal>

@@ -1,7 +1,8 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-/* let d = "U2FsdGVkX199hM8paFQVdTY2a+0XrjjeP0w2LkWq1cjdcWmH6Leg0Pq2pUlfz4tJ";
+/* let d =
+	"U2FsdGVkX19os3ts0dV+ORzp0PLa6UTC3/YUGbY8pF/n9vWGvInRZxbiZiiftNTFOeLNv1WXwqSI0Ed6VQSOI/05rb3Y3fGznlcybu+ZtPBLS3QUHh1jybCZxsbYYKJnI4b1vNJ8mSW0c9ykN9k+r3wG3Uny882YL3ePAkPCZpnwc+9Om3MEDj1Nt+bdgO3D";
 
 let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
 let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));

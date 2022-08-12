@@ -72,7 +72,7 @@ export const nextHelper = (dte, kpiList, OMList) => {
 	return { oml: checkDataOM, kpitw: checkDataKpi, kpi: kpiEdit };
 };
 
-export const dataLobsToSend = (dataLobs) => {
+export const dataLobsToSend = (dataLobs, nameLOB) => {
 	let context = 2;
 	let idLob = dataLobs[0].idLob;
 	const data = dataLobs.filter((lob) => lob.checked);
@@ -80,7 +80,7 @@ export const dataLobsToSend = (dataLobs) => {
 		const dts = data.map((lob) =>
 			lob.CriticalPoint && lob.Q1 && lob.Q2 && lob.Q3 && lob.Q4 && lob.OrderKpi
 				? [
-						lob.nameCampaign,
+						nameLOB,
 						lob.Kpi,
 						lob.Q1,
 						lob.Q2,
@@ -221,7 +221,7 @@ const lobsWithDate = (data) => {
 
 export const editLobsToSend = (dataLobs, dbkpidata) => {
 	let context = 2;
-	let idLob = dataLobs[0].IdLob;
+	//let idLob = dataLobs[0].IdLob;
 	let idcampaign = dataLobs[0].IdCampaign;
 	const data = dataLobs.filter((lob) => lob.checked);
 	const wd = dbkpidata.filter((lob) => lob.checked);
@@ -302,6 +302,7 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 		} else if (verificationTarget.length > 0) {
 			return verificationTarget;
 		} else {
+			console.log(dts);
 			if (wd.length === dts.length) {
 				const verEdit = dts.concat(
 					ex.filter((bo) =>
@@ -320,13 +321,14 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 						)
 					)
 				);
-
 				//return { context, idLob, data: dts, idcampaign };
 				if (verEdit.length === dts.length) {
 					return ["You did not edit any field"];
 				} else {
-					return { context, idLob, data: dts, idcampaign };
+					return { context, data: dts, idcampaign };
 				}
+			} else {
+				return { context, data: dts, idcampaign };
 			}
 		}
 	} else {
@@ -351,7 +353,7 @@ export const shortName = (word) => {
 
 export const dataToSendTLEdit = (newTLs, tlListDel, nameLob, idLob) => {
 	//preguntar si solo se agregan los nuevos tl o todos los checkeados nuevamente
-
+	const dtstlr = [];
 	//filtrar los tl  change, delete y redistribute
 	const tlc = tlListDel.filter((tl) => tl.action === "Change");
 	const tld = tlListDel.filter((tl) => tl.action === "Delete");
@@ -360,8 +362,8 @@ export const dataToSendTLEdit = (newTLs, tlListDel, nameLob, idLob) => {
 	const dtstlc = tlc.map((tl) => [tl.idTeam, tl.replacement.idccms]);
 	//preguntar si solo arreglo o arreglo de arreglos
 	const dtstld = tld.map((tl) => tl.idccms);
-	const dtstlr = tlr.map((tl) =>
-		tl.redistribute.map((ag) => [ag.idNewTeam, ag.Ident])
+	tlr.forEach((tl) =>
+		dtstlr.push(tl.redistribute.map((ag) => [ag.idNewTeam, ag.Ident]))
 	);
 	const dtsnt = newTLs.map((tl) => tl.idccms);
 	return {
@@ -370,7 +372,7 @@ export const dataToSendTLEdit = (newTLs, tlListDel, nameLob, idLob) => {
 		idLob: idLob,
 		createNewTL: dtsnt,
 		changeTL: dtstlc,
-		reassingTeam: dtstlr,
+		reassingTeam: dtstlr.length > 0 ? dtstlr[0] : [],
 		inactivateTeam: dtstld,
 	};
 };

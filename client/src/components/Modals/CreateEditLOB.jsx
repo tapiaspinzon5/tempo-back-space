@@ -78,6 +78,8 @@ const CreateEditLOB = ({
 	setLob,
 	setAllData,
 	setNoData,
+	disabled,
+	setDisabled,
 }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
@@ -95,7 +97,7 @@ const CreateEditLOB = ({
 	const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
 	const [next, setNext] = useState(false);
 	const [del, setDel] = useState(false);
-	const [disabled, setDisabled] = useState(false);
+	//const [disabled, setDisabled] = useState(false);
 	const [kpiWork, setKpiWork] = useState([]);
 	const [dbKpiWork, setDbKpiWork] = useState([]);
 	const [tlListDel, setTlListDel] = useState([]);
@@ -224,7 +226,7 @@ const CreateEditLOB = ({
 
 	const handleCreate = async () => {
 		setDisabled(true);
-		const dts = dataLobsToSend(kpiWork);
+		const dts = dataLobsToSend(kpiWork, nameLOB);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
 			setDisabled(false);
@@ -256,15 +258,11 @@ const CreateEditLOB = ({
 					inactivateTeam: [],
 					emails: dataToSend.emails,
 				});
-				/* const data = await createLobOperationManager(
-					1,
-					dataToSend.lobName,
-					0,
-					dataToSend.tlIdccms,
-					dataToSend.emails
-				); */
 				if (data && data.status === 200) {
-					const sendDataLob = await requestWithData("postsetlobskpis", dts);
+					const sendDataLob = await requestWithData("postsetlobskpis", {
+						...dts,
+						idLob: data.data[0].idLob,
+					});
 					if (sendDataLob.status === 200) {
 						const TLList = await filterLobList(sendDataLob.data);
 						setLob(TLList);
@@ -364,7 +362,7 @@ const CreateEditLOB = ({
 	};
 
 	const handleEdit = async () => {
-		//setDisabled(true);
+		setDisabled(true);
 		const tlsLob = allData.filter((tl) => tl.idLob === dataTL[0].idLob);
 		const valtledit = dataTL.filter(
 			(item1) => !tlsLob.some((item2) => item1.idccms === item2.identTL)
@@ -403,35 +401,45 @@ const CreateEditLOB = ({
 					nameLOB,
 					dataTL[0].idLob
 				);
-				//console.log("Targets KPIs  ", dts);
-				//console.log(tls);
-				const editDataLob = await requestWithData(
-					"postupdatecampaigninfo",
-					tls
-				);
+
+				const editDataLob = await requestWithData("postcreatelob", tls);
 				if (editDataLob.status === 200) {
-					const sendDataLob = await requestWithData("postsetlobskpis", dts);
-					if (sendDataLob.status === 200) {
-						const TLList = await filterLobList(sendDataLob.data);
-						setAllData(sendDataLob.data);
-						setLob(TLList);
+					if (dts[0] === "You did not edit any field") {
+						//se debe actualizar
+						getData();
 						setNext(false);
 						setOpen(false);
 						setDisabled(false);
 					} else {
-						setNext(false);
-						setOpen(false);
-						setDisabled(false);
-						MySwal.fire({
-							title: <p>Internal Server Error!</p>,
-							icon: "error",
-							confirmButtonText: "Accept",
-							allowOutsideClick: false,
-						}).then((resultado) => {
-							if (resultado.value) {
-								window.location.reload();
+						const sendDataLob = await requestWithData(
+							"postupdatecampaigninfo",
+							{
+								...dts,
+								idLob: dataTL[0].idLob,
 							}
-						});
+						);
+						if (sendDataLob.status === 200) {
+							const TLList = await filterLobList(sendDataLob.data);
+							setAllData(sendDataLob.data);
+							setLob(TLList);
+							setNext(false);
+							setOpen(false);
+							setDisabled(false);
+						} else {
+							setNext(false);
+							setOpen(false);
+							setDisabled(false);
+							MySwal.fire({
+								title: <p>Internal Server Error!</p>,
+								icon: "error",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
+						}
 					}
 				} else {
 					setNext(false);
@@ -615,7 +623,7 @@ const CreateEditLOB = ({
 						if (TLList.length > 0) {
 							if (kpiWork.length === 0) {
 								const kpis = await requestWithData("getLobsKpis", {
-									idLob: dataLOB.idLob,
+									idLob: 0,
 									context: 1,
 								});
 								if (kpis && kpis.status === 200) {
