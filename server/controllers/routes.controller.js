@@ -1004,34 +1004,40 @@ exports.postCreateCampaign = async (req, res) => {
 exports.postCreateLOB = async (req, res) => {
   // const { idccms, lobName, tlIdccms, context, idlob, emails } = req.body;
 
-  let i = 0;
+  let i = 1;
+  let createNewTLContext1 = [];
   let context2table = [];
 
-  const { idccms, lobName, context, idLob, createNewTL, changeTL, reassingTeam, inactivateTeam } = req.body;
+  const { idccms, lobName, context, idLob, createNewTL, changeTL, reassingTeam, inactivateTeam, emails } =
+    req.body;
 
-  if (createNewTL.length > 0) {
-    createNewTL.forEach((idccms) => {
-      context2table.push([idccms, 1, null, null, i]);
-      i = i + 1;
-    });
-  }
-  if (changeTL.length > 0) {
-    changeTL.forEach((el) => {
-      context2table.push([el[1], 2, el[0], null, i]);
-      i = i + 1;
-    });
-  }
-  if (reassingTeam.length > 0) {
-    reassingTeam.forEach((el) => {
-      context2table.push([el[1], 3, null, el[0], i]);
-      i = i + 1;
-    });
-  }
-  if (inactivateTeam.length > 0) {
-    inactivateTeam.forEach((id) => {
-      context2table.push([id, 4, null, null, i]);
-      i = i + 1;
-    });
+  if (context == 1) {
+    createNewTLContext1 = createNewTL.map((el) => [el]);
+  } else {
+    if (createNewTL.length > 0) {
+      createNewTL.forEach((idccms) => {
+        context2table.push([idccms, 1, null, null, i]);
+        i = i + 1;
+      });
+    }
+    if (changeTL.length > 0) {
+      changeTL.forEach((el) => {
+        context2table.push([el[1], 2, el[0], null, i]);
+        i = i + 1;
+      });
+    }
+    if (reassingTeam.length > 0) {
+      reassingTeam.forEach((el) => {
+        context2table.push([el[1], 3, null, el[0], i]);
+        i = i + 1;
+      });
+    }
+    if (inactivateTeam.length > 0) {
+      inactivateTeam.forEach((id) => {
+        context2table.push([id, 4, null, null, i]);
+        i = i + 1;
+      });
+    }
   }
 
   sql
@@ -1043,7 +1049,7 @@ exports.postCreateLOB = async (req, res) => {
           lobName,
           context,
           idLob,
-          tlIdccms: context == 1 ? createNewTL : [[0]],
+          tlIdccms: context == 1 ? createNewTLContext1 : [[0]],
           tableEdition: context == 2 ? context2table : [[0, 1, 0, 0, 1]],
         },
         "spInsertLob"
