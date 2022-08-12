@@ -1,14 +1,14 @@
+require("dotenv").config();
+const path = require("path");
+const jwt = require("jsonwebtoken");
+const CryptoJS = require("crypto-js");
+const { randomInt } = require("crypto");
 const sql = require("./sql.controller");
 const parametros = require("./params.controller").parametros;
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
 const { decrypt } = require("./crypt.controller");
-const path = require("path");
 const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
-const { randomInt } = require("crypto");
-const { sendEmail, sendConfirmInactivationEmail } = require("../helpers/sendEmail");
-const CryptoJS = require("crypto-js");
+const { sendEmail, sendConfirmInactivationEmail, sendUserChangeRolEmail } = require("../helpers/sendEmail");
 const { getNumberOfDays } = require("../helpers/daysDifference");
 
 exports.CallSp = (spName, req, res) => {
@@ -1522,7 +1522,7 @@ exports.postChangeUserRole = async (req, res) => {
   let i = 0;
   let campaignTable = [];
   let loadAgentTable = [];
-  const { idccms, idccmsUser, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
+  const { idccms, idccmsUser, oldRole, role, idTeam, nameTeam, idCampaign, context, emails } = req.body;
 
   if (role === "Cluster Director") {
     campaignTable = idCampaign.map((el) => {
@@ -1532,6 +1532,10 @@ exports.postChangeUserRole = async (req, res) => {
   }
 
   if (role === "Agent") loadAgentTable = [["Q4", idUser, nameTeam, "Agent"]];
+
+  // el oldRole deberia pedir que lo inserten en el email
+  // Esto lo  hago porque se me pasó pedir que lo enviaran así
+  emails[0].oldRole = oldRole;
 
   sql
     .query(
@@ -1550,14 +1554,13 @@ exports.postChangeUserRole = async (req, res) => {
       )
     )
     .then(async (result) => {
-      if (context == 1) {
-        await sendEmail(
-          emails,
-          "SpaceGP role assignment",
-          "Notification SpaceGP",
-          "noresponse@teleperformance.com"
-        );
-      }
+      await sendUserChangeRolEmail(
+        emails,
+        "SpaceGP new role assignment",
+        "Change role Notification SpaceGP",
+        "noresponse@teleperformance.com"
+      );
+
       responsep(1, req, res, result);
     })
     .catch((err) => {

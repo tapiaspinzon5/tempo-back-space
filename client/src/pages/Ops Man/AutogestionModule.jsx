@@ -150,9 +150,25 @@ const AutogestionModule = () => {
 			setMsgErrorccmsOM("You did not enter any ccms");
 		}
 	};
-
 	const submit = async (info, rol) => {
-		const com = await requestWithData("postchangeuserrole", {
+		const com = await requestWithData(
+			"postinsertrolecampaign",
+			{
+				role: rol,
+				emails: [
+					{
+						email: info.Email,
+						name: info.Name,
+						rol: "Operations Commander",
+						manager: userData.Nombre,
+						rolManager: "Operations Commander",
+					},
+				],
+				idCampaign: [userData.IdCampaign],
+				idUser: info.Ident,
+				context: 1,
+				idTeam: 0,
+			} /* {
 			idccmsUser: info.Ident,
 			role: rol,
 			context: 1,
@@ -168,8 +184,8 @@ const AutogestionModule = () => {
 					rolManager: "Operations Commander",
 				},
 			],
-		});
-		console.log(com);
+		} */
+		);
 		if (com && com.status === 200) {
 			MySwal.fire({
 				title: <p>{"Assigned!"}</p>,

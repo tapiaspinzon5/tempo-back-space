@@ -73,7 +73,6 @@ const LOBManagementSection = () => {
 		setLoadingLob(true);
 		setLoadingTl(true);
 		const allLobs = await getLobs(1, 1032);
-		console.log(allLobs);
 		if (allLobs && allLobs.status === 200 && allLobs.data.length > 0) {
 			if (
 				allLobs.data[0].idCampaign !== "0" &&
@@ -113,6 +112,7 @@ const LOBManagementSection = () => {
 		}
 	};
 	const handleClose = (event, reason) => {
+		//disabled no se pueda cerra facilmente el modal
 		//if (reason && reason !== "backdropClick") {
 		setOpen(false);
 		setDataLOB([]);

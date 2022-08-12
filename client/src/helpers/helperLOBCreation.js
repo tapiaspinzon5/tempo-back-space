@@ -1,11 +1,9 @@
-import { requestWithData } from "../utils/api";
-
 export const createTeamLeaderList = (data, name, userData) => {
 	const TLList = data.filter((tl) => tl.checked === true);
 	const list = [];
 	const emails = [];
 	TLList.forEach((tl) => {
-		list.push([tl.idccms]);
+		list.push(tl.idccms);
 		if (tl.Email) {
 			emails.push({
 				email: tl.Email,
@@ -221,7 +219,7 @@ const lobsWithDate = (data) => {
 	return lwd;
 };
 
-export const editLobsToSend = (dataLobs, dbkpidata, tlListDel) => {
+export const editLobsToSend = (dataLobs, dbkpidata) => {
 	let context = 2;
 	let idLob = dataLobs[0].IdLob;
 	let idcampaign = dataLobs[0].IdCampaign;
@@ -349,4 +347,30 @@ export const shortName = (word) => {
 	const newName = word.substring(0, p + 2);
 
 	return newName;
+};
+
+export const dataToSendTLEdit = (newTLs, tlListDel, nameLob, idLob) => {
+	//preguntar si solo se agregan los nuevos tl o todos los checkeados nuevamente
+
+	//filtrar los tl  change, delete y redistribute
+	const tlc = tlListDel.filter((tl) => tl.action === "Change");
+	const tld = tlListDel.filter((tl) => tl.action === "Delete");
+	const tlr = tlListDel.filter((tl) => tl.action === "Redistribute");
+
+	const dtstlc = tlc.map((tl) => [tl.idTeam, tl.replacement.idccms]);
+	//preguntar si solo arreglo o arreglo de arreglos
+	const dtstld = tld.map((tl) => tl.idccms);
+	const dtstlr = tlr.map((tl) =>
+		tl.redistribute.map((ag) => [ag.idNewTeam, ag.Ident])
+	);
+	const dtsnt = newTLs.map((tl) => tl.idccms);
+	return {
+		lobName: nameLob,
+		context: 2,
+		idLob: idLob,
+		createNewTL: dtsnt,
+		changeTL: dtstlc,
+		reassingTeam: dtstlr,
+		inactivateTeam: dtstld,
+	};
 };
