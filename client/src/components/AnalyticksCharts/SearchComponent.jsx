@@ -16,7 +16,6 @@ const SearchComponent = ({
   };
 
   const handleSelect = (newValue) => {
-    console.log(newValue);
     if (context === "agents") {
       setAgent(newValue);
     }

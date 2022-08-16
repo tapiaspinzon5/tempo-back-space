@@ -62,7 +62,7 @@ const NavChartsAnalytics = ({
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
-  console.log(motherDropDown);
+
   return (
     <Box sx={{ marginTop: "1rem" }}>
       <FormControl fullWidth>
@@ -74,7 +74,7 @@ const NavChartsAnalytics = ({
           label="Info"
           onChange={(e) => {
             setMotherDropDown(e.target.value);
-            console.log(e);
+
             setContext(e.target.value);
           }}
         >

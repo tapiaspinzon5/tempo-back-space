@@ -8,6 +8,7 @@ import {
 	Typography,
 	styled,
 	FormHelperText,
+	Tooltip,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
@@ -28,11 +29,14 @@ import {
 	dataLobsToSend,
 	editLobsToSend,
 	orderKpis,
+	redistributeValidate,
+	dataToSendTLEdit,
 } from "../../helpers/helperLOBCreation";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingComponent from "../LoadingComponent";
 import KPISetup from "../OpsManager/KPISetup";
+import DeleteTL from "../OpsManager/DeleteTL";
 const MySwal = withReactContent(Swal);
 
 const TableCont = styled(Box)(() => ({
@@ -74,6 +78,8 @@ const CreateEditLOB = ({
 	setLob,
 	setAllData,
 	setNoData,
+	disabled,
+	setDisabled,
 }) => {
 	const [dataTL, setDataTL] = useState([]);
 	const [nameLOB, setNameLOB] = useState("");
@@ -86,12 +92,15 @@ const CreateEditLOB = ({
 	const [tempCcms, setTempCcms] = useState("");
 	const [errorKpisList, setErrorKpisList] = useState(false);
 	const [loadingKpi, setLoadingKpi] = useState(false);
+	const [change, setChange] = useState(false);
 	const [kpisList, setKpisList] = useState([]);
 	const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
 	const [next, setNext] = useState(false);
-	const [disabled, setDisabled] = useState(false);
+	const [del, setDel] = useState(false);
+	//const [disabled, setDisabled] = useState(false);
 	const [kpiWork, setKpiWork] = useState([]);
 	const [dbKpiWork, setDbKpiWork] = useState([]);
+	const [tlListDel, setTlListDel] = useState([]);
 
 	useEffect(
 		() => {
@@ -113,6 +122,7 @@ const CreateEditLOB = ({
 	);
 
 	const handleSearch = async (ccms) => {
+		setChange(false);
 		if (ccms) {
 			const info = await getInfoAgent(ccms);
 			if (
@@ -177,46 +187,10 @@ const CreateEditLOB = ({
 		);
 		setDataTL(tempList);
 	};
-	/* 
-	const submit = async (context, idLob) => {
-		const dataToSend = createTeamLeaderList(dataTL, nameLOB, userData);
-		const data = await createLobOperationManager(
-			context,
-			dataToSend.lobName,
-			idLob, /// id lob seleccionada
-			dataToSend.tlIdccms,
-			dataToSend.emails
-		);
-		if (data && data.status === 200) {
-			MySwal.fire({
-				title: <p>{context === 2 ? "Saved!" : "Created LOB successfully!"}</p>,
-				icon: "success",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					//window.location.reload();
-					getData();
-				}
-			});
-		} else {
-			MySwal.fire({
-				title: <p>Send Error!</p>,
-				icon: "error",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					//window.location.reload();
-					getData();
-				}
-			});
-		}
-	}; */
 
 	const handleCreate = async () => {
 		setDisabled(true);
-		const dts = dataLobsToSend(kpiWork);
+		const dts = dataLobsToSend(kpiWork, nameLOB);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
 			setDisabled(false);
@@ -236,21 +210,49 @@ const CreateEditLOB = ({
 				notifyModalError("Max. Five KPI´s");
 				setDisabled(false);
 			} else {
-				const sendDataLob = await requestWithData("postsetlobskpis", dts);
-				if (sendDataLob.status === 200) {
-					const TLList = await filterLobList(sendDataLob.data);
-					setLob(TLList);
-					setAllData(sendDataLob.data);
-					setNoData(false);
-					setNext(false);
-					setOpen(false);
-					setDisabled(false);
+				const dataToSend = createTeamLeaderList(dataTL, nameLOB, userData);
+				//trae targets kpis (nuevo endpoint)
+				const data = await requestWithData("postcreatelob", {
+					lobName: dataToSend.lobName,
+					context: 1,
+					idLob: 0,
+					createNewTL: dataToSend.tlIdccms,
+					changeTL: [],
+					reassingTeam: [],
+					inactivateTeam: [],
+					emails: dataToSend.emails,
+				});
+				if (data && data.status === 200) {
+					const sendDataLob = await requestWithData("postsetlobskpis", {
+						...dts,
+						idLob: data.data[0].idLob,
+					});
+					if (sendDataLob.status === 200) {
+						const TLList = await filterLobList(sendDataLob.data);
+						setLob(TLList);
+						setAllData(sendDataLob.data);
+						setNoData(false);
+						setNext(false);
+						setOpen(false);
+						setDisabled(false);
+					} else {
+						setNext(false);
+						setOpen(false);
+						setDisabled(false);
+						MySwal.fire({
+							title: <p>Internal Server Error!</p>,
+							icon: "error",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								window.location.reload();
+							}
+						});
+					}
 				} else {
-					setNext(false);
-					setOpen(false);
-					setDisabled(false);
 					MySwal.fire({
-						title: <p>Send Error!</p>,
+						title: <p>Internal Server Error!</p>,
 						icon: "error",
 						confirmButtonText: "Accept",
 						allowOutsideClick: false,
@@ -259,50 +261,30 @@ const CreateEditLOB = ({
 							window.location.reload();
 						}
 					});
+					setDisabled(false);
+					setNext(false);
+					setOpen(false);
 				}
 			}
 		}
-		/* if (nameLOB) {
-			if (dataTL.length > 0) {
-				const TLList = dataTL.filter((tl) => tl.checked === true);
-				if (TLList.length > 0) {
-					setOpen(false);
-					MySwal.fire({
-						title: (
-							<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
-						),
-						icon: "info",
-						showDenyButton: true,
-						confirmButtonText: "Accept",
-						allowOutsideClick: false,
-					}).then((result) => {
-						if (result.isConfirmed) {
-							submit(1, 0);
-						} else if (result.isDenied) {
-							Swal.fire("Changes are not saved", "", "info");
-						}
-					});
-				} else {
-					setErrorList(true);
-					setMsgErrorList("Check Team Leader is required (min. 1)");
-				}
-			} else {
-				setErrorList(true);
-				setMsgErrorList("No data");
-			}
-		} else {
-			setError(true);
-			setMsgError("No data");
-		} */
 	};
 
 	const handleEdit = async () => {
-		setDisabled(true);
+		//setDisabled(true);
+		const tlsLob = allData.filter((tl) => tl.idLob === dataTL[0].idLob);
+		const valtledit = dataTL.filter(
+			(item1) => !tlsLob.some((item2) => item1.idccms === item2.identTL)
+		);
 		const dts = editLobsToSend(kpiWork, dbKpiWork);
 		if (dts[0] === "Some field in the kpis is empty") {
 			notifyModalError(dts[0]);
 			setDisabled(false);
-		} else if (dts[0] === "You did not edit any field") {
+			//agregar validacion de si se movieron los tl
+		} else if (
+			dts[0] === "You did not edit any field" &&
+			valtledit.length === 0 &&
+			tlListDel.length === 0
+		) {
 			notifyModalError(dts[0]);
 			setDisabled(false);
 		} else if (dts[0] === "Some field is empty") {
@@ -321,23 +303,57 @@ const CreateEditLOB = ({
 				notifyModalError("Max. Five KPI´s");
 				setDisabled(false);
 			} else {
-				const editDataLob = await requestWithData(
-					"postupdatecampaigninfo",
-					dts
+				const tls = dataToSendTLEdit(
+					valtledit,
+					tlListDel,
+					nameLOB,
+					dataTL[0].idLob
 				);
+				const editDataLob = await requestWithData("postcreatelob", tls);
 				if (editDataLob.status === 200) {
-					const TLList = await filterLobList(editDataLob.data);
-					setAllData(editDataLob.data);
-					setLob(TLList);
-					setNext(false);
-					setOpen(false);
-					setDisabled(false);
+					if (dts[0] === "You did not edit any field") {
+						//se debe actualizar
+						getData();
+						setNext(false);
+						setOpen(false);
+						setDisabled(false);
+					} else {
+						const sendDataLob = await requestWithData(
+							"postupdatecampaigninfo",
+							{
+								...dts,
+								idLob: dataTL[0].idLob,
+							}
+						);
+						if (sendDataLob.status === 200) {
+							const TLList = await filterLobList(sendDataLob.data);
+							setAllData(sendDataLob.data);
+							setLob(TLList);
+							setNext(false);
+							setOpen(false);
+							setDisabled(false);
+						} else {
+							setNext(false);
+							setOpen(false);
+							setDisabled(false);
+							MySwal.fire({
+								title: <p>Internal Server Error!</p>,
+								icon: "error",
+								confirmButtonText: "Accept",
+								allowOutsideClick: false,
+							}).then((resultado) => {
+								if (resultado.value) {
+									window.location.reload();
+								}
+							});
+						}
+					}
 				} else {
 					setNext(false);
 					setOpen(false);
 					setDisabled(false);
 					MySwal.fire({
-						title: <p>Send Error!</p>,
+						title: <p>Internal Server Error!</p>,
 						icon: "error",
 						confirmButtonText: "Accept",
 						allowOutsideClick: false,
@@ -374,58 +390,122 @@ const CreateEditLOB = ({
 					if (dataTL.length > 0) {
 						const TLList = dataTL.filter((tl) => tl.checked === true);
 						if (TLList.length > 0) {
-							//acciones
-							const dataToSend = createTeamLeaderList(
-								dataTL,
-								nameLOB,
-								userData
-							);
-							const data = await createLobOperationManager(
-								2,
-								dataToSend.lobName,
-								dataLOB.idLob,
-								dataToSend.tlIdccms,
-								dataToSend.emails
-							);
-							if (data && data.status === 200) {
-								const kpis = await requestWithData("getLobsKpis", {
-									idLob: dataLOB.idLob,
-								});
-								const dwc = kpis.data.map((el) =>
-									el.cheked === 1
-										? {
-												...el,
-												checked: true,
-										  }
-										: {
-												...el,
-												checked: false,
-												CriticalPoint: "",
-												Q1: "",
-												Q2: "",
-												Q3: "",
-												Q4: "",
-												OrderKpi: "",
-										  }
+							const TLDelList = dataTL.filter((tl) => tl.checked === false);
+							if (TLDelList.length > 0) {
+								//interseccion
+								const delList = TLDelList.filter((item1) =>
+									allData.some((item2) => item1.idccms === item2.identTL)
 								);
-								setKpiWork(dwc);
-								setDbKpiWork(dwc);
-								setNext(true);
-								setDisabled(false);
-							} else {
-								MySwal.fire({
-									title: <p>Send Error!</p>,
-									icon: "error",
-									confirmButtonText: "Accept",
-									allowOutsideClick: false,
-								}).then((resultado) => {
-									if (resultado.value) {
-										window.location.reload();
+								if (delList.length > 0) {
+									setDisabled(false);
+									setNext(true);
+									setDel(true);
+									setTlListDel(delList);
+								} else {
+									//no se elimina ningun TL pasas a targets
+									if (kpiWork.length === 0) {
+										const kpis = await requestWithData("getLobsKpis", {
+											idLob: dataLOB.idLob,
+											context: 2,
+										});
+										if (kpis && kpis.status === 200) {
+											const dwc = kpis.data.map((el) =>
+												el.cheked === 1
+													? {
+															...el,
+															checked: true,
+													  }
+													: {
+															...el,
+															checked: false,
+															CriticalPoint: "",
+															Q1: "",
+															Q2: "",
+															Q3: "",
+															Q4: "",
+															OrderKpi: "",
+													  }
+											);
+
+											//setTlListDel([]);
+											setKpiWork(dwc);
+											setDbKpiWork(dwc);
+											setNext(true);
+											setDel(false);
+											setDisabled(false);
+										} else {
+											MySwal.fire({
+												title: <p>Error in server!</p>,
+												icon: "error",
+												confirmButtonText: "Accept",
+												allowOutsideClick: false,
+											}).then((resultado) => {
+												if (resultado.value) {
+													window.location.reload();
+												}
+											});
+											setNext(false);
+											setOpen(false);
+											setDisabled(false);
+										}
+									} else {
+										setNext(true);
+										setDel(false);
+										setDisabled(false);
+										//setTlListDel([]);
 									}
-								});
-								setNext(false);
-								setOpen(false);
-								setDisabled(false);
+								}
+							} else {
+								if (kpiWork.length === 0) {
+									const kpis = await requestWithData("getLobsKpis", {
+										idLob: dataLOB.idLob,
+										context: 2,
+									});
+									if (kpis && kpis.status === 200) {
+										const dwc = kpis.data.map((el) =>
+											el.cheked === 1
+												? {
+														...el,
+														checked: true,
+												  }
+												: {
+														...el,
+														checked: false,
+														CriticalPoint: "",
+														Q1: "",
+														Q2: "",
+														Q3: "",
+														Q4: "",
+														OrderKpi: "",
+												  }
+										);
+										//setTlListDel([]);
+										setKpiWork(dwc);
+										setDbKpiWork(dwc);
+										setNext(true);
+										setDel(false);
+										setDisabled(false);
+									} else {
+										MySwal.fire({
+											title: <p>Error in server!</p>,
+											icon: "error",
+											confirmButtonText: "Accept",
+											allowOutsideClick: false,
+										}).then((resultado) => {
+											if (resultado.value) {
+												window.location.reload();
+											}
+										});
+										setNext(false);
+										setOpen(false);
+										setDisabled(false);
+									}
+								} else {
+									setNext(true);
+									setDel(false);
+									setDisabled(false);
+									//setTlListDel([]);
+								}
 							}
 						} else {
 							setErrorList(true);
@@ -443,54 +523,58 @@ const CreateEditLOB = ({
 					setDisabled(false);
 				}
 			} else {
+				//creacion
 				if (nameLOB) {
 					if (dataTL.length > 0) {
 						const TLList = dataTL.filter((tl) => tl.checked === true);
 						if (TLList.length > 0) {
-							const dataToSend = createTeamLeaderList(
-								dataTL,
-								nameLOB,
-								userData
-							);
-							const data = await createLobOperationManager(
-								1,
-								dataToSend.lobName,
-								0,
-								dataToSend.tlIdccms,
-								dataToSend.emails
-							);
-							if (data && data.status === 200) {
-								const dwc = data.data.map((el) =>
-									el.checked
-										? el
-										: {
-												...el,
-												checked: false,
-												CriticalPoint: "",
-												Q1: "",
-												Q2: "",
-												Q3: "",
-												Q4: "",
-												OrderKpi: "",
-										  }
-								);
-								setNext(true);
-								setKpiWork(dwc);
-								setDisabled(false);
-							} else {
-								MySwal.fire({
-									title: <p>Send Error!</p>,
-									icon: "error",
-									confirmButtonText: "Accept",
-									allowOutsideClick: false,
-								}).then((resultado) => {
-									if (resultado.value) {
-										window.location.reload();
-									}
+							if (kpiWork.length === 0) {
+								const kpis = await requestWithData("getLobsKpis", {
+									idLob: 0,
+									context: 1,
 								});
+								if (kpis && kpis.status === 200) {
+									const dwc = kpis.data.map((el) =>
+										el.cheked === 1
+											? {
+													...el,
+													checked: true,
+											  }
+											: {
+													...el,
+													checked: false,
+													CriticalPoint: "",
+													Q1: "",
+													Q2: "",
+													Q3: "",
+													Q4: "",
+													OrderKpi: "",
+											  }
+									);
+									setKpiWork(dwc);
+									setDbKpiWork(dwc);
+									setNext(true);
+									setDel(false);
+									setDisabled(false);
+								} else {
+									MySwal.fire({
+										title: <p>Error in server!</p>,
+										icon: "error",
+										confirmButtonText: "Accept",
+										allowOutsideClick: false,
+									}).then((resultado) => {
+										if (resultado.value) {
+											window.location.reload();
+										}
+									});
+									setNext(false);
+									setOpen(false);
+									setDisabled(false);
+								}
+							} else {
+								setNext(true);
+								setDel(false);
 								setDisabled(false);
-								setNext(false);
-								setOpen(false);
 							}
 						} else {
 							setErrorList(true);
@@ -509,8 +593,118 @@ const CreateEditLOB = ({
 				}
 			}
 		} else {
-			setNext(false);
-			setDisabled(false);
+			if (tlListDel.length > 0) {
+				if (action === "Back Del") {
+					setNext(false);
+					setDel(false);
+					setDisabled(false);
+					setTlListDel([]);
+				} else {
+					setNext(true);
+					setDel(true);
+					setDisabled(false);
+				}
+			} else {
+				setNext(false);
+				setDel(false);
+				setDisabled(false);
+			}
+		}
+	};
+
+	const handleNextDelete = async () => {
+		//validaciones
+		const redistVal = redistributeValidate(tlListDel);
+		const nextValidate = tlListDel.filter(
+			(tl) =>
+				tl.action === "" ||
+				(tl.action === "Change" &&
+					(tl.replacement.length === 0 || tl.redistribute.length > 0)) ||
+				(tl.action === "Delete" &&
+					(tl.replacement.length > 0 || tl.redistribute.length > 0)) ||
+				(tl.action === "Redistribute" &&
+					(tl.redistribute.length === 0 ||
+						tl.replacement.length > 0 ||
+						redistVal.length > 0))
+		);
+		if (nextValidate.length === 0) {
+			if (kpiWork.length === 0) {
+				const kpis = await requestWithData("getLobsKpis", {
+					idLob: dataLOB.idLob,
+					context: 2,
+				});
+				if (kpis && kpis.status === 200) {
+					const dwc = kpis.data.map((el) =>
+						el.cheked === 1
+							? {
+									...el,
+									checked: true,
+							  }
+							: {
+									...el,
+									checked: false,
+									CriticalPoint: "",
+									Q1: "",
+									Q2: "",
+									Q3: "",
+									Q4: "",
+									OrderKpi: "",
+							  }
+					);
+					//setTlListDel([]);
+					setKpiWork(dwc);
+					setDbKpiWork(dwc);
+					setNext(true);
+					setDel(false);
+					setDisabled(false);
+				} else {
+					MySwal.fire({
+						title: <p>Error in server!</p>,
+						icon: "error",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							window.location.reload();
+						}
+					});
+					setNext(false);
+					setOpen(false);
+					setDisabled(false);
+				}
+			} else {
+				setNext(true);
+				setDel(false);
+				setDisabled(false);
+				//setTlListDel([]);
+			}
+		} else {
+			//error
+			if (redistVal.length === 0) {
+				//algun tl no tiene RadioButton Seleccionado
+				const agts = tlListDel.map((tl) =>
+					nextValidate.filter((el) => tl.idccms === el.idccms).length > 0
+						? {
+								...tl,
+								error: true,
+								msgError: "You did not select any option",
+						  }
+						: tl
+				);
+				setTlListDel(agts);
+			} else {
+				//alguno de los que tienen redistribute le falta algun agente por asignar nuevo equipo
+				const agts = tlListDel.map((tl) =>
+					redistVal.filter((el) => tl.idccms === el.idccms).length > 0
+						? {
+								...tl,
+								error: true,
+								msgError: "An agent is missing to assign a team",
+						  }
+						: tl
+				);
+				setTlListDel(agts);
+			}
 		}
 	};
 
@@ -575,11 +769,12 @@ const CreateEditLOB = ({
 									setMsgError("");
 								}}
 								endAdornment={
-									<InputAdornment position="end">
+									<InputAdornment position="end" sx={{ mr: "1rem" }}>
 										<ButtonActionBlue
 											aria-label="toggle search visibility"
 											edge="end"
 											onClick={() => handleSearch(tempCcms)}
+											sx={{ mr: "1rem" }}
 										>
 											Search
 										</ButtonActionBlue>
@@ -608,7 +803,7 @@ const CreateEditLOB = ({
 								}}
 							>
 								<Box display="flex" textAlign="center">
-									<Box width="45%" color="#3047B0">
+									<Box width="50%" color="#3047B0">
 										<Typography variant="body1" fontWeight={700}>
 											CCMS ID
 										</Typography>
@@ -622,20 +817,27 @@ const CreateEditLOB = ({
 								</Box>
 								<BoxCeldas>
 									{dataTL.map((item, index) => (
-										<TableCont display="flex" textAlign="center" key={index}>
-											<Box width="45%">
-												<Typography variant="body2">{item.idccms}</Typography>
-											</Box>
-											<Box width="45%">
-												<Typography variant="body2">{item.name}</Typography>
-											</Box>
-											<Box width="10%">
-												<input
-													type="checkbox"
-													id="isChecked"
-													checked={item.checked}
-													onChange={() => handleCheck(item)}
-												/>
+										<TableCont
+											display="flex"
+											textAlign="center"
+											key={index}
+											flexDirection="column"
+										>
+											<Box display="flex" textAlign="center">
+												<Box width="40%">
+													<Typography variant="body2">{item.idccms}</Typography>
+												</Box>
+												<Box width="40%">
+													<Typography variant="body2">{item.name}</Typography>
+												</Box>
+												<Box width="10%">
+													<input
+														type="checkbox"
+														id="isChecked"
+														checked={item.checked}
+														onChange={() => handleCheck(item)}
+													/>
+												</Box>
 											</Box>
 										</TableCont>
 									))}
@@ -647,6 +849,12 @@ const CreateEditLOB = ({
 
 					{errorList && <FormHelperText error>{msgErrorList}</FormHelperText>}
 				</>
+			) : del ? (
+				<DeleteTL
+					tlListDel={tlListDel}
+					setTlListDel={setTlListDel}
+					allData={allData}
+				/>
 			) : (
 				<KPISetup
 					kpiWork={kpiWork}
@@ -655,17 +863,41 @@ const CreateEditLOB = ({
 					setKpisList={setKpisList}
 				/>
 			)}
-
-			{/* <Box display="flex" justifyContent="flex-end" marginY={3}>
-        <ButtonActionBlue
-          onClick={dataLOB.length !== 0 ? handleEdit : handleCreate}
-        >
-          Save
-        </ButtonActionBlue>
-      </Box> */}
-
 			<Box display="flex" justifyContent="flex-end" marginY={3}>
-				{!next && (
+				{next ? (
+					<>
+						{!disabled && (
+							<Tooltip
+								title={
+									del
+										? "If you click, you will lose the information in the Team Leader Remove section and will have to re-manage each Team Leader to be removed."
+										: ""
+								}
+								placement="top"
+								arrow
+							>
+								<ButtonActionBlue
+									sx={{ width: "10rem" }}
+									//disabled={disabled}
+									onClick={() =>
+										del ? handleNext("Back Del") : handleNext("Back")
+									}
+								>
+									{"Back"}
+								</ButtonActionBlue>
+							</Tooltip>
+						)}
+						{del && (
+							<ButtonActionBlue
+								sx={{ width: "10rem", marginLeft: "2rem" }}
+								disabled={disabled}
+								onClick={() => handleNextDelete()}
+							>
+								{"Next to set KPIs"}
+							</ButtonActionBlue>
+						)}
+					</>
+				) : (
 					<ButtonActionBlue
 						sx={{ width: "10rem" }}
 						disabled={disabled}
@@ -674,15 +906,23 @@ const CreateEditLOB = ({
 						{"Next"}
 					</ButtonActionBlue>
 				)}
+				{/* {disabled&&<LoadingComponent/>} */}
 				{next &&
+					!del &&
 					(dataLOB.length === 0 ? (
-						<ButtonActionBlue
-							sx={{ width: "10rem", marginLeft: "2rem" }}
-							disabled={disabled}
-							onClick={handleCreate}
-						>
-							Create
-						</ButtonActionBlue>
+						disabled ? (
+							<LoadingComponent />
+						) : (
+							<ButtonActionBlue
+								sx={{ width: "10rem", marginLeft: "2rem" }}
+								disabled={disabled}
+								onClick={handleCreate}
+							>
+								Create
+							</ButtonActionBlue>
+						)
+					) : disabled ? (
+						<LoadingComponent />
 					) : (
 						<ButtonActionBlue
 							sx={{ width: "10rem", marginLeft: "2rem" }}

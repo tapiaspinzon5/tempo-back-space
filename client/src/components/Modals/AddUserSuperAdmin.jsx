@@ -93,7 +93,7 @@ const AddUserSuperAdmin = ({
       const existeRol = dataAgent.filter(
         (user) => user.RoleAgent === newUser.role
       );
-      console.log(existeRol);
+
       setRoleExist(existeRol);
     } else {
       setRoleExist([]);
@@ -158,7 +158,7 @@ const AddUserSuperAdmin = ({
       context: 2,
       idcampaign: e.target.value,
     });
-    console.log(data.data);
+
     setLobs(data.data[1].Lobs);
     setTeams(data.data[2].Teams);
   };
@@ -218,9 +218,8 @@ const AddUserSuperAdmin = ({
   };
 
   const handleTeam = (e) => {
-    console.log(e);
     const tn = teams.filter((team) => team.idTeam === e.target.value);
-    console.log(tn);
+
     {
       setNewUser({
         ...newUser,
@@ -229,7 +228,7 @@ const AddUserSuperAdmin = ({
       });
     }
   };
-  console.log(newUser);
+
   return (
     <Box>
       {loading && (

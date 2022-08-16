@@ -180,28 +180,6 @@ const FormCreateNewChallenge = ({
 								/>
 							</LocalizationProvider>
 						</Box>
-						{/* <FormControl fullWidth sx={{ marginTop: "1rem" }}>
-							<LocalizationProvider
-								dateAdapter={AdapterDateFns}
-								sx={{ width: "20rem" }}
-							>
-								<DateRangePicker
-									startText="Start"
-									endText="End"
-									value={date}
-									onChange={(newValue) => {
-										setDate(newValue);
-									}}
-									renderInput={(startProps, endProps) => (
-										<React.Fragment>
-											<TextField {...startProps} />
-											<Box sx={{ mx: 2 }}> to </Box>
-											<TextField {...endProps} />
-										</React.Fragment>
-									)}
-								/>
-							</LocalizationProvider>
-						</FormControl> */}
 						<Box display="flex" justifyContent="flex-end" marginTop="1rem">
 							<ButtonActionBlue
 								sx={{ fontSize: "20px" }}

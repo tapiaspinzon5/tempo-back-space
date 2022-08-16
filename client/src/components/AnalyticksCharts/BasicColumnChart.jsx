@@ -19,8 +19,6 @@ const BasicColumnChart = ({ categories, dataChart, nameChart }) => {
       },
     ],
   });
-  console.log(categories);
-  console.log(dataChart);
 
   useEffect(() => {
     setState({

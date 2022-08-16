@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
 	Typography,
@@ -70,6 +70,7 @@ const images = [img1, img2, img3, img4];
 const ActivitiesView = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector((store) => store.loginUser.userData);
 	const [quizUser, setQuizUser] = useState([]);
 	const [actualQuizUser, setActualQuizUser] = useState([]);
 	const [userActivities, setUserActivities] = useState([]);
@@ -84,7 +85,6 @@ const ActivitiesView = () => {
 		type: "Missions",
 		context: 3,
 	});
-
 	useEffect(() => {
 		setUserActivities([]);
 		setLoading(true);
@@ -201,6 +201,10 @@ const ActivitiesView = () => {
 	return (
 		<Grid width="100%">
 			<MainViewver>
+				<Typography variant="h5" sx={{ color: "#3047B0", mt: "1.5rem" }}>
+					<b>Space Lab</b>
+					{` - ${userData.NameTeam}`}
+				</Typography>
 				<Grid container>
 					<BoxSelectBadge item xs={6}>
 						<Button

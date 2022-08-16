@@ -49,6 +49,7 @@ import AnalyticsRL from "../pages/Rep Lead/AnalyticsRL";
 import InformationQuices from "../pages/QALead/InformationQuices";
 import MissionsAssignment from "../pages/QALead/MissionsAssignment";
 import RoleManagementSecttion from "../pages/Ops Man/RoleManagementSecttion";
+import AutogestionModule from "../pages/Ops Man/AutogestionModule";
 import LOBManagementSection from "../pages/Ops Man/LOBManagementSection";
 import AccountCreation from "../pages/Super User/AccountCreation";
 import UserPermission from "../pages/Super User/UserPermission";
@@ -60,6 +61,7 @@ import DesactivationSection from "../pages/DesactivationSection";
 import Organigrama from "../pages/Super User/Organigrama";
 import HomeCD from "../pages/HomeCD";
 import AnalyticsCD from "../pages/ClusterDirector/AnalyticsCD";
+import { requestWithData } from "../utils/api";
 
 //import Header from "../components/homeUser/Header";
 
@@ -122,6 +124,8 @@ const AppRouter = () => {
 							? "Challenge: " + notification?.description
 							: notification?.type === "mission"
 							? "Mission: " + notification?.description
+							: notification?.type === "deactivation"
+							? "Type: " + notification?.description
 							: "TPV: " + notification?.description}
 					</p>
 					<p>{"Sent by: " + notification?.from}</p>
@@ -134,6 +138,7 @@ const AppRouter = () => {
 			dispatch(headerDataAction(idccms));
 			dispatch(headerDataTlAction(idccms));
 		}
+
 		// eslint-disable-next-line
 	}, []);
 
@@ -147,10 +152,24 @@ const AppRouter = () => {
 		// eslint-disable-next-line
 	}, [userData]);
 
+	const count2Req = async () => {
+		const usersList = await requestWithData("getinactiveusersapplications");
+		if (usersList.data[0].Agent !== "0") {
+			setCount2(usersList.data.length);
+		} else {
+			setCount2(0);
+		}
+	};
+
 	useEffect(() => {
-		if (notification?.title) {
+		if (notification?.type === "deactivation") {
 			notify();
-			setCount(count + 1);
+			count2Req();
+		} else {
+			if (notification?.title) {
+				notify();
+				setCount(count + 1);
+			}
 		}
 		// eslint-disable-next-line
 	}, [notification]);
@@ -179,6 +198,7 @@ const AppRouter = () => {
 								avatar={headerData?.AvatarProfile}
 								setNavLong={setNavLong}
 								count2={count2}
+								setCount2={setCount2}
 							/>
 							{seeProfile && (
 								<OptionsProfile
@@ -248,8 +268,14 @@ const AppRouter = () => {
 							<Route path="/leaderboard" element={<LeaderBoardRL />} />
 							<Route path="/analytics" element={<AnalyticsOM />} />
 							<Route
+								path="/permissionrelease"
+								element={<AutogestionModule />}
+							/>
+							<Route
 								path="/deactivation"
-								element={<DesactivationSection setCount2={setCount2} />}
+								element={
+									<DesactivationSection setCount2={setCount2} count2={count2} />
+								}
 							/>
 						</>
 					)}
@@ -320,7 +346,9 @@ const AppRouter = () => {
 							<Route path="/analytics" element={<Analytics count={count} />} />
 							<Route
 								path="/deactivation"
-								element={<DesactivationSection setCount2={setCount2} />}
+								element={
+									<DesactivationSection setCount2={setCount2} count2={count2} />
+								}
 							/>
 						</>
 					)}

@@ -68,6 +68,7 @@ const LOBManagementSection = () => {
 	const [loadingLob, setLoadingLob] = useState(false);
 	const [loadingTl, setLoadingTl] = useState(false);
 	const [error, setError] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 
 	const getData = async () => {
 		setLoadingLob(true);
@@ -112,7 +113,13 @@ const LOBManagementSection = () => {
 		}
 	};
 	const handleClose = (event, reason) => {
-		if (reason && reason !== "backdropClick") {
+		//disabled no se pueda cerra facilmente el modal
+		if (disabled) {
+			if (reason && reason !== "backdropClick") {
+				setOpen(false);
+				setDataLOB([]);
+			}
+		} else {
 			setOpen(false);
 			setDataLOB([]);
 		}
@@ -137,7 +144,7 @@ const LOBManagementSection = () => {
 								Create New LOB
 							</ButtonAction>
 						</Box>
-						<BoxContain>
+						<BoxContain sx={{ height: "60vh" }}>
 							{error ? (
 								<Typography variant="body1">Server Problems</Typography>
 							) : noData ? (
@@ -171,7 +178,7 @@ const LOBManagementSection = () => {
 								Team Lead's
 							</Typography>
 						</Box>
-						<BoxContain>
+						<BoxContain sx={{ height: "60vh" }}>
 							{error ? (
 								<Typography variant="body1">Server Problems</Typography>
 							) : noData ? (
@@ -223,6 +230,8 @@ const LOBManagementSection = () => {
 						userData={userData.Nombre}
 						getData={getData}
 						setNoData={setNoData}
+						disabled={disabled}
+						setDisabled={setDisabled}
 					/>
 				</ModalBox>
 			</Modal>

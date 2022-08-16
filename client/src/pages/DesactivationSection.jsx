@@ -62,7 +62,7 @@ const dateConfig = (date) => {
 
 	return fecha;
 };
-const DesactivationSection = (setCount2) => {
+const DesactivationSection = ({ setCount2, count2 }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const userData = useSelector((store) => store.loginUser.userData);
@@ -85,7 +85,9 @@ const DesactivationSection = (setCount2) => {
 				});
 				setLoading(false);
 				setUsers(uwd);
+				setCount2(usersList.data.length);
 			} else {
+				setCount2(0);
 				setLoading(false);
 				setNoData(true);
 			}
@@ -105,21 +107,7 @@ const DesactivationSection = (setCount2) => {
 		// eslint-disable-next-line
 		[]
 	);
-	/* Agent: "Maria Lopez Avila"
-RoleAgent: "Agent"
-RoleUsrAuthorization: null
-RoleUsrDenied: null
-RoleUsrRequest: "Super Admin"
-UsrRequest: "Deiby Nino Garces"
-dateRequest: "29/07/2022"
-emailUsr: null
-emailUsrAuthorization: null
-emailUsrDenied: null
-emailUsrRequest: "Deiby.NinoGarces@teleperformance.com"
-ident: 621789
-identUsrRequest: 4472074
-usrAuthorization: null
-usrDenied: null */
+
 	const handleAction = async (params, context) => {
 		setFullLoading(true);
 		let rol;

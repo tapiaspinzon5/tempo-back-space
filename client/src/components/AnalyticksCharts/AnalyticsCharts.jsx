@@ -87,13 +87,6 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   };
   //Trae la lista de KPI de una campaña
   const getDataKPI = async () => {
-    // const initialData = await requestWithData("getplatformanalytics", {
-    //   initDate: 0,
-    //   endDate: 0,
-    //   kpi: "0",
-    //   context: 4,
-    // });
-    //setKpiData(initialData.data[0].Kpis);
     const dataKPI = await requestWithData("getAnalyticsClusterDirector", {
       context: 6,
       idLob: idLob,
@@ -107,12 +100,11 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
-    //console.log(dataKPI.data);
+
     setKpiData(dataKPI.data[0].ListKpi);
   };
 
   const handleConsulta = async () => {
-    console.log("consultando datos");
     const dataChart = await requestWithData("getAnalyticsClusterDirector", {
       context,
       idcampaign,
@@ -126,24 +118,13 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
-    console.log(dataChart.data[0]);
+
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data[0], context));
     setDataChart(helperDataChartData(dataChart.data[0], context));
     //const fittedData = helperDataChartData(dataChart.data[0], context);
-    //console.log(fittedCategories);
   };
 
-  // console.log(accounts);
-  // console.log(context);
-  // console.log(idLob);
-  // console.log(idcampaign);
-  // console.log(idTeam);
-  // console.log(date1);
-  // console.log(date2);
-  // console.log(selectKpi.Kpi);
-  // console.log(agent.Ident);
-  console.log(data);
   return (
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>

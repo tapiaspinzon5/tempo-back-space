@@ -35,6 +35,7 @@ const LeaderRankBoard = ({
   leaderBoard,
   setModal,
   setShowCharts,
+  leaderBoardRL,
   showCharts,
 }) => {
   const userData = useSelector((store) => store.loginUser.userData);

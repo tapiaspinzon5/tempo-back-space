@@ -446,6 +446,7 @@ export const deleteDuplicatesScore = async (data) => {
 		printData[0].OrderKpi === "asc"
 			? printData.sort((a, b) => b.KpiScore - a.KpiScore)
 			: printData.sort((a, b) => a.KpiScore - b.KpiScore);
+	const podium = printData.sort((a, b) => b.ExpPoint - a.ExpPoint);
 	let cont = 1;
 	dataOrder.forEach((el) => {
 		el.rank = cont;
@@ -454,7 +455,7 @@ export const deleteDuplicatesScore = async (data) => {
 		cont += 1;
 	});
 
-	return dataOrder;
+	return { dataOrder, podium };
 };
 
 export const deleteDuplicatesKpis = async (data, time) => {

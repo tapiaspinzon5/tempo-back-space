@@ -443,11 +443,11 @@ let insertLobTable = [
   },
   {
     name: "newTL",
-    type: TYPES.DateTime,
+    type: TYPES.Int,
   },
   {
     name: "newIdTeam",
-    type: TYPES.DateTime,
+    type: TYPES.Int,
   },
   {
     name: "idRegistry",
@@ -708,13 +708,14 @@ exports.parametros = (req, tipo) => {
       ]);
 
     case "spInsertLob":
+      console.log(req);
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("NameLob", req.lobName, TYPES.VarChar),
         new SpParam("Context", req.context, TYPES.Int),
-        new SpParam("idlob", req.idlob, TYPES.Int),
+        new SpParam("idlob", req.idLob, TYPES.Int),
         SpParamTable2("table", tlIdccmsArray, req.tlIdccms),
-        SpParamTable2("tableLobEdition", insertLobTable, req.tableEdition),
+        SpParamTable2("tableEdition", insertLobTable, req.tableEdition),
       ]);
 
     case "spQueryManagementOP":
