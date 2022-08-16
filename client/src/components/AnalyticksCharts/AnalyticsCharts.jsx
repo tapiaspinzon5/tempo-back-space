@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Grid, Box } from "@mui/material";
 import ButtonsTopAnalytics from "./ButtonsTopAnalytics";
 import NavChartsAnalytics from "./NavChartsAnalytics";
-
 import HeaderCharts from "./HeaderCharts";
 import BasicColumnChart from "./BasicColumnChart";
 import MultipleCharsPareto from "./MultipleCharsPareto";
 import { requestWithData } from "../../utils/api";
+import {
+  helperDataChartCat,
+  helperDataChartData,
+} from "../../helpers/helperDataChart";
 
 const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [kpiData, setKpiData] = useState([]);
@@ -21,6 +24,10 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
   const [selectKpi, setSelectKpi] = useState([]);
+  const [data, setData] = useState([]);
+  const [context, setContext] = useState(0);
+  const [categories, setCategories] = useState([]);
+  const [dataChart, setDataChart] = useState([]);
 
   const handleCharts = () => {
     setShowCharts(false);
@@ -87,22 +94,56 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     //   context: 4,
     // });
     //setKpiData(initialData.data[0].Kpis);
-    const dataKPI = await requestWithData("getLobsKpis", {
-      context: 2,
+    const dataKPI = await requestWithData("getAnalyticsClusterDirector", {
+      context: 6,
       idLob: idLob,
-      idccms: 2631283,
+      idCampaign: 0,
+      idTeam: 0,
+      initDate: "01-01-2022",
+      endDate: "01-01-2022",
+      kpi: "0",
+      idccmsUser: 0,
+      idExam: 0,
+      idQuestion: 0,
+      idChallenge: 0,
     });
-    // console.log(dataKPI);
-    setKpiData(dataKPI.data);
+    //console.log(dataKPI.data);
+    setKpiData(dataKPI.data[0].ListKpi);
+  };
+
+  const handleConsulta = async () => {
+    console.log("consultando datos");
+    const dataChart = await requestWithData("getAnalyticsClusterDirector", {
+      context,
+      idcampaign,
+      idLob,
+      idTeam,
+      initDate: date1,
+      endDate: date2,
+      kpi: selectKpi.Kpi,
+      idccmsUser: agent.Ident,
+      idExam: 0,
+      idQuestion: 0,
+      idChallenge: 0,
+    });
+    console.log(dataChart.data[0]);
+    setData(dataChart.data[0]);
+    setCategories(helperDataChartCat(dataChart.data[0], context));
+    setDataChart(helperDataChartData(dataChart.data[0], context));
+    //const fittedData = helperDataChartData(dataChart.data[0], context);
+    //console.log(fittedCategories);
   };
 
   // console.log(accounts);
-  //console.log(kpiData);
-  // console.log(LOBs);
-  // console.log(idcampaign);
+  // console.log(context);
   // console.log(idLob);
-  console.log(selectKpi);
-  console.log(agent);
+  // console.log(idcampaign);
+  // console.log(idTeam);
+  // console.log(date1);
+  // console.log(date2);
+  // console.log(selectKpi.Kpi);
+  // console.log(agent.Ident);
+  console.log(data);
   return (
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>
@@ -129,16 +170,22 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             agents={agents}
             setAgent={setAgent}
             setSelectKpi={setSelectKpi}
+            handleConsulta={handleConsulta}
+            setContext={setContext}
           />
         </Box>
       </Grid>
       <Grid item xs={12} md={8} lg={9}>
         <Box padding={1}>
-          <HeaderCharts />
+          <HeaderCharts dato={selectKpi.Kpi} />
         </Box>
         <Box padding={1}>
-          <BasicColumnChart />
-          <MultipleCharsPareto />
+          <BasicColumnChart
+            categories={categories}
+            nameChart="AHT"
+            dataChart={dataChart}
+          />
+          {/* <MultipleCharsPareto /> */}
         </Box>
       </Grid>
     </Grid>

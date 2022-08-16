@@ -15,6 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import SearchComponent from "./SearchComponent";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import LobTeamBox from "./LobTeamBox";
+import { ButtonActionBlue } from "../../assets/styled/muistyled";
 
 const BoxGroup = styled(Box)(() => ({
   border: "1px solid #c8c8c8",
@@ -30,7 +31,13 @@ const BoxGroup = styled(Box)(() => ({
   },
 }));
 
-const info = ["KPIS", "Missions", "Questions", "Challenges", "Usage Data"];
+const info = [
+  { type: "KPIS", context: 1 },
+  { type: "Missions", context: 2 },
+  { type: "Questions", context: 3 },
+  { type: "Challenges", context: 4 },
+  { type: "Usage Data", context: 5 },
+];
 
 const NavChartsAnalytics = ({
   kpiData,
@@ -50,10 +57,12 @@ const NavChartsAnalytics = ({
   agents,
   setAgent,
   setSelectKpi,
+  handleConsulta,
+  setContext,
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
-
+  console.log(motherDropDown);
   return (
     <Box sx={{ marginTop: "1rem" }}>
       <FormControl fullWidth>
@@ -63,11 +72,15 @@ const NavChartsAnalytics = ({
           id="info-simple-select"
           value={motherDropDown || ""}
           label="Info"
-          onChange={(e) => setMotherDropDown(e.target.value)}
+          onChange={(e) => {
+            setMotherDropDown(e.target.value);
+            console.log(e);
+            setContext(e.target.value);
+          }}
         >
           {info.map((type) => (
-            <MenuItem value={type} key={type}>
-              {type}
+            <MenuItem value={type.context} key={type.context}>
+              {type.type}
             </MenuItem>
           ))}
         </Select>
@@ -178,7 +191,8 @@ const NavChartsAnalytics = ({
         </LocalizationProvider>
       </Box>
       <Box>
-        {motherDropDown === "KPIS" && (
+        {/* KPIS */}
+        {motherDropDown === 1 && (
           <>
             <SearchComponent
               label="Agents"
@@ -194,19 +208,20 @@ const NavChartsAnalytics = ({
             />
           </>
         )}
-        {motherDropDown === "Challenges" && (
-          <>
-            <SearchComponent label="KPI" />
-          </>
-        )}
-        {motherDropDown === "Missions" && <SearchComponent label="Missions" />}
-        {motherDropDown === "Questions" && (
-          <SearchComponent label="Questions" />
-        )}
 
-        {motherDropDown === "Usage Data" && (
-          <SearchComponent label="Type Of Info" />
-        )}
+        {/* Missions */}
+        {/* {motherDropDown === 2 && <SearchComponent label="Missions" />} */}
+        {/* questions */}
+        {motherDropDown === 3 && <SearchComponent label="Questions" />}
+        {/* challenges */}
+        {motherDropDown === 4 && <SearchComponent label="KPI" />}
+        {/* Usage Data */}
+        {motherDropDown === 5 && <SearchComponent label="Type Of Info" />}
+      </Box>
+      <Box textAlign="end" marginY={3}>
+        <ButtonActionBlue onClick={handleConsulta} sx={{ width: "8rem" }}>
+          Show
+        </ButtonActionBlue>
       </Box>
     </Box>
   );

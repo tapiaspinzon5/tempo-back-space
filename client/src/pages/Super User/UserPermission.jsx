@@ -23,7 +23,7 @@ const MySwal = withReactContent(Swal);
 
 const userPermissions = [
   {
-    roleSpace: "SPACE Project Commander",
+    roleSpace: "Operations Commander",
     rol: "OPM",
     tag: "Operation Manager",
   },
@@ -32,7 +32,7 @@ const userPermissions = [
   { roleSpace: "Cosmonaut", rol: "AG", tag: "Agent" },
   { roleSpace: "Flight Engineer", rol: "RPL", tag: "Reporting Lead" },
   { roleSpace: "Spacecraft Commander", rol: "SU", tag: "Super Admin" },
-  { roleSpace: "Cluster Director", rol: "DIR", tag: "Cluster Director" },
+  { roleSpace: "SPACE Project Commander", rol: "DIR", tag: "Cluster Director" },
 ];
 
 const UserPermission = () => {
@@ -144,6 +144,7 @@ const UserPermission = () => {
     setCheck([]);
   };
 
+  console.log(checkUser);
   //cambio de Rol de un Agente
   const handleChangeRol = () => {
     let msj;
@@ -172,6 +173,7 @@ const UserPermission = () => {
             idLob: teamLeader.idLob,
             idTeam: teamLeader.idTeam,
             idCampaign: check,
+            oldRole: checkUser.RoleAgent,
             emails: [
               {
                 email: checkUser.email,
@@ -204,8 +206,6 @@ const UserPermission = () => {
     setRole("");
     setCheckUser([]);
   };
-
-  console.log(teamLeader);
 
   return (
     <MainPage>

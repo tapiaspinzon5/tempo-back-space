@@ -1,31 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const BasicColumnChart = () => {
+const BasicColumnChart = ({ categories, dataChart, nameChart }) => {
   const [state, setState] = useState({
     options: {
       chart: {
+        height: 350,
         id: "basic-bar",
       },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+        categories: categories,
       },
     },
     series: [
       {
-        name: "Net Profit",
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-      },
-      {
-        name: "Revenue",
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-      },
-      {
-        name: "Free Cash Flow",
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+        name: nameChart,
+        data: dataChart,
       },
     ],
   });
+  console.log(categories);
+  console.log(dataChart);
+
+  useEffect(() => {
+    setState({
+      options: {
+        chart: {
+          height: 350,
+          id: "basic-bar",
+        },
+        xaxis: {
+          categories: categories,
+        },
+      },
+      series: [
+        {
+          name: nameChart,
+          data: dataChart,
+        },
+      ],
+    });
+  }, [categories, dataChart]);
 
   return (
     <div>
@@ -34,6 +49,7 @@ const BasicColumnChart = () => {
         series={state.series}
         type="bar"
         width="100%"
+        height={450}
       />
     </div>
   );

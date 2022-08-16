@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, styled } from "@mui/material";
+import { MdOutlineBarChart } from "react-icons/md";
 
 const BoxHeaderCharts = styled(Box)(() => ({
   height: "5rem",
@@ -40,17 +41,21 @@ const BoxCard = styled(Box)(() => ({
   },
 }));
 
-const HeaderCharts = () => {
+const HeaderCharts = ({ dato }) => {
   return (
     <BoxHeaderCharts>
-      <BoxCard>
-        icon
-        <Typography variant="body1">Tipo Dato</Typography>
-        <Typography variant="h6">80%</Typography>
-      </BoxCard>
+      {dato && (
+        <BoxCard>
+          <MdOutlineBarChart size={22} />
+          <Typography variant="body1" fontWeight={700}>
+            {dato}
+          </Typography>
+          <Typography variant="h6">832sec</Typography>
+        </BoxCard>
+      )}
+      {/* <BoxCard></BoxCard>
       <BoxCard></BoxCard>
-      <BoxCard></BoxCard>
-      <BoxCard></BoxCard>
+      <BoxCard></BoxCard> */}
     </BoxHeaderCharts>
   );
 };
