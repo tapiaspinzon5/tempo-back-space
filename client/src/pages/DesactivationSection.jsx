@@ -107,21 +107,7 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 		// eslint-disable-next-line
 		[]
 	);
-	/* Agent: "Maria Lopez Avila"
-RoleAgent: "Agent"
-RoleUsrAuthorization: null
-RoleUsrDenied: null
-RoleUsrRequest: "Super Admin"
-UsrRequest: "Deiby Nino Garces"
-dateRequest: "29/07/2022"
-emailUsr: null
-emailUsrAuthorization: null
-emailUsrDenied: null
-emailUsrRequest: "Deiby.NinoGarces@teleperformance.com"
-ident: 621789
-identUsrRequest: 4472074
-usrAuthorization: null
-usrDenied: null */
+
 	const handleAction = async (params, context) => {
 		setFullLoading(true);
 		let rol;

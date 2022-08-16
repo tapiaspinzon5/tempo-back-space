@@ -60,10 +60,6 @@ const Analytics = ({ count }) => {
 				initialData.status === 200 &&
 				initialData.data.length > 0
 			) {
-				/* const dataOrder = await deleteDuplicatesScore(
-					initialData.data[0].ScoreExp
-				); */
-				//console.log(initialData.data[0].Kpis);
 				setKpis(initialData.data[0].Kpis);
 				//setData(dataOrder);
 				setLoading(false);

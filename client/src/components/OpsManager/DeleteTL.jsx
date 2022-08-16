@@ -651,7 +651,6 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 																	{team.NameTeamLeader}
 																</MenuItem>
 															))}
-															{/* <MenuItem value="Keep over">Keep over</MenuItem> */}
 														</Select>
 													</FormControl>
 												</Box>

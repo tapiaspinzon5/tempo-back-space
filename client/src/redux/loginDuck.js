@@ -106,12 +106,6 @@ export const loginSubmit = (data) => async (dispatch) => {
 		dispatch({
 			type: INICIO_SESION_EXITO,
 			payload: {
-				/* JSON.parse(
-					CryptoJS.AES.decrypt(
-						JSON.parse(requestData.data),
-						"secret key 123"
-					).toString(CryptoJS.enc.Utf8)
-				) */
 				data: JSON.parse(
 					CryptoJS.AES.decrypt(
 						requestData.data.replace(/['"]+/g, ""),
@@ -120,36 +114,8 @@ export const loginSubmit = (data) => async (dispatch) => {
 				),
 			},
 		});
-		/* sessionStorage.setItem(
-			"userTP",
-			JSON.stringify({
-				Token: requestData.data.Token,
-				RefreshToken: requestData.data.RefreshToken,
-				NumberLogins: requestData.data.NumberLogins,
-				Role: requestData.data.Role,
-				UserName: requestData.data.UserName,
-				Idccms: requestData.data.Idccms,
-				Quartile: requestData.data.Quartile,
-				Nombre: requestData.data.Nombre,
-			})
-		); */
-		sessionStorage.setItem(
-			"userTP",
-			requestData.data.replace(/['"]+/g, "")
-			/* 	CryptoJS.AES.encrypt(
-				JSON.stringify({
-					Token: requestData.data.Token,
-					RefreshToken: requestData.data.RefreshToken,
-					NumberLogins: requestData.data.NumberLogins,
-					Role: requestData.data.Role,
-					UserName: requestData.data.UserName,
-					Idccms: requestData.data.Idccms,
-					Quartile: requestData.data.Quartile,
-					Nombre: requestData.data.Nombre,
-				}),
-				"secret key 123"
-			).toString() */
-		);
+
+		sessionStorage.setItem("userTP", requestData.data.replace(/['"]+/g, ""));
 	} catch (error) {
 		return Promise.resolve({ data: null, error: error });
 	}
@@ -158,15 +124,6 @@ export const loginSubmit = (data) => async (dispatch) => {
 //action de verificacion de  usuario activo
 export const readUserActiveAction = () => (dispatch) => {
 	if (sessionStorage.getItem("userTP")) {
-		/* console.log(
-			JSON.parse(
-				CryptoJS.AES.decrypt(
-					sessionStorage.getItem("userTP"),
-					"secret key 123"
-				).toString(CryptoJS.enc.Utf8)
-			)
-		); */
-
 		dispatch({
 			type: INICIO_SESION_EXITO,
 			payload: {

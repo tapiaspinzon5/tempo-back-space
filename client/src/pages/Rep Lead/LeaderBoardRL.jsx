@@ -99,31 +99,7 @@ const LeaderBoardRL = () => {
 				}
 			};
 			getData();
-		} /* else {
-			const getData = async () => {
-				const filterData = await getDataLeaderboard(
-					2,
-					filters.kpi,
-					filters.time,
-					filters.group
-				);
-				if (
-					filterData &&
-					filterData.status === 200 &&
-					filterData.data.length > 1
-				) {
-					const dataOrder = await deleteDuplicatesKpis(
-						filterData.data[2].ScoreResultKpi,
-						filters.time
-					);
-
-					setKpis(filterData.data[1].ListKpi);
-					setData(dataOrder);
-					setLoading(false);
-				}
-			};
-			getData();
-		} */
+		}
 
 		// eslint-disable-next-line
 	}, [filters]);

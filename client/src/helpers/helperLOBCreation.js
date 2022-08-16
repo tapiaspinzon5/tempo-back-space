@@ -302,7 +302,6 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
 		} else if (verificationTarget.length > 0) {
 			return verificationTarget;
 		} else {
-			console.log(dts);
 			if (wd.length === dts.length) {
 				const verEdit = dts.concat(
 					ex.filter((bo) =>
@@ -362,17 +361,22 @@ export const dataToSendTLEdit = (newTLs, tlListDel, nameLob, idLob) => {
 	const dtstlc = tlc.map((tl) => [tl.idTeam, tl.replacement.idccms]);
 	//preguntar si solo arreglo o arreglo de arreglos
 	const dtstld = tld.map((tl) => tl.idccms);
-	tlr.forEach((tl) =>
-		dtstlr.push(tl.redistribute.map((ag) => [ag.idNewTeam, ag.Ident]))
+
+	tlr.map(
+		(tl) =>
+			tl.redistribute.filter((ag) => dtstlr.push([ag.idNewTeam, ag.Ident]))
+		//dtstlr.push(tl.redistribute.map((ag) => [ag.idNewTeam, ag.Ident]))
 	);
 	const dtsnt = newTLs.map((tl) => tl.idccms);
+
+	console.log(dtstlr);
 	return {
 		lobName: nameLob,
 		context: 2,
 		idLob: idLob,
 		createNewTL: dtsnt,
 		changeTL: dtstlc,
-		reassingTeam: dtstlr.length > 0 ? dtstlr[0] : [],
+		reassingTeam: dtstlr.length > 0 ? dtstlr : [],
 		inactivateTeam: dtstld,
 	};
 };

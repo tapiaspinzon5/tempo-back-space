@@ -375,42 +375,6 @@ const CreateEditCampaign = ({
 			}
 		}
 	};
-	/* 
-  const handleNext = (action) => {
-    setErrorKpisList(false);
-    setMsgErrorKpisList("");
-    setErrorOMList(false);
-    setMsgErrorOMList("");
-    if (action === "Next") {
-      const dtw = nextHelper(workDataToEdit, kpisList, OMList);
-      if (name) {
-        if (dtw.oml.length === 1 && !errorOMList) {
-          //setOMList(dtw.oml);
-          if (dtw.kpi.length > 0 && !errorKpisList) {
-            if (dtw.kpi.length <= 5) {
-              setKpisList(dtw.kpi);
-              setKpiWork(dtw.kpitw);
-              setNext(!next);
-            } else {
-              setErrorKpisList(true);
-              setMsgErrorKpisList("Uncheck KPIs (max. 5)");
-            }
-          } else {
-            setErrorKpisList(true);
-            setMsgErrorKpisList("Check KPIs is required (min. 1)");
-          }
-        } else {
-          setErrorOMList(true);
-          setMsgErrorOMList("Check Operation Manager is required (only 1)");
-        }
-      } else {
-        setErrorName(true);
-        setMsgErrorName("No data");
-      }
-    } else {
-      setNext(!next);
-    }
-  }; */
 
 	const handleCreate = () => {
 		if (name && setErrorName) {

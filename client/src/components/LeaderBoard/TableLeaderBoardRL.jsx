@@ -19,30 +19,7 @@ const BoxTable = styled(Grid)(() => ({
 		color: "#3047b0",
 	},
 }));
-/* {
-    "ccmsid": 616657,
-    "Name": "Victor Mendoza Pandales",
-    "Role": "Agent",
-    "Team": "Team Yeimmy Velasquez Rojas LOB Lob Testing",
-    "LOB": "Lob Testing",
-    "Campaign": "Testing Lore",
-    "Level": "Level 1",
-    "ExpPoint": 0,
-    "BadgesEarned": 3,
-    "MissionsAssigned": 0,
-    "MissionsApproved": 0,
-    "MissionsFailed": 0,
-    "MissionsScore": 0,
-    "MissionsQuestionsApproved": 0,
-    "MissionsQuestionsFailed": 0,
-    "ChallengesAssigned": 0,
-    "ChallengesWon": 0,
-    "KpiScore": "854.30",
-    "OrderKpi": "asc",
-    "Quartile": "Q4",
-    "rank": 1,
-    "id": 1
-} */
+
 const TableLeaderBoardRL = ({ width, data, xpOrkpi }) => {
 	const columns = [
 		{

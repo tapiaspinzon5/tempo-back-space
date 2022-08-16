@@ -187,42 +187,6 @@ const CreateEditLOB = ({
 		);
 		setDataTL(tempList);
 	};
-	/* 
-	const submit = async (context, idLob) => {
-		const dataToSend = createTeamLeaderList(dataTL, nameLOB, userData);
-		const data = await createLobOperationManager(
-			context,
-			dataToSend.lobName,
-			idLob, /// id lob seleccionada
-			dataToSend.tlIdccms,
-			dataToSend.emails
-		);
-		if (data && data.status === 200) {
-			MySwal.fire({
-				title: <p>{context === 2 ? "Saved!" : "Created LOB successfully!"}</p>,
-				icon: "success",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					//window.location.reload();
-					getData();
-				}
-			});
-		} else {
-			MySwal.fire({
-				title: <p>Send Error!</p>,
-				icon: "error",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					//window.location.reload();
-					getData();
-				}
-			});
-		}
-	}; */
 
 	const handleCreate = async () => {
 		setDisabled(true);
@@ -301,68 +265,12 @@ const CreateEditLOB = ({
 					setNext(false);
 					setOpen(false);
 				}
-				/* const sendDataLob = await requestWithData("postsetlobskpis", dts);
-				if (sendDataLob.status === 200) {
-					const TLList = await filterLobList(sendDataLob.data);
-					setLob(TLList);
-					setAllData(sendDataLob.data);
-					setNoData(false);
-					setNext(false);
-					setOpen(false);
-					setDisabled(false);
-				} else {
-					setNext(false);
-					setOpen(false);
-					setDisabled(false);
-					MySwal.fire({
-						title: <p>Send Error!</p>,
-						icon: "error",
-						confirmButtonText: "Accept",
-						allowOutsideClick: false,
-					}).then((resultado) => {
-						if (resultado.value) {
-							window.location.reload();
-						}
-					});
-				} */
 			}
 		}
-		/* if (nameLOB) {
-			if (dataTL.length > 0) {
-				const TLList = dataTL.filter((tl) => tl.checked === true);
-				if (TLList.length > 0) {
-					setOpen(false);
-					MySwal.fire({
-						title: (
-							<p>{`Are you sure you want create the LOB with name ${nameLOB}?`}</p>
-						),
-						icon: "info",
-						showDenyButton: true,
-						confirmButtonText: "Accept",
-						allowOutsideClick: false,
-					}).then((result) => {
-						if (result.isConfirmed) {
-							submit(1, 0);
-						} else if (result.isDenied) {
-							Swal.fire("Changes are not saved", "", "info");
-						}
-					});
-				} else {
-					setErrorList(true);
-					setMsgErrorList("Check Team Leader is required (min. 1)");
-				}
-			} else {
-				setErrorList(true);
-				setMsgErrorList("No data");
-			}
-		} else {
-			setError(true);
-			setMsgError("No data");
-		} */
 	};
 
 	const handleEdit = async () => {
-		setDisabled(true);
+		//setDisabled(true);
 		const tlsLob = allData.filter((tl) => tl.idLob === dataTL[0].idLob);
 		const valtledit = dataTL.filter(
 			(item1) => !tlsLob.some((item2) => item1.idccms === item2.identTL)
@@ -401,7 +309,6 @@ const CreateEditLOB = ({
 					nameLOB,
 					dataTL[0].idLob
 				);
-
 				const editDataLob = await requestWithData("postcreatelob", tls);
 				if (editDataLob.status === 200) {
 					if (dts[0] === "You did not edit any field") {

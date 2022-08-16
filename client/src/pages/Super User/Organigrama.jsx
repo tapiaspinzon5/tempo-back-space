@@ -184,7 +184,7 @@ const Organigrama = () => {
 					setNoDataLobs(true);
 				} else if (dataCampaignSel.data[3].kpi[0].Kpi === "0") {
 					setNoDataKPIs(true);
-				} /* else { */
+				}
 				dispatch({
 					type: TYPES.SHOW_DATA_CAMPAIGN,
 					payload: {
@@ -193,7 +193,6 @@ const Organigrama = () => {
 						kpis: dataCampaignSel.data[3].kpi,
 					},
 				});
-				/* } */
 				setAdminLoading(false);
 				setLobsLoading(false);
 				setKpisLoading(false);

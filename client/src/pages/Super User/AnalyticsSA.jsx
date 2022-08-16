@@ -60,10 +60,6 @@ const AnalyticsSA = ({ count }) => {
 				initialData.status === 200 &&
 				initialData.data.length > 0
 			) {
-				/* const dataOrder = await deleteDuplicatesScore(
-					initialData.data[0].ScoreExp
-				); */
-				//console.log(initialData.data[0].Kpis);
 				setKpis(initialData.data[0].Kpis);
 				//setData(dataOrder);
 				setLoading(false);
@@ -99,31 +95,7 @@ const AnalyticsSA = ({ count }) => {
 				}
 			};
 			getData();
-		} /* else {
-			const getData = async () => {
-				const filterData = await getDataLeaderboard(
-					2,
-					filters.kpi,
-					filters.time,
-					filters.group
-				);
-				if (
-					filterData &&
-					filterData.status === 200 &&
-					filterData.data.length > 1
-				) {
-					const dataOrder = await deleteDuplicatesKpis(
-						filterData.data[2].ScoreResultKpi,
-						filters.time
-					);
-
-					setKpis(filterData.data[1].ListKpi);
-					setData(dataOrder);
-					setLoading(false);
-				}
-			};
-			getData();
-		} */
+		}
 
 		// eslint-disable-next-line
 	}, [filters]);

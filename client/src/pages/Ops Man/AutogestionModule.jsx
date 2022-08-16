@@ -74,37 +74,6 @@ const AutogestionModule = () => {
 		});
 		setNoDataOM(false);
 		setLoadingOM(false);
-		/* setLoadingQA(true);
-		const roles = await getQARLCount();
-		if (
-			roles &&
-			roles.status === 200 &&
-			roles.data.length > 0 &&
-			Array.isArray(roles.data)
-		) {
-			if (roles.data.length === 1) {
-				if (roles.data[0].Ident === "0") {
-					setNoDataQA(true);
-				} else if (roles.data[0].RoleAgent === "QA Lead") {
-					setDBQA(true);
-					setom(roles.data[0]);
-				} else {
-					setNoDataQA(true);
-					setLoadingQA(false);
-				}
-			} else {
-				setDBQA(true);
-				setNoDataQA(false);
-				setom(roles.data[0]);
-				setLoadingQA(false);
-			}
-		} else if (roles && roles.data === "UnauthorizedError") {
-			dispatch(logoutAction());
-			navigate("/");
-		} else {
-			setLoadingQA(false);
-			setError(true);
-		} */
 	};
 
 	useEffect(() => {
@@ -151,30 +120,8 @@ const AutogestionModule = () => {
 		}
 	};
 	const submit = async (info, rol) => {
-		const com = await requestWithData(
-			"postinsertrolecampaign",
-			{
-				role: rol,
-				emails: [
-					{
-						email: info.Email,
-						name: info.Name,
-						rol: "Operations Commander",
-						manager: userData.Nombre,
-						rolManager: "Operations Commander",
-					},
-				],
-				idCampaign: [userData.IdCampaign],
-				idUser: info.Ident,
-				context: 1,
-				idTeam: 0,
-			} /* {
-			idccmsUser: info.Ident,
+		const com = await requestWithData("postinsertrolecampaign", {
 			role: rol,
-			context: 1,
-			idLob: 0,
-			idTeam: 0,
-			idCampaign: [0],
 			emails: [
 				{
 					email: info.Email,
@@ -184,8 +131,11 @@ const AutogestionModule = () => {
 					rolManager: "Operations Commander",
 				},
 			],
-		} */
-		);
+			idCampaign: [userData.IdCampaign],
+			idUser: info.Ident,
+			context: 1,
+			idTeam: 0,
+		});
 		if (com && com.status === 200) {
 			MySwal.fire({
 				title: <p>{"Assigned!"}</p>,
