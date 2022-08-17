@@ -41,14 +41,18 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
 
   useEffect(() => {
     getDataLOB();
+    getDataKPI();
   }, [idcampaign]);
   useEffect(() => {
-    getDataTeams();
     getDataKPI();
+    getDataTeams();
   }, [idLob]);
   useEffect(() => {
     getDataAgents();
   }, [idTeam]);
+  useEffect(() => {
+    handleConsulta();
+  }, [caso, idcampaign, idLob, idTeam]);
 
   //Trae la lista de campañas disponibles de suario
   const getDataAccounts = async () => {
@@ -100,6 +104,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idExam: 0,
       idQuestion: 0,
       idChallenge: 0,
+      caso,
     });
 
     setKpiData(dataKPI.data[0].ListKpi);
@@ -120,7 +125,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
-
+    console.log(dataChart.data);
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data[0], context));
     setDataChart(helperDataChartData(dataChart.data[0], context));
@@ -155,6 +160,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             setSelectKpi={setSelectKpi}
             handleConsulta={handleConsulta}
             setContext={setContext}
+            setCaso={setCaso}
           />
         </Box>
       </Grid>

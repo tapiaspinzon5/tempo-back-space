@@ -59,6 +59,7 @@ const NavChartsAnalytics = ({
   setSelectKpi,
   handleConsulta,
   setContext,
+  setCaso,
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
@@ -85,7 +86,49 @@ const NavChartsAnalytics = ({
           ))}
         </Select>
       </FormControl>
-
+      <Box
+        marginTop={1}
+        sx={{
+          display: "flex",
+        }}
+      >
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            sx={{ width: "100%" }}
+            label="Start"
+            value={date1}
+            onChange={(newValue) => {
+              setDate1(
+                newValue
+                  ? `${newValue.getFullYear()}-${
+                      newValue.getMonth() + 1
+                    }-${newValue.getDate()}`
+                  : null
+              );
+            }}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ width: "48%", marginRight: "4%" }} />
+            )}
+          />
+          <DatePicker
+            minDate={new Date(date1)}
+            label="End"
+            value={date2}
+            onChange={(newValue) => {
+              setDate2(
+                newValue
+                  ? `${newValue.getFullYear()}-${
+                      newValue.getMonth() + 1
+                    }-${newValue.getDate()}`
+                  : null
+              );
+            }}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ width: "48%" }} />
+            )}
+          />
+        </LocalizationProvider>
+      </Box>
       <Box marginTop={1} display="flex">
         <FormControl sx={{ width: "48%", marginRight: "4%" }}>
           <InputLabel id="campaign-select-label">Campaign</InputLabel>
@@ -94,7 +137,10 @@ const NavChartsAnalytics = ({
             id="campaign-simple-select"
             value={idcampaign || ""}
             label="Campaign"
-            onChange={(e) => setIdcampaign(e.target.value)}
+            onChange={(e) => {
+              setIdcampaign(e.target.value);
+              setCaso(1);
+            }}
           >
             {accounts.map((type) => (
               <MenuItem value={type.IdCampaign} key={type.IdCampaign}>
@@ -147,49 +193,7 @@ const NavChartsAnalytics = ({
           )}
         </BoxGroup>
       </Box>
-      <Box
-        marginTop={1}
-        sx={{
-          display: "flex",
-        }}
-      >
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            sx={{ width: "100%" }}
-            label="Start"
-            value={date1}
-            onChange={(newValue) => {
-              setDate1(
-                newValue
-                  ? `${newValue.getFullYear()}-${
-                      newValue.getMonth() + 1
-                    }-${newValue.getDate()}`
-                  : null
-              );
-            }}
-            renderInput={(params) => (
-              <TextField {...params} sx={{ width: "48%", marginRight: "4%" }} />
-            )}
-          />
-          <DatePicker
-            minDate={new Date(date1)}
-            label="End"
-            value={date2}
-            onChange={(newValue) => {
-              setDate2(
-                newValue
-                  ? `${newValue.getFullYear()}-${
-                      newValue.getMonth() + 1
-                    }-${newValue.getDate()}`
-                  : null
-              );
-            }}
-            renderInput={(params) => (
-              <TextField {...params} sx={{ width: "48%" }} />
-            )}
-          />
-        </LocalizationProvider>
-      </Box>
+
       <Box>
         {/* KPIS */}
         {motherDropDown === 1 && (
