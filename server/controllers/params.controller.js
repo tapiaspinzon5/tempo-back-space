@@ -855,6 +855,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
         new SpParam("Kpi", req.kpi, TYPES.VarChar),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
       ]);
     case "spQueryAnalitycsGeneral":
       return parametrizacion([
