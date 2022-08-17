@@ -49,87 +49,6 @@ const LeaderRankBoard = ({
   return (
     <>
       <BoxSelect>
-        {/* {userRol === "Cluster Director" && (
-					<>
-						<BoxFormControl>
-							<InputLabel id="campaign-label">Capaign</InputLabel>
-							<Select
-								labelId="campaign-label"
-								value={kpiFilter}
-								label="Campaign"
-								onChange={(e) => {
-									setKpiFilter(e.target.value);
-									setFilters({
-										kpi: e.target.value,
-										time: timeFilter,
-										group: groupFilter,
-										start: date1,
-										end: date2,
-									});
-								}}
-							>
-								{leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
-								{kpis.map((kpi, index) => (
-									<MenuItem key={index} value={kpi.Kpi}>
-										{kpi.Kpi}
-									</MenuItem>
-								))}
-							</Select>
-						</BoxFormControl>
-
-						<BoxFormControl>
-							<InputLabel id="lob-label">LOB</InputLabel>
-							<Select
-								labelId="lob-label"
-								value={kpiFilter}
-								label="LOB"
-								onChange={(e) => {
-									setKpiFilter(e.target.value);
-									setFilters({
-										kpi: e.target.value,
-										time: timeFilter,
-										group: groupFilter,
-										start: date1,
-										end: date2,
-									});
-								}}
-							>
-								{leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
-								{kpis.map((kpi, index) => (
-									<MenuItem key={index} value={kpi.Kpi}>
-										{kpi.Kpi}
-									</MenuItem>
-								))}
-							</Select>
-						</BoxFormControl>
-
-						<BoxFormControl>
-							<InputLabel id="team-label">Team</InputLabel>
-							<Select
-								labelId="team-label"
-								value={kpiFilter}
-								label="Team"
-								onChange={(e) => {
-									setKpiFilter(e.target.value);
-									setFilters({
-										kpi: e.target.value,
-										time: timeFilter,
-										group: groupFilter,
-										start: date1,
-										end: date2,
-									});
-								}}
-							>
-								{leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
-								{kpis.map((kpi, index) => (
-									<MenuItem key={index} value={kpi.Kpi}>
-										{kpi.Kpi}
-									</MenuItem>
-								))}
-							</Select>
-						</BoxFormControl>
-					</>
-				)} */}
         <BoxFormControl>
           <InputLabel id="kpi-label">Kpi</InputLabel>
           <Select
@@ -180,6 +99,29 @@ const LeaderRankBoard = ({
           </BoxFormControl>
         )}
         {(userRol === "Team Leader" || userRol === "Agent") && (
+          <BoxFormControl>
+            <InputLabel id="time-label">Group</InputLabel>
+            <Select
+              labelId="group-label"
+              value={groupFilter}
+              label="Group"
+              onChange={(e) => {
+                setGroupFilter(e.target.value);
+                setFilters({
+                  kpi: kpiFilter,
+                  time: timeFilter,
+                  group: e.target.value,
+                  start: date1,
+                  end: date2,
+                });
+              }}
+            >
+              <MenuItem value="My Team">My Team</MenuItem>
+              <MenuItem value="My Campaign">My Campaign</MenuItem>
+            </Select>
+          </BoxFormControl>
+        )}
+        {userRol === "Super Admin" && (
           <BoxFormControl>
             <InputLabel id="time-label">Group</InputLabel>
             <Select
@@ -271,7 +213,7 @@ const LeaderRankBoard = ({
             </LocalizationProvider>
           </Box>
         )}
-        {!leaderBoard && (
+        {!leaderBoard && !leaderBoardRL && (
           <Grid
             item
             mt={4}

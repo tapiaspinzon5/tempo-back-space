@@ -26,6 +26,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [selectKpi, setSelectKpi] = useState([]);
   const [data, setData] = useState([]);
   const [context, setContext] = useState(0);
+  const [caso, setCaso] = useState(0);
   const [categories, setCategories] = useState([]);
   const [dataChart, setDataChart] = useState([]);
 
@@ -107,6 +108,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const handleConsulta = async () => {
     const dataChart = await requestWithData("getAnalyticsClusterDirector", {
       context,
+      caso,
       idcampaign,
       idLob,
       idTeam,
