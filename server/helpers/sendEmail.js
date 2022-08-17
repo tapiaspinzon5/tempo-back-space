@@ -303,7 +303,7 @@ exports.sendUserChangeRolEmail = async (emails, subject, header, emailSender) =>
                       <p>
                       We are so pleased to inform you that your role in our platform 
                       has been changed by the account administrator. Now you will be 
-                      the  <b>${oldRole}</b> of the account. 
+                      the  <b>${rol}</b> of the account. 
                       </p>
                       <p>
                       To access the platform please click on the "Join the Journey"

@@ -937,6 +937,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("idExam", req.idExam, TYPES.Int),
         new SpParam("idQuestion", req.idQuestion, TYPES.Int),
         new SpParam("idChallenge", req.idChallenge, TYPES.Int),
+        new SpParam("case", req.caso, TYPES.Int),
       ]);
 
     // Casos de Actividades
