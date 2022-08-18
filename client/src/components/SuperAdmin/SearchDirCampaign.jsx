@@ -120,11 +120,10 @@ const SearchDirCampaign = ({
             {" "}
             <input
               type="checkbox"
-              id="account"
-              name="account"
+              id={camp.nameCampaign}
+              name={camp.nameCampaign}
               checked={camp.checked}
               value={camp.IdCampaign}
-              //onChange={(e) => handleSelectAccount(e)}
               onChange={() => {
                 handleCheck(camp);
               }}
@@ -133,7 +132,7 @@ const SearchDirCampaign = ({
                 marginRight: ".5rem",
               }}
             />
-            <label htmlFor="account">
+            <label htmlFor={camp.nameCampaign}>
               {camp.IdCampaign}-{camp.nameCampaign}
             </label>
           </Box>

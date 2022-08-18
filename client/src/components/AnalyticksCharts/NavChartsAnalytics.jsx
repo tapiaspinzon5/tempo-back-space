@@ -75,7 +75,6 @@ const NavChartsAnalytics = ({
           label="Info"
           onChange={(e) => {
             setMotherDropDown(e.target.value);
-
             setContext(e.target.value);
           }}
         >
@@ -189,6 +188,7 @@ const NavChartsAnalytics = ({
               idTeam={idTeam}
               setIdTeam={setIdTeam}
               setShowGroup={setShowGroup}
+              setCaso={setCaso}
             />
           )}
         </BoxGroup>
@@ -199,16 +199,17 @@ const NavChartsAnalytics = ({
         {motherDropDown === 1 && (
           <>
             <SearchComponent
-              label="Agents"
-              dataSearch={agents}
-              context="agents"
-              setAgent={setAgent}
-            />
-            <SearchComponent
               label="KPI"
               dataSearch={kpiData}
               context="kpi"
               setSelectKpi={setSelectKpi}
+            />
+            <SearchComponent
+              label="Agents"
+              dataSearch={agents}
+              context="agents"
+              setAgent={setAgent}
+              setCaso={setCaso}
             />
           </>
         )}

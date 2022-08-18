@@ -9,6 +9,7 @@ const SearchComponent = ({
   context,
   setAgent,
   setSelectKpi,
+  setCaso,
 }) => {
   const defaultProps = {
     options: dataSearch,
@@ -18,6 +19,7 @@ const SearchComponent = ({
   const handleSelect = (newValue) => {
     if (context === "agents") {
       setAgent(newValue);
+      setCaso(4);
     }
     if (context === "kpi") {
       setSelectKpi(newValue);

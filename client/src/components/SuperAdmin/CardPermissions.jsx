@@ -81,8 +81,10 @@ const CardPermissions = ({
   const [newTL, setnewTL] = useState(null);
   const [teams, setTeams] = useState([]);
   const [lobs, setLobs] = useState([]);
+  const [continua, setContinua] = useState(true);
 
   const handleRole = (e, roleSpace) => {
+    setContinua(true);
     setTeamLeader({});
     setnewTL(null);
     setTeams([]);
@@ -92,7 +94,12 @@ const CardPermissions = ({
     setRoleSpace(roleSpace);
     if (role === "Cluster Director") {
       setShowAccounts(true);
+      setContinua(false);
     }
+    if (role === "Super Admin") {
+      setContinua(false);
+    }
+
     if (
       role === "Operation Manager" ||
       role === "QA Lead" ||
@@ -100,6 +107,7 @@ const CardPermissions = ({
     ) {
       const existeRol = dataAgent.filter((user) => user.RoleAgent === role);
       setRoleExist(existeRol);
+      setContinua(false);
     } else {
       setRoleExist([]);
     }
@@ -140,6 +148,7 @@ const CardPermissions = ({
       ))}
 
       <ButtonActionBlue
+        disabled={continua}
         onClick={() => {
           handleChangeRol();
           setRoleExist([]);
@@ -213,10 +222,10 @@ const CardPermissions = ({
                   id="lob-simple-select"
                   value={teamLeader.idLob || ""}
                   label="Select LOB"
-                  // disabled={!error && agent.length !== 0 ? false : true}
-                  onChange={(e) =>
-                    setTeamLeader({ idLob: e.target.value, context: 1 })
-                  }
+                  onChange={(e) => {
+                    setTeamLeader({ idLob: e.target.value, context: 1 });
+                    setContinua(false);
+                  }}
                 >
                   {lobs.map((lob) => (
                     <MenuItem value={lob.idLob} key={lob.idLob}>
@@ -238,9 +247,12 @@ const CardPermissions = ({
                   id="team-simple-select"
                   value={teamLeader.idTeam || ""}
                   label="Select Team"
-                  onChange={(e) =>
-                    setTeamLeader({ idTeam: e.target.value, context: 2 })
-                  }
+                  onChange={(e) => {
+                    {
+                      setTeamLeader({ idTeam: e.target.value, context: 2 });
+                      setContinua(false);
+                    }
+                  }}
                 >
                   {teams.map((team) => (
                     <MenuItem value={team.idTeam} key={team.idTeam}>

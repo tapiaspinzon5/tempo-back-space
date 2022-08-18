@@ -73,6 +73,7 @@ const LobTeamBox = ({
   idTeam,
   setIdTeam,
   setShowGroup,
+  setCaso,
 }) => {
   const refNav = useRef();
   const [showTeam, setShowTeam] = useState(false);
@@ -153,6 +154,7 @@ const LobTeamBox = ({
                         value={camp.idTeam}
                         onChange={() => {
                           setIdTeam(camp.idTeam);
+                          setCaso(3);
                         }}
                       />
                       <label htmlFor="account">{camp.NameTeam}</label>
@@ -179,6 +181,7 @@ const LobTeamBox = ({
                         value={camp.idLob}
                         onChange={() => {
                           setIdLob(camp.idLob);
+                          setCaso(2);
                         }}
                       />
                       <label htmlFor="account">{camp.NameLob}</label>
