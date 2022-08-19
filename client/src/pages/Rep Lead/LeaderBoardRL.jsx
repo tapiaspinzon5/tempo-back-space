@@ -26,7 +26,7 @@ const LeaderBoardRL = () => {
 	const [filters, setFilters] = useState({
 		kpi: "",
 		time: "Day",
-		group: "My Team",
+		group: "",
 	});
 
 	let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
@@ -75,6 +75,7 @@ const LeaderBoardRL = () => {
 		getData();
 		// eslint-disable-next-line
 	}, []);
+
 	useEffect(() => {
 		if (filters.kpi !== "" && filters.start && filters.end) {
 			setLoading(true);
@@ -84,6 +85,7 @@ const LeaderBoardRL = () => {
 					endDate: filters.end,
 					kpi: filters.kpi,
 					context: 2,
+					idCampaign: filters.group,
 				});
 				if (
 					initialData &&
@@ -103,6 +105,7 @@ const LeaderBoardRL = () => {
 
 		// eslint-disable-next-line
 	}, [filters]);
+
 	return (
 		<MainPage>
 			<Header />

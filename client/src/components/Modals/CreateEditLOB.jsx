@@ -240,7 +240,7 @@ const CreateEditLOB = ({
 						setOpen(false);
 						setDisabled(false);
 						MySwal.fire({
-							title: <p>Internal Server Error!</p>,
+							title: <p>Houston We Have a Problem!</p>,
 							icon: "error",
 							confirmButtonText: "Accept",
 							allowOutsideClick: false,
@@ -252,7 +252,7 @@ const CreateEditLOB = ({
 					}
 				} else {
 					MySwal.fire({
-						title: <p>Internal Server Error!</p>,
+						title: <p>Houston We Have a Problem!</p>,
 						icon: "error",
 						confirmButtonText: "Accept",
 						allowOutsideClick: false,
@@ -337,7 +337,7 @@ const CreateEditLOB = ({
 							setOpen(false);
 							setDisabled(false);
 							MySwal.fire({
-								title: <p>Internal Server Error!</p>,
+								title: <p>Houston We Have a Problem!</p>,
 								icon: "error",
 								confirmButtonText: "Accept",
 								allowOutsideClick: false,
@@ -353,7 +353,7 @@ const CreateEditLOB = ({
 					setOpen(false);
 					setDisabled(false);
 					MySwal.fire({
-						title: <p>Internal Server Error!</p>,
+						title: <p> Houston We Have a Problem!</p>,
 						icon: "error",
 						confirmButtonText: "Accept",
 						allowOutsideClick: false,

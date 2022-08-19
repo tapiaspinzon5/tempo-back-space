@@ -124,8 +124,8 @@ const UploadAgentSection = () => {
 				}
 			};
 			reader.readAsArrayBuffer(file);
+			setLoading(false);
 		});
-		setLoading(false);
 	};
 
 	const uploadFile = async (e) => {
