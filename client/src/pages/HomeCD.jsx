@@ -14,7 +14,7 @@ const HomeCD = ({ count }) => {
       <Box>
         <Header count={count} />
         <Typography variant="h5">
-          Welcome to Space GP - Cluster Director
+          Welcome to Space GP - SPACE Project Commander
         </Typography>
       </Box>
       <Grid container spacing={1}>

@@ -1,12 +1,10 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-let d =
-  "U2FsdGVkX184r+mJGbxiaAUwS2UKdaKlStEVXUzMEWqcT3wkscg1/DMyVnnnl7pAxv0I36Okj3mlKcPZEhlMs8tW8zUIkV5oL08+zkMqE6Lk1IlLsU41NDM0MVY28cxATqoyqtbhg52E5O4PmgnGSQ==";
-
+let d = "U2FsdGVkX1+Y7OEvYItQWqgdQv2N+0TyPW5j0m765fw=";
 let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
 let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));
-// console.log(decryptedData);
+console.log(decryptedData);
 
 const axiosInstance = axios.create({
   //Localhost
