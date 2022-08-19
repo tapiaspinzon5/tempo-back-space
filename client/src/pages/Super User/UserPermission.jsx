@@ -144,7 +144,6 @@ const UserPermission = () => {
     setCheck([]);
   };
 
-  console.log(checkUser);
   //cambio de Rol de un Agente
   const handleChangeRol = () => {
     let msj;
@@ -218,7 +217,10 @@ const UserPermission = () => {
           <Box display="flex" alignItems="flex-end" height="5rem">
             <ButtonAction onClick={() => handleOpen()}>New User</ButtonAction>
 
-            <ButtonAction onClick={() => handleState()}>
+            <ButtonAction
+              onClick={() => handleState()}
+              disabled={checkUser.length === 0 ? true : false}
+            >
               Delete User
             </ButtonAction>
             <ButtonAction onClick={() => setPermissions(!permissions)}>

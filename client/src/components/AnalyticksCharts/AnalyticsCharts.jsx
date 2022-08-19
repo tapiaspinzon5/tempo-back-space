@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import ButtonsTopAnalytics from "./ButtonsTopAnalytics";
 import NavChartsAnalytics from "./NavChartsAnalytics";
 import HeaderCharts from "./HeaderCharts";
@@ -18,9 +18,9 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [teams, setTeams] = useState([]);
   const [agents, setAgents] = useState([]);
   const [agent, setAgent] = useState([]);
-  const [idcampaign, setIdcampaign] = useState("");
-  const [idLob, setIdLob] = useState("");
-  const [idTeam, setIdTeam] = useState("");
+  const [idcampaign, setIdcampaign] = useState(0);
+  const [idLob, setIdLob] = useState(0);
+  const [idTeam, setIdTeam] = useState(0);
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
   const [selectKpi, setSelectKpi] = useState([]);
@@ -41,14 +41,19 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
 
   useEffect(() => {
     getDataLOB();
+    getDataKPI();
   }, [idcampaign]);
   useEffect(() => {
-    getDataTeams();
     getDataKPI();
+    getDataTeams();
   }, [idLob]);
   useEffect(() => {
     getDataAgents();
   }, [idTeam]);
+
+  useEffect(() => {
+    handleConsulta();
+  }, [caso, selectKpi, agent.Ident]);
 
   //Trae la lista de campañas disponibles de suario
   const getDataAccounts = async () => {
@@ -57,6 +62,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     });
     setAccounts(data.data[0].Campaign);
   };
+
   //Trae la lista de LOBs de una campaña
   const getDataLOB = async () => {
     const data = await requestWithData("getorganizationalunit", {
@@ -65,6 +71,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     });
     setLOBs(data.data[1].Lobs);
   };
+
   //Trae la lista de Equipos perteneciente a una LOB de una campaña
   const getDataTeams = async () => {
     const data = await requestWithData("getorganizationalunit", {
@@ -73,6 +80,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     });
     setTeams(data.data[0].Teams);
   };
+
   //Trae la lista de Agentes perteneciente a un Equipo
   const getDataAgents = async () => {
     const data = await requestWithData("getorganizationalunit", {
@@ -86,12 +94,13 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
 
     setAgents(agentesFiltrados);
   };
+
   //Trae la lista de KPI de una campaña
   const getDataKPI = async () => {
     const dataKPI = await requestWithData("getAnalyticsClusterDirector", {
       context: 6,
       idLob: idLob,
-      idCampaign: 0,
+      idCampaign: idcampaign,
       idTeam: 0,
       initDate: "01-01-2022",
       endDate: "01-01-2022",
@@ -100,33 +109,38 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idExam: 0,
       idQuestion: 0,
       idChallenge: 0,
+      caso,
     });
 
-    setKpiData(dataKPI.data[0].ListKpi);
+    const kpi = dataKPI.data[0]?.ListKpi;
+    const kpiUnicos = [...new Set(kpi)];
+    console.log(kpiUnicos);
+    setKpiData(kpiUnicos);
   };
 
   const handleConsulta = async () => {
     const dataChart = await requestWithData("getAnalyticsClusterDirector", {
       context,
       caso,
-      idcampaign,
+      idCampaign: idcampaign,
       idLob,
       idTeam,
       initDate: date1,
       endDate: date2,
-      kpi: selectKpi.Kpi,
-      idccmsUser: agent.Ident,
+      kpi: selectKpi.Kpi || "0",
+      idccmsUser: agent.Ident || 0,
       idExam: 0,
       idQuestion: 0,
       idChallenge: 0,
     });
-
+    console.log(dataChart.data);
     setData(dataChart.data[0]);
-    setCategories(helperDataChartCat(dataChart.data[0], context));
-    setDataChart(helperDataChartData(dataChart.data[0], context));
+    setCategories(helperDataChartCat(dataChart.data, context));
+    setDataChart(helperDataChartData(dataChart.data, context));
     //const fittedData = helperDataChartData(dataChart.data[0], context);
   };
 
+  console.log(data);
   return (
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>
@@ -135,6 +149,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             showCharts={showCharts}
             handleCharts={handleCharts}
           />
+          <Button onClick={getDataKPI}>trear datos</Button>
           <NavChartsAnalytics
             kpiData={kpiData}
             accounts={accounts}
@@ -155,6 +170,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             setSelectKpi={setSelectKpi}
             handleConsulta={handleConsulta}
             setContext={setContext}
+            setCaso={setCaso}
           />
         </Box>
       </Grid>
@@ -165,7 +181,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
         <Box padding={1}>
           <BasicColumnChart
             categories={categories}
-            nameChart="AHT"
+            nameChart={data?.Kpi}
             dataChart={dataChart}
           />
           {/* <MultipleCharsPareto /> */}
