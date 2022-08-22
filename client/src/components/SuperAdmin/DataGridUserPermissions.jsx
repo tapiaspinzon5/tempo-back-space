@@ -44,6 +44,7 @@ const DataGridUserPermissions = ({
               type="radio"
               id={params.id}
               name="users"
+              disabled={params.row.RoleAgent === "Team Leader" ? true : false}
               value={params.row.Ident}
               onChange={() => {
                 setCheckUser(params.row);
