@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { Box, styled } from "@mui/system";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import { validateFields, validateHeaders } from "../../helpers/helpers";
 import { uploadQuizes } from "../../utils/api";
 import {

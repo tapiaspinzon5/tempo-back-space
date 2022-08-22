@@ -12,50 +12,51 @@ import { Box } from "@mui/system";
 
 ////////////////////////////////////////
 export const HomeOM = ({ count }) => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState(null);
 
-	return (
-		<>
-			<MainPage>
-				<Box>
-					<Header count={count} />
-					<Typography variant="h5">
-						{" "}
-						Welcome to Space GP - Operation Manager
-					</Typography>
-				</Box>
+  return (
+    <>
+      <MainPage>
+        <Box>
+          <Header count={count} />
+          <Typography variant="h5">
+            {" "}
+            Welcome to Space GP - Operation Manager
+          </Typography>
+        </Box>
 
-				<Grid container spacing={1}>
-					<Grid item xs={12} md={4}>
-						<ButtonHome
-							onClick={() => {
-								navigate("/lobmanagement");
-							}}
-						>
-							<img src={OM_LOBManage} alt="top-Ten" />
-						</ButtonHome>
-					</Grid>
-					<Grid item xs={12} md={4}>
-						<ButtonHome
-							onClick={() => {
-								navigate("/rolemanagement");
-							}}
-						>
-							<img src={OM_RoleManage} alt="top-Ten" />
-						</ButtonHome>
-					</Grid>
-					<Grid item xs={12} md={4}>
-						<ButtonHome
-							onClick={() => {
-								navigate("/analytics");
-							}}
-						>
-							<img src={Analytics} alt="top-Ten" />
-						</ButtonHome>
-					</Grid>
-				</Grid>
-				<Footer />
-			</MainPage>
-		</>
-	);
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={4}>
+            <ButtonHome
+              onClick={() => {
+                navigate("/lobmanagement");
+              }}
+            >
+              <img src={OM_LOBManage} alt="top-Ten" />
+            </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ButtonHome
+              onClick={() => {
+                navigate("/rolemanagement");
+              }}
+            >
+              <img src={OM_RoleManage} alt="top-Ten" />
+            </ButtonHome>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <ButtonHome
+              onClick={() => {
+                navigate("/analytics");
+              }}
+            >
+              <img src={Analytics} alt="top-Ten" />
+            </ButtonHome>
+          </Grid>
+        </Grid>
+        <Footer />
+      </MainPage>
+    </>
+  );
 };

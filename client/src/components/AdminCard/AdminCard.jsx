@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Grid, styled, Typography, Box } from "@mui/material";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {

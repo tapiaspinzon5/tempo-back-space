@@ -381,7 +381,7 @@ const Organigrama = () => {
                     }}
                   >
                     <BoxCard>
-                      <Avatar>OM</Avatar>
+                      <Avatar>OC</Avatar>
                       <Typography
                         variant="body1"
                         color="initial"
@@ -391,7 +391,7 @@ const Organigrama = () => {
                       </Typography>
                     </BoxCard>
                     <BoxCard>
-                      <Avatar>QA</Avatar>
+                      <Avatar>MS</Avatar>
                       <Typography
                         variant="body1"
                         color="initial"
@@ -401,7 +401,7 @@ const Organigrama = () => {
                       </Typography>
                     </BoxCard>
                     <BoxCard>
-                      <Avatar>RL</Avatar>
+                      <Avatar>FE</Avatar>
                       <Typography
                         variant="body1"
                         color="initial"
@@ -543,7 +543,7 @@ const Organigrama = () => {
             {showAgents && (
               <Grid item xs={12} sm={6} lg={3}>
                 <Typography variant="h6" color="initial">
-                  Agents
+                  Cosmonauts
                 </Typography>
                 <BoxSection>
                   <BoxContain>

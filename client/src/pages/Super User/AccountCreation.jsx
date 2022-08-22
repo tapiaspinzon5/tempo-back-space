@@ -164,6 +164,7 @@ const AccountCreation = () => {
 				},
 			],
 			context: 1,
+			idLob: 0,
 		});
 
 		if (cqa && cqa.status === 200) {

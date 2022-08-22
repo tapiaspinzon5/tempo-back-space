@@ -10,7 +10,7 @@ import { Grid, Typography, styled, Box, Modal } from "@mui/material";
 import { FiDownload, FiUpload } from "react-icons/fi";
 import TableKPIUpload from "../../components/ReportingLead/TableKPIUpload";
 import { ModalLoading } from "../../components/ModalLoading";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import {

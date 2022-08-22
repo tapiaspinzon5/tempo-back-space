@@ -1,10 +1,12 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-let d = "U2FsdGVkX1+Y7OEvYItQWqgdQv2N+0TyPW5j0m765fw=";
+/* let d =
+	"U2FsdGVkX184r+mJGbxiaAUwS2UKdaKlStEVXUzMEWqcT3wkscg1/DMyVnnnl7pAxv0I36Okj3mlKcPZEhlMs8tW8zUIkV5oL08+zkMqE6Lk1IlLsU41NDM0MVY28cxATqoyqtbhg52E5O4PmgnGSQ==";
+
 let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
-let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));
-console.log(decryptedData);
+let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8)); */
+// console.log(decryptedData);
 
 const axiosInstance = axios.create({
   //Localhost
@@ -37,7 +39,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      //console.log("llega   ", decryptedData);
+      console.log("llega   ", decryptedData);
       return data;
     },
   ],
@@ -55,7 +57,8 @@ axiosInstance.interceptors.request.use((config) => {
   config.headers.Authorization = "Bearer " + user.Token;
   config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
   config.headers["Access-Control-Allow-Origin"] = "http://localhost:4343";
-  config.data = { ...config.data, idccms: user.Idccms };
+  config.data = { ...config.data, idccms: 4581022 };
+  //config.data = { ...config.data, idccms: user.Idccms };
   return config;
 });
 

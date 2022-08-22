@@ -132,7 +132,7 @@ const TeamInformation = () => {
 				<Header />
 				<Grid container>
 					<Grid item xs={12} md={4}>
-						<Typography variant="h5">Team Information - Team Leader</Typography>
+						<Typography variant="h5">Team Information - Pilot</Typography>
 					</Grid>
 					<Grid
 						item

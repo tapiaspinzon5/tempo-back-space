@@ -55,6 +55,13 @@ const TableLeaderBoardRL = ({ width, data, xpOrkpi }) => {
 			cellClassName: "super-app-theme--cell",
 		},
 		{
+			field: "LOB",
+			headerName: "LOB",
+			width: width / 4 < 200 ? 230 : width / 4,
+			headerClassName: "super-app-theme--header",
+			cellClassName: "super-app-theme--cell",
+		},
+		{
 			field: "Level",
 			headerName: "level",
 			width: width / 4 < 100 ? 100 : width / 4,

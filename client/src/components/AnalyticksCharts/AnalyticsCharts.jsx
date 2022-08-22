@@ -114,7 +114,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
 
     const kpi = dataKPI.data[0]?.ListKpi;
     const kpiUnicos = [...new Set(kpi)];
-    console.log(kpiUnicos);
+
     setKpiData(kpiUnicos);
   };
 
@@ -133,14 +133,13 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
-    console.log(dataChart.data);
+
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data, context));
     setDataChart(helperDataChartData(dataChart.data, context));
     //const fittedData = helperDataChartData(dataChart.data[0], context);
   };
 
-  console.log(data);
   return (
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>
