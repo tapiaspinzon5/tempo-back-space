@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Grid, Box, Button } from "@mui/material";
 import ButtonsTopAnalytics from "./ButtonsTopAnalytics";
 import NavChartsAnalytics from "./NavChartsAnalytics";
@@ -12,6 +13,7 @@ import {
 } from "../../helpers/helperDataChart";
 
 const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
+  const dataUser = useSelector((store) => store.loginUser.userData);
   const [kpiData, setKpiData] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [LOBs, setLOBs] = useState([]);
@@ -30,9 +32,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [categories, setCategories] = useState([]);
   const [dataChart, setDataChart] = useState([]);
 
-  const handleCharts = () => {
-    setShowCharts(false);
-  };
+  const { Role } = dataUser;
 
   useEffect(() => {
     //getDataKPI();
@@ -144,12 +144,10 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     <Grid container>
       <Grid item xs={12} md={4} lg={3}>
         <Box padding={1}>
-          <ButtonsTopAnalytics
-            showCharts={showCharts}
-            handleCharts={handleCharts}
-          />
+          <ButtonsTopAnalytics Role={Role} setShowCharts={setShowCharts} />
           <Button onClick={getDataKPI}>trear datos</Button>
           <NavChartsAnalytics
+            Role={Role}
             kpiData={kpiData}
             accounts={accounts}
             idcampaign={idcampaign}

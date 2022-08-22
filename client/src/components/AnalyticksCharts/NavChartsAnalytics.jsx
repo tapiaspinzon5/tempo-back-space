@@ -45,6 +45,7 @@ const info = [
 ];
 
 const NavChartsAnalytics = ({
+  Role,
   kpiData,
   accounts,
   idcampaign,

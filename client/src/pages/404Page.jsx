@@ -12,6 +12,7 @@ const Page404 = () => {
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        position: "absolute",
       }}
     />
   );
