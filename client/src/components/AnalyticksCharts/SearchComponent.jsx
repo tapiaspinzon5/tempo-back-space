@@ -26,7 +26,6 @@ const SearchComponent = ({
     }
   };
 
-  //console.log(dataSearch);
   return (
     <Box marginTop={1}>
       <Autocomplete

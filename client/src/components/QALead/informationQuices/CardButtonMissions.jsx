@@ -22,7 +22,8 @@ const CardButtonMissions = ({ miss, removeMission }) => {
   return (
     <ButtonCard
       onClick={() => removeMission(miss)}
-      disabled={miss.Status !== 1}
+      //disabled={miss.Status !== 1}
+      disabled={true}
     >
       <Box>
         <Typography variant="body1">{miss.NameMission}</Typography>

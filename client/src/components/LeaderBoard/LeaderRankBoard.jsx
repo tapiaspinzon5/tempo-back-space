@@ -254,6 +254,7 @@ const LeaderRankBoard = ({
           >
             <ButtonAction
               onClick={() => setShowCharts(true)}
+              disabled={true}
               sx={{
                 height: "3.2rem",
                 display: "flex",

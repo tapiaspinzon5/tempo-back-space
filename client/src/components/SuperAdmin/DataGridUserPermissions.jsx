@@ -35,7 +35,6 @@ const DataGridUserPermissions = ({
         <div
           style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          {/* {console.log(params.row)} */}
           {params.value}
           {params.row.Request ? (
             <GiSandsOfTime color="#3047B0" size={18} />

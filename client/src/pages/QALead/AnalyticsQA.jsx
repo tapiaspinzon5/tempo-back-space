@@ -58,7 +58,7 @@ const AnalyticsQA = ({ count }) => {
         kpi: "0",
         context: 4,
       });
-      //console.log("este el el console  ", initialData.data);
+
       if (
         initialData &&
         initialData.status === 200 &&

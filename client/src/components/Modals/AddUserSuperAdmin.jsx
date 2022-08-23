@@ -150,7 +150,6 @@ const AddUserSuperAdmin = ({
     setSearch(false);
   };
 
-  //console.log(contextTL);
   const handleAccount = async (e) => {
     setNewUser({ ...newUser, idCampaign: [e.target.value] });
     setSearchCampaign(e.target.value);
@@ -179,6 +178,7 @@ const AddUserSuperAdmin = ({
         icon: "success",
       });
     } else {
+      handleClose();
       MySwal.fire({
         title: <p>Houston, we have a problem! </p>,
         icon: "error",

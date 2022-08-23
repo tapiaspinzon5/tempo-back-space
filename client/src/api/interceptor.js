@@ -1,11 +1,10 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-/* let d =
-	"U2FsdGVkX184r+mJGbxiaAUwS2UKdaKlStEVXUzMEWqcT3wkscg1/DMyVnnnl7pAxv0I36Okj3mlKcPZEhlMs8tW8zUIkV5oL08+zkMqE6Lk1IlLsU41NDM0MVY28cxATqoyqtbhg52E5O4PmgnGSQ==";
-
-let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
-let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8)); */
+// let d =
+//   "U2FsdGVkX1+ktKNDfdM9W55vAmOZq85vjEmufojy5Ev4LbvNVCjDnRFeQVCSjw6Ad1uC/tMvN3+Vq2gpWOTeuyirSmALm3T4+XRYlOhp/+mlbcRVKeFgdrMV4zAdICqp6z8kvbw1/yEPRmYoppuA6fIGz+0SowE5PDwzQs5BNJ44huVkVnCGpFq8KgbZXONwx3gJD/FSHU+ILkikzatbY6GoE4FquG8vkkjF37McmjPGVlZt5FPDIOqTq3R0w+td3bO5TG9SayRuztyPlT5b3L+ZV38rGovJHujKnL8gRXde33o5cu02mdjhpYkJ842xbCpBQGeIR0NHhtKmEG2GDH6P2FDqC3eLnFfg99QaflqHOtbLlX5tTRCE46IA0OwsRfkgc1LWoQf794LGg6gbFA==";
+// let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
+// let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));
 // console.log(decryptedData);
 
 const axiosInstance = axios.create({
@@ -19,7 +18,7 @@ const axiosInstance = axios.create({
   //baseURL: "http://10.138.143.93:4343/api/",
   transformRequest: [
     function (data, headers) {
-      //console.log("se envia", data);
+      //  console.log("se envia", data);
       let encrypted = CryptoJS.AES.encrypt(
         JSON.stringify(data),
         "secret key 123"
@@ -39,7 +38,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      //console.log("llega   ", decryptedData);
+
       return data;
     },
   ],
@@ -57,8 +56,8 @@ axiosInstance.interceptors.request.use((config) => {
   config.headers.Authorization = "Bearer " + user.Token;
   config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
   config.headers["Access-Control-Allow-Origin"] = "http://localhost:4343";
-  config.data = { ...config.data, idccms: 4581022 };
-  //config.data = { ...config.data, idccms: user.Idccms };
+  //config.data = { ...config.data, idccms: 4581022 };
+  config.data = { ...config.data, idccms: user.Idccms };
   return config;
 });
 

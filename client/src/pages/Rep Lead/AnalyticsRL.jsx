@@ -55,7 +55,7 @@ const AnalyticsRL = ({ count }) => {
 				kpi: "0",
 				context: 4,
 			});
-			//console.log("este es el console", initialData.data[0].Kpis);
+		
 			if (
 				initialData &&
 				initialData.status === 200 &&

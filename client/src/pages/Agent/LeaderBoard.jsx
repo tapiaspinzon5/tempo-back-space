@@ -42,7 +42,6 @@ const LeaderBoard = ({ count }) => {
 				filters.group
 			);
 
-			//console.log("esta: ", initialData.data);
 			if (
 				initialData &&
 				initialData.status === 200 &&

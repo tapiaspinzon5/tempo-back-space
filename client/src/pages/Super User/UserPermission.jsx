@@ -75,7 +75,7 @@ const UserPermission = () => {
     const data = await requestWithData("getorganizationalunit", {
       context: 1,
     });
-    //console.log(data.data[0]);
+
     setCampaign(data.data[0]);
     setNewUser({
       ...newUser,
@@ -90,7 +90,6 @@ const UserPermission = () => {
       idcampaign: searchCampaign,
     });
 
-    //console.log(data.data[0].AgentsCampaign);
     setDataAgent(data.data[0].AgentsCampaign);
   };
 

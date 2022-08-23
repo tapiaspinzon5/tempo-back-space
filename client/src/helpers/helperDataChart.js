@@ -1,5 +1,4 @@
 export const helperDataChartCat = (data, context) => {
-  //console.log(data);
   let categories = [];
   if (context == 1) {
     categories = data.map((dato) => {
@@ -9,7 +8,6 @@ export const helperDataChartCat = (data, context) => {
   return categories;
 };
 export const helperDataChartData = (data, context) => {
-  // console.log(data);
   let dataChart;
   if (context == 1) {
     dataChart = data.map((dato) => {

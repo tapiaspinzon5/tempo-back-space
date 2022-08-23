@@ -193,8 +193,6 @@ const KpiUpload = () => {
 
       const resp = await uploadKPIs(data);
 
-      //console.log(resp);
-
       if (resp.status === 200) {
         setLoading(false);
         MySwal.fire({

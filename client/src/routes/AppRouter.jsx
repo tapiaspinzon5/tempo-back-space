@@ -214,47 +214,57 @@ const AppRouter = () => {
           )
         }
 
-        {userData?.NumberLogins === 1 &&
+        {/* {userData?.NumberLogins === 1 &&
           (userData?.Role === "Agent" || userData?.Role === "Team Leader") &&
-          userData?.Role && <VideoView setNavView={setNavView} />}
+          userData?.Role && <VideoView setNavView={setNavView} />} */}
 
         <Routes>
-          {userData?.NumberLogins > 1 && userData?.Role === "Agent" && (
-            <>
-              <Route path="/" element={<Navigate to="/homeusers" />} />
-              <Route path="/homeusers" element={<HomeUser count={count} />} />
-              <Route path="/activitiesview" element={<ActivitiesView />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route
-                path="/useranalytics"
-                element={<AgentAnalytics count={count} />}
-              />
-              <Route
-                path="/leaderboard"
-                element={<LeaderBoard count={count} />}
-              />
-              <Route
-                path="/profile"
-                element={<AgentProfile profile={headerData} />}
-              />
-              <Route
-                path="/challenge"
-                element={<AgentChallengeAssignment count={count} />}
-              />
-              <Route
-                path="/activitiesview/:idActivity/:context"
-                element={<ActivitiesDescription />}
-              />
-              <Route
-                path="/quiz/:idquiz"
-                element={<QuizViewV2 setNavView={setNavView} />}
-              />
-              <Route
-                path="/quizdetails/:idquiz/:stateActivity/:quizName"
-                element={<QuizDetails />}
-              />
-            </>
-          )}
+          {userData?.Role === "Agent" &&
+            (userData?.NumberLogins > 1 ? (
+              <>
+                <Route path="/" element={<Navigate to="/homeusers" />} />
+
+                <Route path="/homeusers" element={<HomeUser count={count} />} />
+                <Route path="/activitiesview" element={<ActivitiesView />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+                <Route
+                  path="/useranalytics"
+                  element={<AgentAnalytics count={count} />}
+                />
+                <Route
+                  path="/leaderboard"
+                  element={<LeaderBoard count={count} />}
+                />
+                <Route
+                  path="/profile"
+                  element={<AgentProfile profile={headerData} />}
+                />
+                <Route
+                  path="/challenge"
+                  element={<AgentChallengeAssignment count={count} />}
+                />
+                <Route
+                  path="/activitiesview/:idActivity/:context"
+                  element={<ActivitiesDescription />}
+                />
+                <Route
+                  path="/quiz/:idquiz"
+                  element={<QuizViewV2 setNavView={setNavView} />}
+                />
+                <Route
+                  path="/quizdetails/:idquiz/:stateActivity/:quizName"
+                  element={<QuizDetails />}
+                />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<Navigate to="/welcome" />} />
+                <Route
+                  path="/welcome"
+                  element={<VideoView setNavView={setNavView} />}
+                />
+              </>
+            ))}
 
           {userData?.Role === "Operation Manager" && (
             <>
