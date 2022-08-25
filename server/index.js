@@ -26,6 +26,7 @@ const corsOptions = {
     "https://gamificationtest.teleperformance.co",
     "https://spacegptest.teleperformance.co",
     "https://gptest.teleperformance.co",
+    "https://spacegp.teleperformance.co",
   ],
 };
 app.use(cors(corsOptions));
