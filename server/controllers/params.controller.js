@@ -330,6 +330,10 @@ let quizTable = [
     type: TYPES.VarChar,
   },
   {
+    name: "TypeQuestion",
+    type: TYPES.Int,
+  },
+  {
     name: "IdPregunta",
     type: TYPES.Int,
   },
