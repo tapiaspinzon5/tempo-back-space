@@ -107,19 +107,61 @@ exports.saveQuiz = async (req, res) => {
     }
 
     for (let i = 0; i < rows.length; i++) {
-      rows2.push([
-        rows[i].ask,
-        rows[i].questionType === "trueFalse" ? "true" : rows[i][1],
-        rows[i].questionType === "trueFalse" ? "false" : rows[i][2],
-        rows[i].questionType === "trueFalse" ? null : rows[i][3],
-        rows[i].questionType === "trueFalse" ? null : rows[i][4],
-        rows[i].answer,
-        rows[i].Q,
-        data[0][0].quizName,
-        data[0][0].quizDescription,
-        +data[0][0].quizTarget,
-        data[0][0].quizCategory,
-      ]);
+      switch (rows[i].questionType) {
+        case "multipleAnswer":
+          rows2.push([
+            rows[i].ask,
+            rows[i][1],
+            rows[i][2],
+            rows[i][3],
+            rows[i][4],
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            3,
+          ]);
+          break;
+
+        case "multipleChoice":
+          rows2.push([
+            rows[i].ask,
+            rows[i][1],
+            rows[i][2],
+            rows[i][3],
+            rows[i][4],
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            1,
+          ]);
+          break;
+
+        case "trueFalse":
+          rows2.push([
+            rows[i].ask,
+            "true",
+            "false",
+            null,
+            null,
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            2,
+          ]);
+          break;
+
+        default:
+          break;
+      }
     }
 
     rows2.forEach((quest) => {
