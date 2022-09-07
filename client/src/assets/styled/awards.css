@@ -1,0 +1,54 @@
+.podium-winners {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.podium-winners span {
+  color: #fff;
+  background: linear-gradient(180deg, #3047b0 0%, #0087ff 100%);
+  margin-top: 0.5rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.imagen-puesto {
+  /* position: relative; */
+  width: 200px;
+  height: 200px;
+  border: 1px solid;
+}
+.imagen-puesto::before {
+  content: "";
+  background-image: conic-gradient(#fff 20deg, transparent 120deg);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+/* }
+.imagen-puesto::after {
+  content: "";
+  z-index: -1;
+
+  width: calc(100% + 30px);
+  height: calc(100% + 30px);
+  top: -15px;
+  left: -15px;
+  background: linear-gradient(
+    45deg,
+    #ffff00,
+    #00ff00,
+    #0099ff,
+    #001aff,
+    #a200ff,
+    #ff0055,
+    #ff0000,
+    #ffff00,
+    #00ff00,
+    #0099ff,
+    #001aff,
+    #a200ff,
+    #ff0055,
+    #ff0000
+  );
+} */

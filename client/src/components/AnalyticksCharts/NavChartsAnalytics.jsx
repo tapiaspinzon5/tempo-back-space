@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   styled,
+  Button,
 } from "@mui/material";
 // mport { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // mport AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -21,10 +22,13 @@ import SearchComponent from "./SearchComponent";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import LobTeamBox from "./LobTeamBox";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
+import { optionCharts } from "../../helpers/helperOptionsCharts";
 
 const BoxGroup = styled(Box)(() => ({
   border: "1px solid #c8c8c8",
-  width: "48%",
+  //width: "48%",
+  width: "100%",
+  height: "3.5rem",
   borderRadius: "4px",
   display: "flex",
   // flexDirection: "column",
@@ -36,17 +40,10 @@ const BoxGroup = styled(Box)(() => ({
   },
 }));
 
-const info = [
-  { type: "KPIS", context: 1 },
-  { type: "Missions", context: 2 },
-  { type: "Questions", context: 3 },
-  { type: "Challenges", context: 4 },
-  { type: "Usage Data", context: 5 },
-];
-
 const NavChartsAnalytics = ({
   Role,
   kpiData,
+  missionsData,
   accounts,
   idcampaign,
   setIdcampaign,
@@ -60,15 +57,21 @@ const NavChartsAnalytics = ({
   setDate1,
   date2,
   setDate2,
+  setAgents,
   agents,
   setAgent,
   setSelectKpi,
   handleConsulta,
   setContext,
   setCaso,
+  setIdMission,
+  idMission,
+  selectKpi,
+  agent,
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
+  const info = optionCharts(Role);
 
   return (
     <Box sx={{ marginTop: "1rem" }}>
@@ -135,69 +138,81 @@ const NavChartsAnalytics = ({
         </LocalizationProvider>
       </Box>
       <Box marginTop={1} display="flex">
-        <FormControl sx={{ width: "48%", marginRight: "4%" }}>
-          <InputLabel id="campaign-select-label">Campaign</InputLabel>
-          <Select
-            labelId="campaign-select-label"
-            id="campaign-simple-select"
-            value={idcampaign || ""}
-            label="Campaign"
-            onChange={(e) => {
-              setIdcampaign(e.target.value);
-              setCaso(1);
-            }}
-          >
-            {accounts.map((type) => (
-              <MenuItem value={type.IdCampaign} key={type.IdCampaign}>
-                {type.nameCampaign}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        {Role === "Super Admin" || Role === "Cluster Director" ? (
+          <FormControl sx={{ width: "100%", marginRight: "4%" }}>
+            <InputLabel id="campaign-select-label">Campaign</InputLabel>
+            <Select
+              labelId="campaign-select-label"
+              id="campaign-simple-select"
+              value={idcampaign || ""}
+              label="Campaign"
+              disabled={date1 && date2 ? false : true}
+              onChange={(e) => {
+                setIdcampaign(e.target.value);
+                setCaso(1);
+              }}
+            >
+              {accounts.map((type) => (
+                <MenuItem value={type.IdCampaign} key={type.IdCampaign}>
+                  {type.nameCampaign}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ) : (
+          ""
+        )}
 
-        <BoxGroup
-          sx={
-            showGroup
-              ? {
-                  border: "2px solid #3047B0",
-                  "&:hover": {
+        {Role !== "Team Leader" && (
+          <BoxGroup
+            sx={
+              showGroup
+                ? {
                     border: "2px solid #3047B0",
-                  },
-                }
-              : {}
-          }
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-            margin="0 1rem"
-            onClick={() => setShowGroup(true)}
+                    "&:hover": {
+                      border: "2px solid #3047B0",
+                    },
+                  }
+                : {}
+            }
           >
-            <Typography variant="body1" color="#686868">
-              Group
-            </Typography>
-            {showGroup ? (
-              <IoMdArrowDropup size={18} />
-            ) : (
-              <IoMdArrowDropdown size={18} />
-            )}
-          </Box>
+            <Button
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                textTransform: "none",
+              }}
+              disabled={date1 && date2 ? false : true}
+              margin="0 1rem"
+              onClick={() => setShowGroup(true)}
+            >
+              <Typography variant="body1" color="#686868">
+                Group
+              </Typography>
+              {showGroup ? (
+                <IoMdArrowDropup size={18} />
+              ) : (
+                <IoMdArrowDropdown size={18} />
+              )}
+            </Button>
 
-          {showGroup && (
-            <LobTeamBox
-              LOBs={LOBs}
-              idLob={idLob}
-              setIdLob={setIdLob}
-              teams={teams}
-              idTeam={idTeam}
-              setIdTeam={setIdTeam}
-              setShowGroup={setShowGroup}
-              setCaso={setCaso}
-            />
-          )}
-        </BoxGroup>
+            {showGroup && (
+              <LobTeamBox
+                LOBs={LOBs}
+                idLob={idLob}
+                setIdLob={setIdLob}
+                teams={teams}
+                idTeam={idTeam}
+                setIdTeam={setIdTeam}
+                setShowGroup={setShowGroup}
+                setCaso={setCaso}
+                setAgents={setAgents}
+              />
+            )}
+          </BoxGroup>
+        )}
       </Box>
 
       <Box>
@@ -209,6 +224,8 @@ const NavChartsAnalytics = ({
               dataSearch={kpiData}
               context="kpi"
               setSelectKpi={setSelectKpi}
+              selectKpi={selectKpi}
+              disabled={kpiData?.length > 0 ? false : true}
             />
             <SearchComponent
               label="Agents"
@@ -216,6 +233,8 @@ const NavChartsAnalytics = ({
               context="agents"
               setAgent={setAgent}
               setCaso={setCaso}
+              agent={agent}
+              disabled={agents?.length > 0 ? false : true}
             />
           </>
         )}
@@ -223,11 +242,26 @@ const NavChartsAnalytics = ({
         {/* Missions */}
         {/* {motherDropDown === 2 && <SearchComponent label="Missions" />} */}
         {/* questions */}
-        {motherDropDown === 3 && <SearchComponent label="Questions" />}
+        {motherDropDown === 3 && (
+          <SearchComponent
+            label="Missions"
+            dataSearch={missionsData}
+            context="missions"
+            idMission={idMission}
+            setIdMission={setIdMission}
+            disabled={missionsData?.length > 0 ? false : true}
+          />
+        )}
         {/* challenges */}
-        {motherDropDown === 4 && <SearchComponent label="KPI" />}
-        {/* Usage Data */}
-        {motherDropDown === 5 && <SearchComponent label="Type Of Info" />}
+        {motherDropDown === 4 && (
+          <SearchComponent
+            label="KPI"
+            dataSearch={kpiData}
+            context="kpi"
+            setSelectKpi={setSelectKpi}
+            disabled={kpiData?.length > 0 ? false : true}
+          />
+        )}
       </Box>
       <Box textAlign="end" marginY={3}>
         <ButtonActionBlue onClick={handleConsulta} sx={{ width: "8rem" }}>

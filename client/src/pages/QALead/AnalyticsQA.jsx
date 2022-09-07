@@ -32,6 +32,7 @@ const AnalyticsQA = ({ count }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const [data, setData] = useState([]);
+  const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
   const [width, setWidth] = useState(0);
@@ -95,6 +96,7 @@ const AnalyticsQA = ({ count }) => {
             initialData.data[0].Analitycs
           );
           setData(dataOrder);
+          setDataGrid(dataOrder.dataOrder);
           setLoading(false);
         }
       };
@@ -118,7 +120,7 @@ const AnalyticsQA = ({ count }) => {
       </Modal>
       <Header count={count} />
       <Typography variant="h5" fontWeight="500">
-        Analytics
+        Analytics QA
       </Typography>
 
       {showCharts ? (
@@ -140,7 +142,7 @@ const AnalyticsQA = ({ count }) => {
 
           <BoxContain ref={ref}>
             {!loading ? (
-              <TableAnalyticsQA width={width} data={data} />
+              <TableAnalyticsQA width={width} data={dataGrid} />
             ) : (
               <LoadingComponent />
             )}

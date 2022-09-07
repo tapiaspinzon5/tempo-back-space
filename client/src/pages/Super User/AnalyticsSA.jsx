@@ -31,6 +31,7 @@ const AnalyticsSA = ({ count }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const [data, setData] = useState([]);
+  const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
   const [width, setWidth] = useState(0);
@@ -99,6 +100,7 @@ const AnalyticsSA = ({ count }) => {
             initialData.data[0].Analitycs
           );
           setData(dataOrder);
+          setDataGrid(dataOrder?.dataOrder);
           setLoading(false);
         }
       };
@@ -161,13 +163,12 @@ const AnalyticsSA = ({ count }) => {
               setFilters={setFilters}
               setModal={setModal}
               setShowCharts={setShowCharts}
-              showCharts={showCharts}
             />
           </Box>
 
           <BoxContain ref={ref}>
             {!loading ? (
-              <TableAnalyticsSA width={width} data={data} />
+              <TableAnalyticsSA width={width} data={dataGrid} />
             ) : (
               <LoadingComponent />
             )}

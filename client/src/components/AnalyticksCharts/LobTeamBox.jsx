@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
-import { ButtonAction, InputText } from "../../assets/styled/muistyled";
+import {
+  ButtonAction,
+  ButtonActionBlue,
+  InputText,
+} from "../../assets/styled/muistyled";
 import Typography from "@mui/material/Typography";
 import useClickOutside from "../../Hooks/useClickOutside";
 
@@ -59,8 +63,6 @@ const BoxOption = styled(Box)(() => ({
     backgroundColor: "#f9f9f9",
   },
   input: {
-    height: "1.5rem",
-    width: "1.5rem",
     marginRight: "1rem",
   },
 }));
@@ -74,6 +76,7 @@ const LobTeamBox = ({
   setIdTeam,
   setShowGroup,
   setCaso,
+  setAgents,
 }) => {
   const refNav = useRef();
   const [showTeam, setShowTeam] = useState(false);
@@ -108,6 +111,17 @@ const LobTeamBox = ({
     }
   };
   //End filtro potr input search
+  const handleClear = () => {
+    if (showTeam) {
+      setIdTeam([]);
+      setCaso(2);
+    } else {
+      setIdTeam([]);
+      setIdLob([]);
+      setCaso(1);
+    }
+    setAgents([]);
+  };
 
   return (
     <LobTeamCard ref={refNav}>
@@ -196,6 +210,12 @@ const LobTeamBox = ({
             </>
           )}
         </BoxAccounts>
+        <ButtonActionBlue
+          sx={{ marginTop: "-5rem" }}
+          onClick={() => handleClear()}
+        >
+          Clear {showTeam ? "Team" : "LOB"}
+        </ButtonActionBlue>
       </Box>
     </LobTeamCard>
   );
