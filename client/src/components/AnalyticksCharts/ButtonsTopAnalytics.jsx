@@ -6,6 +6,9 @@ import { ButtonAction } from "../../assets/styled/muistyled";
 import { Modal, styled } from "@mui/material";
 import { DownLoadReportSA } from "../Modals/DownLoadReportSA";
 import { DownLoadReportQA } from "../Modals/DownLoadReportQA";
+import { DownLoadReportOM } from "../Modals/DownLoadReportOM";
+import { DownLoadReportRL } from "../Modals/DownLoadReportRL";
+import { DownLoadReportTL } from "../Modals/DownLoadReportTL";
 
 const ModalBox = styled(Box)(() => ({
   position: "absolute",
@@ -44,6 +47,13 @@ const ButtonsTopAnalytics = ({ setShowCharts, Role }) => {
       >
         <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
           {Role === "QA Lead" && <DownLoadReportQA setModal={setModal} />}
+          {Role === "Reporting Lead" && (
+            <DownLoadReportRL setModal={setModal} />
+          )}
+          {Role === "Team Leader" && <DownLoadReportTL setModal={setModal} />}
+          {Role === "Operation Manager" && (
+            <DownLoadReportOM setModal={setModal} />
+          )}
           {Role === "Super Admin" || Role === "Cluster Director" ? (
             <DownLoadReportSA setModal={setModal} />
           ) : (

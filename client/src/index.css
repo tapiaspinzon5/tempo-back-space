@@ -20,6 +20,13 @@ code {
     monospace;
 }
 .test {
-  color: #f2f2f2de;
+  color: #f2f2f2a1;
   text-transform: capitalize;
+}
+
+.liston {
+  background: red;
+  height: 70px;
+  width: 300px;
+  clip-path: polygon(100% 5%, 91% 50%, 100% 100%, 0% 100%, 5% 49%, 0% 0%);
 }

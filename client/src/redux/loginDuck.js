@@ -12,6 +12,8 @@ const url = "http://localhost:4343";
 // Pilot
 //const url = "https://spacegptest.teleperformance.co";
 //const url = "http://10.138.143.224:4343";
+//Produccion
+//const url = "https://spacegp.teleperformance.co";
 
 //datainicial
 const initialData = {

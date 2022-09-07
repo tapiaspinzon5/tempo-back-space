@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const BasicColumnChart = ({ categories, dataChart, nameChart }) => {
+const BasicColumnChart = ({
+  categories,
+  nameChart1,
+  nameChart2,
+  nameChart3,
+  dataChart1,
+  dataChart2,
+  dataChart3,
+  nameChart4,
+  dataChart4,
+}) => {
   const [state, setState] = useState({
     options: {
       chart: {
@@ -14,8 +24,20 @@ const BasicColumnChart = ({ categories, dataChart, nameChart }) => {
     },
     series: [
       {
-        name: nameChart,
-        data: dataChart,
+        name: nameChart1,
+        data: dataChart1,
+      },
+      {
+        name: nameChart2,
+        data: dataChart2,
+      },
+      {
+        name: nameChart3,
+        data: dataChart3,
+      },
+      {
+        name: nameChart4,
+        data: dataChart4,
       },
     ],
   });
@@ -30,16 +52,33 @@ const BasicColumnChart = ({ categories, dataChart, nameChart }) => {
         xaxis: {
           categories: categories,
         },
+        stroke: {
+          width: 1,
+          colors: ["#fff"],
+        },
       },
       series: [
         {
-          name: nameChart,
-          data: dataChart,
+          name: nameChart1,
+          data: dataChart1,
+        },
+        {
+          name: nameChart2,
+          data: dataChart2,
+        },
+        {
+          name: nameChart3,
+          data: dataChart3,
+        },
+        {
+          name: nameChart4,
+          data: dataChart4,
         },
       ],
     });
-  }, [categories, dataChart]);
+  }, [categories, dataChart1, dataChart2, dataChart3]);
 
+  //console.log(categories, dataChart1, dataChart2, dataChart3);
   return (
     <div>
       <ReactApexChart

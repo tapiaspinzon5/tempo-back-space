@@ -63,6 +63,8 @@ import HomeCD from "../pages/HomeCD";
 import AnalyticsCD from "../pages/ClusterDirector/AnalyticsCD";
 import { requestWithData } from "../utils/api";
 import Page404 from "../pages/404Page";
+import Liston from "../components/Awards/Liston";
+import MainAwards from "../components/Awards/MainAwards";
 
 //import Header from "../components/homeUser/Header";
 
@@ -327,44 +329,61 @@ const AppRouter = () => {
               <Route path="/organizationchart" element={<Organigrama />} />
             </>
           )}
-          {userData?.NumberLogins > 1 && userData?.Role === "Team Leader" && (
-            <>
-              <Route path="/" element={<Navigate to="/hometl" />} />
-              <Route path="/hometl" element={<HomeTL count={count} />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route
-                path="/profile"
-                element={<AgentProfile profile={headerData} />}
-              />
-              <Route
-                path="/followingteams"
-                element={<FollowingTeamsKPI count={count} />}
-              />
-              <Route
-                path="/leaderboard"
-                element={<LeaderBoard count={count} />}
-              />
-              <Route
-                path="/challengeasignment"
-                element={<TLChallengeAssignment count={count} />}
-              />
-              <Route
-                path="/badgesmanagement"
-                element={<BadgeManagement count={count} />}
-              />
-              <Route path="/teaminformation" element={<TeamInformation />} />
-              <Route path="/teamprogress" element={<TeamsProgress />} />
-              <Route path="/analytics" element={<Analytics count={count} />} />
-              <Route
-                path="/deactivation"
-                element={
-                  <DesactivationSection setCount2={setCount2} count2={count2} />
-                }
-              />
-            </>
-          )}
+          {userData?.Role === "Team Leader" &&
+            (userData?.NumberLogins > 1 ? (
+              <>
+                <Route path="/" element={<Navigate to="/hometl" />} />
+                <Route path="/hometl" element={<HomeTL count={count} />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+                <Route
+                  path="/profile"
+                  element={<AgentProfile profile={headerData} />}
+                />
+                <Route
+                  path="/followingteams"
+                  element={<FollowingTeamsKPI count={count} />}
+                />
+                <Route
+                  path="/leaderboard"
+                  element={<LeaderBoard count={count} />}
+                />
+                <Route
+                  path="/challengeasignment"
+                  element={<TLChallengeAssignment count={count} />}
+                />
+                <Route
+                  path="/badgesmanagement"
+                  element={<BadgeManagement count={count} />}
+                />
+                <Route path="/teaminformation" element={<TeamInformation />} />
+                <Route path="/teamprogress" element={<TeamsProgress />} />
+                <Route
+                  path="/analytics"
+                  element={<Analytics count={count} />}
+                />
+                <Route
+                  path="/deactivation"
+                  element={
+                    <DesactivationSection
+                      setCount2={setCount2}
+                      count2={count2}
+                    />
+                  }
+                />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<Navigate to="/welcome" />} />
+                <Route
+                  path="/welcome"
+                  element={<VideoView setNavView={setNavView} />}
+                />
+              </>
+            ))}
 
-          {!userData?.Role && <Route path="/" element={<Login />} />}
+          {/* {!userData?.Role && <Route path="/" element={<MainAwards />} />} */}
+          {/* {!userData?.Role && <Route path="*" element={<Page404 />} />} */}
+          {/* {!userData?.Role && <Route path="/" element={<Login />} />} */}
           {!userData?.Role && <Route path="*" element={<Login />} />}
 
           {userData?.Role && userData?.NumberLogins !== 1 && (

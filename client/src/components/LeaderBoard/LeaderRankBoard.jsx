@@ -39,7 +39,6 @@ const LeaderRankBoard = ({
   setModal,
   setShowCharts,
   leaderBoardRL,
-  showCharts,
 }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const userRol = userData.Role;
@@ -254,7 +253,7 @@ const LeaderRankBoard = ({
           >
             <ButtonAction
               onClick={() => setShowCharts(true)}
-              disabled={true}
+              disabled={false}
               sx={{
                 height: "3.2rem",
                 display: "flex",

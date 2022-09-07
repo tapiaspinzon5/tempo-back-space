@@ -12,6 +12,7 @@ import { logoutAction } from "../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
 import TableAnalytics from "../components/Analytics/TableAnalytics";
 import { DownLoadReportTL } from "../components/Modals/DownLoadReportTL";
+import AnalyticsCharts from "../components/AnalyticksCharts/AnalyticsCharts";
 
 const ModalBox = styled(Box)(() => ({
   position: "absolute",
@@ -30,10 +31,12 @@ const Analytics = ({ count }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const [data, setData] = useState([]);
+  const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showCharts, setShowCharts] = useState(false);
   const [filters, setFilters] = useState({
     time: "Day",
     group: "My Team",
@@ -41,7 +44,7 @@ const Analytics = ({ count }) => {
     end: null,
   });
 
-  let ancho = ref.current !== undefined ? ref.current.clientWidth : 0;
+  let ancho = ref.current !== undefined ? ref.current?.clientWidth : 0;
   useEffect(() => {
     setWidth(ancho);
   }, [ancho]);
@@ -58,7 +61,7 @@ const Analytics = ({ count }) => {
       if (
         initialData &&
         initialData.status === 200 &&
-        initialData.data.length > 0
+        initialData.data?.length > 0
       ) {
         setKpis(initialData.data[0].Kpis);
 
@@ -86,12 +89,14 @@ const Analytics = ({ count }) => {
           if (
             initialData &&
             initialData.status === 200 &&
-            initialData.data.length > 0
+            initialData.data?.length > 0
           ) {
             const dataOrder = await deleteDuplicatesScore(
               initialData.data[0].Analitycs
             );
             setData(dataOrder);
+            console.log(dataOrder);
+            setDataGrid(dataOrder.dataOrder);
             setLoading(false);
           }
         };
@@ -110,12 +115,13 @@ const Analytics = ({ count }) => {
           if (
             initialData &&
             initialData.status === 200 &&
-            initialData.data.length > 0
+            initialData.data?.length > 0
           ) {
             const dataOrder = await deleteDuplicatesScore(
               initialData.data[0].Analitycs
             );
             setData(dataOrder);
+            setDataGrid(dataOrder.dataOrder);
             setLoading(false);
           }
         };
@@ -126,6 +132,7 @@ const Analytics = ({ count }) => {
     // eslint-disable-next-line
   }, [filters]);
 
+  console.log(dataGrid);
   return (
     <MainPage>
       <Modal
@@ -140,24 +147,34 @@ const Analytics = ({ count }) => {
       </Modal>
       <Header count={count} />
       <Typography variant="h5" fontWeight="500">
-        Analytics
+        Analytics TL
       </Typography>
-      <Box>
-        <LeaderRankBoard
-          kpis={kpis}
-          setFilters={setFilters}
-          setModal={setModal}
+
+      {showCharts ? (
+        <AnalyticsCharts
+          setShowCharts={setShowCharts}
+          showCharts={showCharts}
         />
-      </Box>
+      ) : (
+        <>
+          <Box>
+            <LeaderRankBoard
+              kpis={kpis}
+              setFilters={setFilters}
+              setModal={setModal}
+              setShowCharts={setShowCharts}
+            />
+          </Box>
 
-      <BoxContain ref={ref}>
-        {!loading ? (
-          <TableAnalytics width={width} data={data} />
-        ) : (
-          <LoadingComponent />
-        )}
-      </BoxContain>
-
+          <BoxContain ref={ref}>
+            {!loading ? (
+              <TableAnalytics width={width} data={dataGrid} />
+            ) : (
+              <LoadingComponent />
+            )}
+          </BoxContain>
+        </>
+      )}
       <Footer />
     </MainPage>
   );
