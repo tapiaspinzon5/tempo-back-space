@@ -15,6 +15,7 @@ export const validateHeaders = (headers) => {
 		"DescriptionExam",
 		"ApprovalExam",
 		"Topic",
+		"Type",
 	];
 
 	if (headers.length !== defaultHeaders.length) {
@@ -37,7 +38,8 @@ export const validateHeaders = (headers) => {
 export const validateFields = (data, topics) => {
 	let errorField = false;
 	let quartiles = ["Q1", "Q2", "Q3", "Q4", "All"];
-
+	let types = [1, 2, 3];
+	let ansopt = ["AB", "AC", "AD", "BC", "BD", "CD", "ABC", "ABD", "ACD", "BCD"];
 	data.forEach((col) => {
 		let answers = [col[1], col[2], col[3], col[4]];
 
@@ -51,7 +53,9 @@ export const validateFields = (data, topics) => {
 			// errorField = true;
 			// } else if (col[4] === undefined){
 			// errorField = true;
-		} else if (!answers.includes(col[5])) {
+		} else if (
+			col[11] === 3 ? !ansopt.includes(col[5]) : !answers.includes(col[5])
+		) {
 			errorField = true;
 		} else if (!quartiles.includes(col[6])) {
 			errorField = true;
@@ -62,6 +66,8 @@ export const validateFields = (data, topics) => {
 		} else if (isNaN(col[9])) {
 			errorField = true;
 		} else if (!topics.includes(col[10])) {
+			errorField = true;
+		} else if (isNaN(col[11]) || !types.includes(col[11])) {
 			errorField = true;
 		}
 	});
