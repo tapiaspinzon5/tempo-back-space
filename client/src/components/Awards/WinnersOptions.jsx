@@ -1,5 +1,16 @@
 import React from "react";
-import { Box, Button, Grid, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  styled,
+  IconButton,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import general from "../../assets/images/awards/general.png";
 import sub from "../../assets/images/awards/sub.png";
 import mini from "../../assets/images/awards/mini.png";
@@ -16,10 +27,33 @@ const ButtonCard = styled(Button)(() => ({
   },
 }));
 
-const WinnersOptions = ({ setSection }) => {
+const WinnersOptions = ({ setSection, handleClose, Role }) => {
   return (
-    <Grid>
-      <Box marginY={5}>
+    <Grid
+      sx={{
+        height: "75vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "cneter",
+      }}
+    >
+      <Box textAlign="right" padding="2rem">
+        <IconButton
+          aria-label=""
+          onClick={handleClose}
+          sx={{
+            color: "#fff",
+            background: "#f2f2f2a1",
+            width: "1.5rem",
+            height: "1.5rem",
+            borderRadius: "2px",
+          }}
+        >
+          X
+        </IconButton>
+      </Box>
+      <Box>
         <Typography
           variant="h3"
           fontWeight={700}
@@ -48,6 +82,40 @@ const WinnersOptions = ({ setSection }) => {
           </ButtonCard>
         </Grid>
       </Grid>
+      {Role === "Super Admin" || Role === "Cluster Director" ? (
+        <Grid display="flex" justifyContent="center">
+          <Box sx={{ width: 320, padding: "2rem" }}>
+            <FormControl fullWidth>
+              <InputLabel
+                id="demo-simple-select-label"
+                sx={{ color: "#e8e8e8" }}
+              >
+                Select Account
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                // value={age}
+                label="Select Account"
+                //onChange={handleChange}
+                sx={{
+                  background:
+                    "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
+                  color: "#e8e8e8",
+                  fontWeight: 700,
+                  fontSize: "20px",
+                }}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Grid>
+      ) : (
+        ""
+      )}
     </Grid>
   );
 };

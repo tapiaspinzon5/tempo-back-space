@@ -61,6 +61,8 @@ const LeaderRankBoard = ({
     });
     setCampaign(data.data[0].Campaign);
   };
+
+  console.log(kpis);
   return (
     <>
       <BoxSelect>

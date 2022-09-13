@@ -1,4 +1,11 @@
-import { Box, Button, Grid, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  styled,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 const ButtonBack = styled(Button)(() => ({
@@ -14,11 +21,29 @@ const ButtonBack = styled(Button)(() => ({
   },
 }));
 
-const HeadWinners = ({ setSection, title }) => {
+const HeadWinners = ({ setSection, title, handleClose }) => {
   return (
     <Grid>
-      <Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        marginRight={2}
+      >
         <ButtonBack onClick={() => setSection("winners")}>Back</ButtonBack>
+        <IconButton
+          aria-label=""
+          onClick={handleClose}
+          sx={{
+            color: "#fff",
+            background: "#f2f2f2a1",
+            width: "1.5rem",
+            height: "1.5rem",
+            borderRadius: "2px",
+          }}
+        >
+          X
+        </IconButton>
       </Box>
 
       <Box marginY={1}>

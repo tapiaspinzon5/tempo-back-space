@@ -47,10 +47,14 @@ const BoxContain = styled(Box)(() => ({
   },
 }));
 
-const SubJourney = ({ setSection }) => {
+const SubJourney = ({ setSection, handleClose }) => {
   return (
     <Grid>
-      <HeadWinners setSection={setSection} title="Sub Juorney" />
+      <HeadWinners
+        setSection={setSection}
+        title="Sub Juorney"
+        handleClose={handleClose}
+      />
       <BoxContain>
         {[0, 1, 2, 3, 4].map((data) => (
           <BoxSub>

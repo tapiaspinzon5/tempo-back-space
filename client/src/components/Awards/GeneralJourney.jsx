@@ -17,8 +17,9 @@ const BoxPodium = styled(Box)(() => ({
   backgroundSize: "contain",
   backgroundPosition: "center bottom",
   width: "80%",
-  height: "80vh",
+  //height: { xs: "70vh", xl: "72vh" },
 }));
+
 const Boxposition = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
@@ -32,14 +33,29 @@ const Boxposition = styled(Box)(() => ({
   },
 }));
 
-const GeneralJourney = ({ setSection }) => {
+const GeneralJourney = ({ setSection, handleClose }) => {
   return (
-    <Grid>
-      <HeadWinners setSection={setSection} title="General Juorney" />
-      <Box width={1} display="flex" justifyContent="center">
+    <Grid
+      height={"100%"}
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      <HeadWinners
+        setSection={setSection}
+        title="General Juorney"
+        handleClose={handleClose}
+      />
+      <Box
+        width={1}
+        display="flex"
+        justifyContent="center"
+        //alignItems="flex-end"
+        height={"auto"}
+      >
         <BoxPodium>
-          <Box display="flex" justifyContent="space-evenly">
-            <Boxposition sx={{ marginTop: "5rem" }}>
+          <Box display="flex" justifyContent="space-evenly" marginBottom={6}>
+            <Boxposition sx={{ marginTop: { xs: "6rem", xl: "8rem" } }}>
               <img src={imagePodium2} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
                 <Liston name="Deiby Niño Garces" sx={{ width: "200px" }} />
@@ -63,7 +79,7 @@ const GeneralJourney = ({ setSection }) => {
               <img src={first} alt="" width="15%" />
             </Boxposition>
             {/* //////////////// */}
-            <Boxposition sx={{ marginTop: "6rem" }}>
+            <Boxposition sx={{ marginTop: { xs: "6rem", xl: "9rem" } }}>
               <img src={imagePodium3} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
                 <Liston name="Deiby Niño Garces" />

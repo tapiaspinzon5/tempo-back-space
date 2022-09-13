@@ -32,10 +32,14 @@ const BoxCard = styled(Box)(() => ({
   },
 }));
 
-const MiniGames = ({ setSection }) => {
+const MiniGames = ({ setSection, handleClose }) => {
   return (
     <Grid>
-      <HeadWinners setSection={setSection} title="Mini Games" />
+      <HeadWinners
+        setSection={setSection}
+        title="Mini Games"
+        handleClose={handleClose}
+      />
       <Grid container>
         <Grid xs={12} md={4}>
           <BoxCard>

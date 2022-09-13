@@ -96,7 +96,7 @@ const AnalyticsRL = ({ count }) => {
             initialData.data[0].Analitycs
           );
           setData(dataOrder);
-          setDataGrid(dataOrder.dataOrder);
+          setDataGrid(dataOrder?.dataOrder);
           setLoading(false);
         }
       };
