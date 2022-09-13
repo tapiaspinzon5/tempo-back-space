@@ -226,7 +226,7 @@ module.exports = (router) => {
   MapSpRouter("/postupdatemissionstatusexpired", "spUpdateStatusMission");
   MapSpRouter("/getinactiveusersapplications", "spQueryUsrInactivation");
   MapSpRouter("/getAnalyticsClusterDirector", "spQueryAnalitycsDirector");
-  // MapSpRouter("/postchangeuserrole", "spUpdateRoleUser");
+  MapSpRouter("/getgeneraljourneyresults", "spQueryGeneralJourney");
 
   MapSpRouter("/welcomeegp", "spBgWelcomeEGP");
 
