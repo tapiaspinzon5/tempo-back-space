@@ -36,6 +36,8 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [context, setContext] = useState(0);
   const [categories, setCategories] = useState([]);
   const [dataChart, setDataChart] = useState([]);
+  const [dataHead, setDataHead] = useState([]);
+  const [questionsHead, setQuestionsHead] = useState([]);
 
   useEffect(() => {
     getDataAccounts();
@@ -54,6 +56,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   }, [context]);
 
   useEffect(() => {
+    console.log("cambio de camapaña");
     getDataLOB();
     getDataKPI();
     handleConsulta();
@@ -149,8 +152,8 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       caso,
     });
     console.log("Consultando KPI y misiones ", data);
-
-    const filtrador = helperKpi(data.data[0]?.ListKpi);
+    setDataHead(data.data);
+    const filtrador = helperKpi(data?.data[0]?.ListKpi);
 
     setKpiData(filtrador);
 
@@ -173,6 +176,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
+    setQuestionsHead(dataChart.data);
 
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data, context));
@@ -219,7 +223,12 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       </Grid>
       <Grid item xs={12} md={8} lg={9}>
         <Box padding={1}>
-          <HeaderCharts dato={selectKpi?.Kpi} />
+          <HeaderCharts
+            dato={selectKpi?.Kpi}
+            dataHead={dataHead}
+            context={context}
+            questionsHead={questionsHead}
+          />
         </Box>
         <Box padding={1}>
           {dataChart[0]?.length > 0 ? (

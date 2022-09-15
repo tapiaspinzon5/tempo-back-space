@@ -17,16 +17,15 @@ const ListonBox = styled(Box)(() => ({
   p: {
     color: "#fff",
     fontWeight: "700",
-    fontSize: "22px",
+    fontSize: "18px",
+    textTransform: "capitalize",
   },
 }));
 
 const Liston = ({ name }) => {
   return (
     <ListonBox width="280px">
-      <Typography variant="body1" color="initial">
-        {name}
-      </Typography>
+      <p>{name}</p>
     </ListonBox>
   );
 };

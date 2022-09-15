@@ -56,7 +56,7 @@ export const DownLoadReportQA = ({ setModal }) => {
       { header: "User", key: "Name" },
       { header: "Level", key: "Level" },
       { header: "EXP Points", key: "ExpPoint" },
-      { header: "Quartile", key: "Quartile" },
+      { header: "Tenior", key: "Quartile" },
       { header: "Badges Earned", key: "BadgesEarned" },
       { header: "Missions Assigned", key: "Missions Assigned" },
       { header: "Missions Approved", key: "MissionsApproved" },
@@ -123,7 +123,14 @@ export const DownLoadReportQA = ({ setModal }) => {
       if (data1) {
         setReport(true);
         setLoading(false);
-        setGenInfo(data1.data[0].Analitycs);
+        const dataT = data1?.data[0].Analitycs?.map((element) => {
+          return {
+            ...element,
+            Quartile: element.Quartile.replace("Q", "T"),
+          };
+        });
+        setGenInfo(dataT);
+        // setGenInfo(data1.data[0].Analitycs);
         setGenMissInfo(data2.data);
       } else {
         setLoading(false);

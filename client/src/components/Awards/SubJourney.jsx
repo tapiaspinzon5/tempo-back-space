@@ -47,24 +47,34 @@ const BoxContain = styled(Box)(() => ({
   },
 }));
 
-const SubJourney = ({ setSection }) => {
+const SubJourney = ({ setSection, handleClose, dataSJ }) => {
+  console.log(dataSJ);
   return (
     <Grid>
-      <HeadWinners setSection={setSection} title="Sub Juorney" />
+      <HeadWinners
+        setSection={setSection}
+        title="Sub Juorney"
+        handleClose={handleClose}
+      />
       <BoxContain>
-        {[0, 1, 2, 3, 4].map((data) => (
+        {dataSJ.map((data) => (
           <BoxSub>
             <Boxdata sx={{ width: "15%", overflowX: "hidden" }}>
               <Typography variant="h6" color="#3047B0" fontWeight={700}>
-                KPI%H
+                {data.Kpi}
               </Typography>
             </Boxdata>
             <Boxdata sx={{ width: "80%", marginLeft: "1rem" }}>
-              <Typography variant="h6" color="#3047B0" fontWeight={700}>
-                Deiby Niño Garces
+              <Typography
+                variant="h6"
+                color="#3047B0"
+                fontWeight={700}
+                textTransform="capitalize"
+              >
+                {data.Agent.toLowerCase()}
               </Typography>
               <Typography variant="caption" color="#fff">
-                TL. Matilde Puentes Gutierrez
+                TL. {data.TL}
               </Typography>
             </Boxdata>
           </BoxSub>

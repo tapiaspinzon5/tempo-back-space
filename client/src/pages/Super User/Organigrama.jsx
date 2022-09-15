@@ -127,6 +127,7 @@ const Organigrama = () => {
       idLob: 0,
       idTeam: 0,
     });
+
     if (
       allCampaigns.data[0].Campaign &&
       allCampaigns.status === 200 &&

@@ -147,7 +147,7 @@ const Analytics = ({ count }) => {
       </Modal>
       <Header count={count} />
       <Typography variant="h5" fontWeight="500">
-        Analytics TL
+        Analytics
       </Typography>
 
       {showCharts ? (

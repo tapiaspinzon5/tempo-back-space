@@ -904,10 +904,11 @@ exports.uploadKpirl = async (req, res) => {
   const { data, idccms } = req.body;
   let i = 0;
 
-  let newData = data.map((ele) => {
-    i = i + 1;
+  const unique = [...new Set(data.map((item) => item[3]))];
 
-    return [ele[3], i];
+  let newData = unique.map((ele) => {
+    i = i + 1;
+    return [ele, i];
   });
 
   sql

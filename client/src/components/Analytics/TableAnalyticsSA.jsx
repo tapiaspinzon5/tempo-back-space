@@ -21,6 +21,10 @@ const BoxTable = styled(Grid)(() => ({
 }));
 
 const TableAnalyticsSA = ({ width, data }) => {
+  const dataRow = data.map((element) => {
+    return { ...element, Quartile: element.Quartile.replace("Q", "T") };
+  });
+
   const columns = [
     {
       field: "rank",
@@ -98,7 +102,7 @@ const TableAnalyticsSA = ({ width, data }) => {
     },
     {
       field: "Quartile",
-      headerName: "Quartile",
+      headerName: "Tenior",
       width: width / 10 < 90 ? 100 : width / 12,
       headerClassName: "super-app-theme--header",
       cellClassName: "super-app-theme--cell",
@@ -177,7 +181,7 @@ const TableAnalyticsSA = ({ width, data }) => {
   return (
     <BoxTable sx={{}}>
       <DataGrid
-        rows={data}
+        rows={dataRow}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}

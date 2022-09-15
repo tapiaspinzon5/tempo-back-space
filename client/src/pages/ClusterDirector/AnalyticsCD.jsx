@@ -31,6 +31,7 @@ const AnalyticsCD = ({ count }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const [data, setData] = useState([]);
+  const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
   const [width, setWidth] = useState(0);
@@ -85,6 +86,7 @@ const AnalyticsCD = ({ count }) => {
           kpi: filters.kpi,
           context: 3,
         });
+        console.log(initialData);
         if (
           initialData &&
           initialData.status === 200 &&
@@ -94,6 +96,8 @@ const AnalyticsCD = ({ count }) => {
             initialData.data[0].Analitycs
           );
           setData(dataOrder);
+          console.log(dataOrder);
+          setDataGrid(dataOrder.dataOrder);
           setLoading(false);
         }
       };
@@ -139,7 +143,7 @@ const AnalyticsCD = ({ count }) => {
 
           <BoxContain ref={ref}>
             {!loading ? (
-              <TableAnalyticsSA width={width} data={data} />
+              <TableAnalyticsSA width={width} data={dataGrid} />
             ) : (
               <LoadingComponent />
             )}

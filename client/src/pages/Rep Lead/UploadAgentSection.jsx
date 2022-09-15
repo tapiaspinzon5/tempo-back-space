@@ -75,7 +75,7 @@ const UploadAgentSection = () => {
   };
 
   const loadFile = (e) => {
-    setLoading(true);
+    setLoading(!loading);
     let file = e.target.files[0];
 
     return new Promise((resolve, reject) => {
@@ -124,11 +124,13 @@ const UploadAgentSection = () => {
         }
       };
       reader.readAsArrayBuffer(file);
-      setLoading(false);
+      // setLoading(false);
     });
   };
 
   const uploadFile = async (e) => {
+    //setLoading(true);
+
     const fileCSV = e.target.files[0];
     let data = [];
     if (
@@ -136,7 +138,6 @@ const UploadAgentSection = () => {
       (fileCSV.type !== "text/csv" &&
         fileCSV.type !== "application/vnd.ms-excel")
     ) {
-      setLoading(false);
       MySwal.fire({
         title: <p>Only files in .csv format</p>,
         icon: "error",
@@ -146,7 +147,6 @@ const UploadAgentSection = () => {
         data = await loadFile(e);
         e.target.value = null;
       } catch (error) {
-        setLoading(false);
         MySwal.fire({
           title: <p> {error} </p>,
           icon: "error",
@@ -159,8 +159,8 @@ const UploadAgentSection = () => {
 
       if (resp.status === 400) {
         setUsersError(resp.data);
-        handleOpen();
         setLoading(false);
+        handleOpen();
       }
       if (resp.status === 200) {
         setLoading(false);
@@ -178,6 +178,7 @@ const UploadAgentSection = () => {
         });
       }
     }
+    // setLoading(false);
   };
 
   const handleState = async (idccms, token) => {
@@ -237,6 +238,7 @@ const UploadAgentSection = () => {
     getTeams();
   }, []);
 
+  console.log(loading);
   return (
     <MainPage>
       <Header />
