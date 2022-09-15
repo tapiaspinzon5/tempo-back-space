@@ -18,22 +18,10 @@ import {
 import React from "react";
 import { useState } from "react";
 import imgAvatar from "../../assets/temp-image/avatar.png";
-import {
-	ButtonActionBlue,
-	CardUser,
-	ScrollBox,
-} from "../../assets/styled/muistyled";
-import KpiSetup from "../SuperAdmin/KpiSetup";
+import { ButtonActionBlue, CardUser } from "../../assets/styled/muistyled";
 import { getInfoAgent, requestWithData } from "../../utils/api";
 import { getTLDuplicates, shortName } from "../../helpers/helperLOBCreation";
 import { useEffect } from "react";
-
-const BoxHead = styled(Box)(() => ({
-	display: "flex",
-	textAlign: "center",
-	marginBottom: "1rem",
-	color: "#3047B0",
-}));
 
 const TableCont = styled(Box)(() => ({
 	color: "#3047B0",
@@ -86,7 +74,7 @@ const BoxCeldas = styled(Box)(() => ({
 	},
 }));
 
-const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
+const DeleteTL = ({ tlListDel, setTlListDel, allData, dataTL }) => {
 	const [errorList, setErrorList] = useState(false);
 	const [change, setChange] = useState(false);
 	const [deleteTeam, setDeleteTeam] = useState(0);
@@ -122,7 +110,11 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 					);
 					if (activeTeams.length > 0) {
 						setTempTeams(activeTeams);
+						setMsgErrorList("");
 					} else {
+						setMsgErrorList(
+							"LOB has no other team leaders create others first or choose one of the other options"
+						);
 						//disabled radiobutton Redistribute no se puede presentar el caso
 						//sin embargo se deja la posibilidad por si se solicita mas adelante
 					}
@@ -144,30 +136,47 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 		});
 		if (agents.data && agents.data.length > 0 && agents.status === 200) {
 			if (agents.data[0].TeamsMembers[0].Agent !== "0") {
-				const ag = agents.data[0].TeamsMembers.map((agt) => {
-					return { ...agt, newTeam: "", idNewTeam: 0, idTL: user.idccms };
-				});
-				const agts = tlListDel.map((tl) =>
-					tl.idccms === user.idccms
-						? {
-								...tl,
-								redistribute: ag,
-								action: "Redistribute",
-								error: false,
-								msgError: "",
-						  }
-						: tl
-				);
-				setTlListDel(agts);
-				setTempAgents(ag);
-				setReorderAgents(true);
+				if (
+					msgErrorList ===
+					"LOB has no other team leaders create others first or choose one of the other options"
+				) {
+					const agts = tlListDel.map((tl) =>
+						tl.idccms === user.idccms
+							? {
+									...tl,
+									action: "",
+									error: true,
+									msgError: msgErrorList,
+							  }
+							: tl
+					);
+					setTlListDel(agts);
+				} else {
+					const ag = agents.data[0].TeamsMembers.map((agt) => {
+						return { ...agt, newTeam: "", idNewTeam: 0, idTL: user.idccms };
+					});
+					const agts = tlListDel.map((tl) =>
+						tl.idccms === user.idccms
+							? {
+									...tl,
+									redistribute: ag,
+									action: "Redistribute",
+									error: false,
+									msgError: "",
+							  }
+							: tl
+					);
+					setTlListDel(agts);
+					setTempAgents(ag);
+					setReorderAgents(true);
+				}
 			} else {
 				//no tiene equipo cargado
 				const agts = tlListDel.map((tl) =>
 					tl.idccms === user.idccms
 						? {
 								...tl,
-								action: "Redistribute",
+								action: "",
 								error: true,
 								msgError:
 									"The selected Team Leader has no agents loaded in his team.",
@@ -256,14 +265,16 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 					setErrorccms(true);
 					setMsgErrorccms("The user is in the list or in other Team");
 				} else {
-					if (info.data[0].StatusGP === "Active") {
+					if (
+						info.data[0].StatusGP === "Active" ||
+						dataTL.filter((el) => el.idccms === info.data[0].ident).length > 0
+					) {
 						setErrorccms(true);
 						setMsgErrorccms("The user is in the list or in other Team");
 					} else {
 						//settepmUsersChanges
 						if (tepmUsersChanges.length === 0) {
 							setErrorList(false);
-							setMsgErrorList("");
 							setTempNewUserChange({
 								name: info.data[0].FullName,
 								idccms: info.data[0].ident,
@@ -303,7 +314,6 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 							);
 							if (validate.length === 0) {
 								setErrorList(false);
-								setMsgErrorList("");
 								setTempNewUserChange({
 									name: info.data[0].FullName,
 									idccms: info.data[0].ident,
@@ -430,7 +440,7 @@ const DeleteTL = ({ tlListDel, setTlListDel, allData }) => {
 								<TableCont
 									display="flex"
 									textAlign="center"
-									key={index}
+									key={item.idccms + index}
 									flexDirection="column"
 									sx={{
 										border:

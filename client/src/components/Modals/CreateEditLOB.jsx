@@ -107,6 +107,7 @@ const CreateEditLOB = ({
 			const getData = async () => {
 				const tls = await getLobs(2, dataLOB.idLob);
 				if (tls && tls.status === 200 && tls.data.length > 0) {
+					console.log(tls.data);
 					const TLList = await filterTeamLeaderList(tls.data);
 					setDataTL(TLList);
 					setNameLOB(dataLOB.name);
@@ -854,6 +855,7 @@ const CreateEditLOB = ({
 					tlListDel={tlListDel}
 					setTlListDel={setTlListDel}
 					allData={allData}
+					dataTL={dataTL}
 				/>
 			) : (
 				<KPISetup

@@ -73,7 +73,8 @@ const TableAgentUpload = ({ dataAgent, handleAction }) => {
 									params.row.RoleAgent,
 									params.row.emailUsrRequest,
 								],
-								"approved"
+								"approved",
+								params.row
 							)
 						}
 						disabled={params.row.Request}

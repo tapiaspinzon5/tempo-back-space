@@ -47,13 +47,13 @@ const Su = () => {
 				<strong>KPI:</strong>acronym of the selected KPI (I.e.: %Abs, AHT, FCR,
 				QACL)
 				<br />
-				<strong>Q1:</strong> Target for agents in quartile 1
+				<strong>T1:</strong> Target for agents in Tenior 1
 				<br />
-				<strong>Q2:</strong> Target for agents in quartile 2
+				<strong>T2:</strong> Target for agents in Tenior 2
 				<br />
-				<strong>Q3:</strong> Target for agents in quartile 3
+				<strong>T3:</strong> Target for agents in Tenior 3
 				<br />
-				<strong>Q4:</strong> Target for agents in quartile 4
+				<strong>T4:</strong> Target for agents in Tenior 4
 				<br />
 				<strong>CriticalPoint:</strong>minimum or critical value that the kPI
 				can have.
@@ -113,7 +113,7 @@ const Rep = () => {
 
 const Qa = () => {
 	return (
-		<>
+		<Box sx={{ overflowY: "scroll", maxHeight: "20rem" }}>
 			<Typography variant="h5" color="initial">
 				Instructions for Downloading and Filling Out the Mission Template
 			</Typography>
@@ -129,19 +129,38 @@ const Qa = () => {
 				using a true/false question) <br />
 				<strong>Option4:</strong> Fourth Answer (Leave the cell clear if you are
 				using a true/false question)
-				<br /> <strong>Answer:</strong> Correct Answer (You must write it
-				exactly like the correct answer)
+				<br /> <strong>Answer:</strong>
 				<br />
-				<strong>Quartile:</strong> Agent’s quartile which you want to assign the
-				question (Q1, Q2, Q3, Q4 or All for all quartiles )
+				<strong>In Case Multiple choice - unique answer or True/False</strong>
+				<br />
+				Correct Answer (You must write it exactly like the correct answer)
+				<br />
+				<strong>In Case Multiple choice - multiple answer</strong>
+				<br />
+				Correct Answer is to mark the position where the correct answers are
+				<br />
+				Example: If the correct answers is in the option1 and option3, you write
+				AC in capital letters.
+				<br />
+				<strong>Tenior:</strong> Agent’s Tenior which you want to assign the
+				question (T1, T2, T3, T4 or All for all Teniors )
 				<br /> <strong>ExamName:</strong>Quiz Name
 				<br /> <strong>DescriptionExam:</strong>Quiz description
 				<br />
 				<strong>ApprovalExam:</strong> Score for approval (Just # without %)
 				<br />
 				<strong>Topic:</strong> Category Name you want to assign to the quiz
+				<br />
+				<strong>Type:</strong> <br />
+				If your question is multiple choice and unique answer mark{" "}
+				<strong>1</strong>
+				<br />
+				If your question True / False mark <strong>2</strong>
+				<br />
+				If your question is multiple choice and multiple answer mark{" "}
+				<strong>3</strong>
 			</Typography>
-		</>
+		</Box>
 	);
 };
 

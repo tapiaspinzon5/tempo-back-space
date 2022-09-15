@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
-import { MainPage } from "../assets/styled/muistyled";
+import { Grid, Modal, Typography } from "@mui/material";
+import { MainPage, ModalBox } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import TableDesactivation from "../components/Tables/TableDesactivation";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ModalLoading } from "../components/ModalLoading";
+import DeactivateTL from "../components/Modals/DeactivateTL";
 
 const MySwal = withReactContent(Swal);
 const dateConfig = (date) => {
@@ -71,6 +72,11 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 	const [loading, setLoading] = useState(false);
 	const [fullLoading, setFullLoading] = useState(false);
 	const [noData, setNoData] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [disabled, setDisabled] = useState(false);
+	const [modalLoading, setModalLoading] = useState(false);
+	const [dataLob, setDataLob] = useState({});
+	const [tlToDel, setTlToDel] = useState({});
 
 	const getData = async () => {
 		setLoading(true);
@@ -107,55 +113,81 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 		// eslint-disable-next-line
 		[]
 	);
-
-	const handleAction = async (params, context) => {
-		setFullLoading(true);
-		let rol;
-		if (userData.Role === "Team Leader") {
-			params[2] = "Cosmonaut";
+	const handleClose = (event, reason) => {
+		//disabled no se pueda cerra facilmente el modal
+		if (disabled) {
+			if (reason && reason !== "backdropClick") {
+				setOpen(false);
+			}
 		} else {
-			params[2] === "Agent"
-				? (rol = "Cosmonaut")
-				: params[2] === "Team Leader"
-				? (rol = "Pilot")
-				: params[2] === "QA Lead"
-				? (rol = "Mission Specialist")
-				: params[2] === "Reporting Lead"
-				? (rol = "Flight Engineer")
-				: (rol = params[2]);
+			setOpen(false);
 		}
-		const sendResponse = await requestWithData("postinactivateuser", {
-			idccmsUser: params[0],
-			name: userData.Nombre,
-			role: userData.Role === "Team Leader" ? "Pilot" : "Operations Commander",
-			nameUser: params[1],
-			roleUser: rol,
-			emailRequester: params[3],
-			inactivate: context === "approved" ? 1 : 0,
-			idccmsReq: 4468566,
-		});
-		if (sendResponse && sendResponse.status === 200) {
-			if (context === "approved") {
-				setFullLoading(false);
-				MySwal.fire({
-					title: (
-						<p>{context === 2 ? "Saved!" : "User Disabled successfully!"}</p>
-					),
-					icon: "success",
-					confirmButtonText: "Accept",
-					allowOutsideClick: false,
-				}).then((resultado) => {
-					if (resultado.value) {
-						getData();
-					}
-				});
+	};
+	const handleAction = async (params, context, fullParams) => {
+		if (params[2] !== "Team Leader") {
+			setFullLoading(true);
+			let rol;
+			if (userData.Role === "Team Leader") {
+				params[2] = "Cosmonaut";
+			} else {
+				params[2] === "Agent"
+					? (rol = "Cosmonaut")
+					: params[2] === "Team Leader"
+					? (rol = "Pilot")
+					: params[2] === "QA Lead"
+					? (rol = "Mission Specialist")
+					: params[2] === "Reporting Lead"
+					? (rol = "Flight Engineer")
+					: (rol = params[2]);
+			}
+			const sendResponse = await requestWithData("postinactivateuser", {
+				idccmsUser: params[0],
+				name: userData.Nombre,
+				role:
+					userData.Role === "Team Leader" ? "Pilot" : "Operations Commander",
+				nameUser: params[1],
+				roleUser: rol,
+				emailRequester: params[3],
+				inactivate: context === "approved" ? 1 : 0,
+				idccmsReq: 4468566,
+			});
+			if (sendResponse && sendResponse.status === 200) {
+				if (context === "approved") {
+					setFullLoading(false);
+					MySwal.fire({
+						title: (
+							<p>{context === 2 ? "Saved!" : "User Disabled successfully!"}</p>
+						),
+						icon: "success",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							getData();
+						}
+					});
+				} else {
+					setFullLoading(false);
+					MySwal.fire({
+						title: (
+							<p>
+								{context === 2 ? "Saved!" : "Request successfully rejected!"}
+							</p>
+						),
+						icon: "success",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							getData();
+						}
+					});
+				}
 			} else {
 				setFullLoading(false);
 				MySwal.fire({
-					title: (
-						<p>{context === 2 ? "Saved!" : "Request successfully rejected!"}</p>
-					),
-					icon: "success",
+					title: <p>Send Error!</p>,
+					icon: "error",
 					confirmButtonText: "Accept",
 					allowOutsideClick: false,
 				}).then((resultado) => {
@@ -165,17 +197,82 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 				});
 			}
 		} else {
-			setFullLoading(false);
-			MySwal.fire({
-				title: <p>Send Error!</p>,
-				icon: "error",
-				confirmButtonText: "Accept",
-				allowOutsideClick: false,
-			}).then((resultado) => {
-				if (resultado.value) {
-					getData();
+			if (context === "cancelled") {
+				setFullLoading(true);
+				let rol =
+					params[2] === "Agent"
+						? "Cosmonaut"
+						: params[2] === "Team Leader"
+						? "Pilot"
+						: params[2] === "QA Lead"
+						? "Mission Specialist"
+						: params[2] === "Reporting Lead"
+						? "Flight Engineer"
+						: params[2];
+
+				const sendResponse = await requestWithData("postinactivateuser", {
+					idccmsUser: params[0],
+					name: userData.Nombre,
+					role: "Operations Commander",
+					nameUser: params[1],
+					roleUser: rol,
+					emailRequester: params[3],
+					inactivate: 0,
+					idccmsReq: 4468566,
+				});
+				if (sendResponse && sendResponse.status === 200) {
+					if (context === "approved") {
+						setFullLoading(false);
+						MySwal.fire({
+							title: (
+								<p>
+									{context === 2 ? "Saved!" : "User Disabled successfully!"}
+								</p>
+							),
+							icon: "success",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								getData();
+							}
+						});
+					} else {
+						setFullLoading(false);
+						MySwal.fire({
+							title: (
+								<p>
+									{context === 2 ? "Saved!" : "Request successfully rejected!"}
+								</p>
+							),
+							icon: "success",
+							confirmButtonText: "Accept",
+							allowOutsideClick: false,
+						}).then((resultado) => {
+							if (resultado.value) {
+								getData();
+							}
+						});
+					}
+				} else {
+					setFullLoading(false);
+					MySwal.fire({
+						title: <p>Send Error!</p>,
+						icon: "error",
+						confirmButtonText: "Accept",
+						allowOutsideClick: false,
+					}).then((resultado) => {
+						if (resultado.value) {
+							getData();
+						}
+					});
 				}
-			});
+			} else {
+				setTlToDel(fullParams);
+				setModalLoading(true);
+				setOpen(true);
+				setDataLob({ idLob: fullParams.idLob });
+			}
 		}
 	};
 	return (
@@ -207,6 +304,30 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 					</Grid>
 				</Grid>
 				<Footer />
+				<Modal
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="modal-modal-title"
+					aria-describedby="modal-modal-description"
+					disableEscapeKeyDown
+				>
+					<ModalBox
+						sx={{
+							//minWidth: { xs: "390px", md: "400px", lg: "400px" },
+							minWidth: { xs: "390px", md: "650px", lg: "650px" },
+						}}
+					>
+						<DeactivateTL
+							setOpen={setOpen}
+							dataLOB={dataLob}
+							modalLoading={modalLoading}
+							setModalLoading={setModalLoading}
+							userData={userData}
+							getData={getData}
+							tlToDel={tlToDel}
+						/>
+					</ModalBox>
+				</Modal>
 			</MainPage>
 		</>
 	);

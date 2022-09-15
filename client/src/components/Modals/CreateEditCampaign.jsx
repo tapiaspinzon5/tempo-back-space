@@ -571,6 +571,10 @@ const CreateEditCampaign = ({
 								value={typeLoad}
 								checked={typeLoad}
 								onChange={() => setTypeLoad(!typeLoad)}
+								disabled={
+									kpisList.filter((el) => el.LoadType === 0 && el.checked)
+										.length > 0
+								}
 							/>
 							<span className="check-1"></span>
 						</label>
