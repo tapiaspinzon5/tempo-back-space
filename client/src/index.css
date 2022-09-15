@@ -30,3 +30,9 @@ code {
   width: 300px;
   clip-path: polygon(100% 5%, 91% 50%, 100% 100%, 0% 100%, 5% 49%, 0% 0%);
 }
+
+.textoAparte {
+  color: aliceblue;
+  font-weight: 600;
+  text-transform: capitalize;
+}

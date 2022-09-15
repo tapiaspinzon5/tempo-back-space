@@ -23,7 +23,7 @@ const SearchComponent = ({
   useEffect(() => {
     setDefaultProps({
       options: dataSearch,
-      getOptionLabel: (option) => option.label,
+      getOptionLabel: (option) => (option.label ? option.label : ""),
     });
   }, []);
 

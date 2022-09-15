@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { ButtonAction } from "../../assets/styled/muistyled";
 import { useEffect } from "react";
 import { requestWithData } from "../../utils/api";
+import { helperKpi } from "../../helpers/helperDataChart";
 
 const BoxFormControl = styled(FormControl)(() => ({
   width: "8rem",
@@ -62,7 +63,6 @@ const LeaderRankBoard = ({
     setCampaign(data.data[0].Campaign);
   };
 
-  console.log(kpis);
   return (
     <>
       <BoxSelect>
@@ -117,9 +117,9 @@ const LeaderRankBoard = ({
             }}
           >
             {leaderBoard && <MenuItem value="">EXP Points</MenuItem>}
-            {kpis.map((kpi, index) => (
-              <MenuItem key={index} value={kpi.Kpi}>
-                {kpi.Kpi}
+            {helperKpi(kpis).map((kpi, index) => (
+              <MenuItem key={index} value={kpi}>
+                {kpi}
               </MenuItem>
             ))}
           </Select>

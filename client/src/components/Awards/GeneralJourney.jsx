@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Grid, Box, styled, Typography } from "@mui/material";
 import HeadWinners from "./HeadWinners";
 import bgPodium from "../../assets/images/awards/bgPodium.png";
@@ -10,6 +10,7 @@ import second from "../../assets/images/awards/second.png";
 import tirdth from "../../assets/images/awards/thirt.png";
 import Liston from "./Liston";
 import "../../assets/styled/awards.css";
+import { requestWithData } from "../../utils/api";
 
 const BoxPodium = styled(Box)(() => ({
   backgroundImage: `url(${bgPodium})`,
@@ -33,7 +34,8 @@ const Boxposition = styled(Box)(() => ({
   },
 }));
 
-const GeneralJourney = ({ setSection, handleClose }) => {
+const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
+  console.log(dataGJ);
   return (
     <Grid
       height={"100%"}
@@ -58,10 +60,17 @@ const GeneralJourney = ({ setSection, handleClose }) => {
             <Boxposition sx={{ marginTop: { xs: "6rem", xl: "8rem" } }}>
               <img src={imagePodium2} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
-                <Liston name="Deiby Niño Garces" sx={{ width: "200px" }} />
+                <Liston
+                  name={dataGJ[1].Agent?.toLowerCase()}
+                  sx={{ width: "200px" }}
+                />
               </Box>
-              <Typography variant="caption" gutterBottom>
-                TL Matilde Puentes Gutierrez
+              <Typography
+                variant="caption"
+                gutterBottom
+                textTransform="capitalize"
+              >
+                TL. {dataGJ[0].TL?.toLowerCase()}
               </Typography>
 
               <img src={second} alt="" width="13%" />
@@ -70,10 +79,14 @@ const GeneralJourney = ({ setSection, handleClose }) => {
             <Boxposition>
               <img src={imagePodium1} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
-                <Liston name="Deiby Niño Garces" />
+                <Liston name={dataGJ[0].Agent?.toLowerCase()} />
               </Box>
-              <Typography variant="caption" gutterBottom>
-                TL Matilde Puentes Gutierrez
+              <Typography
+                variant="caption"
+                gutterBottom
+                textTransform="capitalize"
+              >
+                TL. {dataGJ[0].TL?.toLowerCase()}
               </Typography>
 
               <img src={first} alt="" width="15%" />
@@ -82,10 +95,14 @@ const GeneralJourney = ({ setSection, handleClose }) => {
             <Boxposition sx={{ marginTop: { xs: "6rem", xl: "9rem" } }}>
               <img src={imagePodium3} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
-                <Liston name="Deiby Niño Garces" />
+                <Liston name={dataGJ[2].Agent?.toLowerCase()} />
               </Box>
-              <Typography variant="caption" gutterBottom>
-                TL Matilde Puentes Gutierrez
+              <Typography
+                variant="caption"
+                gutterBottom
+                textTransform="capitalize"
+              >
+                TL. {dataGJ[0].TL?.toLowerCase()}
               </Typography>
 
               <img src={tirdth} alt="" width="13%" />

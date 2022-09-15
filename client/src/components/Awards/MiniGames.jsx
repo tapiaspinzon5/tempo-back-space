@@ -32,7 +32,9 @@ const BoxCard = styled(Box)(() => ({
   },
 }));
 
-const MiniGames = ({ setSection, handleClose }) => {
+const MiniGames = ({ setSection, handleClose, dataMG }) => {
+  console.log(dataMG);
+
   return (
     <Grid>
       <HeadWinners
@@ -45,12 +47,12 @@ const MiniGames = ({ setSection, handleClose }) => {
           <BoxCard>
             <img src={cardMiniGame} alt="" width="50%" />
             <Box>
-              <Liston name="Deiby Niño Garces" />
+              <Liston name={dataMG[0].Missions[0].Agent.toLowerCase()} />
             </Box>
 
             <Typography variant="h6">Missions</Typography>
-            <Typography variant="caption">
-              TL. Matilde Puentes Gutierrez{" "}
+            <Typography variant="caption" textTransform="capitalize">
+              TL. {dataMG[0].Missions[0].TL.toLowerCase()}
             </Typography>
           </BoxCard>
         </Grid>
@@ -58,12 +60,12 @@ const MiniGames = ({ setSection, handleClose }) => {
           <BoxCard>
             <img src={cardMiniGame} alt="" width="50%" />
             <Box>
-              <Liston name="Daniel Moreno Salas" />
+              <Liston name={dataMG[1].Badges[0].Agent.toLowerCase()} />
             </Box>
 
             <Typography variant="h6">Badges</Typography>
-            <Typography variant="caption">
-              TL. Matilde Puentes Gutierrez{" "}
+            <Typography variant="caption" textTransform="capitalize">
+              TL. {dataMG[1].Badges[0].TL.toLowerCase()}
             </Typography>
           </BoxCard>
         </Grid>
@@ -71,12 +73,12 @@ const MiniGames = ({ setSection, handleClose }) => {
           <BoxCard>
             <img src={cardMiniGame} alt="" width="50%" />
             <Box>
-              <Liston name="Diego Tapias" />
+              <Liston name={dataMG[2].Challenges[0].Agent.toLowerCase()} />
             </Box>
 
             <Typography variant="h6">Challenges</Typography>
-            <Typography variant="caption">
-              TL. Matilde Puentes Gutierrez{" "}
+            <Typography variant="caption" textTransform="capitalize">
+              TL. {dataMG[2].Challenges[0].TL.toLowerCase()}
             </Typography>
           </BoxCard>
         </Grid>

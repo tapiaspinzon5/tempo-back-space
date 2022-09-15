@@ -1,11 +1,17 @@
 export const helperKpi = (kpi) => {
-  let kpiFiltrado = kpi.map((k) => {
+  let kpiFiltrado = kpi?.map((k) => {
     return k.Kpi;
   });
   let nuevo = [...new Set(kpiFiltrado)];
+
   return nuevo;
 };
 
+export const helperPercentage = (data) => {
+  let percentage;
+  percentage = (data?.Completed * 100) / (data?.Failed + data?.Completed);
+  return percentage;
+};
 export const helperDataChartCat = (data, context) => {
   let categories;
   if (context === 1) {
