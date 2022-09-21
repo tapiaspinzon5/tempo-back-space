@@ -38,6 +38,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const [dataChart, setDataChart] = useState([]);
   const [dataHead, setDataHead] = useState([]);
   const [questionsHead, setQuestionsHead] = useState([]);
+  const [group, setGroup] = useState("Group");
 
   useEffect(() => {
     getDataAccounts();
@@ -51,12 +52,12 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       setSelectKpi("");
       setAgent([]);
       setAgents([]);
-    } else {
     }
+    setGroup("Group");
   }, [context]);
 
   useEffect(() => {
-    console.log("cambio de camapaña");
+    // console.log("cambio de camapaña");
     getDataLOB();
     getDataKPI();
     handleConsulta();
@@ -65,6 +66,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     setIdTeam(0);
     setAgent([]);
     setAgents([]);
+    setGroup("Group");
   }, [idcampaign]);
 
   useEffect(() => {
@@ -72,15 +74,19 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       getDataTeams();
       if (caso === 1 || caso === 2) {
         getDataKPI();
+        handleConsulta();
       }
     }
   }, [idLob]);
+
+  console.log(idTeam);
 
   useEffect(() => {
     if (Role === "Team Leader") {
       setCaso(3);
       handleConsulta();
     } else {
+      handleConsulta();
       if (idTeam > 0) {
         getDataAgents();
       }
@@ -151,7 +157,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idChallenge: 0,
       caso,
     });
-    console.log("Consultando KPI y misiones ", data);
+    //console.log("Consultando KPI y misiones ", data);
     setDataHead(data.data);
     const filtrador = helperKpi(data?.data[0]?.ListKpi);
 
@@ -167,7 +173,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       caso,
       idCampaign: idcampaign || IdCampaign,
       idLob,
-      idTeam: team || idTeam,
+      idTeam: idTeam || team,
       initDate: date1,
       endDate: date2,
       kpi: selectKpi || "0",
@@ -181,7 +187,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data, context));
     setDataChart(helperDataChartData(dataChart.data, context));
-
+    console.log(dataChart.data);
     //const fittedData = helperDataChartData(dataChart.data[0], context);
   };
 
@@ -218,6 +224,8 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
             setIdMission={setIdExam}
             idMission={idExam}
             selectKpi={selectKpi}
+            group={group}
+            setGroup={setGroup}
           />
         </Box>
       </Grid>

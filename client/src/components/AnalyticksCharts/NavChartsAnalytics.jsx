@@ -23,11 +23,12 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import LobTeamBox from "./LobTeamBox";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
 import { optionCharts } from "../../helpers/helperOptionsCharts";
+import SelectAnalytics from "./SelectAnalytics";
 
 const BoxGroup = styled(Box)(() => ({
   border: "1px solid #c8c8c8",
   //width: "48%",
-  width: "100%",
+  width: "48%",
   height: "3.5rem",
   borderRadius: "4px",
   display: "flex",
@@ -68,6 +69,8 @@ const NavChartsAnalytics = ({
   idMission,
   selectKpi,
   agent,
+  group,
+  setGroup,
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
@@ -139,7 +142,7 @@ const NavChartsAnalytics = ({
       </Box>
       <Box marginTop={1} display="flex">
         {Role === "Super Admin" || Role === "Cluster Director" ? (
-          <FormControl sx={{ width: "100%", marginRight: "4%" }}>
+          <FormControl sx={{ width: "48%", marginRight: "4%" }}>
             <InputLabel id="campaign-select-label">Campaign</InputLabel>
             <Select
               labelId="campaign-select-label"
@@ -188,8 +191,18 @@ const NavChartsAnalytics = ({
               margin="0 1rem"
               onClick={() => setShowGroup(true)}
             >
-              <Typography variant="body1" color="#686868">
-                Group
+              <Typography
+                variant="body1"
+                color="#686868"
+                sx={{
+                  width: "100%",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  textAlign: "left",
+                }}
+              >
+                {group}
               </Typography>
               {showGroup ? (
                 <IoMdArrowDropup size={18} />
@@ -209,6 +222,7 @@ const NavChartsAnalytics = ({
                 setShowGroup={setShowGroup}
                 setCaso={setCaso}
                 setAgents={setAgents}
+                setGroup={setGroup}
               />
             )}
           </BoxGroup>
@@ -227,6 +241,16 @@ const NavChartsAnalytics = ({
               selectKpi={selectKpi}
               disabled={kpiData?.length > 0 ? false : true}
             />
+
+            <SelectAnalytics
+              label="KPI"
+              dataSearch={kpiData}
+              context="kpi"
+              setSelectKpi={setSelectKpi}
+              selectKpi={selectKpi}
+              disabled={kpiData?.length > 0 ? false : true}
+            />
+
             <SearchComponent
               label="Agents"
               dataSearch={agents}

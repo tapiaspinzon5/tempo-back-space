@@ -108,7 +108,7 @@ const WinnersOptions = ({
         <Grid item xs={12} md={4}>
           <ButtonCard
             onClick={() => setSection("mini")}
-            disabled={dataMG[0].Missions[0].Agent !== "0" ? false : true}
+            disabled={dataMG[0]?.Missions[0]?.Agent !== "0" ? false : true}
           >
             {" "}
             <img src={mini} all="" />{" "}

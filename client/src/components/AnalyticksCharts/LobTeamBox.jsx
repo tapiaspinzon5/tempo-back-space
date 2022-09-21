@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import useClickOutside from "../../Hooks/useClickOutside";
 
 const LobTeamCard = styled(Box)(() => ({
-  height: "20rem",
+  height: "22rem",
   width: "15rem",
   background: "#fff",
   boxShadow: "0px 3px 6px #00000029",
@@ -77,6 +77,7 @@ const LobTeamBox = ({
   setShowGroup,
   setCaso,
   setAgents,
+  setGroup,
 }) => {
   const refNav = useRef();
   const [showTeam, setShowTeam] = useState(false);
@@ -114,10 +115,12 @@ const LobTeamBox = ({
   const handleClear = () => {
     if (showTeam) {
       setIdTeam([]);
+      setGroup("Group");
       setCaso(2);
     } else {
       setIdTeam([]);
       setIdLob([]);
+      setGroup("Group");
       setCaso(1);
     }
     setAgents([]);
@@ -151,7 +154,7 @@ const LobTeamBox = ({
         <BoxAccounts
           sx={{
             height: "200px",
-            marginY: "1rem",
+            marginTop: "1rem",
           }}
         >
           {showTeam ? (
@@ -168,10 +171,13 @@ const LobTeamBox = ({
                         value={camp.idTeam}
                         onChange={() => {
                           setIdTeam(camp.idTeam);
+                          setGroup(camp.NameTeam);
                           setCaso(3);
                         }}
                       />
-                      <label htmlFor="account">{camp.NameTeam}</label>
+                      <label htmlFor="account">
+                        {camp.NameTeam}- {camp.idTeam}
+                      </label>
                     </BoxOption>
                   ))}
                 </>
@@ -195,6 +201,7 @@ const LobTeamBox = ({
                         value={camp.idLob}
                         onChange={() => {
                           setIdLob(camp.idLob);
+                          setGroup(camp.NameLob);
                           setCaso(2);
                         }}
                       />
@@ -210,12 +217,20 @@ const LobTeamBox = ({
             </>
           )}
         </BoxAccounts>
-        <ButtonActionBlue
-          sx={{ marginTop: "-5rem" }}
-          onClick={() => handleClear()}
-        >
-          Clear {showTeam ? "Team" : "LOB"}
-        </ButtonActionBlue>
+        <Box display="flex" justifyContent="space-between">
+          <ButtonActionBlue
+            onClick={() => handleClear()}
+            sx={{ width: "6rem" }}
+          >
+            Clear {showTeam ? "Team" : "LOB"}
+          </ButtonActionBlue>
+          <ButtonActionBlue
+            onClick={() => setShowGroup(false)}
+            sx={{ width: "6rem" }}
+          >
+            Acept
+          </ButtonActionBlue>
+        </Box>
       </Box>
     </LobTeamCard>
   );

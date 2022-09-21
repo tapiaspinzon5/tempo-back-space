@@ -18,7 +18,7 @@ const SearchComponent = ({
 }) => {
   const [defaultProps, setDefaultProps] = useState({});
 
-  console.log(dataSearch);
+  //console.log(dataSearch);
 
   useEffect(() => {
     setDefaultProps({
