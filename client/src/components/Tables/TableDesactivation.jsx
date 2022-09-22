@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, styled, Grid } from "@mui/material";
 
 import { BiCheckCircle, BiXCircle } from "react-icons/bi";
+import { BsTrash } from "react-icons/bs";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
@@ -64,41 +65,64 @@ const TableAgentUpload = ({ dataAgent, handleAction }) => {
 			cellClassName: "super-app-theme--cell",
 			renderCell: (params) => (
 				<Box width=" 100%" display="flex" justifyContent="center">
-					<ButtonAction
-						onClick={() =>
-							handleAction(
-								[
-									params.row.ident,
-									params.row.Agent,
-									params.row.RoleAgent,
-									params.row.emailUsrRequest,
-								],
-								"approved",
-								params.row
-							)
-						}
-						disabled={params.row.Request}
-						sx={{ marginRight: "5px" }}
-					>
-						<BiCheckCircle color="#3047B0" size={25} />
-					</ButtonAction>
-					<ButtonAction
-						onClick={() =>
-							handleAction(
-								[
-									params.row.ident,
-									params.row.Agent,
-									params.row.RoleAgent,
-									params.row.emailUsrRequest,
-								],
-								"cancelled"
-							)
-						}
-						disabled={params.row.Request}
-						sx={{ marginRight: "5px" }}
-					>
-						<BiXCircle color="#f00" size={25} />
-					</ButtonAction>
+					{params.row.trashIcon && params.row.RoleAgent === "Team Leader" ? (
+						<ButtonAction
+							onClick={() =>
+								handleAction(
+									[
+										params.row.ident,
+										params.row.Agent,
+										params.row.RoleAgent,
+										params.row.emailUsrRequest,
+									],
+									"approved",
+									params.row
+								)
+							}
+							disabled={params.row.Request}
+							sx={{ marginRight: "5px" }}
+						>
+							<BsTrash color="#3047B0" size={18} />
+						</ButtonAction>
+					) : (
+						<>
+							<ButtonAction
+								onClick={() =>
+									handleAction(
+										[
+											params.row.ident,
+											params.row.Agent,
+											params.row.RoleAgent,
+											params.row.emailUsrRequest,
+										],
+										"approved",
+										params.row
+									)
+								}
+								disabled={params.row.Request}
+								sx={{ marginRight: "5px" }}
+							>
+								<BiCheckCircle color="#3047B0" size={25} />
+							</ButtonAction>
+							<ButtonAction
+								onClick={() =>
+									handleAction(
+										[
+											params.row.ident,
+											params.row.Agent,
+											params.row.RoleAgent,
+											params.row.emailUsrRequest,
+										],
+										"cancelled"
+									)
+								}
+								disabled={params.row.Request}
+								sx={{ marginRight: "5px" }}
+							>
+								<BiXCircle color="#f00" size={25} />
+							</ButtonAction>
+						</>
+					)}
 				</Box>
 			),
 		},

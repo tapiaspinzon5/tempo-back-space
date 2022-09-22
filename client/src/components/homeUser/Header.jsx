@@ -148,6 +148,8 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
+  console.log(userData);
+
   return (
     <>
       <MainHeader

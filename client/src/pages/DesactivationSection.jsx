@@ -4,7 +4,7 @@ import { MainPage, ModalBox } from "../assets/styled/muistyled";
 import Header from "../components/homeUser/Header";
 import Footer from "../components/Footer";
 import TableDesactivation from "../components/Tables/TableDesactivation";
-import { requestWithData } from "../utils/api";
+import { getLobs, requestWithData } from "../utils/api";
 import LoadingComponent from "../components/LoadingComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../redux/loginDuck";
@@ -80,11 +80,17 @@ const DesactivationSection = ({ setCount2, count2 }) => {
 
 	const getData = async () => {
 		setLoading(true);
+		const allLobs = await getLobs(1, 1032);
 		const usersList = await requestWithData("getinactiveusersapplications");
 		if (usersList && usersList.status === 200 && usersList.data.length > 0) {
 			if (usersList.data[0].Agent !== "0" && usersList.data[0].ident !== "0") {
+				const filterList = usersList.data.map((item1) =>
+					allLobs.data.some((item2) => item1.ident === item2.identTL)
+						? item1
+						: { ...item1, trashIcon: "true" }
+				);
 				//falta tratar la fecha antes de settear la variable
-				const uwd = usersList.data.map((user) => {
+				const uwd = filterList.map((user) => {
 					const fecha = dateConfig(user.dateRequest);
 					user.dateRequest = fecha;
 					return user;

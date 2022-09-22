@@ -1,6 +1,5 @@
 import { Box } from "@mui/system";
 import React, { useEffect } from "react";
-import ReactPlayer from "react-player";
 import { ButtonActionBlue } from "../assets/styled/muistyled";
 import Agent from "../assets/video/video1.mp4";
 import TeamLead from "../assets/video/video2.mp4";
@@ -38,14 +37,14 @@ const HelpCenter = ({ rol, setHelpCenter }) => {
   }, [rol]);
   return (
     <div>
-      <ReactPlayer
-        style={{ borderRadius: "10px" }}
-        width="100%"
-        height="100%"
+      <video
+        src={video}
+        autoPlay={true}
         controls
-        url={video}
+        width="100%"
         onEnded={() => setHelpCenter(false)}
-      />
+        style={{ objectFit: "contain" }}
+      ></video>
       <Box display="flex" justifyContent="center" marginY={2}>
         <ButtonActionBlue
           sx={{ width: "12rem" }}
