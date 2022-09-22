@@ -634,15 +634,24 @@ exports.sendEmailNotification = async (req, res) => {
     text: msg, // Plain text body
   };
 
-  transport.sendMail(message, function (err, info) {
-    if (err) {
-      console.log(err);
-      res.status(500).json(err);
-    } else {
-      console.log(info);
-      res.status(200).json(info);
-    }
-  });
+  let emails = [sendTo];
+
+  await sendConfirmInactivationEmail(
+    emails,
+    "SpaceGP email",
+    "Deactivation Notification SpaceGP",
+    "noresponse@teleperformance.com"
+  );
+
+  // transport.sendMail(message, function (err, info) {
+  //   if (err) {
+  //     console.log(err);
+  //     res.status(500).json(err);
+  //   } else {
+  //     console.log(info);
+  //     res.status(200).json(info);
+  //   }
+  // });
 };
 
 exports.sendFCMNotificacion = async (req, res) => {

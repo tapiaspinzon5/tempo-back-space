@@ -62,6 +62,7 @@ function login(req, res) {
             IdCampaign: result2[0]?.IdCampaign,
             IdTeam: result2[0]?.IdTeam,
             NameTeam: result2[0]?.NameTeam,
+            LastLogin: result2[0]?.LastLogin,
           };
 
           const dataEncrypted = CryptoJS.AES.encrypt(JSON.stringify(data), `secret key 123`).toString();
