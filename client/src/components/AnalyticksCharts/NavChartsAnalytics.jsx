@@ -233,14 +233,14 @@ const NavChartsAnalytics = ({
         {/* KPIS */}
         {motherDropDown === 1 && (
           <>
-            <SearchComponent
+            {/* <SearchComponent
               label="KPI"
               dataSearch={kpiData}
               context="kpi"
               setSelectKpi={setSelectKpi}
               selectKpi={selectKpi}
               disabled={kpiData?.length > 0 ? false : true}
-            />
+            /> */}
 
             <SelectAnalytics
               label="KPI"
@@ -278,11 +278,12 @@ const NavChartsAnalytics = ({
         )}
         {/* challenges */}
         {motherDropDown === 4 && (
-          <SearchComponent
+          <SelectAnalytics
             label="KPI"
             dataSearch={kpiData}
             context="kpi"
             setSelectKpi={setSelectKpi}
+            selectKpi={selectKpi}
             disabled={kpiData?.length > 0 ? false : true}
           />
         )}
@@ -297,3 +298,13 @@ const NavChartsAnalytics = ({
 };
 
 export default NavChartsAnalytics;
+
+{
+  /* <SearchComponent
+            label="KPI"
+            dataSearch={kpiData}
+            context="kpi"
+            setSelectKpi={setSelectKpi}
+            disabled={kpiData?.length > 0 ? false : true}
+          /> */
+}

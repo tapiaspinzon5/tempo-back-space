@@ -535,6 +535,30 @@ export const deleteDuplicatesKpis = async (data, time) => {
     return dataOrder;
   }
 };
+export const validateDate = (date) => {
+  let mes;
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const getShortMonthName = (date) => {
+    return monthNames[date.getMonth()].substring(0, 3);
+  };
+
+  mes = getShortMonthName(new Date(date));
+  return mes;
+};
+
 export const ConvertMonth = (month) => {
   let mes;
   switch (month) {

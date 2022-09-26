@@ -7,7 +7,6 @@ import {
   Box,
   Typography,
   Modal,
-  Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import bannerH from "../../assets/images/bannerHeader.png";
@@ -22,6 +21,9 @@ import Achievement from "../../assets/Icons/Achievement.png";
 import { headerDataAction } from "../../redux/homeDataDuck";
 import { headerDataTlAction } from "../../redux/homeDataDuckTL";
 import MainAwards from "../Awards/MainAwards";
+import { validateDate } from "../../helpers/helpers";
+import CryptoJS from "crypto-js";
+import { readUserActiveAction } from "../../redux/loginDuck";
 
 const MainHeader = styled(Grid)(() => ({
   border: "1px solid #f2f2f2",
@@ -78,6 +80,7 @@ const Header = ({ count }) => {
   //controles Dark mode
   const theme = useTheme();
   const [showNotification, setShowNotification] = useState(false);
+  const { LastLogin } = userData;
 
   const handleNotification = () => {
     setShowNotification(!showNotification);
@@ -86,6 +89,7 @@ const Header = ({ count }) => {
   const handleOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -93,6 +97,7 @@ const Header = ({ count }) => {
   useEffect(() => {
     dispatch(headerDataAction());
     dispatch(headerDataTlAction());
+    dispatch(readUserActiveAction());
     const data = async () => {
       const getNotifications = await downloadNotifications();
       if (
@@ -113,6 +118,27 @@ const Header = ({ count }) => {
     };
     data();
     // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    const last = validateDate(LastLogin);
+    const today = validateDate(Date.now());
+    if (last !== today) {
+      handleOpen();
+
+      let data = JSON.parse(
+        CryptoJS.AES.decrypt(
+          sessionStorage.getItem("userTP"),
+          "secret key 123"
+        ).toString(CryptoJS.enc.Utf8)
+      );
+
+      data.LastLogin = Date.now();
+      sessionStorage.setItem(
+        "userTP",
+        CryptoJS.AES.encrypt(JSON.stringify(data), "secret key 123").toString()
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -147,8 +173,6 @@ const Header = ({ count }) => {
     }
     return `${count} notifications`;
   }
-
-  console.log(userData);
 
   return (
     <>

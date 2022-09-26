@@ -1,5 +1,6 @@
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBvIm4awdjTWROGds-dGId7zhqici0Vexk",
@@ -40,3 +41,8 @@ export const onMessageListener = () =>
       resolve(payload);
     });
   });
+
+export const storage = getStorage(
+  initializeApp(firebaseConfig),
+  "gs://storage-296723"
+);
