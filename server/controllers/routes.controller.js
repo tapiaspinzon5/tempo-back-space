@@ -193,12 +193,12 @@ exports.saveQuiz = async (req, res) => {
 };
 
 exports.uploadOpsM = async (req, res) => {
-  const { idccms, context, idLeader, cas, emails } = req.body;
+  const { idccms, context, idLeader, cas, emails, imageUrl } = req.body;
 
   sql
     .query(
       "spInsertOrganizationalUnit",
-      parametros({ idccms, context, idLeader, cas }, "spInsertOrganizationalUnit")
+      parametros({ idccms, context, idLeader, cas, imageUrl }, "spInsertOrganizationalUnit")
     )
     .then(async (result) => {
       await sendEmail(
