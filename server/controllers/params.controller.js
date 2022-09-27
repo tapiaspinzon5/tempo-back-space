@@ -521,7 +521,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("idccms", req.idLeader, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
         new SpParam("case", req.cas, TYPES.Int),
-        new SpParam("LogoCampaig", req.imageUrl, TYPES.VarChar),
+        new SpParam("LogoCampaign", req.imageUrl, TYPES.VarChar),
         // SpParamTable2("table", opsmTable, req.rows),
       ]);
 
