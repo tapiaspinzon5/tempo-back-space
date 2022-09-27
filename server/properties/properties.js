@@ -19,7 +19,7 @@ if (process.env.ENV == "Production" || process.env.ENV == "Development") {
         connectTimeout: 300000,
         requestTimeout: 300000,
         trustServerCertificate: true,
-        // port: 5081,
+        // port: 5081, //solo se habilita en PRD y se comenta instanceName
       },
     },
     PORT: process.env.PORT || process.env.APP_PORT,

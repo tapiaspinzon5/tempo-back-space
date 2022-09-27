@@ -15,19 +15,19 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "csurf": "^1.11.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-jwt": "^7.7.5",
     "firebase-admin": "^11.0.1",
-    "helmet": "^5.1.1",
+    "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.8",
     "path": "^0.12.7",
     "request-ip": "^3.3.0",
-    "tedious": "^15.0.1"
+    "tedious": "^15.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }
