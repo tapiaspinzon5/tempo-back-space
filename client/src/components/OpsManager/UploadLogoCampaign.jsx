@@ -6,6 +6,8 @@ import {
   styled,
   IconButton,
   Tooltip,
+  FormHelperText,
+  CircularProgress,
 } from "@mui/material";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -13,6 +15,7 @@ import { MdInfoOutline } from "react-icons/md";
 import { ButtonActionBlue } from "../../assets/styled/muistyled";
 import logo1 from "../../assets/images/logo-tp-blue.svg";
 import { FiFilePlus } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 const BoxRole = styled(Grid)(() => ({
   height: "8rem",
@@ -49,27 +52,55 @@ const BoxUploadFile = styled(Box)(() => ({
 }));
 
 const UploadLogoCampaign = () => {
+  const userData = useSelector((store) => store.loginUser.userData);
+  const { IdCampaign } = userData;
   const [logo, setLogo] = useState({
     file: null,
     img: null,
   });
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(10);
   const [urlImg, setUrlImg] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogo = (e) => {
-    setLogo({
-      file: e.target.files[0],
-      img: URL.createObjectURL(e.target.files[0]),
-    });
+    const file = e.target.files[0];
+
+    //console.log(file);
+    if (
+      file.type === "image/jpeg" ||
+      file.type === "image/png" ||
+      file.type === "image/svg+xml"
+    ) {
+      setError("");
+      setLogo({
+        file,
+        img: URL.createObjectURL(e.target.files[0]),
+      });
+    } else if (file.size > 500000) {
+      setError("Max size 5Mb");
+      setLogo({
+        file: null,
+        img: null,
+      });
+    } else {
+      setError("Only files in .png or .jpg format");
+      setLogo({
+        file: null,
+        img: null,
+      });
+    }
   };
 
-  const updateFiles = (file, name, key) => {
+  const updateFiles = async () => {
     setLoading(true);
-    console.log(file, name);
-    if (!file) return;
-    const storageRef = ref(storage, `/Gamification/logosCampaign/${name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    console.log(logo);
+    if (!logo.file) return;
+    const storageRef = ref(
+      storage,
+      `/Gamification/logosCampaign/${IdCampaign}`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, logo.file);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -81,15 +112,25 @@ const UploadLogoCampaign = () => {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          // console.log(url);
+          console.log(url);
           setUrlImg(url);
+          setUrlDB(url);
         });
       }
     );
+
+    setLogo({
+      file: null,
+      img: null,
+    });
     setLoading(false);
+    setProgress(0);
   };
 
-  console.log(logo);
+  const setUrlDB = async (url) => {
+    console.log("vamos a enviar esta vuelta a la base de datos: ", url);
+  };
+  //console.log(urlImg);
   return (
     <Grid container>
       <Grid item xs={12} md={2}>
@@ -103,7 +144,10 @@ const UploadLogoCampaign = () => {
         <BoxRole>
           <Box width="40%" sx={{}}>
             <BoxUploadFile>
-              <label htmlFor="logoCampaign">
+              <label
+                htmlFor="logoCampaign"
+                style={error ? { border: "1px solid #f00" } : {}}
+              >
                 Upload <FiFilePlus size={22} />
               </label>
               <input
@@ -112,6 +156,7 @@ const UploadLogoCampaign = () => {
                 onChange={(e) => handleLogo(e)}
               />
             </BoxUploadFile>
+            {error && <FormHelperText error>{error}</FormHelperText>}
             <Box
               sx={{
                 display: "flex",
@@ -133,15 +178,19 @@ const UploadLogoCampaign = () => {
                 </IconButton>
               </Tooltip>
               <ButtonActionBlue
-                disabled={logo.file ? false : true}
-                //onClick={() => handleSubmitRL(rLead, newRL)}
+                disabled={error || !logo.file ? true : false}
+                onClick={() => updateFiles()}
               >
                 Assignment
               </ButtonActionBlue>
             </Box>
           </Box>
           <Box display="flex" justifyContent="left" width="51%" marginLeft={1}>
-            <img src={logo.img || logo1} alt="Logo Campaign" height={60} />
+            {progress > 0 ? (
+              <img src={logo.img || logo1} alt="Logo Campaign" height={45} />
+            ) : (
+              <CircularProgress variant="determinate" value={progress} />
+            )}
           </Box>
         </BoxRole>
       </Grid>
