@@ -238,7 +238,6 @@ const UploadAgentSection = () => {
     getTeams();
   }, []);
 
-  console.log(loading);
   return (
     <MainPage>
       <Header />

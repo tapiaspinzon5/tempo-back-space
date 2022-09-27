@@ -86,7 +86,7 @@ const AnalyticsCD = ({ count }) => {
           kpi: filters.kpi,
           context: 3,
         });
-        console.log(initialData);
+
         if (
           initialData &&
           initialData.status === 200 &&
@@ -96,7 +96,7 @@ const AnalyticsCD = ({ count }) => {
             initialData.data[0].Analitycs
           );
           setData(dataOrder);
-          console.log(dataOrder);
+
           setDataGrid(dataOrder.dataOrder);
           setLoading(false);
         }

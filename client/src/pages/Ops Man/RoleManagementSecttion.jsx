@@ -595,9 +595,9 @@ const RoleManagementSecttion = () => {
             )}
           </BoxRole>
         </Grid>
-        <Grid item xs={12} spacing={1} mt={2}>
+        {/* <Grid item xs={12} spacing={1} mt={2}>
           <UploadLogoCampaign />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Footer />
     </MainPage>

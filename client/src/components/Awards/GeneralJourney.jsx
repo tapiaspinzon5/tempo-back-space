@@ -35,7 +35,6 @@ const Boxposition = styled(Box)(() => ({
 }));
 
 const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
-  console.log(dataGJ);
   return (
     <Grid
       height={"100%"}

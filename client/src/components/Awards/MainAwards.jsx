@@ -57,10 +57,6 @@ const MainAwards = ({ handleClose, userData }) => {
     }
   }, []);
 
-  console.log(dataGJ);
-  console.log(dataSJ);
-  console.log(dataMG);
-
   return (
     <BoxMainAwards sx={{ height: { xs: "90vh", xl: "75vh" } }}>
       {showWinners ? (

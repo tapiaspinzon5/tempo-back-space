@@ -8,7 +8,6 @@ const SelectAnalytics = ({
   setSelectKpi,
   selectKpi,
 }) => {
-  console.log(dataSearch);
   return (
     <Box width="100%" marginTop={1}>
       <FormControl fullWidth>

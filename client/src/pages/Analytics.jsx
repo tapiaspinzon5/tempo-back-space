@@ -95,7 +95,7 @@ const Analytics = ({ count }) => {
               initialData.data[0].Analitycs
             );
             setData(dataOrder);
-            console.log(dataOrder);
+
             setDataGrid(dataOrder.dataOrder);
             setLoading(false);
           }
@@ -132,7 +132,6 @@ const Analytics = ({ count }) => {
     // eslint-disable-next-line
   }, [filters]);
 
-  console.log(dataGrid);
   return (
     <MainPage>
       <Modal

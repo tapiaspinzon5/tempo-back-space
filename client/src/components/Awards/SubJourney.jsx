@@ -48,7 +48,6 @@ const BoxContain = styled(Box)(() => ({
 }));
 
 const SubJourney = ({ setSection, handleClose, dataSJ }) => {
-  console.log(dataSJ);
   return (
     <Grid>
       <HeadWinners

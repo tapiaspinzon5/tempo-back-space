@@ -79,8 +79,6 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     }
   }, [idLob]);
 
-  console.log(idTeam);
-
   useEffect(() => {
     if (Role === "Team Leader") {
       setCaso(3);

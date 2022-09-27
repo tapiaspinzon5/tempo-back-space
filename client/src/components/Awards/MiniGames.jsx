@@ -33,8 +33,6 @@ const BoxCard = styled(Box)(() => ({
 }));
 
 const MiniGames = ({ setSection, handleClose, dataMG }) => {
-  console.log(dataMG);
-
   return (
     <Grid>
       <HeadWinners

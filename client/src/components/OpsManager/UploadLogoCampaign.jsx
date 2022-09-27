@@ -16,6 +16,7 @@ import { ButtonActionBlue } from "../../assets/styled/muistyled";
 import logo1 from "../../assets/images/logo-tp-blue.svg";
 import { FiFilePlus } from "react-icons/fi";
 import { useSelector } from "react-redux";
+import { requestWithData } from "../../utils/api";
 
 const BoxRole = styled(Grid)(() => ({
   height: "8rem",
@@ -94,7 +95,7 @@ const UploadLogoCampaign = () => {
 
   const updateFiles = async () => {
     setLoading(true);
-    console.log(logo);
+
     if (!logo.file) return;
     const storageRef = ref(
       storage,
@@ -112,7 +113,7 @@ const UploadLogoCampaign = () => {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
+          //console.log(url);
           setUrlImg(url);
           setUrlDB(url);
         });
@@ -128,7 +129,16 @@ const UploadLogoCampaign = () => {
   };
 
   const setUrlDB = async (url) => {
-    console.log("vamos a enviar esta vuelta a la base de datos: ", url);
+    // console.log("vamos a enviar esta vuelta a la base de datos: ", url);
+    const uploadLogo = await requestWithData("uploadopsm", {
+      context: 0,
+      idLeader: 0,
+      caso: 3,
+      imageUrl: url,
+      emails: [],
+    });
+
+    //  console.log(uploadLogo);
   };
   //console.log(urlImg);
   return (
