@@ -55,6 +55,7 @@ const BoxUploadFile = styled(Box)(() => ({
 const UploadLogoCampaign = () => {
   const userData = useSelector((store) => store.loginUser.userData);
   const { IdCampaign } = userData;
+  console.log(userData);
   const [logo, setLogo] = useState({
     file: null,
     img: null,
@@ -113,7 +114,7 @@ const UploadLogoCampaign = () => {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          //console.log(url);
+          console.log(url);
           setUrlImg(url);
           setUrlDB(url);
         });
@@ -129,16 +130,16 @@ const UploadLogoCampaign = () => {
   };
 
   const setUrlDB = async (url) => {
-    // console.log("vamos a enviar esta vuelta a la base de datos: ", url);
+    console.log("vamos a enviar esta vuelta a la base de datos: ", url);
     const uploadLogo = await requestWithData("uploadopsm", {
       context: 0,
       idLeader: 0,
-      caso: 3,
+      cas: 3,
       imageUrl: url,
       emails: [],
     });
 
-    //  console.log(uploadLogo);
+    console.log(uploadLogo);
   };
   //console.log(urlImg);
   return (
