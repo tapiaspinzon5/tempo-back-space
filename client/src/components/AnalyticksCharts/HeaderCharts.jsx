@@ -79,7 +79,7 @@ const HeaderCharts = ({ dataHead, context, questionsHead }) => {
         break;
     }
   }, [context, dataHead]);
-  console.log(dataHead);
+  //console.log(dataHead);
 
   return (
     <BoxHeaderCharts>

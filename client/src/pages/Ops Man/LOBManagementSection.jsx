@@ -79,7 +79,6 @@ const LOBManagementSection = () => {
 				allLobs.data[0].idCampaign !== "0" &&
 				allLobs.data[0].nameCampaign !== "0"
 			) {
-				console.log(allLobs.data);
 				const filterLobs = await filterLobList(allLobs.data);
 				const TLList = await teamLeaderList(allLobs.data, filterLobs[0]);
 				setAllData(allLobs.data);

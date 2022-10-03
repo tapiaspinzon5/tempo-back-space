@@ -74,7 +74,6 @@ export const QuizViewV2 = ({ setNavView }) => {
 	}, []);
 
 	const handleNext = () => {
-		console.log(answer);
 		//validar que las preguntas de multiple respuesta tengan almenos dos respuestas
 		if (answer[quiz[next].Idpregunta]) {
 			setNext(next + 1);
@@ -86,7 +85,6 @@ export const QuizViewV2 = ({ setNavView }) => {
 		}
 	};
 	const handleBack = () => {
-		console.log(answer);
 		setNext(next - 1);
 	};
 
@@ -106,7 +104,6 @@ export const QuizViewV2 = ({ setNavView }) => {
 						table.push([answer[key], parseInt(key)]);
 					}
 				}
-				console.log(table);
 				return table;
 			};
 			const resp = await uploadAnswers(data(), idquiz);

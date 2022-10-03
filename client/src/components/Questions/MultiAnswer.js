@@ -113,13 +113,6 @@ export const MultiAnswer = ({ question, answer, setAnswer }) => {
 							value={"A"}
 							label={question.Respuesta1}
 							onChange={(e) => {
-								console.log({
-									...answer,
-									[question.Idpregunta]: {
-										...answer[question.Idpregunta],
-										OA: e.target.checked ? e.target.value : "",
-									},
-								});
 								setAnswer({
 									...answer,
 									[question.Idpregunta]: {

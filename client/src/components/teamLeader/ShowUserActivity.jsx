@@ -27,7 +27,7 @@ const ShowUserActivity = ({ user, handleUser }) => {
 				/>
 				<Box width="55%">
 					<Typography variant="body1">{user.Agent}</Typography>
-					<Typography variant="caption">Agent</Typography>
+					<Typography variant="caption">{user.AgentPosition}</Typography>
 				</Box>
 				<Box display="flex" alignItems="center" flexDirection="column">
 					<Box display="flex" alignItems="center">
