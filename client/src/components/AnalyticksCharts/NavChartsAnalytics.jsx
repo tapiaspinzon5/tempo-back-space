@@ -27,13 +27,11 @@ import SelectAnalytics from "./SelectAnalytics";
 
 const BoxGroup = styled(Box)(() => ({
   border: "1px solid #c8c8c8",
-  //width: "48%",
+
   width: "48%",
   height: "3.5rem",
   borderRadius: "4px",
   display: "flex",
-  // flexDirection: "column",
-  // justifyContent: "center",
   cursor: "pointer",
   position: "relative",
   "&:hover": {
@@ -298,13 +296,3 @@ const NavChartsAnalytics = ({
 };
 
 export default NavChartsAnalytics;
-
-{
-  /* <SearchComponent
-            label="KPI"
-            dataSearch={kpiData}
-            context="kpi"
-            setSelectKpi={setSelectKpi}
-            disabled={kpiData?.length > 0 ? false : true}
-          /> */
-}

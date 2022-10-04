@@ -18,13 +18,12 @@ const SearchComponent = ({
 }) => {
   const [defaultProps, setDefaultProps] = useState({});
 
-  //console.log(dataSearch);
-
   useEffect(() => {
     setDefaultProps({
       options: dataSearch,
       getOptionLabel: (option) => (option.label ? option.label : ""),
     });
+    // eslint-disable-next-line
   }, []);
 
   const handleSelect = (newValue) => {

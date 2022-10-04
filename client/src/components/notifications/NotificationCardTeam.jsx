@@ -1,35 +1,30 @@
 import React from "react";
-import {
-  Typography,
-  Avatar,
-  Box,
-  styled,
-  Divider,
-  Button,
-} from "@mui/material";
+import { Typography, Avatar, Box, styled, Divider } from "@mui/material";
 import avatar from "../../assets/temp-image/avatar.png";
 import { useNavigate } from "react-router-dom";
-import { updateStatusNotifications } from "../../utils/api";
 import { useSelector } from "react-redux";
 import Reactions from "./Reactions";
 
-const BoxCard = styled(Button)(() => ({
+const BoxCard = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
-  width: "100%",
+  width: "auto",
   justifyContent: "space-between",
   padding: "0 2rem",
-  height: "4rem",
+  minHeight: "4rem",
   textTransform: "none",
   color: "#3047b0",
   div: {
     display: "flex",
     alignItems: "center",
   },
+  "&:hover": {
+    background: "#1b34a209",
+    borderRadius: "3px",
+  },
 }));
 
-const NotificationCard = ({ info, team }) => {
-  const navigate = useNavigate();
+const NotificationCardTeam = ({ info }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   let fecha;
   let hora;
@@ -76,35 +71,21 @@ const NotificationCard = ({ info, team }) => {
   } else {
     fecha = fechaBase.replace(",", "").split(" ")[0];
   }
-  const handleClick = async () => {
-    await updateStatusNotifications(info.IdNotification);
-    if (userData.Role === "Team Leader") {
-      navigate("/notifications");
-    } else {
-      if (info.TypeActivity === "Challenge") {
-        navigate(`/activitiesview/${info.IdChallenge}/${2}`);
-      } else if (info.TypeActivity === "Activity") {
-        navigate(`/activitiesview/${info.IdChallenge}/${1}`);
-      } else {
-        navigate("/notifications");
-      }
-    }
-  };
 
   return (
     <>
-      <BoxCard onClick={handleClick} disabled={team}>
+      <BoxCard>
         <Box>
           <Avatar
             alt="Remy Sharp"
             src={avatar}
             sx={{ width: 46, height: 46 }}
           />
-          <Box display="flex" flexDirection="column">
+          <Box display="flex" flexDirection="column" alignItems="rigth">
             <Typography variant="body2" marginLeft="1rem" align="left">
               {info.TypeNotification + "  " + info.Name}
             </Typography>
-            {team && <Reactions />}
+            <Reactions />
           </Box>
         </Box>
         <Typography variant="caption">{fecha}</Typography>
@@ -114,4 +95,4 @@ const NotificationCard = ({ info, team }) => {
   );
 };
 
-export default NotificationCard;
+export default NotificationCardTeam;

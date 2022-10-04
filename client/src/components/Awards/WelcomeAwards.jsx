@@ -7,7 +7,7 @@ import { ButtonActionBlue } from "../../assets/styled/muistyled";
 import IconButton from "@mui/material/IconButton";
 
 const BoxWelcome = styled(Box)(() => ({
-  height: "100%",
+  height: "90%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

@@ -7,6 +7,7 @@ import {
   Box,
   Typography,
   Modal,
+  Paper,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import bannerH from "../../assets/images/bannerHeader.png";
@@ -25,35 +26,30 @@ import { validateDate } from "../../helpers/helpers";
 import CryptoJS from "crypto-js";
 import { readUserActiveAction } from "../../redux/loginDuck";
 
-const MainHeader = styled(Grid)(() => ({
-  border: "1px solid #f2f2f2",
-  borderRadius: "10px",
-  width: "100%",
-  minHeight: "11vh",
-  boxShadow: "2px 2px 5px #f2f2f2",
-  marginRight: "1rem",
-  display: "flex",
-  alignItems: "center",
-}));
-
 const TitleHeader = styled(Grid)((theme) => ({
   minHeight: "11vh",
+
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: "10px 0 0 10px",
+  borderRadius: "10px ",
+  background: "linear-gradient(90deg, #3047B0 0%, #0087FF 100%)",
   img: {
-    width: "100%",
+    height: "9vh",
+    maxWidth: "90%",
   },
 }));
 
-const RightHeader = styled(Grid)((theme) => ({
-  borderRadius: "0px 10px 10px 0px",
-  height: "100%",
+const RightHeader = styled(Box)((theme) => ({
+  borderRadius: "10px",
+  minHeight: "11vh",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "space-around",
+  backgroundImage: `url(${bannerH})`,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
 }));
 
 const ModalBox = styled(Box)(() => ({
@@ -80,7 +76,7 @@ const Header = ({ count }) => {
   //controles Dark mode
   const theme = useTheme();
   const [showNotification, setShowNotification] = useState(false);
-  const { LastLogin } = userData;
+  const { LastLogin, LogoCampaign } = userData;
 
   const handleNotification = () => {
     setShowNotification(!showNotification);
@@ -176,105 +172,124 @@ const Header = ({ count }) => {
 
   return (
     <>
-      <MainHeader
-        container
-        sx={{
-          background: theme.palette.background.navigator,
-          color: "text.primary",
-        }}
-      >
-        <TitleHeader
-          item
-          xs={12}
-          md={6}
-          sx={{
-            color: "text.primary",
-            display: "flex",
-            justifyContent: "left",
-          }}
-        >
-          <img src={bannerH} alt="TP" />
-        </TitleHeader>
+      <Grid container spacing={1}>
         {userData.Role === "Agent" || userData.Role === "Team Leader" ? (
           <>
             {homeData !== "UnauthorizedError" && (
-              <RightHeader item xs={12} md={6}>
-                <Box display="flex" alignItems="center">
-                  <Typography variant="body2">
-                    <b>
-                      {userData.Role === "Agent"
-                        ? headerData?.Exp
-                        : headerDataTl?.Exp}
-                    </b>{" "}
-                    Pts
-                  </Typography>
-                  <Box width="150px" margin="0 1rem">
-                    <ProgresBar
-                      value={
-                        userData.Role === "Agent"
-                          ? (headerData?.Exp * 100) / headerData?.High
-                          : (headerDataTl?.Exp * 100) / headerDataTl?.High
-                      }
-                    />
-                  </Box>
-                  <Typography variant="body2">
-                    <b>
-                      {userData.Role === "Agent"
-                        ? headerData?.High
-                        : headerDataTl?.High}
-                    </b>{" "}
-                    XP Points
-                  </Typography>
-                </Box>
+              <>
+                <Grid item xs={12} md={2}>
+                  <TitleHeader>
+                    <img src={LogoCampaign} alt="TP" />
+                  </TitleHeader>
+                </Grid>
 
-                {showNotification && (
-                  <Notifications
-                    notifications={notifications}
-                    setShowNotification={setShowNotification}
-                  />
-                )}
-                <IconButton onClick={() => handleOpen()}>
-                  <img src={Achievement} alt="Achievement" height={25} />
-                </IconButton>
-                <IconButton
-                  aria-label={notificationsLabel(cont < 11 ? cont : "10+")}
-                  onClick={handleNotification}
-                >
-                  <Badge badgeContent={cont < 11 ? cont : "10+"} color="error">
-                    <IoIosNotificationsOutline color="#3047B0" size={30} />
-                  </Badge>
-                </IconButton>
-
-                {userData.Role === "Agent" ? (
-                  <Box display="flex" alignItems="center">
-                    <img src={epicoinICO} alt="coinICO" height={30} />
-                    <Typography
-                      variant="body2"
-                      color="#3047B0"
-                      fontWeight={700}
-                      marginLeft="10px"
+                <Grid item xs={12} md={10}>
+                  <RightHeader height={1}>
+                    <Box width="35%"></Box>
+                    <Box
+                      sx={{
+                        maxWidth: "60%",
+                        minWidth: "50%",
+                        background: "#fff3",
+                        borderRadius: "7px",
+                        padding: "0 2rem",
+                      }}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-evenly"
                     >
-                      {" "}
-                      {headerData?.ResObtenidoCoin} Epicoins
-                    </Typography>
-                  </Box>
-                ) : (
-                  <></>
-                )}
-              </RightHeader>
+                      <Box display="flex" alignItems="center">
+                        <Typography variant="body2" color="#fff">
+                          <b>
+                            {userData.Role === "Agent"
+                              ? headerData?.Exp
+                              : headerDataTl?.Exp}
+                          </b>{" "}
+                          Pts
+                        </Typography>
+                        <Box width="150px" margin="0 1rem">
+                          <ProgresBar
+                            value={
+                              userData.Role === "Agent"
+                                ? (headerData?.Exp * 100) / headerData?.High
+                                : (headerDataTl?.Exp * 100) / headerDataTl?.High
+                            }
+                          />
+                        </Box>
+                        <Typography variant="body2" color="#fff">
+                          <b>
+                            {userData.Role === "Agent"
+                              ? headerData?.High
+                              : headerDataTl?.High}
+                          </b>{" "}
+                          XP Points
+                        </Typography>
+                      </Box>
+
+                      {showNotification && (
+                        <Notifications
+                          notifications={notifications}
+                          setShowNotification={setShowNotification}
+                        />
+                      )}
+                      <IconButton onClick={() => handleOpen()}>
+                        <img src={Achievement} alt="Achievement" height={25} />
+                      </IconButton>
+                      <IconButton
+                        aria-label={notificationsLabel(
+                          cont < 11 ? cont : "10+"
+                        )}
+                        onClick={handleNotification}
+                      >
+                        <Badge
+                          badgeContent={cont < 11 ? cont : "10+"}
+                          color="error"
+                        >
+                          <IoIosNotificationsOutline color="#fff" size={30} />
+                        </Badge>
+                      </IconButton>
+
+                      {userData.Role === "Agent" ? (
+                        <Box display="flex" alignItems="center">
+                          <img src={epicoinICO} alt="coinICO" height={30} />
+                          <Typography
+                            variant="body2"
+                            color="#fff"
+                            fontWeight={700}
+                            marginLeft="10px"
+                          >
+                            {" "}
+                            {headerData?.ResObtenidoCoin} Epicoins
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
+                    </Box>
+                  </RightHeader>
+                </Grid>
+              </>
             )}
           </>
         ) : (
-          <Box display="flex" width="50%" justifyContent="right">
-            <IconButton
-              onClick={() => handleOpen()}
-              sx={{ marginRight: "2rem" }}
-            >
-              <img src={Achievement} alt="Achievement" height={25} />
-            </IconButton>
-          </Box>
+          <>
+            <Grid item xs={2}></Grid>
+
+            <Grid item xs={12} md={10}>
+              <RightHeader height={1}>
+                <Box display="flex" width="50%" justifyContent="right">
+                  <IconButton
+                    onClick={() => handleOpen()}
+                    sx={{ marginRight: "2rem" }}
+                  >
+                    <img src={Achievement} alt="Achievement" height={25} />
+                  </IconButton>
+                </Box>
+              </RightHeader>
+            </Grid>
+          </>
         )}
-      </MainHeader>
+      </Grid>
       <Modal
         open={open}
         onClose={handleClose}

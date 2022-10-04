@@ -4,10 +4,9 @@ import {
   MdOutlineBarChart,
   MdOutlineAssignment,
   MdOutlineAssignmentTurnedIn,
-  MdOutlineAssignmentLate,
 } from "react-icons/md";
 //import { IoMedalOutline } from "react-icons/io";
-import { TbFaceIdError, TbUsers } from "react-icons/tb";
+import { TbFaceIdError } from "react-icons/tb";
 import { FaGraduationCap } from "react-icons/fa";
 import { BsDoorOpen } from "react-icons/bs";
 import { HiOutlineUserGroup } from "react-icons/hi";
@@ -59,7 +58,6 @@ const HeaderCharts = ({ dataHead, context, questionsHead }) => {
   const [renderMissions, setRenderMissions] = useState([]);
   const [renderChallenges, setRenderChallenges] = useState([]);
   const [renderUsage, setRenderUsage] = useState([]);
-  const [renderData, setRenderData] = useState([]);
 
   useEffect(() => {
     switch (context) {
@@ -79,7 +77,6 @@ const HeaderCharts = ({ dataHead, context, questionsHead }) => {
         break;
     }
   }, [context, dataHead]);
-  console.log(dataHead);
 
   return (
     <BoxHeaderCharts>

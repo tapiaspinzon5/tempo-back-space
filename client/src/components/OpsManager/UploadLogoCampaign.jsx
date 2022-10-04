@@ -31,12 +31,10 @@ const BoxRole = styled(Grid)(() => ({
 }));
 
 const BoxUploadFile = styled(Box)(() => ({
-  //background: "#fff",
   input: {
     display: "none",
   },
   label: {
-    display: "inline-block",
     width: "100%-1rem",
     border: "1px solid #c4c3c3",
     height: "3rem",
@@ -54,21 +52,19 @@ const BoxUploadFile = styled(Box)(() => ({
 
 const UploadLogoCampaign = () => {
   const userData = useSelector((store) => store.loginUser.userData);
-  const { IdCampaign } = userData;
-  console.log(userData);
+  const { IdCampaign, LogoCampaign } = userData;
+
   const [logo, setLogo] = useState({
     file: null,
     img: null,
   });
-  const [loading, setLoading] = useState(false);
+
   const [progress, setProgress] = useState(10);
-  const [urlImg, setUrlImg] = useState("");
   const [error, setError] = useState("");
 
   const handleLogo = (e) => {
     const file = e.target.files[0];
 
-    //console.log(file);
     if (
       file.type === "image/jpeg" ||
       file.type === "image/png" ||
@@ -95,8 +91,6 @@ const UploadLogoCampaign = () => {
   };
 
   const updateFiles = async () => {
-    setLoading(true);
-
     if (!logo.file) return;
     const storageRef = ref(
       storage,
@@ -114,34 +108,24 @@ const UploadLogoCampaign = () => {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          setUrlImg(url);
           setUrlDB(url);
         });
       }
     );
 
-    setLogo({
-      file: null,
-      img: null,
-    });
-    setLoading(false);
     setProgress(0);
   };
 
   const setUrlDB = async (url) => {
-    console.log("vamos a enviar esta vuelta a la base de datos: ", url);
-    const uploadLogo = await requestWithData("uploadopsm", {
+    await requestWithData("uploadopsm", {
       context: 0,
       idLeader: 0,
       cas: 3,
       imageUrl: url,
       emails: [],
     });
-
-    console.log(uploadLogo);
   };
-  //console.log(urlImg);
+
   return (
     <Grid container>
       <Grid item xs={12} md={2}>
@@ -198,7 +182,11 @@ const UploadLogoCampaign = () => {
           </Box>
           <Box display="flex" justifyContent="left" width="51%" marginLeft={1}>
             {progress > 0 ? (
-              <img src={logo.img || logo1} alt="Logo Campaign" height={45} />
+              <img
+                src={logo.img || LogoCampaign || logo1}
+                alt="Logo Campaign"
+                height={45}
+              />
             ) : (
               <CircularProgress variant="determinate" value={progress} />
             )}

@@ -76,9 +76,9 @@ const BasicColumnChart = ({
         },
       ],
     });
+    // eslint-disable-next-line
   }, [categories, dataChart1, dataChart2, dataChart3]);
 
-  //console.log(categories, dataChart1, dataChart2, dataChart3);
   return (
     <div>
       <ReactApexChart

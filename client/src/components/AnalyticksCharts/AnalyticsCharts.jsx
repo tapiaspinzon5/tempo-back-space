@@ -5,7 +5,6 @@ import ButtonsTopAnalytics from "./ButtonsTopAnalytics";
 import NavChartsAnalytics from "./NavChartsAnalytics";
 import HeaderCharts from "./HeaderCharts";
 import BasicColumnChart from "./BasicColumnChart";
-import MultipleCharsPareto from "./MultipleCharsPareto";
 import { requestWithData } from "../../utils/api";
 import bgData from "../../assets/images/bg1.png";
 import {
@@ -45,19 +44,30 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   }, []);
 
   useEffect(() => {
-    if (Role === "Super Admin" || Role !== "Cluster Director") {
+    if (
+      Role === "Super Admin"
+      //|| Role !== "Cluster Director"
+    ) {
       setIdcampaign(0);
       setIdLob(0);
       setIdTeam(0);
       setSelectKpi("");
       setAgent([]);
       setAgents([]);
+    } else if (Role === "Team Leader") {
+      setCaso(3);
+    } else if (
+      Role === "QA Lead" ||
+      Role === "Reporting Lead" ||
+      Role === "Operation Manager"
+    ) {
+      setCaso(1);
     }
     setGroup("Group");
+    // eslint-disable-next-line
   }, [context]);
 
   useEffect(() => {
-    // console.log("cambio de camapaña");
     getDataLOB();
     getDataKPI();
     handleConsulta();
@@ -67,6 +77,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     setAgent([]);
     setAgents([]);
     setGroup("Group");
+    // eslint-disable-next-line
   }, [idcampaign]);
 
   useEffect(() => {
@@ -77,25 +88,29 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
         handleConsulta();
       }
     }
+    // eslint-disable-next-line
   }, [idLob]);
 
   useEffect(() => {
     if (Role === "Team Leader") {
-      setCaso(3);
       handleConsulta();
+      getDataAgents();
     } else {
       handleConsulta();
       if (idTeam > 0) {
         getDataAgents();
       }
     }
-  }, [idTeam]);
+    // eslint-disable-next-line
+  }, [idTeam, context]);
 
   useEffect(() => {
+    getDataKPI();
     handleConsulta();
     if (Role === "Team Leader") {
       getDataAgents();
     }
+    // eslint-disable-next-line
   }, [caso, selectKpi, agent?.Ident, idExam, date1, date2]);
 
   //Trae la lista de campañas disponibles de suario
@@ -128,14 +143,13 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
   const getDataAgents = async () => {
     const data = await requestWithData("getorganizationalunit", {
       context: 4,
-      idTeam,
+      idTeam: idTeam || IdTeam,
     });
 
     const agentes = data.data[0].Agents;
     const agentesFiltrados = agentes.filter(
       (agent) => agent.RoleAgent === "Agent"
     );
-
     setAgents(agentesFiltrados);
   };
 
@@ -155,13 +169,14 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idChallenge: 0,
       caso,
     });
-    //console.log("Consultando KPI y misiones ", data);
+
     setDataHead(data.data);
-    const filtrador = helperKpi(data?.data[0]?.ListKpi);
-
-    setKpiData(filtrador);
-
     setMissionsData(data.data[1]?.Missions || []);
+    // agregar condicional para validadd que si existe el dato
+    if (kpiData.length < 1) {
+      const filtrador = helperKpi(data?.data[0]?.ListKpi);
+      setKpiData(filtrador);
+    }
   };
 
   const handleConsulta = async () => {
@@ -180,13 +195,12 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
       idQuestion: 0,
       idChallenge: 0,
     });
+
     setQuestionsHead(dataChart.data);
 
     setData(dataChart.data[0]);
     setCategories(helperDataChartCat(dataChart.data, context));
     setDataChart(helperDataChartData(dataChart.data, context));
-    console.log(dataChart.data);
-    //const fittedData = helperDataChartData(dataChart.data[0], context);
   };
 
   return (
@@ -244,10 +258,10 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
               nameChart2={dataChart[3] && dataChart[3][1]}
               nameChart3={dataChart[3] && dataChart[3][2]}
               nameChart4={dataChart[3] && dataChart[3][3]}
-              dataChart1={dataChart[0] && dataChart[0]}
-              dataChart2={dataChart[1] && dataChart[1]}
-              dataChart3={dataChart[2] && dataChart[2]}
-              dataChart4={dataChart[4] && dataChart[4]}
+              dataChart1={dataChart[0]}
+              dataChart2={dataChart[1]}
+              dataChart3={dataChart[2]}
+              dataChart4={dataChart[4]}
             />
           ) : (
             <Box
@@ -262,7 +276,6 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
               ...
             </Box>
           )}
-          {/* <MultipleCharsPareto /> */}
         </Box>
       </Grid>
     </Grid>

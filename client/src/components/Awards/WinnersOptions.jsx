@@ -94,7 +94,7 @@ const WinnersOptions = ({
             disabled={dataGJ.length > 0 ? false : true}
           >
             {" "}
-            <img src={general} all="" />{" "}
+            <img src={general} alt="General" />{" "}
           </ButtonCard>
         </Grid>
         <Grid item xs={12} md={4} textAlign="center">
@@ -102,7 +102,7 @@ const WinnersOptions = ({
             onClick={() => setSection("sub")}
             disabled={dataSJ.length > 0 ? false : true}
           >
-            <img src={sub} all="" />{" "}
+            <img src={sub} alt="Sub" />{" "}
           </ButtonCard>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -111,7 +111,7 @@ const WinnersOptions = ({
             disabled={dataMG[0]?.Missions[0]?.Agent !== "0" ? false : true}
           >
             {" "}
-            <img src={mini} all="" />{" "}
+            <img src={mini} alt="Mini Games" />{" "}
           </ButtonCard>
         </Grid>
       </Grid>
@@ -121,7 +121,10 @@ const WinnersOptions = ({
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
-                sx={{ color: "#e8e8e8" }}
+                sx={{
+                  color: "#e8e8e8",
+                  "&:focus": { color: "red !important" },
+                }}
               >
                 Select Account
               </InputLabel>
@@ -138,6 +141,7 @@ const WinnersOptions = ({
                   fontWeight: 700,
                   fontSize: "20px",
                 }}
+                //input={<StyleFocus />}
               >
                 {accounts?.map((acc) => (
                   <MenuItem value={acc.IdCampaign}>{acc.nameCampaign}</MenuItem>
