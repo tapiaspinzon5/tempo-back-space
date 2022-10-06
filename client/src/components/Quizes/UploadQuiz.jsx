@@ -233,7 +233,6 @@ const UploadQuiz = ({ setLoading, topics, getData }) => {
             ];
           });
 
-        //console.log(data);
         if (data.length > 1) {
           let differentsHeaders = validateHeaders(data[0]);
 

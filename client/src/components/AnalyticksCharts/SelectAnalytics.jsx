@@ -1,13 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select, Box } from "@mui/material";
 import React from "react";
 
-const SelectAnalytics = ({
-  label,
-  dataSearch,
-  context,
-  setSelectKpi,
-  selectKpi,
-}) => {
+const SelectAnalytics = ({ dataSearch, setSelectKpi, selectKpi }) => {
   return (
     <Box width="100%" marginTop={1}>
       <FormControl fullWidth>

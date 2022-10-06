@@ -245,7 +245,6 @@ const loadQuizes = () => {
 };
 
 const uploadQuizes = (data, context) => {
-  
   try {
     return axiosInstance
       .post(`uploadquiz`, { data, context })

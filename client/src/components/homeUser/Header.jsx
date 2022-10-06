@@ -7,11 +7,9 @@ import {
   Box,
   Typography,
   Modal,
-  Paper,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import bannerH from "../../assets/images/bannerHeader.png";
-import { useTheme } from "@mui/material/styles";
 import Notifications from "../notifications/Notifications";
 import { downloadNotifications } from "../../utils/api";
 import ProgresBar from "../progressCharts/ProgresBar";
@@ -26,7 +24,7 @@ import { validateDate } from "../../helpers/helpers";
 import CryptoJS from "crypto-js";
 import { readUserActiveAction } from "../../redux/loginDuck";
 
-const TitleHeader = styled(Grid)((theme) => ({
+const TitleHeader = styled(Grid)(() => ({
   minHeight: "11vh",
 
   display: "flex",
@@ -40,7 +38,7 @@ const TitleHeader = styled(Grid)((theme) => ({
   },
 }));
 
-const RightHeader = styled(Box)((theme) => ({
+const RightHeader = styled(Box)(() => ({
   borderRadius: "10px",
   minHeight: "11vh",
   display: "flex",
@@ -74,7 +72,7 @@ const Header = ({ count }) => {
   const [open, setOpen] = React.useState(false);
 
   //controles Dark mode
-  const theme = useTheme();
+
   const [showNotification, setShowNotification] = useState(false);
   const { LastLogin, LogoCampaign } = userData;
 
@@ -169,6 +167,8 @@ const Header = ({ count }) => {
     }
     return `${count} notifications`;
   }
+
+  console.log(LogoCampaign);
 
   return (
     <>
@@ -273,7 +273,11 @@ const Header = ({ count }) => {
           </>
         ) : (
           <>
-            <Grid item xs={2}></Grid>
+            <Grid item xs={12} md={2}>
+              <TitleHeader>
+                <img src={LogoCampaign} alt="TP" />
+              </TitleHeader>
+            </Grid>
 
             <Grid item xs={12} md={10}>
               <RightHeader height={1}>

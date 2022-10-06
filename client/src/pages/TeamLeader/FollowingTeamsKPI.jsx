@@ -240,6 +240,7 @@ const FollowingTeamsKPI = ({ count }) => {
 						targetData.push(actualKpi.Target);
 						categoriesData.push(dato.Date.split("T")[0]);
 					});
+
 					setOptions({ ...options, xaxis: { categories: categoriesData } });
 					setSeries([
 						{ name: "KPI value", type: typeChart, data: seriesData },
