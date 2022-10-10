@@ -1,6 +1,12 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
+let d =
+  "U2FsdGVkX1/aSSQEX8dzLeV2IAUvLchnciniiYZdDQitm0vxwQ0f9KY8TOU/FZm6Xf/xze7CUPdm09pOJhK+dA==";
+let prueba = CryptoJS.AES.decrypt(d.replace(/['"]+/g, ""), "secret key 123");
+let decryptedData = JSON.parse(prueba.toString(CryptoJS.enc.Utf8));
+console.log(decryptedData);
+
 const axiosInstance = axios.create({
   //Localhost
   baseURL: "http://localhost:4343/api/",

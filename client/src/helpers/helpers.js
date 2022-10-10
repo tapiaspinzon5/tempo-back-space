@@ -559,6 +559,29 @@ export const validateDate = (date) => {
   return mes;
 };
 
+export const targetSemaforo = (kpi) => {
+  const { Quartile, TargetQ1, TargetQ2, TargetQ3, TargetQ4 } = kpi;
+  let target;
+  switch (Quartile) {
+    case "Q1":
+      target = TargetQ1;
+      break;
+    case "Q2":
+      target = TargetQ2;
+      break;
+    case "Q3":
+      target = TargetQ3;
+      break;
+    case "Q4":
+      target = TargetQ4;
+      break;
+
+    default:
+      break;
+  }
+
+  return target;
+};
 export const ConvertMonth = (month) => {
   let mes;
   switch (month) {

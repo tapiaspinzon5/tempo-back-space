@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, styled } from "@mui/material";
 import { positionValue } from "../../helpers/helpers";
 import { GoArrowSmallUp, GoArrowSmallDown } from "react-icons/go";
+import Astronaut from "../../assets/images/awards/astronaut.png";
 
 const MainProgress = styled(Box)(() => ({
   overflow: "hidden",
@@ -33,7 +34,7 @@ const ProgressKPI = ({ kpi }) => {
   return (
     <Box display="flex" alignItems="center">
       <MainProgress>
-        <Box
+        {/* <Box
           sx={{
             borderTop: ".7rem solid #3047B0",
             borderLeft: ".5rem solid transparent",
@@ -43,7 +44,16 @@ const ProgressKPI = ({ kpi }) => {
             top: "5px",
             left: `${arrowPos}%`,
           }}
-        />
+        /> */}
+        <Box
+          sx={{
+            position: "relative",
+            top: "10px",
+            left: `${arrowPos}%`,
+          }}
+        >
+          <img src={Astronaut} alt="Astronaut" height={25} />
+        </Box>
         <BoxProgress>
           <BoxChart
             sx={{
@@ -51,12 +61,14 @@ const ProgressKPI = ({ kpi }) => {
               width: "33.333%",
             }}
           ></BoxChart>
+
           <BoxChart
             sx={{
               backgroundColor: "#f5d200",
               width: "33.333%",
             }}
           ></BoxChart>
+
           <BoxChart
             sx={{
               background: "linear-gradient(270deg, #00af9b 0%, #00d769 100%)",

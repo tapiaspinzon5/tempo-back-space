@@ -8,16 +8,26 @@ import { BsClock, BsPercent } from "react-icons/bs";
 import ProgressKPI from "../progressCharts/ProgressKPI";
 import { targetKPI } from "../../helpers/helpers";
 
-const CardProgressSection = styled(Box)(({ theme }) => ({
+const CardProgressSection = styled(Box)(() => ({
   height: "40vh",
   padding: "1rem",
   backgroundColor: "#f9f9f9",
   margin: "1rem 0",
   borderRadius: "5px",
   overflowY: "scroll",
-  scrollbarWidth: "thin",
-  scrollbarColor: "blue green",
+
   color: "#3047B0",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "white",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#e8e8e8",
+    borderRadius: "20px",
+  },
 }));
 
 const BoxDataKPI = styled(Box)(() => ({
@@ -57,6 +67,8 @@ const ProgressHome = ({ dataKPI }) => {
   const userData = useSelector((store) => store.loginUser.userData);
   const role = userData.Role;
   const navigate = useNavigate();
+
+  console.log(dataKPI);
 
   const handleDirection = () => {
     if (role === "Agent") {

@@ -168,8 +168,6 @@ const Header = ({ count }) => {
     return `${count} notifications`;
   }
 
-  console.log(LogoCampaign);
-
   return (
     <>
       <Grid container spacing={1}>
