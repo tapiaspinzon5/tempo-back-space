@@ -1624,6 +1624,45 @@ exports.postChangeUserRole = async (req, res) => {
     });
 };
 
+exports.postSendReaction = async (req, res) => {
+  let notificationMessage;
+  const { idccms, userName, typeReaction, idNotification, fcmToken } = req.body;
+
+  switch (typeReaction) {
+    case 1:
+      notificationMessage = `${userName} has reacted to your recent achievement`;
+      break;
+
+    case 2:
+      notificationMessage = `${userName} has reacted to your recent achievement`;
+      break;
+
+    case 3:
+      notificationMessage = `${userName} has reacted to your recent achievement`;
+      break;
+
+    default:
+      break;
+  }
+
+  sql
+    .query(
+      "spInsertReactions",
+      parametros({ idccms, typeReaction, idNotification, notificationMessage }, "spInsertReactions")
+    )
+    .then(async (result) => {
+      if (fcmToken) {
+        await sendFCMMessage(userName, "Someone has reacted to you !", fcmToken, "reaction");
+      }
+
+      responsep(1, req, res, result);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
+
 // exports.getTeamAgentsInformation = async (req, res) => {
 //   const { idccms, context, idccmsAgent } = req.body;
 
