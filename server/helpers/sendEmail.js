@@ -94,7 +94,7 @@ exports.sendEmail = async (emails, subject, header, emailSender) => {
               <table style="margin:auto">
                 <tr><td align="center">
                   <a
-                  href="https://spacegptest.teleperformance.co/">
+                  href="https://spacegp.teleperformance.co/">
                   <img
                   border="0"
                   width="191"
@@ -328,7 +328,7 @@ exports.sendUserChangeRolEmail = async (emails, subject, header, emailSender) =>
               <table style="margin:auto">
                 <tr><td align="center">
                   <a
-                  href="https://spacegptest.teleperformance.co/">
+                  href="https://spacegp.teleperformance.co/">
                   <img
                   border="0"
                   width="191"

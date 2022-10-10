@@ -136,9 +136,7 @@ module.exports = (router) => {
   router.post("/postinsertrolecampaign", oauth.oauthOther, decryptBody, routes.postInsertRoleCampaign);
   router.post("/postinactivateuser", oauth.oauthOther, decryptBody, routes.postInactivateUser);
   router.post("/postchangeuserrole", oauth.oauthOther, decryptBody, routes.postChangeUserRole);
-
-  // Endpoint para actualizar el nombre del equipo
-  // router.post("/postupdateteamname", oauth.oauthOther, routes.postUpdateTeamName);
+  router.post("/postsendreaction", oauth.oauthOther, decryptBody, routes.postSendReaction);
 
   //Endpoint para consultar los kpi de la master data.
   // router.post("/getkpisfrommd", oauth.oauthOther, routes.getKpisFromMD);
