@@ -68,8 +68,6 @@ const ProgressHome = ({ dataKPI }) => {
   const role = userData.Role;
   const navigate = useNavigate();
 
-  console.log(dataKPI);
-
   const handleDirection = () => {
     if (role === "Agent") {
       navigate("/activitiesview");

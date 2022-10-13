@@ -41,7 +41,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      //console.log("lo que llega :", data);
+      // console.log("lo que llega :", data);
       return data;
     },
   ],
@@ -59,7 +59,7 @@ axiosInstance.interceptors.request.use((config) => {
   config.headers.Authorization = "Bearer " + user.Token;
   config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
   config.headers["Access-Control-Allow-Origin"] = "http://localhost:4343";
-  //config.data = { ...config.data, idccms: 4581022 };
+  // config.data = { ...config.data, idccms: 4526369 };
   config.data = { ...config.data, idccms: user.Idccms };
   return config;
 });

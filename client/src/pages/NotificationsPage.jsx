@@ -55,9 +55,10 @@ const NotificationsPage = ({ count }) => {
     const traerNotificaciones = async () => {
       const data = await getNotifications(skipUser, limitUser, 1);
       setNotificationUser(data.data);
+      console.log(data.data);
+
       if (data.data.length > 0) {
-        const pages =
-          data.data[0].NotificationRead + data.data[0].NotificationUnread;
+        const pages = data.data[0].TotalNotifications;
         setCountUser(parseInt(pages / 10 + 1));
       } else {
         setCountUser(1);
@@ -73,11 +74,9 @@ const NotificationsPage = ({ count }) => {
     const traerNotificaciones = async () => {
       const dataTeam = await getNotifications(skipTeam, limitTeam, 2);
       setNotificationTeam(dataTeam.data);
-
+      console.log(dataTeam.data);
       if (dataTeam.data.length > 0) {
-        const pagesTeam =
-          dataTeam.data[0].NotificationRead +
-          dataTeam.data[0].NotificationUnread;
+        const pagesTeam = dataTeam.data[0].TotalNotifications;
         setCountTeam(parseInt(pagesTeam / 10 + 1));
       } else {
         setCountTeam(1);
@@ -109,6 +108,7 @@ const NotificationsPage = ({ count }) => {
     }
   };
 
+  console.log(countTeam, countUser);
   return (
     <MainNotification>
       <Header count={count} />

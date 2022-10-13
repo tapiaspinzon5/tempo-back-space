@@ -853,3 +853,53 @@ export const wordExist = (categories, newCategory) => {
   });
   return error;
 };
+
+export const dateFormat = (fechaInfo) => {
+  let fecha;
+  let hora;
+  let fechaBase = new Date(fechaInfo).toLocaleString([], {
+    timeZone: "Etc/UTC",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  let now = new Date().toLocaleString([], {
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  let fa = new Date(
+    `${now.split("/")[1]}/${now.split("/")[0]}/${now.split("/")[2]}`
+  );
+  let fb = new Date(
+    `${fechaBase.split("/")[1]}/${fechaBase.split("/")[0]}/${
+      fechaBase.split("/")[2]
+    }`
+  );
+
+  if (
+    now.replace(",", "").split(" ")[0] ===
+    fechaBase.replace(",", "").split(" ")[0]
+  ) {
+    hora = Math.trunc((fa - fb) / 60000);
+    if (hora < 31) {
+      fecha = `${hora} minutes ago`;
+    } else {
+      fecha = fechaBase.replace(",", "").split(" ")[1];
+    }
+  } else {
+    fecha = fechaBase.replace(",", "").split(" ")[0];
+  }
+
+  return fecha;
+};
