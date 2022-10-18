@@ -30,7 +30,6 @@ const AnalyticsSA = ({ count }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef();
-  const [data, setData] = useState([]);
   const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
@@ -59,18 +58,15 @@ const AnalyticsSA = ({ count }) => {
         endDate: 0,
         kpi: "0",
         context: 4,
+        idCampaign: 0 || filters.group,
       });
       if (
         initialData &&
         initialData.status === 200 &&
         initialData.data.length > 0
       ) {
-        /* const dataOrder = await deleteDuplicatesScore(
-					initialData.data[0].ScoreExp
-				); */
-
         setKpis(initialData.data[0].Kpis);
-        //setData(dataOrder);
+
         setLoading(false);
       } else if (initialData.data === "UnauthorizedError") {
         dispatch(logoutAction());
@@ -79,7 +75,7 @@ const AnalyticsSA = ({ count }) => {
     };
     getData();
     // eslint-disable-next-line
-  }, []);
+  }, [filters.group]);
 
   useEffect(() => {
     if (filters.kpi !== "" && filters.start && filters.end) {
@@ -89,6 +85,7 @@ const AnalyticsSA = ({ count }) => {
           initDate: filters.start,
           endDate: filters.end,
           kpi: filters.kpi,
+          idCampaign: filters.group,
           context: 3,
         });
         if (
@@ -99,37 +96,13 @@ const AnalyticsSA = ({ count }) => {
           const dataOrder = await deleteDuplicatesScore(
             initialData.data[0].Analitycs
           );
-          setData(dataOrder);
+
           setDataGrid(dataOrder?.dataOrder);
           setLoading(false);
         }
       };
       getData();
-    } /* else {
-			const getData = async () => {
-				const filterData = await getDataLeaderboard(
-					2,
-					filters.kpi,
-					filters.time,
-					filters.group
-				);
-				if (
-					filterData &&
-					filterData.status === 200 &&
-					filterData.data.length > 1
-				) {
-					const dataOrder = await deleteDuplicatesKpis(
-						filterData.data[2].ScoreResultKpi,
-						filters.time
-					);
-
-					setKpis(filterData.data[1].ListKpi);
-					setData(dataOrder);
-					setLoading(false);
-				}
-			};
-			getData();
-		} */
+    }
 
     // eslint-disable-next-line
   }, [filters]);
@@ -163,6 +136,7 @@ const AnalyticsSA = ({ count }) => {
               setFilters={setFilters}
               setModal={setModal}
               setShowCharts={setShowCharts}
+              filters={filters}
             />
           </Box>
 

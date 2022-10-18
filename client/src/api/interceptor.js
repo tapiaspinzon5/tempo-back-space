@@ -21,7 +21,7 @@ const axiosInstance = axios.create({
 
   transformRequest: [
     function (data, headers) {
-      //console.log("se envia", data);
+      console.log("se envia", data);
       let encrypted = CryptoJS.AES.encrypt(
         JSON.stringify(data),
         "secret key 123"
@@ -41,7 +41,7 @@ const axiosInstance = axios.create({
       );
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       data = decryptedData;
-      // console.log("lo que llega :", data);
+      //console.log("lo que llega :", data);
       return data;
     },
   ],

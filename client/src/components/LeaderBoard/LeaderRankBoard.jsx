@@ -36,6 +36,7 @@ const BoxSelect = styled(Box)(() => ({
 const LeaderRankBoard = ({
   kpis,
   setFilters,
+  filters,
   leaderBoard,
   setModal,
   setShowCharts,
@@ -51,9 +52,10 @@ const LeaderRankBoard = ({
   const [campaignFilter, setCampaignFilter] = useState("");
   const [campaign, setCampaign] = useState([]);
   useEffect(() => {
-    if (userRol === "Super Admin") {
+    if (userRol === "Super Admin" || userRol === "Cluster Director") {
       getCampaigns();
     }
+    // eslint-disable-next-line
   }, []);
 
   const getCampaigns = async () => {
@@ -61,12 +63,17 @@ const LeaderRankBoard = ({
       context: 1,
     });
     setCampaign(data.data[0].Campaign);
+    setFilters({
+      ...filters,
+      group: data.data[0].Campaign[0].IdCampaign,
+    });
   };
 
+  console.log(filters);
   return (
     <>
       <BoxSelect>
-        {userRol === "Super Admin" && (
+        {userRol === "Super Admin" || userRol === "Cluster Director" ? (
           <BoxFormControl>
             <InputLabel id="time-label">Campaign</InputLabel>
             <Select
@@ -94,6 +101,8 @@ const LeaderRankBoard = ({
               ))}
             </Select>
           </BoxFormControl>
+        ) : (
+          ""
         )}
 
         <BoxFormControl>
