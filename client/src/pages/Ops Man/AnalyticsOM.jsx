@@ -10,7 +10,6 @@ import LoadingComponent from "../../components/LoadingComponent";
 import { deleteDuplicatesScore } from "../../helpers/helpers";
 import { logoutAction } from "../../redux/loginDuck";
 import { useNavigate } from "react-router-dom";
-import { DownLoadReportSA } from "../../components/Modals/DownLoadReportSA";
 import TableAnalyticsOM from "../../components/Analytics/TableAnalyticsOM";
 import { DownLoadReportOM } from "../../components/Modals/DownLoadReportOM";
 import AnalyticsCharts from "../../components/AnalyticksCharts/AnalyticsCharts";
@@ -31,7 +30,6 @@ const AnalyticsOM = ({ count }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef();
-  const [data, setData] = useState([]);
   const [dataGrid, setDataGrid] = useState([]);
   const [kpis, setKpis] = useState([]);
   const [modal, setModal] = useState(false);
@@ -76,6 +74,8 @@ const AnalyticsOM = ({ count }) => {
     // eslint-disable-next-line
   }, []);
 
+  //console.log(filters);
+
   useEffect(() => {
     if (filters.kpi !== "" && filters.start && filters.end) {
       setLoading(true);
@@ -94,7 +94,7 @@ const AnalyticsOM = ({ count }) => {
           const dataOrder = await deleteDuplicatesScore(
             initialData.data[0].Analitycs
           );
-          setData(dataOrder);
+
           setDataGrid(dataOrder?.dataOrder);
           setLoading(false);
         }
