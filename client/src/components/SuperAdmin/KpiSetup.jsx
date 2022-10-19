@@ -41,14 +41,25 @@ const KpiSetup = ({ kpi, kpisList, setKpisList, kpiWork, setKpiWork }) => {
 		} else {
 			if (value !== "") {
 				if (!isNaN(value)) {
-					const changes = kpisList.map((k) =>
-						k.Kpi === kpi.Kpi ? { ...k, [key]: parseInt(value) } : k
-					);
-					const changestw = kpiWork.map((k) =>
-						k.Kpi === kpi.Kpi ? { ...k, [key]: parseInt(value) } : k
-					);
-					setKpisList(changes);
-					setKpiWork(changestw);
+					if (value.split(".").length > 1) {
+						const changes = kpisList.map((k) =>
+							k.Kpi === kpi.Kpi ? { ...k, [key]: value } : k
+						);
+						const changestw = kpiWork.map((k) =>
+							k.Kpi === kpi.Kpi ? { ...k, [key]: value } : k
+						);
+						setKpisList(changes);
+						setKpiWork(changestw);
+					} else {
+						const changes = kpisList.map((k) =>
+							k.Kpi === kpi.Kpi ? { ...k, [key]: parseFloat(value) } : k
+						);
+						const changestw = kpiWork.map((k) =>
+							k.Kpi === kpi.Kpi ? { ...k, [key]: parseFloat(value) } : k
+						);
+						setKpisList(changes);
+						setKpiWork(changestw);
+					}
 				}
 			} else {
 				const changes = kpisList.map((k) =>
