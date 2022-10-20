@@ -683,7 +683,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("action", req.action, TYPES.VarChar),
         new SpParam("kpi", req.kpi, TYPES.VarChar),
-        new SpParam("quantity", req.quantity, TYPES.Int),
+        new SpParam("quantity", req.quantity, TYPES.Float),
         new SpParam("measureUnit", req.measureUnit, TYPES.VarChar),
         new SpParam("initialDate", req.initialDate, TYPES.Date),
         new SpParam("finalDate", req.finalDate, TYPES.Date),
