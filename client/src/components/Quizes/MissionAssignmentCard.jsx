@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, styled, Typography, TextField } from "@mui/material";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -18,6 +18,8 @@ const CardMission = styled(Box)(() => ({
   color: "#3047b0",
 }));
 const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
+  const [fecha, setFecha] = useState({ start: null, end: null });
+
   return (
     <CardMission>
       <input
@@ -48,14 +50,16 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
             disabled={!mission?.isChecked}
             disablePast
             label="Start"
-            value={mission.start}
+            value={fecha.start}
             onChange={(newValue) => {
+              setFecha({ ...fecha, start: newValue });
               handleTime(
                 "start",
                 `${newValue.getFullYear()}-${
                   newValue.getMonth() + 1
                 }-${newValue.getDate()}`,
-                mission.Name
+                mission.Name,
+                newValue
               );
             }}
             renderInput={(params) => <TextField {...params} />}
@@ -63,16 +67,19 @@ const MissionAssignmentCard = ({ mission, handleMissions, handleTime }) => {
           <DatePicker
             disabled={!mission.start}
             disablePast
-            minDate={new Date(mission.start)}
+            minDate={new Date(fecha.start)}
             label="End"
-            value={mission.end}
+            value={fecha.end}
             onChange={(newValue) => {
+              setFecha({ ...fecha, end: newValue });
+
               handleTime(
                 "end",
                 `${newValue.getFullYear()}-${
                   newValue.getMonth() + 1
                 }-${newValue.getDate()}`,
-                mission.Name
+                mission.Name,
+                newValue
               );
             }}
             renderInput={(params) => <TextField {...params} />}

@@ -46,6 +46,7 @@ const LeaderRankBoard = ({
   const userRol = userData.Role;
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
+  const [fecha, setFecha] = useState({ start: null, end: null });
   const [kpiFilter, setKpiFilter] = useState("");
   const [timeFilter, setTimeFilter] = useState("Day");
   const [groupFilter, setGroupFilter] = useState("My Team");
@@ -69,7 +70,6 @@ const LeaderRankBoard = ({
     });
   };
 
-  console.log(filters);
   return (
     <>
       <BoxSelect>
@@ -194,8 +194,9 @@ const LeaderRankBoard = ({
             >
               <DatePicker
                 label="Start"
-                value={date1}
+                value={fecha.start}
                 onChange={(newValue) => {
+                  setFecha({ ...fecha, start: newValue });
                   setDate1(
                     newValue
                       ? `${newValue.getFullYear()}-${
@@ -222,8 +223,9 @@ const LeaderRankBoard = ({
               <DatePicker
                 minDate={new Date(date1)}
                 label="End"
-                value={date2}
+                value={fecha.end}
                 onChange={(newValue) => {
+                  setFecha({ ...fecha, end: newValue });
                   setDate2(
                     newValue
                       ? `${newValue.getFullYear()}-${

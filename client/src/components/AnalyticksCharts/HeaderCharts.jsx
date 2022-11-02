@@ -62,16 +62,16 @@ const HeaderCharts = ({ dataHead, context, questionsHead }) => {
   useEffect(() => {
     switch (context) {
       case 1:
-        setRenderKPI(dataHead[2]?.KpiValues);
+        setRenderKPI(dataHead[2]?.KpiValues || []);
         break;
       case 2:
-        setRenderMissions(dataHead[3]?.MissionsBoxInfo[0]);
+        setRenderMissions(dataHead[3]?.MissionsBoxInfo[0] || []);
         break;
       case 4:
-        setRenderChallenges(dataHead[5]?.ChallengesBoxInfo[0]);
+        setRenderChallenges(dataHead[5]?.ChallengesBoxInfo[0] || []);
         break;
       case 5:
-        setRenderUsage(dataHead[6]?.UsageDataBoxInfo[0]);
+        setRenderUsage(dataHead[6]?.UsageDataBoxInfo[0] || []);
         break;
       default:
         break;

@@ -12,23 +12,16 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { ButtonActionBlue, InputText } from "../../assets/styled/muistyled";
-import {
-  createLobOperationManager,
-  getInfoAgent,
-  getLobs,
-  requestWithData,
-} from "../../utils/api";
+import { getInfoAgent, getLobs, requestWithData } from "../../utils/api";
 
 import {
   createTeamLeaderList,
   filterTeamLeaderList,
   getLobNameDuplicate,
   getTLDuplicates,
-  nextHelper,
   filterLobList,
   dataLobsToSend,
   editLobsToSend,
-  orderKpis,
   redistributeValidate,
   dataToSendTLEdit,
 } from "../../helpers/helperLOBCreation";
@@ -90,14 +83,14 @@ const CreateEditLOB = ({
   const [errorccms, setErrorccms] = useState(false);
   const [msgErrorccms, setMsgErrorccms] = useState("");
   const [tempCcms, setTempCcms] = useState("");
-  const [errorKpisList, setErrorKpisList] = useState(false);
-  const [loadingKpi, setLoadingKpi] = useState(false);
+  //const [errorKpisList, setErrorKpisList] = useState(false);
+  //const [loadingKpi, setLoadingKpi] = useState(false);
+  //const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
+  //const [disabled, setDisabled] = useState(false);
   const [change, setChange] = useState(false);
   const [kpisList, setKpisList] = useState([]);
-  const [msgErrorKpisList, setMsgErrorKpisList] = useState("");
   const [next, setNext] = useState(false);
   const [del, setDel] = useState(false);
-  //const [disabled, setDisabled] = useState(false);
   const [kpiWork, setKpiWork] = useState([]);
   const [dbKpiWork, setDbKpiWork] = useState([]);
   const [tlListDel, setTlListDel] = useState([]);
@@ -107,7 +100,7 @@ const CreateEditLOB = ({
       const getData = async () => {
         const tls = await getLobs(2, dataLOB.idLob);
         if (tls && tls.status === 200 && tls.data.length > 0) {
-          const TLList = await filterTeamLeaderList(tls.data);
+          const TLList = filterTeamLeaderList(tls.data);
           setDataTL(TLList);
           setNameLOB(dataLOB.name);
         }
@@ -199,9 +192,9 @@ const CreateEditLOB = ({
       setDisabled(false);
     } else if (
       dts[0] ===
-        "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+        "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4." ||
       dts[0] ===
-        "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+        "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     ) {
       setDisabled(false);
       notifyModalError(dts[0]);
@@ -292,9 +285,9 @@ const CreateEditLOB = ({
       setDisabled(false);
     } else if (
       dts[0] ===
-        "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+        "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4." ||
       dts[0] ===
-        "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+        "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     ) {
       notifyModalError(dts[0]);
       setDisabled(false);

@@ -103,15 +103,18 @@ const UploadAgentSection = () => {
           let exist = teamValidation(data, dataTeam);
 
           if (differentsHeaders) {
-            reject("Headers no coinciden");
+            setLoading(false);
+            reject("Headers don´t match");
             return;
           }
 
           if (incorrectValues) {
+            setLoading(false);
             reject("Wrong Fields");
             return;
           }
           if (exist) {
+            setLoading(false);
             reject(
               `The team ${exist} does not exist or is misspelled, check and try again.`
             );
@@ -120,7 +123,8 @@ const UploadAgentSection = () => {
 
           resolve(data);
         } else {
-          reject("El archivo no contiene información.");
+          setLoading(false);
+          reject("File empty.");
         }
       };
       reader.readAsArrayBuffer(file);
@@ -129,7 +133,7 @@ const UploadAgentSection = () => {
   };
 
   const uploadFile = async (e) => {
-    //setLoading(true);
+    setLoading(true);
 
     const fileCSV = e.target.files[0];
     let data = [];

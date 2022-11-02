@@ -60,7 +60,7 @@ const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
               <img src={imagePodium2} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
                 <Liston
-                  name={dataGJ[1].Agent?.toLowerCase()}
+                  name={dataGJ[1]?.Agent?.toLowerCase() || ""}
                   sx={{ width: "200px" }}
                 />
               </Box>
@@ -69,7 +69,7 @@ const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
                 gutterBottom
                 textTransform="capitalize"
               >
-                TL. {dataGJ[0].TL?.toLowerCase()}
+                TL. {dataGJ[0]?.TL?.toLowerCase() || ""}
               </Typography>
 
               <img src={second} alt="" width="13%" />
@@ -78,14 +78,14 @@ const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
             <Boxposition>
               <img src={imagePodium1} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
-                <Liston name={dataGJ[0].Agent?.toLowerCase()} />
+                <Liston name={dataGJ[0]?.Agent?.toLowerCase() || ""} />
               </Box>
               <Typography
                 variant="caption"
                 gutterBottom
                 textTransform="capitalize"
               >
-                TL. {dataGJ[0].TL?.toLowerCase()}
+                TL. {dataGJ[0]?.TL?.toLowerCase() || ""}
               </Typography>
 
               <img src={first} alt="" width="15%" />
@@ -94,14 +94,14 @@ const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
             <Boxposition sx={{ marginTop: { xs: "6rem", xl: "9rem" } }}>
               <img src={imagePodium3} alt="" width="60%" />
               <Box sx={{ marginTop: "-3rem" }}>
-                <Liston name={dataGJ[2].Agent?.toLowerCase()} />
+                <Liston name={dataGJ[2]?.Agent?.toLowerCase() || ""} />
               </Box>
               <Typography
                 variant="caption"
                 gutterBottom
                 textTransform="capitalize"
               >
-                TL. {dataGJ[0].TL?.toLowerCase()}
+                TL. {dataGJ[0]?.TL?.toLowerCase() || ""}
               </Typography>
 
               <img src={tirdth} alt="" width="13%" />

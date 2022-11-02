@@ -552,7 +552,7 @@ export const validateDate = (date) => {
     "December",
   ];
   const getShortMonthName = (date) => {
-    return monthNames[date.getMonth()].substring(0, 3);
+    return monthNames[date.getMonth()]?.substring(0, 3);
   };
 
   mes = getShortMonthName(new Date(date));

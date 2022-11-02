@@ -25,22 +25,21 @@ import CryptoJS from "crypto-js";
 import { readUserActiveAction } from "../../redux/loginDuck";
 
 const TitleHeader = styled(Grid)(() => ({
-  minHeight: "11vh",
-
+  height: "11vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   borderRadius: "10px ",
   background: "linear-gradient(90deg, #3047B0 0%, #0087FF 100%)",
   img: {
-    height: "9vh",
+    maxHeight: "9vh",
     maxWidth: "90%",
   },
 }));
 
 const RightHeader = styled(Box)(() => ({
   borderRadius: "10px",
-  minHeight: "11vh",
+  height: "11vh",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -115,25 +114,30 @@ const Header = ({ count }) => {
   }, []);
 
   useEffect(() => {
-    const last = validateDate(LastLogin);
-    const today = validateDate(Date.now());
-    if (last !== today) {
-      handleOpen();
+    if (LastLogin !== "undefined") {
+      const last = validateDate(LastLogin);
+      const today = validateDate(Date.now());
 
-      let data = JSON.parse(
-        CryptoJS.AES.decrypt(
-          sessionStorage.getItem("userTP"),
-          "secret key 123"
-        ).toString(CryptoJS.enc.Utf8)
-      );
+      if (last !== today) {
+        handleOpen();
+        let data = JSON.parse(
+          CryptoJS.AES.decrypt(
+            sessionStorage.getItem("userTP"),
+            "secret key 123"
+          ).toString(CryptoJS.enc.Utf8)
+        );
 
-      data.LastLogin = Date.now();
-      sessionStorage.setItem(
-        "userTP",
-        CryptoJS.AES.encrypt(JSON.stringify(data), "secret key 123").toString()
-      );
+        data.LastLogin = Date.now();
+        sessionStorage.setItem(
+          "userTP",
+          CryptoJS.AES.encrypt(
+            JSON.stringify(data),
+            "secret key 123"
+          ).toString()
+        );
+      }
     }
-  }, []);
+  }, [LastLogin]);
 
   useEffect(() => {
     const data = async () => {
@@ -175,13 +179,13 @@ const Header = ({ count }) => {
           <>
             {homeData !== "UnauthorizedError" && (
               <>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={2} mt={2}>
                   <TitleHeader>
-                    <img src={LogoCampaign} alt="TP" />
+                    {LogoCampaign ? <img src={LogoCampaign} alt="TP" /> : ""}
                   </TitleHeader>
                 </Grid>
 
-                <Grid item xs={12} md={10}>
+                <Grid item xs={12} md={10} mt={2}>
                   <RightHeader height={1}>
                     <Box width="35%"></Box>
                     <Box
@@ -273,7 +277,7 @@ const Header = ({ count }) => {
           <>
             <Grid item xs={12} md={2}>
               <TitleHeader>
-                <img src={LogoCampaign} alt="TP" />
+                {LogoCampaign ? <img src={LogoCampaign} alt="TP" /> : ""}
               </TitleHeader>
             </Grid>
 

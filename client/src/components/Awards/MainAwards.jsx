@@ -33,6 +33,7 @@ const MainAwards = ({ handleClose, userData }) => {
         idcampaign: account,
         context: 1,
       });
+
       const getSJ = await requestWithData("getgeneraljourneyresults", {
         idcampaign: account,
         context: 2,

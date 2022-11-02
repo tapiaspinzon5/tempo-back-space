@@ -124,8 +124,8 @@ export const dataLobsToSend = (dataLobs, nameLOB) => {
             el.idKpiMD,
           ]
         : el.OrderKpi === "asc"
-        ? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4."
-        : "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+        ? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4."
+        : "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     );
     const verification = dts.filter(
       (el) => el === "Some field in the kpis is empty"
@@ -133,9 +133,9 @@ export const dataLobsToSend = (dataLobs, nameLOB) => {
     const verificationTarget = cp.filter(
       (el) =>
         el ===
-          "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+          "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4." ||
         el ===
-          "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+          "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     );
     if (verification.length > 0) {
       return verification;
@@ -284,8 +284,8 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
             el.idKpiMD,
           ]
         : el.OrderKpi === "asc"
-        ? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4."
-        : "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+        ? "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4."
+        : "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     );
     const verification = dts.filter(
       (el) => el === "Some field in the kpis is empty"
@@ -293,9 +293,9 @@ export const editLobsToSend = (dataLobs, dbkpidata) => {
     const verificationTarget = cp.filter(
       (el) =>
         el ===
-          "If you select ASC, the targets in each quartile must be greater than the critical point and descending from Q1 to Q4." ||
+          "If you select ASC, the targets in each quartile must be greater than the critical point and descending from T1 to T4." ||
         el ===
-          "If you select DSC, the targets in each quartile must be less than the critical point and drop from Q4 to Q1."
+          "If you select DSC, the targets in each quartile must be less than the critical point and drop from T4 to T1."
     );
     if (verification.length > 0) {
       return verification;

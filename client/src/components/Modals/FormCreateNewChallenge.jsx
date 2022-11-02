@@ -43,14 +43,14 @@ const FormCreateNewChallenge = ({
   handleSubmitNC,
   kpisInfo,
 }) => {
-  const [date1, setDate1] = useState(null);
-  const [date2, setDate2] = useState(null);
+  const [date1, setDate1] = useState([]);
+  const [date2, setDate2] = useState([]);
   const [newChallenge, setNewChallenge] = useState(inicialDataNC);
   const handleClose = () => {
     setOpenModal(false);
     setNewChallenge(inicialDataNC);
-    setDate1(null);
-    setDate2(null);
+    setDate1([]);
+    setDate2([]);
   };
   const handleChange = (e) => {
     setNewChallenge({
@@ -155,13 +155,14 @@ const FormCreateNewChallenge = ({
                 <DatePicker
                   disablePast
                   label="Start"
-                  value={date1}
+                  value={date1.fechaStart || null}
                   onChange={(newValue) => {
-                    setDate1(
-                      `${newValue.getFullYear()}-${
+                    setDate1({
+                      date1: `${newValue.getFullYear()}-${
                         newValue.getMonth() + 1
-                      }-${newValue.getDate()}`
-                    );
+                      }-${newValue.getDate()}`,
+                      fechaStart: newValue,
+                    });
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -169,13 +170,14 @@ const FormCreateNewChallenge = ({
                   disablePast
                   minDate={new Date(date1)}
                   label="End"
-                  value={date2}
+                  value={date2.fechaEnd || null}
                   onChange={(newValue) => {
-                    setDate2(
-                      `${newValue.getFullYear()}-${
+                    setDate2({
+                      date2: `${newValue.getFullYear()}-${
                         newValue.getMonth() + 1
-                      }-${newValue.getDate()}`
-                    );
+                      }-${newValue.getDate()}`,
+                      fechaEnd: newValue,
+                    });
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -184,14 +186,16 @@ const FormCreateNewChallenge = ({
             <Box display="flex" justifyContent="flex-end" marginTop="1rem">
               <ButtonActionBlue
                 sx={{ fontSize: "20px" }}
-                onClick={() => handleSubmitNC(newChallenge, date1, date2)}
+                onClick={() =>
+                  handleSubmitNC(newChallenge, date1.date1, date2.date2)
+                }
                 disabled={
                   !newChallenge.action ||
                   !newChallenge.kpi ||
                   !newChallenge.quantity ||
                   !newChallenge.unitKpi ||
-                  !date1 ||
-                  !date2
+                  !date1.date1 ||
+                  !date2.date2
                 }
               >
                 Let's do it

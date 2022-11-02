@@ -107,8 +107,6 @@ const LeaderBoardRL = () => {
     // eslint-disable-next-line
   }, [filters]);
 
-  console.log(filters);
-
   return (
     <MainPage>
       <Header />

@@ -72,6 +72,10 @@ const NavChartsAnalytics = ({
 }) => {
   const [showGroup, setShowGroup] = useState(false);
   const [motherDropDown, setMotherDropDown] = useState("");
+  const [fecha, setFecha] = useState({
+    start: null,
+    end: null,
+  });
   const info = optionCharts(Role);
 
   return (
@@ -105,8 +109,9 @@ const NavChartsAnalytics = ({
           <DatePicker
             sx={{ width: "100%" }}
             label="Start"
-            value={date1}
+            value={fecha.start}
             onChange={(newValue) => {
+              setFecha({ ...fecha, start: newValue });
               setDate1(
                 newValue
                   ? `${newValue.getFullYear()}-${
@@ -122,8 +127,9 @@ const NavChartsAnalytics = ({
           <DatePicker
             minDate={new Date(date1)}
             label="End"
-            value={date2}
+            value={fecha.end}
             onChange={(newValue) => {
+              setFecha({ ...fecha, end: newValue });
               setDate2(
                 newValue
                   ? `${newValue.getFullYear()}-${

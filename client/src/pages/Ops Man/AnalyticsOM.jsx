@@ -74,8 +74,6 @@ const AnalyticsOM = ({ count }) => {
     // eslint-disable-next-line
   }, []);
 
-  //console.log(filters);
-
   useEffect(() => {
     if (filters.kpi !== "" && filters.start && filters.end) {
       setLoading(true);

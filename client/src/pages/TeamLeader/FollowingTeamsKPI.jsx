@@ -121,7 +121,6 @@ const FollowingTeamsKPI = ({ count }) => {
     },
   });
 
-  console.log(actualKpi);
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
@@ -468,7 +467,6 @@ const FollowingTeamsKPI = ({ count }) => {
   };
 
   const handleAgent = (e) => {
-    console.log("consultando por agente", e);
     e.preventDefault();
     let ag = e.target.value;
     setShowChart(true);
@@ -504,8 +502,7 @@ const FollowingTeamsKPI = ({ count }) => {
           let seriesData = [];
           let categoriesData = [];
           let targetData = [];
-          console.log(targetSemaforo(data.data[0].KPI[0]));
-          console.log(data.data[0].KPI);
+
           listAndGraph.data[0].GraphicAverage.forEach((dato) => {
             seriesData.push(dato.Actual?.toFixed(2));
             targetData.push(targetSemaforo(data.data[0].KPI[0]));

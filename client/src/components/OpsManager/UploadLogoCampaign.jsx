@@ -117,13 +117,17 @@ const UploadLogoCampaign = () => {
   };
 
   const setUrlDB = async (url) => {
-    await requestWithData("uploadopsm", {
+    const upLogoDB = await requestWithData("uploadopsm", {
       context: 0,
       idLeader: 0,
       cas: 3,
       imageUrl: url,
       emails: [],
     });
+
+    if (upLogoDB.status === 200) {
+      window.location.reload();
+    }
   };
 
   return (

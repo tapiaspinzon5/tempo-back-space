@@ -173,7 +173,7 @@ const AnalyticsCharts = ({ setShowCharts, showCharts }) => {
     setDataHead(data.data);
     setMissionsData(data.data[1]?.Missions || []);
     // agregar condicional para validadd que si existe el dato
-    if (kpiData.length < 1) {
+    if (kpiData) {
       const filtrador = helperKpi(data?.data[0]?.ListKpi);
       setKpiData(filtrador);
     }

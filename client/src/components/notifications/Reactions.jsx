@@ -31,7 +31,6 @@ const Reactions = ({ info, user }) => {
   });
 
   const { Nombre } = userData;
-  // console.log(info);
 
   const handleReaction = async (typeReaction) => {
     const reaction = await requestWithData("postsendreaction", {
@@ -109,8 +108,6 @@ const Reactions = ({ info, user }) => {
           });
         }
       }
-    } else {
-      console.log("server problem");
     }
   };
 

@@ -115,51 +115,6 @@ const teniorProfile = [
   { q: "Q4", t: "T4" },
 ];
 
-const temporali = [
-  [
-    "pregunta uno",
-    "a",
-    "b",
-    "c",
-    "d",
-    "d",
-    "T1",
-    "Otra prueba T",
-    "algo",
-    100,
-    "Matigoria",
-    1,
-  ],
-  [
-    "pregunta dos",
-    "a",
-    "b",
-    "c",
-    "d",
-    "d",
-    "T1",
-    "Otra prueba T",
-    "algo",
-    100,
-    "Matigoria",
-    1,
-  ],
-  [
-    "pregunta tres",
-    "a",
-    "b",
-    "c",
-    "d",
-    "d",
-    "T1",
-    "Otra prueba T",
-    "algo",
-    100,
-    "Matigoria",
-    1,
-  ],
-];
-
 const UploadQuiz = ({ setLoading, topics, getData }) => {
   const [fileName, setFileName] = useState(null);
   const [dataQuiz, setDataQuiz] = useState([]);
@@ -173,17 +128,6 @@ const UploadQuiz = ({ setLoading, topics, getData }) => {
   const [back, setBack] = useState(false);
   const { quizCategory, quizDescription, quizName, quizQuestions, quizTarget } =
     dataQuiz;
-
-  //   useEffect(() => {
-  //     const dataRow = temporali.map((element) => {
-  //       return element;
-
-  //       //   return element.map((el) => {
-  //       //     console.log(el);
-  //       //   });
-  //     });
-  //     console.log(dataRow);
-  //   }, []);
 
   const handleOpen = () => {
     setOpen(true);

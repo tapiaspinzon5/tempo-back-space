@@ -52,6 +52,10 @@ const NotificationCard = ({ info, team }) => {
         navigate(`/activitiesview/${info.IdChallenge}/${2}`);
       } else if (info.TypeActivity === "Activity") {
         navigate(`/activitiesview/${info.IdChallenge}/${1}`);
+      } else if (info.TypeActivity === "Mission") {
+        navigate(`/activitiesview`);
+      } else if (info.TypeActivity === "Tpvs") {
+        navigate(`/profile`);
       } else {
         navigate("/notifications");
       }
@@ -81,7 +85,7 @@ const NotificationCard = ({ info, team }) => {
           )}
           <Box display="flex" flexDirection="column">
             <Typography variant="body2" marginLeft="1rem" align="left">
-              {info.TypeNotification + "  " + info.Name}
+              {info.TypeNotification + " "} {info.Name || ""}
             </Typography>
           </Box>
         </Box>
