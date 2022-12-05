@@ -49,7 +49,7 @@ const BoxFormControl = styled(FormControl)(() => ({
 	margin: "2rem 2rem",
 }));
 
-export const DownLoadReportSA = ({ setModal, filters }) => {
+export const DownLoadReportSA = ({ setModal }) => {
 	const navigate = useNavigate();
 	const rxDispatch = useDispatch();
 	const [date1, setDate1] = useState(null);
@@ -70,6 +70,7 @@ export const DownLoadReportSA = ({ setModal, filters }) => {
 	const [rolesQ, setrolesQ] = useState([]);
 	const [rolesD, setrolesD] = useState([]);
 	const [genInfo, setGenInfo] = useState([]);
+	const [genMissInfo, setGenMissInfo] = useState([]);
 	const [campaign, setCampaign] = useState([]);
 	const [campaignSelected, setCampaignSelected] = useState("");
 	useEffect(() => {
@@ -263,6 +264,32 @@ export const DownLoadReportSA = ({ setModal, filters }) => {
 		];
 		worksheet.addRows(genInfo);
 	};
+	const missionsInfoSheet = (workbook) => {
+		const worksheet = workbook.getWorksheet("Missions Information");
+		worksheet.columns = [
+			{ header: "Campaign", key: "nameCampaign" },
+			{ header: "NameLob", key: "NameLob" },
+			{ header: "Team", key: "NameTeam" },
+			{ header: "CCMS ID", key: "idccms" },
+			{ header: "User", key: "Agent" },
+			{ header: "Id Examen", key: "IdExamen" },
+			{ header: "Exam Name", key: "ExamName" },
+			{ header: "Question", key: "Pregunta" },
+			{ header: "Answer", key: "Respuesta" },
+			{ header: "Correct Answer", key: "RespuestaCorrecta" },
+			{
+				header: "Approval Exam",
+				key: "ApprovalExam",
+			},
+			{ header: "Result", key: "ResObtenido" },
+			{ header: "Aprove?", key: "Aprobo" },
+			{ header: "Date", key: "FechaRegistro" },
+			{ header: "id Campaign", key: "idCampaign" },
+			{ header: "idLob", key: "idLob" },
+			{ header: "idQuestion", key: "IdPregunta" },
+		];
+		worksheet.addRows(genMissInfo);
+	};
 
 	const handleReport = async () => {
 		setLoading(true);
@@ -363,29 +390,48 @@ export const DownLoadReportSA = ({ setModal, filters }) => {
 																),
 															}
 														);
-														setTopUsersConexion(data1.data);
-														setMonthConexion(data2.data);
-														setDailyConexion(data3.data);
-														setChangesTeams(data4.data);
-														setChallengesTime(data5.data);
-														setusersRetan(data6.data);
-														setusersRetados(data7.data);
-														setusersInteractions(data8.data);
-														setChargeData(data9.data);
-														setrolesQ(data10.data);
-														setrolesD(data11.data);
-														setReport(true);
-														setLoading(false);
-														const dataT = data12?.data[0].Analitycs?.map(
-															(element) => {
-																return {
-																	...element,
-																	Quartile: element.Quartile.replace("Q", "T"),
-																};
-															}
-														);
-														setGenInfo(dataT);
-														// setGenInfo(data12.data[0].Analitycs);
+														if (data12) {
+															const data13 = await requestWithData(
+																"getmissionsanswers",
+																{
+																	initDate: date1,
+																	endDate: date2,
+																	idCampaign: parseInt(
+																		campaignSelected.split("-")[1]
+																	),
+																}
+															);
+															setGenMissInfo(data13.data);
+															setTopUsersConexion(data1.data);
+															setMonthConexion(data2.data);
+															setDailyConexion(data3.data);
+															setChangesTeams(data4.data);
+															setChallengesTime(data5.data);
+															setusersRetan(data6.data);
+															setusersRetados(data7.data);
+															setusersInteractions(data8.data);
+															setChargeData(data9.data);
+															setrolesQ(data10.data);
+															setrolesD(data11.data);
+															setReport(true);
+															setLoading(false);
+															const dataT = data12?.data[0].Analitycs?.map(
+																(element) => {
+																	return {
+																		...element,
+																		Quartile: element.Quartile.replace(
+																			"Q",
+																			"T"
+																		),
+																	};
+																}
+															);
+															setGenInfo(dataT);
+															// setGenInfo(data12.data[0].Analitycs);
+														} else {
+															setLoading(false);
+															setNoData(true);
+														}
 													} else {
 														setLoading(false);
 														setNoData(true);
@@ -454,6 +500,7 @@ export const DownLoadReportSA = ({ setModal, filters }) => {
 		workbook.addWorksheet("Those who upload the most files");
 		workbook.addWorksheet("Users by role");
 		workbook.addWorksheet("Role users");
+		workbook.addWorksheet("Missions Information");
 		generalInfoSheet(workbook);
 		topcxSheet(workbook);
 		monthcxSheet(workbook);
@@ -466,6 +513,7 @@ export const DownLoadReportSA = ({ setModal, filters }) => {
 		chargeSheet(workbook);
 		rolesSheet(workbook);
 		rolesDSheet(workbook);
+		missionsInfoSheet(workbook);
 		let fecha = new Date().toLocaleDateString();
 		const uint8Array = await workbook.xlsx.writeBuffer();
 		const blob = new Blob([uint8Array], { type: "application/octet-binary" });
