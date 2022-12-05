@@ -60,7 +60,7 @@ export const DownLoadReportTL = ({ setModal }) => {
 			{ header: "EXP Points", key: "ExpPoint" },
 			{ header: "Tenior", key: "Quartile" },
 			{ header: "Badges Earned", key: "BadgesEarned" },
-			{ header: "Missions Assigned", key: "Missions Assigned" },
+			{ header: "Missions Assigned", key: "MissionsAssigned" },
 			{ header: "Missions Approved", key: "MissionsApproved" },
 			{ header: "Challenges Assigned", key: "ChallengesAssigned" },
 			{ header: "Challenges Won", key: "ChallengesWon" },

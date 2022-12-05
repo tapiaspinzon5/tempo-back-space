@@ -61,7 +61,7 @@ export const DownLoadReportQA = ({ setModal }) => {
 			{ header: "EXP Points", key: "ExpPoint" },
 			{ header: "Tenior", key: "Quartile" },
 			{ header: "Badges Earned", key: "BadgesEarned" },
-			{ header: "Missions Assigned", key: "Missions Assigned" },
+			{ header: "Missions Assigned", key: "MissionsAssigned" },
 			{ header: "Missions Approved", key: "MissionsApproved" },
 			{ header: "Missions Failed", key: "MissionsFailed" },
 			{ header: "Missions Score", key: "MissionsScore" },
