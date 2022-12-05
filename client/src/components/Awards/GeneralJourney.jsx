@@ -44,7 +44,7 @@ const GeneralJourney = ({ setSection, handleClose, dataGJ }) => {
     >
       <HeadWinners
         setSection={setSection}
-        title="General Juorney"
+        title="General Journey"
         handleClose={handleClose}
       />
       <Box

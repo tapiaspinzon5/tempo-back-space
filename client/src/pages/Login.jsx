@@ -117,8 +117,8 @@ const Login = () => {
         sx={{ display: "flex", justifyContent: "center" }}
       >
         <FormBox>
-          <Box textAlign="center">
-            <img src={spaceLogo} alt="Logo Teleperformance" height={90} />{" "}
+          <Box textAlign="center" marginTop={2}>
+            <img src={spaceLogo} alt="Logo Teleperformance" height={80} />{" "}
           </Box>
           <Typography variant="body1" color="initial">
             After a successful sign in we use a cookie in your browser to track
