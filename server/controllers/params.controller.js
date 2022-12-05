@@ -817,6 +817,7 @@ exports.parametros = (req, tipo) => {
     case "spConnectionsPlayer":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
@@ -824,18 +825,21 @@ exports.parametros = (req, tipo) => {
     case "spUserChangeTeam":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
       ]);
     case "spTimeCompleteChallenges":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
       ]);
     case "spUsersMostInteract":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
@@ -843,12 +847,14 @@ exports.parametros = (req, tipo) => {
     case "spUserUploadsFiles":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
       ]);
     case "spUsersRole":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
         new SpParam("Context", req.context, TYPES.Int),
@@ -865,12 +871,14 @@ exports.parametros = (req, tipo) => {
     case "spQueryAnalitycsGeneral":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
       ]);
     case "spAnswerMissions":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
         new SpParam("DateIni", req.initDate, TYPES.Date),
         new SpParam("DateEnd", req.endDate, TYPES.Date),
       ]);
