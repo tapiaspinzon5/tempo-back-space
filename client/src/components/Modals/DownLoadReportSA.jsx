@@ -1,5 +1,15 @@
-import React, { useState } from "react";
-import { Typography, Box, styled, Button, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+	Typography,
+	Box,
+	styled,
+	Button,
+	TextField,
+	MenuItem,
+	Select,
+	InputLabel,
+	FormControl,
+} from "@mui/material";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -34,8 +44,12 @@ const MainButtons = styled(Box)(() => ({
 		background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
 	},
 }));
+const BoxFormControl = styled(FormControl)(() => ({
+	width: "15rem",
+	margin: "2rem 2rem",
+}));
 
-export const DownLoadReportSA = ({ setModal }) => {
+export const DownLoadReportSA = ({ setModal, filters }) => {
 	const navigate = useNavigate();
 	const rxDispatch = useDispatch();
 	const [date1, setDate1] = useState(null);
@@ -56,6 +70,20 @@ export const DownLoadReportSA = ({ setModal }) => {
 	const [rolesQ, setrolesQ] = useState([]);
 	const [rolesD, setrolesD] = useState([]);
 	const [genInfo, setGenInfo] = useState([]);
+	const [campaign, setCampaign] = useState([]);
+	const [campaignSelected, setCampaignSelected] = useState("");
+	useEffect(() => {
+		getCampaigns();
+
+		// eslint-disable-next-line
+	}, []);
+
+	const getCampaigns = async () => {
+		const data = await requestWithData("getorganizationalunit", {
+			context: 1,
+		});
+		setCampaign(data.data[0].Campaign);
+	};
 
 	const topcxSheet = (workbook) => {
 		const worksheet = workbook.getWorksheet("Top_Users_Connection");
@@ -242,6 +270,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 			initDate: date1,
 			endDate: date2,
 			context: 1,
+			idCampaign: parseInt(campaignSelected.split("-")[1]),
 		});
 
 		if (data1 && data1.status === 200 && data1.data.length > 0) {
@@ -250,17 +279,20 @@ export const DownLoadReportSA = ({ setModal }) => {
 					initDate: date1,
 					endDate: date2,
 					context: 2,
+					idCampaign: parseInt(campaignSelected.split("-")[1]),
 				});
 				if (data2) {
 					const data3 = await requestWithData("getusersconnections", {
 						initDate: date1,
 						endDate: date2,
 						context: 3,
+						idCampaign: parseInt(campaignSelected.split("-")[1]),
 					});
 					if (data3) {
 						const data4 = await requestWithData("getusersteamchanges", {
 							initDate: date1,
 							endDate: date2,
+							idCampaign: parseInt(campaignSelected.split("-")[1]),
 						});
 						if (data4) {
 							const data5 = await requestWithData(
@@ -268,6 +300,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 								{
 									initDate: date1,
 									endDate: date2,
+									idCampaign: parseInt(campaignSelected.split("-")[1]),
 								}
 							);
 							if (data5) {
@@ -275,6 +308,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 									initDate: date1,
 									endDate: date2,
 									context: 1,
+									idCampaign: parseInt(campaignSelected.split("-")[1]),
 								});
 								if (data6) {
 									const data7 = await requestWithData(
@@ -283,6 +317,7 @@ export const DownLoadReportSA = ({ setModal }) => {
 											initDate: date1,
 											endDate: date2,
 											context: 2,
+											idCampaign: parseInt(campaignSelected.split("-")[1]),
 										}
 									);
 									if (data7) {
@@ -292,24 +327,30 @@ export const DownLoadReportSA = ({ setModal }) => {
 												initDate: date1,
 												endDate: date2,
 												context: 3,
+												idCampaign: parseInt(campaignSelected.split("-")[1]),
 											}
 										);
 										if (data8) {
 											const data9 = await requestWithData("gettopuploaders", {
 												initDate: date1,
 												endDate: date2,
+												idCampaign: parseInt(campaignSelected.split("-")[1]),
 											});
 											if (data9) {
 												const data10 = await requestWithData("getrolesinfo", {
 													initDate: date1,
 													endDate: date2,
 													context: 1,
+													idCampaign: parseInt(campaignSelected.split("-")[1]),
 												});
 												if (data10) {
 													const data11 = await requestWithData("getrolesinfo", {
 														initDate: date1,
 														endDate: date2,
 														context: 2,
+														idCampaign: parseInt(
+															campaignSelected.split("-")[1]
+														),
 													});
 													if (data11) {
 														const data12 = await requestWithData(
@@ -317,6 +358,9 @@ export const DownLoadReportSA = ({ setModal }) => {
 															{
 																initDate: date1,
 																endDate: date2,
+																idCampaign: parseInt(
+																	campaignSelected.split("-")[1]
+																),
 															}
 														);
 														setTopUsersConexion(data1.data);
@@ -494,11 +538,35 @@ export const DownLoadReportSA = ({ setModal }) => {
 					</LocalizationProvider>
 				</Box>
 			)}
+			<Box>
+				<BoxFormControl>
+					<InputLabel id="time-label">Campaign</InputLabel>
+					<Select
+						labelId="campaign-label"
+						value={campaignSelected}
+						label="Campaign"
+						onChange={(e) => setCampaignSelected(e.target.value)}
+					>
+						{campaign.map((camp) => (
+							<MenuItem
+								key={camp.IdCampaign}
+								value={`${camp.nameCampaign}-${camp.IdCampaign}`}
+							>
+								{camp.nameCampaign}
+							</MenuItem>
+						))}
+					</Select>
+				</BoxFormControl>
+			</Box>
 			<MainButtons>
 				<Button sx={{ marginRight: "2rem" }} onClick={() => setModal(false)}>
 					Return
 				</Button>
-				<Button sx={{ marginRight: "2rem" }} onClick={handleReport}>
+				<Button
+					sx={{ marginRight: "2rem" }}
+					onClick={handleReport}
+					disabled={!campaignSelected || !date1 || !date2}
+				>
 					Generate Report
 				</Button>
 			</MainButtons>
