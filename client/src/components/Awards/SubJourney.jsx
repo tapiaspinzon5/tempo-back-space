@@ -52,7 +52,7 @@ const SubJourney = ({ setSection, handleClose, dataSJ }) => {
     <Grid>
       <HeadWinners
         setSection={setSection}
-        title="Sub Juorney"
+        title="Sub Journey"
         handleClose={handleClose}
       />
       <BoxContain>
