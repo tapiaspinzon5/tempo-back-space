@@ -931,6 +931,8 @@ exports.uploadKpirl = async (req, res) => {
         "Leave of Absence",
         "Candidate",
         "Not exist",
+        "Exists in another campaign",
+        "Agent does not exist in space",
       ];
 
       let usersWithProblems = result.filter((user) => problemStatus.includes(user.status));

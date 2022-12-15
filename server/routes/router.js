@@ -237,7 +237,6 @@ module.exports = (router) => {
   MapSpRouter("/getplatformanalytics", "spQueryAnalitycs");
   MapSpRouter("/getgeneralanalytics", "spQueryAnalitycsGeneral");
   MapSpRouter("/getquizqa", "spLoadExamQA");
-
   MapSpRouter("/getmissionsanswers", "spAnswerMissions");
 
   // function MapSpRouter(route, spName) {
