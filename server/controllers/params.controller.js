@@ -528,6 +528,7 @@ exports.parametros = (req, tipo) => {
     case "spQueryAgentsMD":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
         SpParamTable2("table", rlValidationTable, req.rows),
       ]);
 
