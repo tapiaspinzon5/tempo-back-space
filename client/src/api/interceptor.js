@@ -5,8 +5,8 @@ const axiosInstance = axios.create({
 	//Localhost
 	//baseURL: "http://localhost:4343/api/",
 	// Desarrollo - testing
-	baseURL: "https://gamificationtest.teleperformance.co/api/",
-	//baseURL: "https://gptest.teleperformance.co/api/",
+	//baseURL: "https://gamificationtest.teleperformance.co/api/",
+	baseURL: "https://gptest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
 	//baseURL: "http://10.138.143.93:4343/api/",
@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
 
 	transformRequest: [
 		function (data, headers) {
-			console.log("se envia", data);
+			//console.log("se envia", data);
 			let encrypted = CryptoJS.AES.encrypt(
 				JSON.stringify(data),
 				"secret key 123"
@@ -35,7 +35,7 @@ const axiosInstance = axios.create({
 			);
 			let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 			data = decryptedData;
-			console.log("lo que llega :", data);
+			//console.log("lo que llega :", data);
 			return data;
 		},
 	],
