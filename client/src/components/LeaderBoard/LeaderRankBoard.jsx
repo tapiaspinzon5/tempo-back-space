@@ -126,7 +126,7 @@ const LeaderRankBoard = ({
 						}}
 					>
 						{(leaderBoard || leaderBoardRL) && (
-							<MenuItem value="">EXP Points</MenuItem>
+							<MenuItem value="EXP Points">EXP Points</MenuItem>
 						)}
 						{helperKpi(kpis).map((kpi, index) => (
 							<MenuItem key={index} value={kpi}>

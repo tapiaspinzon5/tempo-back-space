@@ -8,12 +8,12 @@ import CryptoJS from "crypto-js";
 
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
-//const url = "https://gptest.teleperformance.co";
+const url = "https://gptest.teleperformance.co";
 // Pilot
 //const url = "https://spacegptest.teleperformance.co";
 //const url = "http://10.138.143.224:4343";
 //Produccion
-const url = "https://spacegp.teleperformance.co";
+//const url = "https://spacegp.teleperformance.co";
 
 //datainicial
 const initialData = {
