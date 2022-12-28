@@ -3,10 +3,10 @@ import CryptoJS from "crypto-js";
 
 const axiosInstance = axios.create({
 	//Localhost
-	//baseURL: "http://localhost:4343/api/",
+	baseURL: "http://localhost:4343/api/",
 	// Desarrollo - testing
 	//baseURL: "https://gamificationtest.teleperformance.co/api/",
-	baseURL: "https://gptest.teleperformance.co/api/",
+	//baseURL: "https://gptest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
 	//baseURL: "http://10.138.143.93:4343/api/",
@@ -53,7 +53,7 @@ axiosInstance.interceptors.request.use((config) => {
 	config.headers.Authorization = "Bearer " + user.Token;
 	config.headers.refreshAuthorization = "Bearer " + user.RefreshToken;
 	config.headers["Access-Control-Allow-Origin"] = "*";
-	// config.data = { ...config.data, idccms: 4885433 };
+	//config.data = { ...config.data, idccms: 4303716 };
 	config.data = { ...config.data, idccms: user.Idccms };
 	return config;
 });

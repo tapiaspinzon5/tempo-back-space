@@ -8,6 +8,21 @@ import SubJourney from "./SubJourney";
 import MiniGames from "./MiniGames";
 import { requestWithData } from "../../utils/api";
 
+import { PongSpinner } from "react-spinners-kit";
+
+const LoadingBox = styled(Box)(() => ({
+  width: "100%",
+  height: "100%",
+  background: "#e9e9e980",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  zIndex: 500,
+  display:'flex',
+  justifyContent:'center',
+  alignItems:'center'
+}));
+
 const BoxMainAwards = styled(Box)(() => ({
   width: "100%",
   backgroundImage: `url(${bgAwards})`,
@@ -15,19 +30,22 @@ const BoxMainAwards = styled(Box)(() => ({
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
   borderRadius: "10px",
+  position: "relative",
 }));
 
 const MainAwards = ({ handleClose, userData }) => {
+  const { Role, IdCampaign } = userData;
   const [showWinners, setShowWinners] = useState(false);
   const [section, setSection] = useState("winners");
   const [account, setAccount] = useState(0);
-  const { Role, IdCampaign } = userData;
+  const [loading, setLoading] = useState(false);
 
   const [dataGJ, setDataGJ] = useState([]);
   const [dataSJ, setDataSJ] = useState([]);
   const [dataMG, setDataMG] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     const getAwadrs = async () => {
       const getGJ = await requestWithData("getgeneraljourneyresults", {
         idcampaign: account,
@@ -43,9 +61,18 @@ const MainAwards = ({ handleClose, userData }) => {
         context: 3,
       });
 
-      setDataGJ(getGJ.data);
-      setDataSJ(getSJ.data);
-      setDataMG(getMG.data);
+     
+      
+      if (getGJ.data.length > 1) {
+        setDataGJ(getGJ.data);
+      }
+      if (getSJ.data.length > 1) {
+        setDataSJ(getSJ.data);
+      }
+      if (getMG.data.length > 1) {
+        setDataMG(getMG.data);
+      }
+      setLoading(false);
     };
     getAwadrs();
   }, [account]);
@@ -58,8 +85,14 @@ const MainAwards = ({ handleClose, userData }) => {
     }
   }, []);
 
+ 
+
   return (
     <BoxMainAwards sx={{ height: { xs: "90vh", xl: "75vh" } }}>
+      {loading && <LoadingBox>
+        <PongSpinner size={100} color="#fff" />
+      </LoadingBox>}
+
       {showWinners ? (
         <>
           {section === "winners" && (
