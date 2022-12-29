@@ -452,38 +452,46 @@ export const dataGraphics = (data) => {
 
 export const deleteDuplicatesScore = async (data, exp) => {
 	if (exp) {
-		const tableData = data.map((el, index) => {
+		const filterData = data.filter((el) => el.ExpPoint);
+		const podium = filterData.sort((a, b) => b.ExpPoint - a.ExpPoint);
+		const tableData = podium.map((el, index) => {
 			el.rank = index + 1;
 			el.id = index + 1;
 			el.KpiScore = el.ExpPoint?.toFixed(2);
 			return el;
 		});
-		return { dataOrder: tableData, podium: tableData };
+		return { dataOrder: tableData };
 	}
+	if (data[0].OrderKpi === "asc") {
+		const filterData = data.filter((el) => el.KpiScore);
+		const dataOrder = asc(filterData);
+		return { dataOrder };
+	} else {
+		const filterData = data.filter((el) => el.KpiScore);
+		const dataOrder = dsc(filterData);
+		return { dataOrder };
+	}
+};
 
-	const hash = {};
-	let printData = data.filter(function (current) {
-		let exists = !hash[current.ccmsid];
-		hash[current.ccmsid] = true;
-		return exists;
+const asc = (data) => {
+	const dataOrder = data.sort((a, b) => b.KpiScore - a.KpiScore);
+	const tableData = dataOrder.map((el, index) => {
+		el.rank = index + 1;
+		el.id = index + 1;
+		el.KpiScore = isNaN(el.KpiScore) ? 0 : parseFloat(el.KpiScore?.toFixed(2));
+		return el;
 	});
-	const dataOrder =
-		data[0].OrderKpi === "asc"
-			? data.sort((a, b) => b.KpiScore - a.KpiScore)
-			: data.sort((a, b) => a.KpiScore - b.KpiScore);
-
-	const podium = printData.sort((a, b) => b.ExpPoint - a.ExpPoint);
-
-	let cont = 1;
-
-	dataOrder.forEach((el) => {
-		el.rank = cont;
-		el.id = cont;
-		el.KpiScore = el.KpiScore?.toFixed(2);
-		cont += 1;
+	return tableData;
+};
+const dsc = (data) => {
+	const dataOrder = data.sort((a, b) => a.KpiScore - b.KpiScore);
+	const tableData = dataOrder.map((el, index) => {
+		el.rank = index + 1;
+		el.id = index + 1;
+		el.KpiScore = isNaN(el.KpiScore) ? 0 : parseFloat(el.KpiScore?.toFixed(2));
+		return el;
 	});
-
-	return { dataOrder, podium };
+	return tableData;
 };
 
 export const deleteDuplicatesKpis = async (data, time) => {

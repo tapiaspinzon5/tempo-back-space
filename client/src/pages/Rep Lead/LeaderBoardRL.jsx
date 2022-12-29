@@ -60,10 +60,11 @@ const LeaderBoardRL = () => {
 					initialData2.status === 200 &&
 					initialData2.data.length > 0
 				) {
-					const dataOrder = await deleteDuplicatesScore(
-						initialData2.data[0].Analitycs
+					setPodium(
+						initialData.data[0].Analitycs.sort(
+							(a, b) => b.ExpPoint - a.ExpPoint
+						)
 					);
-					setPodium(dataOrder.podium);
 					setLoading(false);
 				}
 				setKpis(initialData.data[0].Kpis);
@@ -78,7 +79,7 @@ const LeaderBoardRL = () => {
 	}, [filters.group]);
 
 	useEffect(() => {
-		if (filters.kpi !== "" && filters.start && filters.end) {
+		if (filters.kpi !== "EXP Points" && filters.start && filters.end) {
 			setLoading(true);
 			const getData = async () => {
 				const initialData = await requestWithData("getplatformanalytics", {
@@ -88,16 +89,22 @@ const LeaderBoardRL = () => {
 					context: 2,
 					idCampaign: filters.group,
 				});
+				//console.log("lo que llega puro", initialData.data[0].Analitycs);
 				if (
 					initialData &&
 					initialData.status === 200 &&
 					initialData.data.length > 0
 				) {
 					const dataOrder = await deleteDuplicatesScore(
-						initialData.data[0].Analitycs
+						initialData.data[0].Analitycs,
+						false
 					);
 					setData(dataOrder.dataOrder);
-					setPodium(dataOrder.podium);
+					setPodium(
+						initialData.data[0].Analitycs.sort(
+							(a, b) => b.ExpPoint - a.ExpPoint
+						)
+					);
 					setLoading(false);
 				}
 			};
@@ -122,7 +129,9 @@ const LeaderBoardRL = () => {
 						true
 					);
 					setData(dataOrder.dataOrder);
-					setPodium(dataOrder.podium);
+					setPodium(
+						initialData.data[0].ScoreExp.sort((a, b) => b.ExpPoint - a.ExpPoint)
+					);
 					setLoading(false);
 				}
 			};
@@ -132,6 +141,7 @@ const LeaderBoardRL = () => {
 		// eslint-disable-next-line
 	}, [filters]);
 	//agregar loading
+
 	return (
 		<MainPage>
 			<Header />
