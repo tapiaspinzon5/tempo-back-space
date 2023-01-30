@@ -6,12 +6,12 @@ const axiosInstance = axios.create({
 	//baseURL: "http://localhost:4343/api/",
 	// Desarrollo - testing
 	//baseURL: "https://gamificationtest.teleperformance.co/api/",
-	baseURL: "https://gptest.teleperformance.co/api/",
+	//baseURL: "https://gptest.teleperformance.co/api/",
 	// Pilot
 	//baseURL: "https://spacegptest.teleperformance.co/api/",
 	//baseURL: "http://10.138.143.93:4343/api/",
 	//produccion
-	//baseURL: "https://spacegp.teleperformance.co/api/",
+	baseURL: "https://spacegp.teleperformance.co/api/",
 
 	transformRequest: [
 		function (data, headers) {

@@ -93,7 +93,7 @@ const MultiAnswer = ({ ask, setAsk, steep, empty, question, setEdit }) => {
 										name="answer"
 										value={`${ask.check1 ? "A" : ""}${ask.check2 ? "B" : ""}${
 											ask.check3 ? "C" : ""
-										}${ask.check1 ? "D" : ""}`}
+										}${ask.check4 ? "D" : ""}`}
 										//value={q === 1 ? "A" : q === 2 ? "B" : q === 3 ? "C" : "D"}
 										//checked={ask[q] === ask.answer ? true : false}
 										onChange={(e) => {
