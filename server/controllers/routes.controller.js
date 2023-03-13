@@ -231,7 +231,7 @@ exports.uploadRepLead = async (req, res) => {
   });
 
   sql
-    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 2}, "spQueryAgentsMD"))
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 2 }, "spQueryAgentsMD"))
     .then((result) => {
       let problemStatus = [
         "Unknown",
@@ -921,7 +921,7 @@ exports.uploadKpirl = async (req, res) => {
   });
 
   sql
-    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context:1}, "spQueryAgentsMD"))
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 1 }, "spQueryAgentsMD"))
     .then((result) => {
       let problemStatus = [
         "Unknown",
