@@ -63,6 +63,7 @@ import HomeCD from "../pages/HomeCD";
 import AnalyticsCD from "../pages/ClusterDirector/AnalyticsCD";
 import { requestWithData } from "../utils/api";
 import Page404 from "../pages/404Page";
+import QuizResults from "../pages/Agent/QuizResults";
 
 //import Header from "../components/homeUser/Header";
 
@@ -262,6 +263,10 @@ const AppRouter = () => {
                 <Route
                   path="/quizdetails/:idquiz/:stateActivity/:quizName"
                   element={<QuizDetails />}
+                />
+                <Route
+                  path="/quizresults/:idquiz"
+                  element={<QuizResults count={count} />}
                 />
               </>
             ) : (

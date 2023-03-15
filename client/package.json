@@ -25,6 +25,7 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-dotenv": "^0.1.3",
     "react-icons": "^4.7.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^8.0.5",
@@ -43,8 +44,9 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
+    "start": "react-dotenv && react-scripts start",
+    "build": "react-dotenv && set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
+    "serve": "react-dotenv && serve build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -64,6 +66,19 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "react-dotenv": {
+    "whitelist": [
+      "FIREBASE_APIKEY",
+      "FIREBASE_PROJECTID",
+      "FIREBASE_MESSAGINGSENDERID",
+      "FIREBASE_APPID",
+      "FIREBASE_AUTHDOMAIN",
+      "FIREBASE_DATABASEURL",
+      "FIREBASE_STORAGEBUCKET",
+      "FIREBASE_MESSAGINGSENDERID",
+      "FIREBASE_MEASUREMENTID"
     ]
   }
 }

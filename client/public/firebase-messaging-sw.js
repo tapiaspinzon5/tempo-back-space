@@ -1,3 +1,4 @@
+import env from "react-dotenv";
 // Scripts for firebase and firebase messaging
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
@@ -8,6 +9,13 @@ if ("serviceWorker" in navigator) {
     .then(function (registration) {})
     .catch(function (err) {});
 }
+
+// const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+//   projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+//   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+//   appId: process.env.REACT_APP_FIREBASE_APPID,
+// };
 
 const firebaseConfig = {
   apiKey: "AIzaSyBvIm4awdjTWROGds-dGId7zhqici0Vexk",
