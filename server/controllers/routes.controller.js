@@ -10,6 +10,8 @@ const { transport } = require("../nodemailerConfig");
 const { sendFCMMessage } = require("../helpers/sendNotification");
 const { sendEmail, sendConfirmInactivationEmail, sendUserChangeRolEmail } = require("../helpers/sendEmail");
 const { getNumberOfDays } = require("../helpers/daysDifference");
+const { generateToken } = require("../utils/generateToken");
+const fetch = require("../helpers/fetch");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -64,6 +66,60 @@ let responsep = (tipo, req, res, resultado, cookie) => {
       res.status(400).json(CryptoJS.AES.encrypt(JSON.stringify(resultado), `secret key 123`).toString());
     }
   });
+};
+
+exports.login = async (req, res) => {
+  const { graphResponse, mstoken } = req.body;
+
+  const { employeeId } = await fetch("https://graph.microsoft.com/beta/me", mstoken, res);
+
+  const token = generateToken({
+    email: graphResponse.onPremisesUserPrincipalName,
+  });
+
+  sql
+    .query("spQueryRoleEmployee", parametros({ idccms: employeeId }, "spQueryRoleEmployee"))
+    .then((result2) => {
+      let newQuartile = getNumberOfDays(result2[0].dateStart);
+
+      if (newQuartile) {
+        if (newQuartile !== result2[0]?.Quartile && result2[0]?.Role === "Agent") {
+          sql
+            .query(
+              "spUpdateQuartileAgent",
+              parametros({ idccms: employeeId, quartile: newQuartile }, "spUpdateQuartileAgent")
+            )
+            .then((result) => {})
+            .catch((err) => {
+              console.log(err, "sp");
+              responsep(2, req, res, err);
+            });
+        }
+      }
+
+      let data = {
+        Nombre: graphResponse.displayName,
+        Idccms: graphResponse.employeeId,
+        UserName: graphResponse.mailNickname,
+        Token: token,
+        RefreshToken: mstoken,
+        Role: result2[0]?.Role,
+        Quartile: newQuartile !== result2[0]?.Quartile ? newQuartile : result2[0]?.Quartile,
+        NumberLogins: result2[0]?.NumberLogins,
+        KpiManual: result2[0].KpiManual ? result2[0].KpiManual : null,
+        IdCampaign: result2[0]?.IdCampaign,
+        IdTeam: result2[0]?.IdTeam,
+        NameTeam: result2[0]?.NameTeam,
+        LastLogin: result2[0]?.LastLogin,
+        LogoCampaign: result2[0]?.LogoCampaign,
+      };
+
+      responsep(1, req, res, data);
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
 };
 
 exports.saveQuiz = async (req, res) => {
@@ -231,7 +287,7 @@ exports.uploadRepLead = async (req, res) => {
   });
 
   sql
-    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 2}, "spQueryAgentsMD"))
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 2 }, "spQueryAgentsMD"))
     .then((result) => {
       let problemStatus = [
         "Unknown",
@@ -921,7 +977,7 @@ exports.uploadKpirl = async (req, res) => {
   });
 
   sql
-    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context:1}, "spQueryAgentsMD"))
+    .query("spQueryAgentsMD", parametros({ idccms, rows: newData, context: 1 }, "spQueryAgentsMD"))
     .then((result) => {
       let problemStatus = [
         "Unknown",
