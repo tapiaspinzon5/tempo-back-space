@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 
 //url de apuntamiento
 //Localhost
-//const url = "http://localhost:4343";
+const url = "http://localhost:4343";
 
 // Desarrollo - testing
 //const url = "https://gamificationtest.teleperformance.co";
@@ -13,7 +13,7 @@ import CryptoJS from "crypto-js";
 //const url = "https://spacegptest.teleperformance.co";
 //const url = "http://10.138.143.224:4343";
 //Produccion
-const url = "https://spacegp.teleperformance.co";
+//const url = "https://spacegp.teleperformance.co";
 
 //datainicial
 const initialData = {
@@ -77,6 +77,59 @@ export const loginSubmit = (data) => async (dispatch) => {
 	try {
 		const requestData = await axios
 			.post(`${url}/api/ccmslogin`, data)
+			.catch(function (error) {
+				if (error.response) {
+					const Toast = Swal.mixin({
+						toast: true,
+						position: "top-end",
+						showConfirmButton: false,
+						timer: 3000,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.addEventListener("mouseenter", Swal.stopTimer);
+							toast.addEventListener("mouseleave", Swal.resumeTimer);
+						},
+					});
+
+					Toast.fire({
+						icon: "warning",
+						title: "wrong username or password!!",
+					});
+					dispatch({
+						type: ERROR_LOGIN,
+						payload: {
+							data: error.response.data,
+						},
+					});
+					return;
+				}
+			});
+
+		dispatch({
+			type: INICIO_SESION_EXITO,
+			payload: {
+				data: JSON.parse(
+					CryptoJS.AES.decrypt(
+						requestData.data.replace(/['"]+/g, ""),
+						"secret key 123"
+					).toString(CryptoJS.enc.Utf8)
+				),
+			},
+		});
+		sessionStorage.setItem("userTP", requestData.data.replace(/['"]+/g, ""));
+	} catch (error) {
+		return Promise.resolve({ data: null, error: error });
+	}
+};
+
+export const loginSubmitMS = (data) => async (dispatch) => {
+	dispatch({
+		type: LOADING,
+	});
+
+	try {
+		const requestData = await axios
+			.post(`${url}/api/login`, { mstoken: data })
 			.catch(function (error) {
 				if (error.response) {
 					const Toast = Swal.mixin({

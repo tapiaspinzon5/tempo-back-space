@@ -39,8 +39,8 @@ const OptionsProfile = ({ setSeeProfile, profile, navLong, setHelpCenter }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const logOut = () => {
-		dispatch(logoutAction());
-		navigate("/");
+		//dispatch(logoutAction());
+		navigate("/logout");
 	};
 
 	//clickoutside
