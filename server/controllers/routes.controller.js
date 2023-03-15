@@ -114,12 +114,7 @@ exports.login = async (req, res) => {
         LogoCampaign: result2[0]?.LogoCampaign,
       };
 
-      const dataEncrypted = CryptoJS.AES.encrypt(
-        JSON.stringify(data),
-        process.env.CRYPTOJS_SECRET
-      ).toString();
-      // responsep(1, req, res, data);
-      responsep(1, req, res, dataEncrypted);
+      responsep(1, req, res, data);
     })
     .catch((err) => {
       console.log(err, "sp");
