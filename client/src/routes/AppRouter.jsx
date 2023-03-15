@@ -62,6 +62,7 @@ import Organigrama from "../pages/Super User/Organigrama";
 import HomeCD from "../pages/HomeCD";
 import AnalyticsCD from "../pages/ClusterDirector/AnalyticsCD";
 import { requestWithData } from "../utils/api";
+import LogoutPage from "../pages/LogoutPage";
 import Page404 from "../pages/404Page";
 import QuizResults from "../pages/Agent/QuizResults";
 
@@ -410,6 +411,7 @@ const AppRouter = () => {
             </>
           )}
 
+          <Route path="/logout" element={<LogoutPage />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
 
