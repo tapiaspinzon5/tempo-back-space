@@ -190,7 +190,7 @@ const KpiUpload = () => {
 
 	const uploadFile = async (e) => {
 		const fileCSV = e.target.files[0];
-		//console.log(fileCSV.type);
+
 		let data;
 		if (
 			fileCSV === undefined ||

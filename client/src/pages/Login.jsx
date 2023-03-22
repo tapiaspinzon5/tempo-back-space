@@ -81,7 +81,7 @@ const Login = () => {
     instance.handleRedirectPromise().then(async (response) => {
       if (response == null) return;
       const mfaToken = await instance.acquireTokenSilent(loginRequest);
-      console.log(mfaToken.accessToken);
+
       dispatch(loginSubmitMS(mfaToken.accessToken));
 
       //dispatch(loginSubmit(mfaToken.accessToken));

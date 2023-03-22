@@ -78,16 +78,16 @@ const FormSetupQuiz = ({
     }
   };
   const handleDesc = (e) => {
-    if (e.target.value.length <= 300) {
+    if (e.target.value.length <= 200) {
       setErrorMsj({
         ...errorMSJ,
-        desc: e.target.value.length + " / 300",
+        desc: e.target.value.length + " / 200",
       });
       handleQuizSetup(e);
     } else {
       setErrorMsj({
         ...errorMSJ,
-        desc: "The description must have max 300 characters",
+        desc: "The description must have max 200 characters",
       });
     }
   };

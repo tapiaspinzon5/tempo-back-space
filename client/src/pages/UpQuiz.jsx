@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, styled, Modal, Box } from "@mui/material";
 import { FiDownload } from "react-icons/fi";
+import { AiOutlineFileAdd, AiOutlineUnorderedList } from "react-icons/ai";
 import CardQuizDesc from "../components/Quizes/CardQuizDesc";
 import UploadQuiz from "../components/Quizes/UploadQuiz";
 import Footer from "../components/Footer";
@@ -26,8 +27,10 @@ const ModalBox = styled(Box)(() => ({
 const UpQuiz = () => {
   const [loading, setLoading] = useState(false);
   const [template, setTemplate] = useState("");
-  const [open, setOpen] = React.useState(false);
-  const [showCat, setShowCat] = React.useState(false);
+  const [openInstructions, setOpenInstructions] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [showCat, setShowCat] = useState(false);
   const [misQuizes, setMisQuizes] = useState([]);
   const [topics, setTopics] = useState([]);
 
@@ -44,22 +47,29 @@ const UpQuiz = () => {
     setMisQuizes(quizes.data);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenInstructions = () => {
+    setOpenInstructions(true);
     setTemplate("Quiz Template");
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseInstructions = () => {
+    setOpenInstructions(false);
   };
 
   const handleCategory = () => {
     if (showCat) {
       setShowCat(!showCat);
-      //window.location.reload();
       getData();
     } else {
       setShowCat(!showCat);
     }
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const handleList = () => {
+    setShowList(!showList);
   };
 
   return (
@@ -67,16 +77,35 @@ const UpQuiz = () => {
       {loading && <ModalLoading />}
       <Grid width="100%">
         <MainPage>
+          {/* Modal de Creacion de Quices*/}
           <Modal
             open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            onClose={onClose}
+            aria-labelledby="modal-create-Mission"
+            aria-describedby="modal-create-mission"
+          >
+            <UploadQuiz
+              onClose={onClose}
+              setLoading={setLoading}
+              topics={topics}
+              getData={getData}
+            />
+          </Modal>
+          {/* Modal de descarga de template */}
+          <Modal
+            open={openInstructions}
+            onClose={handleCloseInstructions}
+            aria-labelledby="modal-download-template"
+            aria-describedby="modal-download-template"
           >
             <ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
-              <UpQuizModal handleClose={handleClose} template={template} />
+              <UpQuizModal
+                handleClose={handleCloseInstructions}
+                template={template}
+              />
             </ModalBox>
           </Modal>
+
           <Box>
             <Header />
 
@@ -92,6 +121,12 @@ const UpQuiz = () => {
               </Typography>
               <Box display="flex">
                 <Box>
+                  <ButtonAction onClick={() => setOpen(true)}>
+                    <AiOutlineFileAdd size={20} />
+                  </ButtonAction>
+                  <ButtonAction onClick={handleList}>
+                    <AiOutlineUnorderedList size={20} />
+                  </ButtonAction>
                   <ButtonAction onClick={handleCategory}>
                     Set Categories
                   </ButtonAction>
@@ -102,27 +137,37 @@ const UpQuiz = () => {
                     />
                   )}
                 </Box>
-                <ButtonAction startIcon={<FiDownload />} onClick={handleOpen}>
+                <ButtonAction
+                  startIcon={<FiDownload />}
+                  onClick={handleOpenInstructions}
+                >
                   Download Mission Template
                 </ButtonAction>
               </Box>
             </Box>
           </Box>
 
-          <Grid container spacing={3} sx={{ minHeight: "60vh" }}>
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <UploadQuiz
-                setLoading={setLoading}
-                topics={topics}
-                getData={getData}
-              />
-            </Grid>
+          {/* <Grid item xs={12} sm={6} md={4} lg={3} xl={2}> */}
+          {/* </Grid> */}
+          <Box
+            minHeight="60vh"
+            sx={
+              showList
+                ? {}
+                : {
+                    display: "flex",
+                  }
+            }
+          >
             {misQuizes?.map((quiz, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
-                <CardQuizDesc quiz={quiz} getData={getData} />
-              </Grid>
+              <CardQuizDesc
+                quiz={quiz}
+                getData={getData}
+                showList={showList}
+                key={index}
+              />
             ))}
-          </Grid>
+          </Box>
         </MainPage>
         <Footer />
       </Grid>

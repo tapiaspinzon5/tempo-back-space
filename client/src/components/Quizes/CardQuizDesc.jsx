@@ -1,45 +1,45 @@
 import React from "react";
 import { CgTrash } from "react-icons/cg";
-import { Typography, Box, styled, IconButton } from "@mui/material";
-import imgTP from "../../assets/images/tp_short.png";
+import { AiOutlineEye } from "react-icons/ai";
+import { FiEdit3 } from "react-icons/fi";
+import { Typography, Box, styled, IconButton, Grid } from "@mui/material";
+import imgTP from "../../assets/images/mission_image.jpg";
 import { disabledMission } from "../../utils/api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 
-const CardQuiz = styled(Box)(({ theme }) => ({
-  height: "21.875rem",
-  maxWidth: "20rem",
+const CardQuiz = styled(Grid)(({ theme }) => ({
+  // height: "21.875rem",
+  // maxWidth: "20rem",
+  background: "#0f0",
+  margin: "0 1rem 1rem 0",
   boxShadow: "1px 1px 5px #A2A2A2",
   borderRadius: "10px",
   background: "#F9F9F9 0% 0% no-repeat padding-box",
   display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-around",
+  justifyContent: "space-between",
   alignItems: "center",
-
-  img: {
-    background: "blue",
-    height: "104px",
-    width: "104px",
-    borderRadius: "50%",
-  },
   "&:hover": {
     boxShadow: " 3px 3px 5px #A2A2A2",
     opacity: 1,
   },
-  div: {
-    marginLeft: "auto",
-    paddingRight: "1rem",
-    svg: {
-      color: "#3047B0",
-    },
+  img: {
+    borderRadius: "10px",
   },
+
+  // div: {
+  //   marginLeft: "auto",
+  //   paddingRight: "1rem",
+  //   svg: {
+  //     color: "#3047B0",
+  //   },
+  //},
 }));
 
-const CardQuizDesc = ({ quiz, getData }) => {
-  const { CantidadPreguntas, Descripcion, NameExam, fechaRegistro } = quiz;
+const CardQuizDesc = ({ quiz, getData, showList }) => {
+  const { CantidadPreguntas, DescriptionExam, NameExam, fechaRegistro } = quiz;
   let fecha;
   let hora;
   let fechaBase = new Date(fechaRegistro).toLocaleString([], {
@@ -120,26 +120,92 @@ const CardQuizDesc = ({ quiz, getData }) => {
   };
 
   return (
-    <CardQuiz>
+    <CardQuiz
+      sx={
+        showList
+          ? { flexDirection: "row", height: "5rem", width: "100%" }
+          : { flexDirection: "column", width: "210px", height: "18rem" }
+      }
+    >
+      <img
+        src={imgTP}
+        alt=""
+        loading="lazy"
+        style={showList ? { height: "100%" } : { width: "100%" }}
+      />
+      <Box
+        display="flex"
+        sx={
+          showList
+            ? {
+                alignItems: "center",
+                flex: 1,
+              }
+            : {
+                flexDirection: "column",
+                flex: 1,
+              }
+        }
+      >
+        <Typography
+          variant="bidy1"
+          fontWeight="bold"
+          color={"#3047B0"}
+          m={1}
+          sx={showList ? { width: "260px" } : { textAlign: "center" }}
+        >
+          {NameExam}
+        </Typography>
+        <Typography
+          variant="body2"
+          height="2.8rem"
+          display="flex"
+          m={1}
+          sx={
+            showList
+              ? {
+                  flex: 1,
+                  alignItems: "center",
+                }
+              : {
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                }
+          }
+        >
+          {DescriptionExam}
+        </Typography>
+        <Typography variant="body2" align="center">
+          {fecha}
+        </Typography>
+      </Box>
       <Box>
-        {" "}
+        <IconButton
+          onClick={() => handleDelete(quiz.idexamen, NameExam)}
+          disabled={true}
+        >
+          <AiOutlineEye size={20} color={"#3047B0"} />
+        </IconButton>
+        <IconButton
+          onClick={() => handleDelete(quiz.idexamen, NameExam)}
+          disabled={true}
+        >
+          <FiEdit3 size={20} color={"#3047B0"} />
+        </IconButton>
         <IconButton onClick={() => handleDelete(quiz.idexamen, NameExam)}>
-          <CgTrash />
+          <CgTrash size={20} color={"#3047B0"} />
         </IconButton>
       </Box>
-      <img src={imgTP} alt="" />
-      <Typography variant="h6" fontWeight="bold" align="center">
-        {NameExam}
-      </Typography>
-      <Typography variant="body2" align="center">
-        {Descripcion}
-      </Typography>
-      <Typography variant="body2" align="center">
-        {fecha}
-      </Typography>
+
+      {/* <Box>
+        {" "}
+      
+      </Box>
+      
       <Typography variant="body2" align="center">
         Questions: {CantidadPreguntas}
-      </Typography>
+      </Typography> */}
     </CardQuiz>
   );
 };
