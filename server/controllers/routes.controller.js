@@ -12,6 +12,7 @@ const { sendEmail, sendConfirmInactivationEmail, sendUserChangeRolEmail } = requ
 const { getNumberOfDays } = require("../helpers/daysDifference");
 const { generateToken } = require("../utils/generateToken");
 const fetch = require("../helpers/fetch");
+const { orderAssign } = require("../helpers/orderAgentAssign");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -441,7 +442,81 @@ exports.getResultQuiz = async (req, res) => {
       )
     )
     .then((result) => {
-      responsep(1, req, res, result);
+      if (result.length === 0) {
+        return responsep(1, req, res, { Result: [] });
+      }
+
+      const result2 = result.map((el) => {
+        switch (el.TypeQuestionId) {
+          case 3:
+            let splitAns = el.Answer1.split("");
+            let splitUAns = el.AnswerUser1.split("");
+
+            el.Answer1 = "";
+            el.AnswerUser1 = "";
+            el.Answer2 = "";
+            el.AnswerUser2 = "";
+            el.Answer3 = "";
+            el.AnswerUser3 = "";
+            el.Answer4 = "";
+            el.AnswerUser4 = "";
+
+            splitAns.forEach((ans) => {
+              switch (ans) {
+                case "A":
+                  el.Answer1 = el.Respuesta1;
+                  break;
+
+                case "B":
+                  el.Answer2 = el.Respuesta2;
+                  break;
+
+                case "C":
+                  el.Answer3 = el.Respuesta3;
+                  break;
+
+                case "D":
+                  el.Answer4 = el.Respuesta4;
+                  break;
+
+                default:
+                  break;
+              }
+            });
+
+            splitUAns.forEach((ans) => {
+              switch (ans) {
+                case "A":
+                  el.AnswerUser1 = el.Respuesta1;
+                  break;
+
+                case "B":
+                  el.AnswerUser2 = el.Respuesta2;
+                  break;
+
+                case "C":
+                  el.AnswerUser3 = el.Respuesta3;
+                  break;
+
+                case "D":
+                  el.AnswerUser4 = el.Respuesta4;
+                  break;
+
+                default:
+                  break;
+              }
+            });
+
+            return el;
+
+          default:
+            return el;
+        }
+      });
+
+      const resOrdered = orderAssign(result2);
+
+      responsep(1, req, res, resOrdered);
     })
     .catch((err) => {
       console.log(err, "sp");
