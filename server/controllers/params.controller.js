@@ -970,6 +970,12 @@ exports.parametros = (req, tipo) => {
         new SpParam("MessageNotification", req.notificationMessage, TYPES.VarChar),
       ]);
 
+    case "spQueryExam":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idexamen", req.idExam, TYPES.Int),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

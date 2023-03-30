@@ -167,6 +167,8 @@ module.exports = (router) => {
   // Ruta de prueba para enviar notificaciones.
   router.post("/sendfcmnotification", checkJwtToken, decryptBody, routes.sendFCMNotificacion);
 
+  router.post("/getexamdetail", checkJwtToken, decryptBody, routes.getExamDetail);
+
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.
 
