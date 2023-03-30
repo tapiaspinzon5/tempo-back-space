@@ -31,9 +31,10 @@ exports.agroupQuestions = (result) => {
     if (!rows[e.IdExamen]) {
       rows[e.IdExamen] = {
         IdExamen: e.IdExamen,
-        nameExam: e.nameExam,
+        NameExam: e.NameExam,
         DescriptionExam: e.DescriptionExam,
         ApprovalExam: e.ApprovalExam,
+        UrlBadge: e.UrlBadge,
         Respuestas: [
           {
             Pregunta: e?.Pregunta,
