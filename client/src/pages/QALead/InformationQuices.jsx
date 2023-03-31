@@ -155,7 +155,7 @@ const InformationQuices = () => {
 	};
 
 	const submit = async (ag, miss) => {
-		const cqa = await await requestWithData("inactivatemissionchallengeagent", {
+		const cqa = await requestWithData("inactivatemissionchallengeagent", {
 			idccmsAgent: ag.idccms,
 			idMissionChallenge: miss.Id,
 			context: 1,
