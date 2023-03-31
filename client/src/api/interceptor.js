@@ -3,9 +3,9 @@ import CryptoJS from "crypto-js";
 
 const axiosInstance = axios.create({
   //Localhost
-  //baseURL: "http://localhost:4343/api/",
+  baseURL: "http://localhost:4343/api/",
   // Desarrollo - testing
-  baseURL: "https://gamificationtest.teleperformance.co/api/",
+  // baseURL: "https://gamificationtest.teleperformance.co/api/",
   //baseURL: "https://gptest.teleperformance.co/api/",
   // Pilot
   //baseURL: "https://spacegptest.teleperformance.co/api/",

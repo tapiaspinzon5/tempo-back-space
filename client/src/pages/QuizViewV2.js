@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import bgmodal from "../assets/images/background_modal_quiz.png";
 import { MultiAnswer } from "../components/Questions/MultiAnswer";
+import { getQuizResultAction } from "../redux/quizResultDuck";
 
 const ContentBox = styled(Grid)({
   display: "flex",
@@ -43,6 +45,7 @@ const Toast = Swal.mixin({
 });
 
 export const QuizViewV2 = ({ setNavView }) => {
+  const dispatch = useDispatch();
   const paramsQuiz = useParams();
   const navigate = useNavigate();
   const { idquiz } = paramsQuiz;
@@ -52,6 +55,7 @@ export const QuizViewV2 = ({ setNavView }) => {
   const [next, setNext] = useState(0);
 
   useEffect(() => {
+    window.history.replaceState(null, "", "homeusers");
     const getData = async () => {
       const quiz = await getExam(idquiz);
       let obj;
@@ -109,38 +113,9 @@ export const QuizViewV2 = ({ setNavView }) => {
       };
       const resp = await uploadAnswers(data(), idquiz);
       if (resp.status === 200) {
-        if (resp.data[0].EstadoExamen === "APROBADO") {
-          setNavView(false);
-          MySwal.fire({
-            title: <p>PASSED</p>,
-            icon: "success",
-            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].Calificación}</p>`,
-            confirmButtonText: "Accept and go Home",
-            backdrop: `url(${bgmodal}) center center`,
-            allowOutsideClick: false,
-          }).then((resultado) => {
-            if (resultado.value) {
-              setNavView(true);
-              navigate("/", { replace: true });
-            }
-          });
-        } else {
-          setNavView(false);
-          MySwal.fire({
-            title: <p>FAILED</p>,
-            icon: "error",
-            html: `<p>You Got ${resp.data[0].PreguntasCorrectas} of ${resp.data[0].TotalPreguntas} Correct Answers.</p></br><p>Your Score Is ${resp.data[0].Calificación}</p>`,
-            confirmButtonColor: "#d33",
-            confirmButtonText: "Accept and go Home",
-            backdrop: `url(${bgmodal}) center center`,
-            allowOutsideClick: false,
-          }).then((resultado) => {
-            if (resultado.value) {
-              setNavView(true);
-              navigate("/", { replace: true });
-            }
-          });
-        }
+        console.log(resp.data);
+        dispatch(getQuizResultAction(resp.data[0]));
+        navigate(`/quizresults/${idquiz}`, { replace: true });
       }
     } else {
       Toast.fire({
@@ -149,25 +124,6 @@ export const QuizViewV2 = ({ setNavView }) => {
       });
     }
   };
-
-  // useEffect(() => {
-  //   if (quiz[0]?.examStarted > 1) {
-  //     MySwal.fire({
-  //       title: <p>Upss!</p>,
-  //       icon: "warning",
-  //       html: `<p>You have exceeded the number of entries allowed for this mission.</p>`,
-  //       confirmButtonColor: "#d33",
-  //       confirmButtonText: "Accept and go Spacelab",
-  //       backdrop: `url(${bgmodal}) center center`,
-  //       allowOutsideClick: false,
-  //     }).then((resultado) => {
-  //       if (resultado.value) {
-  //         setNavView(true);
-  //         navigate("/activitiesview", { replace: true });
-  //       }
-  //     });
-  //   }
-  // }, [quiz]);
 
   return (
     <ContentBox>

@@ -39,6 +39,7 @@ const QuizDetails = () => {
   const [days, hours, minutes, seconds] = useCountdown(InitialDate, FinalDate);
 
   useEffect(() => {
+    window.history.replaceState(null, "", "homeusers");
     const getData = async () => {
       const quiz = await getExam(idquiz);
       setMission(quiz.data[0]);
@@ -48,7 +49,6 @@ const QuizDetails = () => {
     // eslint-disable-next-line
   }, []);
 
- 
   return (
     <MainPage>
       <Box>
