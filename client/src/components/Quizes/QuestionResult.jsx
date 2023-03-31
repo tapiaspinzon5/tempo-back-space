@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from "@mui/material";
-import { borderRadius } from "@mui/system";
+
 import React from "react";
 
 const Item = styled(Box)({
@@ -75,12 +75,12 @@ const QuestionResult = ({ question, index }) => {
     Respuesta2,
     Respuesta3,
     Respuesta4,
-    Answer,
+
     Answer1,
     Answer2,
     Answer3,
     Answer4,
-    AnswerUser,
+
     AnswerUser1,
     AnswerUser2,
     AnswerUser3,
@@ -156,15 +156,17 @@ const QuestionResult = ({ question, index }) => {
                 <Box
                   key={index}
                   sx={
-                    respuesta === AnswerUser && AnswerUser !== Answer
+                    respuesta === AnswerUser1 && AnswerUser1 !== Answer1
                       ? { background: "#FF0082", borderRadius: "10px" }
                       : {}
                   }
                 >
                   <BoxAnswer
-                    sx={respuesta === Answer ? { background: "#00AF9B" } : {}}
+                    sx={respuesta === Answer1 ? { background: "#00AF9B" } : {}}
                   >
-                    <BoxCheck>{respuesta === AnswerUser && <Check />}</BoxCheck>
+                    <BoxCheck>
+                      {respuesta === AnswerUser1 && <Check />}
+                    </BoxCheck>
                     <Box ml={3} flex={1}>
                       <Typography variant="body2" color="initial">
                         {respuesta}

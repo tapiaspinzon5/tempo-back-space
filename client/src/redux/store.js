@@ -5,12 +5,14 @@ import thunk from "redux-thunk";
 import loginReducer, { readUserActiveAction } from "./loginDuck";
 import homeDataReducer from "./homeDataDuck";
 import homeDataTlReducer from "./homeDataDuckTL";
+import quizResultReducer from "./quizResultDuck";
 
 //combine reducers
 const rootReducers = combineReducers({
   loginUser: loginReducer,
   homeData: homeDataReducer,
   homeDataTl: homeDataTlReducer,
+  quizResult: quizResultReducer,
 });
 
 //  extension para el navegador
