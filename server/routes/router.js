@@ -168,6 +168,7 @@ module.exports = (router) => {
   router.post("/sendfcmnotification", checkJwtToken, decryptBody, routes.sendFCMNotificacion);
 
   router.post("/getexamdetail", checkJwtToken, decryptBody, routes.getExamDetail);
+  router.post("/postupdateexam", checkJwtToken, decryptBody, routes.postUpdateExam);
 
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.

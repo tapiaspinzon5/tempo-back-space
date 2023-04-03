@@ -1865,17 +1865,8 @@ exports.getExamDetail = async (req, res) => {
     });
 };
 
-// exports.getAgentsCampignrl = async (req, res) => {
-//   sql
-//     .query("spQueryAgentsCampaign", parametros({ idccms: req.body.idccms }, "spQueryAgentsCampaign"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+exports.postUpdateExam = async (req, res) => {};
+
 // exports.getUsersConnections = async (req, res) => {
 //   // const { ident, DateIni, DateEnd, Context } = req.body;
 //   const { idccms, initDate, endDate, context } = req.body;
