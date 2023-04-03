@@ -3,10 +3,11 @@ exports.agroupQuestions = (result) => {
   let rows2 = [];
 
   // Agrupamos por learningPlan
-  result.forEach((e) => {
+  result.forEach((e, index) => {
     // Si existe el LP solo inserta el curso
     if (rows[e.IdExamen]) {
       rows[e.IdExamen].Respuestas.push({
+        idP: index + 1,
         Pregunta: e?.Pregunta,
         Respuesta1: e?.Respuesta1,
         Respuesta2: e?.Respuesta2,
@@ -17,10 +18,10 @@ exports.agroupQuestions = (result) => {
         Answer2: e?.Answer2 || "",
         Answer3: e?.Answer3 || "",
         Answer4: e?.Answer4 || "",
-        T1: e?.T1,
-        T2: e?.T2,
-        T3: e?.T3,
-        T4: e?.T4,
+        Tenior:
+          e?.T1 != "0" && e?.T2 != "0" && e?.T3 != "0" && e?.T4 != "0"
+            ? "all"
+            : [e?.T1, e?.T2, e?.T3, e?.T4].find((e) => e != "0"),
         idPregunta: e?.idPregunta,
         TypeQuestionId: e?.TypeQuestionId,
         TypeQuestion: e?.TypeQuestion,
@@ -37,6 +38,7 @@ exports.agroupQuestions = (result) => {
         UrlBadge: e.UrlBadge,
         Respuestas: [
           {
+            idP: index + 1,
             Pregunta: e?.Pregunta,
             Respuesta1: e?.Respuesta1,
             Respuesta2: e?.Respuesta2,
@@ -47,10 +49,10 @@ exports.agroupQuestions = (result) => {
             Answer2: e?.Answer2 || "",
             Answer3: e?.Answer3 || "",
             Answer4: e?.Answer4 || "",
-            T1: e?.T1,
-            T2: e?.T2,
-            T3: e?.T3,
-            T4: e?.T4,
+            Tenior:
+              e?.T1 != "0" && e?.T2 != "0" && e?.T3 != "0" && e?.T4 != "0"
+                ? "all"
+                : [e?.T1, e?.T2, e?.T3, e?.T4].find((e) => e != "0"),
             idPregunta: e?.idPregunta,
             TypeQuestionId: e?.TypeQuestionId,
             TypeQuestion: e?.TypeQuestion,
