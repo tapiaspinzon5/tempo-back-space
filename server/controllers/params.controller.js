@@ -976,6 +976,13 @@ exports.parametros = (req, tipo) => {
         new SpParam("idexamen", req.idExam, TYPES.Int),
       ]);
 
+    case "spUpdateExam":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idExam", req.idQuiz, TYPES.Int),
+        SpParamTable2("table", quizTable, req.rows),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

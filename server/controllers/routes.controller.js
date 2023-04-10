@@ -1882,7 +1882,108 @@ exports.getExamDetail = async (req, res) => {
     });
 };
 
-exports.postUpdateExam = async (req, res) => {};
+exports.postUpdateExam = async (req, res) => {
+  try {
+    const { data, idQuiz, idccms } = req.body;
+
+    let i = 0;
+    let rows = [];
+    let rows2 = [];
+    let rows3 = [];
+    const quartiles = ["Q1", "Q2", "Q3", "Q4"];
+
+    for (let i = 1; i < data.length; i++) {
+      rows.push(data[i][0]);
+    }
+
+    for (let i = 0; i < rows.length; i++) {
+      switch (rows[i].questionType) {
+        case "multipleAnswer":
+          rows2.push([
+            rows[i].ask,
+            rows[i][1],
+            rows[i][2],
+            rows[i][3],
+            rows[i][4],
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            3,
+          ]);
+          break;
+
+        case "multipleChoice":
+          rows2.push([
+            rows[i].ask,
+            rows[i][1],
+            rows[i][2],
+            rows[i][3],
+            rows[i][4],
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            1,
+          ]);
+          break;
+
+        case "trueFalse":
+          rows2.push([
+            rows[i].ask,
+            "true",
+            "false",
+            null,
+            null,
+            rows[i].answer,
+            rows[i].Q,
+            data[0][0].quizName,
+            data[0][0].quizDescription,
+            +data[0][0].quizTarget,
+            data[0][0].quizCategory,
+            2,
+          ]);
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    rows2.forEach((quest) => {
+      if (quest[6] === "All") {
+        quartiles.forEach((q) => {
+          quest[6] = q;
+          rows3.push([...quest]);
+        });
+      } else {
+        rows3.push([...quest]);
+      }
+    });
+
+    let rows4 = rows3.map((quest) => {
+      i = i + 1;
+      return [...quest, i];
+    });
+
+    sql
+      .query("spUpdateExam", parametros({ idccms, rows: rows4, idQuiz }, "spUpdateExam"))
+      .then((result) => {
+        responsep(1, req, res, result);
+      })
+      .catch((err) => {
+        console.log(err, "sp");
+        responsep(2, req, res, err);
+      });
+  } catch (error) {
+    console.log(err, "sp");
+    responsep(2, req, res, err);
+  }
+};
 
 // exports.getUsersConnections = async (req, res) => {
 //   // const { ident, DateIni, DateEnd, Context } = req.body;
