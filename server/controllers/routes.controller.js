@@ -1810,10 +1810,22 @@ exports.getExamDetail = async (req, res) => {
       const result2 = result.map((el) => {
         switch (el.TypeQuestionId) {
           case 1:
+            el.RespuestasAG = [
+              { value: el.Respuesta1, checked: el.Respuesta1 === el.RespuestaCorrecta ? true : false },
+              { value: el.Respuesta2, checked: el.Respuesta2 === el.RespuestaCorrecta ? true : false },
+              { value: el.Respuesta3, checked: el.Respuesta3 === el.RespuestaCorrecta ? true : false },
+              { value: el.Respuesta4, checked: el.Respuesta4 === el.RespuestaCorrecta ? true : false },
+            ];
             el.Answer1 = el.RespuestaCorrecta;
             return el;
 
           case 2:
+            el.RespuestasAG = [
+              { value: el?.Respuesta1, checked: el?.Respuesta1 === el.RespuestaCorrecta ? true : false },
+              { value: el?.Respuesta2, checked: el?.Respuesta2 === el.RespuestaCorrecta ? true : false },
+              { value: el?.Respuesta3, checked: el?.Respuesta3 === el.RespuestaCorrecta ? true : false },
+              { value: el?.Respuesta4, checked: el?.Respuesta4 === el.RespuestaCorrecta ? true : false },
+            ];
             el.Answer1 = el.RespuestaCorrecta;
             return el;
 
@@ -1847,7 +1859,12 @@ exports.getExamDetail = async (req, res) => {
                   break;
               }
             });
-
+            el.RespuestasAG = [
+              { value: el?.Respuesta1, checked: el?.Respuesta1 === el.Answer1 ? true : false },
+              { value: el?.Respuesta2, checked: el?.Respuesta2 === el.Answer2 ? true : false },
+              { value: el?.Respuesta3, checked: el?.Respuesta3 === el.Answer3 ? true : false },
+              { value: el?.Respuesta4, checked: el?.Respuesta4 === el.Answer4 ? true : false },
+            ];
             return el;
 
           default:

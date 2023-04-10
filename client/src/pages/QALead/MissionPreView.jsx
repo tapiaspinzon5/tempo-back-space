@@ -3,12 +3,14 @@ import {
 	Button,
 	Grid,
 	IconButton,
+	Modal,
 	styled,
 	Tooltip,
 	Typography,
 } from "@mui/material";
 import React, { useEffect, useReducer, useState } from "react";
-import { CgTrash } from "react-icons/cg";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { FiEdit3 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
 import { BoxContain, MainPage } from "../../assets/styled/muistyled";
@@ -20,7 +22,9 @@ import {
 	TYPES,
 } from "../../reducers/missionsEdit";
 import { requestWithData } from "../../utils/api";
-
+import AddQuestion from "../../components/Modals/AddQuestion";
+import { dtsEditMissions } from "../../helpers/helperEditMissions";
+const MySwal = withReactContent(Swal);
 const BoxDetails = styled(Box)({
 	display: "flex",
 	minHeight: "5rem",
@@ -44,87 +48,28 @@ const BoxTitle = styled(Box)({
 	},
 });
 
-const myQuiz = {
-	PreguntasCorrectas: 1,
-	TotalPreguntas: 2,
-	ApprovalExam: 80,
-	Calificación: 50,
-	EstadoExamen: "REPROBADO",
-	IdExamen: 58,
-	NameExam: "Mision Pruebas 07022023",
-	DescriptionExam: "Mision Pruebas 07022023",
-	UrlBadge:
-		"https://firebasestorage.googleapis.com/v0/b/storage-296723/o/Gamification%2FbadgesImages%2F46%20-%20Testing%20badgeImage?alt=media&token=69a15bd3-b8f3-4f0b-a201-360c05298a8a",
-	Respuestas: [
-		{
-			Pregunta:
-				"Pregunta 1 Pruebas dsdsdsdsdsdsdsdsds dsdsdsdsdsds dsdsdsds dsdsdsd sdsdsdsds dsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsds dsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsd sdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsds dsdsdsdsdsdsdsdsds dsdsdsdsdsdsdsdsdsds",
-			Respuesta1: "true",
-			Respuesta2: "false",
-			Answer: "false",
-			AnswerUser: "true",
-			Respuesta3: null,
-			Respuesta4: null,
-			Idpregunta: 1,
-			TypeQuestionId: 2,
-			TypeQuestion: "Verdadero / Falso",
-		},
-		{
-			IdExamen: 58,
+const ModalBox = styled(Box)(() => ({
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	//width: 400,
+	borderRadius: "20px",
+	boxShadow: "2px 2px 5px #2f2f2f",
+	padding: "1rem",
+	backgroundColor: "RGBA(255,255,255,0.9)",
+}));
 
-			Pregunta: "Pregunta 2 Pruebas",
-			Respuesta1: "Respuesta 1",
-			Respuesta2: "Respuesta 2",
-			Respuesta3: "Respuesta 3",
-			Respuesta4: "Respuesta 4",
-			Answer: "Respuesta 1",
-			AnswerUser: "Respuesta 3",
-			Idpregunta: 5,
-			TypeQuestionId: 1,
-			TypeQuestion: "Unica Respuesta",
-		},
-		{
-			Pregunta: "Como se sienten trabajando con nosotros ",
-			Respuesta1: "Super",
-			Respuesta2: "Bien",
-			Respuesta3: "Excelente",
-			Respuesta4: "DPM",
-			Idpregunta: 1,
-			Answer1: "Super",
-			Answer2: "Excelente",
-			Answer3: "DPM",
-			AnswerUser1: "Excelente",
-			AnswerUser2: "Super",
-			AnswerUser3: "DPM",
-			TypeQuestionId: 3,
-			TypeQuestion: "Multiple Respuesta",
-		},
-		{
-			Pregunta: "Que tal todo",
-			Respuesta1: "super",
-			Respuesta2: "bien",
-			Respuesta3: "excelente",
-			Respuesta4: "mejor",
-			Answer: "excelente",
-			AnswerUser: "excelente",
-			Idpregunta: 5,
-			TypeQuestionId: 1,
-			TypeQuestion: "Unica Respuesta",
-		},
-		{
-			Pregunta: "quedo todo super",
-			Respuesta1: "true",
-			Respuesta2: "false",
-			Respuesta3: null,
-			Respuesta4: null,
-			Answer: "false",
-			AnswerUser: "false",
-			Idpregunta: 9,
-			TypeQuestionId: 2,
-			TypeQuestion: "Verdadero / Falso",
-		},
-	],
-};
+const MainButtons = styled(Box)(() => ({
+	button: {
+		marginLeft: "1rem",
+		textTransform: "none",
+		color: "white",
+		width: "177px",
+		height: "41px",
+		background: "linear-gradient(180deg, #3047B0 0%, #0087FF 100%)",
+	},
+}));
 
 const MissionPreView = ({ count }) => {
 	const [state, dispatch] = useReducer(
@@ -137,8 +82,9 @@ const MissionPreView = ({ count }) => {
 	const [target, setTarget] = useState(false);
 	const [title, setTitle] = useState(false);
 	const [description, setDescription] = useState(false);
+	const [modal, setModal] = useState(false);
 	useEffect(() => {
-		getMissInfo(myQuiz);
+		getMissInfo();
 	}, []);
 	const getMissInfo = async () => {
 		const missInfo = await requestWithData("getexamdetail", {
@@ -151,6 +97,104 @@ const MissionPreView = ({ count }) => {
 			},
 		});
 	};
+
+	const handleQuestion = (data) => {
+		dispatch(data);
+	};
+
+	const handleQuestionCheck = (data) => {
+		dispatch(data);
+	};
+
+	const handleAdd = (type) => {
+		setModal(false);
+		dispatch({
+			type: TYPES.ADD_QUESTION,
+			payload: {
+				new: true,
+				idP: RespuestasTemp.length + 1,
+				Pregunta: "Write you question",
+				RespuestasAG:
+					type === "trueFalse"
+						? [
+								{
+									value: "true",
+									checked: false,
+								},
+								{
+									value: "false",
+									checked: false,
+								},
+						  ]
+						: [
+								{
+									value: "Write your option A",
+									checked: false,
+								},
+								{
+									value: "Write your option B",
+									checked: false,
+								},
+								{
+									value: "Write your option C",
+									checked: false,
+								},
+								{
+									value: "Write your option D",
+									checked: false,
+								},
+						  ],
+				RespuestaCorrecta: "",
+				Tenior: "all",
+				edit: true,
+				TypeQuestionId:
+					type === "multipleAnswer" ? 3 : type === "multipleChoice" ? 1 : 2,
+			},
+		});
+	};
+
+	const handleDelete = (data) => {
+		MySwal.fire({
+			title: <p>Do you want to delete this question?</p>,
+			icon: "question",
+			confirmButtonText: "Accept",
+			showDenyButton: true,
+			allowOutsideClick: false,
+		}).then((resultado) => {
+			if (resultado.value) {
+				dispatch(data);
+			}
+		});
+	};
+	const handleReset = () => {
+		MySwal.fire({
+			title: <p>Do you want to reset all changes?</p>,
+			icon: "question",
+			confirmButtonText: "Accept",
+			showDenyButton: true,
+			allowOutsideClick: false,
+		}).then((resultado) => {
+			if (resultado.value) {
+				dispatch({ type: TYPES.RESET_ALL, payload: {} });
+			}
+		});
+	};
+
+	const handleEdit = () => {
+		MySwal.fire({
+			title: <p>Do you want to save all changes?</p>,
+			icon: "question",
+			confirmButtonText: "Accept",
+			showDenyButton: true,
+			allowOutsideClick: false,
+		}).then((resultado) => {
+			if (resultado.value) {
+				const dts = dtsEditMissions(state);
+				console.log(dts);
+			}
+		});
+	};
+
 	const {
 		NameExamTemp,
 		NameExam,
@@ -159,13 +203,23 @@ const MissionPreView = ({ count }) => {
 		ApprovalExam,
 		ApprovalExamTemp,
 		UrlBadge,
-		Respuestas,
+		RespuestasTemp,
 		reset,
 	} = state;
-	const numberQ = Math.ceil((Respuestas.length * ApprovalExamTemp) / 100);
-
+	//console.log("aquiiiiiiiii", state);
+	const numberQ = Math.ceil((RespuestasTemp.length * ApprovalExamTemp) / 100);
 	return (
 		<MainPage>
+			<Modal
+				open={modal}
+				onClose={() => setModal(false)}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<ModalBox sx={{ width: { xs: "390px", md: "600px", lg: "780px" } }}>
+					<AddQuestion setModal={setModal} handleAdd={handleAdd} />
+				</ModalBox>
+			</Modal>
 			<Grid>
 				<Header count={count} />
 			</Grid>
@@ -426,7 +480,7 @@ const MissionPreView = ({ count }) => {
 										<Typography variant="h6" fontWeight="bold">
 											{numberQ +
 												" respuestas correctas de " +
-												Respuestas.length}
+												RespuestasTemp.length}
 										</Typography>
 										<Typography mr="2rem" variant="h6" fontWeight="bold">
 											{ApprovalExamTemp + "%"}
@@ -438,11 +492,14 @@ const MissionPreView = ({ count }) => {
 					</Box>
 				</Box>
 				<Grid item xs={12}>
-					{Respuestas.map((question, index) => (
+					{RespuestasTemp.map((question, index) => (
 						<QuestionPreView
 							key={index}
 							index={index + 1}
 							question={question}
+							handleQuestion={handleQuestion}
+							handleQuestionCheck={handleQuestionCheck}
+							handleDelete={handleDelete}
 						/>
 					))}
 				</Grid>
@@ -451,20 +508,27 @@ const MissionPreView = ({ count }) => {
 						display: "flex",
 						alignItems: " center",
 						justifyContent: "center",
+						marginBottom: "1rem",
 					}}
 				>
-					<Button onClick={() => console.log("first")}> {"➕"} </Button>
+					<Button onClick={() => setModal(true)}> {"➕ Add question"} </Button>
 				</Box>
 				<Box sx={{ display: "flex", flexFlow: "row-reverse wrap" }}>
-					<Button onClick={() => navigate("/upquiz")}>
-						Return All Missions
-					</Button>
-					{reset && (
-						<Button onClick={() => console.log("first")}>
-							Reset all Changes
+					<MainButtons>
+						<Button onClick={() => navigate("/upquiz")}>
+							Return All Missions
 						</Button>
+					</MainButtons>
+					{reset && (
+						<MainButtons>
+							<Button onClick={handleReset}>Reset all Changes</Button>
+						</MainButtons>
 					)}
-					<Button onClick={() => console.log("first")}>Save Changes</Button>
+					{reset && (
+						<MainButtons>
+							<Button onClick={handleEdit}>Save Changes</Button>
+						</MainButtons>
+					)}
 				</Box>
 			</BoxContain>
 		</MainPage>

@@ -9,15 +9,16 @@ exports.agroupQuestions = (result) => {
       rows[e.IdExamen].Respuestas.push({
         idP: index + 1,
         Pregunta: e?.Pregunta,
-        Respuesta1: e?.Respuesta1,
+        RespuestasAG: e?.RespuestasAG,
+        /*  Respuesta1: e?.Respuesta1,
         Respuesta2: e?.Respuesta2,
         Respuesta3: e?.Respuesta3,
-        Respuesta4: e?.Respuesta4,
-        RespuestaCorrecta: e?.RespuestaCorrecta,
-        Answer1: e?.Answer1,
+        Respuesta4: e?.Respuesta4, */
+        //RespuestaCorrecta: e?.RespuestaCorrecta,
+        /* Answer1: e?.Answer1,
         Answer2: e?.Answer2 || "",
         Answer3: e?.Answer3 || "",
-        Answer4: e?.Answer4 || "",
+        Answer4: e?.Answer4 || "", */
         Tenior:
           e?.T1 != "0" && e?.T2 != "0" && e?.T3 != "0" && e?.T4 != "0"
             ? "all"
@@ -36,11 +37,13 @@ exports.agroupQuestions = (result) => {
         DescriptionExam: e.DescriptionExam,
         ApprovalExam: e.ApprovalExam,
         UrlBadge: e.UrlBadge,
+        Category: e?.Category,
         Respuestas: [
           {
             idP: index + 1,
             Pregunta: e?.Pregunta,
-            Respuesta1: e?.Respuesta1,
+            RespuestasAG: e?.RespuestasAG,
+            /* Respuesta1: e?.Respuesta1,
             Respuesta2: e?.Respuesta2,
             Respuesta3: e?.Respuesta3,
             Respuesta4: e?.Respuesta4,
@@ -48,7 +51,7 @@ exports.agroupQuestions = (result) => {
             Answer1: e?.Answer1,
             Answer2: e?.Answer2 || "",
             Answer3: e?.Answer3 || "",
-            Answer4: e?.Answer4 || "",
+            Answer4: e?.Answer4 || "", */
             Tenior:
               e?.T1 != "0" && e?.T2 != "0" && e?.T3 != "0" && e?.T4 != "0"
                 ? "all"

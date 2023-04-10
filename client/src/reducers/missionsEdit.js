@@ -8,6 +8,8 @@ export const TYPES = {
 	EDIT_TARGET: "EDIT_TARGET",
 	CHECKED_TARGET: "CHECKED_TARGET",
 	EDIT_QUESTION: "EDIT_QUESTION",
+	EDIT_TENIOR: "EDIT_TENIOR",
+	CHECKED_QUESTION: "CHECKED_QUESTION",
 	CANCEL_EDIT: "CANCEL_EDIT",
 	DELETE_QUESTION: "DELETE_QUESTION",
 	ADD_QUESTION: "ADD_QUESTION",
@@ -43,6 +45,7 @@ export function missionsEditReducer(state, action) {
 				NameExamTemp: action.payload.missInfo.NameExam,
 				DescriptionExamTemp: action.payload.missInfo.DescriptionExam,
 				RespuestasTemp: action.payload.missInfo.Respuestas,
+				Respuestas: action.payload.missInfo.Respuestas,
 			};
 		case TYPES.EDIT_NAME:
 			return {
@@ -92,8 +95,163 @@ export function missionsEditReducer(state, action) {
 				ApprovalExamTemp: state.ApprovalExam,
 				reset: false,
 			};
+		case TYPES.EDIT_TENIOR:
+			const replaceQ = state.RespuestasTemp.map((q) => {
+				if (q.idP === action.payload.idP) {
+					return { ...q, Tenior: action.payload.data, edit: true };
+				}
+				return { ...q };
+			});
+			return { ...state, RespuestasTemp: replaceQ };
+		case TYPES.EDIT_QUESTION:
+			switch (action.payload.type) {
+				case "question":
+					const replaceQ = state.RespuestasTemp.map((q) => {
+						if (q.idP === action.payload.idP) {
+							return { ...q, Pregunta: action.payload.data, edit: true };
+						}
+						return { ...q };
+					});
+					return { ...state, RespuestasTemp: replaceQ };
+				case "option":
+					const replaceO = state.RespuestasTemp.map((q) => {
+						if (q.idP === action.payload.idP) {
+							const newRes = q.RespuestasAG.map((el, i) => {
+								if (i === action.payload.option) {
+									return action.payload.data;
+								}
+								return el;
+							});
+							return {
+								...q,
+								RespuestasAG: newRes,
+								edit: true,
+							};
+						}
+						return { ...q };
+					});
+					return { ...state, RespuestasTemp: replaceO, reset: true };
+				case "check":
+					const replaceC = state.RespuestasTemp.map((q) => {
+						if (q.idP === action.payload.idP) {
+							const newcheck = q.RespuestasAG.map((el, i) => {
+								if (i === action.payload.option) {
+									return action.payload.data;
+								}
+								return el;
+							});
+							return {
+								...q,
+								RespuestasAG: newcheck,
+								edit: true,
+							};
+						}
+						return { ...q };
+					});
+					return {
+						...state,
+						RespuestasTemp: replaceC,
+						reset: true,
+					};
+				case "check2":
+					const replaceC2 = state.RespuestasTemp.map((q) => {
+						if (q.idP === action.payload.idP) {
+							const newcheck2 = q.RespuestasAG.map((el, i) => {
+								if (i === action.payload.option) {
+									return action.payload.data;
+								}
+								return { ...el, checked: false };
+							});
+							return {
+								...q,
+								RespuestasAG: newcheck2,
+								edit: true,
+							};
+						}
+						return { ...q };
+					});
+					return {
+						...state,
+						RespuestasTemp: replaceC2,
+						reset: true,
+					};
+				default:
+					return { ...state };
+			}
+		case TYPES.CHECKED_QUESTION:
+			if (action.payload.value) {
+				return {
+					...state,
+					reset: true,
+				};
+			}
+			const back = state.RespuestasTemp.map((q) => {
+				if (q.idP === action.payload.idP) {
+					if (q.new) {
+						return q.TypeQuestionId === 2
+							? {
+									...q,
+									RespuestasAG: [
+										{
+											value: "true",
+											checked: false,
+										},
+										{
+											value: "false",
+											checked: false,
+										},
+									],
+									Pregunta: "Write your question",
+									RespuestaCorrecta: "",
+									Tenior: "all",
+							  }
+							: {
+									...q,
+									RespuestasAG: [
+										{
+											value: "Write your option A",
+											checked: false,
+										},
+										{
+											value: "Write your option B",
+											checked: false,
+										},
+										{
+											value: "Write your option C",
+											checked: false,
+										},
+										{
+											value: "Write your option D",
+											checked: false,
+										},
+									],
+									Pregunta: "",
+									RespuestaCorrecta: "",
+									Tenior: "all",
+							  };
+					}
+					return state.Respuestas.filter((el) => q.idP === el.idP)[0];
+				}
+				return q;
+			});
+			return {
+				...state,
+				RespuestasTemp: back,
+				reset: false,
+			};
+		case TYPES.ADD_QUESTION:
+			return {
+				...state,
+				RespuestasTemp: [...state.RespuestasTemp, action.payload],
+				reset: true,
+			};
+		case TYPES.DELETE_QUESTION:
+			const delQ = state.RespuestasTemp.filter(
+				(q) => q.idP !== action.payload.idP
+			);
+			return { ...state, RespuestasTemp: delQ, reset: true };
 		case TYPES.RESET_ALL:
-			return { ...state, agents: action.payload.agents };
+			return { ...state, RespuestasTemp: state.Respuestas, reset: false };
 		default:
 			return state;
 	}

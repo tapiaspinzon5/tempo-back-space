@@ -12,10 +12,15 @@ import {
 	Typography,
 } from "@mui/material";
 import { borderRadius } from "@mui/system";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { CgTrash } from "react-icons/cg";
 import { FiEdit3 } from "react-icons/fi";
 import { InputText } from "../../assets/styled/muistyled";
+import {
+	missionsEditInitialState,
+	missionsEditReducer,
+	TYPES,
+} from "../../reducers/missionsEdit";
 
 const Item = styled(Box)({
 	background: "linear-gradient(#3047B0, #0087FF)",
@@ -85,41 +90,22 @@ const Checkbox = styled(Box)({
 });
 
 const teniorProfile = [
-	{ q: "All", t: "All" },
-	{ q: "Q1", t: "T1" },
-	{ q: "Q2", t: "T2" },
-	{ q: "Q3", t: "T3" },
-	{ q: "Q4", t: "T4" },
+	{ q: "all", t: "All" },
+	{ q: "T1", t: "T1" },
+	{ q: "T2", t: "T2" },
+	{ q: "T3", t: "T3" },
+	{ q: "T4", t: "T4" },
 ];
-/* {
-    "Pregunta": "pregunta de multiple opcion con unica respuesta",
-    "Respuesta1": "rta 1",
-    "Respuesta2": "rta2",
-    "Respuesta3": "rta3",
-    "Respuesta4": "rta4",
-    "RespuestaCorrecta": "rta3",
-    "Answer1": "rta3",
-    "Answer2": "",
-    "Answer3": "",
-    "Answer4": "",
-    "T1": "T1",
-    "T2": "T2",
-    "T3": "T3",
-    "T4": "T4",
-    "TypeQuestionId": 1
-} */
-const QuestionPreView = ({ question, index }) => {
-	const {
-		Respuesta1,
-		Respuesta2,
-		Respuesta3,
-		Respuesta4,
-		Answer1,
-		Answer2,
-		Answer3,
-		Answer4,
-		TypeQuestionId,
-	} = question;
+
+const QuestionPreView = ({
+	question,
+	index,
+	handleQuestion,
+	handleQuestionCheck,
+	handleDelete,
+}) => {
+	const { TypeQuestionId, idP, Tenior } = question;
+
 	const [edit, setEdit] = useState(false);
 
 	return (
@@ -139,9 +125,17 @@ const QuestionPreView = ({ question, index }) => {
 						<Select
 							labelId="quartile-label"
 							name="Tenior"
-							value={""}
+							value={question.Tenior}
 							label="Quartile"
-							//onChange={(e) => setAsk({ ...ask, Q: e.target.value })}
+							onChange={(e) =>
+								handleQuestion({
+									type: TYPES.EDIT_TENIOR,
+									payload: {
+										data: e.target.value,
+										idP,
+									},
+								})
+							}
 							required
 						>
 							{teniorProfile.map((q, index) => (
@@ -154,7 +148,7 @@ const QuestionPreView = ({ question, index }) => {
 					</FormControl>
 				) : (
 					<Typography sx={{ flex: "50%" }} variant="h6" fontWeight={"bold"}>
-						Tenior All
+						{"Tenior " + Tenior}
 					</Typography>
 				)}
 				{question.edit && (
@@ -186,18 +180,19 @@ const QuestionPreView = ({ question, index }) => {
 								rows={3}
 								fullWidth
 								value={question.Pregunta || ""}
-								//onChange={handleQuestion}
+								onChange={(e) =>
+									handleQuestion({
+										type: TYPES.EDIT_QUESTION,
+										payload: {
+											type: "question",
+											data: e.target.value,
+											idP,
+										},
+									})
+								}
 								required
-								//error={!ask.ask && empty}
-								/* helperText={
-            !ask.ask && empty ? (
-              "Field Requiered"
-            ) : (
-              <p style={{ color: "#3047B0", textAlign: "end", margin: "2px" }}>
-                {msj}
-              </p>
-            ) 
-          }*/
+								error={question.Pregunta === ""}
+								helperText={question.Pregunta === "" && "Field Requiered"}
 							/>
 						</>
 					) : (
@@ -210,79 +205,104 @@ const QuestionPreView = ({ question, index }) => {
 
 			{TypeQuestionId === 3 ? (
 				<>
-					{[Respuesta1, Respuesta2, Respuesta3, Respuesta4].map(
-						(respuesta, index) =>
-							edit ? (
-								<InputText
-									fullWidth
-									name="Answer1"
-									label={`Answer ${index + 1}`}
-									variant="outlined"
-									//onChange={(e) => setAsk({ ...ask, [q]: e.target.value })}
-									value={respuesta || ""}
-									required
-									size="small"
-									sx={{ marginTop: ".5rem" }}
-									//error={!ask[q] && empty}
-									//helperText={!ask[q] && empty ? "Field Requiered" : ""}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position="start">
-												<input
-													type="checkbox"
-													style={{ height: "1.5rem", width: "1.5rem" }}
-													id="answer"
-													name="answer"
-													//value={respuesta === Answer ? true : false}
-													checked={
-														respuesta === Answer1 ||
-														respuesta === Answer2 ||
-														respuesta === Answer3 ||
-														respuesta === Answer4
-															? true
-															: false
-													}
-													//onChange={(e) => setAsk({ ...ask, answer: e.target.value })}
-												/>
-											</InputAdornment>
-										),
-									}}
-								/>
-							) : (
-								<Box key={index}>
-									<BoxAnswer
-										sx={
-											respuesta === Answer1 ||
-											respuesta === Answer2 ||
-											respuesta === Answer3 ||
-											respuesta === Answer4
-												? { background: "#00AF9B" }
-												: {}
-										}
-									>
-										<BoxCheckbox>
-											{respuesta === Answer1 ||
-											respuesta === Answer2 ||
-											respuesta === Answer3 ||
-											respuesta === Answer4 ? (
-												<Checkbox />
-											) : (
-												""
-											)}
-										</BoxCheckbox>
-										<Box ml={3} flex={1}>
-											<Typography variant="body2" color="initial">
-												{respuesta}
-											</Typography>
-										</Box>
-									</BoxAnswer>
-								</Box>
-							)
+					{question.RespuestasAG.map((respuesta, index) =>
+						edit ? (
+							<InputText
+								fullWidth
+								name={`Answer ${index + 1}`}
+								label={`Answer ${index + 1}`}
+								variant="outlined"
+								onChange={(e) =>
+									handleQuestion({
+										type: TYPES.EDIT_QUESTION,
+										payload: {
+											type: "option",
+											data: { ...respuesta, value: e.target.value },
+											option: index,
+											idP,
+										},
+									})
+								}
+								value={respuesta?.value || ""}
+								required
+								size="small"
+								sx={{ marginTop: ".5rem" }}
+								error={respuesta?.value === ""}
+								helperText={respuesta?.value === "" && "Field Requiered"}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<input
+												type="checkbox"
+												style={{ height: "1.5rem", width: "1.5rem" }}
+												id="answer"
+												name="answer"
+												checked={respuesta?.checked}
+												onChange={(e) =>
+													handleQuestion({
+														type: TYPES.EDIT_QUESTION,
+														payload: {
+															type: "check",
+															data: {
+																...respuesta,
+																checked: !respuesta?.checked,
+															},
+															option: index,
+															idP,
+														},
+													})
+												}
+											/>
+										</InputAdornment>
+									),
+								}}
+							/>
+						) : (
+							<Box key={index}>
+								<BoxAnswer
+									sx={respuesta.checked ? { background: "#00AF9B" } : {}}
+								>
+									<BoxCheckbox>
+										{respuesta.checked ? <Checkbox /> : ""}
+									</BoxCheckbox>
+									<Box ml={3} flex={1}>
+										<Typography variant="body2" color="initial">
+											{respuesta.value}
+										</Typography>
+									</Box>
+								</BoxAnswer>
+							</Box>
+						)
 					)}
 					<Box sx={{ display: "flex", flexFlow: "row-reverse wrap" }}>
-						<IconButton onClick={() => console.log("first")}>
-							<CgTrash size={20} color={"#3047B0"} />
-						</IconButton>
+						{edit ? (
+							<Button
+								onClick={() => {
+									setEdit(!edit);
+									handleQuestionCheck({
+										type: TYPES.CHECKED_QUESTION,
+										payload: {
+											value: false,
+											idP,
+										},
+									});
+								}}
+							>
+								{" "}
+								{"❌"}{" "}
+							</Button>
+						) : (
+							<IconButton
+								onClick={() =>
+									handleDelete({
+										type: TYPES.DELETE_QUESTION,
+										payload: { idP },
+									})
+								}
+							>
+								<CgTrash size={20} color={"#3047B0"} />
+							</IconButton>
+						)}
 						{edit ? (
 							<Button onClick={() => setEdit(!edit)}> {"\u2714\uFE0F"} </Button>
 						) : (
@@ -294,33 +314,54 @@ const QuestionPreView = ({ question, index }) => {
 				</>
 			) : (
 				<>
-					{[Respuesta1, Respuesta2, Respuesta3, Respuesta4].map(
+					{question.RespuestasAG.map(
 						(respuesta, index) =>
-							respuesta &&
+							respuesta.value &&
 							(edit ? (
 								<InputText
 									fullWidth
-									name="Answer1"
+									name={`Answer ${index + 1}`}
 									label={`Answer ${index + 1}`}
 									variant="outlined"
-									//onChange={(e) => setAsk({ ...ask, [q]: e.target.value })}
-									value={respuesta || ""}
+									disabled={TypeQuestionId === 2}
+									onChange={(e) =>
+										handleQuestion({
+											type: TYPES.EDIT_QUESTION,
+											payload: {
+												type: "option",
+												data: { ...respuesta, value: e.target.value },
+												option: index,
+												idP,
+											},
+										})
+									}
+									value={respuesta.value || ""}
 									required
 									size="small"
 									sx={{ marginTop: ".5rem" }}
-									//error={!ask[q] && empty}
-									//helperText={!ask[q] && empty ? "Field Requiered" : ""}
+									error={respuesta.value === ""}
+									helperText={respuesta.value === "" && "Field Requiered"}
 									InputProps={{
 										startAdornment: (
 											<InputAdornment position="start">
 												<input
 													type="radio"
 													style={{ height: "1.5rem", width: "1.5rem" }}
-													id="answer"
-													name="answer"
-													//value={respuesta === Answer ? true : false}
-													checked={respuesta === Answer1 ? true : false}
-													//onChange={(e) => setAsk({ ...ask, answer: e.target.value })}
+													checked={respuesta.checked}
+													onChange={(e) =>
+														handleQuestion({
+															type: TYPES.EDIT_QUESTION,
+															payload: {
+																type: "check2",
+																data: {
+																	...respuesta,
+																	checked: !respuesta?.checked,
+																},
+																option: index,
+																idP,
+															},
+														})
+													}
 												/>
 											</InputAdornment>
 										),
@@ -329,12 +370,12 @@ const QuestionPreView = ({ question, index }) => {
 							) : (
 								<Box key={index}>
 									<BoxAnswer
-										sx={respuesta === Answer1 ? { background: "#00AF9B" } : {}}
+										sx={respuesta.checked ? { background: "#00AF9B" } : {}}
 									>
-										<BoxCheck>{respuesta === Answer1 && <Check />}</BoxCheck>
+										<BoxCheck>{respuesta.checked && <Check />}</BoxCheck>
 										<Box ml={3} flex={1}>
 											<Typography variant="body2" color="initial">
-												{respuesta}
+												{respuesta.value}
 											</Typography>
 										</Box>
 									</BoxAnswer>
@@ -343,14 +384,49 @@ const QuestionPreView = ({ question, index }) => {
 					)}
 					<Box sx={{ display: "flex", flexFlow: "row-reverse wrap" }}>
 						{edit ? (
-							<Button onClick={() => setEdit(!edit)}> {"❌"} </Button>
+							<Button
+								onClick={() => {
+									setEdit(!edit);
+									handleQuestionCheck({
+										type: TYPES.CHECKED_QUESTION,
+										payload: {
+											value: false,
+											idP,
+										},
+									});
+								}}
+							>
+								{" "}
+								{"❌"}{" "}
+							</Button>
 						) : (
-							<IconButton onClick={() => console.log("first")}>
+							<IconButton
+								onClick={() =>
+									handleDelete({
+										type: TYPES.DELETE_QUESTION,
+										payload: { idP },
+									})
+								}
+							>
 								<CgTrash size={20} color={"#3047B0"} />
 							</IconButton>
 						)}
 						{edit ? (
-							<Button onClick={() => setEdit(!edit)}> {"\u2714\uFE0F"} </Button>
+							<Button
+								onClick={() => {
+									setEdit(!edit);
+									handleQuestionCheck({
+										type: TYPES.CHECKED_QUESTION,
+										payload: {
+											value: true,
+											idP,
+										},
+									});
+								}}
+							>
+								{" "}
+								{"\u2714\uFE0F"}{" "}
+							</Button>
 						) : (
 							<IconButton onClick={() => setEdit(!edit)}>
 								<FiEdit3 size={20} color={"#3047B0"} />
