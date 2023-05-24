@@ -27,6 +27,8 @@ const corsOptions = {
     "https://spacegptest.teleperformance.co",
     "https://gptest.teleperformance.co",
     "https://spacegp.teleperformance.co",
+    "https://spacedev.teleperformance.co",
+    "https://spacetest.teleperformance.co",
   ],
 };
 app.use(cors(corsOptions));

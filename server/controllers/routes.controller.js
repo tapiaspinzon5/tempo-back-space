@@ -114,6 +114,7 @@ exports.login = async (req, res) => {
         NameTeam: result2[0]?.NameTeam,
         LastLogin: result2[0]?.LastLogin,
         LogoCampaign: result2[0]?.LogoCampaign,
+        video: result2[0]?.video,
       };
 
       responsep(1, req, res, data);
