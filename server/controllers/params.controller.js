@@ -983,6 +983,12 @@ exports.parametros = (req, tipo) => {
         SpParamTable2("table", quizTable, req.rows),
       ]);
 
+    case "spQueryPodium":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idCampaign", req.idCampaign, TYPES.Int),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);

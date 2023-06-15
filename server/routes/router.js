@@ -247,6 +247,7 @@ module.exports = (router) => {
   MapSpRouter("/getgeneralanalytics", "spQueryAnalitycsGeneral");
   MapSpRouter("/getquizqa", "spLoadExamQA");
   MapSpRouter("/getmissionsanswers", "spAnswerMissions");
+  MapSpRouter("/getpodium", "spQueryPodium");
 
   // function MapSpRouter(route, spName) {
   //   router.post(route,  checkJwtToken, (req, res) =>
