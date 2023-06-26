@@ -26,6 +26,9 @@ exports.agroupQuestions = (result) => {
         idPregunta: e?.idPregunta,
         TypeQuestionId: e?.TypeQuestionId,
         TypeQuestion: e?.TypeQuestion,
+        TypeContent: e?.TypeContent,
+        urlContent: e?.urlContent,
+        DescriptionContent: e?.DescriptionContent,
       });
     }
 
@@ -59,6 +62,9 @@ exports.agroupQuestions = (result) => {
             idPregunta: e?.idPregunta,
             TypeQuestionId: e?.TypeQuestionId,
             TypeQuestion: e?.TypeQuestion,
+            TypeContent: e?.TypeContent,
+            urlContent: e?.urlContent,
+            DescriptionContent: e?.DescriptionContent,
           },
         ],
       };
