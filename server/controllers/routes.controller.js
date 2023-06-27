@@ -134,6 +134,7 @@ exports.saveQuiz = async (req, res) => {
   let rows3 = [];
   const quartiles = ["Q1", "Q2", "Q3", "Q4"];
 
+  // El contexto depende si fue creado por formulario o cargado por template
   if (context == 1) {
     data.forEach((quest) => {
       if (quest[6] === "All") {
@@ -161,10 +162,12 @@ exports.saveQuiz = async (req, res) => {
         responsep(2, req, res, err);
       });
   } else {
+    // separamos las preguntas de la informacion general del quiz
     for (let i = 1; i < data.length; i++) {
       rows.push(data[i][0]);
     }
 
+    // Estructuramos para enviar a la DB
     for (let i = 0; i < rows.length; i++) {
       switch (rows[i].questionType) {
         case "multipleAnswer":
@@ -181,6 +184,8 @@ exports.saveQuiz = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             3,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 
@@ -198,6 +203,8 @@ exports.saveQuiz = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             1,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 
@@ -215,6 +222,8 @@ exports.saveQuiz = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             2,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 
@@ -223,6 +232,7 @@ exports.saveQuiz = async (req, res) => {
       }
     }
 
+    // Si aplica para todos los cuartiles (All), toca replicar cada pregunta con cada cuartil.
     rows2.forEach((quest) => {
       if (quest[6] === "All") {
         quartiles.forEach((q) => {
@@ -234,6 +244,7 @@ exports.saveQuiz = async (req, res) => {
       }
     });
 
+    // Se agrega un indice para recorrer la tabla en la DB.
     let rows4 = rows3.map((quest) => {
       i = i + 1;
       return [...quest, i];
@@ -1913,6 +1924,8 @@ exports.postUpdateExam = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             3,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 
@@ -1930,6 +1943,8 @@ exports.postUpdateExam = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             1,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 
@@ -1947,6 +1962,8 @@ exports.postUpdateExam = async (req, res) => {
             +data[0][0].quizTarget,
             data[0][0].quizCategory,
             2,
+            rows[i].TypeContent,
+            rows[i].urlContent,
           ]);
           break;
 

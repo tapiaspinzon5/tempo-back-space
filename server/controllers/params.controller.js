@@ -334,6 +334,14 @@ let quizTable = [
     type: TYPES.Int,
   },
   {
+    name: "TypeContent",
+    type: TYPES.Int,
+  },
+  {
+    name: "urlContent",
+    type: TYPES.VarChar,
+  },
+  {
     name: "IdPregunta",
     type: TYPES.Int,
   },
