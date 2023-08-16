@@ -11,7 +11,7 @@ function decryptBody(req, res, next) {
     req.body = JSON.parse(CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8));
     next();
   } else {
-    res.status(401).json({ ok: false, msg: "UnauthorizedError" });
+    res.status(401).json({ ok: false, msg: "UnauthorizedError", no: 2 });
   }
 }
 
