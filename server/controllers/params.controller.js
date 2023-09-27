@@ -163,10 +163,10 @@ let suTable2 = [
     name: "typeLoad",
     type: TYPES.Int,
   },
-  // {
-  //   name: "OrderKpi",
-  //   type: TYPES.VarChar,
-  // },
+  {
+    name: "automaticHierarchies",
+    type: TYPES.Bit,
+  },
   {
     name: "IdRegistryKpi",
     type: TYPES.Int,

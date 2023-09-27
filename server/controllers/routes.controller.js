@@ -1269,7 +1269,7 @@ exports.postSetLobsKpis = async (req, res) => {
   let i = 0;
   let { idccms, data, context, idLob } = req.body;
 
-  let rowsSU = [[idccms, "null", "null", 0, 0, 0]];
+  let rowsSU = [[idccms, "null", "null", 0, 0, true, 0]];
 
   let rows = data.map((quest) => {
     i = i + 1;
@@ -1632,7 +1632,7 @@ exports.postUpdateCampaignInfo = async (req, res) => {
         responsep(2, req, res, err);
       });
   } else if (context == 2) {
-    let rowsSU = [[idccms, "null", "null", 0, 0, 0]];
+    let rowsSU = [[idccms, "null", "null", 0, 0, true, 0]];
 
     let rows = data.map((quest) => {
       i = i + 1;

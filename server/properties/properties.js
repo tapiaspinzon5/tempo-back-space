@@ -6,14 +6,14 @@ if (process.env.ENV == "Production" || process.env.ENV == "Development") {
       authentication: {
         type: process.env.TYPE,
         options: {
-          userName: Buffer.from(process.env.SQL_USERNAME, "base64").toString(),
-          password: Buffer.from(process.env.SQL_PASSWORD, "base64").toString(),
+          userName: Buffer.from(process.env.SQL_USERNAME_MIGRATION, "base64").toString(),
+          password: Buffer.from(process.env.SQL_PASSWORD_MIGRATION, "base64").toString(),
         },
       },
       driver: process.env.DRIVER,
       options: {
         instanceName: Buffer.from(process.env.INSTANCE, "base64").toString(),
-        database: Buffer.from(process.env.DATABASE, "base64").toString(),
+        database: Buffer.from(process.env.DATABASE_MIGRATION, "base64").toString(),
         rowCollectionOnDone: true,
         rowCollectionOnRequestCompletion: true,
         connectTimeout: 300000,
