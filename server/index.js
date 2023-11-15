@@ -5,6 +5,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const hpp = require("hpp");
 const properties = require("./properties/properties");
 const csrf = require("csurf");
 // const csrfProtection = csrf({cookie: true});
@@ -47,6 +48,7 @@ app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
 app.use(express.json({ limit: "10mb", type: "application/json" }));
 app.use(requestIp.mw());
+app.use(hpp());
 configure((call) => {
   app.use(jwt());
 });

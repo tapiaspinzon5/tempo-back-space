@@ -104,7 +104,7 @@ exports.login = async (req, res) => {
         Idccms: graphResponse.employeeId,
         UserName: graphResponse.mailNickname,
         Token: token,
-        RefreshToken: mstoken,
+        RefreshToken: CryptoJS.SHA512(mstoken).toString(),
         Role: result2[0]?.Role,
         Quartile: newQuartile !== result2[0]?.Quartile ? newQuartile : result2[0]?.Quartile,
         NumberLogins: result2[0]?.NumberLogins,
@@ -573,19 +573,19 @@ exports.getTeamsSU = async (req, res) => {
     });
 };
 
-exports.getTemplate = async (req, res) => {
-  let __basedir = path.resolve();
-  const fileName = req.params.name;
-  const directoryPath = __basedir + "/resources/static/";
+// exports.getTemplate = async (req, res) => {
+//   let __basedir = path.resolve();
+//   const fileName = req.params.name;
+//   const directoryPath = __basedir + "/resources/static/";
 
-  res.download(directoryPath + fileName, fileName, (err) => {
-    if (err) {
-      res.status(500).send({
-        message: "Could not download the file. " + err,
-      });
-    }
-  });
-};
+//   res.download(directoryPath + fileName, fileName, (err) => {
+//     if (err) {
+//       res.status(500).send({
+//         message: "Could not download the file. " + err,
+//       });
+//     }
+//   });
+// };
 
 exports.getChanllenges = async (req, res) => {
   let { idccmsAssigned, context, idccms } = req.body;

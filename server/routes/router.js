@@ -159,7 +159,8 @@ module.exports = (router) => {
 
   // Descargar archivos
   // http://localhost:4343/api/gettemplate/SuperUser.csv
-  router.get("/gettemplate/:name", checkJwtToken, decryptBody, routes.getTemplate); // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
+  // Recibe las respuestas seleccionadas por el agente y retorna los resultados del examen.
+  // router.get("/gettemplate/:name", checkJwtToken, decryptBody, routes.getTemplate);
 
   // Prueba para enviar correos
   router.post("/sendemailnotification", checkJwtToken, decryptBody, routes.sendEmailNotification);
