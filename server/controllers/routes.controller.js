@@ -1,5 +1,6 @@
 require("dotenv").config();
 const path = require("path");
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 const { randomInt } = require("crypto");
@@ -14,6 +15,8 @@ const { generateToken } = require("../utils/generateToken");
 const fetch = require("../helpers/fetch");
 const { orderAssign } = require("../helpers/orderAgentAssign");
 const { agroupQuestions } = require("../helpers/agroupQuetions");
+const { bucket } = require("../firebaseConfig/firebaseConfig");
+const { getDownloadURL } = require("firebase-admin/storage");
 
 exports.CallSp = (spName, req, res) => {
   sql
@@ -2122,3 +2125,100 @@ exports.postUpdateExam = async (req, res) => {
 //       responsep(2, req, res, err);
 //     });
 // };
+
+// Funcion para borrar el archivo cargado a FB en local
+const delUpFile = async (filePath) => {
+  try {
+    fs.rm(`./${filePath}`, { recursive: true, force: true }, (error) => {
+      if (error) throw new Error(error);
+    });
+  } catch (error) {
+    console.error(`${error}, delFile`);
+  }
+};
+
+exports.postUploadFileFB = async (req, res) => {
+  // {
+  //   fieldname: 'attachment',
+  //   originalname: 'scorm_1676410520956.jpg',
+  //   encoding: '7bit',
+  //   mimetype: 'image/jpeg',
+  //   destination: './uploads/',
+  //   filename: '1676471136919-scorm_1676410520956.jpg',
+  //   path: 'uploads\\1676471136919-scorm_1676410520956.jpg',
+  //   size: 4228
+  // }
+  const { idActivityType, IdCampaign, uploadType } = req.body;
+  let file, downloadURL;
+  // console.log(req.files[0].originalname.split(".").reverse()[0]);
+
+  // uploadType
+  //1.recursos misiones
+  //2.Logo campaign
+  //3.Banner campaign
+
+  // idActivityType
+  // 1	Video
+  // 2	Image
+
+  try {
+    switch (+uploadType) {
+      case 1:
+        switch (+idActivityType) {
+          case 1:
+            await bucket.upload(`${req.file.path}`, {
+              destination: `Gamification/missionsResources/${IdCampaign}/video/${req.file.filename}`,
+              metadata: {
+                contentType: `${req.file.mimetype}`,
+              },
+            });
+
+            delUpFile(req.file.path);
+            file = bucket.file(`Gamification/missionsResources/${IdCampaign}/video/${req.file.filename}`);
+            downloadURL = await getDownloadURL(file);
+            break;
+
+          case 2:
+            await bucket.upload(`${req.file.path}`, {
+              destination: `Gamification/missionsResources/${IdCampaign}/image/${req.file.filename}`,
+              metadata: {
+                contentType: `${req.file.mimetype}`,
+              },
+            });
+
+            delUpFile(req.file.path);
+            file = bucket.file(`Gamification/missionsResources/${IdCampaign}/image/${req.file.filename}`);
+            downloadURL = await getDownloadURL(file);
+            break;
+
+          default:
+            break;
+        }
+        break;
+
+      case 2:
+        await bucket.upload(`${req.file.path}`, {
+          destination: `Gamification/logosCampaign/${IdCampaign}`,
+          metadata: {
+            contentType: `${req.file.mimetype}`,
+          },
+        });
+
+        delUpFile(req.file.path);
+        file = bucket.file(`Gamification/logosCampaign/${IdCampaign}`);
+        downloadURL = await getDownloadURL(file);
+        break;
+
+      // Espacio para la carga de banners en su momento
+      case 3:
+        break;
+
+      default:
+        break;
+    }
+
+    return responsep(1, req, res, downloadURL);
+  } catch (error) {
+    responsep(2, req, res, error);
+  }
+};

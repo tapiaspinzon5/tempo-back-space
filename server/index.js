@@ -19,7 +19,6 @@ const { exceptionHandler } = require("./controllers/csrf.handler");
 const { jwt } = require("./controllers/jwt.controller");
 const { configure } = require("./controllers/configure");
 const path = require("path");
-const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
@@ -30,6 +29,7 @@ const corsOptions = {
     "https://spacedev.teleperformance.co",
     "https://spacetest.teleperformance.co",
   ],
+  methods: "GET,POST, OPTIONS",
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
@@ -47,6 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
 app.use(express.json({ limit: "10mb", type: "application/json" }));
 app.use(requestIp.mw());
+app.use(hpp());
 configure((call) => {
   app.use(jwt());
 });
@@ -59,8 +60,6 @@ app.use(cookieParser());
 app.use(exceptionHandler);
 app.use(errorHandler);
 app.use("/api", router);
-
-init();
 
 routes(router);
 

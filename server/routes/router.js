@@ -1,9 +1,33 @@
+const multer = require("multer");
+const path = require("path");
 const routes = require("../controllers/routes.controller");
 const { checkIdccms } = require("../middleware/checkIdccms");
 const { checkJwtToken } = require("../middleware/checkJwtToken");
 const { checkMsToken } = require("../middleware/checkMsToken");
 const { decryptBody } = require("../middleware/decrypt");
 const oauth = require("../middleware/oauth");
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      Date.now() +
+        "-" +
+        path.basename(
+          file.originalname.replaceAll(" ", "").replace(/[^a-zA-Z0-9 ]/g, ""),
+          path.extname(file.originalname.replaceAll(" ", "").replace(/[^a-zA-Z0-9 ]/g, ""))
+        ) +
+        path.extname(file.originalname.trim())
+    );
+  },
+  limits: {
+    fileSize: 62914560,
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
 
 module.exports = (router) => {
   //Login
@@ -169,6 +193,8 @@ module.exports = (router) => {
 
   router.post("/getexamdetail", checkJwtToken, decryptBody, routes.getExamDetail);
   router.post("/postupdateexam", checkJwtToken, decryptBody, routes.postUpdateExam);
+
+  router.post("/postuploadfilefb", checkJwtToken, upload.single("attachment"), routes.postUploadFileFB);
 
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.
