@@ -107,7 +107,7 @@ exports.login = async (req, res) => {
         Idccms: graphResponse.employeeId,
         UserName: graphResponse.mailNickname,
         Token: token,
-        RefreshToken: mstoken,
+        RefreshToken: CryptoJS.SHA512(mstoken).toString(),
         Role: result2[0]?.Role,
         Quartile: newQuartile !== result2[0]?.Quartile ? newQuartile : result2[0]?.Quartile,
         NumberLogins: result2[0]?.NumberLogins,
