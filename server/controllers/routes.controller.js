@@ -1171,13 +1171,33 @@ exports.uploadKpirl = async (req, res) => {
 
 exports.postCreateCampaign = async (req, res) => {
   let i = 0;
-  let { idccms, data, emails, context, idLob = 0 } = req.body;
+
+  let {
+    campaignName,
+    manualKpi,
+    automaticHierarchies,
+    context,
+    idccms,
+    manager,
+    operationManager,
+    kpis,
+    idLob = 0,
+  } = req.body;
 
   let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
 
-  let rows = data.map((quest) => {
-    i = i + 1;
-    return [...quest, i];
+  let rows = operationManager
+    .map(({ idccms }) => {
+      return kpis.map(({ Kpi, id, typeLoad }) => {
+        i = i + 1;
+        return [idccms, campaignName, Kpi, id, typeLoad, automaticHierarchies, i];
+      });
+    })
+    .flat();
+
+  const emails = operationManager.map((user) => {
+    user.manager = manager;
+    return user;
   });
 
   sql
