@@ -110,14 +110,18 @@ exports.login = async (req, res) => {
         NumberLogins: result2[0]?.NumberLogins,
         KpiManual: result2[0].KpiManual ? result2[0].KpiManual : null,
         IdCampaign: result2[0]?.IdCampaign,
+        NameCampaign: result2[0]?.NameCampaign,
         IdTeam: result2[0]?.IdTeam,
         NameTeam: result2[0]?.NameTeam,
         LastLogin: result2[0]?.LastLogin,
         LogoCampaign: result2[0]?.LogoCampaign,
         video: result2[0]?.video,
+        idLob: result2[0]?.idLob,
+        Accounts: result2[0]?.Accounts ? JSON.parse(result2[0]?.Accounts)?.Accounts : [],
       };
 
-      responsep(1, req, res, data);
+      res.json(data);
+      // responsep(1, req, res, data);
     })
     .catch((err) => {
       console.log(err, "sp");
