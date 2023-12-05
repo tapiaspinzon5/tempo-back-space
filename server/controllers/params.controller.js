@@ -467,6 +467,17 @@ let insertLobTable = [
   },
 ];
 
+let disableUsersTable = [
+  {
+    name: "Ident",
+    type: TYPES.Int,
+  },
+  {
+    name: "idRegistry",
+    type: TYPES.Int,
+  },
+];
+
 exports.parametros = (req, tipo) => {
   switch (tipo) {
     case "spInsertCentral":
@@ -706,12 +717,6 @@ exports.parametros = (req, tipo) => {
         new SpParam("finalDate", req.finalDate, TYPES.Date),
       ]);
 
-    // case "spInactivateAgent":
-    //   return parametrizacion([
-    //     new SpParam("ident", req.idccmsAgent, TYPES.Int),
-    //     new SpParam("identassignement", req.idccms, TYPES.Int),
-    //   ]);
-
     case "spQueryLeaderBoardRL":
       return parametrizacion([
         new SpParam("case", req.context, TYPES.Int),
@@ -942,8 +947,7 @@ exports.parametros = (req, tipo) => {
     case "spInactivateAgent":
       return parametrizacion([
         new SpParam("identassignement", req.idccms, TYPES.Int),
-        new SpParam("ident", req.idccmsUser, TYPES.Int),
-        new SpParam("Appoved", req.inactivate, TYPES.Int),
+        SpParamTable2("table", disableUsersTable, req.usersTable),
       ]);
     case "spUpdateRoleUser":
       return parametrizacion([

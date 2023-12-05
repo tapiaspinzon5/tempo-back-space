@@ -1662,55 +1662,39 @@ exports.postUpdateCampaignInfo = async (req, res) => {
 
 exports.postInactivateUser = async (req, res) => {
   const {
-    idccms, //idccms del segundo aprobador
-    name, //nombre del segundo aprobador,
-    role, //role del segundo aprobador
-    idccmsUser, //usuario a desactivar
-    roleUser, //Rol del usuario a desactivar
-    nameUser, //Nombre del usuario a desactivar
-    inactivate, //Estado de inactivacion
-    nameRequester, //Nombre 1er aprobador
-    roleRequester, //Rol 1er aprobador
-    emailRequester, //Correo 1er aprobador
-    fcmToken, //Token para notificar al segundo aprobador
+    users, //array de usuarios a desactivar
+    idccms, //idccms del aprobador
+    name, //nombre del aprobador
+    role, //role del aprobador
+    email, //email del aprobador
   } = req.body;
 
-  let fcmTokens = [fcmToken];
+  // idccmsUser, //usuario a desactivar
+  // nameUser, //Nombre del usuario a desactivar
+  // roleUser, //Rol del usuario a desactivar
+  // emailUser, //Email del usuario a desactivar
+
+  const usersTable = users.map(({ idccmsUser }, index) => [idccmsUser, index + 1]);
 
   let dataApprover = {
     name,
     role,
-    inactivate,
   };
 
-  let dataUser = {
-    nameUser,
-    roleUser,
-  };
-
-  let emails = [{ emailRequester, dataApprover, dataUser }];
-
-  let fcmTokensFiltered = fcmTokens.filter((token) => token);
+  let emails = [{ email, dataApprover, users }];
 
   sql
-    .query("spInactivateAgent", parametros({ idccms, idccmsUser, inactivate }, "spInactivateAgent"))
+    .query("spInactivateAgent", parametros({ idccms, usersTable }, "spInactivateAgent"))
     .then(async (result) => {
-      if (!nameRequester) {
-        await sendConfirmInactivationEmail(
-          emails,
-          "SpaceGP email",
-          "Deactivation Notification SpaceGP",
-          "noresponse@teleperformance.com"
-        );
-      } else {
-        try {
-          fcmTokensFiltered.forEach(async (token) => {
-            return await sendFCMMessage(nameRequester, "Deactivation request", token, "Deactivation");
-          });
-        } catch (error) {
-          res.status(500).json(error);
-        }
-      }
+      // TODO: terminar la parte de enviar correos
+      // if (!nameRequester) {
+      //   await sendConfirmInactivationEmail(
+      //     emails,
+      //     "SpaceGP email",
+      //     "Deactivation Notification SpaceGP",
+      //     "noresponse@teleperformance.com"
+      //   );
+      // }
       responsep(1, req, res, result);
     })
     .catch((err) => {
