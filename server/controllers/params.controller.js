@@ -573,6 +573,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
         new SpParam("IdChallenge", req.idChallenge, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
       ]);
 
     case "spQueryActivitiesAgent":
@@ -634,7 +635,10 @@ exports.parametros = (req, tipo) => {
       ]);
 
     case "spProfileAgent":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
+      ]);
 
     case "spQueryAgents":
       return parametrizacion([
@@ -663,7 +667,10 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
 
     case "spQueryDasboardTeamLeader":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
+      ]);
 
     case "spInsertTpvs":
       return parametrizacion([
@@ -676,6 +683,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("Case", req.context, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
       ]);
 
     case "spInsertKpi":
@@ -815,6 +823,7 @@ exports.parametros = (req, tipo) => {
     case "spQueryTeamInformation":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("IdLob", req.idLob, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
         new SpParam("idccms", req.idccmsAgent, TYPES.Int),
       ]);
