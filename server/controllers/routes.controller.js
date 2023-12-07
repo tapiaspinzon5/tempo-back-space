@@ -1628,15 +1628,41 @@ exports.postAssignMission = async (req, res) => {
 // };
 
 exports.postUpdateCampaignInfo = async (req, res) => {
-  const { idccms, data, idcampaign, emails, context, idLob = 0 } = req.body;
+  // const { idccms, data, idcampaign, emails, context, idLob = 0 } = req.body;
+  // let i = 0;
+
   let i = 0;
+
+  let {
+    campaignName,
+    manualKpi,
+    automaticHierarchies,
+    context,
+    idccms,
+    idcampaign,
+    manager,
+    operationManager,
+    kpis,
+    data,
+    emails,
+    idLob = 0,
+  } = req.body;
 
   if (context == 1) {
     let rowsOM = [[null, null, 0, 0, 0, 0, 0, null, 0, 0, 1]];
 
-    let rows = data.map((quest) => {
-      i = i + 1;
-      return [...quest, i];
+    let rows = operationManager
+      .map(({ idccms }) => {
+        return kpis.map(({ Kpi, id, typeLoad }) => {
+          i = i + 1;
+          return [idccms, campaignName, Kpi, id, typeLoad, automaticHierarchies, i];
+        });
+      })
+      .flat();
+
+    const emails = operationManager.map((user) => {
+      user.manager = manager;
+      return user;
     });
 
     sql
@@ -2130,7 +2156,7 @@ exports.getMasterinfoAgents = async (req, res) => {
           nameCampaign: result[0]?.nameCampaign,
         };
 
-        responsep(1, req, res, data);
+        responsep(1, req, res, [data]);
       } else {
         responsep(1, req, res, result);
       }
