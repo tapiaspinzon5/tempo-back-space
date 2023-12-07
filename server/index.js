@@ -24,6 +24,7 @@ const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
+    "http://localhost:5173",
     "https://gamificationtest.teleperformance.co",
     "https://spacegptest.teleperformance.co",
     "https://gptest.teleperformance.co",

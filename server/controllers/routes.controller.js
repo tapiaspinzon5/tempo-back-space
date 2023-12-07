@@ -120,8 +120,7 @@ exports.login = async (req, res) => {
         Accounts: result2[0]?.Accounts ? JSON.parse(result2[0]?.Accounts)?.Accounts : [],
       };
 
-      res.json(data);
-      // responsep(1, req, res, data);
+      responsep(1, req, res, data);
     })
     .catch((err) => {
       console.log(err, "sp");
@@ -1032,11 +1031,14 @@ exports.postassigntpv = async (req, res) => {
 };
 
 exports.getKpiAgentKpiTeam = async (req, res) => {
-  const { idccms, context, agentIdccms } = req.body;
+  const { idccms, context, agentIdccms, idLob } = req.body;
 
   if (context && agentIdccms) {
     sql
-      .query("spQueryDashboardKPI", parametros({ idccms: agentIdccms, context }, "spQueryDashboardKPI"))
+      .query(
+        "spQueryDashboardKPI",
+        parametros({ idccms: agentIdccms, context, idLob }, "spQueryDashboardKPI")
+      )
       .then((result) => {
         responsep(1, req, res, result);
       })
@@ -1046,7 +1048,7 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
       });
   } else {
     sql
-      .query("spQueryDashboardKPI", parametros({ idccms, context }, "spQueryDashboardKPI"))
+      .query("spQueryDashboardKPI", parametros({ idccms, context, idLob }, "spQueryDashboardKPI"))
       .then((result) => {
         responsep(1, req, res, result);
       })
@@ -2104,19 +2106,40 @@ exports.postUpdateExam = async (req, res) => {
 //     });
 // };
 
-// exports.getGeneralAnalytics = async (req, res) => {
-//   const { idccms, initDate, endDate } = req.body;
+exports.getMasterinfoAgents = async (req, res) => {
+  const { context, idccmsAgent } = req.body;
 
-//   sql
-//     .query("spQueryAnalitycsGeneral", parametros({ idccms, initDate, endDate }, "spQueryAnalitycsGeneral"))
-//     .then((result) => {
-//       responsep(1, req, res, result);
-//     })
-//     .catch((err) => {
-//       console.log(err, "sp");
-//       responsep(2, req, res, err);
-//     });
-// };
+  sql
+    .query("spQueryAgents", parametros({ context, idccmsAgent }, "spQueryAgents"))
+    .then((result) => {
+      if (context === 2) {
+        console.log(result[0]);
+        const data = {
+          ident: result[0]?.ident,
+          First_name: result[0]?.First_name,
+          Last_name: result[0]?.Last_name,
+          FullName: result[0]?.FullName,
+          Rol: result[0]?.Rol,
+          status: result[0]?.status,
+          email: result[0]?.email,
+          Accounts: result[0]?.Accounts ? JSON.parse(result[0]?.Accounts)?.Accounts : [],
+          StatusGP: result[0]?.StatusGP,
+          dateStart: result[0]?.dateStart,
+          roleAgentSpace: result[0]?.roleAgentSpace,
+          idCampaign: result[0]?.idCampaign,
+          nameCampaign: result[0]?.nameCampaign,
+        };
+
+        responsep(1, req, res, data);
+      } else {
+        responsep(1, req, res, result);
+      }
+    })
+    .catch((err) => {
+      console.log(err, "sp");
+      responsep(2, req, res, err);
+    });
+};
 
 /****************** SPs actividades ******************/
 // exports.welcomeegp = async (req, res) => {

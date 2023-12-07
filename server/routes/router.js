@@ -170,6 +170,7 @@ module.exports = (router) => {
 
   router.post("/getexamdetail", checkJwtToken, decryptBody, routes.getExamDetail);
   router.post("/postupdateexam", checkJwtToken, decryptBody, routes.postUpdateExam);
+  router.post("/getmasterinfoagents", checkJwtToken, decryptBody, routes.getMasterinfoAgents);
 
   // TODO: Borrar este endpoint
   router.post("/postchangerol", routes.postChangeRol); // Retorna las actividades por categoria y stage.
@@ -214,7 +215,7 @@ module.exports = (router) => {
   MapSpRouter("/getkpiscampaign", "spQueryListKpi");
   MapSpRouter("/postcreatenewchallengtl", "spInsertChallenge");
   // MapSpRouter("/postinactiveagent", "spInactivateAgent");
-  MapSpRouter("/getmasterinfoagents", "spQueryAgents");
+  // MapSpRouter("/getmasterinfoagents", "spQueryAgents");
   MapSpRouter("/getinfoleaderboardrl", "spQueryLeaderBoardRL");
   MapSpRouter("/getlobsopsm", "spQueryLobTeams");
   MapSpRouter("/getrlqacampaignleaders", "spQueryManagementOP");
