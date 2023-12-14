@@ -2149,6 +2149,7 @@ exports.getMasterinfoAgents = async (req, res) => {
           status: result[0]?.status,
           email: result[0]?.email,
           Accounts: result[0]?.Accounts ? JSON.parse(result[0]?.Accounts)?.Accounts : [],
+          Teams: result[0]?.Teams ? JSON.parse(result[0]?.Teams)?.Teams : [],
           StatusGP: result[0]?.StatusGP,
           dateStart: result[0]?.dateStart,
           roleAgentSpace: result[0]?.roleAgentSpace,
