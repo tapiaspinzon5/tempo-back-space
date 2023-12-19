@@ -251,6 +251,10 @@ module.exports = (router) => {
   MapSpRouter("/getmissionsanswers", "spAnswerMissions");
   MapSpRouter("/getpodium", "spQueryPodium");
 
+  MapSpRouter("/postinsertawards", "spInsertAwards");
+  MapSpRouter("/postupdateawards", "spUpdateAwards");
+  MapSpRouter("/getawards", "spQueryAwards");
+
   // function MapSpRouter(route, spName) {
   //   router.post(route,  checkJwtToken, (req, res) =>
   //   router.post(route, (req, res) => routes.CallSp(spName, req, res));

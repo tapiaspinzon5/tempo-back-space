@@ -118,6 +118,7 @@ exports.login = async (req, res) => {
         video: result2[0]?.video,
         idLob: result2[0]?.idLob,
         Accounts: result2[0]?.Accounts ? JSON.parse(result2[0]?.Accounts)?.Accounts : [],
+        Teams: result2[0]?.Teams ? JSON.parse(result2[0]?.Teams)?.Teams : [],
       };
 
       responsep(1, req, res, data);

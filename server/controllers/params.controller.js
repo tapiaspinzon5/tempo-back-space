@@ -1010,6 +1010,34 @@ exports.parametros = (req, tipo) => {
         new SpParam("idCampaign", req.idCampaign, TYPES.Int),
       ]);
 
+    case "spInsertAwards":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("typeAwards", req.typeAward, TYPES.Int),
+        new SpParam("placeAwards", req.rankAward, TYPES.VarChar),
+        new SpParam("awards", req.award, TYPES.VarChar),
+        new SpParam("urlImageAward", req.urlImgAward, TYPES.VarChar),
+        new SpParam("timeAward", req.timeAward, TYPES.VarChar),
+      ]);
+
+    case "spUpdateAwards":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("typeAwards", req.typeAward, TYPES.Int),
+        new SpParam("idRegistry", req.idAward, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
+        new SpParam("placeAwards", req.rankAward, TYPES.VarChar),
+        new SpParam("awards", req.award, TYPES.VarChar),
+        new SpParam("urlImageAward", req.urlImgAward, TYPES.VarChar),
+        new SpParam("timeAward", req.timeAward, TYPES.VarChar),
+      ]);
+
+    case "spQueryAwards":
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("date", req.date, TYPES.Date),
+      ]);
+
     // Casos de Actividades
     case "spBgWelcomeEGP":
       return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
