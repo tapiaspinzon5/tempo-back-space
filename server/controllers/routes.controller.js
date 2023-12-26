@@ -2214,7 +2214,8 @@ exports.postUploadFileFB = async (req, res) => {
   // uploadType
   //1.recursos misiones
   //2.Logo campaign
-  //3.Banner campaign
+  //3.OM awards
+  //4.Banner campaign
 
   // idActivityType
   // 1	Video
@@ -2270,6 +2271,16 @@ exports.postUploadFileFB = async (req, res) => {
 
       // Espacio para la carga de banners en su momento
       case 3:
+        await bucket.upload(`${req.file.path}`, {
+          destination: `Gamification/OM_Awards/${IdCampaign}/${req.file.filename}`,
+          metadata: {
+            contentType: `${req.file.mimetype}`,
+          },
+        });
+
+        delUpFile(req.file.path);
+        file = bucket.file(`Gamification/OM_Awards/${IdCampaign}/${req.file.filename}`);
+        downloadURL = await getDownloadURL(file);
         break;
 
       default:
