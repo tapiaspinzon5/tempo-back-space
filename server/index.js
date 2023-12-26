@@ -1,11 +1,11 @@
 console.clear();
 
 require("dotenv").config();
+const hpp = require("hpp");
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const hpp = require("hpp");
 const properties = require("./properties/properties");
 const csrf = require("csurf");
 // const csrfProtection = csrf({cookie: true});
@@ -20,7 +20,6 @@ const { exceptionHandler } = require("./controllers/csrf.handler");
 const { jwt } = require("./controllers/jwt.controller");
 const { configure } = require("./controllers/configure");
 const path = require("path");
-const { init } = require("./firebaseConfig/firebaseConfig");
 const corsOptions = {
   origin: [
     "http://localhost:3000",
@@ -63,8 +62,6 @@ app.use(cookieParser());
 app.use(exceptionHandler);
 app.use(errorHandler);
 app.use("/api", router);
-
-init();
 
 routes(router);
 
