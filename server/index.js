@@ -32,6 +32,7 @@ const corsOptions = {
     "https://spacedev.teleperformance.co",
     "https://spacetest.teleperformance.co",
   ],
+  methods: "GET,POST, OPTIONS",
 };
 app.use(cors(corsOptions));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));

@@ -1032,13 +1032,13 @@ exports.postassigntpv = async (req, res) => {
 };
 
 exports.getKpiAgentKpiTeam = async (req, res) => {
-  const { idccms, context, agentIdccms, idLob } = req.body;
+  const { idccms, context, agentIdccms, idTeam } = req.body;
 
   if (context && agentIdccms) {
     sql
       .query(
         "spQueryDashboardKPI",
-        parametros({ idccms: agentIdccms, context, idLob }, "spQueryDashboardKPI")
+        parametros({ idccms: agentIdccms, context, idTeam }, "spQueryDashboardKPI")
       )
       .then((result) => {
         responsep(1, req, res, result);
@@ -1049,7 +1049,7 @@ exports.getKpiAgentKpiTeam = async (req, res) => {
       });
   } else {
     sql
-      .query("spQueryDashboardKPI", parametros({ idccms, context, idLob }, "spQueryDashboardKPI"))
+      .query("spQueryDashboardKPI", parametros({ idccms, context, idTeam }, "spQueryDashboardKPI"))
       .then((result) => {
         responsep(1, req, res, result);
       })

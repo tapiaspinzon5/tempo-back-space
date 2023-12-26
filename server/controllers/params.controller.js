@@ -584,7 +584,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
         new SpParam("IdChallenge", req.idChallenge, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spQueryActivitiesAgent":
@@ -618,7 +618,10 @@ exports.parametros = (req, tipo) => {
       return SpParamTable("jumpTable", JumpEmployee, req.rows);
 
     case "spQueryKpiTeam":
-      return parametrizacion([new SpParam("ident", req.idccms, TYPES.Int)]);
+      return parametrizacion([
+        new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+      ]);
 
     case "spQueryKpiTeamAgent":
       return parametrizacion([
@@ -627,6 +630,7 @@ exports.parametros = (req, tipo) => {
         new SpParam("Time", req.time, TYPES.VarChar),
         new SpParam("idccms", req.agentIdccms, TYPES.Int),
         new SpParam("Case", req.context, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spChangeStatusNotifications":
@@ -643,12 +647,13 @@ exports.parametros = (req, tipo) => {
         new SpParam("Kpi", req.kpi, TYPES.VarChar),
         new SpParam("Time", req.time, TYPES.VarChar),
         new SpParam("Group", req.group, TYPES.VarChar),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spProfileAgent":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spQueryAgents":
@@ -680,7 +685,7 @@ exports.parametros = (req, tipo) => {
     case "spQueryDasboardTeamLeader":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spInsertTpvs":
@@ -694,7 +699,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("Case", req.context, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 
     case "spInsertKpi":
@@ -828,7 +833,7 @@ exports.parametros = (req, tipo) => {
     case "spQueryTeamInformation":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
-        new SpParam("IdLob", req.idLob, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("context", req.context, TYPES.Int),
         new SpParam("idccms", req.idccmsAgent, TYPES.Int),
       ]);
