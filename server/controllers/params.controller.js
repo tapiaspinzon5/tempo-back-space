@@ -610,7 +610,8 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("Case", req.context, TYPES.Int),
-        new SpParam("IdNotificationMin", req.min, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
+        new SpParam("IdNotificationMax", req.max, TYPES.Int),
         new SpParam("IdNotificationMax", req.max, TYPES.Int),
       ]);
 
