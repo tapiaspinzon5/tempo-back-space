@@ -561,6 +561,7 @@ exports.parametros = (req, tipo) => {
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
         new SpParam("idccms", req.idccmsAssigned, TYPES.Int),
+        new SpParam("idTeam", req.idTeam, TYPES.Int),
         new SpParam("Context", req.context, TYPES.Int),
       ]);
 
@@ -654,6 +655,7 @@ exports.parametros = (req, tipo) => {
     case "spProfileAgent":
       return parametrizacion([
         new SpParam("ident", req.idccms, TYPES.Int),
+        new SpParam("context", req.context, TYPES.Int),
         new SpParam("idTeam", req.idTeam, TYPES.Int),
       ]);
 

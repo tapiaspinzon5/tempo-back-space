@@ -595,14 +595,14 @@ exports.getTeamsSU = async (req, res) => {
 // };
 
 exports.getChanllenges = async (req, res) => {
-  let { idccmsAssigned, context, idccms } = req.body;
+  let { idccmsAssigned, context, idccms, idTeam } = req.body;
 
   if (context === 1) {
     idccmsAssigned = idccms;
   }
 
   sql
-    .query("spQueryActivities", parametros({ idccms, context, idccmsAssigned }, "spQueryActivities"))
+    .query("spQueryActivities", parametros({ idccms, context, idccmsAssigned, idTeam }, "spQueryActivities"))
     .then((result) => {
       responsep(1, req, res, result);
     })
